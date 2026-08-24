@@ -1,0 +1,69 @@
+PASS  FA-01  51 jurisdictions accounted for in the flow manifest
+      51 jurisdictions
+PASS  FA-02  every flow has a stable, unique flow ID
+      625 flows, 0 duplicate id(s), 0 without an id
+PASS  FA-03  every flow ID is derived from its flow key, so it is stable across regenerations
+      0 flow id(s) not derived from their key
+PASS  FA-04  every question node carries exactly one purpose classification from the fixed vocabulary
+      2636 nodes, 0 outside the vocabulary
+PASS  FA-05  every branch edge has at least one synthetic fixture
+      2565 edges, 0 without a fixture
+PASS  FA-06  every branch edge's fixture is synthetic and pinned to the audit clock
+      0 fixture(s) not synthetic or not pinned
+PASS  FA-07  the six shards are disjoint
+      51 assignments, 0 duplicate(s)
+PASS  FA-08  the shard union equals all 51 jurisdictions
+      51 assigned; missing none; extra none
+PASS  FA-09  every remedy for a jurisdiction stays inside one shard
+      0 stray flow assignment(s)
+PASS  FA-10  shard workload spread is within the 20% target
+      9.16% spread (target <= 20%)
+PASS  FA-11  six shard prompt files exist and contain no placeholder
+      6/6 present; 0 with a placeholder
+PASS  FA-12  one state report exists per jurisdiction
+      51/51 present
+PASS  FA-13  the screenshot index references only files that exist, with matching hashes
+      47 indexed capture(s); 0 problem(s)
+PASS  FA-14  the screenshot index holds no duplicate image
+      47 capture(s), 0 duplicate(s)
+PASS  FA-15  every issue names a severity, a category, a reproduction, an owner and a legal-review decision
+      25 issue(s), 0 incomplete
+FAIL  FA-16  every issue's affected flow IDs exist in the manifest
+      7 unknown flow id(s) referenced
+FAIL  FA-17  no product behaviour file changed
+      226 changed path(s); 75 outside the audit's owned paths: data/expungement-ai/phase2/browser-harness-record.json, data/expungement-ai/phase2/canonical-fact-sweep-after.json, data/expungement-ai/phase2/canonical-fact-sweep-before.json, data/expungement-ai/phase2/corrected-pathway-proof.json, data/expungement-ai/phase2/correction-allowlist.json
+PASS  FA-18  git diff --check is clean
+      no whitespace errors
+PASS  FA-19  the browser crawl completed, or an exact environment blocker is recorded
+      113 flow(s) crawled; 6 environment blocker(s) recorded for the surfaces the crawl could not enter
+PASS  FA-20  the crawl completed no Stripe payment and used synthetic identities only
+      stripePaymentCompleted=false, syntheticIdentitiesOnly=true
+FAIL  FA-21  every generated artifact is byte-reproducible from this tree
+      build-branch-coverage.mjs: data/expungement-ai/flow-audit/branch-coverage.json is stale or non-deterministic; re-run without --check.; build-ui-reachability.mjs: data/expungement-ai/flow-audit/ui-reachability.json is stale or non-deterministic; re-run without --check.; detect-static-defects.mjs: data/expungement-ai/flow-audit/static-findings.json is stale or non-deterministic; re-run without --check.; build-shard-assignment.mjs: data/expungement-ai/flow-audit/shard-assignment.json is stale or non-deterministic; re-run without --check.
+FAIL  FA-23  every flow's recorded fixture reproduces its recorded terminal
+      593 reproduce; 31 do not: EXPAI-AZ-179337a1b2 recorded needs_review replayed packet_ready_with_caution; EXPAI-CT-30719c3bae recorded needs_review replayed packet_ready_with_caution; EXPAI-DC-ce1b907b71 recorded needs_review replayed packet_ready_with_caution
+PASS  FA-24  the crawl's remaining disagreements with the manifest are classified, not left unexplained
+      4 divergent record(s): {"crawl_answer_differs":2,"evaluator_disagrees":2}
+PASS  FA-25  every one of the 51 jurisdictions carries a reachability classification
+      51 jurisdictions, 0 outside the vocabulary; {"intentional_launch_hold":29,"technical_reachability_defect":13,"unresolved_reachability":2,"waiting_rule_not_executable":4,"payment_clamp_not_reachability":3}
+PASS  FA-26  intentional unsupported or referral outcomes are never counted as technical failures
+      0 jurisdiction(s) claimed as both
+PASS  FA-27  the no-payment set is a strict superset of the no-packet-ready set
+      19 without packet-ready, 22 without payment, difference 3; 0 in the first set but not the second
+PASS  FA-28  every denominator relation asserted by the audit still holds
+      6 assertion(s), 0 failing
+PASS  FA-29  every browser/manifest divergence carries a flow ID, a first divergence, a severity and an owner
+      4 divergence(s), 0 incomplete
+PASS  FA-30  every served-but-not-rendered question node is in exactly one bucket
+      1824 nodes across 42 ids; bucket sum 1824; 0 outside the vocabulary
+PASS  FA-31  the raw browser evidence is retained outside Git and every committed capture's hash verifies
+      321 raw captures retained at /root/LegalEase-Audit-Artifacts/expai-flow-audit/phase1b-raw; 47/47 committed hashes verified; 0 mismatch(es)
+PASS  FA-32  no secret value appears in any committed audit artifact
+      no credential-shaped token found in any committed artifact
+PASS  FA-33  the hosted record does not claim a deployment it did not make
+      no deployment claimed; 2 run(s), all read-only, 0 synthetic fixture(s) created
+PASS  FA-22  the manifest names both competing flow authorities and identifies the runtime one
+      both recorded
+
+29/33 checks passed
+4 check(s) failed: FA-16, FA-17, FA-21, FA-23

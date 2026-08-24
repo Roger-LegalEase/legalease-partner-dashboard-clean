@@ -1,0 +1,1881 @@
+{
+  "schemaVersion": "expai-phase4-correction-packets/v1",
+  "candidateSha": "86e0cd0a1305d8d22f7fded86a5a63848bf75690",
+  "contract": "Specifications only. Phase 4 implements none of these and repaired no finding.",
+  "totals": {
+    "packets": 10,
+    "blockingRollout": 9
+  },
+  "packets": [
+    {
+      "id": "CP-01",
+      "title": "P0 legal and premature-payment risks",
+      "owner": "Expungement.ai legal-logic owner with counsel sign-off",
+      "blocksRollout": true,
+      "statement": "Every route this pass measured as taking money before its waiting period can be satisfied, or as ignoring the timing answer entirely, plus the seven required P0 release holds.",
+      "measured": {
+        "routesSwept": 325,
+        "timingAnswerInert": 176,
+        "paymentOpenAtShortestBucket": 14,
+        "paymentOpenWhileTheCaseIsStillOpen": 5
+      },
+      "routes": [
+        {
+          "route": "CA:tool-1-dismissal-set-aside",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": true,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": true
+        },
+        {
+          "route": "CA:tool-4-arrest-record-sealing",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": true,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": true
+        },
+        {
+          "route": "HI:nonconviction-arrest-expungement",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": true,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": true
+        },
+        {
+          "route": "IL:adult-non-conviction-expungement",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "LA:non-conviction-arrest-expungement",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "LA:felony-article-893-e-set-aside-followed-by-expungement",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": true,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": true
+        },
+        {
+          "route": "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "ND:deferred-imposition-dismissal-and-sealing",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "NE:set-aside-probation-fine-community-service",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "NE:set-aside-incarceration-one-year-or-less",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "VA:regime-1-expungement-available-now",
+          "resolution": "provisional_prose_fallback",
+          "timingInert": false,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": false
+        },
+        {
+          "route": "WI:adult-conviction-expungement-under-wis-stat-973-015",
+          "resolution": "committed_rules",
+          "timingInert": true,
+          "paymentAtShortestBucket": true,
+          "paymentWhileCaseStillOpen": true
+        }
+      ],
+      "requiredP0Holds": [
+        {
+          "hold": "HI:dui-under-21-conviction",
+          "reproduced": "PARTIAL",
+          "detail": "Timing answer is inert on this route across all nine published buckets (every bucket returns needs_review). Payment does not open on this route; it opens on HI:nonconviction-arrest-expungement, which is inert at lt_1_year AND while the case is still open."
+        },
+        {
+          "hold": "HI:first-time-drug-conviction",
+          "reproduced": "PARTIAL",
+          "detail": "Identical to the DUI route: inert across all buckets, needs_review, payment closed on this route and open on the jurisdiction's non-conviction route."
+        },
+        {
+          "hold": "NV:general-conviction-record-sealing",
+          "reproduced": "NOT_AS_STATED",
+          "detail": "The route returns needs_review with paymentAllowed=false at every published bucket including lt_1_year, so payment is not open. The underlying defect is real but different: the eight-year rule never executes, and no NV route reaches a purchasable terminal at all. Hold retained; the wording must be corrected before it is actioned."
+        },
+        {
+          "hold": "LA five-year clean-period route",
+          "reproduced": "YES",
+          "detail": "Three LA routes allow payment at lt_1_year: non-conviction-arrest-expungement, misdemeanor-article-894-b-set-aside-followed-by-expungement and felony-article-893-e-set-aside-followed-by-expungement. The two article-893/894 routes are the five-year clean-period family the hold names."
+        },
+        {
+          "hold": "MO:marijuana-expungement",
+          "reproduced": "YES_EXACTLY",
+          "detail": "MO:marijuana-expungement-under-missouri-constitution-article-xiv is a COMMITTED binding (resolution=rules, ruleRefs=[wait-01], disambiguation=single_bound_rule) whose own provenance quote is 'First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years'. An unrelated DWI ten-year rule is bound live to Missouri's Article XIV marijuana remedy. The route currently returns guidance_only so no money moves today, but the binding is wrong and is not a proposal."
+        },
+        {
+          "hold": "PA routes capable of selecting wait-05",
+          "reproduced": "YES_IN_DATA",
+          "detail": "PA wait-05 carries duration {value:70,unit:'years'} extracted from 'the person is 70 years of age or older'; the operative wait in that same sentence is the 10 years also stated there (and correctly carried by wait-06 and wait-16). No PA route currently selects wait-05 to a payment decision — the single committed PA binding deliberately omits wait-05, wait-06, wait-11 and wait-13, and path-e-age-70-expungement returns guidance_only — so the defect is present in data and not currently reachable to a wrong payment. It becomes reachable the moment a binding for path-e is authored from the profile's rule list."
+        },
+        {
+          "hold": "CA affected routes",
+          "reproduced": "YES",
+          "detail": "ambiguityReason() in the shared evaluator flags an explicit 'unknown' on ANY rendered prepayment question without reference to the selected route. All four ca_prop64_* questions are published to every California participant, and each one flips CA:tool-1-dismissal-set-aside from packet_ready_with_caution/paymentAllowed=true to needs_review/false. CA:tool-1 and CA:tool-4 are additionally inert across every timing bucket and allow payment while the case is still open."
+        }
+      ],
+      "additionalP0ClassFindingsNotInTheRegister": [
+        "WI:adult-conviction-expungement-under-wis-stat-973-015 is the only route on a COMMITTED binding that allows payment at lt_1_year and while the case is still open. It is not in the seven-entry P0 register and should be added.",
+        "IL, MS, ND, NE and VA each carry a route that allows payment at lt_1_year and is not named in the register.",
+        "176 of 325 routes are timing-inert: the participant's timing answer changes no outcome on them at all."
+      ],
+      "affectedManifestRows": 55,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-02",
+      "title": "Explicit waiting-rule bindings ready for application",
+      "owner": "Expungement.ai legal-logic owner",
+      "blocksRollout": true,
+      "statement": "The 75 routes for which a shard proposed a direct binding. A proposal is not a binding: all 75 still resolve through the provisional prose fallback at the candidate head, and none may be recommended active on the strength of the proposal.",
+      "routes": [
+        "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+        "AK:juvenile-record-sealing-as-47-12-300",
+        "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+        "AL:pardoned-felony-expungement-under-ala-code-15-27-2-c",
+        "AR:situation-a-non-convictions",
+        "DC:dc_auto_expungement_16_802",
+        "DC:dc_juvenile_sealing_16_2335",
+        "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+        "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+        "DC:dc_motion_seal_nonconviction_16_806",
+        "DE:pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "FL:early-juvenile-expunction-943-0515",
+        "HI:deferred-acceptance-one-year",
+        "HI:deferred-prostitution-three-year",
+        "IA:misdemeanor-901c3",
+        "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "IL:adult-non-conviction-expungement",
+        "IL:human-trafficking-survivor-vacatur-and-expungement",
+        "IL:juvenile-automatic-or-petition-expungement",
+        "KY:felony-conviction-431073",
+        "KY:misdemeanor-violation-traffic-conviction",
+        "LA:felony-ten-year-clean-period-expungement",
+        "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+        "LA:misdemeanor-five-year-clean-period-expungement",
+        "MA:juvenile-record-sealing-under-100b",
+        "MD:automatic-expungement-under-crim-proc-10-105-1",
+        "MD:cannabis-specific-expungement",
+        "MD:juvenile-expungement",
+        "MD:second-chance-act-shielding",
+        "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+        "MI:first-offense-owi-set-aside-by-application",
+        "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+        "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+        "MS:first-offense-dui-expungement",
+        "MS:minor-in-possession-underage-alcohol-expungement",
+        "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "ND:dui-record-sealing-under-the-separate-dui-statute",
+        "ND:marijuana-specific-summary-pardon-or-sealing-relief",
+        "NH:marijuana-possession-annulment-under-rsa-651-5-b",
+        "NM:cannabis-expungement",
+        "NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+        "NV:reentry-program-sealing-under-nrs-179-259",
+        "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+        "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+        "NY:marijuana-record-destruction-under-the-mrta",
+        "OK:misdemeanor-deferred-dismissal-expungement",
+        "OK:nonviolent-felony-deferred-dismissal-expungement",
+        "OK:not-more-than-two-eligible-felony-convictions-expungement",
+        "OK:other-eligible-misdemeanor-conviction-expungement",
+        "PA:path-b-complete-acquittal-not-guilty-expungement",
+        "PA:path-c-summary-conviction-expungement",
+        "PA:path-e-age-70-expungement",
+        "PA:path-f-deceased-person-expungement",
+        "SC:diversion-or-program-completion-expungement",
+        "SC:human-trafficking-survivor-expungement",
+        "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+        "SD:controlled-substance-deferred-disposition-route",
+        "SD:diversion-expungement",
+        "SD:juvenile-delinquency-sealing",
+        "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+        "VA:regime-1-expungement-available-now",
+        "VT:adult-felony-conviction-sealing",
+        "VT:adult-misdemeanor-conviction-sealing",
+        "VT:dui-sealing",
+        "VT:juvenile-sealing",
+        "VT:non-conviction-sealing",
+        "VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+        "VT:young-adult-sealing-for-offenses-committed-at-ages-18-21",
+        "WA:blake-drug-possession-vacation-and-refund-route",
+        "WV:juvenile-record-relief",
+        "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+        "WV:pardon-based-expungement",
+        "WY:adult-non-conviction-expungement-w-s-7-13-1401",
+        "WY:felony-conviction-expungement-w-s-7-13-1502"
+      ],
+      "count": 75,
+      "applicationRule": "Before any proposal is applied, re-run the Phase 4 binding-integrity check against the proposed ruleRefs. 21 of the 43 bindings already committed carry a material duration-provenance defect, so the same extraction that produced them must not be trusted unaudited.",
+      "affectedManifestRows": 84,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-03",
+      "title": "Conditional bindings requiring a new fact or condition",
+      "owner": "Expungement.ai legal-logic owner with product review of the new question",
+      "blocksRollout": true,
+      "statement": "The 12 routes whose proposed binding depends on a participant fact the flow does not yet collect, or on a condition the binding schema must express through appliesWhen.",
+      "routes": [
+        "AL:eligible-conviction-expungement-under-the-redeemer-act",
+        "CT:absolute-pardon-resulting-in-erasure",
+        "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "DC:dc_auto_sealing_16_805",
+        "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+        "MA:time-based-expungement-under-100f-100j",
+        "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+        "NE:pardon-then-seal",
+        "NY:automatic-clean-slate-sealing-under-cpl-160-57",
+        "PA:path-i-petition-for-limited-access",
+        "VA:petition-based-sealing"
+      ],
+      "count": 12,
+      "parityConstraint": "Any new screening question is a question-set change and must go through the screening-parity approved-delta mechanism with a named authorization, exactly as the Maryland pardon_signed_date delta did. It cannot be added by editing a state profile.",
+      "affectedManifestRows": 14,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-04",
+      "title": "Duration-extraction defects in committed bindings",
+      "owner": "Expungement.ai source-compilation owner",
+      "blocksRollout": true,
+      "statement": "21 of the 43 committed waiting-rule bindings bind a number that is not the operative wait. No bound rule id is missing from its jurisdiction and no binding's provenance duration disagrees with the profile — the defect is upstream, in what the number means.",
+      "totals": {
+        "bindingsChecked": 43,
+        "clean": 22,
+        "withMaterialFindings": 21,
+        "byResolution": {
+          "rules": 34,
+          "no_waiting_period": 1,
+          "inline": 8
+        }
+      },
+      "defectClasses": {
+        "age_threshold_in_scope": "The number is an age, not a wait. PA wait-05 = 70 years from 'age 70 or older'; PA wait-16 and MO first-minor-in-possession are anchored on an age rather than on case resolution.",
+        "sentence_or_probation_term_in_scope": "The number is a sentence length or maximum penalty. PA wait-08/09/10/12 and MI wait-03/05 take a punishable-by term as a waiting period.",
+        "lookback_window_in_scope": "The number is a disqualifying lookback. MA wait-08 takes 'no adjudication during the preceding 3 years' as a 3-year wait.",
+        "disqualifying_window_in_scope": "The number bounds an objection or exclusion window, not eligibility timing. IA wait-01 (180 days to object), SC wait-01 (30 days to object), WY wait-16.",
+        "quote_states_no_duration": "The structured duration has no counterpart in the quote the binding carries, so nothing in the repository substantiates it. 24 occurrences.",
+        "multi_class_binding_collapsed_to_one_branch": "12 bindings name rules from several offence classes and collapse them with longest_bound_duration. That can never open a packet early, but it holds a class-2 misdemeanant behind a felony wait."
+      },
+      "bindings": [
+        {
+          "route": "AZ:remedy-1-record-sealing",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-04",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting peri"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-11",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "discharged, which is why it is the immediate-relief option while a sealing wait runs."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-12",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "yrs (Class 2/3 felony); dismissals/acquittals can seal immediately."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-13",
+              "duration": {
+                "value": 2,
+                "unit": "years",
+                "raw": "2 years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Remedy / offense level Statute Waiting period Marijuana expungement § 36-2862 None Set-aside (any eligible conviction) § 13-905 None (after discharge) Sealing — dismissal / acquittal § 13-911 None (right away) Sealing — Class 2 or 3 misdeme"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-14",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Set-aside, by contrast, can be sought as soon as the person is discharged, which is why it is the immediate-relief option while a sealing wait runs."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-15",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "AGENT GUIDANCE Apply the sealing tiers by class: 2 yrs (Class 2/3 misd), 3 yrs (Class 1 misd), 5 yrs (Class 4–6 felony), 10 yrs (Class 2/3 felony); dismissals/acquittals can seal immediately."
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "10 rules, 5 distinct durations: 0 days, 2 years, 3 years, 5 years, 10 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-02",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_does_not_state_this_duration"
+              ],
+              "statedDurations": [
+                "13 months"
+              ],
+              "matchedInQuote": false,
+              "quote": "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misde"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "7 rules, 6 distinct durations: 0 days, 13 months, 7 years, 10 years, 3 years, 5 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "FL:court-ordered-expunction-943-0585",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-03",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "5 years"
+              },
+              "flags": [
+                "quote_states_no_duration",
+                "age_threshold_in_scope"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Florida juvenile records often have their own retention/expunction rules. A person age 18 or older but under 21 may apply for early juvenile expunction if they have not been charged by the State Attorney with, or found to have committed, an"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "10 years",
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "The signature waiting period is the 10-year bridge: a record initially ineligible for expunction (because adjudication was withheld) may become expungeable after it has been SEALED for 10 years. The FDLE Certificate of Eligibility, once iss"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-11",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Disposition / route Remedy Timing Charges dismissed / dropped / not filed Expunction (§ 943.0585) After supervision complete; SA certifies Adjudication withheld (not § 943.0584) Sealing (§ 943.059) After supervision complete Record sealed u"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-12",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "10 years",
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "The signature waiting period is the 10-year bridge: a record initially ineligible for expunction (because adjudication was withheld) may become expungeable after it has been SEALED for 10 years."
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "13 rules, 3 distinct durations: 12 months, 5 years, 10 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-05",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "probation terminated. Non-conviction restriction generally has no waiting period."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 4,
+                "unit": "years",
+                "raw": "four years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "4 years",
+                "4 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-09",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Non-conviction restriction generally has no waiting period."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-10",
+              "duration": {
+                "value": 4,
+                "unit": "years",
+                "raw": "4 years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed R"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "7 rules, 3 distinct durations: 30 days, 4 years, 0 days; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "IA:nonconviction-901c2",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-01",
+              "duration": {
+                "value": 180,
+                "unit": "days",
+                "raw": "180 days"
+              },
+              "flags": [
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "180 days"
+              ],
+              "matchedInQuote": true,
+              "quote": "More than 180 days must have passed after acquittal or dismissal unless the court waives that requirement."
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "3 rules, 3 distinct durations: 180 days, 8 years, 30 days; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-03",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "sentence_or_probation_term_in_scope",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-05",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "sentence_or_probation_term_in_scope"
+              ],
+              "statedDurations": [
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending ch"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-10",
+              "duration": {
+                "value": 93,
+                "unit": "days",
+                "raw": "93 days"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "93 days",
+                "7 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-15",
+              "duration": {
+                "value": 3,
+                "unit": "years",
+                "raw": "3 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "3 years",
+                "5 years",
+                "7 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sent"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-16",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "quote_states_no_duration",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is "
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "13 rules, 5 distinct durations: 10 years, 7 years, 3 years, 5 years, 93 days; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-01",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "five years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "5 years",
+                "5 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Five-year clean period Five years must have passed since completion of sentence terms."
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-04",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not pre"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "5 rules, 2 distinct durations: 5 years, 30 days; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "NM:no-conviction-released-without-conviction",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-02",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "includes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other "
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-16",
+              "duration": {
+                "value": 2,
+                "unit": "years",
+                "raw": "two years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public record"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-17",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-18",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges we"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "9 rules, 4 distinct durations: 1 years, 30 days, 90 days, 2 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "OK:acquittal-dismissal-or-other-no-conviction-expungement",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-01",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "1 year"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-02",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "5 years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdem"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "5 rules, 4 distinct durations: 1 years, 5 years, 7 years, 10 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "PA:path-a-non-conviction-expungement",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-04",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "five years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "5 years",
+                "5 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is not the same as expungement. Clean Slate limited access for summary convictions applies after five years from judgment of convictio"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "5 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations",
+                "sentence_or_probation_term_in_scope"
+              ],
+              "statedDurations": [
+                "5 years",
+                "7 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-09",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "sentence_or_probation_term_in_scope"
+              ],
+              "statedDurations": [
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-10",
+              "duration": {
+                "value": 2,
+                "unit": "years",
+                "raw": "2 years"
+              },
+              "flags": [
+                "sentence_or_probation_term_in_scope"
+              ],
+              "statedDurations": [
+                "2 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-12",
+              "duration": {
+                "value": 30,
+                "unit": "months",
+                "raw": "30 months"
+              },
+              "flags": [
+                "quote_states_multiple_durations",
+                "sentence_or_probation_term_in_scope",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "30 months",
+                "60 months"
+              ],
+              "matchedInQuote": true,
+              "quote": "is an offense under Pennsylvania\u0019s Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/solicitation, unless a sentence of at least 30 months minimum or 60 months maximum imprisonment was imposed. ("
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-16",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "age_threshold_in_scope"
+              ],
+              "statedDurations": [
+                "10 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-17",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "5 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "5 years",
+                "5 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years after judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee Clean Slate misdemeanor sea"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "13 rules, 6 distinct durations: 60 days, 5 years, 3 years, 10 years, 2 years, 30 months; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "SC:summary-court-non-conviction-expungement",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-01",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_multiple_durations",
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "30 days",
+                "31 days",
+                "40 days"
+              ],
+              "matchedInQuote": true,
+              "quote": "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-02",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within "
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-03",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "1 year"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "1 years",
+                "1 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-04",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "30 days",
+                "3 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to "
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-07",
+              "duration": {
+                "value": 3,
+                "unit": "years",
+                "raw": "3 years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "3 years",
+                "3 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-16",
+              "duration": {
+                "value": 30,
+                "unit": "days",
+                "raw": "30 days"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / object"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "13 rules, 4 distinct durations: 30 days, 1 years, 5 years, 3 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-05",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "South Dakota has a special diversion path. A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than pett"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-06",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "1 years",
+                "30 days"
+              ],
+              "matchedInQuote": true,
+              "quote": "If you completed a South Dakota diversion program and stayed clear of new charges for one year and thirty days, the State\u0019s Attorney should file the dismissal and diversion-completion notice, and the court should grant expungement without a"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-07",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "five years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "5 years",
+                "5 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highe"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-09",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or oth"
+            },
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-10",
+              "duration": {
+                "value": 5,
+                "unit": "years",
+                "raw": "five years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, c"
+            },
+            {
+              "code": "MULTI_CLASS_BINDING_COLLAPSED_TO_ONE_BRANCH",
+              "detail": "10 rules, 2 distinct durations: 1 years, 5 years; disambiguation=longest_bound_duration"
+            }
+          ]
+        },
+        {
+          "route": "AZ:remedy-2-set-aside-of-a-conviction",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-02",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period."
+            }
+          ]
+        },
+        {
+          "route": "AZ:remedy-3-marijuana-expungement",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-03",
+              "duration": {
+                "value": 0,
+                "unit": "days",
+                "raw": "immediate/upon event"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions."
+            }
+          ]
+        },
+        {
+          "route": "GA:automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 4,
+                "unit": "years",
+                "raw": "four years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "4 years",
+                "4 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is"
+            }
+          ]
+        },
+        {
+          "route": "GA:restriction-and-sealing-of-a-pardoned-felony",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 4,
+                "unit": "years",
+                "raw": "four years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "4 years",
+                "4 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is"
+            }
+          ]
+        },
+        {
+          "route": "GA:youthful-first-offender-restriction-route",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 4,
+                "unit": "years",
+                "raw": "four years"
+              },
+              "flags": [
+                "quote_states_multiple_durations"
+              ],
+              "statedDurations": [
+                "4 years",
+                "4 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is"
+            }
+          ]
+        },
+        {
+          "route": "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-08",
+              "duration": {
+                "value": 3,
+                "unit": "years",
+                "raw": "3 years"
+              },
+              "flags": [
+                "lookback_window_in_scope"
+              ],
+              "statedDurations": [
+                "3 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "New Massachusetts record No adjudication delinquent or guilty finding in Massachusetts during preceding 3 years, except minor motor-vehicle offenses"
+            }
+          ]
+        },
+        {
+          "route": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+          "resolution": "inline",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "pathway-wait-8",
+              "duration": {
+                "value": 10,
+                "unit": "years",
+                "raw": "10 years"
+              },
+              "flags": [
+                "quote_states_no_duration"
+              ],
+              "statedDurations": [],
+              "matchedInQuote": false,
+              "quote": "Pathway Main authority Best used for General arrest/charge/plea/trial/conviction expungement 610.140 Most eligible Missouri crimes, including many convictions False-information / no-probable-cause arrest expungement 610.122\u0013610.123 Arrest-o"
+            }
+          ]
+        },
+        {
+          "route": "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
+          "resolution": "inline",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "pathway-wait-8",
+              "duration": {
+                "value": 1,
+                "unit": "years",
+                "raw": "one year"
+              },
+              "flags": [
+                "age_threshold_in_scope"
+              ],
+              "statedDurations": [
+                "1 years"
+              ],
+              "matchedInQuote": true,
+              "quote": "311.326 minor in possession of alcohol A person with a first-time violation of Missouri\u0019s minor-in-possession alcohol statute may apply after at least one year after reaching age 21, if they have not had any other alcohol-related offense. T"
+            }
+          ]
+        },
+        {
+          "route": "WY:juvenile-minor-expungement-w-s-14-6-241",
+          "resolution": "rules",
+          "findings": [
+            {
+              "code": "DURATION_MAY_NOT_BE_THE_OPERATIVE_WAIT",
+              "detail": "wait-16",
+              "duration": {
+                "value": 180,
+                "unit": "days",
+                "raw": "180 days"
+              },
+              "flags": [
+                "disqualifying_window_in_scope"
+              ],
+              "statedDurations": [
+                "180 days"
+              ],
+              "matchedInQuote": true,
+              "quote": "Wyoming has real expungement, but adult expungement mainly seals/removes records from public dissemination.No-conviction route = 7-13-1401, 180 days, no pending charges, no disqualifying deferral.Misdemeanor conviction route = 7-13-1501, 1 "
+            }
+          ]
+        }
+      ],
+      "affectedManifestRows": 22,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-05",
+      "title": "Legal-owner decisions",
+      "owner": "Counsel",
+      "blocksRollout": true,
+      "statement": "The 170 routes the six shards classified LEGAL_OWNER_DECISION_REQUIRED. The candidate repository contains no deterministic authority resolving any of them, so Phase 4 does not reclassify one.",
+      "routes": [
+        "AK:executive-pardon-backstop",
+        "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+        "AL:human-trafficking-victim-expungement",
+        "AR:situation-b-misdemeanor-convictions",
+        "CT:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "CT:cannabis-conviction-erasure",
+        "DE:discretionary-court-expungement-under-11-del-c-4374",
+        "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+        "DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "FL:administrative-expunction-mistaken-or-unlawful-arrest",
+        "FL:automatic-sealing-943-0595",
+        "FL:court-ordered-sealing-943-059",
+        "FL:human-trafficking-victim-expunction-943-0583",
+        "FL:juvenile-diversion-expunction-943-0582",
+        "FL:lawful-self-defense-expunction-943-0578",
+        "HI:first-time-drug-conviction",
+        "HI:nonconviction-arrest-expungement",
+        "ID:juvenile-expungement",
+        "IL:adult-conviction-sealing",
+        "IL:cannabis-specific-automatic-or-petition-expungement",
+        "IL:criminal-identity-theft-mistaken-identity-relief",
+        "IL:expungement-after-eligible-supervision-or-qualified-probation",
+        "IL:felony-prostitution-relief",
+        "KS:conviction-or-diversion-216614",
+        "KS:drug-registration-relief-coordination",
+        "KS:specialty-court-accelerated",
+        "KY:juvenile-automatic-dismissal",
+        "KY:juvenile-petition-610330",
+        "KY:nonconviction-431076",
+        "LA:automated-expungement-status-verification-art-985-2",
+        "LA:expungement-by-redaction-for-multi-person-records",
+        "LA:felony-article-893-e-set-aside-followed-by-expungement",
+        "LA:first-offender-pardon-felony-expungement",
+        "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+        "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+        "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
+        "LA:non-conviction-arrest-expungement",
+        "MA:automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
+        "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
+        "MA:marijuana-only-expungement",
+        "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+        "MD:eligible-conviction-expungement-under-crim-proc-10-110",
+        "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+        "ME:adult-conviction-sealing",
+        "ME:adult-non-conviction-record-relief",
+        "ME:juvenile-sealing",
+        "ME:pardon-route",
+        "MI:human-trafficking-related-set-aside-application",
+        "MI:set-aside-by-application-under-mcl-780-621",
+        "MN:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+        "MN:automatic-clean-slate-expungement-under-609a-015",
+        "MN:automatic-mistaken-identity-expungement-under-609a-017",
+        "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "MN:petition-based-expungement-under-609a-02-03",
+        "MN:prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
+        "MO:closed-record-outcome-under-rsmo-610-105",
+        "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
+        "MO:stolen-or-mistaken-identity-expungement-under-610-145",
+        "MS:dui-nonadjudication",
+        "MS:eligible-felony-conviction-expungement-99-19-71",
+        "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
+        "MS:first-offense-controlled-substance-conditional-discharge-relief",
+        "MS:human-trafficking-survivor-vacatur-and-expungement",
+        "MS:intervention-court-completion-expungement",
+        "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+        "MS:nonadjudication-under-99-15-26",
+        "MS:pretrial-intervention-or-diversion-expungement",
+        "MT:deferred-sentence-dismissal-or-confidentiality-route",
+        "MT:doj-record-removal-update-request",
+        "MT:marijuana-related-redesignation-expungement-under-mmrta",
+        "MT:non-conviction-criminal-history-removal-through-criss",
+        "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
+        "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
+        "ND:deferred-imposition-dismissal-and-sealing",
+        "ND:first-offense-possession-sealing",
+        "NE:automatic-nonconviction-sealing",
+        "NE:juvenile-automatic-sealing",
+        "NE:law-enforcement-error-expungement",
+        "NE:set-aside-incarceration-one-year-or-less",
+        "NE:set-aside-probation-fine-community-service",
+        "NE:trafficking-survivor-set-aside-and-seal",
+        "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
+        "NH:annulment-of-a-vacated-conviction",
+        "NH:conviction-annulment-under-rsa-651-5",
+        "NH:dwi-dui-annulment",
+        "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+        "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+        "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+        "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+        "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
+        "NM:conviction",
+        "NM:dna-sample-profile-expungement",
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+        "NV:general-conviction-record-sealing-under-nrs-179-245",
+        "NV:non-conviction-record-sealing",
+        "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
+        "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+        "NY:conditional-treatment-sealing-under-cpl-160-58",
+        "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
+        "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
+        "OH:certain-firearm-carry-conviction-expungement-under-2953-35",
+        "OH:human-trafficking-survivor-conviction-expungement-under-2953-36",
+        "OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521",
+        "OH:marijuana-hashish-possession-expungement-under-2953-321",
+        "OK:arrest-with-no-charges-filed",
+        "OK:clean-slate-automatic-expungement",
+        "OK:conviction-reversed-and-case-dismissed",
+        "OK:deferred-sentence-court-record-expungement-under-991-c",
+        "OK:dna-factual-innocence-expungement",
+        "OK:felony-reclassified-as-a-misdemeanor",
+        "OK:fine-only-misdemeanor-conviction-expungement",
+        "OK:human-trafficking-survivor-relief",
+        "OK:juvenile-record-expungement",
+        "OK:pardon-based-expungement",
+        "OK:victim-protective-order-record-relief",
+        "OR:marijuana-specific-set-aside-redesignation",
+        "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+        "PA:path-d-ard-expungement",
+        "PA:path-g-underage-drinking-conviction-expungement",
+        "PA:path-h-pardon-based-expungement",
+        "PA:path-j-clean-slate-automatic-limited-access",
+        "PA:path-k-human-trafficking-vacatur-expungement",
+        "RI:path-a-first-offender-conviction-expungement",
+        "RI:path-b-multiple-misdemeanor-expungement",
+        "RI:path-c-deferred-sentence-expungement",
+        "RI:path-d-non-conviction-sealing-expungement",
+        "RI:path-e-filed-complaint-relief-under-12-10-12",
+        "RI:path-f-marijuana-possession-expungement",
+        "RI:path-g-decriminalized-offense-expungement",
+        "RI:path-h-commercial-sexual-activity-related-expungement",
+        "SC:eligible-conviction-expungement",
+        "SC:general-sessions-non-conviction-expungement",
+        "SC:juvenile-expungement",
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions",
+        "SD:juvenile-trafficking-expungement",
+        "SD:pardon-based-sealing",
+        "SD:suspended-imposition-of-sentence-sealing",
+        "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+        "TN:pathway-4-two-offense-expunction-under-40-32-101-k",
+        "TX:expunction-after-pardon-or-actual-innocence-relief",
+        "TX:expunction-after-qualifying-class-c-deferred-disposition",
+        "TX:expunction-after-qualifying-dismissal-or-quash",
+        "TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
+        "UT:path-a-automatic-clean-slate-expungement",
+        "UT:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+        "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+        "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
+        "UT:path-e-petition-based-non-conviction-expungement",
+        "UT:path-f-petition-based-conviction-expungement",
+        "UT:path-i-traffic-offense-expungement-or-deletion",
+        "UT:path-j-cannabis-possession-petition-without-a-bci-certificate",
+        "UT:path-k-pardon-based-expungement",
+        "UT:path-l-vacatur-human-trafficking-related-expungement",
+        "UT:path-m-juvenile-expungement",
+        "VA:automatic-sealing-no-filing",
+        "VT:adult-conviction-expungement-narrow-statutory-route",
+        "WA:adult-felony-vacation-under-rcw-9-94a-640",
+        "WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
+        "WA:juvenile-record-sealing-under-rcw-13-50-260",
+        "WA:misdemeanor-cannabis-conviction-vacation",
+        "WA:non-conviction-record-deletion-under-rcw-10-97-060",
+        "WA:victim-survivor-conviction-vacation-route",
+        "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
+        "WV:first-offense-drug-possession-conditional-discharge-relief",
+        "WV:sex-trafficking-victim-vacatur-and-expungement",
+        "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+        "WY:misdemeanor-conviction-expungement-w-s-7-13-1501"
+      ],
+      "count": 170,
+      "registerItems": [
+        {
+          "findingId": "EXPAI-FA-024",
+          "title": "Selecting a state exclusion category still returns packet-ready in some jurisdictions, and so does the shortest timing bucket"
+        }
+      ],
+      "affectedManifestRows": 152,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-06",
+      "title": "State-source reconstruction, including Indiana",
+      "owner": "Expungement.ai source-compilation owner",
+      "blocksRollout": true,
+      "statement": "Routes where the prose fallback finds no candidate rule at all, so no waiting period is executed and the failure is a configuration gap rather than a participant fact.",
+      "routes": [
+        "ID:juvenile-expungement",
+        "IN:conviction-expungement-with-records-marked-expunged",
+        "IN:juvenile-allegation-expungement"
+      ],
+      "indiana": {
+        "routes": [
+          "IN:conviction-expungement-with-records-marked-expunged",
+          "IN:juvenile-allegation-expungement"
+        ],
+        "detail": "IN:conviction-expungement-with-records-marked-expunged and IN:juvenile-allegation-expungement report waiting_rule_not_executed with no candidate rule. Indiana also carries in_prosecutor_consent_confirmed as a route-scoped question published to every Indiana participant.",
+        "note": "Indiana's compiled profile needs its waiting-period rules reconstructed from source before any binding can be authored; there is nothing to bind to today."
+      },
+      "idaho": {
+        "routes": [
+          "ID:juvenile-expungement"
+        ]
+      },
+      "affectedManifestRows": 0,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-07",
+      "title": "County and court shared pipeline",
+      "owner": "Phase 2 shared-product owner (renderer, projection and parity gate) with the dataset owner",
+      "blocksRollout": true,
+      "statement": "The consolidated county/court correction. All six shards reported SHARED_PHASE2_BLOCKER and this pass confirmed every element of it.",
+      "verifiedClaims": {
+        "sourceBackedDatasetsExist": {
+          "verdict": "CONFIRMED_PARTIAL",
+          "detail": "17 of 52 jurisdictions carry a controlled-filing dataset; 16 carry at least one option; 1 are prepared but empty for a recorded source gap."
+        },
+        "stateProfileEditsDoNotReachTheServedProfile": {
+          "verdict": "CONFIRMED",
+          "detail": "Files referencing the binding or dataset: src/lib/rcap/state-packs/virginia/controlled-filing-dataset.ts, src/lib/rcap/state-packs/virginia/index.ts, src/lib/rcap/state-packs/texas/controlled-filing-dataset.ts, src/lib/rcap/state-packs/texas/index.ts, src/lib/rcap/state-packs/south-carolina/controlled-filing-dataset.ts, src/lib/rcap/state-packs/south-carolina/index.ts, src/lib/rcap/state-packs/rhode-island/controlled-filing-dataset.ts, src/lib/rcap/state-packs/rhode-island/index.ts, src/lib/rcap/state-packs/oklahoma/controlled-filing-dataset.ts, src/lib/rcap/state-packs/oklahoma/index.ts, src/lib/rcap/state-packs/north-dakota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/north-dakota/index.ts, src/lib/rcap/state-packs/nevada/controlled-filing-dataset.ts, src/lib/rcap/state-packs/nevada/index.ts, src/lib/rcap/state-packs/missouri/controlled-filing-dataset.ts, src/lib/rcap/state-packs/missouri/index.ts, src/lib/rcap/state-packs/mississippi/controlled-filing-dataset.ts, src/lib/rcap/state-packs/mississippi/index.ts, src/lib/rcap/state-packs/minnesota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/minnesota/index.ts, src/lib/rcap/state-packs/michigan/controlled-filing-dataset.ts, src/lib/rcap/state-packs/michigan/index.ts, src/lib/rcap/state-packs/massachusetts/controlled-filing-dataset.ts, src/lib/rcap/state-packs/massachusetts/index.ts, src/lib/rcap/state-packs/iowa/controlled-filing-dataset.ts, src/lib/rcap/state-packs/iowa/index.ts, src/lib/rcap/state-packs/indiana/controlled-filing-dataset.ts, src/lib/rcap/state-packs/indiana/index.ts, src/lib/rcap/state-packs/hawaii/controlled-filing-dataset.ts, src/lib/rcap/state-packs/hawaii/index.ts, src/lib/rcap/state-packs/florida/controlled-filing-dataset.ts, src/lib/rcap/state-packs/florida/index.ts, src/lib/rcap/state-packs/alabama/controlled-filing-dataset.ts, src/lib/rcap/state-packs/alabama/index.ts, scripts/expungement-ai/phase4/verify-county-court-pipeline.mjs. public-profile-projection reads them: false."
+        },
+        "parityGateBlocksUnapprovedQuestionChanges": {
+          "verdict": "CONFIRMED",
+          "detail": "scripts/verify-expungement-plain-language-values.mjs present=true; approved-delta records=1; Maryland delta present=true; hash pins on the Maryland delta=4."
+        },
+        "rendererCannotOfferControlledPlusManual": {
+          "verdict": "CONFIRMED",
+          "detail": "QuestionField arms: single_choice, yes_no_unsure, yes_no_prefer_not_to_say, multi_select, text, text_or_unknown, number_or_range, date_or_unknown. No arm combines a controlled option list with a separate manual free-text value."
+        },
+        "noShardClaimedALiveSelector": {
+          "verdict": "CONFIRMED",
+          "detail": "{\"SHARD-1\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-2\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-3\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-4\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-5\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-6\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false}}"
+        }
+      },
+      "datasetCensus": {
+        "jurisdictions": 52,
+        "datasetsPresent": 17,
+        "datasetsCarryingAtLeastOneOption": 16,
+        "datasetsPreparedButEmpty": 1,
+        "jurisdictionsWithNoDatasetAtAll": 35
+      },
+      "requiredWork": [
+        "Shared public-profile projection: publish the controlled dataset to the served profile. Today nothing outside the state packs reads controlledDataBindings or controlled-filing-dataset, so a state profile edit cannot reach a participant.",
+        "State-aware searchable county selector, sourced from the jurisdiction's own dataset rather than a global list.",
+        "County-filtered court selector, so the court list narrows to the chosen county.",
+        "Controlled ids on every option, so a stored answer is a reference and not a display string.",
+        "Visible court type and location on each option, so a participant can tell two similarly named courts apart.",
+        "An explicit 'I'm not sure' path that does not silently become a manual value.",
+        "Manual raw values stored separately from the controlled id, in their own field.",
+        "Manual values never treated as verified anywhere downstream — not in packet generation, not on the review page, not in filing instructions.",
+        "The screening-parity approved-delta authorization for every question type or option change the selector needs. Retyping a compiled question without one is refused by scripts/verify-expungement-plain-language-values.mjs, which passes at this head.",
+        "Maryland's hash-pinned profile: the MD approved delta carries four sha256 pins, so any MD question change must re-pin them under a named authorization.",
+        "The jurisdictions with missing county/court facts, listed below, need source work before a selector can offer them anything."
+      ],
+      "jurisdictionsWithNoDatasetAtAll": [
+        "AK",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "GA",
+        "ID",
+        "IL",
+        "KS",
+        "KY",
+        "LA",
+        "MD",
+        "ME",
+        "MT",
+        "NC",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "OH",
+        "OR",
+        "PA",
+        "SD",
+        "TE",
+        "TN",
+        "UT",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ],
+      "jurisdictionsWithAnEmptyDataset": [
+        "HI"
+      ],
+      "rendererGap": "src/components/expungement-ai/screening/QuestionField.tsx has eight arms — single_choice, yes_no_unsure, yes_no_prefer_not_to_say, multi_select, text, text_or_unknown, number_or_range, date_or_unknown. None combines a controlled option list with a separately stored manual value, which is exactly what the packet requires.",
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-08",
+      "title": "Shared evaluator defects, including route-irrelevant ambiguity",
+      "owner": "Phase 2 shared-product owner",
+      "blocksRollout": true,
+      "statement": "Defects in src/lib/rcap-engine/evaluator.ts that are not any one state's to fix.",
+      "defects": [
+        {
+          "id": "EV-01",
+          "severity": "P0",
+          "title": "ambiguityReason() is route-blind",
+          "detail": "It scans every rendered prepayment question for an explicit 'unknown' and never asks whether the question belongs to the selected pathway. 16 route-scoped questions were tested across five jurisdictions; all 16 change the terminal and 5 close a payable route that has nothing to do with them.",
+          "measured": {
+            "jurisdictionsWithRouteScopedQuestions": 5,
+            "questionsTested": 16,
+            "questionsThatBlockUnrelatedRoutes": 5
+          },
+          "boundedBy": "Cross-state escalation does NOT reproduce: all 51 jurisdictions publish 16 of other states' prefixed question ids, but answering one 'unknown' changed no outcome in any of the 51 (0 jurisdictions affected). The defect is confined to a jurisdiction's own route-scoped questions."
+        },
+        {
+          "id": "EV-02",
+          "severity": "P0",
+          "title": "The timing gate is bypassable",
+          "detail": "176 of 325 routes return an identical outcome for every published timing bucket, including 'still_open'. timingFromResolvedBucket is only reached from timingFromAnchor, which is only reached when a route resolves a waiting rule carrying a structured duration. A route whose rule never resolves never enters the gate, so the participant's timing answer is discarded and payment can open while the case is unresolved (5 routes)."
+        },
+        {
+          "id": "EV-03",
+          "severity": "P1",
+          "title": "A participant-supplied answer can override the binding table",
+          "detail": "The first branch of the waiting-rule resolver reads answers.waiting_rule_id and, if it names a rule the profile publishes, returns that rule and never consults the authored binding. waiting_rule_id is a published public question in at least California. An answer should not be able to select its own waiting period."
+        },
+        {
+          "id": "EV-04",
+          "severity": "P2",
+          "title": "TIMING_BUCKET_WINDOWS omits two published options",
+          "detail": "The window table covers seven buckets. The profiles publish nine, adding 'not_sure' and 'still_open', which are handled by earlier special cases in timingFromResolvedBucket but are absent from the table itself. A participant answering 'not_sure' did not settle within 24 convergence rounds in several jurisdictions during this sweep."
+        },
+        {
+          "id": "EV-05",
+          "severity": "P2",
+          "title": "selectPathway reads a contextOnly question",
+          "detail": "The frontend contract states a contextOnly question never selects the pathway; selectPathway's first branch reads possible_pathway_context, which is projected contextOnly. Registered as EXPAI-FA-023 and still reproducible."
+        }
+      ],
+      "affectedManifestRows": 12,
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-09",
+      "title": "Stale worker and reachability evidence",
+      "owner": "RCAP worker-publication owner and the flow-audit artifact owner",
+      "blocksRollout": false,
+      "blocksHostedAcceptance": true,
+      "statement": "Evidence that no longer describes the tree it was taken from. None of it changes a legal outcome; all of it blocks hosted acceptance or leaves a verifier red.",
+      "items": [
+        {
+          "check": "scripts/verify-rcap-image-input-fingerprint.mjs",
+          "exactFailure": "src/ at HEAD is 1efde49aa966…, fingerprint records bded33ec9863…; HEAD differs from the fingerprint base 5ac0d8d6 on 129 image-input paths.",
+          "candidateCaused": "PARTIALLY — the fingerprint base predates both Phase 2 and Phase 3, so it was already stale. The candidate adds 103 paths to the drift (86 state packs, 17 compiled profiles).",
+          "correctionOwner": "worker-publication owner",
+          "blocksHostedAcceptance": true,
+          "blocksRollout": false
+        },
+        {
+          "check": "scripts/verify-rcap-worker-image-revision.mjs",
+          "exactFailure": "WORKER_TAG must be a full 40-character commit SHA — the variable is unset in this environment.",
+          "candidateCaused": "NO — a missing environment input, not a tree defect.",
+          "correctionOwner": "hosted environment owner",
+          "blocksHostedAcceptance": true,
+          "blocksRollout": false
+        },
+        {
+          "check": "scripts/generate-rcap-authority-ledger.mjs --check",
+          "exactFailure": "none — 'Ledger current at version 1. No drift.'",
+          "candidateCaused": "NO",
+          "note": "Independently measured GREEN at the candidate head. The 'stale RCAP witness ledger' characterisation does not hold for the authority ledger at this head; if a different ledger is meant, it is not reachable by any verifier name in this tree.",
+          "correctionOwner": "n/a",
+          "blocksHostedAcceptance": false,
+          "blocksRollout": false
+        },
+        {
+          "check": "FA-16 — every issue's affected flow IDs exist in the manifest",
+          "exactFailure": "7 unknown flow id(s) referenced.",
+          "candidateCaused": "NO — all seven are retired synthetic probe hashes (FL, IA x2, PA x2, SD x2), every one an _probe_inside_waiting_period or _probe_state_exclusion_selected row. No real remedy is referenced. The check is red in the committed candidate tree only because the candidate committed the correctly regenerated manifest; it is red identically at PHASE2_PRODUCT_HEAD once the same generators run there.",
+          "correctionOwner": "flow-audit artifact owner — re-point the issue register at current probe ids",
+          "blocksHostedAcceptance": false,
+          "blocksRollout": false
+        },
+        {
+          "check": "FA-23 — every flow's recorded fixture reproduces its recorded terminal",
+          "exactFailure": "593 reproduce; 31 do not (AZ, CT, DC, FL, GA, IA, MI, MT, NM, OK, PA x10, SC, SD, UT x8, VT).",
+          "candidateCaused": "NO — the same 31 are recorded in data/expungement-ai/phase2/post-implementation-comparison.json#staleWitnessFixtures at the Phase 2 head. Red at the candidate for the same regeneration reason as FA-16.",
+          "correctionOwner": "flow-audit artifact owner — regenerate the witness fixtures",
+          "blocksHostedAcceptance": false,
+          "blocksRollout": false
+        },
+        {
+          "check": "FA-17 — no product behaviour file changed",
+          "exactFailure": "338 changed path(s); 179 outside the audit's owned paths (75 at the untouched Phase 2 base).",
+          "candidateCaused": "PARTIALLY — the delta is 104 paths: 86 state-pack files, 17 compiled profiles and 1 Phase 3 script. Every compiled-profile change was verified additive-only: each adds exactly the top-level controlledDataBindings key and changes no question, pathway, waiting rule, exclusion rule, ordered decision rule or profile version. Every state-pack index change is a single added export line, zero deletions. Nothing outside the state packs reads either.",
+          "correctionOwner": "flow-audit artifact owner — widen the FA-17 allowlist to cover authorised state-scoped shard work, or record the exemption",
+          "blocksHostedAcceptance": false,
+          "blocksRollout": false
+        },
+        {
+          "check": "FA-21 — every generated artifact is byte-reproducible",
+          "exactFailure": "branch-coverage.json, ui-reachability.json, static-findings.json and shard-assignment.json are stale.",
+          "candidateCaused": "NO — five artifacts are stale at the untouched Phase 2 base; the candidate regenerated two of them, leaving four.",
+          "correctionOwner": "flow-audit artifact owner",
+          "blocksHostedAcceptance": false,
+          "blocksRollout": false
+        }
+      ],
+      "doNotImplementHere": true
+    },
+    {
+      "id": "CP-10",
+      "title": "Hosted environment, browser, payment and sponsorship acceptance",
+      "owner": "Roger, as the only party who can authorize a staging environment",
+      "blocksRollout": true,
+      "statement": "The formal Phase 4 exit gate requires paid, sponsored and discount paths, duplicate payment and entitlement, privacy and cross-user behaviour to be verified. None of it is verifiable here. These are ENVIRONMENT_BLOCKED, not approved.",
+      "exactMissingEnvironmentInputs": [
+        "A non-production Vercel Preview deployment. hosted-acceptance-record.json records deploymentUrl=null and states no Preview was created and none was found to reuse. This pass found none either.",
+        "A staging Supabase project carrying migrations 49 through 54. data/rcap-staging-action.json records status='prepared_queued_not_authorized' and blocker ENV-007: applying the migration sequence is queued and not authorized.",
+        "Synthetic authenticated users. environment-blockers.json#fixtureCreation records attempted=false, authorized=false: four synthetic consumers, one synthetic partner, four access-code states and 100 packet credits are all rows in a Supabase project this session cannot write.",
+        "A Playwright browser matching the pinned driver. The installed CLI is Playwright 1.60.0 and resolves chromium build v1223; /opt/pw-browsers carries chromium-1194 and chromium_headless_shell-1194 only. Confirmed once and not retried.",
+        "Stripe test-mode credentials and a webhook endpoint. No STRIPE_* value is present in this environment."
+      ],
+      "consequentlyUnverified": [
+        "paid checkout",
+        "sponsored checkout",
+        "discount-code application",
+        "duplicate payment and entitlement",
+        "save and resume",
+        "privacy and cross-user isolation",
+        "mobile rendering",
+        "the legacy Briefcase loop",
+        "raw review-value rendering on the accuracy review page"
+      ],
+      "evidenceRule": "No static fixture, self-signed payload or replayed JSON in this repository may be represented as a Stripe-delivered test-webhook result. This pass made no payment call of any kind.",
+      "notRetried": [
+        "the local next-dev \"Loading your state's questions…\" condition",
+        "the Playwright 1223 versus 1194 browser mismatch",
+        "the missing authenticated staging environment"
+      ],
+      "affectedManifestRows": 20,
+      "doNotImplementHere": true
+    }
+  ]
+}

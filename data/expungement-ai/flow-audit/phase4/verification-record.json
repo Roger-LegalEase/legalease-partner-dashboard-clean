@@ -1,0 +1,429 @@
+{
+  "schemaVersion": "expai-phase4-verification-record/v1",
+  "phase": 4,
+  "independence": "This session implemented no part of Phase 2, no Phase 3 shard and no Phase 3 integration. It wrote only verification records, verdict matrices, evidence indexes, correction packets, rollout recommendations and the verifier scripts needed to produce them. No implementation path was modified and no finding was repaired.",
+  "candidateSha": "86e0cd0a1305d8d22f7fded86a5a63848bf75690",
+  "phase2ProductHead": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "integrationBranch": "claude/expai-flow-integration-p3",
+  "verificationBranch": "claude/expai-flow-verification-p4",
+  "safetyBranch": "claude/expai-p3-candidate-safety-86e0cd0a",
+  "flowIdentity": {
+    "TOTAL_MANIFEST_ROWS": 625,
+    "TOTAL_REAL_PARTICIPANT_FLOWS": 356,
+    "TOTAL_SYNTHETIC_PROBE_FLOWS": 269,
+    "reconciliation": {
+      "baseCommittedRows": 622,
+      "candidateRows": 625,
+      "realFlowsAtBase": 356,
+      "realFlowsAtCandidate": 356,
+      "probeChurnRetired": 7,
+      "probeChurnAdded": 10,
+      "verdict": "CONFIRMED. Regenerating the manifest and the question inventory in a clean worktree at PHASE2_PRODUCT_HEAD with no shard merged produces bytes identical to the candidate's committed artifacts (flow-manifest sha256 prefix 04377127e72cf9c1, question-inventory 00075de219f14d68). The six merges contribute zero delta. The 622-to-625 movement is entirely synthetic _probe_* churn: 7 retired, 10 added, 0 real flows lost or gained, 0 state/remedy pairs lost."
+    }
+  },
+  "waitingRuleResolutionCensus": {
+    "committedExplicitBindings": 34,
+    "committedInlineStructuredRules": 8,
+    "authoredNoWaitingRule": 1,
+    "provisionalLegacyProseFallbackRoutes": 282,
+    "directBindingProposals": 75,
+    "conditionalBindingProposals": 12,
+    "legalOwnerDecisions": 170,
+    "heldForCorrection": 25,
+    "proseFallbackStatement": "The provisional legacy prose fallback is NOT eliminated. bestWaitingRuleForPathway is present verbatim in src/lib/rcap-engine/evaluator.ts and decides all 282 routes that carry no authored binding. A proposal is not a binding."
+  },
+  "bindingIntegrity": {
+    "bindings": 43,
+    "clean": 22,
+    "withFindings": 21,
+    "byResolution": {
+      "rules": 34,
+      "no_waiting_period": 1,
+      "inline": 8
+    },
+    "fallbackDependentRoutes": {
+      "unresolvedPreserved": 279,
+      "unresolvedAtBase": 3
+    }
+  },
+  "timingGate": {
+    "jurisdictions": 51,
+    "routesSwept": 325,
+    "timingInert": 176,
+    "paymentAtShortestBucket": 14,
+    "paymentWhileCaseStillOpen": 5
+  },
+  "countyCourt": {
+    "claims": {
+      "sourceBackedDatasetsExist": {
+        "verdict": "CONFIRMED_PARTIAL",
+        "detail": "17 of 52 jurisdictions carry a controlled-filing dataset; 16 carry at least one option; 1 are prepared but empty for a recorded source gap."
+      },
+      "stateProfileEditsDoNotReachTheServedProfile": {
+        "verdict": "CONFIRMED",
+        "detail": "Files referencing the binding or dataset: src/lib/rcap/state-packs/virginia/controlled-filing-dataset.ts, src/lib/rcap/state-packs/virginia/index.ts, src/lib/rcap/state-packs/texas/controlled-filing-dataset.ts, src/lib/rcap/state-packs/texas/index.ts, src/lib/rcap/state-packs/south-carolina/controlled-filing-dataset.ts, src/lib/rcap/state-packs/south-carolina/index.ts, src/lib/rcap/state-packs/rhode-island/controlled-filing-dataset.ts, src/lib/rcap/state-packs/rhode-island/index.ts, src/lib/rcap/state-packs/oklahoma/controlled-filing-dataset.ts, src/lib/rcap/state-packs/oklahoma/index.ts, src/lib/rcap/state-packs/north-dakota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/north-dakota/index.ts, src/lib/rcap/state-packs/nevada/controlled-filing-dataset.ts, src/lib/rcap/state-packs/nevada/index.ts, src/lib/rcap/state-packs/missouri/controlled-filing-dataset.ts, src/lib/rcap/state-packs/missouri/index.ts, src/lib/rcap/state-packs/mississippi/controlled-filing-dataset.ts, src/lib/rcap/state-packs/mississippi/index.ts, src/lib/rcap/state-packs/minnesota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/minnesota/index.ts, src/lib/rcap/state-packs/michigan/controlled-filing-dataset.ts, src/lib/rcap/state-packs/michigan/index.ts, src/lib/rcap/state-packs/massachusetts/controlled-filing-dataset.ts, src/lib/rcap/state-packs/massachusetts/index.ts, src/lib/rcap/state-packs/iowa/controlled-filing-dataset.ts, src/lib/rcap/state-packs/iowa/index.ts, src/lib/rcap/state-packs/indiana/controlled-filing-dataset.ts, src/lib/rcap/state-packs/indiana/index.ts, src/lib/rcap/state-packs/hawaii/controlled-filing-dataset.ts, src/lib/rcap/state-packs/hawaii/index.ts, src/lib/rcap/state-packs/florida/controlled-filing-dataset.ts, src/lib/rcap/state-packs/florida/index.ts, src/lib/rcap/state-packs/alabama/controlled-filing-dataset.ts, src/lib/rcap/state-packs/alabama/index.ts, scripts/expungement-ai/phase4/verify-county-court-pipeline.mjs. public-profile-projection reads them: false."
+      },
+      "parityGateBlocksUnapprovedQuestionChanges": {
+        "verdict": "CONFIRMED",
+        "detail": "scripts/verify-expungement-plain-language-values.mjs present=true; approved-delta records=1; Maryland delta present=true; hash pins on the Maryland delta=4."
+      },
+      "rendererCannotOfferControlledPlusManual": {
+        "verdict": "CONFIRMED",
+        "detail": "QuestionField arms: single_choice, yes_no_unsure, yes_no_prefer_not_to_say, multi_select, text, text_or_unknown, number_or_range, date_or_unknown. No arm combines a controlled option list with a separate manual free-text value."
+      },
+      "noShardClaimedALiveSelector": {
+        "verdict": "CONFIRMED",
+        "detail": "{\"SHARD-1\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-2\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-3\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-4\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-5\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-6\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false}}"
+      }
+    },
+    "census": {
+      "jurisdictions": 52,
+      "datasetsPresent": 17,
+      "datasetsCarryingAtLeastOneOption": 16,
+      "datasetsPreparedButEmpty": 1,
+      "jurisdictionsWithNoDatasetAtAll": 35
+    }
+  },
+  "globalIssues": {
+    "registered": 25,
+    "CLOSED_BY_PHASE2": 6,
+    "STILL_REPRODUCIBLE": 6,
+    "SUPERSEDED": 0,
+    "ENVIRONMENT_BLOCKED": 12,
+    "LEGAL_OWNER_DECISION_REQUIRED": 1
+  },
+  "verdicts": {
+    "manifestRows": 625,
+    "realParticipantFlows": 356,
+    "syntheticProbeFlows": 269,
+    "jurisdictions": 52,
+    "duplicateFlowIds": 0,
+    "duplicateRealFlowKeys": 0,
+    "verdicts": {
+      "APPROVED": 168,
+      "CORRECTION_REQUIRED": 189,
+      "LEGAL_OWNER_DECISION_REQUIRED": 258,
+      "ENVIRONMENT_BLOCKED": 10
+    },
+    "verdictsOnRealFlows": {
+      "CORRECTION_REQUIRED": 183,
+      "LEGAL_OWNER_DECISION_REQUIRED": 157,
+      "APPROVED": 12,
+      "ENVIRONMENT_BLOCKED": 4
+    },
+    "purchasableRowsApproved": 0,
+    "p0RiskRowsRecommendedActive": 0
+  },
+  "deterministicGate": {
+    "checks": [
+      {
+        "id": "G-01",
+        "requirement": "one verdict per manifest flow",
+        "observed": "625 rows, verdict sum 625",
+        "pass": true
+      },
+      {
+        "id": "G-02",
+        "requirement": "51 jurisdictions",
+        "observed": "51 registered jurisdictions; the manifest additionally carries one unregistered synthetic probe jurisdiction",
+        "pass": true
+      },
+      {
+        "id": "G-03",
+        "requirement": "no missing real state/remedy path",
+        "observed": "0 missing real flow keys, 0 lost state/remedy pairs",
+        "pass": true
+      },
+      {
+        "id": "G-04",
+        "requirement": "zero duplicate real flow keys",
+        "observed": "0 duplicate real flow keys, 0 duplicate flow ids",
+        "pass": true
+      },
+      {
+        "id": "G-05",
+        "requirement": "zero unexplained eligibility changes",
+        "observed": "0 eligibility changes across 356 real flows",
+        "pass": true
+      },
+      {
+        "id": "G-06",
+        "requirement": "zero unexplained packet-family changes",
+        "observed": "0",
+        "pass": true
+      },
+      {
+        "id": "G-07",
+        "requirement": "zero unexplained form-set changes",
+        "observed": "0",
+        "pass": true
+      },
+      {
+        "id": "G-08",
+        "requirement": "unsupported/referral routes remain non-purchasable",
+        "observed": "0 purchasable unsupported routes",
+        "pass": true
+      },
+      {
+        "id": "G-09",
+        "requirement": "paid/sponsored treatment unchanged except reviewed corrections",
+        "observed": "0 payment-mode changes, 0 sponsorship-mode changes",
+        "pass": true
+      },
+      {
+        "id": "G-10",
+        "requirement": "282 fallback dispositions represented exactly once",
+        "observed": "282 routes, 0 duplicates, {\"HELD_FOR_CORRECTION\":25,\"LEGAL_OWNER_DECISION_REQUIRED\":170,\"EXPLICIT_CONDITIONAL_BINDING_PROPOSED\":12,\"EXPLICIT_BINDING_PROPOSED\":75}",
+        "pass": true
+      },
+      {
+        "id": "G-11",
+        "requirement": "all seven P0 hold entries retained",
+        "observed": "7 entries: HI:dui-under-21-conviction; HI:first-time-drug-conviction; NV:general-conviction-record-sealing; LA:affected five-year clean-period route; MO:marijuana-expungement; PA:routes capable of selecting wait-05; CA:affected routes",
+        "pass": true
+      },
+      {
+        "id": "G-12",
+        "requirement": "no implementation-path diff during review",
+        "observed": "git status over src/ and public/ is empty at the end of this pass; the only untracked paths are data/expungement-ai/flow-audit/phase4/ and scripts/expungement-ai/phase4/",
+        "pass": true
+      },
+      {
+        "id": "G-13",
+        "requirement": "git diff --check clean",
+        "observed": "no whitespace errors (FA-18 PASS at the candidate and at the base)",
+        "pass": true
+      },
+      {
+        "id": "G-14",
+        "requirement": "no raw review-value leak proven in reachable tests",
+        "observed": "scripts/verify-expungement-plain-language-values.mjs passes: option value arrays, question order, stages, required flags and contextOnly flags match main. Whether the rendered accuracy page leaks a raw snake_case value (EXPAI-FA-010) is a browser assertion and is ENVIRONMENT_BLOCKED, not proven absent.",
+        "pass": true,
+        "qualified": true
+      },
+      {
+        "id": "G-15",
+        "requirement": "no unsupported route approved as purchasable",
+        "observed": "0 purchasable rows carry APPROVED",
+        "pass": true
+      },
+      {
+        "id": "G-16",
+        "requirement": "no P0-risk route recommended active",
+        "observed": "0 P0-risk rows recommended active",
+        "pass": true
+      }
+    ],
+    "passing": 16,
+    "failing": []
+  },
+  "environmentBlocked": {
+    "browser": "ENVIRONMENT_BLOCKED — Playwright 1.60.0 resolves chromium v1223; only chromium-1194 is installed. Confirmed once, not retried.",
+    "paid": "ENVIRONMENT_BLOCKED — no Stripe credentials, no staging Supabase, no Preview. No payment call was made.",
+    "sponsored": "ENVIRONMENT_BLOCKED — sponsorship is a server-side session property; exercising it needs an authenticated staging session.",
+    "discount": "ENVIRONMENT_BLOCKED — no checkout surface reachable.",
+    "duplicatePaymentAndEntitlement": "ENVIRONMENT_BLOCKED — needs a staging Supabase project carrying migrations 49-54; ENV-007 records that as queued and not authorized.",
+    "saveResume": "ENVIRONMENT_BLOCKED — needs an authenticated Briefcase.",
+    "privacyAndCrossUser": "ENVIRONMENT_BLOCKED — needs at least two synthetic authenticated users; fixture creation was neither attempted nor authorized.",
+    "mobile": "ENVIRONMENT_BLOCKED — needs a browser.",
+    "legacyLoop": "ENVIRONMENT_BLOCKED — EXPAI-FA-001 needs a saved matter with paymentAllowed=false in an authenticated Briefcase.",
+    "staticEvidenceRule": "No static or self-signed artifact in this repository is represented here as a Stripe-delivered test-webhook result."
+  },
+  "correctionPackets": [
+    {
+      "id": "CP-01",
+      "title": "P0 legal and premature-payment risks",
+      "owner": "Expungement.ai legal-logic owner with counsel sign-off",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-02",
+      "title": "Explicit waiting-rule bindings ready for application",
+      "owner": "Expungement.ai legal-logic owner",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-03",
+      "title": "Conditional bindings requiring a new fact or condition",
+      "owner": "Expungement.ai legal-logic owner with product review of the new question",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-04",
+      "title": "Duration-extraction defects in committed bindings",
+      "owner": "Expungement.ai source-compilation owner",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-05",
+      "title": "Legal-owner decisions",
+      "owner": "Counsel",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-06",
+      "title": "State-source reconstruction, including Indiana",
+      "owner": "Expungement.ai source-compilation owner",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-07",
+      "title": "County and court shared pipeline",
+      "owner": "Phase 2 shared-product owner (renderer, projection and parity gate) with the dataset owner",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-08",
+      "title": "Shared evaluator defects, including route-irrelevant ambiguity",
+      "owner": "Phase 2 shared-product owner",
+      "blocksRollout": true
+    },
+    {
+      "id": "CP-09",
+      "title": "Stale worker and reachability evidence",
+      "owner": "RCAP worker-publication owner and the flow-audit artifact owner",
+      "blocksRollout": false
+    },
+    {
+      "id": "CP-10",
+      "title": "Hosted environment, browser, payment and sponsorship acceptance",
+      "owner": "Roger, as the only party who can authorize a staging environment",
+      "blocksRollout": true
+    }
+  ],
+  "readyForControlledRollout": false,
+  "readyForControlledRolloutReason": "Nine of the ten correction packets block rollout. 189 manifest rows carry CORRECTION_REQUIRED and 258 carry LEGAL_OWNER_DECISION_REQUIRED. Fourteen routes take payment before their waiting period can be satisfied and five take it while the participant says the case is still open. The formal exit gate's paid, sponsored, discount, duplicate-payment, privacy and cross-user cases are ENVIRONMENT_BLOCKED and are not claimed as approved.",
+  "safeNextAction": "Authorize the staging environment named in CP-10 (Preview, staging Supabase with migrations 49-54, synthetic users, a chromium-1223 install) so the hosted half of the exit gate can run at all, and in parallel hand CP-01 and CP-08 to the shared-product and legal-logic owners. Neither depends on the other, and neither is Phase 4's to implement.",
+  "evidenceIndex": [
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/binding-integrity.json",
+      "bytes": 51630,
+      "sha256": "c4ee9b7615f2b937987840b6fdf028baa8988cbfe54e9d55344486a0ea6a521f"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/correction-packets.json",
+      "bytes": 93125,
+      "sha256": "9c7f6b4ab7f6acf03224d98a9a109153be6eca844795e5f2777c638a2bc645b3"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/county-court-verification.json",
+      "bytes": 13782,
+      "sha256": "7c6acf6bb7ab033d417b7a6299614a3063c34468269ec1ed045cf64f01884e28"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/cross-state-ambiguity.json",
+      "bytes": 238358,
+      "sha256": "3a823d392af904e8c407d5720c712695f5862e1d2e9c1e7928d522e567fbfce0"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/flow-continuity.json",
+      "bytes": 1102,
+      "sha256": "b4d28cc216c2ac6e397560918494bf221c29752fad552ff54a070d64cb6ad14f"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/global-issue-reconciliation.json",
+      "bytes": 23163,
+      "sha256": "15e8c3c12042c834cb7f2d210798d86a2eae6b970567fb7390d42cb0b5915e25"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/p0-pinned-reproduction.json",
+      "bytes": 26129,
+      "sha256": "1f113a8cc474e667b66b8d65d7debbb712e63b130318e4f5791bd1db4f126631"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/p0-reproduction.json",
+      "bytes": 42701,
+      "sha256": "9363fd61e6149a6d4f9afbbb11996c8a476922bbe5852eef2a4922121d52786c"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/route-irrelevant-ambiguity.json",
+      "bytes": 12246,
+      "sha256": "41d3f079fc4089ebae76f5a011f4eeff696660c4809d24aee6fb6a0855a935fc"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/timing-gate-sweep.json",
+      "bytes": 964056,
+      "sha256": "b2a76f3525cf0ce98f85b0d3214faaea7dad18603c1c28decd3f83a2e0215511"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/verdict-matrix.json",
+      "bytes": 761780,
+      "sha256": "bab215677471810d65a0fd3b7eb32195802de8c933ba3df97e159d4544358a72"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/verifier-output/verify-flow-audit-candidate.txt",
+      "bytes": 5445,
+      "sha256": "8b97028bf091d3cffe22e3cd89898feb9f98ab8a2c60aac159bf6baaa5e38786"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/verifier-output/verify-flow-audit-phase2-base-after-regeneration.txt",
+      "bytes": 5444,
+      "sha256": "aac32d0154219bd3e65631fdff75243543a6f968765f1ca3bd86e89ca01169a8"
+    },
+    {
+      "path": "data/expungement-ai/flow-audit/phase4/verifier-output/verify-flow-audit-phase2-base-committed.txt",
+      "bytes": 5330,
+      "sha256": "a64af663211b7f418e2646da1713b90a88443320e6f38874e28b5f9519e18e62"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/build-correction-packets.mjs",
+      "bytes": 25935,
+      "sha256": "963d887f2928d992808c98d6c96f005b47f47d04760a290066115964be804e19"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/build-verdict-matrix.mjs",
+      "bytes": 14164,
+      "sha256": "36b83df994ecb341e5eb7eb3c79952c8f165a84ed93736dd68a16700d061ef75"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/build-verification-record.mjs",
+      "bytes": 13164,
+      "sha256": "0e44a134048934506591bed72295051dd48bf4d3288bb1dc881120c95cf5d79c"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/reconcile-global-issues.mjs",
+      "bytes": 12105,
+      "sha256": "3b8a2baf974cae69e56b01a2aa831db1429ba37fe8e32cfc4eb283bc6f886041"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/reproduce-cross-state-ambiguity.mjs",
+      "bytes": 4431,
+      "sha256": "44f047bc3c1fd2cfe9f7b36e2c504e17621f85b0297ca06f234c6481b8262548"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/reproduce-p0-holds.mjs",
+      "bytes": 8610,
+      "sha256": "9aae0f2f1e47d2c16ae17fef70f20edf2e46ddd38af9859a381db0dbd5d3b950"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/reproduce-p0-pinned.mjs",
+      "bytes": 5187,
+      "sha256": "a8c22072626472e25c82e83175b9fca9d301a4a43cab1cc049ce9595d556f943"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/reproduce-route-irrelevant-ambiguity.mjs",
+      "bytes": 4100,
+      "sha256": "05c6ad504287cd4a7bbbde9f9a450c12258a0bbe9aebfb02dd9b37a3178afda9"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/sweep-timing-gate.mjs",
+      "bytes": 5871,
+      "sha256": "d9baa08a30caa71e40286d326a3a0ad0d767357915eda27f2d81cbbe17260632"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/verify-committed-bindings.mjs",
+      "bytes": 8303,
+      "sha256": "13c3046c9e08265b42fbdcd5d129daaecfe09871980138b1c9a1d113b8ef17b6"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/verify-county-court-pipeline.mjs",
+      "bytes": 7123,
+      "sha256": "7785c3d0742c315f7d261ba7df3d2e5a389641ad369b5ccc9cf3532e88a3f3db"
+    },
+    {
+      "path": "scripts/expungement-ai/phase4/verify-flow-continuity.mjs",
+      "bytes": 5061,
+      "sha256": "f443a7267a78d246faa909599aed3687579deb9c908f3cc6336d38ff579d6399"
+    }
+  ]
+}

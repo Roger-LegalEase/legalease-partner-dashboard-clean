@@ -1,0 +1,451 @@
+{
+  "schemaVersion": "expai-phase4-county-court-verification/v1",
+  "candidateSha": "86e0cd0a1305d8d22f7fded86a5a63848bf75690",
+  "claims": {
+    "sourceBackedDatasetsExist": {
+      "verdict": "CONFIRMED_PARTIAL",
+      "detail": "17 of 52 jurisdictions carry a controlled-filing dataset; 16 carry at least one option; 1 are prepared but empty for a recorded source gap."
+    },
+    "stateProfileEditsDoNotReachTheServedProfile": {
+      "verdict": "CONFIRMED",
+      "detail": "Files referencing the binding or dataset: src/lib/rcap/state-packs/virginia/controlled-filing-dataset.ts, src/lib/rcap/state-packs/virginia/index.ts, src/lib/rcap/state-packs/texas/controlled-filing-dataset.ts, src/lib/rcap/state-packs/texas/index.ts, src/lib/rcap/state-packs/south-carolina/controlled-filing-dataset.ts, src/lib/rcap/state-packs/south-carolina/index.ts, src/lib/rcap/state-packs/rhode-island/controlled-filing-dataset.ts, src/lib/rcap/state-packs/rhode-island/index.ts, src/lib/rcap/state-packs/oklahoma/controlled-filing-dataset.ts, src/lib/rcap/state-packs/oklahoma/index.ts, src/lib/rcap/state-packs/north-dakota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/north-dakota/index.ts, src/lib/rcap/state-packs/nevada/controlled-filing-dataset.ts, src/lib/rcap/state-packs/nevada/index.ts, src/lib/rcap/state-packs/missouri/controlled-filing-dataset.ts, src/lib/rcap/state-packs/missouri/index.ts, src/lib/rcap/state-packs/mississippi/controlled-filing-dataset.ts, src/lib/rcap/state-packs/mississippi/index.ts, src/lib/rcap/state-packs/minnesota/controlled-filing-dataset.ts, src/lib/rcap/state-packs/minnesota/index.ts, src/lib/rcap/state-packs/michigan/controlled-filing-dataset.ts, src/lib/rcap/state-packs/michigan/index.ts, src/lib/rcap/state-packs/massachusetts/controlled-filing-dataset.ts, src/lib/rcap/state-packs/massachusetts/index.ts, src/lib/rcap/state-packs/iowa/controlled-filing-dataset.ts, src/lib/rcap/state-packs/iowa/index.ts, src/lib/rcap/state-packs/indiana/controlled-filing-dataset.ts, src/lib/rcap/state-packs/indiana/index.ts, src/lib/rcap/state-packs/hawaii/controlled-filing-dataset.ts, src/lib/rcap/state-packs/hawaii/index.ts, src/lib/rcap/state-packs/florida/controlled-filing-dataset.ts, src/lib/rcap/state-packs/florida/index.ts, src/lib/rcap/state-packs/alabama/controlled-filing-dataset.ts, src/lib/rcap/state-packs/alabama/index.ts, scripts/expungement-ai/phase4/verify-county-court-pipeline.mjs. public-profile-projection reads them: false."
+    },
+    "parityGateBlocksUnapprovedQuestionChanges": {
+      "verdict": "CONFIRMED",
+      "detail": "scripts/verify-expungement-plain-language-values.mjs present=true; approved-delta records=1; Maryland delta present=true; hash pins on the Maryland delta=4."
+    },
+    "rendererCannotOfferControlledPlusManual": {
+      "verdict": "CONFIRMED",
+      "detail": "QuestionField arms: single_choice, yes_no_unsure, yes_no_prefer_not_to_say, multi_select, text, text_or_unknown, number_or_range, date_or_unknown. No arm combines a controlled option list with a separate manual free-text value."
+    },
+    "noShardClaimedALiveSelector": {
+      "verdict": "CONFIRMED",
+      "detail": "{\"SHARD-1\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-2\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-3\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-4\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-5\":{\"declaresSharedPhase2Blocker\":true,\"claimsLiveSelector\":false,\"saysNotConsumed\":false},\"SHARD-6\":{\"declaresSharedPhase2Blocker\":false,\"claimsLiveSelector\":false,\"saysNotConsumed\":false}}"
+    }
+  },
+  "perJurisdiction": {
+    "AL": {
+      "pack": "alabama",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "AK": {
+      "pack": "alaska",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "AZ": {
+      "pack": "arizona",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "AR": {
+      "pack": "arkansas",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "CA": {
+      "pack": "california",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "CO": {
+      "pack": "colorado",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "CT": {
+      "pack": "connecticut",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "DC": {
+      "pack": "dc",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "DE": {
+      "pack": "delaware",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "FL": {
+      "pack": "florida",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 3,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "GA": {
+      "pack": "georgia",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "HI": {
+      "pack": "hawaii",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": true
+    },
+    "ID": {
+      "pack": "idaho",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "IL": {
+      "pack": "illinois",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "IN": {
+      "pack": "indiana",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 4,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "IA": {
+      "pack": "iowa",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "KS": {
+      "pack": "kansas",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "KY": {
+      "pack": "kentucky",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "LA": {
+      "pack": "louisiana",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "ME": {
+      "pack": "maine",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MD": {
+      "pack": "maryland",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MA": {
+      "pack": "massachusetts",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 4,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MI": {
+      "pack": "michigan",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "MN": {
+      "pack": "minnesota",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 4,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MS": {
+      "pack": "mississippi",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 7,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MO": {
+      "pack": "missouri",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 4,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "MT": {
+      "pack": "montana",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NE": {
+      "pack": "nebraska",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NV": {
+      "pack": "nevada",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 3,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "NH": {
+      "pack": "new-hampshire",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NJ": {
+      "pack": "new-jersey",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NM": {
+      "pack": "new-mexico",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NY": {
+      "pack": "new-york",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "NC": {
+      "pack": "north-carolina",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "ND": {
+      "pack": "north-dakota",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "OH": {
+      "pack": "ohio",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "OK": {
+      "pack": "oklahoma",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 4,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "OR": {
+      "pack": "oregon",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "PA": {
+      "pack": "pennsylvania",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "RI": {
+      "pack": "rhode-island",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "SC": {
+      "pack": "south-carolina",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 8,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "SD": {
+      "pack": "south-dakota",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "TN": {
+      "pack": "tennessee",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "TX": {
+      "pack": "texas",
+      "datasetPresent": true,
+      "status": "READY_TO_APPLY_BLOCKED_ON_SHARED_LAYER",
+      "courtDestinations": 2,
+      "filingLocations": 1,
+      "sourceGap": false
+    },
+    "TE": {
+      "pack": "texas-harris",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "UT": {
+      "pack": "utah",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "VT": {
+      "pack": "vermont",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "VA": {
+      "pack": "virginia",
+      "datasetPresent": true,
+      "status": null,
+      "courtDestinations": 3,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "WA": {
+      "pack": "washington",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "WV": {
+      "pack": "west-virginia",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "WI": {
+      "pack": "wisconsin",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    },
+    "WY": {
+      "pack": "wyoming",
+      "datasetPresent": false,
+      "status": null,
+      "courtDestinations": 0,
+      "filingLocations": 0,
+      "sourceGap": false
+    }
+  },
+  "totals": {
+    "jurisdictions": 52,
+    "datasetsPresent": 17,
+    "datasetsCarryingAtLeastOneOption": 16,
+    "datasetsPreparedButEmpty": 1,
+    "jurisdictionsWithNoDatasetAtAll": 35
+  }
+}

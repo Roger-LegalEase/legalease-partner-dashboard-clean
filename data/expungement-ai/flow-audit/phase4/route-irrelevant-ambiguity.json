@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "expai-phase4-route-irrelevant-ambiguity/v1",
+  "candidateSha": "86e0cd0a1305d8d22f7fded86a5a63848bf75690",
+  "defect": "src/lib/rcap-engine/evaluator.ts ambiguityReason() filters by lifecycle phase and contextOnly, never by the selected pathway.",
+  "totals": {
+    "jurisdictionsWithRouteScopedQuestions": 5,
+    "questionsTested": 16,
+    "questionsThatBlockUnrelatedRoutes": 5
+  },
+  "jurisdictions": {
+    "CA": {
+      "routeScopedQuestionIds": [
+        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_lesser_or_no_offense",
+        "ca_prop64_branch",
+        "ca_prop64_relief_requested"
+      ],
+      "rows": [
+        {
+          "questionId": "ca_prop64_qualifying_marijuana_offense",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "tool-1-dismissal-set-aside",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "packet_ready_with_caution",
+            "paymentAllowed": true
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": true
+        },
+        {
+          "questionId": "ca_prop64_lesser_or_no_offense",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "tool-1-dismissal-set-aside",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "packet_ready_with_caution",
+            "paymentAllowed": true
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": true
+        },
+        {
+          "questionId": "ca_prop64_branch",
+          "questionType": "text_or_unknown",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "unknown",
+          "routeUnderTest": "tool-1-dismissal-set-aside",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "packet_ready_with_caution",
+            "paymentAllowed": true
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": true
+        },
+        {
+          "questionId": "ca_prop64_relief_requested",
+          "questionType": "text_or_unknown",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "unknown",
+          "routeUnderTest": "tool-1-dismissal-set-aside",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "packet_ready_with_caution",
+            "paymentAllowed": true
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": true
+        }
+      ]
+    },
+    "WI": {
+      "routeScopedQuestionIds": [
+        "wi_expungement_ordered_at_sentencing",
+        "wi_no_probation_jail_prison"
+      ],
+      "rows": [
+        {
+          "questionId": "wi_expungement_ordered_at_sentencing",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "adult-non-conviction-arrest-only-record-correction-or-removal",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "wi_no_probation_jail_prison",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "adult-non-conviction-arrest-only-record-correction-or-removal",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        }
+      ]
+    },
+    "HI": {
+      "routeScopedQuestionIds": [
+        "hi_court_order_confirmed"
+      ],
+      "rows": [
+        {
+          "questionId": "hi_court_order_confirmed",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "nonconviction-arrest-expungement",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "packet_ready_with_caution",
+            "paymentAllowed": true
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": true
+        }
+      ]
+    },
+    "NY": {
+      "routeScopedQuestionIds": [
+        "ny_16059_total_eligible_convictions",
+        "ny_16059_felony_convictions",
+        "ny_16059_ineligible_offense",
+        "ny_16059_sex_offender_registration",
+        "ny_16059_pending_charge",
+        "ny_16059_post_last_conviction_crime",
+        "ny_16059_prior_sealing",
+        "ny_16058_treatment_program_completed"
+      ],
+      "rows": [
+        {
+          "questionId": "ny_16059_total_eligible_convictions",
+          "questionType": "number_or_range",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "unknown",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_felony_convictions",
+          "questionType": "number_or_range",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "unknown",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_ineligible_offense",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_sex_offender_registration",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_pending_charge",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_post_last_conviction_crime",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16059_prior_sealing",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        },
+        {
+          "questionId": "ny_16058_treatment_program_completed",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "guidance_only",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        }
+      ]
+    },
+    "IN": {
+      "routeScopedQuestionIds": [
+        "in_prosecutor_consent_confirmed"
+      ],
+      "rows": [
+        {
+          "questionId": "in_prosecutor_consent_confirmed",
+          "questionType": "yes_no_unsure",
+          "required": false,
+          "contextOnly": false,
+          "unknownAnswerUsed": "I'm not sure",
+          "routeUnderTest": "non-conviction-arrest-or-criminal-charge-expungement",
+          "questionBelongsToRouteUnderTest": false,
+          "baseline": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false
+          },
+          "withUnknown": {
+            "resultCode": "needs_review",
+            "paymentAllowed": false,
+            "reasonCode": null
+          },
+          "blocksAnUnrelatedRoute": false
+        }
+      ]
+    }
+  }
+}
