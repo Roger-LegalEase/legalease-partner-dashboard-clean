@@ -6,24 +6,27 @@ Read-only. Nothing in this branch was executed: no hosted workflow run, no migra
 |---|---|
 | Base SHA (`origin/main`) | `dd93579871962260b12918e54c44cf9bf1e81529` |
 | Prior hardening SHA | `360d341e8b9ad9e7266e855252d0c6b774890415` |
-| Correction commit | `6355d1ae3acd1c1c79ce5cb99d3c74a2a35fa5d6` |
+| Prior head (Stripe boundary) | `b1412a0260ee73bc8034fe944b35faa99fc21dbc` |
+| Correction commit | `fe250b9862022349abe6a378ac957bda53cce9b1` |
 | New head SHA | this packet's own commit, the immediate child of the correction commit — `git log --oneline -2` on the branch shows both |
 | Branch | `claude/rcap-acceptance-workflow-hardening` |
 | Frozen audit packet commit | `00212d529e82a2a2a90b172b29268922feecfcbd` (branch not written) |
 
 ## Files changed
 
-### This patch (prior hardening → head)
+### This patch (prior head → correction commit)
 
 | | |
 |---|---|
 | `M` | `.github/workflows/rcap-f1-ephemeral-staging.yml` |
+| `M` | `.github/workflows/rcap-github-hosted-acceptance.yml` |
 | `M` | `.github/workflows/rcap-hosted-acceptance-staging.yml` |
-| `A` | `data/rcap-render/phase-boundary-matrices.json` |
+| `M` | `data/rcap-render/phase-boundary-matrices.json` |
 | `M` | `data/rcap-render/workflow-hardening-verification.json` |
 | `M` | `docs/rcap/ENV-007-workflow-hardening-report.md` |
-| `A` | `scripts/build-env007-reviewer-packet.mjs` |
-| `A` | `scripts/rcap-phase-boundary-matrix.mjs` |
+| `M` | `scripts/build-env007-reviewer-packet.mjs` |
+| `M` | `scripts/rcap-phase-boundary-matrix.mjs` |
+| `A` | `scripts/rcap-stamp-payment-exercised.mjs` |
 | `M` | `scripts/verify-rcap-acceptance-workflow-hardening.mjs` |
 
 ### Whole branch (base → head)
@@ -31,12 +34,14 @@ Read-only. Nothing in this branch was executed: no hosted workflow run, no migra
 | | |
 |---|---|
 | `M` | `.github/workflows/rcap-f1-ephemeral-staging.yml` |
+| `M` | `.github/workflows/rcap-github-hosted-acceptance.yml` |
 | `M` | `.github/workflows/rcap-hosted-acceptance-staging.yml` |
 | `A` | `data/rcap-acceptance-migration-manifest.json` |
 | `A` | `data/rcap-render/audit-surface-equivalence.json` |
 | `A` | `data/rcap-render/phase-boundary-matrices.json` |
 | `A` | `data/rcap-render/worker-authority-reconciliation.json` |
 | `A` | `data/rcap-render/workflow-hardening-verification.json` |
+| `A` | `docs/rcap/ENV-007-reviewer-packet.md` |
 | `A` | `docs/rcap/ENV-007-workflow-hardening-report.md` |
 | `A` | `scripts/build-env007-reviewer-packet.mjs` |
 | `A` | `scripts/lib/rcap-acceptance-schema-snapshot.mjs` |
@@ -45,6 +50,7 @@ Read-only. Nothing in this branch was executed: no hosted workflow run, no migra
 | `M` | `scripts/rcap-hosted-acceptance-deploy.mjs` |
 | `M` | `scripts/rcap-hosted-acceptance-migrate.mjs` |
 | `A` | `scripts/rcap-phase-boundary-matrix.mjs` |
+| `A` | `scripts/rcap-stamp-payment-exercised.mjs` |
 | `A` | `scripts/rcap-worker-authority-reconcile.mjs` |
 | `A` | `scripts/verify-rcap-acceptance-workflow-hardening.mjs` |
 
@@ -54,54 +60,108 @@ Read-only. Nothing in this branch was executed: no hosted workflow run, no migra
 |---|---|---|
 | `hosted_preflight` | `readonly_probe` | `(none — read-only)` |
 | `hosted_vercel_audit` | `readonly_probe` | `(none — read-only)` |
+| `hosted_environment_probe` | `hosted_write` | `rcap-acceptance` |
 | `hosted_migrate` | `hosted_write` | `rcap-acceptance` |
 | `hosted_deploy` | `hosted_write` | `rcap-acceptance` |
 | `hosted_accept` | `hosted_write` | `rcap-acceptance` |
-| `hosted_full` | `hosted_write` | `rcap-acceptance` |
-| `hosted_checkout_gate` | `hosted_write` | `rcap-acceptance` |
+| `hosted_full_nonpayment` | `hosted_write` | `rcap-acceptance` |
+| `hosted_checkout_pinning` | `hosted_write` | `rcap-acceptance` |
 | `hosted_worker_contract` | `hosted_write` | `rcap-acceptance` |
+| `hosted_payment_environment_probe` | `hosted_write` → `hosted_payment` | `rcap-acceptance` + `rcap-acceptance-payment` |
 | `hosted_payment` | `hosted_write` → `hosted_payment` | `rcap-acceptance` + `rcap-acceptance-payment` |
 
-## Workflow phase → secret
+## Environment-variable sentinel matrix
+
+Environment-scoped variables, not secrets. A GitHub Environment created implicitly by a workflow naming one that does not exist carries neither, so an empty value is the signal.
+
+| Job | Environment | `RCAP_ENVIRONMENT_ID` | `RCAP_ENVIRONMENT_CLASS` | Failure code |
+|---|---|---|---|---|
+| `readonly_probe` | none | — | — | *(no sentinel; read-only job)* |
+| `hosted_write` | `rcap-acceptance` | `rcap-acceptance-v1` | `nonproduction-acceptance` | `ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID` |
+| `hosted_payment` | `rcap-acceptance-payment` | `rcap-acceptance-payment-v1` | `nonproduction-acceptance-payment` | `PAYMENT_ENVIRONMENT_IDENTITY_INVALID` |
+
+| Phase | Sentinels asserted |
+|---|---|
+| `hosted_preflight` | none (read-only job) |
+| `hosted_vercel_audit` | none (read-only job) |
+| `hosted_environment_probe` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_migrate` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_deploy` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_accept` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_full_nonpayment` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_checkout_pinning` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_worker_contract` | `hosted_write` → `rcap-acceptance-v1` |
+| `hosted_payment_environment_probe` | `hosted_write` → `rcap-acceptance-v1`, `hosted_payment` → `rcap-acceptance-payment-v1` |
+| `hosted_payment` | `hosted_write` → `rcap-acceptance-v1`, `hosted_payment` → `rcap-acceptance-payment-v1` |
+
+## Secret-access matrix
 
 Secrets the job serving that phase can even *reference*. A phase cannot use a secret whose expression does not exist in its job.
 
-| Phase | Referencable secrets | Holds Stripe test secrets |
-|---|---|---|
-| `hosted_preflight` | `SUPABASE_ACCESS_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_vercel_audit` | `SUPABASE_ACCESS_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_migrate` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_deploy` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_accept` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_full` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_checkout_gate` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_worker_contract` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | no |
-| `hosted_payment` | `GITHUB_TOKEN`, `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | **YES** |
+| Phase | Referencable secrets | `STRIPE_SECRET_ACCESS` | `STRIPE_TRANSACTION` |
+|---|---|---|---|
+| `hosted_preflight` | `SUPABASE_ACCESS_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_vercel_audit` | `SUPABASE_ACCESS_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_environment_probe` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_migrate` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_deploy` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_accept` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_full_nonpayment` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_checkout_pinning` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_worker_contract` | `GITHUB_TOKEN`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | false | false |
+| `hosted_payment_environment_probe` | `GITHUB_TOKEN`, `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | **true** | false |
+| `hosted_payment` | `GITHUB_TOKEN`, `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`, `SUPABASE_ACCESS_TOKEN`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_TOKEN` | **true** | **true** |
 
-## Workflow phase → external write
+Secret access and transaction authority are separate columns: `payment_environment_probe` holds the key and cannot spend it. Every transacting step in the payment job is gated on `stripe_transaction`, not on membership of the job.
 
-| Phase | Supabase schema | Supabase Auth config | Vercel Preview | Vercel **Production** | Registry pull | Stripe API call | Creates Checkout Session | Consumes payment webhook |
-|---|---|---|---|---|---|---|---|---|
-| `hosted_preflight` | no | no | no | **no** | no | no | no | no |
-| `hosted_vercel_audit` | no | no | no | **no** | no | no | no | no |
-| `hosted_migrate` | yes | no | no | **no** | no | no | no | no |
-| `hosted_deploy` | no | no | yes | **no** | no | no | no | no |
-| `hosted_accept` | no | yes | no | **no** | yes | no | no | no |
-| `hosted_full` | yes | yes | yes | **no** | yes | no | no | no |
-| `hosted_checkout_gate` | no | no | no | **no** | no | no | no | no |
-| `hosted_worker_contract` | no | no | no | **no** | yes | no | no | no |
-| `hosted_payment` | yes | yes | yes | **no** | yes | **YES** | **YES** | **YES** |
+## External-transaction matrix
+
+| Phase | Any external request | Supabase schema | Supabase Auth | Vercel Preview | Vercel **Production** | Registry pull | Stripe API | Checkout Session | Payment webhook | `PAYMENT_EXERCISED` |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `hosted_preflight` | no | no | no | no | **no** | no | no | no | no | false |
+| `hosted_vercel_audit` | no | no | no | no | **no** | no | no | no | no | false |
+| `hosted_environment_probe` | no | no | no | no | **no** | no | no | no | no | false |
+| `hosted_migrate` | yes | yes | no | no | **no** | no | no | no | no | false |
+| `hosted_deploy` | yes | no | no | yes | **no** | no | no | no | no | false |
+| `hosted_accept` | yes | no | yes | no | **no** | yes | no | no | no | false |
+| `hosted_full_nonpayment` | yes | yes | yes | yes | **no** | yes | no | no | no | false |
+| `hosted_checkout_pinning` | yes | no | no | no | **no** | no | no | no | no | false |
+| `hosted_worker_contract` | yes | no | no | no | **no** | yes | no | no | no | false |
+| `hosted_payment_environment_probe` | no | no | no | no | **no** | no | no | no | no | false |
+| `hosted_payment` | yes | yes | yes | yes | **no** | yes | **YES** | **YES** | **YES** | **true** |
 
 Invariants, derived and asserted:
 
-- `onlyPaymentPhaseHoldsStripeSecrets` — **true**
+- `onlyPaymentJobHoldsStripeSecretExpressions` — **true**
+- `stripeSecretAccessIsExactlyPaymentAndItsProbe` — **true**
+- `onlyPaymentPhaseTransacts` — **true**
+- `transactionImpliesSecretAccess` — **true**
 - `onlyPaymentPhaseCallsStripe` — **true**
 - `onlyPaymentPhaseCreatesACheckoutSession` — **true**
+- `onlyPaymentPhaseExercisesPayment` — **true**
+- `probePhasesMakeNoExternalRequest` — **true**
+- `everyProtectedJobAssertsItsSentinel` — **true**
 - `noPhaseWritesVercelProduction` — **true**
+
+## Retired and renamed paths
+
+| Value | Status | Refused where | Replacement |
+|---|---|---|---|
+| `github_acceptance` | **retired** | F1 `retired_path_refusal` job; `legacy_refusal` step 2 of both protected jobs; the retired workflow's own first step | `hosted_payment` |
+| `hosted_full` / phase `full` | **renamed, refused alias** | F1 `retired_path_refusal`; `legacy_refusal` in `hosted_write` | `hosted_full_nonpayment` |
+| `hosted_checkout_gate` / phase `checkout_gate` | **renamed, refused alias** | F1 `retired_path_refusal`; `legacy_refusal` in `hosted_write` | `hosted_checkout_pinning` (static) or `hosted_payment` (real Session) |
+
+Every refusal happens before any secret is read. `github_acceptance` prints `GITHUB_ACCEPTANCE_RETIRED` and `Use hosted_payment for payment-producing acceptance.` No workflow references `rcap-github-hosted-acceptance.yml` in a `uses:`, so it has no caller.
+
+Its unique case — a real, human-completed Sandbox payment against a live tunnel host — is **not** relocated. Route it through `hosted_payment`, whose reuse-only Checkout step prepares one real unpaid Session on a stable Vercel Preview host that a person can pay.
+
+## Immutable-tag execution recommendation
+
+Restrict both environments' deployment rules to an **immutable tag** cut at the reviewed commit rather than to a branch. A branch moves; a tag pinned in the environment rule does not, so "approved for this environment" and "the bytes that were reviewed" stay the same thing. The workflow already pins `application_sha`, `worker_source_sha`, `worker_digest` and `tools_sha` — but those pins live *in the workflow file*, and restricting the environment to a tag is what stops a different workflow file from reaching the same secrets.
 
 ## Tests and results
 
-`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **63/63 passing**, 0 failing. Static and dry-run only: no network, no database, no registry, no deployment.
+`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **82/82 passing**, 0 failing. Static and dry-run only: no network, no database, no registry, no deployment.
 
 | Check | Result |
 |---|---|
@@ -137,8 +197,8 @@ Invariants, derived and asserted:
 | `only_the_payment_phase_may_invoke_a_stripe_transacting_script` | pass |
 | `the_payment_job_is_bound_to_the_payment_phase_and_the_payment_environment` | pass |
 | `hosted_accept_contains_no_payment_matrix` | pass |
-| `hosted_full_cannot_transact` | pass |
-| `hosted_checkout_gate_is_non_transacting` | pass |
+| `hosted_full_nonpayment_cannot_transact` | pass |
+| `hosted_checkout_pinning_is_non_transacting` | pass |
 | `hosted_worker_contract_contains_no_stripe_secret` | pass |
 | `no_non_payment_phase_can_create_a_checkout_session` | pass |
 | `the_stripe_secrets_cannot_be_supplied_from_outside_the_payment_environment` | pass |
@@ -149,6 +209,25 @@ Invariants, derived and asserted:
 | `payment_refuses_an_invalid_webhook_secret` | pass |
 | `the_two_environments_stay_separate_with_no_shared_stripe_secret` | pass |
 | `the_derived_phase_boundary_matrices_hold_every_invariant` | pass |
+| `a_missing_acceptance_marker_refuses_before_checkout_or_external_execution` | pass |
+| `a_wrong_acceptance_marker_refuses` | pass |
+| `a_missing_payment_marker_refuses_before_checkout_or_external_execution` | pass |
+| `a_wrong_payment_marker_refuses` | pass |
+| `an_automatically_created_empty_environment_cannot_reach_a_write` | pass |
+| `hosted_environment_probe_makes_no_external_request` | pass |
+| `the_probe_phases_reach_no_network_step_in_hosted_write` | pass |
+| `hosted_payment_environment_probe_makes_no_external_request` | pass |
+| `the_payment_probe_creates_no_checkout_session` | pass |
+| `secret_access_and_transaction_authority_are_distinct` | pass |
+| `only_hosted_payment_can_access_stripe_secrets` | pass |
+| `only_phase_payment_can_transact` | pass |
+| `github_acceptance_is_absent_from_dispatch_choices_and_callers` | pass |
+| `direct_legacy_github_acceptance_invocation_returns_GITHUB_ACCEPTANCE_RETIRED` | pass |
+| `the_retired_payment_behaviour_was_not_moved_elsewhere` | pass |
+| `misleading_phase_names_are_retired_as_refused_aliases` | pass |
+| `the_static_checkout_verification_cannot_be_mistaken_for_a_session_test` | pass |
+| `every_non_payment_artifact_asserts_PAYMENT_EXERCISED_false` | pass |
+| `the_payment_job_stamps_the_capability_decision_not_a_literal` | pass |
 | `worker_mismatch_blocks_deploy` | pass |
 | `the_worker_authority_is_currently_blocked_and_no_pin_was_changed` | pass |
 | `audit_source_equivalence_failure_blocks_deploy` | pass |
@@ -171,7 +250,7 @@ Invariants, derived and asserted:
 
 Supporting scripts:
 
-- `scripts/rcap-phase-boundary-matrix.mjs` — exit 0, all invariants hold
+- `scripts/rcap-phase-boundary-matrix.mjs` — exit 0, all 10 invariants hold
 - `scripts/rcap-audit-surface-equivalence.mjs` — exit 0, 190/190 audited-surface files identical, 0 differing inside
 - `scripts/rcap-worker-authority-reconcile.mjs` — exit 1, `WORKER_AUTHORITY_BLOCKED` (intended: it is a gate)
 
@@ -203,7 +282,7 @@ Migration manifest hash: `01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8
 
 1. **`ACCEPTANCE_AUTHORIZATION_WITHHELD` — phases 50, 51, 52, 53, 54.** Recorded `queued` for staging in `data/rcap-staging-action.json`; phase 54's is "explicitly withheld by the authorizing instruction". `hosted_migrate` refuses before any write. Roger must record an acceptance authorization for each withheld phase, and the manifest must be regenerated from it.
 2. **`WORKER_AUTHORITY_BLOCKED`.** neither candidate meets every requirement; no pin is changed. No pin was changed. Gates `hosted_deploy`, `hosted_accept`, `hosted_full`, `hosted_checkout_gate`, `hosted_worker_contract` and `hosted_payment`.
-3. **Neither GitHub Environment exists yet.** `rcap-acceptance` and `rcap-acceptance-payment` are declared in the workflow but not created in GitHub Settings, and no secret has been moved. Until they exist, any write-capable phase fails to resolve its environment. The setup checklist is section 4 of `docs/rcap/ENV-007-workflow-hardening-report.md`.
+3. **Neither GitHub Environment exists yet, and neither carries its identity variables.** `rcap-acceptance` and `rcap-acceptance-payment` are declared in the workflow but not created in GitHub Settings, and no secret has been moved. Until they exist, any write-capable phase fails to resolve its environment. The setup checklist is section 4 of `docs/rcap/ENV-007-workflow-hardening-report.md`.
 4. **One assumption the first `hosted_payment` run must confirm.** The Stripe secrets are read from the `rcap-acceptance-payment` environment and are no longer declared as `workflow_call` secrets. Environment secrets are expected to resolve inside a called workflow's job that declares that environment; proving it requires running a hosted workflow, which is out of scope. The `stripe_present` step makes a wrong assumption an explicit refusal naming the environment, never a silent skip.
 5. **The `github_acceptance` fallback now fails closed.** It still references the Stripe secrets, receives none, and exits 1 at its first step. That is the intended consequence of the owner decision, not a regression to fix here — but it means that fallback mode is unavailable until it is either retired or moved behind the payment environment.
 
