@@ -15,6 +15,7 @@ import {
   packetInformationModelFor,
   packetInformationReviewSafety
 } from "@/lib/expungement-ai/packet-information";
+import { CONTACT_PARTS } from "@/lib/expungement-ai/contact-fields";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 export const dynamic = "force-dynamic";
@@ -54,7 +55,10 @@ export default async function PacketAccuracyReviewPage({
           <div className="mt-6 grid gap-5">
             <AnswerSection title="Your information" itemId={item.id} rows={[
               row("Full legal name", "participant_full_legal_name", model.initialAnswers),
-              row("Contact information", "contact_information", model.initialAnswers)
+              // UX-GLOBAL-005 — three facts, three rows, three edit targets.
+              // One row for "contact information" could only ever offer one
+              // edit link into one unvalidated string.
+              ...CONTACT_PARTS.map((part) => row(part.reviewLabel, part.id, model.initialAnswers))
             ]} />
             <AnswerSection title="Case information" itemId={item.id} rows={[
               row("Charge or offense shown on the court record", "charge", model.initialAnswers),
@@ -105,7 +109,7 @@ export default async function PacketAccuracyReviewPage({
               <SummaryLine label="State" value={model.stateName} />
               <SummaryLine label="Record-clearing option" value={model.pathwayLabel} />
               <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before payment is available."} />
-              <SummaryLine label="Price" value="$50 one time for this matter." />
+              <SummaryLine label="Price" value="$50 one time for this matter. No discount or promo codes." />
             </dl>
           </ReviewCard>
 
@@ -156,6 +160,24 @@ export default async function PacketAccuracyReviewPage({
                 ) : (
                   <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm font-semibold">Complete the missing information before payment.</p>
                 )}
+                {/* UX-GLOBAL-009 — the product accepts no discount or promo
+                    code, and the one code-shaped thing it does have is a
+                    partner access code that grants a covered packet on the
+                    partner surface. Before this, a participant holding either
+                    one found no field and no explanation, which reads as a
+                    missing feature rather than a deliberate answer. */}
+                <div className="mt-5 rounded-[12px] bg-white/10 px-4 py-4" data-code-policy="true">
+                  <h3 className="text-sm font-bold">Have a code?</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/75">
+                    We don&apos;t take discount or promo codes for packets. It is $50 for this matter, the same for everyone.
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white/75">
+                    A partner or program code works differently: it covers your packet in full, and it is applied through the link your program gave you before you ever reach this step. A covered matter says so here and is never asked to pay.
+                  </p>
+                  <Link className="mt-3 inline-flex min-h-10 items-center text-sm font-bold text-[#7FE9DE] underline" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
+                    Told your packet is covered? Ask Wilma to check before you pay
+                  </Link>
+                </div>
               </>
             )}
           </div>

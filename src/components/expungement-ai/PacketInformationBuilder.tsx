@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { blocksContinue } from "@/components/expungement-ai/screening/answers";
+import { contactPartError } from "@/lib/expungement-ai/contact-fields";
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 export function PacketInformationBuilder({
@@ -63,6 +64,14 @@ export function PacketInformationBuilder({
   async function continueForward() {
     if (question && blocksContinue(question, answers[question.id])) {
       setFieldError("Please answer this question. You can choose the unsure option when one is available.");
+      return;
+    }
+    // UX-GLOBAL-005 — a phone or email that is not one is caught here, in the
+    // participant's own words, using the same validator the server applies
+    // before payment. An optional field left blank passes.
+    const formatError = question ? contactPartError(question.id, answers[question.id]) : null;
+    if (formatError) {
+      setFieldError(formatError);
       return;
     }
     setFieldError(null);

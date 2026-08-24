@@ -12,6 +12,13 @@ import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/autho
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import { buildCanonicalFactStore, REVIEWED_CONTEXT_FACT_IDS, routeCriticalContextFactIds } from "@/lib/expungement-ai/canonical-facts";
+import {
+  CONTACT_INFORMATION_ID,
+  CONTACT_PARTS,
+  contactPartError,
+  contactPartFor,
+  withComposedContactInformation
+} from "@/lib/expungement-ai/contact-fields";
 import type { CanonicalFactOrigin } from "@/lib/expungement-ai/canonical-facts";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "ready_to_generate";
@@ -105,19 +112,36 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     prefilledAnswers,
     savedAnswers
   });
-  const initialAnswers = canonical.answers;
+  // UX-GLOBAL-005 — the three real contact facts are the participant's; the
+  // composed `contact_information` the packet plans require is derived from
+  // them, and a matter saved before the split is decomposed rather than re-asked.
+  const initialAnswers = withComposedContactInformation(canonical.answers);
 
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
-  const askableQuestion = (id: string): ProfileQuestion => ({
-    ...(questionById.get(id) ?? fallbackPacketQuestion(id)),
-    required: true,
-    contextOnly: false
-  });
+  const askableQuestion = (id: string): ProfileQuestion => {
+    const contactPart = contactPartFor(id);
+    if (contactPart) {
+      return {
+        ...packetQuestion(contactPart.id, contactPart.prompt, "text", contactPart.helperText),
+        required: contactPart.required,
+        contextOnly: false
+      };
+    }
+    return {
+      ...(questionById.get(id) ?? fallbackPacketQuestion(id)),
+      required: true,
+      contextOnly: false
+    };
+  };
 
-  const questionIds = requiredInputIds.filter((id) => !(id in serverFacts));
+  const questionIds = requiredInputIds
+    .filter((id) => !(id in serverFacts))
+    // The packet plan's required input stays `contact_information`; what the
+    // participant is asked are the three facts it is composed from.
+    .flatMap((id) => (id === CONTACT_INFORMATION_ID ? CONTACT_PARTS.map((part) => part.id) : [id]));
   /**
    * A route may declare context facts as payment preconditions. Adding an id
    * here puts it in the packet's question set, which is what the pre-payment
@@ -270,7 +294,14 @@ export function missingRequiredInputs(
   serverFacts: Record<string, AnswerValue>,
   answers: Record<string, AnswerValue>
 ) {
-  return requiredInputIds.filter((id) => !answerIsKnown(serverFacts[id]) && !answerIsKnown(answers[id]));
+  return requiredInputIds
+    // UX-GLOBAL-005 — `contact_information` is composed, so a phone number on
+    // its own would otherwise make it look answered while the required mailing
+    // address is still missing. What is required is the required part.
+    .flatMap((id) => (id === CONTACT_INFORMATION_ID
+      ? CONTACT_PARTS.filter((part) => part.required).map((part) => part.id)
+      : [id]))
+    .filter((id) => !answerIsKnown(serverFacts[id]) && !answerIsKnown(answers[id]));
 }
 
 export function expectedPacketComponents(plan: PacketPlan | null): string[] {
@@ -313,7 +344,7 @@ export function packetInformationPatch(input: {
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
-  const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
+  const mergedAnswers = withComposedContactInformation({ ...current.initialAnswers, ...acceptedAnswers });
   const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
   const review = input.reviewed && missingInputIds.length === 0
     ? packetInformationReviewSafety(input.existingItem, mergedAnswers)
@@ -421,6 +452,12 @@ export function packetInformationReviewSafety(
 }
 
 function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
+  // UX-GLOBAL-005 — an optional packet field is genuinely optional. Before the
+  // contact split every question in this set was required, so this branch was
+  // unreachable; a phone or email left blank must not hold up a packet.
+  const contactError = contactPartError(question.id, value);
+  if (contactError !== null) return { safe: false, reason: `invalid_packet_answer:${question.id}` };
+  if (!question.required && !answerIsKnown(value)) return { safe: true, reason: "optional_packet_field" };
   if (!answerIsKnown(value)) return { safe: false, reason: `invalid_packet_answer:${question.id}` };
   const text = answerText(value);
   if (question.type === "date_or_unknown" && !/^\d{4}-\d{2}-\d{2}$/.test(text)) {
@@ -496,7 +533,7 @@ export function humanAnswerValue(value: unknown): string {
 }
 
 export function answerLabel(id: string) {
-  return FALLBACK_PACKET_QUESTIONS[id]?.prompt ?? id
+  return contactPartFor(id)?.reviewLabel ?? FALLBACK_PACKET_QUESTIONS[id]?.prompt ?? id
     .replaceAll("_", " ")
     .replace(/^./, (first) => first.toUpperCase());
 }
