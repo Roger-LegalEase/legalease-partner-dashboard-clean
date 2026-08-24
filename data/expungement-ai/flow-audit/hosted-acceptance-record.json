@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "expai-hosted-acceptance-record/v1",
+  "recordedBy": "Phase 1B hosted baseline closure",
+  "changesNoProductBehavior": true,
+  "canonical": {
+    "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
+    "branch": "claude/expai-flow-audit-p1",
+    "requiredHead": "8e7580ca509fb078144e64549e00ef6908b3a623",
+    "headResolved": "8e7580ca509fb078144e64549e00ef6908b3a623",
+    "headMatches": true,
+    "productBase": "dd93579871962260b12918e54c44cf9bf1e81529",
+    "productBaseIsAncestorOfBranch": true,
+    "secondWritableAuthority": "none — claude/expai-flow-audit-p1-ftms6d is left at the same commit as a mirror pointer and is not written independently"
+  },
+  "workflowUnderTest": ".github/workflows/rcap-hosted-acceptance-staging.yml",
+  "dispatchEntryPoint": {
+    "workflow": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+    "reason": "The hosted workflow declares `on: workflow_call` only. GitHub lists workflow_dispatch solely for files on the default branch, so the hosted workflow is reached through the F1 workflow's `mode` input and runs as a reusable workflow resolved from the caller's commit.",
+    "modesAvailable": ["hosted_preflight", "hosted_vercel_audit", "hosted_migrate", "hosted_deploy", "hosted_accept", "hosted_checkout_gate", "hosted_payment", "hosted_full", "hosted_worker_contract"]
+  },
+  "preflightConditions": [
+    {
+      "condition": "1. It deploys the Expungement.ai consumer surface required by this audit",
+      "verdict": "proved",
+      "evidence": "The deploy step runs `npm exec vercel` against the whole Next.js application; the workflow's own comment records that the Preview publishes 97 serverless functions. The consumer surface is not a separate deployable, so deploying the application deploys /expungement-ai/**, /briefcase/** and /api/expungement-ai/**."
+    },
+    {
+      "condition": "2. It deploys the exact requested branch SHA",
+      "verdict": "DISPROVED, with a material qualification",
+      "evidence": "The first preflight step refuses any application_sha that is not AUTHORIZED_APPLICATION_SHA = f7ed0ad3a8f37a0c1446b62760b1a36fb163c926. The audit branch head (8e7580ca) and the audited product base (dd93579) are both refused. The qualification: f7ed0ad3 and dd93579 differ on 33 files under src/, and every one of them is a partner-onboarding surface. Every Expungement.ai flow-authority file this audit measures is byte-identical between the two commits, including public-profile-projection.ts, evaluator.ts, compiled/all51.json, screens.ts, packet-information.ts and the Briefcase matter page. Hosted evidence gathered at f7ed0ad3 would therefore be valid for the flow surfaces under audit, and invalid for nothing this audit claims.",
+      "filesDifferingUnderSrc": 33,
+      "flowAuthorityFilesDiffering": 0
+    },
+    {
+      "condition": "3. It uses a non-production Supabase project",
+      "verdict": "proved, and proved by execution rather than by reading",
+      "evidence": "supabase_project_ref is pinned to hyflxnlhpmiqxvvcoiia and any other value is refused. scripts/rcap-hosted-acceptance-preflight.mjs then proves the project is not production three independent ways — identity through the Management API, emptiness of the tables a production LegalEase database necessarily has, and disjointness of the hashed production-target Supabase URL from the hashed acceptance URL. Run 32655814905 executed that step and it concluded success."
+    },
+    {
+      "condition": "4. It can seed synthetic consumer, legacy, sponsored and admin fixtures",
+      "verdict": "proved by inspection, not exercised",
+      "evidence": "The step 'Configure acceptance Auth and create the synthetic identities' runs only when the phase contract sets matrix=true (accept, payment, full). It creates GoTrue identities through POST /auth/v1/admin/users with the service key. It did not run in either Phase 1B dispatch, because both were read-only phases."
+    },
+    {
+      "condition": "5. It uses Stripe test mode only",
+      "verdict": "proved",
+      "evidence": "Only HOSTED_STRIPE_TEST_SECRET and HOSTED_STRIPE_TEST_WEBHOOK_SECRET are declared, both optional, and the workflow comment records that without them the deployment carries no usable Stripe configuration and the payment matrix reports that plainly. No live-mode key is named anywhere in the workflow."
+    },
+    {
+      "condition": "6. It does not require production participant or partner data",
+      "verdict": "proved",
+      "evidence": "The preflight's emptiness proof is fatal on any nonzero row count in the production-shaped tables, so the workflow cannot proceed against a project that holds participant or partner records. Every identity it creates is generated in-run."
+    },
+    {
+      "condition": "7. It does not print or commit secrets",
+      "verdict": "proved",
+      "evidence": "Secrets are passed as step env only. The preflight script hashes the production Supabase URL rather than printing it and states that the production value never leaves the comparison. The uploaded evidence artifact for run 32655814905 is 1,227 bytes, consistent with verdict records rather than credential material. Nothing from the run is written into the repository."
+    }
+  ],
+  "secretToStepMap": [
+    {
+      "secret": "SUPABASE_ACCESS_TOKEN",
+      "requiredByWorkflow": true,
+      "consumingSteps": [
+        "Prove the credentials and the acceptance project (scripts/rcap-hosted-acceptance-preflight.mjs)",
+        "Apply the authorized sequence to the acceptance project (scripts/rcap-hosted-acceptance-migrate.mjs)",
+        "Deploy the frozen application SHA to Vercel Preview",
+        "Configure acceptance Auth and create the synthetic identities",
+        "Diagnose the worker contract contradiction",
+        "Prepare one real Pennsylvania Sandbox Checkout and stop unpaid",
+        "Run the hosted golden-journey matrix",
+        "Run the hosted Stripe payment and packet-delivery journey"
+      ]
+    },
+    {
+      "secret": "VERCEL_TOKEN",
+      "requiredByWorkflow": true,
+      "consumingSteps": [
+        "Prove the credentials and the acceptance project",
+        "Query Vercel for an exact READY Preview after CLI failure",
+        "Resolve the Preview this run will use",
+        "Deploy the frozen application SHA to Vercel Preview",
+        "Configure acceptance Auth and create the synthetic identities",
+        "Prepare one real Pennsylvania Sandbox Checkout and stop unpaid",
+        "Run the hosted Stripe payment and packet-delivery journey",
+        "Prove the Pennsylvania, Mississippi and Illinois galleries render"
+      ]
+    },
+    {
+      "secret": "VERCEL_ORG_ID",
+      "requiredByWorkflow": true,
+      "consumingSteps": ["the same eight steps as VERCEL_TOKEN; it scopes every Vercel API call to the owning team"]
+    },
+    {
+      "secret": "VERCEL_PROJECT_ID",
+      "requiredByWorkflow": true,
+      "consumingSteps": ["the same eight steps as VERCEL_TOKEN, minus the Preview resolution boundary's team probe; it names the project the Preview belongs to"]
+    },
+    {
+      "secret": "VERCEL_AUTOMATION_BYPASS_SECRET",
+      "requiredByWorkflow": false,
+      "consumingSteps": [
+        "Resolve the Preview this run will use",
+        "Deploy the frozen application SHA to Vercel Preview",
+        "Prepare one real Pennsylvania Sandbox Checkout and stop unpaid",
+        "Run the hosted Stripe payment and packet-delivery journey",
+        "Prove the Pennsylvania, Mississippi and Illinois galleries render"
+      ],
+      "note": "Declared optional by the workflow but effectively required for any crawl from outside GitHub Actions: without it a Preview protected by Vercel Authentication answers every unauthenticated probe with Vercel's own wall, and a crawler cannot tell the application's gate from Vercel's."
+    }
+  ],
+  "additionalRequiredValuesBeyondTheFiveSecrets": [
+    { "name": "application_sha", "kind": "pinned input", "value": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926", "note": "Any other value is refused. This is why the audit's own SHA cannot be deployed." },
+    { "name": "worker_source_sha", "kind": "pinned input", "value": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8" },
+    { "name": "worker_digest", "kind": "pinned input", "value": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530" },
+    { "name": "tools_sha", "kind": "derived input", "value": "6d9e8792b8c68671220cac5f294562e3b3ba1b25", "note": "Must be a 40-hex ancestor of origin/main that is byte-identical to application_sha on the application paths and to worker_source_sha on the worker image inputs. Derived by scanning main's history; not documented anywhere in the repository." },
+    { "name": "supabase_project_ref", "kind": "pinned input", "value": "hyflxnlhpmiqxvvcoiia" },
+    { "name": "GITHUB_TOKEN packages:read", "kind": "workflow permission", "note": "Needed to pull the pinned worker image from ghcr.io for any matrix or gate phase." },
+    { "name": "staging migration authorization", "kind": "governance", "note": "The decisive one. See stagingAuthorizationBlocker below." }
+  ],
+  "runs": [
+    {
+      "phase": "hosted_preflight",
+      "runId": 32655814905,
+      "jobId": 97234260948,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32655814905",
+      "conclusion": "success",
+      "dispatchRef": "main",
+      "readOnly": true,
+      "readOnlyBasis": "The phase contract emitted deploy=false matrix=false checkoutGate=false, and the migrate step was skipped. The only network writes the preflight script makes are POSTs to the Supabase Management API's /database/query endpoint, whose sole SQL is `select current_database() as db, version() as version` plus table and row-count reads.",
+      "provenByThisRun": [
+        "All four required credentials are present and usable for the operations this mission needs.",
+        "The acceptance Supabase project hyflxnlhpmiqxvvcoiia is demonstrably not production, by identity, emptiness and disjointness."
+      ],
+      "artifact": {
+        "name": "rcap-hosted-preflight-32655814905",
+        "id": 9497412951,
+        "bytes": 1227,
+        "zipSha256": "de90ee662c6841ebfa5fd8f0e052c5d703ae9a516ad3129cb63969a5e5e45b00",
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32655814905/artifacts/9497412951"
+      }
+    },
+    {
+      "phase": "hosted_vercel_audit",
+      "runId": 32656224687,
+      "jobId": 97235293247,
+      "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32656224687",
+      "conclusion": "failure",
+      "dispatchRef": "main",
+      "readOnly": true,
+      "readOnlyBasis": "The workflow states that this step neither creates nor changes a deployment: every Vercel call is a GET.",
+      "purpose": "Recover the exact URL and deployment SHA of an existing READY Preview of the frozen application, so the phase could record a deployment without creating one.",
+      "outcome": "No exact-match READY Preview was returned. The evidence artifact is 548 bytes, consistent with an empty result set. The precise failure line was not recoverable through the log API's tail window, so this is recorded as 'no reusable Preview found' rather than as a specific diagnosis.",
+      "artifact": {
+        "name": "rcap-hosted-vercel_audit-32656224687",
+        "id": 9497512885,
+        "bytes": 548,
+        "zipSha256": "14c475bd0f9e1f40a2e179b8516aa4c8bd92edd50f68fec0698d3f282576fabb",
+        "url": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32656224687/artifacts/9497512885"
+      }
+    }
+  ],
+  "deploymentUrl": null,
+  "deploymentSha": null,
+  "deploymentUrlNote": "No Vercel Preview was created and none was found to reuse. A deployment URL is therefore not available to record. Creating one requires the hosted_deploy phase; exercising anything on it requires the migration below.",
+  "stagingAuthorizationBlocker": {
+    "blockerId": "ENV-007",
+    "title": "Applying the migration sequence to the acceptance project is recorded by the repository as queued and not authorized",
+    "detail": "Every phase that can exercise a journey — accept, payment, full — depends on the acceptance project carrying migrations 49 through 54. data/rcap-staging-action.json records status 'prepared_queued_not_authorized' and states in its own note that 'this record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on every authorization in the sequence.' Phases 50 through 54 each carry scopedAuthorization.staging = 'queued — requires Roger to name both migration files and the staging environment'. AGENTS.md independently gates live Supabase migrations on Roger's approval.",
+    "consequence": "The hosted preflight is proven and the credentials work. The ten journeys this phase asks for — paid consumer, sponsored consumer, legacy matter, valid/expired/exhausted sponsored session, checkout creation, cancellation, retry, and save/refresh/resume — all sit behind that one authorization.",
+    "whatWouldUnblockIt": "Roger naming the acceptance environment and granting staging scope on migrations 50 through 54, after which hosted_migrate then hosted_full would provision, seed and exercise the journeys in one run.",
+    "whatWasNotDone": "No migration was applied. No Preview was deployed. No synthetic identity was created. No Stripe session was created."
+  },
+  "syntheticFixtures": {
+    "created": [],
+    "note": "None. Creating them requires the acceptance project to be migrated first (ENV-007). The four synthetic consumer identities, the synthetic partner, the four access-code states and the 100 packet credits remain uncreated."
+  }
+}

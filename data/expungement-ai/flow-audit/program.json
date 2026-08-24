@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "expai-flow-audit-program/v1",
+  "program": "Expungement.ai State x Remedy Flow Audit and UX Improvement Program",
+  "phase": 1,
+  "phaseName": "Discover every state x remedy flow; build the auditor; no product changes",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "auditBranch": "claude/expai-flow-audit-p1",
+  "changesNoProductBehavior": true,
+  "artifacts": {
+    "data": [
+      "data/expungement-ai/flow-audit/program.json",
+      "data/expungement-ai/flow-audit/flow-manifest.json",
+      "data/expungement-ai/flow-audit/question-inventory.json",
+      "data/expungement-ai/flow-audit/branch-coverage.json",
+      "data/expungement-ai/flow-audit/ui-reachability.json",
+      "data/expungement-ai/flow-audit/static-findings.json",
+      "data/expungement-ai/flow-audit/issue-register.json",
+      "data/expungement-ai/flow-audit/shard-assignment.json",
+      "data/expungement-ai/flow-audit/baseline-metrics.json",
+      "data/expungement-ai/flow-audit/screenshot-index.json",
+      "data/expungement-ai/flow-audit/environment-blockers.json"
+    ],
+    "docs": [
+      "docs/expungement-ai/flow-audit/baseline-report.md",
+      "docs/expungement-ai/flow-audit/human-review-required.md",
+      "docs/expungement-ai/flow-audit/state-reports/",
+      "docs/expungement-ai/flow-audit/shard-prompts/"
+    ],
+    "scripts": [
+      "scripts/expungement-ai/flow-audit/lib/engine.mjs",
+      "scripts/expungement-ai/flow-audit/build-flow-manifest.mjs",
+      "scripts/expungement-ai/flow-audit/build-question-inventory.mjs",
+      "scripts/expungement-ai/flow-audit/build-branch-coverage.mjs",
+      "scripts/expungement-ai/flow-audit/build-ui-reachability.mjs",
+      "scripts/expungement-ai/flow-audit/detect-static-defects.mjs",
+      "scripts/expungement-ai/flow-audit/build-issue-register.mjs",
+      "scripts/expungement-ai/flow-audit/build-shard-assignment.mjs",
+      "scripts/expungement-ai/flow-audit/build-reports.mjs",
+      "scripts/expungement-ai/flow-audit/verify-flow-audit.mjs"
+    ],
+    "tests": [
+      "tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs"
+    ]
+  },
+  "regenerate": [
+    "node scripts/expungement-ai/flow-audit/build-flow-manifest.mjs",
+    "node scripts/expungement-ai/flow-audit/build-question-inventory.mjs",
+    "node scripts/expungement-ai/flow-audit/build-branch-coverage.mjs",
+    "node scripts/expungement-ai/flow-audit/build-ui-reachability.mjs",
+    "node scripts/expungement-ai/flow-audit/detect-static-defects.mjs",
+    "node scripts/expungement-ai/flow-audit/build-issue-register.mjs",
+    "node scripts/expungement-ai/flow-audit/build-shard-assignment.mjs",
+    "node scripts/expungement-ai/flow-audit/build-reports.mjs",
+    "node scripts/expungement-ai/flow-audit/verify-flow-audit.mjs"
+  ]
+}
