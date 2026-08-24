@@ -60,7 +60,7 @@ on:
         required: true
         type: string
       tools_sha:
-        description: "Integration-branch commit carrying the F1 orchestration scripts (must be image-input-equivalent to the freeze)"
+        description: "PROVENANCE LABEL ONLY — must equal the reviewed control-plane SHA (github.sha / job.workflow_sha). It is NOT a checkout ref and NOT executable authority: nothing is ever checked out from it. The former 6d9e8792 value is no longer valid and is refused."
         required: true
         type: string
 
@@ -108,55 +108,64 @@ jobs:
       target: ${{ steps.map.outputs.target }}
       phase: ${{ steps.map.outputs.phase }}
     steps:
-      # ENV-007 C7 — IMMUTABLE EXECUTION AUTHORITY.
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY (caller).
       #
-      # The first executable step of this job, ahead of checkout, ahead of
-      # setup, ahead of every secret expression and ahead of every external
-      # request. It answers one question: may these bytes run at all.
+      # First executable step, ahead of checkout, setup, secrets and any external
+      # request. RCAP_AUTHORIZED_INFRASTRUCTURE_SHA and RCAP_AUTHORIZED_EXECUTION_REF
+      # are NON-SECRET configuration, neither is created by this change, and an
+      # unconfigured authority is a refusal rather than a pass.
       #
-      # RCAP_AUTHORIZED_INFRASTRUCTURE_SHA and RCAP_AUTHORIZED_EXECUTION_REF are
-      # NON-SECRET configuration and neither is created by this change, so until
-      # both are set every job refuses here. That is deliberate: an unconfigured
-      # authority is not a permissive one.
-      #
-      # github.job_workflow_sha is empty in this caller — it is set only inside
-      # a reusable workflow — so the comparison below is a no-op here and is
-      # the real proof on the called side.
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define; it resolved to the empty
+      # string and the old comparison skipped on empty, so the gate asserted
+      # nothing. The documented `github.workflow_sha` is used instead, and every
+      # comparison here is unconditional.
       - name: Validate the execution authority before checkout, setup or secrets
         id: execution_authority
         env:
           OBSERVED_SHA: ${{ github.sha }}
           OBSERVED_REF: ${{ github.ref }}
-          OBSERVED_JOB_WORKFLOW_SHA: ${{ github.job_workflow_sha }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
           EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
         run: |
           set -uo pipefail
           fail=0
           note() { echo "  - $1"; fail=1; }
-          echo "INFRASTRUCTURE EXECUTION AUTHORITY"
-          [ -n "${EXPECTED_SHA:-}" ] || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured"
-          [ -n "${EXPECTED_REF:-}" ] || note "RCAP_AUTHORIZED_EXECUTION_REF is not configured"
-          printf '%s' "${OBSERVED_SHA:-}" | grep -Eq '^[0-9a-f]{40}$' \
-            || note "github.sha is not a full commit SHA"
-          [ -n "${OBSERVED_REF:-}" ] || note "github.ref is empty"
-          if [ -n "${EXPECTED_SHA:-}" ] && [ "${OBSERVED_SHA:-}" != "${EXPECTED_SHA}" ]; then
-            note "github.sha ${OBSERVED_SHA:-<empty>} is not the authorized infrastructure SHA"
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (caller)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
           fi
-          if [ -n "${EXPECTED_REF:-}" ] && [ "${OBSERVED_REF:-}" != "${EXPECTED_REF}" ]; then
-            note "github.ref ${OBSERVED_REF:-<empty>} is not the authorized execution ref"
-          fi
-          if [ -n "${OBSERVED_JOB_WORKFLOW_SHA:-}" ] && [ "${OBSERVED_JOB_WORKFLOW_SHA}" != "${OBSERVED_SHA:-}" ]; then
-            note "the called workflow resolved from ${OBSERVED_JOB_WORKFLOW_SHA}, the caller from ${OBSERVED_SHA:-<empty>}"
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
           fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             exit 1
           fi
-          echo "  ok   sha=$OBSERVED_SHA"
-          echo "  ok   ref=$OBSERVED_REF"
-          echo "  ok   caller and called workflow resolve from one execution authority"
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   caller execution authority validated"
 
       - name: Map the dispatch mode to exactly one target
         id: map
