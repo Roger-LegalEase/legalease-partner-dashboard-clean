@@ -2,7 +2,7 @@
   "schemaVersion": "rcap-staging-authorization-readiness/v1",
   "purpose": "The thirteen fields that must all be populated before staging authorization is requested. Kept as data so that 'not ready' cannot be softened into 'nearly ready' in prose.",
   "readyToRequestAuthorization": false,
-  "note": "RCAP-SEC-001 is closed against current bytes. The remaining blanks are the environment identifiers: naming a hosted staging Supabase project, a Vercel deployment target and a long-lived worker host. Those are the only inputs the container cannot supply \u2014 it holds no Supabase or Vercel credential and neither CLI is installed. The repository's own F1 ephemeral staging workflow needs none of them, which is why acceptance runs there.",
+  "note": "Worker image publication run 32688658427 and no-artifact acceptance run 32723173565 (#48) are bound to source 646d8969576e33b9ed72d3bca64b33b7e352c452 and digest sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402. Published and accepted do not mean deployed: the staging action remains prepared_queued_not_authorized, authorizes nothing, and still lacks 7 required environment values. No production worker, migration, user or session state changed.",
   "independent_security_proven": true,
   "sanctioned_consumer_reachability_proven": true,
   "staging_precondition_status": "satisfied",
@@ -21,13 +21,12 @@
     "finalIntegrationSha": {
       "status": "populated",
       "owner": "captain",
-      "value": "264d2a240e5c857f55ee645f2683830e94f67c19 \u2014 the merge commit that landed the accepted nationwide work in main, and the canonical application source from here on. PR #93 candidate 4a9834c3 is in its ancestry with both required checks green on that exact SHA.",
-      "toolsSha": "f1cc9ec8ced493765134153c5588a0d55925460a \u2014 deployment tooling only; git diff --quiet proves it changes neither the application bytes nor the worker image inputs relative to the freeze, so it is not a new application freeze."
+      "value": "646d8969576e33b9ed72d3bca64b33b7e352c452 \u2014 security implementation and accepted worker-image source. Evidence head 225937513180ab2c98d54e792961f699cd4e2d74 contains publication evidence only and is image-input-equivalent to this source."
     },
     "requiredGithubChecksGreen": {
       "status": "populated",
       "owner": "captain",
-      "value": "Both required checks were success on ff51350236d1a976777ff2d94658024225586e91 \u2014 'RCAP All50 Handoff Verification' and 'Expungement.ai Consumer Adapter Verification'. Re-observed on every push; the freeze SHA is only a freeze once its own two checks are green, and a pending check is never counted as green."
+      "value": "RCAP worker image acceptance #48, run 32723173565, attempt 1, completed success on codex/rcap-internal-admin-release-evidence at 225937513180ab2c98d54e792961f699cd4e2d74. This field records the required image-acceptance check proven by this lane and does not claim merge or deployment."
     },
     "phase49": {
       "status": "populated",
@@ -66,13 +65,13 @@
     "workerImageSourceAndDigest": {
       "status": "populated",
       "owner": "captain",
-      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101, built from source SHA 264d2a240e5c857f55ee645f2683830e94f67c19 and tagged with that full SHA only. No mutable latest tag. Publication run 31809973351; the record reports publishOnlyNoDeploy true, workerClaimingStarted false, stagingAndProductionUnchanged true. Dockerfile sha256 6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7; lockfile sha256 fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7.",
-      "supersedes": "sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8 \u2014 superseded historical acceptance evidence, not deployable."
+      "value": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402, built from 646d8969576e33b9ed72d3bca64b33b7e352c452, full-SHA tag 646d8969576e33b9ed72d3bca64b33b7e352c452, publication run 32688658427 attempt 1; acceptance run 32723173565 (#48) attempt 1 succeeded from authenticated digest pull through health/readiness. No latest tag and no deployment.",
+      "supersedes": "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101 \u2014 superseded historical evidence, not deployable for this release."
     },
     "workerDeploymentTarget": {
-      "status": "populated",
-      "owner": "captain",
-      "value": "The immutable worker pulled by digest sha256:905ed76e85f9ff44430b99cd638bed9f349df847a901de22dcbcca26d41990d8 inside the same F1 acceptance run and exercised against that run's stack for the golden-journey window. No long-lived worker host is provisioned by this mission."
+      "status": "blank",
+      "owner": "Roger",
+      "note": "No long-lived staging or production worker host is named. Acceptance run 32723173565 pulled and exercised the image on an ephemeral GitHub-hosted runner; that is acceptance evidence, not a deployment target."
     },
     "featureFlag": {
       "status": "populated",
@@ -92,7 +91,7 @@
     "observabilityDestination": {
       "status": "populated",
       "owner": "captain",
-      "value": "Combined evidence set: Vercel deployment and runtime logs; Supabase database, Auth and Storage logs; worker structured JSON logs on stdout; and the GitHub Actions run with its downloadable evidence artifact. For the ephemeral acceptance stack the first two collapse into the runner's own Postgres, Auth, PostgREST, Storage and Kong logs, all captured into the run's evidence artifact."
+      "value": "GitHub Actions run 32723173565 metadata and job logs for RCAP worker image acceptance #48. The workflow uploaded no artifact. Publication proof remains run 32688658427 and the committed publication evidence."
     },
     "phase52": {
       "status": "populated",
@@ -196,10 +195,21 @@
     "canonicalRecord": "data/rcap-staging-action.json",
     "generatedBy": "scripts/generate-rcap-staging-action.mjs",
     "status": "prepared_queued_not_authorized",
-    "note": "The action itself is generated, not written here. This entry is a pointer so the readiness file and the action cannot drift; read data/rcap-staging-action.json for the migration list, hashes, execution order and preconditions.",
+    "note": "Regenerated from accepted publication evidence. It authorizes nothing and remains unrequestable until its 7 named environment values are supplied.",
     "environmentsQueued": [
       "staging",
       "production"
+    ],
+    "actionId": "staging-action-six-migrations",
+    "readyToRequestAuthorization": false,
+    "missingRequiredEnvironment": [
+      "stagingSupabaseProject",
+      "applicationDeploymentTarget",
+      "applicationDeploymentSha",
+      "workerDeploymentTarget",
+      "featureFlagState",
+      "rollbackOwner",
+      "observabilityDestination"
     ]
   },
   "workerImagePublication": {
@@ -209,15 +219,15 @@
     "tagPolicy": "full commit SHA only; no mutable latest or moving alias",
     "packageVisibility": "private \u2014 Roger has not separately authorized public package visibility, so the package stays private",
     "stagingWorkerHostReadPermission": "The staging worker host must authenticate to ghcr.io and hold read:packages for the private package ghcr.io/roger-legalease/rcap-render-worker. In practice that is a GitHub token or a GitHub App installation token with package read scope on Roger-LegalEase, supplied to the host as a registry pull secret. It must NOT be the workflow's GITHUB_TOKEN, which does not exist outside the run.",
-    "imageBytesChanged": "src and package.json changed between the superseded publication (f2ab56cc) and main (264d2a24): the Stripe runtime classifier was corrected and the nationwide work merged. The digest was therefore reminted by a rebuild at the main SHA.",
-    "owner": "Terminal D executes the publication after the final SHA is cleared; this terminal does not run it.",
-    "publishedDigest": "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
-    "publishedSourceSha": "264d2a240e5c857f55ee645f2683830e94f67c19",
-    "workflowRunId": "31809973351",
+    "imageBytesChanged": "The accepted security implementation source 646d8969576e33b9ed72d3bca64b33b7e352c452 is the controlling worker image input. Evidence-only commits preserve image-input equality and do not require republication.",
+    "owner": "Publication is complete; this evidence lane binds the successful acceptance run without republishing or deploying.",
+    "publishedDigest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
+    "publishedSourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "workflowRunId": "32688658427",
     "mutableLatestTagCreated": false,
-    "imageTag": "264d2a240e5c857f55ee645f2683830e94f67c19",
-    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:264d2a240e5c857f55ee645f2683830e94f67c19",
-    "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
+    "imageTag": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
     "supersededDigests": [
       {
         "digest": "sha256:57d08bd3ea228575c778a4ea299222b2bc5b7f85c19e35985f594744f7ed2b30",
@@ -239,6 +249,88 @@
         "status": "superseded_historical_acceptance_evidence",
         "why": "The original F1 digest, built from different source inputs again."
       }
-    ]
+    ],
+    "publicationRunId": 32688658427,
+    "publicationAttempt": 1,
+    "publicationConclusion": "success",
+    "publishOnlyNoDeploy": true,
+    "workerClaimingStarted": false,
+    "stagingAndProductionUnchanged": true,
+    "acceptanceRunId": 32723173565,
+    "acceptanceWorkflowNumber": 48,
+    "acceptanceAttempt": 1,
+    "acceptanceConclusion": "success",
+    "acceptanceEvidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
+    "acceptanceArtifact": "none \u2014 workflow produced no artifact"
+  },
+  "workerImageAcceptance": {
+    "schemaVersion": "rcap-worker-image-acceptance-evidence/v1",
+    "evidenceBasis": "github_actions_run_metadata_and_job_logs_no_artifact",
+    "repository": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean",
+    "workflowFile": ".github/workflows/rcap-worker-image-acceptance.yml",
+    "workflowName": "RCAP worker image acceptance",
+    "workflowNumber": 48,
+    "workflowRunId": 32723173565,
+    "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32723173565",
+    "workflowAttempt": 1,
+    "event": "workflow_dispatch",
+    "selectedBranch": "codex/rcap-internal-admin-release-evidence",
+    "acceptedEvidenceHead": "225937513180ab2c98d54e792961f699cd4e2d74",
+    "jobName": "Accept the published worker image",
+    "jobConclusion": "success",
+    "startedAt": "2026-08-24T11:41:51Z",
+    "completedAt": "2026-08-24T11:43:11Z",
+    "sourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
+    "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "imageTag": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "immutableRegistryDigest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
+    "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
+    "digestPullResult": "success",
+    "tagDigestAgreementResult": "success",
+    "ociRevision": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "sourceSubstitutionOccurred": false,
+    "expectedWorkerEntrypoint": "node scripts/rcap-render-worker.mjs --once",
+    "entrypointResult": "success_fail_closed_without_credentials",
+    "healthReadinessResult": "success_declared_healthcheck_module_graph_and_idle_loop",
+    "acceptanceConclusion": "success",
+    "githubArtifact": "none_workflow_uploaded_no_artifact",
+    "node20DeprecationAnnotation": "non_blocking",
+    "applicationProductionDeployedByThisAcceptance": false,
+    "productionWorkerUpdated": false,
+    "rlsMigrationApplied": false,
+    "productionUsersChanged": false,
+    "productionSessionsRevoked": false
+  },
+  "dependencyChain": {
+    "acceptanceEvidence": {
+      "path": "data/rcap-render/worker-publication-evidence.json",
+      "sha256": "a77e459f3b1f3024bbc5c49137cedbfff1216ab36be3160174fb3b75d973bc87"
+    },
+    "imageInputFingerprintAndStagingAction": {
+      "path": "data/rcap-staging-action.json",
+      "sha256": "6c3b8f1d53152398ba9be4ea3f37bda95758da8d714c8029d97f1f9c3506dc54",
+      "fingerprintBaseSha": "225937513180ab2c98d54e792961f699cd4e2d74"
+    },
+    "authorizationQueue": {
+      "path": "data/rcap-authorization-queue.json",
+      "sha256": "61c7798f032ada2e562e7e69e0e414e5870ae441145c8f8059e3d99d525a8f67",
+      "entries": 17
+    },
+    "deploymentClosure": {
+      "path": "data/rcap-render/deployment-closure.json",
+      "sha256": "e69bff6e375693ceb0e9563427f850cf81929c024ecfba8e4ef6e63f929fe00b",
+      "applicationSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+      "passed": true
+    }
+  },
+  "releaseTruth": {
+    "imagePublished": true,
+    "imageAccepted": true,
+    "applicationProductionDeployedByThisTask": false,
+    "productionWorkerUpdated": false,
+    "rlsMigrationApplied": false,
+    "productionUsersChanged": false,
+    "productionSessionsRevoked": false
   }
 }
