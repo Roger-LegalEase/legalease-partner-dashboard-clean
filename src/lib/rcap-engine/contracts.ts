@@ -79,6 +79,15 @@ export type ScreeningEvaluation = {
   deferralComponentIds?: string[];
 };
 
+export type PublicControlledLocationDataset = {
+  kind: "county" | "court";
+  jurisdiction: string;
+  counties: { id: string; label: string }[];
+  courts: { id: string; label: string; courtType?: string; location?: string; counties: string[] | null }[];
+  manualEntry: { label: string; helperText: string; treatedAsVerified: false };
+  notSure: { label: string; helperText: string };
+};
+
 export type PublicQuestion = {
   id: string;
   stage: string;
@@ -94,7 +103,7 @@ export type PublicQuestion = {
    * required flag and contextOnly flag are all unchanged, so the screening-parity
    * gate is unaffected and a jurisdiction without a dataset renders as before.
    */
-  controlledLocationDataset?: unknown;
+  controlledLocationDataset?: PublicControlledLocationDataset;
   lifecyclePhase?:
     | "prepay_required"
     | "prepay_route_splitter"

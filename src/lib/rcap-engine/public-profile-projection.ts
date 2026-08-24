@@ -3,7 +3,7 @@ import "server-only";
 import { factConsumerIndex, PREPAY_CONSUMERS } from "@/lib/rcap-engine/fact-consumers";
 import { controlledLocationDatasetFor } from "@/lib/rcap-engine/county-court-catalog";
 import type { FactConsumer } from "@/lib/rcap-engine/fact-consumers";
-import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
+import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion , PublicControlledLocationDataset } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 
@@ -938,8 +938,63 @@ function toPublicQuestion(question: PublicQuestion): PublicQuestion {
   if (question.options !== undefined) publicQuestion.options = question.options;
   if (question.optionDisplay !== undefined) publicQuestion.optionDisplay = toPublicOptionDisplay(question.optionDisplay);
   if (question.translations !== undefined) publicQuestion.translations = toPublicQuestionTranslations(question.translations);
+  if (question.controlledLocationDataset !== undefined) {
+    publicQuestion.controlledLocationDataset = toPublicControlledLocationDataset(question.controlledLocationDataset);
+  }
 
   return publicQuestion;
+}
+
+/**
+ * The controlled county/court dataset, narrowed field by field like everything
+ * else that crosses the boundary. Provenance (`sourceQuote`, `sourceRef`) is
+ * internal review material and deliberately does not cross: a participant is
+ * shown the option, its court type and its location, never the repository text
+ * an option was harvested from.
+ */
+function toPublicControlledLocationDataset(dataset: unknown): PublicControlledLocationDataset | undefined {
+  if (!dataset || typeof dataset !== "object") return undefined;
+  const source = dataset as {
+    kind?: unknown; jurisdiction?: unknown; counties?: unknown; courts?: unknown;
+    manualEntry?: { label?: unknown; helperText?: unknown };
+    notSure?: { label?: unknown; helperText?: unknown };
+  };
+  if (source.kind !== "county" && source.kind !== "court") return undefined;
+  if (typeof source.jurisdiction !== "string") return undefined;
+
+  const counties = (Array.isArray(source.counties) ? source.counties : [])
+    .filter((entry): entry is { id: string; label: string } =>
+      Boolean(entry) && typeof (entry as { id?: unknown }).id === "string" && typeof (entry as { label?: unknown }).label === "string")
+    .map((entry) => ({ id: entry.id, label: entry.label }));
+
+  const courts = (Array.isArray(source.courts) ? source.courts : [])
+    .filter((entry): entry is { id: string; label: string; courtType?: string; location?: string; counties?: string[] | null } =>
+      Boolean(entry) && typeof (entry as { id?: unknown }).id === "string" && typeof (entry as { label?: unknown }).label === "string")
+    .map((entry) => ({
+      id: entry.id,
+      label: entry.label,
+      ...(typeof entry.courtType === "string" ? { courtType: entry.courtType } : {}),
+      ...(typeof entry.location === "string" ? { location: entry.location } : {}),
+      counties: Array.isArray(entry.counties) ? entry.counties.filter((value): value is string => typeof value === "string") : null
+    }));
+
+  return {
+    kind: source.kind,
+    jurisdiction: source.jurisdiction,
+    counties,
+    courts,
+    manualEntry: {
+      label: String(source.manualEntry?.label ?? ""),
+      helperText: String(source.manualEntry?.helperText ?? ""),
+      // A hand-typed location is never a confirmed one. Stated in the payload so
+      // no consumer has to infer it.
+      treatedAsVerified: false
+    },
+    notSure: {
+      label: String(source.notSure?.label ?? ""),
+      helperText: String(source.notSure?.helperText ?? "")
+    }
+  };
 }
 
 function toPublicOptionDisplay(
@@ -1046,7 +1101,11 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  * mapper above then decides what is actually allowed out.
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
-  return withControlledLocationDatasets(toPublicJurisdictionProfile(buildProfileDraft(profile)));
+  // The dataset is attached to the DRAFT, so it crosses the public boundary
+  // through `toPublicQuestion` like every other served field rather than being
+  // bolted on afterwards. `verify-public-profile-projection` enforces exactly
+  // that, and it is right to.
+  return toPublicJurisdictionProfile(withControlledLocationDatasets(buildProfileDraft(profile)));
 }
 
 /**

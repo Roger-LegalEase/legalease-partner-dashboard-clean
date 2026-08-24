@@ -68,7 +68,20 @@ const QUESTION = obj(
         translations: TRANSLATION_BLOCK
       })
     ),
-    translations: TRANSLATION_BLOCK
+    translations: TRANSLATION_BLOCK,
+    // Controlled county/court data (UX-COUNTY-001 / UX-COURT-001). Additive to
+    // the question; carries no provenance, which stays internal.
+    controlledLocationDataset: obj(
+      {
+        kind: leaf,
+        jurisdiction: leaf,
+        counties: arr(obj({ id: leaf, label: leaf }, ["id", "label"])),
+        courts: arr(obj({ id: leaf, label: leaf, courtType: leaf, location: leaf, counties: leaf }, ["id", "label"])),
+        manualEntry: obj({ label: leaf, helperText: leaf, treatedAsVerified: leaf }, ["label", "helperText", "treatedAsVerified"]),
+        notSure: obj({ label: leaf, helperText: leaf }, ["label", "helperText"])
+      },
+      ["kind", "jurisdiction", "counties", "courts", "manualEntry", "notSure"]
+    )
   },
   ["id", "stage", "prompt", "type", "required"]
 );
