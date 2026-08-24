@@ -28,8 +28,11 @@ const UPL_DISCLAIMER =
 type Tone = "positive" | "caution" | "info" | "wait" | "blocked";
 
 const RESULT_PRESENTATION: Record<ResultCode, { eyebrow: string; tone: Tone; icon: ReactNode }> = {
-  packet_ready: { eyebrow: "A path may be available", tone: "positive", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
-  packet_ready_with_caution: { eyebrow: "A path may be available.", tone: "caution", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
+  packet_ready: { eyebrow: "A path may be available.", tone: "positive", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
+  // UX-GLOBAL-018 — a cautioned packet-ready result must be distinguishable
+  // from a clean one above the fold. It used to differ by a full stop, under an
+  // identical heading and an identical icon.
+  packet_ready_with_caution: { eyebrow: "A path may be available — read the cautions", tone: "caution", icon: <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> },
   needs_more_info: { eyebrow: "A few more details needed", tone: "info", icon: <HelpCircle className="h-5 w-5" aria-hidden="true" /> },
   not_yet: { eyebrow: "You may need to wait", tone: "wait", icon: <Clock className="h-5 w-5" aria-hidden="true" /> },
   guidance_only: { eyebrow: "Next steps for your state", tone: "info", icon: <Info className="h-5 w-5" aria-hidden="true" /> },
@@ -105,6 +108,9 @@ function isNonConvictionPathway(evaluation: ScreeningEvaluation) {
 }
 
 function packetSubheading(stateName: string, evaluation: ScreeningEvaluation, routeLabel: string) {
+  if (evaluation.resultCode === "packet_ready_with_caution") {
+    return "Based on what you shared, there may be a record-clearing path available — with cautions that apply to your case. Read them before you decide whether to prepare a packet.";
+  }
   if (PACKET_READY_RESULT_CODES.has(evaluation.resultCode)) {
     return "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.";
   }
@@ -159,14 +165,23 @@ export function ScreeningResult({
     ? localizeText(evaluation.pathwayLabel)
     : translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
 
+  const cautionedPacket = evaluation.resultCode === "packet_ready_with_caution";
+
   return (
-    <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
+    // `data-result-code` is what a browser check reads. The two packet-ready
+    // codes were indistinguishable from the rendered page, so no acceptance
+    // evidence could tell them apart.
+    <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8" data-result-code={evaluation.resultCode}>
       <p className={`flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.08em] ${accent.eyebrow}`}>
         {presentation.icon}
         {translate(RESULT_EYEBROW_KEYS[evaluation.resultCode], presentation.eyebrow)}
       </p>
       <h1 className="mt-3 text-[26px] font-extrabold leading-tight text-[#0B1320] md:text-[32px]">
-        {isPacketReady ? translate("result.packet_title", "You may be able to prepare an expungement packet.") : localizeText(evaluation.userLabel)}
+        {cautionedPacket
+          ? translate("result.packet_title_caution", "You may be able to prepare an expungement packet. Read the cautions first.")
+          : isPacketReady
+            ? translate("result.packet_title", "You may be able to prepare an expungement packet.")
+            : localizeText(evaluation.userLabel)}
       </h1>
       <p className="mt-2 text-sm font-semibold text-[#8A93A6]">
         {isPacketReady ? localizeText(packetSubheading(stateName, evaluation, routeLabel)) : stateName}

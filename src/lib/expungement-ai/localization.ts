@@ -83,13 +83,27 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "answer.prefer_not": { en: "Prefer not to say", es: "Prefiero no decirlo" },
   "answer.dont_know_date": { en: "I don't know the date", es: "No sé la fecha" },
 
-  "result.packet_title": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
+  // UX-GLOBAL-018 — the heading is the heading. This key held the eyebrow's own
+  // sentence, so the h1 repeated the eyebrow word for word and the component's
+  // declared fallback never reached a participant.
+  "result.packet_title": { en: "You may be able to prepare an expungement packet.", es: "Es posible que pueda preparar un paquete de eliminación de antecedentes." },
   "result.packet_body": {
     en: "Based on what you shared, there may be a record-clearing path available. Expungement.ai can help you generate a self-help packet and next-step instructions.",
     es: "Según lo que compartió, puede haber una ruta disponible para limpiar antecedentes. Expungement.ai puede ayudarle a generar un paquete de autoayuda e instrucciones de próximos pasos."
   },
   "result.path_available": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
-  "result.path_available_caution": { en: "A path may be available.", es: "Puede haber una ruta disponible." },
+  // UX-GLOBAL-018 — the cautioned outcome said the same sentence as the clean
+  // one, in both languages. A participant, and the audit's own browser crawl,
+  // could not tell a cautioned packet from a clean one above the fold.
+  "result.path_available_caution": { en: "A path may be available — read the cautions", es: "Puede haber una ruta disponible: lea las advertencias" },
+  "result.packet_title_caution": {
+    en: "You may be able to prepare an expungement packet. Read the cautions first.",
+    es: "Es posible que pueda preparar un paquete de eliminación de antecedentes. Lea primero las advertencias."
+  },
+  "result.packet_body_caution": {
+    en: "Based on what you shared, there may be a record-clearing path available — with cautions that apply to your case. Read them before you decide whether to prepare a packet.",
+    es: "Según lo que compartió, puede haber una ruta disponible para limpiar antecedentes, con advertencias que se aplican a su caso. Léalas antes de decidir si prepara un paquete."
+  },
   "result.caution_support": {
     en: "We'll flag anything you should review before filing. The court or agency makes the final decision.",
     es: "Marcaremos cualquier cosa que deba revisar antes de presentar. El tribunal o la agencia toma la decisión final."

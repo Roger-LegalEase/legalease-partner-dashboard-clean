@@ -173,10 +173,18 @@ async function capture(page, { flowId, jurisdiction, viewport, label, findingIds
   return record;
 }
 
-/** The result-card eyebrow the product renders for each engine result code. */
+/**
+ * The result-card eyebrow the product renders for each engine result code.
+ *
+ * UX-GLOBAL-018 — the two packet-ready eyebrows used to differ by a full stop,
+ * which is why this table once distinguished them by punctuation and why a
+ * screenshot could not. The card now carries `data-result-code`, which is read
+ * first; this table stays as the fallback for a page that predates it.
+ */
 const EYEBROW_TO_RESULT_CODE = {
   "A path may be available": "packet_ready",
-  "A path may be available.": "packet_ready_with_caution",
+  "A path may be available.": "packet_ready",
+  "A path may be available — read the cautions": "packet_ready_with_caution",
   "A few more details needed": "needs_more_info",
   "You may need to wait": "not_yet",
   "Next steps for your state": "guidance_only",
@@ -351,6 +359,8 @@ async function crawlOne(context, entry, viewport) {
     await page.waitForTimeout(1200);
     const terminalHeading = await page.locator("h1").first().textContent().catch(() => null);
     const eyebrow = await page.locator("p.uppercase").first().textContent().catch(() => null);
+    // Declared by the result card itself. Punctuation is not evidence.
+    const declaredResultCode = await page.locator("[data-result-code]").first().getAttribute("data-result-code").catch(() => null);
     const actionLabels = (await page.locator("button").allTextContents().catch(() => []))
       .map((label) => label.trim().replace(/\s+/g, " "))
       .filter(Boolean);
@@ -361,8 +371,9 @@ async function crawlOne(context, entry, viewport) {
       expectedResultCode: flow.terminalOutcome.resultCode,
       actionLabels,
       primaryActionLabel: actionLabels[0] ?? null,
-      observedResultCode: resultCodeFromEyebrow(eyebrow),
-      terminalMatchesManifest: resultCodeFromEyebrow(eyebrow) === flow.terminalOutcome.resultCode,
+      declaredResultCode,
+      observedResultCode: declaredResultCode ?? resultCodeFromEyebrow(eyebrow),
+      terminalMatchesManifest: (declaredResultCode ?? resultCodeFromEyebrow(eyebrow)) === flow.terminalOutcome.resultCode,
       forwardActionClicked: false,
       forwardActionNote: ALLOW_MUTATION
         ? "forward action exercised"
