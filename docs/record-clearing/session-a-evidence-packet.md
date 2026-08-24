@@ -13,7 +13,7 @@ denominator, changes runtime, or issues an approval.
 | `packetFamilyBridge` | working_tree | `527fd4baa11dee8e…` |
 | `trackSourceRelationships` | working_tree | `8376337488a0e07e…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
-| `publicWitnessAnswerSets` | working_tree | `812eddd02fd04b67…` |
+| `publicWitnessAnswerSets` | working_tree | `88661c048dd602ce…` |
 | `problematicPdfRegister` | working_tree | `6fa8b5f861fd03f0…` |
 | `completedOutputPacketProofs` | working_tree | `ef771b3051b13e67…` |
 | `ownerLegalDecision` | working_tree | `9635f23c0253ea52…` |
@@ -63,7 +63,7 @@ re-running reproduces the file byte for byte, and `--check` proves it.
 
 - Settled on a terminal evaluation: **284** of 284
 - Landed on their own pathway: **284**
-- Payment allowed at the evaluator: **31**
+- Payment allowed at the evaluator: **42**
 
 ## 5 — Owner-approved legal status
 

@@ -82,6 +82,7 @@ const sources = {
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   documents: read("src/components/expungement-ai/BriefcaseViews.tsx"),
   matterPage: read("src/app/briefcase/[packetId]/page.tsx"),
+  packetInformation: read("src/lib/expungement-ai/packet-information.ts"),
   generateRoute: read("src/app/api/rcap/documents/[packetId]/generate/route.ts"),
   msForm: read("src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx"),
   flow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
@@ -172,7 +173,15 @@ function persistenceWiringViolations(input) {
   require(input.checkoutRoute.includes("isPartnerSponsoredPacketItem") && input.checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Partner-sponsored matters must not enter checkout.");
   require(input.documents.includes("packetCompletionActionFor") && input.documents.includes("Complete packet information"), "Briefcase views must expose packet information before generation.");
   require(input.documents.includes("Download") && input.documents.includes("artifact.downloadPath"), "Briefcase documents must expose generated packet downloads.");
-  require(input.matterPage.includes("packetInformationModelFor") && input.matterPage.includes("Complete packet information") && input.matterPage.includes("Review for accuracy"), "Exact matters must expose packet information and accuracy review before consumer payment.");
+  // UX-GLOBAL-001 — the matter page asks packetInformationAvailability rather
+  // than building the model itself. That predicate builds the same model AND
+  // requires payment authorization, so it is the stricter check: the page used
+  // to offer "Complete packet information" for a packet-ready matter whose
+  // paymentAllowed was false, and the destination then refused. Both halves of
+  // the chain are asserted here so the page cannot drift away from it.
+  require(input.matterPage.includes("packetInformationAvailability") && input.matterPage.includes("Complete packet information") && input.matterPage.includes("Review for accuracy"), "Exact matters must expose packet information and accuracy review before consumer payment.");
+  require(input.packetInformation.includes("export function packetInformationAvailability") && input.packetInformation.includes("packetInformationModelFor(item)"), "The availability predicate must build the packet-information model it reports on.");
+  require(input.packetInformation.includes("if (!item.paymentAllowed && !options.sponsored) return { available: false, reason: \"payment_not_authorized\" }"), "The availability predicate must refuse an unauthorized matter rather than offering a step it cannot take.");
   require(input.generateRoute.includes("consumerBriefcaseItemId") && input.generateRoute.includes("attachMississippiLegacyPacketArtifact"), "Shared document generation must bridge generated Mississippi PDFs back to the consumer Briefcase.");
   require(input.msForm.includes("consumerBriefcaseItemId") && input.msForm.includes("generate"), "Mississippi information form must carry the consumer matter id through generation.");
 

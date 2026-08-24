@@ -82,8 +82,33 @@ function waitingRuleIdFor(profile, pathway) {
     .filter((row) => row.id && row.duration && row.duration.value >= 0 && row.score > 0).sort((a, b) => b.score - a.score || durDays(b.duration) - durDays(a.duration));
   return cands[0]?.id;
 }
+/**
+ * The coarse timing answer, derived from the fixture's own date.
+ *
+ * The generic option picker answered this "lt_1_year" — the first option that is
+ * not an unknown — while the fixture's date was 2000-01-01, so the synthetic
+ * participant contradicted itself. It did not matter while an exact anchor was
+ * always available; UX-GLOBAL-019 made the bucket the anchor for routes whose
+ * completion fact is now a yes/no confirmation, and Alaska's CourtView route
+ * then failed its own waiting period.
+ */
+function timingBucketFor(date) {
+  const then = Date.parse(`${date}T00:00:00Z`);
+  const now = Date.parse(`${process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01"}T00:00:00Z`);
+  const years = (now - then) / (365.2425 * 24 * 60 * 60 * 1000);
+  if (years < 1) return "lt_1_year";
+  if (years < 2) return "years_1_to_2";
+  if (years < 3) return "years_2_to_3";
+  if (years < 5) return "years_3_to_5";
+  if (years < 7) return "years_5_to_7";
+  if (years < 10) return "years_7_to_10";
+  return "gt_10_years";
+}
+
 function baseAnswer(q, outcome, offenseLevel, date, profile, pathway) {
   const id = q.id;
+  if (id === "resolved_timing_bucket") return timingBucketFor(date);
+  if (id === "court_requirements_completed") return "yes";
   if (id === "ownership_scope") return "Yes";
   if (id === "jurisdiction_scope") return "State or local";
   if (id === "case_outcome") return outcome;
@@ -219,7 +244,13 @@ function neg(desc, code, id, outcome, offense, mutate) {
   log(`  NEG ${desc.padEnd(52)} -> ${ev.resultCode}/pay=${ev.paymentAllowed}`);
 }
 neg("Alaska ordinary conviction (not CourtView)", "AK", "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40", "Misdemeanor conviction", "Misdemeanor");
-neg("Alaska under 60 days since dismissal", "AK", "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor", (a) => { for (const k of Object.keys(a)) if (k.endsWith("_date")) a[k] = "2026-06-05"; });
+// The bucket moves with the dates. It is the anchor this route now runs on when
+// the exact completion fact is a yes/no confirmation, so a case that means
+// "under 60 days ago" has to say so in both places or it is not that case.
+neg("Alaska under 60 days since dismissal", "AK", "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40", "Dismissed, no-billed, nolle prosequi, or not prosecuted", "Misdemeanor", (a) => {
+  for (const k of Object.keys(a)) if (k.endsWith("_date")) a[k] = "2026-06-05";
+  if ("resolved_timing_bucket" in a) a.resolved_timing_bucket = timingBucketFor("2026-06-05");
+});
 neg("Nevada excluded (pending charge)", "NV", "general-conviction-record-sealing-under-nrs-179-245", "Misdemeanor conviction", "Misdemeanor", (a) => { if ("pending_cases" in a) a.pending_cases = "Yes"; });
 neg("Massachusetts under-wait (recent)", "MA", "adult-conviction-sealing-under-m-g-l-c-276-100a", "Misdemeanor conviction", "Misdemeanor", (a) => { for (const k of Object.keys(a)) if (k.endsWith("_date")) a[k] = "2025-12-15"; });
 neg("Pennsylvania automatic Clean Slate route", "PA", "path-j-clean-slate-automatic-limited-access", "Misdemeanor conviction", "Misdemeanor");

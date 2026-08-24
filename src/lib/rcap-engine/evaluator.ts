@@ -1916,12 +1916,16 @@ function resolveWaitingRuleForPathway(
   };
 
   // 1. The explicit override, validated against what the profile publishes.
+  //
+  // An id the profile does not publish is NOT a failure: the pre-correction
+  // selector also accepts a `pathway-wait-N` id derived from the pathway's own
+  // text, and callers pass those. Refusing here closed Alaska's CourtView route
+  // in the packet-generation dry run for no reason a participant could act on.
+  // An unrecognised id falls through to the binding, and then to that selector,
+  // which honours the override itself if it can.
   const requestedWaitId = answerText(answers.waiting_rule_id).trim();
-  if (requestedWaitId) {
-    const requested = byId.get(requestedWaitId);
-    if (!requested) {
-      return { status: "failed", kind: "configuration_unknown_ref", detail: `waiting_rule_id "${requestedWaitId}" is not published by this jurisdiction.` };
-    }
+  const requested = requestedWaitId ? byId.get(requestedWaitId) : undefined;
+  if (requestedWaitId && requested) {
     const selected = toSelected(requested);
     if (!selected) {
       return { status: "failed", kind: "configuration_missing", detail: `Waiting rule "${requestedWaitId}" carries no structured duration.` };

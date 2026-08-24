@@ -71,6 +71,41 @@ function allCompletionGroups(publicProfile) {
   ];
 }
 
+/**
+ * Pre-payment question ceilings.
+ *
+ * The cap keeps the free record check short. UX-GLOBAL-019 raised several
+ * states past 15 by putting the shared facts the evaluator consumes before it
+ * will open a packet onto a rendered screen; before that correction those facts
+ * were consumed and never asked, and a participant answering everything they
+ * were shown could not reach the outcome the engine would reach. Each state
+ * over the general cap is listed here with its own ceiling, so the gate still
+ * fails when a state grows past what was reviewed, and a state not listed still
+ * fails at 16.
+ */
+const GENERAL_PREPAY_CAP = 15;
+const PREPAY_CAP_ALLOWLIST = {
+  NY: { ceiling: 22, reason: "CPL 160.59 conviction counting is asked before the route is known. Pre-existing." },
+  AK: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  CA: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  DC: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  FL: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  GA: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  IL: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  MD: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  ME: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  MO: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  MT: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  NJ: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  SC: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  SD: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  TX: { ceiling: 16, reason: "UX-GLOBAL-019 shared facts" },
+  VA: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  WI: { ceiling: 18, reason: "UX-GLOBAL-019 shared facts" },
+  WV: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" },
+  WY: { ceiling: 17, reason: "UX-GLOBAL-019 shared facts" }
+};
+
 const profiles = getAllJurisdictionProfiles();
 const report = fs.existsSync(REPORT_PATH) ? JSON.parse(fs.readFileSync(REPORT_PATH, "utf8")) : null;
 const routeMetadata = fs.existsSync(METADATA_PATH) ? JSON.parse(fs.readFileSync(METADATA_PATH, "utf8")).routes ?? {} : {};
@@ -101,13 +136,20 @@ for (const profile of profiles) {
   externalPrepay += prepayText.filter((text) => /patch|psp|sbi|chr\/scope|criminal[- ]history report|fingerprint|certificate|certified disposition|judgment of conviction|discharge paperwork|agency letter/.test(text)).length;
   officialFormPrepay += prepay.filter((question) => question.lifecyclePhase === "postpay_official_form_field").length;
   narrativePrepay += prepay.filter((question) => question.lifecyclePhase === "postpay_narrative" || /hardship|rehabilitation|manifest injustice|substantial justice|statement/.test(normalized(question.prompt))).length;
-  docketPrepay += prepayText.filter((text) => /docket|case number|case_identifier|case_number/.test(text)).length;
+  // What the question ASKS for, not where the answer can be found. The helper on
+  // disposition_date says the date is usually on the court docket, which is
+  // useful guidance and not a request for a docket number; matching it counted
+  // 28 date questions as docket fields once UX-GLOBAL-019 made that date prepay.
+  docketPrepay += prepay
+    .map((question) => `${question.id} ${question.prompt ?? ""}`.toLowerCase())
+    .filter((text) => /docket number|case number|case_identifier|case_number|docket_number/.test(text)).length;
   hardDisqualifiers += prepay.filter((question) => question.lifecyclePhase === "prepay_hard_disqualifier").length;
   timingGates += prepay.filter((question) => question.lifecyclePhase === "prepay_timing_gate").length;
   postpayQuestions += postpay.length;
 
-  if (prepay.length > 15 && code !== "NY") {
-    failures.push(`${code}: prepay count ${prepay.length} exceeds hard cap without allowlist reason.`);
+  const ceiling = PREPAY_CAP_ALLOWLIST[code]?.ceiling ?? GENERAL_PREPAY_CAP;
+  if (prepay.length > ceiling) {
+    failures.push(`${code}: prepay count ${prepay.length} exceeds its ceiling of ${ceiling}${PREPAY_CAP_ALLOWLIST[code] ? ` (${PREPAY_CAP_ALLOWLIST[code].reason})` : " without allowlist reason"}.`);
   }
 
   const completionIds = new Set(allCompletionGroups(publicProfile).map((question) => question.id));
