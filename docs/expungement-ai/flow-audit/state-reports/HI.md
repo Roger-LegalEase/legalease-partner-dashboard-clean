@@ -108,3 +108,63 @@ docs/expungement-ai/flow-audit/state-reports/HI.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-2 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.
+
+### Changed
+
+- Added `src/lib/rcap/state-packs/hawaii/controlled-filing-dataset.ts`. Its court list is **deliberately empty**: Hawaii's compiled profile publishes an empty `packetGenerator.filingDestinationRules` and no court-naming source section, so there is no repository-backed destination to offer and none was invented.
+- Added an additive `controlledDataBindings` block to `HI-hawaii.json` recording the gap.
+
+### Deliberately not changed
+
+- No question's id, stage, type, prompt, options, required flag, `contextOnly` flag or `doesNotSelectPathway` flag moved.
+- No pathway, waiting-period rule, exclusion rule, ordered decision rule, packet family, form mapping, `operationallySellable` value or payment clamp moved.
+- No waiting rule was authored and no binding was added. `src/lib/rcap-engine/waiting-rule-bindings.json` and `src/lib/rcap-engine/evaluator.ts` are prohibited paths and are untouched.
+- No exclusion-category question was added, though Hawaii publishes six `exclusionRules` and no question that lets a participant declare one. That is recorded under UX-LEGAL-001, not implemented.
+- UX-STATECFG-001 is recorded and not implemented: conditional rendering needs `deriveScreens`, a prohibited shared path.
+
+### Terminals
+
+No flow row moved. All 13 HI flow IDs keep the terminal they had at the base. Proved by regenerating the audit's own four generators at the base and again with this shard's changes applied: `flow-manifest.json`, `question-inventory.json`, `branch-coverage.json` and `ui-reachability.json` are byte-identical between the two runs.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **14**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution`
+- Facts the evaluator consumes that this state never asks: `record_documents`
+
+### Waiting-rule dispositions
+
+5 fallback-dependent route(s) assigned to this jurisdiction. Every one carries exactly one disposition. None is recommended ACTIVE.
+
+| Route | Disposition | Rule(s) / basis |
+| --- | --- | --- |
+| `deferred-acceptance-one-year` | `EXPLICIT_BINDING_PROPOSED` | `wait-01` |
+| `deferred-prostitution-three-year` | `EXPLICIT_BINDING_PROPOSED` | `wait-02` |
+| `dui-under-21-conviction` | `HELD_FOR_CORRECTION` | `wait-03` |
+| `first-time-drug-conviction` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+| `nonconviction-arrest-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+
+### Duration-provenance findings
+
+Structured durations in this jurisdiction's `waitingPeriodRules` that were extracted from something other than the operative wait:
+
+- `wait-03` — duration **null**; the source sentence names HRS § 291E-0064(e) and states no period. Operative wait unknown. Live effect: payment open at every bucket for `dui-under-21-conviction`.
+
+### Potential P0 payment / legal-outcome risks
+
+- `HI:dui-under-21-conviction` — `packet_ready_with_caution` with `paymentAllowed` **true at every timing bucket including `lt_1_year`**. Its only rule, `wait-03`, carries no duration, so the timing answer is inert. Recommended **HOLD**.
+- `HI:first-time-drug-conviction` — same pattern on a *conviction* disposition, with no published waiting rule scoped to the route at all. Recommended **HOLD**.
+
+### Legal questions still open
+
+Does HRS § 831-3.2 carry any ordinary waiting period; what governs first-time drug-offender and under-21 alcohol expungement; and should Hawaii publish an exclusion-category question so its six exclusionRules can bind.
+
+### County and court (UX-COUNTY-001 / UX-COURT-001)
+
+Classified `SHARED_PHASE2_BLOCKER`. One bounded state-configuration attempt was made and reproduced three blockers first-hand: the screening-parity gate refuses a compiled question's type and option list; the served payload comes from the shared all-51 designer fixture, so the change was inert; and `QuestionField.tsx` has no input combining a controlled list with manual entry. The attempt was reverted and not retried. What is preserved here is a **prepared dataset**, not a live customer-facing selector — the served profile and the renderer do not read it, and both are prohibited paths.

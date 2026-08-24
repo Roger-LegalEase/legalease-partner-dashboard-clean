@@ -104,3 +104,56 @@ docs/expungement-ai/flow-audit/state-reports/AL.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-2 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.
+
+### Changed
+
+- Added `src/lib/rcap/state-packs/alabama/controlled-filing-dataset.ts`: two source-backed court destinations (the circuit court of the county where the charges were filed; ALEA as record holder), the venue rule for the filing location, and a clearly-labelled manual-entry fallback.
+- Added an additive `controlledDataBindings` block to `AL-alabama.json` binding `court` and `county_or_filing_location` to that dataset.
+
+### Deliberately not changed
+
+- No question's id, stage, type, prompt, options, required flag, `contextOnly` flag or `doesNotSelectPathway` flag moved.
+- No pathway, waiting-period rule, exclusion rule, ordered decision rule, packet family, form mapping, `operationallySellable` value or payment clamp moved.
+- No waiting rule was authored and no binding was added. `src/lib/rcap-engine/waiting-rule-bindings.json` and `src/lib/rcap-engine/evaluator.ts` are prohibited paths and are untouched.
+
+### Terminals
+
+No flow row moved. All 9 AL flow IDs keep the terminal they had at the base. Proved by regenerating the audit's own four generators at the base and again with this shard's changes applied: `flow-manifest.json`, `question-inventory.json`, `branch-coverage.json` and `ui-reachability.json` are byte-identical between the two runs.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **15**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution`
+- Facts the evaluator consumes that this state never asks: `record_documents`
+
+### Waiting-rule dispositions
+
+4 fallback-dependent route(s) assigned to this jurisdiction. Every one carries exactly one disposition. None is recommended ACTIVE.
+
+| Route | Disposition | Rule(s) / basis |
+| --- | --- | --- |
+| `eligible-conviction-expungement-under-the-redeemer-act` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | `wait-06`, `wait-07` — on `case_outcome` |
+| `human-trafficking-victim-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+| `non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a` | `HELD_FOR_CORRECTION` | `wait-01`, `wait-02`, `wait-04` |
+| `pardoned-felony-expungement-under-ala-code-15-27-2-c` | `EXPLICIT_BINDING_PROPOSED` | `wait-07` |
+
+### Duration-provenance findings
+
+Structured durations in this jurisdiction's `waitingPeriodRules` that were extracted from something other than the operative wait:
+
+- `wait-08`/`wait-20` — 15 years, stated as an **arrest-free lookback** for the narrow reclassified-felony pathway.
+- `wait-24` — 90 days drawn from the first row of a nine-period table blob.
+
+### Legal questions still open
+
+Which rule governs a human-trafficking-victim expungement, and what period applies to a charge dismissed without prejudice once the flow can tell that from a dismissal with prejudice.
+
+### County and court (UX-COUNTY-001 / UX-COURT-001)
+
+Classified `SHARED_PHASE2_BLOCKER`. One bounded state-configuration attempt was made and reproduced three blockers first-hand: the screening-parity gate refuses a compiled question's type and option list; the served payload comes from the shared all-51 designer fixture, so the change was inert; and `QuestionField.tsx` has no input combining a controlled list with manual entry. The attempt was reverted and not retried. What is preserved here is a **prepared dataset**, not a live customer-facing selector — the served profile and the renderer do not read it, and both are prohibited paths.

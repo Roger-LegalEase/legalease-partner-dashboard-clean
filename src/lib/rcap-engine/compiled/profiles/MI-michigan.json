@@ -3936,5 +3936,40 @@
       "officialForms": 6
     },
     "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  },
+  "controlledDataBindings": {
+    "schema": "rcap-controlled-data-binding/v1",
+    "issueIds": [
+      "UX-COUNTY-001",
+      "UX-COURT-001"
+    ],
+    "purpose": "Names the controlled dataset a state-aware court/filing-location selector should serve this jurisdiction from, so the selector does not have to guess which state pack holds it. Declaration only: no question's id, stage, type, prompt, options, required flag or contextOnly flag changes here, and the public profile projection does not publish this block.",
+    "bindings": [
+      {
+        "questionId": "court",
+        "collects": "court_or_filing_destination",
+        "currentType": "text",
+        "datasetModule": "src/lib/rcap/state-packs/michigan/controlled-filing-dataset.ts",
+        "datasetExport": "miControlledFilingDataset",
+        "optionsField": "courtDestinations",
+        "manualEntryField": "courtManualEntry"
+      },
+      {
+        "questionId": "county_or_filing_location",
+        "collects": "filing_location",
+        "currentType": "text_or_unknown",
+        "datasetModule": "src/lib/rcap/state-packs/michigan/controlled-filing-dataset.ts",
+        "datasetExport": "miControlledFilingDataset",
+        "optionsField": "filingLocations",
+        "manualEntryField": "filingLocationManualEntry"
+      }
+    ],
+    "unboundBecauseNoQuestionIsPublished": [
+      "county"
+    ],
+    "consumedBy": "none_yet_shared_selector_and_renderer_are_blocked",
+    "blockedBy": "SHARED_PHASE2_BLOCKER — see data/expungement-ai/flow-audit/shard-results/SHARD-2.json#courtAndCountySelectorProposal",
+    "reviewStatus": "requires_dataset_owner_confirmation",
+    "addedBy": "expungement-ai phase 3 state shard SHARD-2"
   }
 }
