@@ -116,3 +116,63 @@ docs/expungement-ai/flow-audit/state-reports/LA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/louisiana/record-clearing-filing-locations.ts: all 64 parishes, the judicial district courts, the Orleans Parish Criminal District Court, the Municipal and Traffic Court of New Orleans, city and juvenile courts, the State Police Bureau of Criminal Identification and Information, and a labelled manual-entry fallback. Parish, not county, is the correct local unit and the dataset says so.
+- Exported it from the Louisiana state pack index.
+
+### Deliberately not changed
+
+- LA-louisiana.json is byte-identical to the base.
+- No exclusion or waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly.
+
+### Terminals
+
+No flow row moved. All 25 Louisiana flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **14**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution` on `non-conviction-arrest-expungement`
+
+Louisiana already reaches packet_ready_with_caution with payment open from rendered screens only, on non-conviction-arrest-expungement. Not a UX-STATELAW-001 jurisdiction.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `automated-expungement-status-verification-art-985-2` | legal owner decision required | none |
+| `expungement-by-redaction-for-multi-person-records` | legal owner decision required | none |
+| `felony-article-893-e-set-aside-followed-by-expungement` | legal owner decision required | `wait-06` |
+| `felony-ten-year-clean-period-expungement` | explicit binding proposed | `wait-04` |
+| `first-offender-pardon-felony-expungement` | legal owner decision required | `wait-05` |
+| `first-offense-marijuana-expungement-after-90-days-art-998` | explicit binding proposed | `wait-03` |
+| `human-trafficking-survivor-expungement-fee-exempt-route` | legal owner decision required | none |
+| `immediate-expungement-after-successful-court-program-completion-art-985-3` | legal owner decision required | none |
+| `interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction` | legal owner decision required | none |
+| `misdemeanor-article-894-b-set-aside-followed-by-expungement` | legal owner decision required | `wait-01`, `wait-02` |
+| `misdemeanor-five-year-clean-period-expungement` | explicit binding proposed | `wait-02` |
+| `non-conviction-arrest-expungement` | legal owner decision required | `wait-01` |
+
+12 fallback-dependent route(s): 3 explicit binding proposed, 0 conditional binding proposed, 9 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/louisiana/record-clearing-filing-locations.ts` — 64 parishes, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- UX-LEGAL-001: non-conviction-arrest-expungement, misdemeanor-article-894-b-set-aside and misdemeanor-five-year-clean-period all return packet_ready_with_caution with payment open at every timing bucket including lt_1_year and still_open. For the five-year route that is a packet sold on a period the participant has not served. Recorded, not implemented.
+- Whether an additional clean period applies to a first-offender-pardon felony expungement, or whether the automatic pardon on completion of sentence is the whole of it.
+- Whether Article 985.3 immediate expungement after court-program completion carries any period; nothing in the profile states one.

@@ -116,3 +116,61 @@ docs/expungement-ai/flow-audit/state-reports/IL.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/illinois/record-clearing-filing-locations.ts: all 102 counties, the Circuit Court, the Circuit Court of Cook County, the Juvenile Division, the ISP Bureau of Identification, and a labelled manual-entry fallback.
+- Exported it from the Illinois state pack index alongside the existing county-court-instructions and court-routing modules, which are prose guidance for the legacy generator rather than a selectable list.
+
+### Deliberately not changed
+
+- IL-illinois.json is byte-identical to the base.
+- The Illinois legacy generator and its state pack modules were not modified; AGENTS.md preserves them.
+- No exclusion rule and no waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly for counsel to see.
+
+### Terminals
+
+No flow row moved. All 18 Illinois flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **17**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution` on `adult-non-conviction-expungement`
+
+Illinois already reaches packet_ready_with_caution with payment open from rendered screens only, on adult-non-conviction-expungement. Not a UX-STATELAW-001 jurisdiction.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `adult-conviction-sealing` | legal owner decision required | `wait-18`, `wait-19`, `wait-29`, `wait-30`, `wait-37` |
+| `adult-non-conviction-expungement` | explicit binding proposed | `wait-01`, `wait-02`, `wait-03`, `wait-04` |
+| `cannabis-specific-automatic-or-petition-expungement` | legal owner decision required | `wait-13` |
+| `clean-slate-automatic-sealing` | held for correction | `wait-23`, `wait-37` |
+| `criminal-identity-theft-mistaken-identity-relief` | legal owner decision required | none |
+| `expungement-after-eligible-supervision-or-qualified-probation` | legal owner decision required | `wait-09`, `wait-10`, `wait-25`, `wait-26`, `wait-27` |
+| `felony-prostitution-relief` | legal owner decision required | none |
+| `human-trafficking-survivor-vacatur-and-expungement` | explicit binding proposed | `wait-21` |
+| `juvenile-automatic-or-petition-expungement` | explicit binding proposed | `wait-22`, `wait-31` |
+
+9 fallback-dependent route(s): 3 explicit binding proposed, 0 conditional binding proposed, 5 legal owner decision required, 1 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/illinois/record-clearing-filing-locations.ts` — 102 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- UX-LEGAL-001: adult-conviction-sealing returns packet_ready_with_caution with payment open at the shortest timing bucket, lt_1_year. Recorded, not implemented.
+- Which records the June 30, 2026 shortening of the sealing wait from three years to two applies to. The evaluator clock is July 1, 2026, so both the three-year and the two-year statement are live at evaluation time.
+- What the Clean Slate automatic sealing route should tell a participant before automatic sealing begins on January 1, 2029.

@@ -105,3 +105,56 @@ docs/expungement-ai/flow-audit/state-reports/KY.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/kentucky/record-clearing-filing-locations.ts: all 120 counties, the Circuit and District Courts, the Family Court Division, the AOC expungement-certification step, and a labelled manual-entry fallback. This is the controlled county dataset UX-COUNTY-001 names as missing for Kentucky.
+- Exported it from the Kentucky state pack index.
+
+### Deliberately not changed
+
+- KY-kentucky.json is byte-identical to the base; county and court keep type text for the same parity reason as Idaho.
+- wait-05 was left in place even though its 60 days is a post-filing procedural window that the provisional selector can reach.
+
+### Terminals
+
+No flow row moved. All 11 Kentucky flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **13**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution` on `misdemeanor-violation-traffic-conviction`
+
+Kentucky already reaches packet_ready_with_caution with payment open from rendered screens only, on misdemeanor-violation-traffic-conviction from the years_1_to_2 bucket upward. Not a UX-STATELAW-001 jurisdiction.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `felony-conviction-431073` | explicit binding proposed | `wait-04` |
+| `juvenile-automatic-dismissal` | legal owner decision required | none |
+| `juvenile-petition-610330` | legal owner decision required | none |
+| `misdemeanor-violation-traffic-conviction` | explicit binding proposed | `wait-02` |
+| `nonconviction-431076` | legal owner decision required | `wait-06`, `wait-07` |
+
+5 fallback-dependent route(s): 2 explicit binding proposed, 0 conditional binding proposed, 3 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/kentucky/record-clearing-filing-locations.ts` — 120 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COUNTY-001 and UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- Whether a KRS 431.076 dismissal was with or without prejudice. The flow cannot ask it because case_outcome merges dismissal, no-bill, nolle prosequi and non-prosecution, and the answer moves the period between 60 days and three years.
+- Which routes are the "named voided first-possession routes" that wait-02 carves out of the five-year rule.
+- Kentucky publishes no juvenile waiting-period rule, so neither juvenile route has a candidate.

@@ -107,3 +107,53 @@ docs/expungement-ai/flow-audit/state-reports/DE.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/delaware/record-clearing-filing-locations.ts: the three counties, the four courts and the SBI, and a labelled manual-entry fallback.
+- Exported it from the Delaware state pack index.
+
+### Deliberately not changed
+
+- DE-delaware.json is byte-identical to the base.
+- The § 4373 / § 4373A tier table was not rewritten, even though its two None rows carry no rule id of their own. Publishing them would move evaluator output.
+
+### Terminals
+
+No flow row moved. All 10 Delaware flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **13**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready` on `discretionary-court-expungement-under-11-del-c-4374`
+
+Delaware already reaches packet_ready with payment open from rendered screens only, on discretionary-court-expungement-under-11-del-c-4374 from the years_3_to_5 bucket upward. Not a UX-STATELAW-001 jurisdiction.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `discretionary-court-expungement-under-11-del-c-4374` | legal owner decision required | `wait-06`, `wait-07`, `wait-08`, `wait-09` |
+| `juvenile-expungement-under-10-del-c-1017-1019-1017a` | legal owner decision required | `wait-01` |
+| `mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a` | legal owner decision required | `wait-03`, `wait-04`, `wait-05`, `wait-10` |
+| `pardon-based-discretionary-expungement-under-11-del-c-4375` | explicit binding proposed (`no_waiting_period`) | none |
+
+4 fallback-dependent route(s): 1 explicit binding proposed, 0 conditional binding proposed, 3 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/delaware/record-clearing-filing-locations.ts` — 3 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- Which felonies are the "certain eligible felonies" that carry the mandatory ten-year tier, and whether a misdemeanor is listed in § 4373(b) — neither fact is asked, and both select between periods that range from none to ten years.
