@@ -108,3 +108,67 @@ docs/expungement-ai/flow-audit/state-reports/NC.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `not_held`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/north-carolina/county-court-instructions.ts — the UX-COURT-001 state binding: the Superior Court venue rule quoted from the profile.
+- Exported it from src/lib/rcap/state-packs/north-carolina/index.ts.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json — untouched.
+- The G.S. 15A-145.5 tier table is left exactly as compiled. Its four durations are all correctly published; what is missing is the conviction-count fact that selects among them, and adding a question is a flow change this shard's parity gate forbids.
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 15 |
+| Packet-ready reachable from rendered screens only | **yes** |
+| Payment reachable from rendered screens only | **yes** |
+| Best terminal found | `packet_ready_with_caution` |
+| Best pathway | `dismissal-and-not-guilty-expunction-under-g-s-15a-146` |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `nonviolent-conviction-expunction-under-g-s-15a-145-5` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+9 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- G.S. 15A-145.5 — with no conviction-count fact in the flow, which tier governs a participant who tells us only misdemeanor or felony?
+- G.S. 15A-145.8A — what waiting period does the youthful / pre-Raise-the-Age route carry? The profile publishes none for it, only 15A-145 and 15A-145.5 rules.
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/north-carolina/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.

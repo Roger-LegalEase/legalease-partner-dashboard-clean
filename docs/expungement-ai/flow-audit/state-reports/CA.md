@@ -123,3 +123,74 @@ docs/expungement-ai/flow-audit/state-reports/CA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `HELD_FOR_CORRECTION`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/california/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding: the Superior Court venue rule quoted from the profile, the court designation set, the county slot marked awaiting_owner_supplied_source, and both manual-entry fallback labels.
+- Exported it from src/lib/rcap/state-packs/california/index.ts.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/CA-california.json — untouched, as the hold requires. California's pre-correction behaviour is preserved exactly.
+- The four ca_prop64_* questions keep their current classification, even though this shard proved they are what closes every California route.
+- All six fallback-dependent California routes are dispositioned HELD_FOR_CORRECTION rather than proposed.
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 17 |
+| Packet-ready reachable from rendered screens only | **no** |
+| Payment reachable from rendered screens only | **no** |
+| Best terminal found | `needs_review` |
+| Best pathway | none matched |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `prop-64-completed-sentence-application-11361-8` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+| `tool-1-dismissal-set-aside` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+| `tool-2-automatic-relief` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+| `tool-3-petition-based-felony-sealing` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+| `tool-4-arrest-record-sealing` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+| `tool-5-proposition-64-marijuana-relief` | `HELD_FOR_CORRECTION` | the jurisdiction is held; a binding is not meaningful until the correction lands |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+15 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- Are the four ca_prop64_* facts legal preconditions for Tools 1 through 4, or route-specific to the two HSC § 11361.8 routes? (UX-STATELAW-001)
+- Does the exclusion list in CA-california.json#exclusionRules bind the non-conviction routes? (UX-LEGAL-001)
+- Does any waiting-period rule bind those non-conviction routes, such that the shortest timing bucket should not return packet-ready? (UX-LEGAL-001)
+- What waiting rule governs tool-3-petition-based-felony-sealing, which returns ca.waiting_rule_not_executed once the Proposition 64 gate is cleared?
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` and `UX-COUNTY-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/california/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer, and the owner-supplied `TEST_COUNTY_AND_COURT_DATA_SOURCE` that was never supplied — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.

@@ -109,3 +109,69 @@ docs/expungement-ai/flow-audit/state-reports/NY.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `not_held`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/new-york/county-court-instructions.ts — the UX-COURT-001 state binding: the offence-driven court-of-conviction venue rule quoted from the profile.
+- Exported it from src/lib/rcap/state-packs/new-york/index.ts.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/NY-new-york.json — untouched, including wait-11, whose single structured duration of three years misrepresents a table row that states 'None' for three of New York's routes.
+- The seven unconditional CPL 160.59 conviction-counting screens stay unconditional (UX-STATECFG-001, P2, not release-critical this phase, and the fix lives in prohibited shared code anyway).
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 22 |
+| Packet-ready reachable from rendered screens only | **yes** |
+| Payment reachable from rendered screens only | **yes** |
+| Best terminal found | `packet_ready_with_caution` |
+| Best pathway | `conditional-treatment-sealing-under-cpl-160-58` |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `automatic-clean-slate-sealing-under-cpl-160-57` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | a fact the participant already supplies selects between published rules; field, values and rule ids recorded |
+| `automatic-non-conviction-sealing-under-cpl-160-50-160-55` | `EXPLICIT_BINDING_PROPOSED` | one rule in this state's own profile governs unconditionally; rule id and source text recorded |
+| `conditional-treatment-sealing-under-cpl-160-58` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `discretionary-conviction-sealing-by-petition-under-cpl-160-59` | `EXPLICIT_BINDING_PROPOSED` | one rule in this state's own profile governs unconditionally; rule id and source text recorded |
+| `marijuana-record-destruction-under-the-mrta` | `EXPLICIT_BINDING_PROPOSED` | one rule in this state's own profile governs unconditionally; rule id and source text recorded |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+10 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- CPL 160.58 — is conditional treatment sealing gated on programme completion with no elapsed period, or does a period apply? This is the route New York's only UI-reachable packet currently runs through.
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/new-york/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.

@@ -1,0 +1,2278 @@
+{
+  "schemaVersion": "expai-phase3-shard-result/v1",
+  "shardId": "SHARD-1",
+  "sessionFile": "docs/expungement-ai/phase2/shard-prompts/session-01.md",
+  "authoredBy": "Phase 3 state shard 01",
+  "phase2ProductHead": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "baseSha": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "branch": "claude/expai-state-shard-01",
+  "evaluatorToday": "2026-07-01",
+  "jurisdictionsInScope": [
+    "AZ",
+    "CA",
+    "MT",
+    "NC",
+    "NE",
+    "NY",
+    "OR",
+    "TN",
+    "WI"
+  ],
+  "contract": "One sign-off packet per jurisdiction: what changed, what was deliberately not changed, which legal questions stay open, and the before-and-after terminal for every flow of this shard's. Every waiting-rule proposal below is evidence, not a change: the shared binding table and the shared evaluator are prohibited to a shard, so nothing here authors a waiting period.",
+  "step1ReconfirmationOfTheAuditReading": {
+    "question": "Do the audit's own generators still reproduce their committed artifacts at this base, and is every difference explained by the Phase 2 correction allowlist?",
+    "verdict": "Every --check difference at this base is pre-existing and explained. No unexplained difference was found, and this shard introduces none.",
+    "checkResultsAtBase": [
+      {
+        "generator": "scripts/expungement-ai/flow-audit/build-flow-manifest.mjs --check",
+        "exit": 1,
+        "stale": true
+      },
+      {
+        "generator": "scripts/expungement-ai/flow-audit/build-question-inventory.mjs --check",
+        "exit": 1,
+        "stale": true
+      },
+      {
+        "generator": "scripts/expungement-ai/flow-audit/build-branch-coverage.mjs --check",
+        "exit": 1,
+        "stale": true
+      },
+      {
+        "generator": "scripts/expungement-ai/flow-audit/build-ui-reachability.mjs --check",
+        "exit": 1,
+        "stale": true
+      }
+    ],
+    "reconciliation": [
+      {
+        "observation": "The four committed artifacts under data/expungement-ai/flow-audit/ are the Phase 1 baseline and were deliberately left at the Phase 1 head. Phase 2's implementation report states this in terms: 'The Phase 1 artifacts are untouched: they are the baseline.'",
+        "explainedBy": "data/expungement-ai/phase2/correction-allowlist.json#shared-facts-rendered and #witness-fixtures-predate-the-shared-facts"
+      },
+      {
+        "observation": "Regenerating flow-manifest.json, question-inventory.json and ui-reachability.json at this base produces bytes IDENTICAL to Phase 2's own recorded snapshot in data/expungement-ai/phase2/post-implementation/. Verified by cmp.",
+        "explainedBy": "the generators are deterministic and this base is the Phase 2 head plus one commit that touches no product code"
+      },
+      {
+        "observation": "branch-coverage.json regenerates DIFFERENT from data/expungement-ai/phase2/post-implementation/branch-coverage.json. build-branch-coverage.mjs picks its per-state baseline answer set from the first packet-ready witness in data/rcap-ledger/public-witness-fixtures.json. Commit 93e05e94 ('Leave the witness ledger at the product base and report it') reverted that ledger to the product base, and the Phase 2 snapshot was not re-taken after the revert.",
+        "explainedBy": "the ledger revert at the shard base, not a product change; the difference is entirely in baselineTerminalResultCode and the edges measured from it"
+      },
+      {
+        "observation": "The 95 flow IDs assigned to SHARD-1 all resolve in the manifest regenerated at this base, and no flow in the nine jurisdictions is outside the assignment. Scope reconciles exactly.",
+        "explainedBy": "measured"
+      }
+    ],
+    "phase2RecordAtThisBase": {
+      "command": "node scripts/expungement-ai/phase2/build-phase2-record.mjs",
+      "exit": 0,
+      "measuredDifferences": 8,
+      "unexplainedDifferences": 0,
+      "note": "Re-running the record builder at this base rewrites only the recorded head sha (288b0d9a -> 93e05e94) and is otherwise byte-identical. data/expungement-ai/phase2/** is a prohibited path for this shard, so that rewrite was reverted and is not carried in this branch."
+    }
+  },
+  "step2Reachability": {
+    "question": "Which of this shard's jurisdictions still cannot reach a packet-ready terminal answering only the screens the flow renders?",
+    "azAndMtConfirmed": {
+      "verdict": "Confirmed at this base. AZ and MT both return packet_ready_with_caution with paymentAllowed true for the same participant the Phase 1B reconciliation used, and the replay is byte-identical to data/expungement-ai/phase2/remedy-context-replay-after.json for all 13 rows.",
+      "method": "node scripts/expungement-ai/phase2/replay-remedy-contexts.mjs, run at this base with output written outside the tree",
+      "boundedSweepAtThisBase": {
+        "AZ": "best terminal packet_ready_with_caution on remedy-1-record-sealing",
+        "MT": "best terminal packet_ready_with_caution on misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+      }
+    },
+    "californiaFinding": {
+      "jurisdiction": "CA",
+      "heldStatus": "HELD_FOR_CORRECTION",
+      "verdict": "Neither of the two answers step 2 offers is correct for California. The packet-ready outcome is NOT legally unavailable to a self-help participant, and the missing fact is NOT a legal precondition. California is closed by a shared escalation reacting to four OPTIONAL, route-specific Proposition 64 questions that a non-marijuana participant correctly answers 'I'm not sure'.",
+      "rootCause": {
+        "where": "src/lib/rcap-engine/evaluator.ts#ambiguityReason (shared, prohibited to this shard)",
+        "mechanism": "ambiguityReason escalates to needs_review with <code>.source_fact_unknown whenever ANY rendered, non-contextOnly, prepay question carries an explicit-unknown answer. It does not check whether the question belongs to the route the participant is on.",
+        "californiaSpecificInput": "CA publishes ca_prop64_qualifying_marijuana_offense, ca_prop64_lesser_or_no_offense, ca_prop64_branch and ca_prop64_relief_requested as prepay, non-contextOnly, required:false questions. The last two are text_or_unknown, so 'I'm not sure' is an explicit-unknown value.",
+        "observedReasonChain": [
+          "with the audit's own answer set: ca.source_fact_unknown — 'ca_prop64_branch is uncertain and requires source review'",
+          "clearing only ca_prop64_branch: ca.source_fact_unknown — 'ca_prop64_relief_requested is uncertain and requires source review'"
+        ]
+      },
+      "proof": {
+        "method": "replay of all eight recorded CA remedy contexts at this base, changing only the four ca_prop64_* answers from their explicit-unknown values to definite ones",
+        "result": [
+          {
+            "remedyContext": "Tool 1 — Dismissal / set-aside (PC 1203.4 and variants)",
+            "before": "needs_review / paymentAllowed false",
+            "after": "packet_ready_with_caution / paymentAllowed true",
+            "reason": "ca.compiled_rule_match.rule-02-the-classic-california-expungement-a-person-may-petitio…"
+          },
+          {
+            "remedyContext": "Tool 4 — Arrest-record sealing (PC 851.91; factual innocence PC 851.8)",
+            "before": "needs_review / paymentAllowed false",
+            "after": "packet_ready_with_caution / paymentAllowed true",
+            "reason": "ca.compiled_rule_match.rule-15-tool-4-arrest-record-sealing-pc-851-91-factual-innocenc…"
+          },
+          {
+            "remedyContext": "Tool 2 — Automatic relief",
+            "before": "needs_review",
+            "after": "guidance_only",
+            "reason": "ca.guidance_only_no_user_filed_court_petition"
+          },
+          {
+            "remedyContext": "Tool 3 — Petition-based felony sealing",
+            "before": "needs_review",
+            "after": "needs_review",
+            "reason": "ca.waiting_rule_not_executed"
+          },
+          {
+            "remedyContext": "Tool 5 — Proposition 64 marijuana relief",
+            "before": "needs_review",
+            "after": "guidance_only",
+            "reason": "ca.lawrence_hold_guidance_only"
+          }
+        ],
+        "conclusion": "California has at least two packet-ready, payable routes behind this gate. The bounded sweep cannot reach them because it answers optional text questions with the unknown affordance, which is exactly what a participant with a non-marijuana record would do."
+      },
+      "correctionProposed": {
+        "shape": "a lifecycle/classification correction inside CA-california.json — the four ca_prop64_* questions are route-specific facts for prop-64-currently-serving-petition-11361-8 and prop-64-completed-sentence-application-11361-8 only, and should not be scanned as general prepay legal fields for the other five routes",
+        "notPerformed": "CA is HELD_FOR_CORRECTION: 'Their pre-correction behaviour is preserved exactly.' The correction also changes contextOnly on four questions, which scripts/verify-expungement-plain-language-values.mjs pins against origin/main and which only an owner-authorised entry in the prohibited data/expungement-ai/screening-parity-approved-deltas.json may exempt.",
+        "alsoNeeds": "a decision on whether the durable fix belongs in the shared evaluator (scope ambiguityReason to the questions the matched route actually consumes) rather than in each state's profile. That is UX-STATECFG-001's shared half and is not a shard's to make."
+      },
+      "escalated": true,
+      "changedThisShard": false
+    },
+    "otherSixJurisdictions": "NC, NE, NY, OR, TN and WI all reach packet_ready_with_caution in the bounded sweep at this base. Four of them reach it THROUGH a fallback-dependent route, which is why none is recommended ACTIVE: NE via set-aside-probation-fine-community-service, NY via conditional-treatment-sealing-under-cpl-160-58, OR via set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c, TN via pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106.",
+    "remedyContextReplayAtThisBase": {
+      "totals": {
+        "routes": 13,
+        "terminalMoved": 13,
+        "paymentOpened": 12,
+        "paymentClosed": 0,
+        "pathwayChanged": 0,
+        "errors": 0
+      },
+      "AZ": {
+        "jurisdiction": "AZ",
+        "remedyContextOption": "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+        "intendedPathwayIds": [
+          "remedy-1-record-sealing"
+        ],
+        "before": {
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reasonCodes": []
+        },
+        "after": {
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reasonCodes": [
+            "az.compiled_rule_match.rule-01-remedy-1-record-sealing-a-r-s-13-911"
+          ],
+          "missingQuestionIds": []
+        },
+        "droppedAsNotPublicQuestions": [],
+        "pathwayUnchanged": true,
+        "terminalMoved": true,
+        "paymentMoved": true
+      },
+      "MT": {
+        "jurisdiction": "MT",
+        "remedyContextOption": "Misdemeanor-conviction expungement under Mont. Code § 46-18-1104",
+        "intendedPathwayIds": [
+          "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+        ],
+        "before": {
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": false,
+          "reasonCodes": []
+        },
+        "after": {
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reasonCodes": [
+            "mt.compiled_rule_match.rule-03-montana-s-misdemeanor-expungement-packet-does-not-cover"
+          ],
+          "missingQuestionIds": []
+        },
+        "droppedAsNotPublicQuestions": [],
+        "pathwayUnchanged": true,
+        "terminalMoved": true,
+        "paymentMoved": true
+      }
+    }
+  },
+  "step3ReleaseCriticalStateIssues": [
+    {
+      "issueId": "UX-COURT-001",
+      "severity": "P1",
+      "category": "COURT_DATA",
+      "releaseCritical": true,
+      "myJurisdictions": [
+        "AZ",
+        "CA",
+        "MT",
+        "NC",
+        "NE",
+        "NY",
+        "OR",
+        "TN",
+        "WI"
+      ],
+      "status": "PARTIALLY_DELIVERED_REMAINDER_BLOCKED",
+      "delivered": "The Phase 3 state-binding half, for all nine jurisdictions, at src/lib/rcap/state-packs/<state>/county-court-instructions.ts. Each module carries that state's venue rule quoted verbatim from its own compiled profile's packetGenerator.filingDestinationRules, the controlled set of court designations the source text actually settles, each with the sentence it came from, and the manual-entry fallback label. county-court-instructions is the repository's own established state-pack module name (scripts/audit-all50-state-pack-substance.mjs counts it as substantive; Mississippi, Illinois and Pennsylvania already carry one).",
+      "blocked": "The rebind itself — turning the compiled profile's `court` question from `text` into a selector — cannot be done inside this shard's allowed paths.",
+      "blockerProvedEmpirically": {
+        "experiment": "AZ-arizona.json#questions[court] changed from type text to single_choice with a four-option controlled list, then scripts/verify-expungement-plain-language-values.mjs run",
+        "result": "exit 1 — 'AZ:court changed type.' and 'AZ:court changed option values/order.'",
+        "reverted": true
+      },
+      "whyItCannotBeUnblockedHere": [
+        "scripts/verify-expungement-plain-language-values.mjs is a required acceptance test for this shard and asserts, for every question in every compiled profile against origin/main, that id, stage, type, required, contextOnly, doesNotSelectPathway and options are unchanged.",
+        "The only sanctioned exemption is a reviewed entry in data/expungement-ai/screening-parity-approved-deltas.json, which this shard's prompt lists as a prohibited path and which the verifier treats as an owner authorisation pinned by content hash.",
+        "The audit also records the fix as needing the shared renderer: src/components/expungement-ai/screening/QuestionField.tsx has no selector-with-manual-entry branch, and src/components/** is prohibited.",
+        "Phase 1 filed this issue's owner as PHASE_2_SHARED_DATASET_THEN_PHASE_3_STATE_BINDING. The shared half was not built in Phase 2 ('State-specific: needs a controlled court dataset per state'), so the ordering dependency is unmet at this base."
+      ],
+      "handOff": "See screeningParityDeltasProposed below for the exact per-state delta the integration captain would need Roger to authorise.",
+      "classification": "SHARED_PHASE2_BLOCKER",
+      "blockerDetail": "see sharedPhase2Blocker"
+    },
+    {
+      "issueId": "UX-COUNTY-001",
+      "severity": "P1",
+      "category": "COUNTY_DATA",
+      "releaseCritical": true,
+      "myJurisdictions": [
+        "CA",
+        "MT",
+        "NE",
+        "OR"
+      ],
+      "status": "BLOCKED_ON_AN_OWNER_SUPPLIED_INPUT",
+      "confirmedScope": "Exactly these four of my nine carry `county` in packetGenerator.requiredInputs (CA, MT, NE, OR). The other five carry only `court`. This matches the issue's own jurisdiction list.",
+      "delivered": "The county slot is declared per state in the same county-court-instructions.ts modules, with packetFactId, status awaiting_owner_supplied_source, a null value set and the manual-entry fallback label, so the shared selector has a defined place to read from.",
+      "blocked": "No controlled county dataset was authored. The Phase 1 baseline report states the position plainly: 'Choosing the county and court data source is a product decision with licensing and freshness consequences; the master plan lists TEST_COUNTY_AND_COURT_DATA_SOURCE as an owner-supplied input and none was supplied.'",
+      "whyNotAuthoredFromRecall": "A county list written from the agent's own recall is not a controlled dataset, carries no provenance and no freshness owner, and the value is bound into a court filing. Under this sprint's source hierarchy that is authored content without a source, which is the one thing the discipline forbids. The same blocker as UX-COURT-001 applies on top: even with a dataset, the question rebind fails the parity verifier.",
+      "handOff": "Supply TEST_COUNTY_AND_COURT_DATA_SOURCE. The nine state modules then need only their countyDataset.values populated.",
+      "classification": "SHARED_PHASE2_BLOCKER",
+      "blockerDetail": "see sharedPhase2Blocker"
+    },
+    {
+      "issueId": "UX-STATELAW-001",
+      "severity": "P1",
+      "category": "STATE_LEGAL_LOGIC",
+      "releaseCritical": true,
+      "legalReviewRequired": true,
+      "myJurisdictions": [
+        "AZ",
+        "CA",
+        "MT"
+      ],
+      "status": "RECORDED_NOT_IMPLEMENTED",
+      "instruction": "record the question, do not implement it",
+      "findings": {
+        "AZ": "Closed by Phase 2 and still closed at this base. The bounded sweep reaches packet_ready_with_caution on remedy-1-record-sealing; the remedy-context replay reproduces Phase 2's recorded proof byte-for-byte. No legal question remains open for AZ under this issue.",
+        "MT": "Same. packet_ready_with_caution on misdemeanor-conviction-expungement-under-mont-code-46-18-1104, replay byte-identical to the Phase 2 proof. No legal question remains open for MT under this issue.",
+        "CA": "Open. See step2.californiaFinding. The legal question for counsel is narrow and specific, and is NOT 'is a California packet available to a self-help participant' — the evidence says it is, on two routes. The question is: are the four ca_prop64_* facts legal preconditions for the five non-Proposition-64 California routes, or are they route-specific to the two § 11361.8 routes only? If the latter — which the compiled decision rules already say, since only the two prop-64 routes name them in requiredFields — then California's closure is a configuration defect, not a legal position, and the product is currently telling every Californian with a non-marijuana record that we need one more detail before we can prepare the right packet, when we do not."
+      },
+      "legalQuestionsRaised": [
+        "CA — Are ca_prop64_qualifying_marijuana_offense, ca_prop64_lesser_or_no_offense, ca_prop64_branch and ca_prop64_relief_requested legal preconditions for Tools 1 through 4, or are they route-specific to the two HSC § 11361.8 routes? The compiled rules name them in requiredFields for the two prop-64 routes only."
+      ]
+    },
+    {
+      "issueId": "UX-LEGAL-001",
+      "severity": "P1",
+      "category": "REQUIRES_LEGAL_REVIEW",
+      "releaseCritical": true,
+      "legalReviewRequired": true,
+      "myJurisdictions": [
+        "CA"
+      ],
+      "status": "RECORDED_NOT_IMPLEMENTED",
+      "instruction": "record the question, do not implement it",
+      "finding": "California is one of the five jurisdictions where selecting a state exclusion category, and separately where choosing the shortest timing bucket, still returns packet_ready_with_caution. Both land on non-conviction routes. CA's compiled profile carries 25 exclusion rules and 13 waiting-period rules; whether either binds Tool 4 (arrest-record sealing under PC 851.91) and the § 11361.8 applications is a source-law question, not an engineering one.",
+      "legalQuestionsRaised": [
+        "CA — Does the state exclusion list in CA-california.json#exclusionRules bind the non-conviction routes (tool-4-arrest-record-sealing, tool-2-automatic-relief), or is a selected exclusion category correctly non-binding there?",
+        "CA — Does any waiting-period rule in CA-california.json#waitingPeriodRules bind those same non-conviction routes, such that the shortest timing bucket should NOT return packet-ready?"
+      ],
+      "note": "CA is HELD_FOR_CORRECTION, so nothing was changed regardless of how counsel answers."
+    },
+    {
+      "issueId": "UX-STATECFG-001",
+      "severity": "P2",
+      "category": "STATE_CONFIGURATION",
+      "releaseCritical": false,
+      "myJurisdictions": [
+        "CA",
+        "NY",
+        "WI"
+      ],
+      "status": "RECORDED_LEFT_ALONE",
+      "instruction": "anything marked not release-critical is recorded in your shard result and left alone this phase",
+      "finding": "The fix is not in a shard's reach in any case. The audit locates it at src/components/expungement-ai/screening/screens.ts#deriveScreens — 'no conditional gating anywhere in the derivation' — and src/components/** is prohibited. Per-state: CA asks four Proposition 64 questions of every participant, NY asks seven CPL 160.59 conviction-counting questions of every participant, WI asks its route-specific gate unconditionally.",
+      "materialConsequence": "In California this P2 is the mechanism behind a P1. The four unconditional Proposition 64 screens are precisely the questions whose unknown answers close every Californian route (step2.californiaFinding). Ranking it P2 understates it for CA."
+    },
+    {
+      "issueId": "UX-CONTENT-001",
+      "severity": "P3",
+      "category": "CONTENT_ONLY",
+      "releaseCritical": false,
+      "myJurisdictions": [
+        "AZ",
+        "CA",
+        "MT",
+        "NC",
+        "NE",
+        "NY",
+        "OR",
+        "TN",
+        "WI"
+      ],
+      "status": "RECORDED_LEFT_ALONE",
+      "instruction": "anything marked not release-critical is recorded in your shard result and left alone this phase",
+      "questionIdsWithNoConsumer": [
+        "case_identifier",
+        "county_or_filing_location",
+        "last_conviction_date",
+        "probation_parole_supervision_end_date",
+        "record_documents"
+      ],
+      "finding": "Owner is PHASE_2_SHARED. Removing a published question from a compiled profile would also change that profile's question count and order, which scripts/verify-expungement-plain-language-values.mjs pins against origin/main, so it is doubly out of reach here.",
+      "noteWorthCarrying": "county_or_filing_location is on this list AND is the free-text 'Where in <state> did the case happen?' screen in AZ, NC, NY, TN and WI. It is published, asked of the participant, and read by nothing. Any eventual county-selector work should decide whether it is the county field or should be withdrawn, rather than building a selector for a question with no consumer."
+    }
+  ],
+  "step4GlobalIssuesNotImplemented": {
+    "instruction": "Do not implement any global issue. Add to the Phase 2 backlog record rather than acting on it.",
+    "globalIssuesTouched": "none",
+    "additionsProposedToDataExpungementAiPhase2P2P3BacklogJson": [
+      {
+        "issueId": "UX-GLOBAL-019",
+        "addition": "ambiguityReason in src/lib/rcap-engine/evaluator.ts escalates on an explicit-unknown answer to ANY rendered non-contextOnly prepay question, without checking whether that question belongs to the route the participant matched. In California this closes all seven routes on two optional Proposition 64 text questions. Evidence and replay in data/expungement-ai/flow-audit/shard-results/SHARD-1.json#step2Reachability.californiaFinding.",
+        "whyItIsProposedNotWritten": "data/expungement-ai/phase2/** is prohibited to a shard."
+      },
+      {
+        "issueId": "UX-STATECFG-001",
+        "addition": "Reclassify from P2 to release-critical for CA specifically: the unconditional Proposition 64 screens are the proximate cause of California's UX-STATELAW-001 closure."
+      }
+    ]
+  },
+  "waitingRuleDispositionSummary": {
+    "assigned": 31,
+    "EXPLICIT_BINDING_PROPOSED": 5,
+    "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 2,
+    "LEGAL_OWNER_DECISION_REQUIRED": 18,
+    "HELD_FOR_CORRECTION": 6,
+    "recommendedActive": [],
+    "rule": "No fallback-dependent route is recommended ACTIVE. Every one of the 31 still resolves through the provisional prose selector at this base."
+  },
+  "waitingRuleDispositions": {
+    "CA:prop-64-completed-sentence-application-11361-8": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "California is HELD_FOR_CORRECTION at the product base and this shard's prompt repeats the hold: 'Their pre-correction behaviour is preserved exactly.' A binding proposal for a California route would be a proposal to move a held jurisdiction's behaviour. The correction California needs first is the one recorded at step2Reachability.californiaFinding: while every California route escalates on an unknown Proposition 64 answer, no California route reaches its waiting rule at all, so which rule governs is not yet a live question.",
+      "correctionRequiredFirst": "scope the ca_prop64_* facts to the two HSC § 11361.8 routes, or scope the shared ambiguityReason to the matched route's own fields",
+      "recommendedActive": false
+    },
+    "CA:tool-1-dismissal-set-aside": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "Same hold. Materially: with the four ca_prop64_* answers made definite, this route returns packet_ready_with_caution with paymentAllowed true at this base via ca.compiled_rule_match.rule-02. It is one of the two California routes the correction would reopen, which is exactly why its waiting rule must be settled after the correction and not before.",
+      "correctionRequiredFirst": "same as above",
+      "recommendedActive": false
+    },
+    "CA:tool-2-automatic-relief": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "Same hold. With the Proposition 64 answers made definite this route returns guidance_only (ca.guidance_only_no_user_filed_court_petition) — a non-filing route, where a waiting-period binding may not be the right instrument at all. That is a question for after the correction.",
+      "correctionRequiredFirst": "same as above",
+      "recommendedActive": false
+    },
+    "CA:tool-3-petition-based-felony-sealing": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "Same hold. This is the one California route that, once the Proposition 64 gate is cleared, reaches its waiting rule and fails it: it returns needs_review with ca.waiting_rule_not_executed. So this route has a genuine, separate waiting-rule gap underneath the held correction. Recorded here rather than resolved: proposing a binding for it now would be proposing to move a held jurisdiction.",
+      "correctionRequiredFirst": "same as above, then a binding for the SB 731 / PC 1203.49 framework",
+      "recommendedActive": false
+    },
+    "CA:tool-4-arrest-record-sealing": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "Same hold. With the Proposition 64 answers made definite this route returns packet_ready_with_caution with paymentAllowed true via ca.compiled_rule_match.rule-15. It is the second route the correction would reopen. It is also one of the two non-conviction routes UX-LEGAL-001 asks counsel about, so its exclusion and timing treatment is an open legal question in its own right.",
+      "correctionRequiredFirst": "same as above",
+      "recommendedActive": false
+    },
+    "CA:tool-5-proposition-64-marijuana-relief": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "why": "Same hold. This route is categorised product_scope_exclusion and returns guidance_only under ca.lawrence_hold_guidance_only once the gate is cleared. A waiting-rule binding for a route the product does not sell is not the correction it needs.",
+      "correctionRequiredFirst": "same as above",
+      "recommendedActive": false
+    },
+    "MT:deferred-sentence-dismissal-or-confidentiality-route": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "Every waiting-period row the prose selector can see for this route is the five-year clean period of the § 46-18-1104 MISDEMEANOR CONVICTION petition (wait-01, wait-02, wait-05, wait-06, wait-08), plus wait-04, which is the Montana DOJ's ~30-day CRISS PROCESSING time after an order is granted. Neither is this route's rule. The only thing the profile says about this route's timing is the table line 'Deferred sentence Dismissal can make records confidential', which states no period. Importing another route's five-year period, or treating a post-order processing latency as an eligibility wait, would both be authoring.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-01",
+          "duration": "5 years",
+          "quote": "Five-year clean period Five years must have passed since completion of sentence terms.",
+          "rejectedBecause": "this is the § 46-18-1104 misdemeanor-conviction period, already bound to MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+        },
+        {
+          "ruleId": "wait-04",
+          "duration": "30 days",
+          "quote": "DOJ says to allow about 30 days for processing.",
+          "rejectedBecause": "processing latency after the court grants the order, not an eligibility waiting period"
+        }
+      ],
+      "whatCounselMustDecide": "Does the § 46-18-204 deferred-sentence dismissal / confidentiality route carry an eligibility waiting period, and if so from what anchor?",
+      "recommendedActive": false
+    },
+    "MT:doj-record-removal-update-request": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "routeType administrative. The candidates are wait-04 (~30 days of DOJ CRISS processing), the § 46-18-1104 five-year rows, and a 21-day county-attorney opposition window carried in the pathway prose. None of the three is an eligibility waiting period for an administrative DOJ record-removal request. The profile states no period for this route.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-04",
+          "duration": "30 days",
+          "quote": "DOJ says to allow about 30 days for processing.",
+          "rejectedBecause": "post-grant processing latency"
+        },
+        {
+          "ruleId": "wait-02",
+          "duration": "5 years",
+          "quote": "the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms",
+          "rejectedBecause": "belongs to the misdemeanor-conviction petition"
+        }
+      ],
+      "whatCounselMustDecide": "Does an administrative DOJ record-removal/update request have a waiting period at all, or should this route be bound no_waiting_period?",
+      "recommendedActive": false
+    },
+    "MT:marijuana-related-redesignation-expungement-under-mmrta": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The MMRTA redesignation route's own prose describes Form A (currently serving) and Form B (sentence completed), service on the county attorney and a 21-day opposition window. It states no eligibility waiting period. The only bound durations reachable are the § 46-18-1104 five-year rows and the 30-day DOJ processing time, neither of which is MMRTA's.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-02",
+          "duration": "5 years",
+          "quote": "no convictions … for five years after completing the sentence terms",
+          "rejectedBecause": "misdemeanor-conviction petition rule, not MMRTA"
+        },
+        {
+          "ruleId": "wait-04",
+          "duration": "30 days",
+          "quote": "DOJ says to allow about 30 days for processing.",
+          "rejectedBecause": "post-grant processing latency"
+        }
+      ],
+      "whatCounselMustDecide": "Does MMRTA redesignation/expungement under Mont. Code § 16-12-113 carry a waiting period, or is it available on completion of sentence with none?",
+      "recommendedActive": false
+    },
+    "MT:non-conviction-criminal-history-removal-through-criss": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The profile's own summary line for this route is 'Non-convictions CRISS removal/sealing under 44-5-202 process', with no period stated. The reachable bound durations are again the § 46-18-1104 five-year rows and the 30-day DOJ processing time. A non-conviction removal plausibly has no waiting period, but the profile does not say so, and inferring 'none' from silence is authoring just as much as inferring five years is.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-08",
+          "duration": "5 years",
+          "quote": "Waiting period Generally 5 years after completing sentence terms",
+          "rejectedBecause": "the same table line explicitly separates 'Non-convictions CRISS removal/sealing under 44-5-202 process' from the misdemeanor waiting period"
+        }
+      ],
+      "whatCounselMustDecide": "Does § 44-5-202 CRISS non-conviction removal carry a waiting period, or should it be bound no_waiting_period?",
+      "recommendedActive": false
+    },
+    "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The profile publishes the full G.S. 15A-145.5 tier table with rule ids and durations, so the durations are not the problem — the SELECTOR is. The tier turns on TWO facts: whether the record is a misdemeanor or a felony, and how many nonviolent convictions the petitioner has. The flow asks offense_level, which narrows four tiers to two, and asks nothing that carries the conviction count. Choosing 3 over 7, or 10 over 20, for a participant whose count we never asked is a policy decision about unknowns, not a transcription.",
+      "tierTableFromTheProfile": [
+        {
+          "ruleIds": [
+            "wait-01",
+            "wait-07"
+          ],
+          "duration": "3 years",
+          "quote": "One nonviolent misdemeanor — after 3 years (reduced from 5 by the 2025 law, for petitions filed on/after 7/9/2025)."
+        },
+        {
+          "ruleIds": [
+            "wait-02",
+            "wait-08"
+          ],
+          "duration": "7 years",
+          "quote": "More than one nonviolent misdemeanor — after 7 years from the last conviction / completion of sentence."
+        },
+        {
+          "ruleIds": [
+            "wait-03",
+            "wait-09"
+          ],
+          "duration": "10 years",
+          "quote": "One nonviolent felony — after 10 years from completion of the sentence."
+        },
+        {
+          "ruleIds": [
+            "wait-04",
+            "wait-10"
+          ],
+          "duration": "20 years",
+          "quote": "Two or three nonviolent felonies — after 20 years; all nonviolent felonies disposed in the same session of court count as one."
+        }
+      ],
+      "theMissingFact": "the number of nonviolent convictions the petitioner is seeking to clear, and whether any were disposed in the same session of court (wait-18: 'all nonviolent felonies disposed in a single session of court are treated as one nonviolent felony conviction for counting and waiting-period purposes')",
+      "whatCounselMustDecide": "Either add a conviction-count fact to the flow so a conditional binding can be authored, or decide the disambiguation policy (for example longest_bound_duration within the offense_level branch) as a matter of legal safety.",
+      "recommendedActive": false
+    },
+    "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "This route is G.S. 15A-145.8A. The only youth-specific duration the profile publishes is wait-11, 'Under-18 misdemeanor 15A-145 2 years Targeted statute' — a DIFFERENT statute (15A-145). Everything else reachable is the 15A-145.5 tier table, which is a different route again. Binding a 15A-145 duration to a 15A-145.8A route because both concern young people is exactly the kind of near-miss the binding table exists to stop.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-11",
+          "duration": "2 years",
+          "quote": "Under-18 misdemeanor 15A-145 2 years Targeted statute",
+          "rejectedBecause": "G.S. 15A-145, not the 15A-145.8A route this binding is for"
+        },
+        {
+          "ruleId": "wait-12",
+          "duration": "15 years",
+          "quote": "Larceny (anyone) 15A-145 15 years Targeted statute",
+          "rejectedBecause": "same — a different targeted statute"
+        }
+      ],
+      "whatCounselMustDecide": "What waiting period, if any, G.S. 15A-145.8A carries, and whether the profile should publish it as its own rule rather than leaving the route to borrow from 15A-145 or 15A-145.5.",
+      "recommendedActive": false
+    },
+    "NE:automatic-nonconviction-sealing": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "This is the closest any route in this shard comes to a clean conditional binding, and it still fails on one answer value. Three of the four case_outcome values that reach this route settle to a single published rule. The fourth does not: Nebraska's single option 'Diversion, deferred disposition, supervision, or similar program' merges completed diversion (two years, wait-02) with deferred judgment and problem-solving-court completion (immediate, wait-03). Two published rules, different durations, one answer value, and no fact in the flow separates them.",
+      "partialMappingThatDoesSettle": [
+        {
+          "field": "case_outcome",
+          "answerValue": "Acquitted or found not guilty",
+          "ruleIds": [
+            "wait-03",
+            "wait-12"
+          ],
+          "duration": "0 days (immediate)",
+          "quote": "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice."
+        },
+        {
+          "field": "case_outcome",
+          "answerValue": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "ruleIds": [
+            "wait-03",
+            "wait-12"
+          ],
+          "duration": "0 days (immediate)",
+          "quote": "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice."
+        },
+        {
+          "field": "case_outcome",
+          "answerValue": "Arrest or citation with no charge filed",
+          "ruleIds": [
+            "wait-01",
+            "wait-10"
+          ],
+          "duration": "1 year",
+          "quote": "No charges filed after prosecutor decline: public access ends one year after arrest."
+        }
+      ],
+      "theConflict": {
+        "field": "case_outcome",
+        "answerValue": "Diversion, deferred disposition, supervision, or similar program",
+        "conflictingRuleIds": [
+          "wait-02",
+          "wait-03"
+        ],
+        "durations": [
+          "2 years",
+          "0 days"
+        ],
+        "quotes": [
+          "No charges filed after completed diversion: public access ends two years after arrest.",
+          "Acquittal, qualifying dismissal, deferred judgment completion, or problem-solving-court completion: sealing is immediate upon agency notice."
+        ]
+      },
+      "whatCounselMustDecide": "Either split Nebraska's diversion answer value so completed diversion and deferred judgment are distinguishable, or state which rule governs when they are not. The other three values are ready to bind as written above.",
+      "recommendedActive": false
+    },
+    "NE:juvenile-automatic-sealing": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The prose selector sees no waiting-period rule at all for this route. The one juvenile duration the profile publishes, wait-09 ('the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner'), belongs to the PETITION BACKSTOP route — which already has an authored binding as NE:juvenile-petition-backstop — and describes when a petition may be filed, not when automatic sealing occurs. The route's own clauses say qualifying events 'can trigger automatic sealing' with no period.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-09",
+          "duration": "6 months",
+          "quote": "If not automatically sealed, the juvenile, parent, or guardian may move once the juvenile reaches 18 or six months after case closure, whichever is sooner.",
+          "rejectedBecause": "this rule is the backstop petition's, already bound to NE:juvenile-petition-backstop, and its own text begins 'If not automatically sealed'"
+        }
+      ],
+      "whatCounselMustDecide": "Does automatic juvenile sealing under §§ 43-2,108.01 to 43-2,108.05 run on a period, or on the qualifying event? If the latter, bind no_waiting_period.",
+      "recommendedActive": false
+    },
+    "NE:law-enforcement-error-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "No waiting-period rule in the Nebraska profile reaches this route, and the route's own clauses are entirely procedural: district court, county attorney as respondent, clear-and-convincing evidence of arresting-agency error. A waiting period for an arrest caused by law-enforcement error would be surprising, and § 29-3523(6) probably has none — but 'probably has none' is a legal conclusion and the profile does not state it. I cannot name a rule id, so no binding can be proposed.",
+      "candidatesConsidered": [],
+      "whatCounselMustDecide": "Confirm § 29-3523(6) carries no waiting period so the route can be bound no_waiting_period, or supply the rule.",
+      "recommendedActive": false
+    },
+    "NE:pardon-then-seal": {
+      "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+      "why": "The governing wait depends on one fact the participant already supplies — offense_level — and Nebraska's own profile publishes both branches with rule ids, quoted text and structured durations. Nothing is authored: both durations are already in the profile.",
+      "proposal": {
+        "resolution": "rules",
+        "selectingField": "offense_level",
+        "branches": [
+          {
+            "answerValues": [
+              "Misdemeanor"
+            ],
+            "ruleRefs": [
+              "wait-07"
+            ],
+            "durationAsTheProfileStatesIt": {
+              "value": 3,
+              "unit": "years",
+              "raw": "three years"
+            },
+            "quote": "The source states a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors, with later contact or conviction resetting the period.",
+            "anchor": "final discharge"
+          },
+          {
+            "answerValues": [
+              "Felony"
+            ],
+            "ruleRefs": [
+              "wait-16",
+              "wait-19"
+            ],
+            "durationAsTheProfileStatesIt": {
+              "value": 10,
+              "unit": "years",
+              "raw": "ten years"
+            },
+            "quote": "Felony ten years, misdemeanor three years from discharge.",
+            "anchor": "discharge"
+          }
+        ],
+        "answerValuesDeliberatelyNotBound": {
+          "values": [
+            "Infraction or violation",
+            "Traffic or driving matter",
+            "I am not sure"
+          ],
+          "why": "The profile's own rule wait-16 states 'Out-of-state and federal convictions and traffic/DUI offenses are not eligible' for this route. Traffic is an ELIGIBILITY exclusion, not a waiting period, and belongs to the exclusion layer. 'I am not sure' should not silently pick a branch."
+        }
+      },
+      "fidelityWarningForTheCaptain": "Do NOT bind the felony branch to wait-07. wait-07's ruleText states both periods but its structured duration captured only the three-year misdemeanor figure. The ten-year felony duration is carried correctly by wait-16 and wait-19.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding; this route resolves through the provisional selector until the integration captain authors the binding."
+    },
+    "NE:set-aside-incarceration-one-year-or-less": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The two candidates conflict and neither is an eligibility waiting period. wait-04's two years is a DENIAL-RECENCY bar ('no set-aside denial may have occurred in the previous two years'), not a period the petitioner waits after completing their sentence. wait-15's structured duration of one year is a compile-time mis-capture: its text is 'Conviction, one year or less incarceration…', where 'one year' is the sentence-length ceiling that defines the route, not a wait.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-04",
+          "duration": "2 years",
+          "quote": "The sentence must be complete, no charge may be pending, no sex-offender registration may be required, the offense cannot be vehicular homicide, and no set-aside denial may have occurred in the previous two years.",
+          "rejectedBecause": "a bar on recent denials, not a waiting period from sentence completion"
+        },
+        {
+          "ruleId": "wait-15",
+          "duration": "1 year",
+          "quote": "Conviction, one year or less incarceration, sentence complete, no pending charges, not SORA, not vehicular homicide, no set-aside denial in past two years: a set-aside path may exist under § 29-2264(3).",
+          "rejectedBecause": "the captured duration is the incarceration ceiling that defines route eligibility, not a wait"
+        }
+      ],
+      "whatCounselMustDecide": "Does § 29-2264(3) require any elapsed period beyond sentence completion? If not, bind no_waiting_period and treat the two-year denial bar as an exclusion rule rather than a waiting rule.",
+      "recommendedActive": false
+    },
+    "NE:set-aside-probation-fine-community-service": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "No waiting-period rule reaches this route. Its clauses are completion conditions, not timing: sentence conditions satisfactorily completed, fine paid, community service completed, discretionary decision on best-interest and public-welfare factors. I cannot name a rule id, so no binding can be proposed. This matters more than the others in this group: it is the route the bounded reachability sweep uses to reach packet_ready_with_caution in Nebraska at this base, so Nebraska's only UI-reachable packet currently rests on the provisional selector.",
+      "candidatesConsidered": [],
+      "whatCounselMustDecide": "Confirm § 29-2264(2) requires no elapsed period beyond satisfactory completion, so the route can be bound no_waiting_period.",
+      "recommendedActive": false
+    },
+    "NE:trafficking-survivor-set-aside-and-seal": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "Both candidates carry a null duration, so neither can be a waiting-period binding. wait-05 says the petition may be filed after sentence completion; wait-06 says the seal motion follows the set-aside. Together they describe a sequence, not a period.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-05",
+          "duration": null,
+          "quote": "The petition may be filed after sentence completion; official victim documentation is not mandatory but creates a rebuttable presumption.",
+          "rejectedBecause": "no duration"
+        },
+        {
+          "ruleId": "wait-06",
+          "duration": null,
+          "quote": "After set-aside, the person may move to seal; statewide Motion to Seal form CC 6:12 is identified by the source.",
+          "rejectedBecause": "no duration"
+        }
+      ],
+      "whatCounselMustDecide": "Confirm § 29-3005 requires no elapsed period beyond sentence completion, so the route can be bound no_waiting_period.",
+      "recommendedActive": false
+    },
+    "NY:automatic-clean-slate-sealing-under-cpl-160-57": {
+      "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+      "why": "New York's profile publishes a master timing table, wait-11, that states Clean Slate's two periods explicitly, and the route's own clauses repeat them. The governing rule depends on offense_level, which the participant already supplies. Both durations are already in the profile with rule ids.",
+      "proposal": {
+        "resolution": "rules",
+        "selectingField": "offense_level",
+        "branches": [
+          {
+            "answerValues": [
+              "Misdemeanor"
+            ],
+            "ruleRefs": [
+              "wait-01",
+              "wait-06"
+            ],
+            "durationAsTheProfileStatesIt": {
+              "value": 3,
+              "unit": "years",
+              "raw": "3 years"
+            },
+            "quote": "Clean Slate misdemeanor Seal (auto) 3 years From sentencing/release;",
+            "anchor": "sentencing/release",
+            "corroboratedBy": {
+              "ruleId": "wait-11",
+              "quote": "Clean Slate misdemeanor Seal (auto) 3 years From sentencing/release; (160.57) no pending charges"
+            }
+          },
+          {
+            "answerValues": [
+              "Felony"
+            ],
+            "ruleRefs": [
+              "wait-02",
+              "wait-07"
+            ],
+            "durationAsTheProfileStatesIt": {
+              "value": 8,
+              "unit": "years",
+              "raw": "8 years"
+            },
+            "quote": "Clean Slate felony (160.57) Seal (auto) 8 years From sentencing/release;",
+            "anchor": "sentencing/release",
+            "corroboratedBy": {
+              "ruleId": "wait-11",
+              "quote": "Clean Slate felony (160.57) Seal (auto) 8 years From sentencing/release; no pending charges"
+            }
+          }
+        ],
+        "answerValuesDeliberatelyNotBound": {
+          "values": [
+            "Infraction or violation",
+            "Traffic or driving matter",
+            "I am not sure"
+          ],
+          "why": "Clean Slate reaches convictions. A violation or infraction is handled by CPL 160.55, which is a different route with its own disposition below. 'I am not sure' should not silently pick a branch."
+        },
+        "conditionNotCarriedByThisBinding": "wait-10 and wait-13 state 'any new conviction or pending charge during the waiting period restarts or blocks the clock'. That is a gating condition on the clock, not a duration, and the flow already asks new_convictions_during_waiting_period and pending_cases."
+      },
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding."
+    },
+    "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "why": "New York's master timing table states this route's waiting period as 'None', unconditionally, for both statutes. The route's own clauses agree: the record 'is SEALED automatically under CPL 160.50 … No application is needed; the court directs sealing at' disposition. One rule, one answer, quotable.",
+      "proposal": {
+        "resolution": "no_waiting_period",
+        "ruleRefs": [
+          "wait-11"
+        ],
+        "durationAsTheProfileStatesIt": "None",
+        "quote": "Non-conviction (160.50) Seal None Sealed at favorable disposition Non-criminal violation Seal None Limited sealing at disposition (160.55)",
+        "governsUnconditionally": true
+      },
+      "fidelityWarningForTheCaptain": "wait-11 is one long table row and its STRUCTURED duration field captured 3 years — the Clean Slate misdemeanor figure from further along the same row. Bind the resolution no_waiting_period from the quoted text. Do NOT bind resolution 'rules' to wait-11, which would apply three years to a route the same row says has none.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding."
+    },
+    "NY:conditional-treatment-sealing-under-cpl-160-58": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The master table's entry for this route is not a duration at all: 'Drug conviction + treatment Conditional On program … seal completion' — the gate is program completion, with 'Reopens on new arrest'. Every bound duration reachable for this route (3, 8 and 10 years) belongs to the Clean Slate and 160.59 routes. Whether a completion-gated route should carry a waiting-rule binding at all, or be modelled as a completion condition, is a design-and-law decision. This route also matters: it is the one the bounded sweep uses to reach packet_ready_with_caution in New York at this base.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-11",
+          "duration": "captured 3 years",
+          "quote": "Drug conviction + treatment Conditional On program Reopens on new arrest (160.58) seal completion",
+          "rejectedBecause": "the table states 'On program completion', not a period; the captured 3-year duration is the Clean Slate figure from elsewhere in the same row"
+        }
+      ],
+      "whatCounselMustDecide": "Is CPL 160.58 sealing gated on program completion with no elapsed period (bind no_waiting_period and model completion as a condition), or does a period apply?",
+      "recommendedActive": false
+    },
+    "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "why": "One duration, stated three times in New York's own profile, governing this route unconditionally. The route's own clause carries it verbatim.",
+      "proposal": {
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-03"
+        ],
+        "durationAsTheProfileStatesIt": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "anchor": "at least 10 years have passed since sentencing or release",
+        "quote": "no more than ONE of which is a felony, after at least 10 years have passed since sentencing or release",
+        "corroboratedBy": [
+          {
+            "ruleId": "wait-08",
+            "quote": "Discretionary petition Seal 10 years ≤ 2 convictions, ≤ 1 felony;"
+          },
+          {
+            "ruleId": "wait-11",
+            "quote": "Discretionary petition Seal 10 years ≤ 2 convictions, ≤ 1 felony; (160.59) eligible offense"
+          }
+        ],
+        "governsUnconditionally": true
+      },
+      "note": "The two-conviction / one-felony limit and the eligible-offense test are eligibility conditions on this route, not alternatives to the ten-year period. They belong to the exclusion and rule layers, which already carry them.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding."
+    },
+    "NY:marijuana-record-destruction-under-the-mrta": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "why": "The master timing table states this route's waiting period as 'None' and its mechanism as automatic. The route's own clauses agree: convictions for unlawful possession and fifth-degree possession of marijuana 'are expunged/destroyed automatically'.",
+      "proposal": {
+        "resolution": "no_waiting_period",
+        "ruleRefs": [
+          "wait-11"
+        ],
+        "durationAsTheProfileStatesIt": "None",
+        "quote": "Marijuana possession (MRTA) Destroy/ None Automatic; OCA destruction on request expunge",
+        "governsUnconditionally": true
+      },
+      "fidelityWarningForTheCaptain": "Same caveat as the 160.50/160.55 route: wait-11's structured duration field is the Clean Slate misdemeanor 3-year figure, not this route's. Bind no_waiting_period from the quoted text, never resolution 'rules' against wait-11.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding."
+    },
+    "OR:marijuana-specific-set-aside-redesignation": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "Oregon's marijuana route works by RECLASSIFYING a pre-1 July 2015 marijuana offence to the level it would carry today, and only then applying the ordinary class-based tier. So the governing rule depends on the reclassified offence class and on the offence date — and the flow asks neither. Oregon's offense_level offers Misdemeanor, Felony, Infraction or violation, Traffic or driving matter and Municipal or ordinance matter; none of these is a statutory class, and no question carries the pre/post-July-2015 fact.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-10",
+          "duration": "0 days",
+          "quote": "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
+          "rejectedBecause": "'many of them' and 'far sooner (or immediately)' is a description of the reclassification's effect, not a rule that governs this route"
+        },
+        {
+          "ruleIds": [
+            "wait-14",
+            "wait-15",
+            "wait-16",
+            "wait-17"
+          ],
+          "duration": "1 / 3 / 5 / 7 years",
+          "quote": "Class B or C misdemeanor, 1 year … Class A misdemeanor 3 years … Class C felony 5 years … Class B felony 7 years",
+          "rejectedBecause": "each requires the statutory class, which the flow never asks"
+        }
+      ],
+      "whatCounselMustDecide": "Either add the statutory offence class and the offence date to the Oregon flow, or state the rule for a marijuana matter whose reclassified class is unknown.",
+      "recommendedActive": false
+    },
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "Two of the three branches settle cleanly, and the third is one the profile itself refuses to settle: its own table row reads 'Dismissed charge Little / none Dismissal (VERIFY the serious-charge quirk)', and wait-06 spells the quirk out — 'some dismissed serious charges have at times been forced to wait the same period as a conviction'. An instruction to verify is not a rule, and the dismissed branch is the one this route is most often reached on. This route also matters: it is the one the bounded sweep uses to reach packet_ready_with_caution in Oregon at this base.",
+      "partialMappingThatDoesSettle": [
+        {
+          "field": "case_outcome",
+          "answerValue": "Acquitted or found not guilty",
+          "ruleRefs": [
+            "wait-21"
+          ],
+          "duration": "None (any time)",
+          "quote": "Acquittal None (any time) —"
+        },
+        {
+          "field": "case_outcome",
+          "answerValue": "Arrest or citation with no charge filed",
+          "ruleRefs": [
+            "wait-07",
+            "wait-13"
+          ],
+          "duration": "60 days",
+          "quote": "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year)."
+        }
+      ],
+      "theUnsettledBranch": {
+        "field": "case_outcome",
+        "answerValue": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "ruleRefs": [
+          "wait-06"
+        ],
+        "quote": "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
+        "why": "the profile hedges and instructs a human to verify; and the fact that would resolve it — whether the dismissed charge was a 'serious' one — is not asked"
+      },
+      "whatCounselMustDecide": "Resolve the ORS 137.225 dismissed-charge drafting quirk. The acquittal and uncharged-arrest branches are ready to bind exactly as written above.",
+      "recommendedActive": false
+    },
+    "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The tier is keyed to the statutory offence class, and the flow does not ask it. Oregon publishes four class tiers with rule ids and durations, but offense_level's 'Misdemeanor' spans a one-year tier and a three-year tier, and 'Felony' spans five and seven. Two further rules complicate any default: wait-23 says the period is 'keyed to the highest applicable class among the convictions a person seeks to set aside', and wait-22 says a same-episode conviction does not count as a disqualifying other conviction — neither fact is in the flow.",
+      "tierTableFromTheProfile": [
+        {
+          "ruleId": "wait-14",
+          "duration": "1 year",
+          "quote": "Class B or C misdemeanor, 1 year Conviction/finding or release, later"
+        },
+        {
+          "ruleId": "wait-15",
+          "duration": "3 years",
+          "quote": "Class A misdemeanor 3 years Conviction or release, later"
+        },
+        {
+          "ruleId": "wait-16",
+          "duration": "5 years",
+          "quote": "Class C felony 5 years Conviction or release, later"
+        },
+        {
+          "ruleId": "wait-17",
+          "duration": "7 years",
+          "quote": "Class B felony 7 years Conviction or release, later"
+        }
+      ],
+      "theMissingFact": "the statutory offence class (Class A/B/C misdemeanor, Class B/C felony), and where several convictions are being set aside, the highest applicable class among them",
+      "whatCounselMustDecide": "Either add a statutory-class fact to the Oregon flow so a conditional binding can be authored, or state the disambiguation policy for a participant who only tells us misdemeanor or felony.",
+      "recommendedActive": false
+    },
+    "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "why": "Tennessee's profile states this route's waiting period twice and unconditionally: the master table row gives 'Non-conviction (dismissed, nolle, no true bill, acquittal) None — Free', and wait-15 says it in a sentence. wait-01 carries the matching structured duration of zero days.",
+      "proposal": {
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-01"
+        ],
+        "durationAsTheProfileStatesIt": {
+          "value": 0,
+          "unit": "days",
+          "raw": "immediate/upon event"
+        },
+        "anchor": "the fact, the person files a petition (no fee)",
+        "quote": "Person was arrested and released without being charged. On a not-guilty verdict on all counts, the judge must ask the acquitted person whether they want the records destroyed; if yes, the court orders it immediately with no separate petition. For dismissals and nolle prosequi after the fact, the person files a petition (no fee).",
+        "corroboratedBy": [
+          {
+            "ruleId": "wait-15",
+            "quote": "Non-conviction and diversion expunctions have no level-based waiting period."
+          },
+          {
+            "ruleId": "wait-16",
+            "quote": "Pathway / matter Waiting period Runs from Fee Non-conviction (dismissed, None — Free nolle, no true bill, acquittal)"
+          }
+        ],
+        "governsUnconditionally": true,
+        "alternativeResolutionIfPreferred": "no_waiting_period against wait-15, which says the same thing in plain words and authors no duration either"
+      },
+      "note": "This route is the one the bounded sweep uses to reach packet_ready_with_caution in Tennessee at this base, which is precisely why it should stop resolving through the provisional selector.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding; the integration captain binds."
+    },
+    "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "why": "Tennessee's profile states it directly: 'Non-conviction and diversion expunctions have no level-based waiting period', and the master table row reads 'Pretrial / judicial diversion None (after … completion)'. The gate is discharge and dismissal, not elapsed time.",
+      "proposal": {
+        "resolution": "no_waiting_period",
+        "ruleRefs": [
+          "wait-15"
+        ],
+        "durationAsTheProfileStatesIt": "None",
+        "quote": "Non-conviction and diversion expunctions have no level-based waiting period.",
+        "corroboratedBy": [
+          {
+            "ruleId": "wait-07",
+            "quote": "Pretrial / judicial diversion None (after Discharge &amp; Clerk fee"
+          }
+        ],
+        "governsUnconditionally": true
+      },
+      "fidelityWarningForTheCaptain": "Do NOT bind wait-02, the route's first prose candidate. Its structured duration of 18 months is a mis-capture of the PROBATION TERM in its own text — 'places the person on probation (typically 6–18 months)' — not a waiting period. Binding it would make Tennessee's diversion participants wait eighteen months for relief the source says has no waiting period.",
+      "recommendedActive": false,
+      "recommendedActiveNote": "Not recommended ACTIVE. A proposal is not a binding."
+    },
+    "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The misdemeanor branch is settled — five years — but the felony branch is not, and the profile contradicts itself about it. The route's own clause says this pathway covers 'most misdemeanors and a defined set of Class E felonies', which would make every eligible felony a five-year matter (wait-09). The master table, updated for the 2025 reorganization, additionally lists 'Eligible Class C or D felony 10 years' (wait-10). The flow asks offense_level, which cannot tell Class E from Class C or D. Two published rules, different durations, one answer value, no fact that separates them.",
+      "partialMappingThatDoesSettle": [
+        {
+          "field": "offense_level",
+          "answerValue": "Misdemeanor",
+          "ruleRefs": [
+            "wait-08"
+          ],
+          "duration": "5 years",
+          "anchor": "sentence completion",
+          "quote": "Misdemeanor conviction 5 years Sentence $100"
+        }
+      ],
+      "theConflict": {
+        "field": "offense_level",
+        "answerValue": "Felony",
+        "conflictingRuleIds": [
+          "wait-09",
+          "wait-10"
+        ],
+        "durations": [
+          "5 years",
+          "10 years"
+        ],
+        "quotes": [
+          "Eligible Class E felony 5 years Sentence $100",
+          "Eligible Class C or D felony 10 years Sentence $100"
+        ],
+        "andAlso": "the route clause and the master table disagree about whether Class C and D felonies are in this pathway at all"
+      },
+      "whatCounselMustDecide": "Reconcile the route's eligible-felony set with the 2025 reorganization, and either add a felony-class fact to the Tennessee flow or state the rule for an unknown class. The misdemeanor branch is ready to bind as written above.",
+      "recommendedActive": false
+    },
+    "TN:pathway-4-two-offense-expunction-under-40-32-101-k": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "why": "The § 40-32-101(k) tier turns on the composition of the TWO offences being cleared — 'two misd.' or 'Class E + misd.' is five years; 'includes a Class C or D felony' is ten — and it runs from the most recent completion. The product screens one matter at a time and asks neither the second offence nor its class. offense_level cannot express a pair.",
+      "candidatesConsidered": [
+        {
+          "ruleId": "wait-11",
+          "duration": "5 years",
+          "quote": "Two-offense (k) — two misd. 5 years Most recent $100",
+          "rejectedBecause": "requires knowing both offences"
+        },
+        {
+          "ruleId": "wait-12",
+          "duration": "10 years",
+          "quote": "Two-offense (k) — includes a 10 years Most recent $100",
+          "rejectedBecause": "requires knowing both offences"
+        }
+      ],
+      "theMissingFact": "the second offence and its class, and which of the two completed most recently",
+      "whatCounselMustDecide": "Whether the two-offence route is screenable at all in a one-matter flow. If it is, the flow needs the second offence; if it is not, the route may belong in guidance rather than in the paid packet set.",
+      "recommendedActive": false
+    }
+  },
+  "correctionAllowlistEntriesProposed": {
+    "contract": "data/expungement-ai/phase2/correction-allowlist.json is shared and prohibited to a shard, so entries are proposed here for the integration captain to add. An unexplained evaluator-output difference is a failure, not a finding.",
+    "entriesProposed": [],
+    "why": "This shard changed no compiled profile, no question, no rule and no evaluator input. Re-running the audit's generators at this branch head reproduces the same artifacts as at the base, byte for byte, so there is no evaluator-output difference for the allowlist to cover. No entry is proposed."
+  },
+  "screeningParityDeltasProposed": {
+    "contract": "data/expungement-ai/screening-parity-approved-deltas.json is prohibited to a shard and is an owner authorisation. These are the deltas UX-COURT-001 and UX-COUNTY-001 would need, recorded so the captain can put them to Roger rather than rediscover them.",
+    "blockedIssueIds": [
+      "UX-COURT-001",
+      "UX-COUNTY-001"
+    ],
+    "deltasRequired": [
+      {
+        "questionId": "court",
+        "jurisdictions": [
+          "AZ",
+          "CA",
+          "MT",
+          "NC",
+          "NE",
+          "NY",
+          "OR",
+          "TN",
+          "WI"
+        ],
+        "fromType": "text",
+        "toType": "single_choice",
+        "optionsSource": "src/lib/rcap/state-packs/<state>/county-court-instructions.ts#<state>CourtDesignations, delivered by this shard",
+        "alsoRequires": "a selector-with-manual-entry branch in src/components/expungement-ai/screening/QuestionField.tsx, which today has no such branch and is a prohibited shared path"
+      },
+      {
+        "questionId": "county",
+        "jurisdictions": [
+          "CA",
+          "MT",
+          "NE",
+          "OR"
+        ],
+        "fromType": "text",
+        "toType": "single_choice",
+        "optionsSource": "not available — TEST_COUNTY_AND_COURT_DATA_SOURCE was never supplied; the slot is declared as countyDataset in the same modules",
+        "alsoRequires": "the same shared renderer branch"
+      }
+    ]
+  },
+  "stateSpecificFidelityFindings": {
+    "contract": "State-pack / compiled-profile fidelity defects found while working the waiting-rule dispositions. Each is a structured duration that does not match the sentence it was compiled from. None was corrected: correcting a waitingPeriodRule changes an evaluator input for a route that is still on the provisional selector, and the parity and allowlist machinery that would govern such a change is shared.",
+    "findings": [
+      {
+        "jurisdiction": "NY",
+        "ruleId": "wait-11",
+        "problem": "One table row carrying the whole New York timing matrix was compiled with a single structured duration of 3 years — the Clean Slate misdemeanor figure. The same row states 'None' for CPL 160.50, CPL 160.55 and the MRTA, and 8 and 10 years for the other two routes.",
+        "risk": "Any binding that resolves wait-11 as resolution 'rules' would apply a three-year wait to New York's non-conviction sealing and to marijuana destruction, both of which the same sentence says have none.",
+        "recommendation": "split wait-11 into one rule per matrix row, or bind these routes as no_waiting_period from the quoted text"
+      },
+      {
+        "jurisdiction": "TN",
+        "ruleId": "wait-02",
+        "problem": "Structured duration 18 months, captured from 'places the person on probation (typically 6–18 months)'. That is the probation term, not a waiting period.",
+        "risk": "Binding it would impose an eighteen-month wait on diversion expunction, which wait-15 says has no level-based waiting period.",
+        "recommendation": "clear the duration on wait-02 or mark it non-timing"
+      },
+      {
+        "jurisdiction": "TN",
+        "ruleId": "wait-16",
+        "problem": "Structured duration 5 years, captured from a row whose first entry is 'Non-conviction (dismissed, None — Free …)'. The 5 years belongs to a later row in the same table.",
+        "risk": "same class of error as NY wait-11",
+        "recommendation": "split the table row into one rule per pathway"
+      },
+      {
+        "jurisdiction": "NE",
+        "ruleId": "wait-07",
+        "problem": "The sentence states both periods — 'a ten-year wait from final discharge for felony pardon applications and three years for misdemeanors' — but only the three-year figure was captured.",
+        "risk": "a felony pardon applicant bound to wait-07 would be told three years when the source says ten",
+        "recommendation": "the felony branch must bind wait-16 or wait-19; this shard's conditional proposal for NE:pardon-then-seal already does"
+      },
+      {
+        "jurisdiction": "NE",
+        "ruleId": "wait-15",
+        "problem": "Structured duration 1 year, captured from 'Conviction, one year or less incarceration'. That is the sentence-length ceiling defining route eligibility, not a wait.",
+        "risk": "a one-year waiting period would be invented for § 29-2264(3)",
+        "recommendation": "clear the duration or mark it an eligibility threshold"
+      },
+      {
+        "jurisdiction": "MT",
+        "ruleId": "wait-04",
+        "problem": "Structured duration 30 days, captured from 'DOJ says to allow about 30 days for processing' — a post-grant administrative latency, reachable as a waiting-rule candidate on four Montana routes.",
+        "risk": "a thirty-day eligibility wait would be invented for routes the source gives no wait at all",
+        "recommendation": "mark it a processing time rather than a waiting period"
+      },
+      {
+        "jurisdiction": "NC",
+        "ruleId": "wait-16",
+        "problem": "Structured duration 3 years, captured from a row that opens 'Dismissal / not guilty 15A-146 None Often automatic (post-12/1/2021)'.",
+        "risk": "same class of error as NY wait-11",
+        "recommendation": "split the table row into one rule per pathway"
+      }
+    ]
+  },
+  "findingsOutsideThisShard": {
+    "contract": "Defects noticed in jurisdictions this shard does not own. Recorded, code untouched, as the prompt requires.",
+    "findings": [
+      {
+        "scope": "shared",
+        "where": "src/lib/rcap-engine/evaluator.ts#ambiguityReason",
+        "finding": "The escalation is not route-scoped: an explicit-unknown answer to ANY rendered non-contextOnly prepay question closes every route in the jurisdiction. California is the worst case in this shard, but any jurisdiction that publishes optional route-specific prepay questions is exposed to the same failure. UX-STATECFG-001 names five other jurisdictions (DC, HI, IN, NY, WI) that ask route-specific gates unconditionally.",
+        "actionTaken": "none — shared code is prohibited to a shard"
+      },
+      {
+        "scope": "harness",
+        "where": "scripts/expungement-ai/flow-audit/lib/engine.mjs#writeArtifact",
+        "finding": "writeArtifact does path.join(ROOT_DIR, relativePath). Given an absolute path it silently writes inside the repository at a mirrored path rather than to the absolute location, so a script invoked with an absolute output argument creates untracked files in the tree. Encountered while running replay-remedy-contexts.mjs with an out-of-tree output path.",
+        "actionTaken": "none — scripts/expungement-ai/** outside this shard's paths is not a shard's to change; recorded for the harness owner"
+      },
+      {
+        "scope": "phase2 record",
+        "where": "data/expungement-ai/phase2/post-implementation/branch-coverage.json",
+        "finding": "Stale relative to this base. It was snapshotted at 288b0d9a; commit 93e05e94 reverted data/rcap-ledger/public-witness-fixtures.json to the product base, and build-branch-coverage.mjs reads that ledger to choose each state's baseline answer set. The other three post-implementation snapshots still regenerate byte-identical.",
+        "actionTaken": "none — data/expungement-ai/phase2/** is prohibited; re-taking the snapshot is the record owner's"
+      }
+    ]
+  },
+  "jurisdictions": [
+    {
+      "jurisdiction": "AZ",
+      "name": "Arizona",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/arizona/county-court-instructions.ts — the UX-COURT-001 state binding: the venue rule quoted from AZ-arizona.json#packetGenerator.filingDestinationRules, the three court designations the source names (Superior, Justice, Municipal), and the manual-entry fallback label.",
+        "Exported it from src/lib/rcap/state-packs/arizona/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json — untouched. The `court` question stays type text: rebinding it fails verify-expungement-plain-language-values.mjs, proved empirically on this exact question and reverted.",
+        "AZ's three routes all already carry authored waiting-rule bindings, so none is fallback-dependent and none is this shard's to propose."
+      ],
+      "openLegalQuestions": [],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 14,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "remedy-1-record-sealing",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [],
+      "flowCount": 8,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-AZ-37c1115d97",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-AZ-833c928f32",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-AZ-5e0e8690a4",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-AZ-fec198d77d",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-AZ-1206acb04f",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-AZ-179337a1b2",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-AZ-19946d4993",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-AZ-4e27d219cd",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "CA",
+      "name": "California",
+      "heldStatus": "HELD_FOR_CORRECTION",
+      "changed": [
+        "Added src/lib/rcap/state-packs/california/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding: the Superior Court venue rule quoted from the profile, the court designation set, the county slot marked awaiting_owner_supplied_source, and both manual-entry fallback labels.",
+        "Exported it from src/lib/rcap/state-packs/california/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/CA-california.json — untouched, as the hold requires. California's pre-correction behaviour is preserved exactly.",
+        "The four ca_prop64_* questions keep their current classification, even though this shard proved they are what closes every California route.",
+        "All six fallback-dependent California routes are dispositioned HELD_FOR_CORRECTION rather than proposed."
+      ],
+      "openLegalQuestions": [
+        "Are the four ca_prop64_* facts legal preconditions for Tools 1 through 4, or route-specific to the two HSC § 11361.8 routes? (UX-STATELAW-001)",
+        "Does the exclusion list in CA-california.json#exclusionRules bind the non-conviction routes? (UX-LEGAL-001)",
+        "Does any waiting-period rule bind those non-conviction routes, such that the shortest timing bucket should not return packet-ready? (UX-LEGAL-001)",
+        "What waiting rule governs tool-3-petition-based-felony-sealing, which returns ca.waiting_rule_not_executed once the Proposition 64 gate is cleared?"
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 17,
+        "packetReadyReachableFromRenderedScreensOnly": false,
+        "paymentReachableFromRenderedScreensOnly": false,
+        "bestTerminalResultCode": "needs_review",
+        "bestPathwayId": null,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "CA:prop-64-completed-sentence-application-11361-8",
+          "disposition": "HELD_FOR_CORRECTION"
+        },
+        {
+          "route": "CA:tool-1-dismissal-set-aside",
+          "disposition": "HELD_FOR_CORRECTION"
+        },
+        {
+          "route": "CA:tool-2-automatic-relief",
+          "disposition": "HELD_FOR_CORRECTION"
+        },
+        {
+          "route": "CA:tool-3-petition-based-felony-sealing",
+          "disposition": "HELD_FOR_CORRECTION"
+        },
+        {
+          "route": "CA:tool-4-arrest-record-sealing",
+          "disposition": "HELD_FOR_CORRECTION"
+        },
+        {
+          "route": "CA:tool-5-proposition-64-marijuana-relief",
+          "disposition": "HELD_FOR_CORRECTION"
+        }
+      ],
+      "flowCount": 15,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-CA-00472cc2e3",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-39221aedb2",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-fd3644f6de",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-CA-f50133dee9",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-CA-df2c3714a5",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-CA-162ac0520d",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-CA-820d8cab8d",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-CA-cdc6904f3f",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-CA-e7b9a19891",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-4b928ba8db",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-c36b60d263",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-CA-751e637f56",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-CA-09e5b02e34",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-38be3a849b",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-CA-9c540ea67a",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "name": "Montana",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/montana/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding: the District Court venue rule quoted from the profile, the two court designations the source names, and the county slot marked awaiting_owner_supplied_source.",
+        "Exported it from src/lib/rcap/state-packs/montana/index.ts, which already carried a full pack."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/MT-montana.json — untouched.",
+        "Montana's eleven other state-pack modules — untouched.",
+        "The four fallback-dependent Montana routes are dispositioned LEGAL_OWNER_DECISION_REQUIRED, not bound. Every duration reachable for them belongs to the § 46-18-1104 misdemeanor petition or is a DOJ processing latency."
+      ],
+      "openLegalQuestions": [
+        "Does the § 46-18-204 deferred-sentence dismissal / confidentiality route carry a waiting period?",
+        "Does an administrative DOJ record-removal request carry one, or should it be bound no_waiting_period?",
+        "Does MMRTA redesignation carry one?",
+        "Does § 44-5-202 CRISS non-conviction removal carry one?"
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 16,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "MT:deferred-sentence-dismissal-or-confidentiality-route",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "MT:doj-record-removal-update-request",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "MT:marijuana-related-redesignation-expungement-under-mmrta",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "MT:non-conviction-criminal-history-removal-through-criss",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        }
+      ],
+      "flowCount": 10,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-MT-7a52999193",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-17e8761a66",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-MT-ba226325e2",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-MT-3f61cfb05e",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-MT-09b9d29bd2",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-50958fd557",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-45c7b0186e",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-1e44961aa4",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-cd6a65f170",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-MT-3c4e2acbd1",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "NC",
+      "name": "North Carolina",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/north-carolina/county-court-instructions.ts — the UX-COURT-001 state binding: the Superior Court venue rule quoted from the profile.",
+        "Exported it from src/lib/rcap/state-packs/north-carolina/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json — untouched.",
+        "The G.S. 15A-145.5 tier table is left exactly as compiled. Its four durations are all correctly published; what is missing is the conviction-count fact that selects among them, and adding a question is a flow change this shard's parity gate forbids."
+      ],
+      "openLegalQuestions": [
+        "G.S. 15A-145.5 — with no conviction-count fact in the flow, which tier governs a participant who tells us only misdemeanor or felony?",
+        "G.S. 15A-145.8A — what waiting period does the youthful / pre-Raise-the-Age route carry? The profile publishes none for it, only 15A-145 and 15A-145.5 rules."
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 15,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        }
+      ],
+      "flowCount": 9,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-NC-fe0fc3f4b9",
+          "terminalBefore": "not_yet",
+          "terminalAfter": "not_yet"
+        },
+        {
+          "flowId": "EXPAI-NC-2db2e72510",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-NC-c35cf2e882",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NC-247c73d8aa",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NC-ac74f38c35",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-NC-74d36fefc7",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NC-7b369cedac",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NC-11b467a489",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-NC-1f998166b1",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "NE",
+      "name": "Nebraska",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/nebraska/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding. Nebraska's profile carries no filingDestinationRules at all, so the venue statements are quoted from its sourceSections instead, and that is recorded in the module.",
+        "Exported it from src/lib/rcap/state-packs/nebraska/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/NE-nebraska.json — untouched, including wait-07 and wait-15, whose structured durations this shard found to be mis-captured. Correcting a waitingPeriodRule changes an evaluator input for routes still on the provisional selector.",
+        "Six of the seven fallback-dependent Nebraska routes are dispositioned LEGAL_OWNER_DECISION_REQUIRED; the seventh, pardon-then-seal, carries a conditional binding proposal."
+      ],
+      "openLegalQuestions": [
+        "§ 29-3523(3) — when a participant answers 'Diversion, deferred disposition, supervision, or similar program', does the two-year completed-diversion rule or the immediate deferred-judgment rule govern? The flow cannot tell them apart.",
+        "§§ 43-2,108.01–.05 — does automatic juvenile sealing run on a period or on the qualifying event?",
+        "§ 29-3523(6) — does law-enforcement-error expungement carry a waiting period?",
+        "§ 29-2264(2) and (3) — do the set-aside routes require any elapsed period beyond completion?",
+        "§ 29-3005 — does the trafficking-survivor route require one?"
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 15,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "set-aside-probation-fine-community-service",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "NE:automatic-nonconviction-sealing",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NE:juvenile-automatic-sealing",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NE:law-enforcement-error-expungement",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NE:pardon-then-seal",
+          "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED"
+        },
+        {
+          "route": "NE:set-aside-incarceration-one-year-or-less",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NE:set-aside-probation-fine-community-service",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NE:trafficking-survivor-set-aside-and-seal",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        }
+      ],
+      "flowCount": 15,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-NE-47fa92acd4",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-bb0c66dbf7",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-NE-3d73726b72",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NE-dbca5b06d3",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NE-120de2f434",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-111d7342bc",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-1980f6697d",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-3141eb5e4c",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-6c32082201",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-9d99358fe2",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NE-9ce3fce7f7",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NE-ac9e81c39a",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NE-210c8d3d54",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NE-c08d438b66",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-NE-69d8fe4a03",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "NY",
+      "name": "New York",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/new-york/county-court-instructions.ts — the UX-COURT-001 state binding: the offence-driven court-of-conviction venue rule quoted from the profile.",
+        "Exported it from src/lib/rcap/state-packs/new-york/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/NY-new-york.json — untouched, including wait-11, whose single structured duration of three years misrepresents a table row that states 'None' for three of New York's routes.",
+        "The seven unconditional CPL 160.59 conviction-counting screens stay unconditional (UX-STATECFG-001, P2, not release-critical this phase, and the fix lives in prohibited shared code anyway)."
+      ],
+      "openLegalQuestions": [
+        "CPL 160.58 — is conditional treatment sealing gated on programme completion with no elapsed period, or does a period apply? This is the route New York's only UI-reachable packet currently runs through."
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 22,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "conditional-treatment-sealing-under-cpl-160-58",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "NY:automatic-clean-slate-sealing-under-cpl-160-57",
+          "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED"
+        },
+        {
+          "route": "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55",
+          "disposition": "EXPLICIT_BINDING_PROPOSED"
+        },
+        {
+          "route": "NY:conditional-treatment-sealing-under-cpl-160-58",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
+          "disposition": "EXPLICIT_BINDING_PROPOSED"
+        },
+        {
+          "route": "NY:marijuana-record-destruction-under-the-mrta",
+          "disposition": "EXPLICIT_BINDING_PROPOSED"
+        }
+      ],
+      "flowCount": 10,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-NY-3073bc0968",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NY-5c09e74c8d",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-NY-97a89a33c1",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NY-795892d01b",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-NY-0635326bd0",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-NY-c0d795b1a9",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NY-e7167e081d",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-NY-1ffb6b402d",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-NY-99f48e21a5",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-NY-84d5de4cb3",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "OR",
+      "name": "Oregon",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/oregon/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding: the Circuit Court venue rule quoted from the profile, and the county slot marked awaiting_owner_supplied_source.",
+        "Exported it from src/lib/rcap/state-packs/oregon/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/OR-oregon.json — untouched.",
+        "All three fallback-dependent Oregon routes are dispositioned LEGAL_OWNER_DECISION_REQUIRED. Oregon publishes a clean four-tier class table, but the flow never asks the statutory class, so no tier can be selected from a supplied fact."
+      ],
+      "openLegalQuestions": [
+        "ORS 137.225(1)(c) — resolve the dismissed-charge drafting quirk the profile itself instructs a human to verify. The acquittal and uncharged-arrest branches are ready to bind as recorded.",
+        "ORS 137.225(1)(a) — with no statutory-class fact in the flow, which of the 1/3/5/7-year tiers governs a participant who tells us only misdemeanor or felony?",
+        "Marijuana redesignation — the reclassified class and the pre/post-1-July-2015 offence date are both unasked."
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 13,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "OR:marijuana-specific-set-aside-redesignation",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        }
+      ],
+      "flowCount": 8,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-OR-7ad751d12a",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-OR-3022be4aa9",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-OR-29c792837e",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-OR-601d4d7eb9",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-OR-70095e259e",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-OR-6bfdbff090",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-OR-7aa50b3e66",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-OR-c5431189d8",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "TN",
+      "name": "Tennessee",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/tennessee/county-court-instructions.ts — the UX-COURT-001 state binding: the originating-court venue rule quoted from the profile and the three clerk designations the source names (criminal, circuit, general sessions).",
+        "Exported it from src/lib/rcap/state-packs/tennessee/index.ts."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/TN-tennessee.json — untouched, including wait-02, whose eighteen-month duration is a mis-capture of a probation term and which the diversion route would otherwise be a candidate to bind.",
+        "Two of the four fallback-dependent Tennessee routes carry binding proposals; the conviction routes do not, because the flow cannot tell a Class E felony from a Class C or D one."
+      ],
+      "openLegalQuestions": [
+        "§§ 40-32-101(g) / 40-32-107 — reconcile the route's 'defined set of Class E felonies' with the master table's 'Eligible Class C or D felony 10 years', and decide the rule for a felony whose class we never asked.",
+        "§ 40-32-101(k) — is a two-offence route screenable at all in a flow that handles one matter at a time?"
+      ],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 15,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [
+        {
+          "route": "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+          "disposition": "EXPLICIT_BINDING_PROPOSED"
+        },
+        {
+          "route": "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
+          "disposition": "EXPLICIT_BINDING_PROPOSED"
+        },
+        {
+          "route": "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        },
+        {
+          "route": "TN:pathway-4-two-offense-expunction-under-40-32-101-k",
+          "disposition": "LEGAL_OWNER_DECISION_REQUIRED"
+        }
+      ],
+      "flowCount": 9,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-TN-d9cd69867c",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-TN-80d2d459cc",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-TN-47481a623e",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-TN-288a07b949",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-TN-5c1d555c77",
+          "terminalBefore": "likely_not_eligible",
+          "terminalAfter": "likely_not_eligible"
+        },
+        {
+          "flowId": "EXPAI-TN-15724d2022",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-TN-12a3c10020",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-TN-6b484cc40a",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        },
+        {
+          "flowId": "EXPAI-TN-bba288e847",
+          "terminalBefore": "needs_review",
+          "terminalAfter": "needs_review"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "WI",
+      "name": "Wisconsin",
+      "heldStatus": "not_held",
+      "changed": [
+        "Added src/lib/rcap/state-packs/wisconsin/county-court-instructions.ts — the UX-COURT-001 state binding: the circuit court venue rule quoted from the profile.",
+        "Exported it from src/lib/rcap/state-packs/wisconsin/index.ts, which already carried a full pack."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json — untouched.",
+        "Wisconsin's eleven other state-pack modules — untouched.",
+        "Wisconsin's route-specific gate stays unconditional (UX-STATECFG-001, P2, not release-critical this phase).",
+        "All five Wisconsin routes already carry authored waiting-rule bindings, so none is fallback-dependent and none is this shard's to propose."
+      ],
+      "openLegalQuestions": [],
+      "reachabilityAtThisBase": {
+        "renderedScreens": 18,
+        "packetReadyReachableFromRenderedScreensOnly": true,
+        "paymentReachableFromRenderedScreensOnly": true,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "adult-conviction-expungement-under-wis-stat-973-015",
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ]
+      },
+      "fallbackDependentRoutes": [],
+      "flowCount": 11,
+      "flowsWhoseTerminalMoved": [],
+      "flowTerminalsUnchanged": [
+        {
+          "flowId": "EXPAI-WI-df4ff7ad0b",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-WI-35066da9ac",
+          "terminalBefore": "needs_more_info",
+          "terminalAfter": "needs_more_info"
+        },
+        {
+          "flowId": "EXPAI-WI-49b5891ff1",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-WI-bf2918bcbf",
+          "terminalBefore": "hard_stop",
+          "terminalAfter": "hard_stop"
+        },
+        {
+          "flowId": "EXPAI-WI-ffd830d3ce",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-WI-2829fbd370",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-WI-2477a7d453",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        },
+        {
+          "flowId": "EXPAI-WI-bdf32f73ec",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-WI-0f326f6b70",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-WI-aeaff34c63",
+          "terminalBefore": "guidance_only",
+          "terminalAfter": "guidance_only"
+        },
+        {
+          "flowId": "EXPAI-WI-76c83a74d6",
+          "terminalBefore": "packet_ready_with_caution",
+          "terminalAfter": "packet_ready_with_caution"
+        }
+      ]
+    }
+  ],
+  "measuredScope": {
+    "expectedFlowCount": 95,
+    "observedFlowCount": 95,
+    "expectedQuestionCount": 468,
+    "expectedConsumerScreenCount": 115,
+    "expectedBranchEdgeCount": 497,
+    "flowsWhoseTerminalMoved": 0,
+    "questionsChanged": 0,
+    "compiledProfilesChanged": 0
+  },
+  "blockers": [
+    {
+      "id": "BLOCKER-1",
+      "severity": "pre-existing",
+      "statement": "Four of this shard's required acceptance tests fail at the BASE, before any change: build-flow-manifest --check, build-question-inventory --check, build-branch-coverage --check and build-ui-reachability --check.",
+      "cause": "The committed artifacts under data/expungement-ai/flow-audit/ are the Phase 1 baseline and were deliberately left there. Phase 2 recorded its regenerated versions separately under data/expungement-ai/phase2/post-implementation/ instead.",
+      "provedNotMine": "Three of the four regenerate byte-identical to Phase 2's own post-implementation snapshot at this base; the fourth differs only because commit 93e05e94 reverted the witness ledger that build-branch-coverage reads. Regenerating at this branch head produces the same bytes as at the base for all four, so this shard moves none of them.",
+      "whyNotFixedHere": "data/expungement-ai/flow-audit/*.json other than shard-results/SHARD-1.json is not in this shard's allowed paths.",
+      "ownedBy": "the integration captain / flow-audit harness owner"
+    },
+    {
+      "id": "BLOCKER-2",
+      "severity": "pre-existing",
+      "statement": "verify-flow-audit.mjs fails at the BASE with FA-17 ('no product behaviour file changed') and FA-21 ('every generated artifact is byte-reproducible from this tree').",
+      "cause": "Same as BLOCKER-1: Phase 2 changed product behaviour relative to the Phase 1 audit base by design, and the Phase 1 artifacts are the retained baseline.",
+      "provedNotMine": "identical failure set at the base and at this branch head",
+      "ownedBy": "the integration captain"
+    },
+    {
+      "id": "BLOCKER-3",
+      "severity": "pre-existing",
+      "statement": "verify-rcap-reachability-evidence.mjs fails at the BASE.",
+      "cause": "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal. Phase 2 records this in the allowlist as witness-fixtures-predate-the-shared-facts and as a named new verifier failure, and left data/rcap-ledger/ at the product base deliberately (commit 93e05e94, 'Leave the witness ledger at the product base and report it').",
+      "provedNotMine": "identical failure set at the base and at this branch head",
+      "ownedBy": "the ledger owner"
+    },
+    {
+      "id": "BLOCKER-4",
+      "severity": "blocks a release-critical issue assigned to this shard",
+      "statement": "UX-COURT-001 cannot be completed inside a shard's allowed paths.",
+      "cause": "The rebind fails scripts/verify-expungement-plain-language-values.mjs, proved empirically on AZ:court. The exemption mechanism (data/expungement-ai/screening-parity-approved-deltas.json) and the renderer branch (src/components/expungement-ai/screening/QuestionField.tsx) are both prohibited paths, and the shared dataset half this issue depends on was not built in Phase 2.",
+      "delivered": "the state-binding half, for all nine jurisdictions",
+      "needs": "an owner-authorised parity delta plus the shared selector branch",
+      "ownedBy": "the integration captain, then Roger for the parity delta",
+      "classification": "SHARED_PHASE2_BLOCKER"
+    },
+    {
+      "id": "BLOCKER-5",
+      "severity": "blocks a release-critical issue assigned to this shard",
+      "statement": "UX-COUNTY-001 cannot be completed: no controlled county dataset exists and none may honestly be authored here.",
+      "cause": "TEST_COUNTY_AND_COURT_DATA_SOURCE is an owner-supplied input the programme never received. Everything in BLOCKER-4 applies on top.",
+      "delivered": "the county slot declared per state, with its status and its blocker",
+      "needs": "the owner to supply the dataset source",
+      "ownedBy": "Roger",
+      "classification": "SHARED_PHASE2_BLOCKER"
+    },
+    {
+      "id": "BLOCKER-6",
+      "severity": "blocks a release-critical issue assigned to this shard",
+      "statement": "California's UX-STATELAW-001 closure is diagnosed and reproducible but must not be fixed here.",
+      "cause": "CA is HELD_FOR_CORRECTION, and the correction changes contextOnly on four questions, which the parity verifier pins against origin/main.",
+      "delivered": "the diagnosis, the isolated cause, and a replay proving two payable routes sit behind the gate",
+      "needs": "the hold lifted, or the durable fix taken in the shared evaluator",
+      "ownedBy": "the integration captain and counsel",
+      "classification": "SHARED_PHASE2_BLOCKER"
+    },
+    {
+      "id": "BLOCKER-7",
+      "severity": "environment",
+      "statement": "The browser crawl acceptance tests could not walk a screening flow to a terminal in this container.",
+      "cause": "Phase 2 recorded the same: under a local next dev the screening page renders its frame and stays on 'Loading your state's questions...', with no JavaScript error, and behaves identically against the PRODUCT BASE source served the same way. It is a property of the environment, not of any correction.",
+      "whatWasRunInstead": "the audit's own deterministic generators, the evaluator replays, and the per-route probes recorded throughout this file",
+      "ownedBy": "the harness owner",
+      "classification": "SHARED_PHASE2_BLOCKER",
+      "boundedAttemptMade": true,
+      "notRetried": "Per the programme instruction, the browser environment was not retried after the bounded attempt reproduced Phase 2's recorded blocker.",
+      "ownEvidence": "A minimal Playwright probe against the same local origin confirmed the page stays on 'Loading your state's questions...' for 30s with 0 failed requests and no page error, while GET /api/expungement-ai/profiles/arizona answers 200 in 1.3s from the same container."
+    }
+  ],
+  "sharedPhase2Blocker": {
+    "classification": "SHARED_PHASE2_BLOCKER",
+    "confirmedProgrammeWide": "Shards 4 and 6 reproduced the same blocker independently; the programme instruction is to make ONE bounded state-configuration attempt, preserve a ready-to-apply payload, record the shared paths and controls required, and continue.",
+    "issueIds": [
+      "UX-COURT-001",
+      "UX-COUNTY-001"
+    ],
+    "alsoBlocksInThisShard": [
+      "UX-STATECFG-001",
+      "UX-CONTENT-001",
+      "UX-STATELAW-001 (CA)"
+    ],
+    "boundedAttemptMade": {
+      "what": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json#questions[court] rebound from type `text` to type `single_choice` with a four-option controlled list drawn from Arizona's own filing-destination source text.",
+      "thenRan": "node scripts/verify-expungement-plain-language-values.mjs",
+      "result": "exit 1 — 'AZ:court changed type.' and 'AZ:court changed option values/order.'",
+      "reverted": true,
+      "retried": false,
+      "note": "One attempt, on one question, in one jurisdiction. The verifier's assertion is structural and applies identically to every question in every one of the 51 compiled profiles, so repeating it per state would produce the same failure 13 more times without adding information."
+    },
+    "browserEnvironmentAttempt": {
+      "what": "One bounded attempt to run the crawl acceptance tests: npm run dev, then EXPAI_FLOW_AUDIT_JURISDICTIONS=AZ node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs with EXPAI_FLOW_AUDIT_CHROMIUM pointed at the container's chromium-1194 build.",
+      "firstFailure": "playwright resolves chromium_headless_shell-1223; the container ships 1194. Worked around with EXPAI_FLOW_AUDIT_CHROMIUM, which the harness already supports.",
+      "secondFailure": "The crawl launches, navigates and captures, but every terminal screenshot shows the screening card stuck on 'Loading your state's questions...'. A separate minimal Playwright probe against the same origin confirmed it: after 30 seconds the body still reads 'Loading your state's questions...', with 0 failed requests and no page error — only Next dev HMR websocket noise. GET /api/expungement-ai/profiles/arizona answers 200 in 1.3s from the same container, so the data is served and the client never leaves its loading state.",
+      "matchesPhase2": "Phase 2 recorded exactly this, and recorded that the PRODUCT BASE source served the same way behaves identically. It is a property of the environment, not of any correction.",
+      "retried": false,
+      "evidence": "loading-state terminal screenshots for both AZ flows, desktop and mobile, written outside the tree"
+    },
+    "sharedPathsAndControlsRequired": [
+      {
+        "path": "data/expungement-ai/screening-parity-approved-deltas.json",
+        "control": "Roger's authorisation. scripts/verify-expungement-plain-language-values.mjs pins each approved question by sha256 over its canonical JSON, so the entry must carry the exact post-change bytes.",
+        "why": "the only sanctioned exemption from the type/options/required/contextOnly parity assertion",
+        "prohibitedToThisShard": true
+      },
+      {
+        "path": "src/components/expungement-ai/screening/QuestionField.tsx",
+        "control": "Phase 2 shared owner",
+        "why": "the switch has branches for single_choice, multi_select, yes_no_*, text, text_or_unknown, date_or_unknown and number_or_range. There is no selector-with-manual-entry branch, so 'a state-aware selector with a clearly-labelled manual entry fallback' cannot be rendered by configuration alone.",
+        "prohibitedToThisShard": true
+      },
+      {
+        "path": "src/lib/expungement-ai/packet-information.ts",
+        "control": "Phase 2 shared owner",
+        "why": "FALLBACK_PACKET_QUESTIONS defines county and court as text_or_unknown for any jurisdiction whose profile does not define them. The compiled-profile definition wins where present, so this file does not block the rebind — but it must agree, or a state without the question falls back to free text.",
+        "prohibitedToThisShard": true
+      },
+      {
+        "path": "data/expungement-ai/county-index.json (does not exist)",
+        "control": "Roger — TEST_COUNTY_AND_COURT_DATA_SOURCE, an owner-supplied programme input that was never supplied",
+        "why": "the controlled county dataset UX-COUNTY-001 requires. detect-static-defects.mjs checks for this exact path.",
+        "prohibitedToThisShard": true
+      },
+      {
+        "path": "src/lib/rcap-engine/public-profile-projection.ts",
+        "control": "Phase 2 shared owner",
+        "why": "normalizeQuestionOptions coerces any non-array options to null. A selector's option list must survive projection to reach the browser; it will, because it is a non-empty string array, but the projection is where a malformed list becomes silent free text.",
+        "prohibitedToThisShard": true
+      },
+      {
+        "path": "src/lib/rcap-engine/evaluator.ts",
+        "control": "Phase 2 shared owner",
+        "why": "for the related CA blocker only: ambiguityReason escalates on an explicit-unknown answer to any rendered prepay question without scoping to the matched route.",
+        "prohibitedToThisShard": true
+      }
+    ],
+    "readyToApplyPayload": {
+      "whatIsAlreadyInThisBranch": "src/lib/rcap/state-packs/<state>/county-court-instructions.ts for all nine jurisdictions, each exporting <state>CourtDesignations (the controlled court dataset, every value carrying the sentence it was transcribed from), <state>CountyCourtBinding (venue rule, dataset statuses, manual-entry fallback labels, and the blocker) and get<State>CountyCourtInstructions(). Typechecked and linted. Consumed by nothing yet, so it changes no evaluator output.",
+      "toApplyOnceTheSharedHalfLands": {
+        "step1": "add the selector-with-manual-entry branch to QuestionField.tsx",
+        "step2": "for each of the nine profiles, set questions[court].type = 'single_choice' and questions[court].options = the values from that state's <state>CourtDesignations, in the order they appear there",
+        "step3": "for CA, MT, NE and OR only, do the same for questions[county] once TEST_COUNTY_AND_COURT_DATA_SOURCE supplies the county values",
+        "step4": "add one approved-delta entry per changed question to data/expungement-ai/screening-parity-approved-deltas.json, each pinning the post-change question's sha256",
+        "step5": "re-run node scripts/verify-expungement-plain-language-values.mjs; then the four flow-audit generators, whose question-inventory output will move for these ids",
+        "step6": "propose the resulting difference to data/expungement-ai/phase2/correction-allowlist.json under a new entry — the decision fields (resultCode, pathwayId, paymentAllowed, packetFamily, formSet, decisionGraph) should not move, because court and county are packet inputs with no prepay eligibility consumer"
+      },
+      "courtOptionsByJurisdiction": {
+        "AZ": [
+          "Superior Court",
+          "Justice Court",
+          "Municipal Court"
+        ],
+        "CA": [
+          "Superior Court"
+        ],
+        "MT": [
+          "District Court",
+          "Court of Limited Jurisdiction"
+        ],
+        "NC": [
+          "Superior Court"
+        ],
+        "NE": [
+          "Sentencing court (the court that decided this case)",
+          "District Court"
+        ],
+        "NY": [
+          "Court of conviction (the court that decided this case)"
+        ],
+        "OR": [
+          "Circuit Court"
+        ],
+        "TN": [
+          "Criminal Court",
+          "Circuit Court",
+          "General Sessions Court"
+        ],
+        "WI": [
+          "Circuit Court"
+        ]
+      },
+      "countyOptionsByJurisdiction": {
+        "CA": null,
+        "MT": null,
+        "NE": null,
+        "OR": null,
+        "note": "null pending TEST_COUNTY_AND_COURT_DATA_SOURCE. Not authored here: a county list written from recall is not a controlled dataset, and the value is bound into a court filing."
+      },
+      "manualEntryFallbackLabels": {
+        "court": "My court is not listed — let me type it in",
+        "county": "My county is not listed — let me type it in"
+      }
+    }
+  }
+}
