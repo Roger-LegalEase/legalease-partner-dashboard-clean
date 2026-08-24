@@ -53,6 +53,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 350
     steps:
+      # ENV-007 — RETIRED PATH, HARD REFUSAL.
+      #
+      # `github_acceptance` was a payment-producing journey outside the payment
+      # environment. No workflow references this file in a `uses:`, so it has no
+      # caller; this step makes that unconditional rather than incidental. It is
+      # also what removes the last `git checkout --detach "$REQUESTED_TOOLS_SHA"`
+      # in the repository from any reachable path: the job cannot get past here,
+      # so no caller-supplied commit can become an executable authority.
+      - name: Refuse the retired github_acceptance path
+        run: |
+          echo "::error::GITHUB_ACCEPTANCE_RETIRED"
+          echo "GITHUB_ACCEPTANCE_RETIRED"
+          echo "Use hosted_payment for payment-producing acceptance."
+          exit 1
+
       # RETIRED. This workflow ran a payment-producing journey outside the
       # payment environment. Under the owner decision only hosted_payment may
       # transact, so this refuses before any secret is read — ahead of the
