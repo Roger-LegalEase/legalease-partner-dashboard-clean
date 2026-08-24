@@ -132,7 +132,7 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full_nonpayment' && 'full_nonpayment' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_payment_environment_probe' && 'payment_environment_probe' || (inputs.mode == 'hosted_environment_probe' && 'environment_probe' || (inputs.mode == 'hosted_checkout_pinning' && 'checkout_pinning' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight')))))))))) }}
+      phase: ${{ inputs.mode == 'hosted_full_nonpayment' && 'full_nonpayment' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_payment_environment_probe' && 'payment_environment_probe' || (inputs.mode == 'hosted_environment_probe' && 'environment_probe' || (inputs.mode == 'hosted_checkout_pinning' && 'checkout_pinning' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight'))))))))) }}
       preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
