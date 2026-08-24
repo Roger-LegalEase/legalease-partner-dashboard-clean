@@ -219,40 +219,176 @@ function normalizeQuestionOptions(options: unknown): string[] | null {
   return null;
 }
 
-function questionText(question: PublicQuestion) {
-  const options = Array.isArray(question.options) ? question.options.join(" ") : "";
-  return `${question.id} ${question.stage} ${question.prompt ?? ""} ${question.helperText ?? ""} ${options}`.toLowerCase();
+/**
+ * UX-GLOBAL-019 — the engine consumers of one fact, computed from the compiled
+ * profile's own structure.
+ *
+ * Customer-facing prompt text is no longer the lifecycle authority. It never was
+ * evidence: a prompt is written for a reader, and matching words in it decided
+ * whether the evaluator would ever be given the answer. Six shared facts the
+ * evaluator consumes before it will open a packet were classified postpay by
+ * that matching, `deriveScreens` dropped them, and no participant was ever
+ * asked. The repository's own recorded witnesses could not be reproduced in a
+ * browser as a direct result.
+ *
+ * These are structural reads. None of them looks at prompt copy.
+ */
+type FactConsumer =
+  | "eligibility"
+  | "remedy_selection"
+  | "waiting_rule_evaluation"
+  | "deferral_or_treatment"
+  | "packet_readiness"
+  | "checkout"
+  | "packet_generation";
+
+/** Consumers that must have their fact BEFORE a packet is offered or paid for. */
+const PREPAY_CONSUMERS: ReadonlySet<FactConsumer> = new Set<FactConsumer>([
+  "eligibility",
+  "remedy_selection",
+  "waiting_rule_evaluation",
+  "deferral_or_treatment"
+]);
+
+function collectFieldIds(value: unknown, into: Set<string>) {
+  if (!value) return;
+  if (Array.isArray(value)) { for (const entry of value) { if (typeof entry === "string") into.add(entry); else collectFieldIds(entry, into); } return; }
+  if (typeof value !== "object") return;
+  const node = value as Record<string, unknown>;
+  for (const key of ["fields", "fieldIds", "fieldsReferenced", "triggerFields", "requiredInputIds", "questionIds"]) {
+    const entry = node[key];
+    if (Array.isArray(entry)) for (const id of entry) if (typeof id === "string") into.add(id);
+  }
+  for (const entry of Object.values(node)) if (entry && typeof entry === "object") collectFieldIds(entry, into);
 }
 
-function lifecyclePhaseForQuestion(question: PublicQuestion): QuestionLifecyclePhase {
+function factConsumerIndex(profile: EngineProfile): Map<string, Set<FactConsumer>> {
+  const index = new Map<string, Set<FactConsumer>>();
+  const add = (ids: Iterable<string>, consumer: FactConsumer) => {
+    for (const id of ids) {
+      if (!id) continue;
+      if (!index.has(id)) index.set(id, new Set());
+      index.get(id)!.add(consumer);
+    }
+  };
+
+  const eligibility = new Set<string>();
+  collectFieldIds(profile.orderedDecisionRules, eligibility);
+  collectFieldIds(profile.exclusionRules, eligibility);
+  add(eligibility, "eligibility");
+
+  const remedy = new Set<string>();
+  for (const pathway of (profile.pathways ?? [])) {
+    collectFieldIds((pathway as { triggerFields?: unknown }).triggerFields, remedy);
+    collectFieldIds((pathway as { ruleClauses?: unknown }).ruleClauses, remedy);
+  }
+  add(remedy, "remedy_selection");
+
+  const waiting = new Set<string>();
+  collectFieldIds(profile.waitingPeriodRules, waiting);
+  add(waiting, "waiting_rule_evaluation");
+
+  const generation = new Set<string>();
+  collectFieldIds((profile as { packetGenerator?: unknown }).packetGenerator, generation);
+  add(generation, "packet_generation");
+
+  return index;
+}
+
+/**
+ * The shared facts the audit proved the evaluator consumes before it will open a
+ * packet. Declared explicitly rather than inferred, because these five are read
+ * by the timing-and-completion gate in every jurisdiction that reaches it —
+ * a gate no per-profile field list names, since it is written in the evaluator
+ * rather than compiled into the profile.
+ */
+const SHARED_FACT_LIFECYCLE: Record<string, QuestionLifecyclePhase> = {
+  // `sentence_completion_date` and `financial_obligations` are court-completion
+  // facts, NOT timing-gate facts, and the distinction is load-bearing:
+  // `prepay_timing_gate` on either id triggers the court-requirements
+  // substitution in normalizePublicQuestion, which withdraws the question from
+  // the public profile entirely. That would make every stored answer under
+  // those ids fail public-answer validation — the approved Maryland pardon
+  // fixtures are the existing proof — and would merge two separately-consumed
+  // facts into one. They are classified by the prepay consumer that reads them:
+  // eligibility for sentence completion, the general prepay surface for
+  // financial obligations, which is what the majority of profiles already
+  // declared before this correction.
+  sentence_completion_date: "prepay_hard_disqualifier",
+  financial_obligations: "prepay_required",
+  pending_cases: "prepay_hard_disqualifier",
+  special_preconditions_confirmed: "prepay_required",
+  new_convictions_during_waiting_period: "prepay_timing_gate",
+  court_requirements_completed: "prepay_timing_gate",
+  resolved_timing_bucket: "prepay_timing_gate"
+};
+
+/** Facts a packet needs but no prepay consumer reads. Declared, never inferred. */
+const DECLARED_POSTPAY_FACTS: Record<string, QuestionLifecyclePhase> = {
+  record_documents: "postpay_external_document",
+  contact_information: "postpay_packet_field",
+  participant_full_legal_name: "postpay_packet_field",
+  participant_mailing_address: "postpay_packet_field",
+  participant_phone: "postpay_packet_field",
+  participant_email: "postpay_packet_field"
+};
+
+function lifecyclePhaseForQuestion(question: PublicQuestion, consumers?: Set<FactConsumer>): QuestionLifecyclePhase {
+  // 1. Explicit metadata on the question always wins.
   if (question.lifecyclePhase) return question.lifecyclePhase;
-  const text = questionText(question);
 
-  if (POSTPAY_STAGES.has(question.stage)) {
-    if (/patch|psp|sbi|scope report|chr\/scope|criminal[- ]history report|background check|fingerprint|certificate|certified|disposition|judgment|discharge paperwork|court paperwork|records handy|document|report/.test(text)) {
-      return "postpay_external_document";
-    }
-    if (/court|county|docket|case number|case_identifier|case_number|charge|statute|arrest date|filing location/.test(text)) {
-      return "postpay_official_form_field";
-    }
-    return "postpay_packet_field";
+  // 2. The authored shared-fact table. These are read by the evaluator's own
+  //    timing-and-completion gate, which no profile field list names.
+  const shared = SHARED_FACT_LIFECYCLE[question.id];
+  if (shared) return shared;
+
+  // 3. A declared postpay fact.
+  const declaredPostpay = DECLARED_POSTPAY_FACTS[question.id];
+  if (declaredPostpay) return declaredPostpay;
+
+  // 4. Structural stage metadata — the authored stage, not prompt copy. A
+  //    question the profile placed in a post-payment stage stays there unless
+  //    step 2 promoted it, which is the only place a shared fact the evaluator
+  //    consumes before the packet decision is named.
+  if (POSTPAY_STAGES.has(question.stage)) return postpayPhaseForStage(question.stage);
+
+  // 5. Dependency calculation, for facts no stage claims. A fact any prepay
+  //    consumer reads must be available before that consumer runs.
+  const prepayConsumers = [...(consumers ?? [])].filter((consumer) => PREPAY_CONSUMERS.has(consumer));
+  if (prepayConsumers.length > 0) {
+    if (question.id === "ownership_scope" || question.id === "jurisdiction_scope") return "prepay_required";
+    if (question.id === "case_outcome" || question.id === "offense_level" || question.id === "possible_pathway_context") return "prepay_route_splitter";
+    // A declared timing anchor stays a timing-gate fact whichever consumer
+    // reads it, so the existing exact-date-to-bucket substitution still
+    // applies. Without this an eligibility consumer would turn an anchor into a
+    // required exact date — a harder question than the bucket the participant
+    // was asked before, for no gain.
+    if (PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id)) return "prepay_timing_gate";
+    if (prepayConsumers.includes("waiting_rule_evaluation")) return "prepay_timing_gate";
+    if (prepayConsumers.includes("eligibility")) return "prepay_hard_disqualifier";
+    return "prepay_required";
   }
 
-  if (question.id === "ownership_scope" || question.id === "jurisdiction_scope") return "prepay_required";
-  if (question.id === "case_outcome" || question.id === "offense_level" || question.id === "possible_pathway_context") return "prepay_route_splitter";
-  if (/pending|open cases|sex offense|registration|violent|excluded|exclusion|domestic violence|traffick|identity theft|pardon|prior relief|court order|prosecutor consent|qualifying marijuana|lesser or no offense|offense bar|felony convictions|eligible convictions/.test(text)) {
-    return "prepay_hard_disqualifier";
-  }
-  if (/date|time|wait|waiting|finished|completed|sentence|probation|parole|supervision|release|conviction count|branch applies|relief requested/.test(text)) {
-    return "prepay_timing_gate";
-  }
+  // 6. Nothing claims it. A fact is NEVER silently defaulted to post-payment:
+  //    an unclassified question stays prepay, and the build validator reports it
+  //    so it gets an explicit declaration.
   if (question.contextOnly === true || question.doesNotSelectPathway === true || question.required === false) return "prepay_soft_confidence";
   return "prepay_required";
+}
+
+/** Structural, from the authored stage. No prompt text is read. */
+function postpayPhaseForStage(stage: string): QuestionLifecyclePhase {
+  if (stage === "record_readiness") return "postpay_external_document";
+  if (stage === "case_details") return "postpay_official_form_field";
+  return "postpay_packet_field";
 }
 
 function isPrepayQuestion(question: PublicQuestion) {
   return PREPAY_PHASES.has(lifecyclePhaseForQuestion(question));
 }
+
+/** Exported for the build-time lifecycle validator. */
+export const __lifecycleInternals = { factConsumerIndex, lifecyclePhaseForQuestion, SHARED_FACT_LIFECYCLE, DECLARED_POSTPAY_FACTS, PREPAY_CONSUMERS };
 
 function postpayStageForPhase(phase: QuestionLifecyclePhase) {
   if (phase === "postpay_external_document" || phase === "postpay_filing_readiness") return "record_readiness";
@@ -260,22 +396,45 @@ function postpayStageForPhase(phase: QuestionLifecyclePhase) {
   return "packet_information";
 }
 
-function phaseForWilmaFact(question: PublicQuestion, jurisdictionCode: string): QuestionLifecyclePhase {
+/**
+ * Wilma facts run through the same authority. The old implementation matched
+ * prompt copy and, failing every pattern, returned postpay_packet_field — the
+ * silent default that stranded `special_preconditions_confirmed` and
+ * `new_convictions_during_waiting_period` in all 51 jurisdictions.
+ */
+function phaseForWilmaFact(question: PublicQuestion, jurisdictionCode: string, consumers?: Set<FactConsumer>): QuestionLifecyclePhase {
+  // 1. Explicit metadata, then the per-state prepay allowlist, then the shared
+  //    fact table. These are the three declarations that can pull a Wilma fact
+  //    forward.
+  if (question.lifecyclePhase) return question.lifecyclePhase;
   if (STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS[jurisdictionCode]?.has(question.id)) {
-    return lifecyclePhaseForQuestion(question);
+    return lifecyclePhaseForQuestion(question, consumers);
   }
-  const text = questionText(question);
-  if (/patch|psp|sbi|scope|chr|fingerprint|certificate|certified|report|document|attachment|court order/.test(text)) return "postpay_external_document";
-  if (/fee|restitution|fine|cost|paid|ready/.test(text)) return "postpay_filing_readiness";
-  if (/statement|explain|hardship|rehabilitation|manifest|substantial justice/.test(text)) return "postpay_narrative";
-  if (/prosecutor|service|mail|agency|custodian|address/.test(text)) return "postpay_service_or_mailing";
-  return "postpay_packet_field";
+  const shared = SHARED_FACT_LIFECYCLE[question.id];
+  if (shared) return shared;
+
+  // 2. Dependency calculation: a Wilma fact a prepay consumer reads must be
+  //    available before that consumer runs, whatever its source.
+  const prepayConsumers = [...(consumers ?? [])].filter((consumer) => PREPAY_CONSUMERS.has(consumer));
+  if (prepayConsumers.length > 0) {
+    if (prepayConsumers.includes("waiting_rule_evaluation")) return "prepay_timing_gate";
+    if (prepayConsumers.includes("eligibility")) return "prepay_hard_disqualifier";
+    return "prepay_required";
+  }
+
+  // 3. The declared default FOR THIS SOURCE. A Wilma fact exists to complete a
+  //    packet: it is collected after the packet decision by construction, not
+  //    because a phrase in its prompt matched. This is a property of the source,
+  //    stated once, and it is reached only after every declaration and the
+  //    dependency calculation above have declined the fact.
+  return DECLARED_POSTPAY_FACTS[question.id] ?? "postpay_packet_field";
 }
 
-function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: string, source: "designer" | "engine" | "wilma"): PublicQuestion {
+function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: string, source: "designer" | "engine" | "wilma", consumerIndex?: Map<string, Set<FactConsumer>>): PublicQuestion {
+  const consumers = consumerIndex?.get(question.id);
   const lifecyclePhase = source === "wilma"
-    ? phaseForWilmaFact(question, jurisdictionCode)
-    : lifecyclePhaseForQuestion(question);
+    ? phaseForWilmaFact(question, jurisdictionCode, consumers)
+    : lifecyclePhaseForQuestion(question, consumers);
   const requiredFactIds = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode];
   const requiredPrepayFact = requiredFactIds?.has(question.id) === true;
   if (lifecyclePhase === "prepay_timing_gate" && PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id) && question.type === "date_or_unknown") {
@@ -786,11 +945,11 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
   }
 ];
 
-function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
+function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = [], consumerIndex?: Map<string, Set<FactConsumer>>): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const additions = WILMA_FACT_QUESTIONS
     .filter((question) => !existingIds.has(question.id))
-    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
+    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", consumerIndex));
   const baseQuestions = withCompletePathwayContextOptions(
     withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions)),
     pathways
@@ -964,6 +1123,9 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
 }
 
 function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
+  // Computed once per profile: which engine stage consumes which fact. This is
+  // the lifecycle authority that replaced prompt-text matching.
+  const consumerIndex = factConsumerIndex(profile);
   const designerProfile = getDesignerPublicProfiles()[profile.jurisdiction.code];
   if (designerProfile) {
     return withWilmaFactQuestions({
@@ -981,9 +1143,9 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
+      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer", consumerIndex), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? []);
+    }, profile.pathways ?? [], consumerIndex);
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1013,7 +1175,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
       options: question.options,
       optionDisplay: question.optionDisplay
-    }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
+    }, profile.jurisdiction.code, "engine", consumerIndex), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? []);
+  }, profile.pathways ?? [], consumerIndex);
 }

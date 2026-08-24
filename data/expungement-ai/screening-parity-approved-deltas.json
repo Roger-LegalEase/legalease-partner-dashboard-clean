@@ -12,8 +12,8 @@
       "insertion": "append_without_reordering",
       "beforeQuestionCount": 35,
       "afterQuestionCount": 36,
-      "statutoryAuthority": "Maryland Criminal Procedure \u00a7 10-105(a)(8) and \u00a7 10-105(c)(4)",
-      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure \u00a7 10-105(c)(4), measured from the date the pardon was signed.",
+      "statutoryAuthority": "Maryland Criminal Procedure § 10-105(a)(8) and § 10-105(c)(4)",
+      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure § 10-105(c)(4), measured from the date the pardon was signed.",
       "routeBehavior": [
         "A participant not on the pardon pathway is unaffected.",
         "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
@@ -46,7 +46,7 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459"
+        "src/lib/rcap-engine/evaluator.ts": "1de8a94fc575fb359ce1c0e09cfce1e3700a80ffcdc6735653a9ac0d8f82429d"
       },
       "originallyApprovedSha256": {
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
@@ -59,7 +59,7 @@
           "path": "src/lib/rcap-engine/evaluator.ts",
           "sha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e",
           "supersededOn": "2026-08-19",
-          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves \u2014 no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
+          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves — no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         },
         {
@@ -75,6 +75,13 @@
           "supersededOn": "2026-08-19",
           "reason": "The production test no longer depends on the spelling of an environment variable. It matched NODE_ENV === \"production\" exactly, so Production, PRODUCTION and prod all bypassed it and froze the evaluator's clock; it now matches any prod-prefixed NODE_ENV in any case and consults VERCEL_ENV as well, because a deployment can set that without NODE_ENV agreeing. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
           "behaviouralProof": "scripts/verify-rcap-evaluator-clock-boundary.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
+          "supersededOn": "2026-08-24",
+          "reason": "Waiting-rule selection in the shared evaluator is now an explicit pathway-to-rule binding table instead of a prose search over display text. The search read pathway.waitingRules, which is scraped corpus prose rather than authored bindings, and reported an unresolved lookup to the participant as a missing detail of theirs. A route with no authored binding now says so as our gap, and a route that resolves does so from the curated profile-level rule with its structured duration. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
+          "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",

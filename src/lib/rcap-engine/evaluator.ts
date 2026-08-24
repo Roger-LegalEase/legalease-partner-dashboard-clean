@@ -6,6 +6,7 @@ import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, Screenin
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
+import waitingRuleBindings from "@/lib/rcap-engine/waiting-rule-bindings.json";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -1409,6 +1410,45 @@ type SelectedWaitingRule = {
   routeScore: number;
 };
 
+/**
+ * Why a waiting rule could not be resolved. The distinction matters to the
+ * participant: three of these four are OUR configuration and none of them is
+ * something they can supply.
+ */
+type WaitingRuleFailureKind =
+  | "configuration_missing"      // no binding names a rule for this route
+  | "configuration_unknown_ref"  // the binding names a rule the profile does not publish
+  | "configuration_ambiguous"    // the binding leaves more than one rule applicable
+  | "legal_review_required"      // the binding says counsel must settle it
+  | "participant_fact_missing";  // a bound rule is conditional on a fact we have not been given
+
+type WaitingRuleResolution =
+  | { status: "resolved"; rule: SelectedWaitingRule }
+  | { status: "no_waiting_period"; provenance: string }
+  | { status: "failed"; kind: WaitingRuleFailureKind; detail: string; missingQuestionIds?: string[] };
+
+type WaitingRuleBindingEntry = {
+  jurisdiction?: string;
+  pathwayId?: string;
+  resolution?: string;
+  ruleRefs?: string[];
+  disambiguation?: string;
+  provenanceQuote?: string;
+  appliesWhen?: Record<string, string[]>;
+  inlineRule?: { id?: string; duration?: { value?: number; unit?: string; raw?: string }; quote?: string };
+};
+
+const WAITING_RULE_BINDINGS: Record<string, WaitingRuleBindingEntry> =
+  ((waitingRuleBindings as { bindings?: Record<string, WaitingRuleBindingEntry> }).bindings ?? {});
+
+/**
+ * Participant-facing copy for a configuration failure. It must never ask for
+ * "one more detail": nothing the participant can type will fix a route whose
+ * waiting rule this product failed to bind.
+ */
+const CONFIGURATION_FAILURE_MESSAGE =
+  "We could not determine the waiting period for this route from our records. This is a gap on our side, not missing information from you. A specialist needs to confirm the timing before we prepare a packet.";
+
 const RESOLVED_TIMING_BUCKET_FIELD_ID = "resolved_timing_bucket";
 const COURT_REQUIREMENTS_FIELD_ID = "court_requirements_completed";
 
@@ -1590,25 +1630,41 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   if (routeOverride) return routeOverride;
 
   const compiledRuleWait = normalizeDuration(compiledRuleDuration(rule));
-  const selectedWaitingRule = compiledRuleWait
+  const resolution: WaitingRuleResolution = compiledRuleWait
     ? {
-      text: rule.when?.sourceConditionText ?? "",
-      anchor: undefined,
-      duration: compiledRuleWait,
-      routeScore: Number.MAX_SAFE_INTEGER
+      status: "resolved",
+      rule: {
+        text: rule.when?.sourceConditionText ?? "",
+        anchor: undefined,
+        duration: compiledRuleWait,
+        routeScore: Number.MAX_SAFE_INTEGER
+      }
     }
-    : bestWaitingRuleForPathway(profile, pathway, answers);
-  const duration = selectedWaitingRule?.duration;
-  if (!duration) {
+    : resolveWaitingRuleForPathway(profile, pathway, answers);
+
+  // The source says this route has no ordinary waiting period. That is an
+  // answer, not an absence: there is nothing to run a clock against.
+  if (resolution.status === "no_waiting_period") return { status: "satisfied" };
+
+  if (resolution.status === "failed") {
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
-    if (packetLikeResult(rule.then?.suggestedResultCode) || packetLikePathway(profile, pathway)) {
+    // A fact the participant can actually supply is asked for. Everything else
+    // is our configuration and is reported as ours.
+    if (resolution.kind === "participant_fact_missing") {
       return {
-        status: "needs_review",
-        reason: reason(jurisdiction, "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", rule.sourceRef ?? pathway.sourceRef)
+        status: "missing_anchor",
+        reason: reason(jurisdiction, "participant_fact_missing", resolution.detail, rule.sourceRef ?? pathway.sourceRef),
+        missingQuestionIds: resolution.missingQuestionIds ?? []
       };
     }
-    return { status: "not_applicable" };
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, resolution.kind, CONFIGURATION_FAILURE_MESSAGE, rule.sourceRef ?? pathway.sourceRef)
+    };
   }
+
+  const selectedWaitingRule = resolution.rule;
+  const duration = selectedWaitingRule.duration;
 
   const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule);
   if (!anchorId) {
@@ -1739,10 +1795,6 @@ function resultCodeIsKnown(value: unknown) {
   return SAFE_RESULT_ORDER.includes(value as ScreeningResultCode);
 }
 
-function packetLikeResult(value: unknown) {
-  return value === "packet_ready" || value === "packet_ready_with_caution";
-}
-
 function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
   return isCourtFiledPetitionRoute(profile, pathway);
 }
@@ -1819,127 +1871,164 @@ function isCourtFiledPetitionRoute(profile: EngineProfile, pathway: CompiledPath
   return /petition|motion|pleading|apply to .*court|file .*court|filed .*court|sentencing court|convicting court|circuit court|district court|superior court|municipal court|trial court|court form|forms? [a-z0-9-]*\d/i.test(text);
 }
 
-function bestWaitingRuleForPathway(profile: EngineProfile, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>): SelectedWaitingRule | undefined {
-  const texts = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
-  const offenseLevel = answerText(answers.offense_level).toLowerCase();
-  const charge = answerText(answers.charge).toLowerCase();
-  const caseOutcome = normalizeCaseOutcome(answers.case_outcome);
-  const requestedWaitId = answerText(answers.waiting_rule_id).trim();
-  const routeTokens = texts.split(/[^a-z0-9]+/).filter((token) => token.length > 5);
-  const candidates = [
-    ...compiledWaitingRules(profile),
-    ...pathwayWaitingRules(pathway).map((ruleText, index) => ({ id: `pathway-wait-${index}`, ruleText, duration: parseDurationFromText(ruleText), fieldsReferenced: [], anchor: undefined }))
-  ]
-    .map((rule) => ({
+/**
+ * Resolve the waiting rule that binds a pathway.
+ *
+ * ENV-P2 / UX-GLOBAL-013. The previous implementation built a candidate set from
+ * every waiting rule in the profile, dropped any whose duration a regex could
+ * not parse out of DISPLAY PROSE, and then kept only those sharing a token
+ * longer than five characters with the pathway's own prose. When that emptied —
+ * which it did in thirteen jurisdictions — the participant was told "We need one
+ * more detail before we can prepare the right packet." No detail was missing.
+ *
+ * Selection is now a lookup, not a search:
+ *
+ *   - a pathway names the rules that bind it, by stable id, in
+ *     src/lib/rcap-engine/waiting-rule-bindings.json;
+ *   - durations come from the profile's own structured `duration` field, never
+ *     from parsing display text at runtime;
+ *   - conditional applicability is structured answer equality, never a regex;
+ *   - there is no token-overlap match and no first-candidate fallback;
+ *   - an unbound or unresolvable route is OUR configuration failure and says so.
+ *
+ * The participant's explicit `waiting_rule_id` override is still honoured, and
+ * is now validated against the profile rather than against the candidate set.
+ */
+function resolveWaitingRuleForPathway(
+  profile: EngineProfile,
+  pathway: CompiledPathway,
+  answers: Record<string, ScreeningAnswerValue>
+): WaitingRuleResolution {
+  const rules = compiledWaitingRules(profile);
+  const byId = new Map(rules.filter((rule) => typeof rule.id === "string").map((rule) => [String(rule.id), rule]));
+
+  const toSelected = (rule: { id?: string; duration?: unknown; ruleText?: string; anchor?: string | null }): SelectedWaitingRule | undefined => {
+    const duration = normalizeDuration(rule.duration);
+    if (!duration) return undefined;
+    return {
       id: rule.id,
-      duration: normalizeDuration(rule.duration) ?? parseDurationFromText(rule.ruleText ?? ""),
       text: String(rule.ruleText ?? ""),
       anchor: typeof rule.anchor === "string" ? rule.anchor : undefined,
-      routeScore: routeTokens.filter((token) => String(rule.ruleText ?? "").toLowerCase().includes(token)).length,
-      fieldsReferenced: rule.fieldsReferenced ?? []
-    }))
-    .filter((rule) => rule.duration)
-    .filter((rule) => waitingTextRelevant(rule.text, texts, offenseLevel, charge, caseOutcome));
-  if (candidates.length === 0) return undefined;
-  const explicit = requestedWaitId
-    ? candidates.find((candidate) => candidate.id === requestedWaitId)
-    : undefined;
-  if (explicit?.duration) {
-    return {
-      id: explicit.id,
-      text: explicit.text,
-      anchor: explicit.anchor,
-      duration: explicit.duration,
-      routeScore: explicit.routeScore
-    };
-  }
-  const atomicCandidates = candidates.filter((candidate) => !textHasMultipleDurations(candidate.text));
-  const scoredCandidates = atomicCandidates.length > 0 ? atomicCandidates : candidates;
-  const classSpecific = caseOutcome === "arrest_no_charge"
-    ? scoredCandidates.find((candidate) => waitingClassMatches(candidate.text, offenseLevel, charge))
-    : undefined;
-  if (classSpecific?.duration) {
-    return {
-      id: classSpecific.id,
-      text: classSpecific.text,
-      anchor: classSpecific.anchor,
-      duration: classSpecific.duration,
-      routeScore: classSpecific.routeScore
-    };
-  }
-  const distinctDurations = new Set(scoredCandidates
-    .map((candidate) => candidate.duration)
-    .filter((duration): duration is CompiledDuration => duration !== undefined && duration.value > 0)
-    .map((duration) => `${duration.value}:${duration.unit}`));
-  if (distinctDurations.size > 1) {
-    return {
-      text: "Multiple source waiting-period rows could apply.",
-      duration: { value: -1, unit: "ambiguous" },
+      duration,
       routeScore: 0
     };
-  }
-  scoredCandidates.sort((left, right) => durationDays(right.duration) - durationDays(left.duration) || right.routeScore - left.routeScore);
-  const selected = scoredCandidates[0];
-  if (!selected?.duration) return undefined;
-  return {
-    id: selected.id,
-    text: selected.text,
-    anchor: selected.anchor,
-    duration: selected.duration,
-    routeScore: selected.routeScore
   };
-}
 
-function waitingTextRelevant(text: string, pathwayText: string, offenseLevel: string, charge: string, caseOutcome: string) {
-  const normalized = text.toLowerCase();
-  const tokens = pathwayText.split(/[^a-z0-9]+/).filter((token) => token.length > 5);
-  if (tokens.some((token) => normalized.includes(token))) return true;
-  if (caseOutcome === "arrest_no_charge" && /arrest|no charge|no charges|charge filed/.test(normalized)) {
-    if (/class a|class b/.test(charge)) return /class a|class b|arrest-only|arrest only|offense level/.test(normalized);
-    if (/class c/.test(charge)) return /class c|arrest-only|arrest only|offense level/.test(normalized);
-    if (/felony/.test(charge) || offenseLevel.includes("felony")) return /felony|arrest-only|arrest only|offense level/.test(normalized);
-    return /arrest-only|arrest only|offense level|no charges/.test(normalized);
+  // 1. The explicit override, validated against what the profile publishes.
+  const requestedWaitId = answerText(answers.waiting_rule_id).trim();
+  if (requestedWaitId) {
+    const requested = byId.get(requestedWaitId);
+    if (!requested) {
+      return { status: "failed", kind: "configuration_unknown_ref", detail: `waiting_rule_id "${requestedWaitId}" is not published by this jurisdiction.` };
+    }
+    const selected = toSelected(requested);
+    if (!selected) {
+      return { status: "failed", kind: "configuration_missing", detail: `Waiting rule "${requestedWaitId}" carries no structured duration.` };
+    }
+    return { status: "resolved", rule: selected };
   }
-  if (caseOutcome === "dismissed" && /dismiss|nolle|non-conviction|nonconviction/.test(normalized)) return true;
-  if (caseOutcome === "acquitted" && /acquit|not guilty/.test(normalized)) return true;
-  if (caseOutcome.includes("convicted") && /conviction|convicted|misdemeanor|felony/.test(normalized)) {
-    if (offenseLevel.includes("felony")) return /felony|conviction|convicted/.test(normalized);
-    if (offenseLevel.includes("misdemeanor")) return /misdemeanor|conviction|convicted/.test(normalized);
-    return true;
+
+  // 2. The authored binding for this exact route.
+  const binding = WAITING_RULE_BINDINGS[`${profile.jurisdiction.code}:${pathway.id}`];
+  if (!binding) {
+    return { status: "failed", kind: "configuration_missing", detail: `No waiting-rule binding is declared for ${profile.jurisdiction.code}:${pathway.id}.` };
   }
-  return false;
+  if (binding.resolution === "no_waiting_period") {
+    return { status: "no_waiting_period", provenance: binding.provenanceQuote ?? "The source states there is no ordinary waiting period for this route." };
+  }
+  // A route whose waiting rule is carried by the pathway rather than by the
+  // profile rule list. The duration was materialised into this table once, at
+  // build time, from that same pathway text; the runtime reads a number.
+  if (binding.resolution === "inline") {
+    const duration = normalizeDuration(binding.inlineRule?.duration);
+    if (!duration) {
+      return { status: "failed", kind: "configuration_missing", detail: `The inline waiting rule for ${profile.jurisdiction.code}:${pathway.id} carries no structured duration.` };
+    }
+    return {
+      status: "resolved",
+      rule: {
+        id: binding.inlineRule?.id,
+        text: binding.inlineRule?.quote ?? "",
+        anchor: undefined,
+        duration,
+        routeScore: 0
+      }
+    };
+  }
+  if (binding.resolution === "legal_review_required") {
+    return { status: "failed", kind: "legal_review_required", detail: `The waiting rule for ${profile.jurisdiction.code}:${pathway.id} is held for legal review.` };
+  }
+  if (binding.resolution !== "rules" || !Array.isArray(binding.ruleRefs) || binding.ruleRefs.length === 0) {
+    return { status: "failed", kind: "configuration_missing", detail: `The binding for ${profile.jurisdiction.code}:${pathway.id} names no waiting rule.` };
+  }
+
+  // 3. Every named ref must exist. An unknown ref is a build defect, and saying
+  //    "missing rule" is more useful than silently evaluating the rest.
+  const unknown = binding.ruleRefs.filter((ref) => !byId.has(ref));
+  if (unknown.length > 0) {
+    return { status: "failed", kind: "configuration_unknown_ref", detail: `Waiting-rule binding references ${unknown.join(", ")}, which this jurisdiction does not publish.` };
+  }
+
+  // 4. Structured conditional applicability. Answer equality only — no regex
+  //    over rule text, and a condition whose fact we do not hold is reported as
+  //    a participant fact, not as a configuration failure.
+  const applicable: SelectedWaitingRule[] = [];
+  const missingFacts = new Set<string>();
+  for (const ref of binding.ruleRefs) {
+    const rule = byId.get(ref)!;
+    const conditions = binding.appliesWhen;
+    if (conditions) {
+      let matches = true;
+      for (const [fieldId, allowed] of Object.entries(conditions)) {
+        const supplied = answerText(answers[fieldId]).trim();
+        if (!supplied) { missingFacts.add(fieldId); matches = false; continue; }
+        if (!allowed.includes(supplied)) matches = false;
+      }
+      if (!matches) continue;
+    }
+    const selected = toSelected(rule);
+    if (selected) applicable.push(selected);
+  }
+
+  if (applicable.length === 0) {
+    if (missingFacts.size > 0) {
+      return {
+        status: "failed",
+        kind: "participant_fact_missing",
+        detail: `The waiting rule for this route depends on ${[...missingFacts].join(", ")}.`,
+        missingQuestionIds: [...missingFacts]
+      };
+    }
+    return { status: "failed", kind: "configuration_missing", detail: `No bound waiting rule for ${profile.jurisdiction.code}:${pathway.id} carries a structured duration.` };
+  }
+
+  // 5. Deterministic disambiguation. The only policy this table declares is the
+  //    repository's existing one — the longest bound period wins — which can
+  //    delay a packet but can never open one early. Anything else is ambiguous
+  //    and says so rather than picking the first candidate.
+  if (applicable.length > 1 && binding.disambiguation !== "longest_bound_duration") {
+    const distinct = new Set(applicable.map((candidate) => `${candidate.duration.value}:${candidate.duration.unit}`));
+    if (distinct.size > 1) {
+      return { status: "failed", kind: "configuration_ambiguous", detail: `${applicable.length} bound waiting rules apply to ${profile.jurisdiction.code}:${pathway.id} with no declared disambiguation.` };
+    }
+  }
+
+  const ordered = [...applicable].sort((left, right) => {
+    const byDays = durationDays(right.duration) - durationDays(left.duration);
+    if (byDays !== 0) return byDays;
+    // Total order, so the result never depends on array order.
+    return String(left.id ?? "").localeCompare(String(right.id ?? ""));
+  });
+  return { status: "resolved", rule: ordered[0] };
 }
 
-function waitingClassMatches(text: string, offenseLevel: string, charge: string) {
-  const normalized = text.toLowerCase();
-  if (/class a|class b/.test(charge)) return /class a|class b/.test(normalized);
-  if (/class c/.test(charge)) return /class c/.test(normalized);
-  if (/felony/.test(charge) || offenseLevel.includes("felony")) return /felony/.test(normalized);
-  return false;
-}
-
-function parseDurationFromText(text: string) {
-  const lower = text.toLowerCase();
-  const numeric = lower.match(/\b(\d+)\s*(day|days|month|months|year|years|yr|yrs)\b/);
-  if (numeric) return { value: Number(numeric[1]), unit: normalizeDurationUnit(numeric[2]), raw: numeric[0] };
-  const words: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
-  const word = lower.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\s*(day|days|month|months|year|years)\b/);
-  if (word) return { value: words[word[1]], unit: normalizeDurationUnit(word[2]), raw: word[0] };
-  if (/immediate|no waiting period|upon event/.test(lower)) return { value: 0, unit: "days", raw: "immediate/upon event" };
-  return undefined;
-}
-
-function textHasMultipleDurations(text: string) {
-  return (text.toLowerCase().match(/\b(\d+)\s*(day|days|month|months|year|years|yr|yrs)\b/g) ?? []).length > 1;
-}
+// parseDurationFromText and textHasMultipleDurations were removed with
+// UX-GLOBAL-013: nothing in waiting-rule selection reads display prose any more.
+// Durations come from the profile's own structured `duration` field, and the
+// binding table names which rule applies to which route.
 
 function compiledRuleDuration(rule: CompiledRule) {
   return (rule.when as { duration?: unknown } | undefined)?.duration;
-}
-
-function pathwayWaitingRules(pathway: CompiledPathway) {
-  const rules = (pathway as { waitingRules?: unknown }).waitingRules;
-  return Array.isArray(rules) ? rules.map(String) : [];
 }
 
 function compiledWaitingRules(profile: EngineProfile) {

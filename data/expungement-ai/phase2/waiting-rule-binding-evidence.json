@@ -1,0 +1,3191 @@
+{
+  "schemaVersion": "expai-phase2-waiting-rule-binding-evidence/v1",
+  "generatedBy": "scripts/expungement-ai/phase2/derive-waiting-rule-bindings.mjs",
+  "evaluatorToday": "2026-07-01",
+  "head": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "note": "Every rule id below already exists in the jurisdiction's own compiled profile. No waiting period is invented, rewritten or reordered by this sweep.",
+  "jurisdictions": [
+    {
+      "jurisdiction": "AZ",
+      "remedyContextOption": "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "remedy-1-record-sealing",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 15,
+      "reachingCount": 10,
+      "reachingRuleIds": [
+        "wait-04",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10",
+        "wait-11",
+        "wait-12",
+        "wait-13",
+        "wait-14",
+        "wait-15"
+      ],
+      "intendedPathwayIds": [
+        "remedy-1-record-sealing"
+      ],
+      "distinctDurationsAmongReaching": [
+        "0:days",
+        "2:years",
+        "3:years",
+        "5:years",
+        "10:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": null,
+          "anchor": "completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class",
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ],
+          "ruleText": "Convictions — a person convicted of an eligible offense may seal the arrest, conviction, and sentencing records after completing all NONMONETARY terms of the sentence and the applicable waiting period (by offense class).",
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "court",
+            "charge"
+          ],
+          "ruleText": "Available to most people convicted of a criminal offense, on fulfillment of the conditions of probation or sentence and discharge by the court — no waiting period.",
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ],
+          "ruleText": "No waiting period, and filing fees are waived; applies to arrests, charges, adjudications, and convictions.",
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence strategy: many petitioners get a set-aside now and seal later once the waiting period passes.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "charge"
+          ],
+          "ruleText": "Remedy / offense level Statute Waiting period",
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": null,
+          "anchor": "discharge)",
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ],
+          "ruleText": "Set-aside (any eligible conviction) § 13-905 None (after discharge)",
+          "resultCode": "needs_review",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Sealing — Class 2 or 3 misdemeanor § 13-911 2 years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Sealing — Class 1 misdemeanor § 13-911 3 years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Sealing — Class 4, 5, or 6 felony § 13-911 5 years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Sealing — Class 2 or 3 felony § 13-911 10 years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "charge"
+          ],
+          "ruleText": "discharged, which is why it is the immediate-relief option while a sealing wait runs.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "yrs (Class 2/3 felony); dismissals/acquittals can seal immediately.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchor": "discharge) Sealing — dismissal / acquittal § 13-911 None (right away) Sealing — Class 2 or 3 misdeme",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "charge"
+          ],
+          "ruleText": "Remedy / offense level Statute Waiting period Marijuana expungement § 36-2862 None Set-aside (any eligible conviction) § 13-905 None (after discharge) Sealing — dismissal / acquittal § 13-911 None (right away) Sealing — Class 2 or 3 misdemeanor § 13-911 2 years Sealing — Class 1 misdemeanor § 13-911 3 years Sealing — Class 4, 5, or 6 felony § 13-911 5 years Sealing — Class 2 or 3 felony § 13-911 10 years Sealing — subsequent felony § 13-911 Class wait + 5 additional years Two timing points matter for sealing.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "charge"
+          ],
+          "ruleText": "Set-aside, by contrast, can be sought as soon as the person is discharged, which is why it is the immediate-relief option while a sealing wait runs.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "AGENT GUIDANCE Apply the sealing tiers by class: 2 yrs (Class 2/3 misd), 3 yrs (Class 1 misd), 5 yrs (Class 4–6 felony), 10 yrs (Class 2/3 felony); dismissals/acquittals can seal immediately.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "remedy-1-record-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "CT",
+      "remedyContextOption": "Petitioned Clean Slate erasure for eligible pre-2000 convictions (JD-CR-202)",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 8,
+      "reachingCount": 7,
+      "reachingRuleIds": [
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08"
+      ],
+      "intendedPathwayIds": [
+        "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+      ],
+      "distinctDurationsAmongReaching": [
+        "0:days",
+        "13:months",
+        "7:years",
+        "10:years",
+        "3:years",
+        "5:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Disposition / path Remedy Waiting period",
+          "resultCode": "needs_review",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 13,
+            "unit": "months",
+            "raw": "13 months"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ],
+          "ruleText": "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchor": "last conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "last conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "disposition",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "pardon_status"
+          ],
+          "ruleText": "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "disposition",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "pardon_status"
+          ],
+          "ruleText": "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": "last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge",
+            "pardon_status"
+          ],
+          "ruleText": "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "DC",
+      "remedyContextOption": "Actual-innocence expungement by motion under D.C. Code § 16-803",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "dc_actual_innocence_expungement_16_803",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 8,
+      "reachingCount": 7,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-dc-806-misdemeanor-5yr",
+        "wait-dc-806-felony-8yr"
+      ],
+      "intendedPathwayIds": [
+        "dc_actual_innocence_expungement_16_803"
+      ],
+      "distinctDurationsAmongReaching": [
+        "90:days",
+        "10:years",
+        "5:years",
+        "8:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": "termination/final disposition, whichever is later",
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ],
+          "ruleText": "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-802\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": "the motion is granted",
+          "fieldsReferenced": [
+            "court",
+            "charge"
+          ],
+          "ruleText": "The court may deny the motion on initial review, decide whether a hearing is needed, order a prosecutor response, or hold a hearing. If granted, the court must summarize the factual circumstances and rule as a matter of law that the person did not commit the offense or that no offense occurred. Eligible records must be expunged within 90 days after the motion is granted. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-803\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "2 Misdemeanor convictions where at least 10 years have passed since completion of sentence. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": "the triggering event, whichever is later",
+          "fieldsReferenced": [
+            "charge"
+          ],
+          "ruleText": "The statute says automatically sealed records should be sealed by October 1, 2027, or within 90 days after the triggering event, whichever is later. (\"https://code.dccouncil.gov/us/dc/council/code/sections/16-805\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "10 years, but the court currently says automatic sealing is not yet operating",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "court"
+          ],
+          "ruleText": "DC has an automatic sealing framework for many non-convictions and some misdemeanor convictions after 10 years, but the court currently says automatic sealing is not yet operating. For now, we should verify the record and consider a motion-based sealing route.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "two years"
+          },
+          "anchor": "custody/supervision, or since entry of another Division order not involving custody/supervision",
+          "fieldsReferenced": [
+            "sentence_completion_date",
+            "charge"
+          ],
+          "ruleText": "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and",
+          "resultCode": "needs_review",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-dc-806-misdemeanor-5yr",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "sentence completion",
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date"
+          ],
+          "ruleText": "D.C. Code § 16-806 misdemeanor conviction sealing motion: 5 years from sentence completion.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-dc-806-felony-8yr",
+          "duration": {
+            "value": 8,
+            "unit": "years",
+            "raw": "8 years"
+          },
+          "anchor": "sentence completion",
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date",
+            "dc_offense_severity_group"
+          ],
+          "ruleText": "D.C. Code § 16-806 felony conviction sealing motion: 8 years from sentence completion; offense must not be in Offense Severity Group 1, 2, or 3.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "dc_actual_innocence_expungement_16_803",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "FL",
+      "remedyContextOption": "Court-ordered expunction - 943.0585",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "court-ordered-expunction-943-0585",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 17,
+      "reachingCount": 13,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-05",
+        "wait-06",
+        "wait-08",
+        "wait-09",
+        "wait-11",
+        "wait-12",
+        "wait-14",
+        "wait-15",
+        "wait-16",
+        "wait-17"
+      ],
+      "intendedPathwayIds": [
+        "court-ordered-expunction-943-0585"
+      ],
+      "distinctDurationsAmongReaching": [
+        "12:months",
+        "5:years",
+        "10:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": "FDLE issues it",
+          "fieldsReferenced": [],
+          "ruleText": "For expunction, the petition must include a valid FDLE certificate and a sworn statement that the person satisfies the requirements and has no other pending seal/expunge petition. A certificate is valid for 12 months after FDLE issues it. (",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "The court cannot seal a record under 943.059 until the person first applies for and receives an FDLE certificate. Like expunction certificates, sealing certificates are valid for 12 months. (",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "charge",
+            "age_at_offense",
+            "record_type"
+          ],
+          "ruleText": "Florida juvenile records often have their own retention/expunction rules. A person age 18 or older but under 21 may apply for early juvenile expunction if they have not been charged by the State Attorney with, or found to have committed, any criminal offense during the 5 years before the application date. Only offenses committed before age 18 are eligible under this early-juvenile route. (\"https://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0515.html\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Florida’s gate is disposition and completion of supervision, not a fixed conviction-free clock; the one true waiting",
+          "resultCode": "needs_review",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "10 years sealed",
+          "fieldsReferenced": [],
+          "ruleText": "Record sealed under § 943.059 Then expunction After 10 years sealed",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Certificate of Eligibility (FDLE) Prerequisite to petition Valid 12 months once issued",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "There is no general conviction-free waiting period because Florida relief turns on the absence of an adjudication",
+          "resultCode": "needs_review",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "it has been SEALED for 10 years",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "The signature waiting period is the 10-year bridge: a record initially ineligible for expunction (because adjudication was withheld) may become expungeable after it has been SEALED for 10 years. The FDLE Certificate of Eligibility, once issued, is valid for 12 months.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": "issuance — file the court petition within that window or the certificate must be renewed",
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "The COE expires 12 months after issuance — file the court petition within that window or the certificate must be renewed.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Florida’s gate is disposition and completion of supervision, not a fixed conviction-free clock; the one true waiting period is the 10-year seal-then-expunge bridge.",
+          "resultCode": "needs_review",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "supervision complete",
+          "fieldsReferenced": [
+            "case_outcome",
+            "disposition_date",
+            "sentence_completion_date",
+            "charge"
+          ],
+          "ruleText": "Disposition / route Remedy Timing Charges dismissed / dropped / not filed Expunction (§ 943.0585) After supervision complete; SA certifies Adjudication withheld (not § 943.0584) Sealing (§ 943.059) After supervision complete Record sealed under § 943.059 Then expunction After 10 years sealed Arrest contrary to law / by mistake Administrative expunction (§ On FDLE application 943.0581) Lawful self-defense, no charges/dismissed Self-defense expunction (§ On SA certification 943.0578) Qualifying disposition (dismissal/acquittal) Automatic sealing (§ 943.0595) By operation of law Certificate of Eligibility (FDLE) Prerequisite to petition Valid 12 months once issued There is no general conviction-free waiting period because Florida relief turns on the absence of an adjudication of guilt rather than the passage of time.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "it has been SEALED for 10 years",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "The signature waiting period is the 10-year bridge: a record initially ineligible for expunction (because adjudication was withheld) may become expungeable after it has been SEALED for 10 years.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "The FDLE Certificate of Eligibility, once issued, is valid for 12 months.",
+          "resultCode": "needs_review",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "10 years",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "court",
+            "charge",
+            "trafficking_status"
+          ],
+          "ruleText": "Default first step: FDLE Certificate of Eligibility.Expunction: no-file, dismissed, nolle prosequi, acquittal, not guilty, or certain already-sealed records after 10 years.Sealing: mostly withhold-of-adjudication cases, if not barred.Normal conviction/adjudicated guilty: usually not eligible for normal sealing/expunction.Major exception: human trafficking victim expunction can reach records regardless of disposition if the offense was tied to trafficking.Automatic sealing: helps favorable outcomes but is not the same as full court-ordered expunction.Biggest Florida mistake: assuming",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": "FDLE ($75, valid 12 months), and THEN petition the court — and the certificate does NOT guarantee th",
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "Eligibility from FDLE ($75, valid 12 months), and THEN petition the court — and the certificate does NOT guarantee the court",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-16",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "10 years",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "court",
+            "charge",
+            "trafficking_status"
+          ],
+          "ruleText": "For Florida, train Wilma with this core logic: Default first step: FDLE Certificate of Eligibility.Expunction: no-file, dismissed, nolle prosequi, acquittal, not guilty, or certain already-sealed records after 10 years.Sealing: mostly withhold-of-adjudication cases, if not barred.Normal conviction/adjudicated guilty: usually not eligible for normal sealing/expunction.Major exception: human trafficking victim expunction can reach records regardless of disposition if the offense was tied to trafficking.Automatic sealing: helps favorable outcomes but is not the same as full court-ordered expunction.Biggest Florida mistake: assuming withhold means expungeable.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-17",
+          "duration": {
+            "value": 12,
+            "unit": "months",
+            "raw": "12 months"
+          },
+          "anchor": "FDLE ($75, valid 12 months), and THEN petition the court — and the certificate does NOT guarantee th",
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "Second, almost all relief is a TWO-STEP process: the person must first obtain a Certificate of Eligibility from FDLE ($75, valid 12 months), and THEN petition the court — and the certificate does NOT guarantee the court will grant the order.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "court-ordered-expunction-943-0585",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "GA",
+      "remedyContextOption": "SB 288 misdemeanor-conviction restriction and sealing",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 10,
+      "reachingCount": 7,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-04",
+        "wait-05",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10"
+      ],
+      "intendedPathwayIds": [
+        "sb-288-misdemeanor-conviction-restriction-and-sealing"
+      ],
+      "distinctDurationsAmongReaching": [
+        "30:days",
+        "4:years",
+        "0:days"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "denies, appeal to the Superior Court within 30 days.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "4 Serve the prosecuting attorney, who has 90 days to object; if unopposed, the court may grant on the papers,",
+          "resultCode": "needs_review",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Served on the District Attorney (90 days to object).",
+          "resultCode": "needs_review",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "four years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date",
+            "prior_relief"
+          ],
+          "ruleText": "in a lifetime, provided all sentence terms are complete, the person has no convictions for at least four years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "probation terminated. Non-conviction restriction generally has no waiting period.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Pathway / matter Remedy Waiting period Notes",
+          "resultCode": "needs_review",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "4 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free,",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "four years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "convictions for at least four years before filing; and (3) have no pending charges. The four-year window is",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Non-conviction restriction generally has no waiting period.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "4 years"
+          },
+          "anchor": "pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for ser",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "sentence_completion_date",
+            "pending_cases",
+            "charge",
+            "pardon_status"
+          ],
+          "ruleText": "Pathway / matter Remedy Waiting period Notes Non-conviction (dismissed, Restrict None Automatic if arrest ≥ 7/1/2013 nolle prosequi, acquittal) Dead docket Restrict Required period Then eligible on dead docket Pretrial diversion completed Restrict On completion Program successfully completed Misdemeanor conviction Restrict + seal 4 years since Plus 4 yrs conviction-free, (SB 288) sentence complete no pending charges Pardoned felony Restrict After pardon No new offense since pardon Misdemeanor before age 21 Restrict Per statute Exceptions for serious offenses The SB 288 conditions stack: a person must (1) have completed all terms of the sentence; (2) have no convictions for at least four years before filing; and (3) have no pending charges.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "IA",
+      "remedyContextOption": "Acquittal or all-charges-dismissed expungement under Iowa Code § 901C.2",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "nonconviction-901c2",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 4,
+      "reachingCount": 3,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03"
+      ],
+      "intendedPathwayIds": [
+        "nonconviction-901c2"
+      ],
+      "distinctDurationsAmongReaching": [
+        "180:days",
+        "8:years",
+        "30:days"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 180,
+            "unit": "days",
+            "raw": "180 days"
+          },
+          "anchor": "acquittal or dismissal unless the court waives that requirement",
+          "fieldsReferenced": [
+            "case_outcome",
+            "court"
+          ],
+          "ruleText": "More than 180 days must have passed after acquittal or dismissal unless the court waives that requirement.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "nonconviction-901c2",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 8,
+            "unit": "years",
+            "raw": "eight years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "More than eight years must have passed since the misdemeanor conviction.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "nonconviction-901c2",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "An official Iowa DCI criminal-history check dated within 30 days of filing must be attached.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "nonconviction-901c2",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": null,
+          "anchor": "conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category"
+          ],
+          "ruleText": "The person must have no criminal conviction other than specified traffic/simple-misdemeanor exceptions during the two-year period after conviction.",
+          "resultCode": "needs_review",
+          "pathwayId": "nonconviction-901c2",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MI",
+      "remedyContextOption": "Misdemeanor marijuana set-aside under MCL 780.621e",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 17,
+      "reachingCount": 13,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-05",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10",
+        "wait-11",
+        "wait-12",
+        "wait-15",
+        "wait-16",
+        "wait-17"
+      ],
+      "intendedPathwayIds": [
+        "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+      ],
+      "distinctDurationsAmongReaching": [
+        "10:years",
+        "7:years",
+        "3:years",
+        "5:years",
+        "93:days"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "An eligible felony is set aside automatically 10 years after",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchor": "sentencing",
+          "fieldsReferenced": [
+            "court"
+          ],
+          "ruleText": "7 years after sentencing. No application -- the MSP and courts",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-invol",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category"
+          ],
+          "ruleText": "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "three years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Track / matter Waiting period Measured from",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Application — misdemeanor(s) 3 years Latest sentence event",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Application — one serious misd., 5 years Latest sentence event",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Application — multiple felonies 7 years Latest sentence event",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 93,
+            "unit": "days",
+            "raw": "93 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Automatic — felony 10 years Sentencing or release, later",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_category"
+          ],
+          "ruleText": "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "trafficking_status"
+          ],
+          "ruleText": "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-16",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or ca",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category"
+          ],
+          "ruleText": "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-17",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "MT",
+      "remedyContextOption": "Misdemeanor-conviction expungement under Mont. Code § 46-18-1104",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 8,
+      "reachingCount": 5,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-04",
+        "wait-06",
+        "wait-08"
+      ],
+      "intendedPathwayIds": [
+        "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+      ],
+      "distinctDurationsAmongReaching": [
+        "5:years",
+        "30:days"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Five-year clean period Five years must have passed since completion of sentence terms.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": "completing the sentence terms, including financial obligations and court-ordered treatment",
+          "fieldsReferenced": [
+            "case_outcome",
+            "financial_obligations",
+            "court"
+          ],
+          "ruleText": "1 the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms, including financial obligations and court-ordered treatment; or",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Wilma should calculate the waiting period from:",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": "the Computerized Criminal History system",
+          "fieldsReferenced": [
+            "case_outcome",
+            "criminal_history",
+            "court"
+          ],
+          "ruleText": "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system. DOJ says to allow about 30 days for processing. (\"https://dojmt.gov/dci-home/conviction-expungement-process/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "[Five years met / not met / not applicable / unknown]",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "completing sentence terms",
+          "fieldsReferenced": [],
+          "ruleText": "Waiting period Generally 5 years after completing sentence terms",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 14,
+            "unit": "days",
+            "raw": "14 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Victim notice Prosecutor attempts notice within 14 days",
+          "resultCode": "needs_review",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "completing sentence terms Pending charges No current detention, charges, or pending new offense Once",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "pending_cases",
+            "prior_relief",
+            "criminal_history",
+            "court",
+            "charge",
+            "residency_or_location"
+          ],
+          "ruleText": "Topic Montana Rule Main misdemeanor law MCA Title 46, Chapter 18, Part 11 Main misdemeanor petition statute 46-18-1104 Venue District Court where at least one misdemeanor conviction occurred Waiting period Generally 5 years after completing sentence terms Pending charges No current detention, charges, or pending new offense Once in lifetime Yes Fingerprints Required for identity validation Not-presumed offenses Assault, PFMA, stalking, sexual assault, protective order, DUI, DUI-enhanced Court standard Preponderance of the evidence Prosecutor notice Serve every prosecution office involved Victim notice Prosecutor attempts notice within 14 days Court can grant All, some, or none of the requested misdemeanors DOJ follow-up Send order, fingerprint card, and DOJ form to CRISS Non-convictions CRISS removal/sealing under 44-5-202 process Deferred sentence Dismissal can make records confidential Marijuana Separate MMRTA forms and process Felony, non-marijuana Generally not covered by misdemeanor expungement Tribal/out-of-state/federal Not covered by Montana misdemeanor packet This Montana reference is ready for Wilma training, intake triage, eligibility screening, document routing, and escalation logic.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "NM",
+      "remedyContextOption": "No conviction / released without conviction",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "no-conviction-released-without-conviction",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 18,
+      "reachingCount": 9,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-07",
+        "wait-16",
+        "wait-17",
+        "wait-18"
+      ],
+      "intendedPathwayIds": [
+        "no-conviction-released-without-conviction"
+      ],
+      "distinctDurationsAmongReaching": [
+        "1:years",
+        "30:days",
+        "90:days",
+        "2:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "the final disposition in the district where the charges originated",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ordinance violations, misdemeanors, felonies, certain Criminal Code or Motor Vehicle Code penalty assessments, and Motor Vehicle Code violations/deferred sentences. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "court",
+            "charge"
+          ],
+          "ruleText": "includes acquittal or finding of not guilty, nolle prosequi, no bill or other dismissal, referral to a preprosecution diversion program, conditional discharge under 31-20-13, or proceedings otherwise discharged. If the court finds no other charge or proceeding is pending and the person was released without conviction, the court must issue an order within 30 days of the hearing requiring expungement of related arrest and public records. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "final disposition",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Waiting period: 1 year from final disposition.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Required record attachment: DPS record of arrest and prosecutions dated no earlier than 90 days before filing. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-4/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "one year from the final disposition, as long as you have no pending charges or proceedings",
+          "fieldsReferenced": [
+            "case_outcome",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "If your New Mexico case was dismissed, you were found not guilty, the case was no-billed, you completed certain diversion or conditional-discharge routes, or the case was otherwise discharged, you may be able to file after one year from the final disposition, as long as you have no pending charges or proceedings.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": null,
+          "anchor": "the last date on which the person completed a sentence for a conviction in any jurisdiction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "financial_obligations",
+            "court",
+            "charge",
+            "residency_or_location"
+          ],
+          "ruleText": "The court must find: no other charge or proceeding is pending; justice will be served; victim restitution has been fulfilled; and no other criminal conviction occurred during the applicable waiting period. The statute measures the waiting period from the last date on which the person completed a sentence for a conviction in any jurisdiction. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-5/\")",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "Municipal ordinance conviction 2 years",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Misdemeanor not otherwise listed 2 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "4 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Misdemeanor aggravated battery under 30-3-5(B) 4 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 4,
+            "unit": "years",
+            "raw": "4 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Fourth-degree felony not otherwise listed 4 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 6,
+            "unit": "years",
+            "raw": "6 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Third-degree felony not otherwise listed 6 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 8,
+            "unit": "years",
+            "raw": "8 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ],
+          "ruleText": "Second-degree felony not otherwise listed 8 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "charge"
+          ],
+          "ruleText": "Crimes Against Household Members Act offense 10 years",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": null,
+          "anchor": "29-3A-5(C)(4)",
+          "fieldsReferenced": [],
+          "ruleText": "These waiting periods come from 29-3A-5(C)(4). (",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "not_eligible_yet_waiting_period",
+          "resultCode": "needs_review",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-16",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "two years"
+          },
+          "anchor": "the conviction date, or two years after the arrest date if there was no conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "arrest_date",
+            "charge"
+          ],
+          "ruleText": "New Mexico has a special cannabis pathway. If a person was charged with an offense involving cannabis that is no longer a crime as of June 29, 2021, or would have resulted in a lesser offense under the Cannabis Regulation Act, public records relating to the arrest or conviction are automatically expunged two years after the conviction date, or two years after the arrest date if there was no conviction. For minors, the record is retained for two years or until the person turns 18, whichever comes first, and then automatically expunged. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-3a/section-29-3a-8/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-17",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "the ordinary court-record expungement",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "court",
+            "charge"
+          ],
+          "ruleText": "DNA sample/profile expungement is separate from the ordinary court-record expungement. A person may request expungement of their DNA sample and DNA records from New Mexico\u0019s DNA identification system if the conviction that led to the sample was reversed, or if the arrest that led to the sample resulted in dismissal, nolle prosequi, successful pre-prosecution diversion, conditional discharge, misdemeanor conviction, acquittal, or did not result in a felony charge within one year. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-18",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "the state DNA identification system, the administrative center must ensure expungement from CODIS",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "The person must provide a written request and certified documentation, such as a certified copy of the dismissal/nolle prosequi/diversion/conditional discharge/misdemeanor conviction/acquittal, or a sworn affidavit that no felony charges were filed within one year. If DNA records are expunged from the state DNA identification system, the administrative center must ensure expungement from CODIS. DNA expungement is not available if the person has a prior felony conviction or pending felony charge for which DNA collection is authorized. (\"https://law.justia.com/codes/new-mexico/chapter-29/article-16/section-29-16-10/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "no-conviction-released-without-conviction",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "OK",
+      "remedyContextOption": "Acquittal, dismissal, or other no-conviction expungement",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 6,
+      "reachingCount": 5,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-04",
+        "wait-05",
+        "wait-06"
+      ],
+      "intendedPathwayIds": [
+        "acquittal-dismissal-or-other-no-conviction-expungement"
+      ],
+      "distinctDurationsAmongReaching": [
+        "1:years",
+        "5:years",
+        "7:years",
+        "10:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "successful completion of deferred judgment or delayed sentence, the person has never been convicted",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "disposition_date",
+            "charge"
+          ],
+          "ruleText": "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 1 year has passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "successful completion of deferred judgment or delayed sentence, the person has never been convicted",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "disposition_date",
+            "charge"
+          ],
+          "ruleText": "Eligible if the person was charged with a nonviolent felony not listed in 57 O.S. 571, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person has never been convicted of a felony, no misdemeanor/felony charges are pending, and at least 5 years have passed since dismissal. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": null,
+          "anchor": "successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses un",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "disposition_date",
+            "charge",
+            "age_at_offense"
+          ],
+          "ruleText": "OSBI\u0019s 2025 eligibility table also identifies a route for a person charged with not more than two felony offenses, where the charges were dismissed after successful completion of deferred judgment or delayed sentence, none were 85%-crime-type offenses under 21 O.S. 13.1 or sex-offender-registration offenses, no charges are pending, and at least 10 yearshave passed since dismissal.",
+          "resultCode": "needs_review",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "Eligible if the person was convicted of a misdemeanor, received imprisonment, suspended sentence, or a fine greater than $500, has not been convicted of a felony, has no pending misdemeanor/felony charges, and at least 5 years have passed since the end of the last misdemeanor sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "charge"
+          ],
+          "ruleText": "Eligible if the person was convicted of a nonviolent felony offense not listed in 57 O.S. 571, has not been convicted of another felony, has not been convicted of a separate misdemeanor in the last 7 years, has no pending misdemeanor/felony charges, and at least 5 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "Eligible if the person was convicted of not more than two felony offenses, none of which is listed in 21 O.S. 13.1 and none requires sex-offender registration, no misdemeanor/felony charges are pending, and at least 10 years have passed since completion of the felony sentence. (\"https://law.justia.com/codes/oklahoma/title-22/section-22-18v2/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "remedyContextOption": "Path A — Non-conviction expungement",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "path-a-non-conviction-expungement",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 17,
+      "reachingCount": 13,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10",
+        "wait-12",
+        "wait-14",
+        "wait-15",
+        "wait-16",
+        "wait-17"
+      ],
+      "intendedPathwayIds": [
+        "path-a-non-conviction-expungement"
+      ],
+      "distinctDurationsAmongReaching": [
+        "60:days",
+        "5:years",
+        "3:years",
+        "10:years",
+        "2:years",
+        "30:months"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 60,
+            "unit": "days",
+            "raw": "60 days"
+          },
+          "anchor": "the date of acquittal if the statutory requirements are met",
+          "fieldsReferenced": [
+            "case_outcome",
+            "disposition_date",
+            "charge"
+          ],
+          "ruleText": "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute does not apply to partial acquittals. The Commonwealth has 60 days to object, and expungement must occur no later than 12 months from the date of acquittal if the statutory requirements are met. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Check whether five years have passed since the summary conviction and whether there has been any arrest or prosecution during that period.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": "five years, but sealing is not the same as expungement",
+          "fieldsReferenced": [
+            "case_outcome",
+            "financial_obligations",
+            "court"
+          ],
+          "ruleText": "Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is not the same as expungement. Clean Slate limited access for summary convictions applies after five years from judgment of conviction and payment of court-ordered restitution. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 70,
+            "unit": "years",
+            "raw": "70 years"
+          },
+          "anchor": "confinement or supervision",
+          "fieldsReferenced": [
+            "financial_obligations"
+          ],
+          "ruleText": "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
+          "resultCode": "not_yet",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "final release from supervision or confinement?",
+          "fieldsReferenced": [
+            "financial_obligations"
+          ],
+          "ruleText": "Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervision or confinement?",
+          "resultCode": "needs_review",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "three years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "Pennsylvania permits expungement when the person has been dead for three years. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limite",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limit",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchor": "7 conviction-free years for offenses punishable by 1+ years and payment of restitution",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": null,
+          "anchor": "10 conviction-free years for offenses punishable by 1+ years and payment of restitution",
+          "fieldsReferenced": [
+            "case_outcome",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payment of restitution",
+          "resultCode": "needs_review",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 30,
+            "unit": "months",
+            "raw": "30 months"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_category",
+            "charge"
+          ],
+          "ruleText": "is an offense under Pennsylvania\u0019s Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/solicitation, unless a sentence of at least 30 months minimum or 60 months maximum imprisonment was imposed. (",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "pardon_status"
+          ],
+          "ruleText": "[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]",
+          "resultCode": "needs_review",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Summary conviction expungement 5 years free of arrest/prosecution",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "judgment + restitution",
+          "fieldsReferenced": [
+            "financial_obligations"
+          ],
+          "ruleText": "Clean Slate summary sealing 5 years after judgment + restitution",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-16",
+          "duration": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "final release",
+          "fieldsReferenced": [],
+          "ruleText": "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-17",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "case_number",
+            "charge",
+            "pardon_status"
+          ],
+          "ruleText": "320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years after judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee Clean Slate misdemeanor sealing 7 conviction-free years + restitution Qualifying offense / felony sealing 10 conviction-free years + restitution Complete acquittal Automatic expungement path; no partial acquittal Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release Pardon expungement Unconditional pardon can lead to expungement Conditional pardon Clean Slate limited access path Limited access meaning Sealed from public view, not erased Expungement meaning Stronger removal/destruction, with limited statutory retained data Key documents PSP report, docket, OTN, disposition, payment/restitution proof This Pennsylvania reference is ready for Wilma training, intake triage, eligibility screening, packet preparation, document routing, and escalation logic.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "path-a-non-conviction-expungement",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "SC",
+      "remedyContextOption": "Summary-court non-conviction expungement",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "summary-court-non-conviction-expungement",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 16,
+      "reachingCount": 13,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10",
+        "wait-11",
+        "wait-12",
+        "wait-16"
+      ],
+      "intendedPathwayIds": [
+        "summary-court-non-conviction-expungement"
+      ],
+      "distinctDurationsAmongReaching": [
+        "30:days",
+        "1:years",
+        "5:years",
+        "3:years"
+      ],
+      "anyReachesPayment": false,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": "notice",
+          "fieldsReferenced": [
+            "pending_cases",
+            "court",
+            "charge"
+          ],
+          "ruleText": "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": "disposition, and the rule applies retroactively for older cases",
+          "fieldsReferenced": [
+            "case_outcome",
+            "criminal_history",
+            "court",
+            "charge"
+          ],
+          "ruleText": "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "1 year from conviction, but only if the conviction was a misdemeanor and the person had no other con",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": "3 years from the date of conviction, if they have no other convictions during that period",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "financial_obligations",
+            "charge"
+          ],
+          "ruleText": "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "conviction, with no other conviction during the period",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "pending_cases",
+            "charge"
+          ],
+          "ruleText": "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "completing the sentence, including probation and parole, and then remaining conviction-free for 5 ye",
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date",
+            "charge"
+          ],
+          "ruleText": "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "3 years from completion of all sentence terms and conditions, if the person has no other conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "completing all sentence terms",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "court"
+          ],
+          "ruleText": "Summary court internet public record removal Within 30 days of disposition",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ],
+          "ruleText": "First misdemeanor fraudulent check 1 year from conviction",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "conviction",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "First low-level 22-5-910 conviction 3 years from conviction",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category"
+          ],
+          "ruleText": "Third-degree domestic violence under 22-5-910 5 years from conviction",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "completing sentence/probation/parole",
+          "fieldsReferenced": [],
+          "ruleText": "Youthful Offender Act 5 years after completing sentence/probation/parole",
+          "resultCode": "needs_review",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-14",
+          "duration": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchor": "completing all sentence terms",
+          "fieldsReferenced": [
+            "offense_level",
+            "charge"
+          ],
+          "ruleText": "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
+          "resultCode": "needs_review",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-15",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "offense_category",
+            "court",
+            "trafficking_status"
+          ],
+          "ruleText": "Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
+          "resultCode": "needs_review",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-16",
+          "duration": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchor": "appeal period / objection window Summary court internet public record removal Within 30 days of disp",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date",
+            "pending_cases",
+            "criminal_history",
+            "court",
+            "charge",
+            "age_at_offense",
+            "trafficking_status"
+          ],
+          "ruleText": "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "summary-court-non-conviction-expungement",
+          "paymentAllowed": false,
+          "reachesPacketReady": true
+        }
+      ]
+    },
+    {
+      "jurisdiction": "SD",
+      "remedyContextOption": "Adult arrest-record expungement under SDCL § 23A-3-27",
+      "before": {
+        "resultCode": "needs_review",
+        "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+        "paymentAllowed": false,
+        "reasonCodes": []
+      },
+      "profileWaitingRuleCount": 13,
+      "reachingCount": 10,
+      "reachingRuleIds": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-10",
+        "wait-11"
+      ],
+      "intendedPathwayIds": [
+        "adult-arrest-record-expungement-under-sdcl-23a-3-27"
+      ],
+      "distinctDurationsAmongReaching": [
+        "1:years",
+        "5:years"
+      ],
+      "anyReachesPayment": true,
+      "sweep": [
+        {
+          "waitingRuleId": "wait-01",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "1 year from arrest",
+          "fieldsReferenced": [],
+          "ruleText": "Arrest occurred, but no accusatory instrument was filed After 1 year from arrest",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-02",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "1 year from formal dismissal",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Prosecutor formally dismissed the entire criminal case After 1 year from formal dismissal",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-03",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchor": "dismissal, if compelling necessity is shown",
+          "fieldsReferenced": [
+            "case_outcome"
+          ],
+          "ruleText": "Prosecutor formally dismissed the entire criminal case and there is compelling necessity Within 1 year from dismissal, if compelling necessity is shown",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-04",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [],
+          "ruleText": "not_eligible_yet_waiting_period",
+          "resultCode": "needs_review",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-05",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "successful completion",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "charge"
+          ],
+          "ruleText": "South Dakota has a special diversion path. A person who successfully completes a diversion program may be eligible for expungement of the entire criminal record related to the arrest if they are not charged with a new crime, other than petty offenses and minor traffic violations, within one year and thirty days after successful completion. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-35/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-06",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "court",
+            "charge"
+          ],
+          "ruleText": "If you completed a South Dakota diversion program and stayed clear of new charges for one year and thirty days, the State\u0019s Attorney should file the dismissal and diversion-completion notice, and the court should grant expungement without a separate motion.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-07",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": "the public record after five years if all court-ordered conditions are satisfied and the person has",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "court",
+            "charge"
+          ],
+          "ruleText": "South Dakota automatically removes certain minor cases from the public record after five years if all court-ordered conditions are satisfied and the person has no further convictions during that five-year period. This applies when the highest charged offense in the case was a petty offense, municipal ordinance violation, or Class 2 misdemeanor. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-03/section-23a-3-34/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-08",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": "public view after five years if the case was only a petty offense, municipal ordinance violation, or",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "court",
+            "charge"
+          ],
+          "ruleText": "Some low-level South Dakota cases are removed from public view after five years if the case was only a petty offense, municipal ordinance violation, or Class 2 misdemeanor, all conditions were completed, and there were no new convictions. But the record may still be used by the court or to enhance later penalties.",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-09",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "one year, if the person completed treatment and all required conditions, the court must dismiss the",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "sentence_completion_date",
+            "court",
+            "charge"
+          ],
+          "ruleText": "South Dakota has a special deferred route for certain drug charges under SDCL 23A-27-53. For a guilty plea to specified controlled-substance offenses, the court may defer sentencing and require probation, treatment, testing, service, or other conditions. After one year, if the person completed treatment and all required conditions, the court must dismiss the original charge under the listed drug statutes when the person pleads guilty to the specified lesser offense. The statute also says the person is not eligible if there are aggravating circumstances or if the person is serving a sentence with the executive branch. (\"https://law.justia.com/codes/south-dakota/title-23a/chapter-27/section-23a-27-53/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-10",
+          "duration": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchor": "penalties and disabilities resulting from the offense",
+          "fieldsReferenced": [
+            "charge",
+            "pardon_status"
+          ],
+          "ruleText": "A South Dakota pardon through Chapter 24-14 releases the person from penalties and disabilities resulting from the offense. When the Governor grants a pardon under that chapter, the Governor orders official records relating to the arrest, charging document, trial, finding of guilt, pardon application, and Board of Pardons and Paroles proceedings sealed. A public document certifying the pardon remains filed with the Secretary of State for five years, then is sealed. (\"https://law.justia.com/codes/south-dakota/title-24/chapter-14/section-24-14-11/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-11",
+          "duration": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchor": "one year has passed from the juvenile\u0019s unconditional release from court jurisdiction or Department",
+          "fieldsReferenced": [
+            "case_outcome",
+            "court",
+            "charge",
+            "age_at_offense",
+            "residency_or_location"
+          ],
+          "ruleText": "A juvenile, parent, guardian, or guardian ad litem may petition to seal juvenile delinquency records. The petition may be filed only after one year has passed from the juvenile\u0019s unconditional release from court jurisdiction or Department of Corrections discharge, whichever is later. The court may seal records if the child has not been adjudicated delinquent since release/discharge, has no pending or instituted serious proceeding of the types listed in the statute, and the court finds rehabilitation has been attained. (\"https://law.justia.com/codes/south-dakota/title-26/chapter-07a/section-26-7a-115/\")",
+          "resultCode": "packet_ready_with_caution",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": true,
+          "reachesPacketReady": true
+        },
+        {
+          "waitingRuleId": "wait-12",
+          "duration": null,
+          "anchor": null,
+          "fieldsReferenced": [
+            "age_at_offense"
+          ],
+          "ruleText": "not_eligible_juvenile_waiting_period",
+          "resultCode": "needs_review",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        },
+        {
+          "waitingRuleId": "wait-13",
+          "duration": null,
+          "anchor": "statutory waiting and rehabilitation showing",
+          "fieldsReferenced": [
+            "age_at_offense",
+            "record_type"
+          ],
+          "ruleText": "Juvenile delinquency sealing SDCL 26-7A-115 to 26-7A-116 Juvenile records after statutory waiting and rehabilitation showing",
+          "resultCode": "needs_review",
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
+          "paymentAllowed": false,
+          "reachesPacketReady": false
+        }
+      ]
+    }
+  ]
+}
