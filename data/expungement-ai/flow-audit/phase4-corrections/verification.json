@@ -117,5 +117,39 @@
     "timingInert": 178,
     "paymentAtShortestBucket": 0,
     "paymentWhileCaseStillOpen": 0
+  },
+  "harnesses": {
+    "typecheck": "tsc --noEmit — clean",
+    "lint": "eslint — 0 errors, 77 warnings, identical to the pre-change baseline measured on a stashed tree",
+    "gitDiffCheck": "clean",
+    "screeningParity": "scripts/verify-expungement-plain-language-values.mjs — passes; the county/court attachment is additive so no approved delta is consumed",
+    "marylandPardonProof": "scripts/verify-rcap-md-pardon-pathway.mjs — passes; the evaluator hash was re-pinned only after it did",
+    "publicProfileBoundary": "scripts/verify-public-profile-projection.mjs — passes; the dataset crosses through the allowlist mapper and its shape is named in the verifier schema",
+    "evaluatorPublicAmbiguity": "scripts/verify-rcap-evaluator-public-ambiguity.mjs — passes (23 hidden-question states, explicit-unknown and invalid-id cases)",
+    "flowAudit": "scripts/expungement-ai/flow-audit/verify-flow-audit.mjs — 29/33, the same four pre-existing failures Phase 4 classified (FA-16, FA-17, FA-21, FA-23). No new red.",
+    "npmTest": {
+      "ranIndividually": "all 166 steps, since the chained runner halts at the first failure",
+      "newFailuresCausedByThisPass": 0,
+      "preExistingFailuresAlsoRedAtBaseFd2c73d9": [
+        "scripts/verify-rcap-partner-result-cta.mjs",
+        "scripts/verify-rcap-terminalize-c1.mjs",
+        "scripts/verify-rcap-terminalize-c2.mjs",
+        "scripts/verify-rcap-terminalize-c3.mjs",
+        "docs/record-clearing/terminalize-c/verify-c-dependency-deferrals.mjs",
+        "scripts/generate-rcap-staging-action.mjs --check",
+        "scripts/verify-rcap-worker-publication-workflow.mjs",
+        "scripts/generate-rcap-public-witness-answer-sets.mjs --check",
+        "scripts/generate-rcap-witness-divergence-diagnosis.mjs --check",
+        "scripts/verify-rcap-reachability-evidence.mjs"
+      ],
+      "note": "Three further steps reported failure only while the suite ran concurrently with a foreground run; the tracked-mutation guard refuses concurrent access to the working tree. All three pass when run serially: test-expungement-parity-delta-mutations, test-inspect-local-record-clearing-pdfs, test-nebraska-record-clearing-shadow."
+    }
+  },
+  "marylandConflict": {
+    "route": "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
+    "raisedNotDecided": true,
+    "counselApproval": "md-pardon-signed-date-2026-08-11, hash-pinned, behavioural proof scripts/verify-rcap-md-pardon-pathway.mjs",
+    "shardHold": "HELD_FOR_CORRECTION, recorded verbatim in route-payment-authority.json#denialsWaivedByCounselApproval",
+    "resolution": "The approval carries the route's payment because it answers a different question from the hold. Every other gate condition still applies. The conflict belongs to the legal owner."
   }
 }
