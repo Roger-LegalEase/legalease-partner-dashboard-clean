@@ -2,7 +2,7 @@
 
 Verdict: `CORRECTION_REQUIRED`
 
-This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. After Codespace recovery, exactly one Vercel CLI Preview deployment was attempted from the exact candidate. Vercel created the Preview deployment record but rejected its function output at the platform size gate, so it never became Ready and deployed browser/request acceptance could not run.
+This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. The authorized Preview-only Large Functions opt-in allowed the single exact-candidate retry to become Ready. The mandatory pre-authentication runtime check then found that the deployed client is configured for Supabase project `wwtwtsmywnckfkdaqqeg`, not acceptance project `hyflxnlhpmiqxvvcoiia`, so authentication and application mutation were stopped.
 
 ## Frozen input
 
@@ -164,8 +164,30 @@ Vercel failed while deploying outputs because function `api/expungement-ai/brief
 
 Because there was no runnable application, Chromium was not opened for authentication, no credential was submitted, and no application mutation occurred. The actual Supabase runtime project ref could not be observed; neither a match nor a mismatch was claimed. The five identity journeys, browser controls, origin/referrer controls, return-destination matrix, and deployed page/API/mutation guards therefore remain unexecuted.
 
+## Preview-only Large Functions retry
+
+The reviewer recovered clean review head `d6363414f304da02a7e6580dbfca88b349e39c68` and the existing detached candidate worktree. Immediately before configuration and deployment, the candidate HEAD was exactly `fc838be7871dc977e0a3e811b801d6c8ee7398e5`, its tracked status was empty, and its complete tree was `91ca2ba3b6e901980bf80b7e4c23aa6399de674c`.
+
+Vercel project inspection showed Fluid Compute enabled, zero Secure Compute networks, and no Static IP configuration exposed. `VERCEL_SUPPORT_LARGE_FUNCTIONS` was absent from Preview before this retry. The reviewer added it once as non-sensitive Config value `1`, scoped to Preview. A separate Production entry predated this review and was not modified.
+
+Exactly one retry then deployed the unchanged candidate with the required Git metadata:
+
+- URL: `https://legalease-partner-dashboard-clean-rcjqzcqs0-roger947s-projects.vercel.app`
+- Deployment: `dpl_BuysudSvAMr8S2kGJznoj79cp5gi`
+- Project: `legalease-partner-dashboard-clean`
+- Target/environment: Preview
+- Metadata SHA: `fc838be7871dc977e0a3e811b801d6c8ee7398e5`
+- Metadata branch: `codex/rcap-internal-admin-release-evidence`
+- Final status: Ready in seven minutes
+
+The same 635.89 MB measured uncompressed function passed the output phase after the opt-in. Vercel did not emit a separate Large Function label, so use is inferred from the unchanged candidate becoming Ready after the Preview-only setting. Production was not deployed or changed.
+
+Before authentication, real Chromium opened the deployed sign-in application using the project's pre-existing automation-protection bypass. Chromium loaded the deployment itself, and the same-origin client bundle exposed Supabase project ref `wwtwtsmywnckfkdaqqeg`. That does not match required acceptance ref `hyflxnlhpmiqxvvcoiia`.
+
+Per the controlling pre-authentication stop rule, no credentials were submitted and no application mutation was attempted. The five identity journeys, browser Sign Out and switch-account controls, Origin/Referer controls, return-destination matrix, and direct deployed page/API/mutation checks were therefore not run against the wrong Supabase project. The candidate HEAD, tree, and clean tracked status remained unchanged after deployment and inspection; implementation, RLS migration, worker evidence, and application-source bytes moved are all zero.
+
 ## Final disposition
 
 `CORRECTION_REQUIRED`
 
-The candidate is not ready to merge because the one permitted exact-candidate Preview failed Vercel's function-size gate before becoming Ready. Runtime acceptance Supabase identity, real-browser controls, and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
+The candidate is not ready to merge because the Ready exact-candidate Preview points to Supabase project `wwtwtsmywnckfkdaqqeg`, not acceptance project `hyflxnlhpmiqxvvcoiia`. Runtime identity failed before authentication, so real-browser controls and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.

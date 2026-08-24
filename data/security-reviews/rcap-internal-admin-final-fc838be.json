@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-internal-admin-final-security-and-staging-acceptance/v1",
-  "recordedAt": "2026-08-24T18:03:02Z",
+  "recordedAt": "2026-08-24T18:28:59Z",
   "verdict": "CORRECTION_REQUIRED",
   "candidate": {
     "sha": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
@@ -89,14 +89,14 @@
     "roleManufactureDenied": true
   },
   "preview": {
-    "url": "https://legalease-partner-dashboard-clean-42dvvcmo1-roger947s-projects.vercel.app",
-    "deploymentId": "dpl_9pcLXpea33u3csd1QWebrJGCXCBX",
+    "url": "https://legalease-partner-dashboard-clean-rcjqzcqs0-roger947s-projects.vercel.app",
+    "deploymentId": "dpl_BuysudSvAMr8S2kGJznoj79cp5gi",
     "sha": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
     "branch": "codex/rcap-internal-admin-release-evidence",
     "environment": "preview",
-    "status": "ERROR",
-    "exactCandidateDeploymentsFound": 1,
-    "exactCandidateDeploymentStatusesFound": 1,
+    "status": "READY",
+    "exactCandidateDeploymentsFound": 2,
+    "exactCandidateDeploymentStatusesFound": 2,
     "vercelCredentialAvailableToReviewer": true,
     "vercelCliVersion": "59.5.0",
     "vercelAuthentication": "success_as_roger947",
@@ -126,13 +126,25 @@
     ],
     "nextPublicSupabaseUrlMaterializedEmpty": true,
     "supabaseSensitiveValuesMaterializedEmpty": true,
-    "readableNonSecretSupabaseProjectRef": null,
+    "readableNonSecretSupabaseProjectRef": "wwtwtsmywnckfkdaqqeg",
     "expectedAcceptanceProjectRefProven": false,
-    "differentSupabaseProjectRefProven": false,
+    "differentSupabaseProjectRefProven": true,
     "deploymentAttempted": true,
     "previewDeploymentCreated": true,
     "productionDeploymentCreated": false,
-    "environmentVariablesEdited": false,
+    "environmentVariablesEdited": true,
+    "largeFunctions": {
+      "eligibility": "eligible_fluid_compute_enabled_secure_compute_network_count_zero_no_static_ip_configuration_exposed",
+      "variableName": "VERCEL_SUPPORT_LARGE_FUNCTIONS",
+      "previewVariableBefore": "absent",
+      "previewVariableAfter": "present_value_1_non_sensitive_config",
+      "environmentScope": "preview",
+      "productionVariablePreExisting": true,
+      "productionVariableModified": false,
+      "platformExplicitLargeFunctionLabel": false,
+      "largeFunctionUsed": "inferred_yes_same_635.89mb_uncompressed_function_accepted_after_opt_in",
+      "measuredUncompressedFunctionSizeMb": 635.89
+    },
     "deploymentInput": {
       "candidateTree": "91ca2ba3b6e901980bf80b7e4c23aa6399de674c",
       "archive": "tgz",
@@ -142,44 +154,67 @@
       "githubCommitOrgMetadata": "Roger-LegalEase",
       "githubCommitRepoMetadata": "legalease-partner-dashboard-clean"
     },
-    "deploymentFailure": {
+    "previousDeploymentFailure": {
+      "deploymentId": "dpl_9pcLXpea33u3csd1QWebrJGCXCBX",
       "function": "api/expungement-ai/briefcase/[itemId]/packet-information",
       "uncompressedSizeMb": 635.89,
       "limitMb": 250,
       "phase": "deploying_outputs",
       "vercelMessage": "The Vercel Function exceeds the maximum uncompressed size limit.",
-      "secondDeploymentAttempted": false
+      "secondDeploymentAttempted": true
+    },
+    "largeFunctionRetry": {
+      "authorizedRetryCount": 1,
+      "deploymentId": "dpl_BuysudSvAMr8S2kGJznoj79cp5gi",
+      "status": "READY",
+      "buildCompleted": true,
+      "readyInMinutes": 7,
+      "projectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+      "source": "cli",
+      "target": "preview",
+      "githubCommitShaMetadata": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
+      "githubCommitRefMetadata": "codex/rcap-internal-admin-release-evidence",
+      "productionDomainChanged": false
+    },
+    "runtimeSupabaseIdentity": {
+      "checkedBeforeAuthentication": true,
+      "actualProjectRef": "wwtwtsmywnckfkdaqqeg",
+      "expectedProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "match": false,
+      "proof": "real_chromium_loaded_same_origin_client_bundle_exposed_supabase_host",
+      "authenticationAttempted": false,
+      "applicationMutationAttempted": false
     },
     "repositoryWorkflowAuthorizedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
     "repositoryWorkflowAcceptsCandidate": false,
-    "result": "exact_candidate_preview_deployment_error_function_uncompressed_size_limit"
+    "result": "exact_candidate_preview_ready_but_runtime_supabase_project_ref_mismatch"
   },
   "browserAcceptance": {
-    "exactPreviewRun": false,
-    "desktop": "not_run_deployment_error",
-    "mobile": "not_run_deployment_error",
-    "activeInternalAdministrator": "not_run_deployment_error",
-    "externalEmailNoRole": "not_run_deployment_error",
-    "corporateDomainNoRole": "not_run_deployment_error",
-    "partnerAdministrator": "not_run_deployment_error",
-    "inactiveOrRevokedAdministrator": "not_run_deployment_error",
-    "identityDisplay": "not_run_deployment_error",
-    "roleDisplay": "not_run_deployment_error",
-    "signOut": "not_run_deployment_error",
-    "switchAccount": "not_run_deployment_error",
-    "postSignOutAccess": "not_run_deployment_error",
-    "crossOriginSignOut": "not_run_deployment_error",
-    "returnToSafety": "not_run_deployment_error",
-    "directApiAndMutation": "not_run_deployment_error",
-    "supabaseRuntimeIdentity": "not_observable_deployment_error_no_auth_attempted",
-    "localSyntheticChromiumControlSuite": "pass_not_a_preview_substitute"
+    "exactPreviewRun": true,
+    "desktop": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "mobile": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "activeInternalAdministrator": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "externalEmailNoRole": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "corporateDomainNoRole": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "partnerAdministrator": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "inactiveOrRevokedAdministrator": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "identityDisplay": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "roleDisplay": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "signOut": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "switchAccount": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "postSignOutAccess": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "crossOriginSignOut": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "returnToSafety": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "directApiAndMutation": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "supabaseRuntimeIdentity": "fail_actual_wwtwtsmywnckfkdaqqeg_expected_hyflxnlhpmiqxvvcoiia_no_authentication_attempted",
+    "localSyntheticChromiumControlSuite": "pass_not_repeated_not_a_preview_substitute"
   },
   "applicationReview": {
     "codeReview": "pass_no_correction_identified",
-    "pageGuards": "static_pass; exact_preview_not_run_deployment_error",
-    "apiGuards": "static_pass; exact_preview_not_run_deployment_error",
-    "mutationGuards": "static_pass; exact_preview_not_run_deployment_error",
-    "guardBeforeProtectedData": "static_pass_and_database_denial_pass; exact_preview_not_run_deployment_error"
+    "pageGuards": "static_pass; exact_preview_not_run_wrong_supabase_project_pre_authentication_stop",
+    "apiGuards": "static_pass; exact_preview_not_run_wrong_supabase_project_pre_authentication_stop",
+    "mutationGuards": "static_pass; exact_preview_not_run_wrong_supabase_project_pre_authentication_stop",
+    "guardBeforeProtectedData": "static_pass_and_database_denial_pass; exact_preview_not_run_wrong_supabase_project_pre_authentication_stop"
   },
   "remediation": {
     "capturedAt": "2026-08-24T13:09:56.493Z",
@@ -216,8 +251,9 @@
     "authorizationQueue": "pass",
     "stagingReadiness": "pass",
     "releaseReadiness": "pass",
-    "exactCandidatePreviewDeployment": "fail_vercel_function_uncompressed_size_635.89mb_exceeds_250mb",
-    "deployedBrowserAndRequestAcceptance": "not_run_preview_deployment_error",
+    "exactCandidatePreviewDeployment": "pass_ready_large_functions_preview_opt_in",
+    "deployedRuntimeSupabaseIdentity": "fail_actual_wwtwtsmywnckfkdaqqeg_expected_hyflxnlhpmiqxvvcoiia",
+    "deployedBrowserAndRequestAcceptance": "not_run_wrong_supabase_project_pre_authentication_stop",
     "npmTest": "pass",
     "typecheck": "pass",
     "lint": "pass_0_errors_102_warnings",
@@ -226,6 +262,8 @@
   "scope": {
     "implementationBytesMovedAfterSecuritySha": false,
     "rlsMigrationBytesMovedAfterSecuritySha": false,
+    "workerEvidenceBytesMovedAfterCandidateFreeze": false,
+    "applicationSourceBytesMovedAfterCandidateFreeze": false,
     "unrelatedProtectedProductBytesMovedFromBase": false,
     "productionTouched": false,
     "productionUsersChanged": false,
@@ -242,13 +280,13 @@
     "clinicModeFoundation": false
   },
   "recovery": {
-    "classification": "EXISTING_FINAL_REVIEW_RECOVERED_SINGLE_EXACT_PREVIEW_DEPLOYMENT_FAILED",
-    "reviewHeadRecovered": "d6071d1765244daeb5cf259346158b03f284492f",
+    "classification": "EXISTING_FINAL_REVIEW_RECOVERED_LARGE_FUNCTION_PREVIEW_READY_WRONG_SUPABASE_PROJECT",
+    "reviewHeadRecovered": "d6363414f304da02a7e6580dbfca88b349e39c68",
     "candidateWorktreeRecreated": true,
     "candidateImplementationChanged": false,
     "migrationReapplied": false,
     "workerEvidenceRegenerated": false,
     "releaseEvidenceRegenerated": false
   },
-  "exactBlocker": "The one permitted CLI Preview deployment used exact candidate fc838be7871dc977e0a3e811b801d6c8ee7398e5, exact branch metadata, the existing roger947s-projects/legalease-partner-dashboard-clean project, and target Preview. Vercel created deployment dpl_9pcLXpea33u3csd1QWebrJGCXCBX but failed it while deploying outputs because api/expungement-ai/briefcase/[itemId]/packet-information is 635.89 MB uncompressed, above the 250 MB function limit. The deployment never became Ready, so runtime Supabase identity, authentication, browser controls, redirects, and deployed request guards could not be tested. No second deployment, environment edit, implementation change, or Production action was performed."
+  "exactBlocker": "The authorized Preview-only VERCEL_SUPPORT_LARGE_FUNCTIONS=1 setting allowed the single exact-candidate retry dpl_BuysudSvAMr8S2kGJznoj79cp5gi to become Ready. Before authentication, real Chromium loaded the deployed sign-in application and the same-origin client bundle exposed Supabase project ref wwtwtsmywnckfkdaqqeg, not the required acceptance ref hyflxnlhpmiqxvvcoiia. Per the pre-authentication identity gate, no credentials were submitted, no application mutation was attempted, and the identity, Sign Out, redirect, API, and mutation acceptance was stopped. The candidate tree remained 91ca2ba3b6e901980bf80b7e4c23aa6399de674c and clean; no implementation, RLS migration, worker evidence, application source, or Production byte was changed."
 }
