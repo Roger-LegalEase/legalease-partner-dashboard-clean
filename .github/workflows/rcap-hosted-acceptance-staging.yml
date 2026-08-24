@@ -568,7 +568,10 @@ jobs:
             '  "PAYMENT_EXERCISED": false,' \
             '  "paymentExercised": false,' \
             "  \"environmentIdentity\": { \"RCAP_ENVIRONMENT_ID\": \"$OBSERVED_ID\", \"RCAP_ENVIRONMENT_CLASS\": \"$OBSERVED_CLASS\", \"matchesExpected\": true }," \
-            "  \"sharedSecretPresence\": { \"SUPABASE_ACCESS_TOKEN\": $A, \"VERCEL_TOKEN\": $B, \"VERCEL_ORG_ID\": $C, \"VERCEL_PROJECT_ID\": $D, \"VERCEL_AUTOMATION_BYPASS_SECRET\": $E }" \
+            "  \"sharedSecretPresence\": { \"SUPABASE_ACCESS_TOKEN\": $A, \"VERCEL_TOKEN\": $B, \"VERCEL_ORG_ID\": $C, \"VERCEL_PROJECT_ID\": $D, \"VERCEL_AUTOMATION_BYPASS_SECRET\": $E }," \
+            '  "sharedSecretEvidenceClass": "PRESENCE_ONLY",' \
+            '  "environmentProvenance": "ENVIRONMENT_PROVENANCE_NOT_YET_PROVEN",' \
+            '  "environmentProvenanceNote": "The five shared checks above are PRESENCE ONLY. Identically named repository-scope secrets exist and the dispatch entry point forwards them into this called workflow, so a present value here does NOT prove it came from this environment. Removing that forwarding is not available while the read-only preflight job, which declares no environment, still needs the same five values. The pre-probe plan is: rename the environment copies, drop the caller forwarding for the renamed names, then re-run this probe. Until then this evidence is presence, not provenance."' \
             '}' > hosted-acceptance-evidence/environment-probe.json
           missing=""
           [ "$A" = true ] || missing="$missing SUPABASE_ACCESS_TOKEN"
@@ -1422,6 +1425,11 @@ jobs:
             "  \"capability\": { \"STRIPE_SECRET_ACCESS\": $STRIPE_SECRET_ACCESS, \"STRIPE_TRANSACTION\": $STRIPE_TRANSACTION }," \
             "  \"environmentIdentity\": { \"RCAP_ENVIRONMENT_ID\": \"$OBSERVED_ID\", \"RCAP_ENVIRONMENT_CLASS\": \"$OBSERVED_CLASS\", \"matchesExpected\": true }," \
             "  \"sharedSecretPresence\": { \"SUPABASE_ACCESS_TOKEN\": $A, \"VERCEL_TOKEN\": $B, \"VERCEL_ORG_ID\": $C, \"VERCEL_PROJECT_ID\": $D, \"VERCEL_AUTOMATION_BYPASS_SECRET\": $E }," \
+            '  "sharedSecretEvidenceClass": "PRESENCE_ONLY",' \
+            '  "environmentProvenance": "ENVIRONMENT_PROVENANCE_NOT_YET_PROVEN",' \
+            '  "environmentProvenanceNote": "The five shared checks above are PRESENCE ONLY. Identically named repository-scope secrets exist and the dispatch entry point forwards them into this called workflow, so a present value here does NOT prove it came from this environment. Removing that forwarding is not available while the read-only preflight job, which declares no environment, still needs the same five values. The pre-probe plan is: rename the environment copies, drop the caller forwarding for the renamed names, then re-run this probe. Until then this evidence is presence, not provenance.",' \
+            '  "stripeSecretProvenance": "ENVIRONMENT_SCOPED",' \
+            '  "stripeSecretProvenanceNote": "Different from the five above: HOSTED_STRIPE_TEST_SECRET and HOSTED_STRIPE_TEST_WEBHOOK_SECRET are declared in no workflow_call secrets block and forwarded by no caller, so their presence in this job can only be environment-scoped.",' \
             "  \"stripeSecretFormat\": { \"HOSTED_STRIPE_TEST_SECRET_is_sk_test\": $K, \"HOSTED_STRIPE_TEST_WEBHOOK_SECRET_is_whsec\": $W }" \
             '}' > hosted-acceptance-evidence/payment-environment-probe.json
           missing=""
