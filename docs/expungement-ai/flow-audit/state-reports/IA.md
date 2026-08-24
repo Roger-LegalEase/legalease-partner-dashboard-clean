@@ -100,3 +100,58 @@ docs/expungement-ai/flow-audit/state-reports/IA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-2 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.
+
+### Changed
+
+- Added `src/lib/rcap/state-packs/iowa/controlled-filing-dataset.ts`. Iowa's `filingDestinationRules` is also empty, so the court destination was sourced from the official application caption in `sourceSections` — weaker provenance than the other seven, and flagged as such.
+- Added an additive `controlledDataBindings` block to `IA-iowa.json` binding `court` and `county`.
+
+### Deliberately not changed
+
+- No question's id, stage, type, prompt, options, required flag, `contextOnly` flag or `doesNotSelectPathway` flag moved.
+- No pathway, waiting-period rule, exclusion rule, ordered decision rule, packet family, form mapping, `operationallySellable` value or payment clamp moved.
+- No waiting rule was authored and no binding was added. `src/lib/rcap-engine/waiting-rule-bindings.json` and `src/lib/rcap-engine/evaluator.ts` are prohibited paths and are untouched.
+
+### Terminals
+
+No flow row moved. All 10 IA flow IDs keep the terminal they had at the base. Proved by regenerating the audit's own four generators at the base and again with this shard's changes applied: `flow-manifest.json`, `question-inventory.json`, `branch-coverage.json` and `ui-reachability.json` are byte-identical between the two runs.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **13**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution`
+- Facts the evaluator consumes that this state never asks: `record_documents`
+
+This jurisdiction was reopened by Phase 2 and the shard prompt directs that it is not to be re-investigated. It was confirmed still open at this base and left alone.
+
+### Waiting-rule dispositions
+
+4 fallback-dependent route(s) assigned to this jurisdiction. Every one carries exactly one disposition. None is recommended ACTIVE.
+
+| Route | Disposition | Rule(s) / basis |
+| --- | --- | --- |
+| `minor-prostitution-7251` | `HELD_FOR_CORRECTION` | `wait-04` |
+| `misdemeanor-901c3` | `EXPLICIT_BINDING_PROPOSED` | `wait-02` |
+| `public-intoxication-12346` | `HELD_FOR_CORRECTION` | `wait-04` |
+| `underage-alcohol-12347` | `HELD_FOR_CORRECTION` | `wait-04` |
+
+### Duration-provenance findings
+
+Structured durations in this jurisdiction's `waitingPeriodRules` that were extracted from something other than the operative wait:
+
+- `wait-04` — duration **null** while its prose states a two-year period ('during the two-year period after conviction'). It is the only rule for three Iowa routes. Operative wait: a two-year clean window; whether that is also the wait before filing is the open legal question. No live effect — all three routes are `needs_review` with payment closed.
+- `wait-03`'s 30 days is a **document-freshness** window for the DCI check attached at filing, not a waiting period, and must not be bound as one.
+
+### Legal questions still open
+
+Whether wait-04's two-year clean window is also the wait before filing for the public-intoxication, underage-alcohol and minor-prostitution routes.
+
+### County and court (UX-COUNTY-001 / UX-COURT-001)
+
+Classified `SHARED_PHASE2_BLOCKER`. One bounded state-configuration attempt was made and reproduced three blockers first-hand: the screening-parity gate refuses a compiled question's type and option list; the served payload comes from the shared all-51 designer fixture, so the change was inert; and `QuestionField.tsx` has no input combining a controlled list with manual entry. The attempt was reverted and not retried. What is preserved here is a **prepared dataset**, not a live customer-facing selector — the served profile and the renderer do not read it, and both are prohibited paths.

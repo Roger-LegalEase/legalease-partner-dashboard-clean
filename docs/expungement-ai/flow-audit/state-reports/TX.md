@@ -106,3 +106,70 @@ docs/expungement-ai/flow-audit/state-reports/TX.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-2 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.
+
+### Changed
+
+- Added `src/lib/rcap/state-packs/texas/controlled-filing-dataset.ts`: the district court of the county of arrest or prosecution, DPS as the record holder, and a manual-entry fallback.
+- Added an additive `controlledDataBindings` block to `TX-texas.json`.
+
+### Deliberately not changed
+
+- No question's id, stage, type, prompt, options, required flag, `contextOnly` flag or `doesNotSelectPathway` flag moved.
+- No pathway, waiting-period rule, exclusion rule, ordered decision rule, packet family, form mapping, `operationallySellable` value or payment clamp moved.
+- No waiting rule was authored and no binding was added. `src/lib/rcap-engine/waiting-rule-bindings.json` and `src/lib/rcap-engine/evaluator.ts` are prohibited paths and are untouched.
+- Texas's `PAYMENT_CLAMP_PRESERVED` hold is preserved exactly: TX still reaches a packet-ready terminal from rendered screens without payment opening, as at the base.
+
+### Terminals
+
+No flow row moved. All 14 TX flow IDs keep the terminal they had at the base. Proved by regenerating the audit's own four generators at the base and again with this shard's changes applied: `flow-manifest.json`, `question-inventory.json`, `branch-coverage.json` and `ui-reachability.json` are byte-identical between the two runs.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **16**
+- Packet-ready reachable: **yes**
+- Payment reachable: **no**
+- Best terminal found: `packet_ready_with_caution`
+- Facts the evaluator consumes that this state never asks: `record_documents`
+
+Texas reaches a packet-ready terminal without payment opening. That is the preserved payment clamp, unchanged by this shard.
+
+### Waiting-rule dispositions
+
+8 fallback-dependent route(s) assigned to this jurisdiction. Every one carries exactly one disposition. None is recommended ACTIVE.
+
+| Route | Disposition | Rule(s) / basis |
+| --- | --- | --- |
+| `automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07` | `HELD_FOR_CORRECTION` | `wait-18` |
+| `expunction-after-acquittal-not-guilty-disposition-chapter-55a` | `HELD_FOR_CORRECTION` | `wait-01` |
+| `expunction-after-pardon-or-actual-innocence-relief` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+| `expunction-after-qualifying-class-c-deferred-disposition` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+| `expunction-after-qualifying-dismissal-or-quash` | `LEGAL_OWNER_DECISION_REQUIRED` | no rule scoped to this route |
+| `expunction-for-arrest-with-no-charge-filed-after-the-limitations-period` | `HELD_FOR_CORRECTION` | `wait-05`, `wait-06`, `wait-15`, `wait-17`, `wait-21` |
+| `first-offense-dwi-nondisclosure` | `HELD_FOR_CORRECTION` | `wait-12`, `wait-13`, `wait-23` |
+| `petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725` | `LEGAL_OWNER_DECISION_REQUIRED` | `wait-09`, `wait-10`, `wait-14`, `wait-20` |
+
+### Duration-provenance findings
+
+Structured durations in this jurisdiction's `waitingPeriodRules` that were extracted from something other than the operative wait:
+
+- `wait-01` — duration **null**; '30th day after acquittal' was never parsed. Operative wait 30 days.
+- `wait-17` — duration **0 days**, taken from the 'immediately entitled' sentence following the ladder table; the felony row's operative 3 years has no correctly-parsed rule anywhere.
+- `wait-18` — duration **5 years**, taken from a neighbouring subtype row; the § 411.072 row's operative wait is 'None (court issues automatically)'.
+- `wait-20` — duration **0 days**, the first of two branches; the enumerated chapters carry 5 years.
+- `wait-13` — duration **5 years**, the second of two branches; 2 years applies with a full-term interlock, and the flow never asks about the interlock.
+
+### Potential P0 payment / legal-outcome risks
+
+- Three routes would become P0 **if bound as they stand**: `expunction-for-arrest-with-no-charge-filed-after-the-limitations-period` (`wait-17` = 0 days against an operative 3 years on the felony row), `automatic-nondisclosure-…-411-07` (`wait-18` = 5 years against a source that says the court issues it automatically), and `petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725` (`wait-20` = 0 days against an operative 5 years for the enumerated Penal Code chapters). None has a live effect: the payment clamp holds payment closed.
+
+### Legal questions still open
+
+Whether a completed Class C deferred disposition confers immediate entitlement; what governs a qualifying dismissal or quash and a pardon or actual-innocence expunction; and whether the flow should ask the interlock question its own guidance names.
+
+### County and court (UX-COUNTY-001 / UX-COURT-001)
+
+Classified `SHARED_PHASE2_BLOCKER`. One bounded state-configuration attempt was made and reproduced three blockers first-hand: the screening-parity gate refuses a compiled question's type and option list; the served payload comes from the shared all-51 designer fixture, so the change was inert; and `QuestionField.tsx` has no input combining a controlled list with manual entry. The attempt was reverted and not retried. What is preserved here is a **prepared dataset**, not a live customer-facing selector — the served profile and the renderer do not read it, and both are prohibited paths.

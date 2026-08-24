@@ -102,3 +102,59 @@ docs/expungement-ai/flow-audit/state-reports/ND.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-2 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.
+
+### Changed
+
+- Added `src/lib/rcap/state-packs/north-dakota/controlled-filing-dataset.ts`: state district court and municipal court as the two venues the statute names, and a manual-entry fallback.
+- Added an additive `controlledDataBindings` block to `ND-north-dakota.json` recording **zero bindings**: North Dakota publishes no `court`, `county` or `county_or_filing_location` question.
+
+### Deliberately not changed
+
+- No question's id, stage, type, prompt, options, required flag, `contextOnly` flag or `doesNotSelectPathway` flag moved.
+- No pathway, waiting-period rule, exclusion rule, ordered decision rule, packet family, form mapping, `operationallySellable` value or payment clamp moved.
+- No waiting rule was authored and no binding was added. `src/lib/rcap-engine/waiting-rule-bindings.json` and `src/lib/rcap-engine/evaluator.ts` are prohibited paths and are untouched.
+
+### Terminals
+
+No flow row moved. All 12 ND flow IDs keep the terminal they had at the base. Proved by regenerating the audit's own four generators at the base and again with this shard's changes applied: `flow-manifest.json`, `question-inventory.json`, `branch-coverage.json` and `ui-reachability.json` are byte-identical between the two runs.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **12**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution`
+- Facts the evaluator consumes that this state never asks: **none**
+
+### Waiting-rule dispositions
+
+6 fallback-dependent route(s) assigned to this jurisdiction. Every one carries exactly one disposition. None is recommended ACTIVE.
+
+| Route | Disposition | Rule(s) / basis |
+| --- | --- | --- |
+| `deferred-imposition-dismissal-and-sealing` | `LEGAL_OWNER_DECISION_REQUIRED` | `wait-19` |
+| `dui-record-sealing-under-the-separate-dui-statute` | `EXPLICIT_BINDING_PROPOSED` | `wait-07` |
+| `first-offense-possession-sealing` | `LEGAL_OWNER_DECISION_REQUIRED` | `wait-01`, `wait-02` |
+| `general-conviction-sealing-under-n-d-c-c-chapter-12-60-1` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | `wait-05`, `wait-06` — on `offense_level` |
+| `marijuana-specific-summary-pardon-or-sealing-relief` | `EXPLICIT_BINDING_PROPOSED` | `wait-03` |
+| `non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | `wait-14`, `wait-15` — on `disposition_date` |
+
+### Duration-provenance findings
+
+Structured durations in this jurisdiction's `waitingPeriodRules` that were extracted from something other than the operative wait:
+
+- `wait-01`/`wait-02` — 2 years, stated as a **disqualifying forward window** ('not subsequently convicted within two years of a further controlled-substance violation'), not a wait before filing. This changed `first-offense-possession-sealing` from a proposed binding to `LEGAL_OWNER_DECISION_REQUIRED`.
+- `wait-05`/`wait-06`/`wait-10`/`wait-11` — stated as **lookbacks** ('no new conviction for at least N years before filing'), but ND's own table header names them the misdemeanor and felony *waiting periods*, so lookback and wait coincide. This is why the chapter 12-60.1 conditional binding is proposed rather than held.
+- `wait-19` — duration 10 days, belonging to a different row of the same concatenated table; it is the only text describing deferred imposition.
+
+### Legal questions still open
+
+Whether ND's misdemeanor and felony lookbacks are the waiting period (its own table says so), and what governs deferred-imposition sealing and first-offense possession sealing.
+
+### County and court (UX-COUNTY-001 / UX-COURT-001)
+
+Classified `SHARED_PHASE2_BLOCKER`. One bounded state-configuration attempt was made and reproduced three blockers first-hand: the screening-parity gate refuses a compiled question's type and option list; the served payload comes from the shared all-51 designer fixture, so the change was inert; and `QuestionField.tsx` has no input combining a controlled list with manual entry. The attempt was reverted and not retried. What is preserved here is a **prepared dataset**, not a live customer-facing selector — the served profile and the renderer do not read it, and both are prohibited paths.
