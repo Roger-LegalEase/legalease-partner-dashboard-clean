@@ -104,3 +104,74 @@ docs/expungement-ai/flow-audit/state-reports/PA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+---
+
+# Phase 3 — SHARD-5 sign-off
+
+Built from `93e05e945a52cfa1cdd2ab590636290875a48f68` (the Phase 2 product head). Evaluator clock pinned to `2026-07-01`.
+Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-5.json`.
+
+## What changed for PA
+
+| File | Change |
+| --- | --- |
+| `src/lib/rcap/state-packs/pennsylvania/county-court-directory.ts` | **New.** The controlled county and court dataset for Pennsylvania: all 67 counties, 3 court options each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require. |
+| `src/lib/rcap/state-packs/pennsylvania/index.ts` | Re-exports the new module. |
+| `src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json` | **Unchanged**, deliberately. See below. |
+
+No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or `operationallySellable` value was changed. No question was deleted. No terminal moved.
+
+## Why the compiled profile is unchanged
+
+The county and court selector this issue asks for **was written for PA, measured, and reverted**. Two independent reasons, either sufficient:
+
+1. **It would have been invisible.** `buildProfileDraft` in `src/lib/rcap-engine/public-profile-projection.ts` builds the public profile from `src/lib/rcap-engine/compiled/all51.json`, not from the per-state compiled profile, whenever the jurisdiction is present there — and all 51 are. The audit's own manifest already records this: `runtimeConsumerQuestionAuthority` is `all51.json`; `runtimeEligibilityAuthority` is `compiled/profiles/*.json`. This shard owns the second and not the first. Measured: with the binding applied, re-projecting PA returned the unchanged question.
+2. **It would have failed this shard's own acceptance test.** `scripts/verify-expungement-plain-language-values.mjs` fails on a changed question type, option list, prompt, order or count unless the change is recorded in `data/expungement-ai/screening-parity-approved-deltas.json`, which is a prohibited path for this shard.
+
+The exact question objects are preserved in the shard result under `proposedCompiledProfileQuestions`, and the option lists are re-derivable from the state pack, so the integration captain can land them without re-deriving anything.
+
+## Reachability at this base
+
+| Measure | Phase 1 artifact | This base | Explanation |
+| --- | --- | --- | --- |
+| Rendered consumer screens | 6 | 12 | allowlist `shared-facts-rendered` |
+| Best terminal from rendered screens only | `needs_more_info / payment not reachable` | `packet_ready_with_caution / payment reachable` | recovered by Phase 2 (allowlist `ui-reachability-recovered`) |
+
+Every difference is explained by `data/expungement-ai/phase2/correction-allowlist.json`. None is caused by this shard.
+
+## Waiting-rule dispositions
+
+10 of this shard's 41 fallback-dependent routes are PA's. Each resolves through the provisional prose selector kept in the evaluator, and each is dispositioned rather than bound: `waiting-rule-bindings.json` and `evaluator.ts` are prohibited paths, so a shard proposes and the integration captain binds.
+
+| Route | Disposition | Rule |
+| --- | --- | --- |
+| `path-b-complete-acquittal-not-guilty-expungement` | `EXPLICIT_BINDING_PROPOSED` | wait-01 |
+| `path-c-summary-conviction-expungement` | `EXPLICIT_BINDING_PROPOSED` | wait-02 |
+| `path-d-ard-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | none published |
+| `path-e-age-70-expungement` | `EXPLICIT_BINDING_PROPOSED` | wait-06 |
+| `path-f-deceased-person-expungement` | `EXPLICIT_BINDING_PROPOSED` | wait-07 |
+| `path-g-underage-drinking-conviction-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | none published |
+| `path-h-pardon-based-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-13 |
+| `path-i-petition-for-limited-access` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | Misdemeanor → wait-08; Felony → wait-09 |
+| `path-j-clean-slate-automatic-limited-access` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-04, wait-15 |
+| `path-k-human-trafficking-vacatur-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | none published |
+
+4 × `EXPLICIT_BINDING_PROPOSED` · 5 × `LEGAL_OWNER_DECISION_REQUIRED` · 1 × `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` · **0 recommended active.**
+
+No duration in any proposal was written by this shard. Every one is quoted from the duration Pennsylvania's own compiled profile already publishes, with its rule id.
+
+## Findings and open questions
+
+- Pennsylvania was reopened by Phase 2 and this shard was asked to confirm it, not re-investigate it. **Confirmed at this base**: Path A returns `packet_ready_with_caution` with `paymentAllowed` true for the same participant, and the bounded sweep finds Pennsylvania reaching packet-ready and payment from rendered screens only.
+- **Pennsylvania is where this shard's waiting-rule work landed**: four explicit binding proposals (paths B, C, E, F) and this shard's only conditional proposal (path I), all from rules the Pennsylvania profile already publishes, with no duration authored.
+- **A defect that would impose a seventy-year waiting period.** PA rule `wait-05` carries `duration: {value: 70, unit: "years"}` because the compiler read the age threshold — "the person is 70 years of age or older" — as a duration. The real period is 10 years and `wait-06` and `wait-16` both publish it correctly. Every authored binding in `waiting-rule-bindings.json` disambiguates by `longest_bound_duration`, so a binding over the age-70 route that included `wait-05` would select 70 years. The proposal for path E names `wait-06` explicitly and excludes `wait-05` for that reason (`WAIT-DATA-001`). A second rule, `wait-13`, is a bucket enumeration — `[Immediate / 5 years / 7 years / 10 years / …]` — compiled as a rule with a zero duration, so a shortest-duration disambiguation would read it as "no waiting period" (`WAIT-DATA-002`).
+- **Ten of the eleven routes are marked guidance-only by counsel for this release** (`pa.lawrence_hold_guidance_only`). Four of them now have a repository-supported waiting rule proposed. Lifting a counsel hold is counsel's decision; none is recommended active (`PA-LEGAL-001`).
+
+## County and court datasets
+
+- Counties: **67**, complete for Pennsylvania, no duplicate. PA is one of UX-COUNTY-001's four assigned jurisdictions for this shard.
+- Courts: **3**, not exhaustive by design. A court this repository does not name is absent rather than invented, which is why the manual-entry fallback is part of the contract and not a nicety.
+  - `Court of Common Pleas` — "File petition-based Pennsylvania court relief in the Court of Common Pleas in the county where the case was heard." (`src/lib/rcap/state-packs/pennsylvania/filing-instructions.ts; PA-pennsylvania.json#questions source_question_06_court-of-common-pleas`)
+  - `Magisterial District Court` — "Magisterial District Court" (`PA-pennsylvania.json#questions source_question_04_magisterial-district-court`)
+  - `Philadelphia Municipal Court` — "Philadelphia Municipal Court" (`PA-pennsylvania.json#questions source_question_05_philadelphia-municipal-court`)

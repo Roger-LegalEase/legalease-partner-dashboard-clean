@@ -107,3 +107,53 @@ docs/expungement-ai/flow-audit/state-reports/CO.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+---
+
+# Phase 3 — SHARD-5 sign-off
+
+Built from `93e05e945a52cfa1cdd2ab590636290875a48f68` (the Phase 2 product head). Evaluator clock pinned to `2026-07-01`.
+Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-5.json`.
+
+## What changed for CO
+
+| File | Change |
+| --- | --- |
+| `src/lib/rcap/state-packs/colorado/county-court-directory.ts` | **New.** The controlled county and court dataset for Colorado: all 64 counties, 1 court option each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require. |
+| `src/lib/rcap/state-packs/colorado/index.ts` | Re-exports the new module. |
+| `src/lib/rcap-engine/compiled/profiles/CO-colorado.json` | **Unchanged**, deliberately. See below. |
+
+No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or `operationallySellable` value was changed. No question was deleted. No terminal moved.
+
+## Why the compiled profile is unchanged
+
+The county and court selector this issue asks for **was written for CO, measured, and reverted**. Two independent reasons, either sufficient:
+
+1. **It would have been invisible.** `buildProfileDraft` in `src/lib/rcap-engine/public-profile-projection.ts` builds the public profile from `src/lib/rcap-engine/compiled/all51.json`, not from the per-state compiled profile, whenever the jurisdiction is present there — and all 51 are. The audit's own manifest already records this: `runtimeConsumerQuestionAuthority` is `all51.json`; `runtimeEligibilityAuthority` is `compiled/profiles/*.json`. This shard owns the second and not the first. Measured: with the binding applied, re-projecting CO returned the unchanged question.
+2. **It would have failed this shard's own acceptance test.** `scripts/verify-expungement-plain-language-values.mjs` fails on a changed question type, option list, prompt, order or count unless the change is recorded in `data/expungement-ai/screening-parity-approved-deltas.json`, which is a prohibited path for this shard.
+
+The exact question objects are preserved in the shard result under `proposedCompiledProfileQuestions`, and the option lists are re-derivable from the state pack, so the integration captain can land them without re-deriving anything.
+
+## Reachability at this base
+
+| Measure | Phase 1 artifact | This base | Explanation |
+| --- | --- | --- | --- |
+| Rendered consumer screens | 8 | 13 | allowlist `shared-facts-rendered` |
+| Best terminal from rendered screens only | `packet_ready_with_caution / payment reachable` | `packet_ready_with_caution / payment reachable` | unchanged |
+
+Every difference is explained by `data/expungement-ai/phase2/correction-allowlist.json`. None is caused by this shard.
+
+## Waiting-rule dispositions
+
+None. Colorado has no fallback-dependent route in this shard — every compiled pathway already carries an authored binding in `src/lib/rcap-engine/waiting-rule-bindings.json`.
+
+## Findings and open questions
+
+- Colorado has no fallback-dependent route in this shard: all four of its compiled pathways already carry an authored binding in `waiting-rule-bindings.json`. Nothing was proposed and nothing was changed.
+- **A dataset gap this shard recorded and did not fill.** The controlled court dataset for Colorado has one entry, because the `DISTRICT COURT, EL PASO COUNTY, COLORADO` caption in the JDF 612 sample is the only Colorado court this repository names. County courts and municipal courts also hear cases that reach these routes. Adding a court the repository does not name would be inventing the dataset the audit asked to be controlled (`CO-DATA-001`).
+
+## Court dataset
+
+- Counties: **64**, complete for Colorado, no duplicate. CO is not on UX-COUNTY-001's jurisdiction list — it asks `county_or_filing_location` ("Where in Colorado did the case happen?"), which is a location rather than a county, which is why the audit scoped the issue elsewhere. The dataset is shipped anyway because the packet binds a county.
+- Courts: **1**, not exhaustive by design. A court this repository does not name is absent rather than invented, which is why the manual-entry fallback is part of the contract and not a nicety.
+  - `District Court` — "Example A — Motion to Seal Conviction Records (JDF 612, § 24-72-706) DISTRICT COURT, EL PASO COUNTY, COLORADO" (`CO-colorado.json#sourceSections (JDF 612 sample caption)`)

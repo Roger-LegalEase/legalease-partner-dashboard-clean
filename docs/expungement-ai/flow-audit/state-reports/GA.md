@@ -105,3 +105,56 @@ docs/expungement-ai/flow-audit/state-reports/GA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+---
+
+# Phase 3 — SHARD-5 sign-off
+
+Built from `93e05e945a52cfa1cdd2ab590636290875a48f68` (the Phase 2 product head). Evaluator clock pinned to `2026-07-01`.
+Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-5.json`.
+
+## What changed for GA
+
+| File | Change |
+| --- | --- |
+| `src/lib/rcap/state-packs/georgia/county-court-directory.ts` | **New.** The controlled county and court dataset for Georgia: all 159 counties, 3 court options each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require. |
+| `src/lib/rcap/state-packs/georgia/index.ts` | Re-exports the new module. |
+| `src/lib/rcap-engine/compiled/profiles/GA-georgia.json` | **Unchanged**, deliberately. See below. |
+
+No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or `operationallySellable` value was changed. No question was deleted. No terminal moved.
+
+## Why the compiled profile is unchanged
+
+The county and court selector this issue asks for **was written for GA, measured, and reverted**. Two independent reasons, either sufficient:
+
+1. **It would have been invisible.** `buildProfileDraft` in `src/lib/rcap-engine/public-profile-projection.ts` builds the public profile from `src/lib/rcap-engine/compiled/all51.json`, not from the per-state compiled profile, whenever the jurisdiction is present there — and all 51 are. The audit's own manifest already records this: `runtimeConsumerQuestionAuthority` is `all51.json`; `runtimeEligibilityAuthority` is `compiled/profiles/*.json`. This shard owns the second and not the first. Measured: with the binding applied, re-projecting GA returned the unchanged question.
+2. **It would have failed this shard's own acceptance test.** `scripts/verify-expungement-plain-language-values.mjs` fails on a changed question type, option list, prompt, order or count unless the change is recorded in `data/expungement-ai/screening-parity-approved-deltas.json`, which is a prohibited path for this shard.
+
+The exact question objects are preserved in the shard result under `proposedCompiledProfileQuestions`, and the option lists are re-derivable from the state pack, so the integration captain can land them without re-deriving anything.
+
+## Reachability at this base
+
+| Measure | Phase 1 artifact | This base | Explanation |
+| --- | --- | --- | --- |
+| Rendered consumer screens | 12 | 16 | allowlist `shared-facts-rendered` |
+| Best terminal from rendered screens only | `not_yet / payment not reachable` | `packet_ready_with_caution / payment reachable` | recovered by Phase 2 (allowlist `ui-reachability-recovered`) |
+
+Every difference is explained by `data/expungement-ai/phase2/correction-allowlist.json`. None is caused by this shard.
+
+## Waiting-rule dispositions
+
+None. Georgia has no fallback-dependent route in this shard — every compiled pathway already carries an authored binding in `src/lib/rcap-engine/waiting-rule-bindings.json`.
+
+## Findings and open questions
+
+- Georgia was reopened by Phase 2 and this shard was asked to confirm it, not re-investigate it. **Confirmed at this base**: replaying `remedy-context-replay-after.json` reproduces all 13 rows with 0 differences, and the SB 288 route returns `packet_ready_with_caution` with `paymentAllowed` true for the same participant the Phase 1B reconciliation used.
+- Georgia has no fallback-dependent route: all five of its compiled pathways already carry an authored binding.
+- Georgia's court dataset carries a third option that is deliberately not a court — the arresting agency / prosecutor's office — because the non-conviction restriction route is an agency process, not a court filing, and the state pack's own filing instructions say so.
+
+## County and court datasets
+
+- Counties: **159**, complete for Georgia, no duplicate. GA is one of UX-COUNTY-001's four assigned jurisdictions for this shard.
+- Courts: **3**, not exhaustive by design. A court this repository does not name is absent rather than invented, which is why the manual-entry fallback is part of the contract and not a nicety.
+  - `Superior Court` — "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set)." (`GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts`)
+  - `State Court` — "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set)." (`GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts`)
+  - `Arresting agency or prosecutor's office (non-conviction restriction — not a court filing)` — "Submit the non-conviction application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve or deny)." (`src/lib/rcap/state-packs/georgia/filing-instructions.ts`)
