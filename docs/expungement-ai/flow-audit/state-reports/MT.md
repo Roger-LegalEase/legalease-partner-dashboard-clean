@@ -104,3 +104,72 @@ docs/expungement-ai/flow-audit/state-reports/MT.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `not_held`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/montana/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding: the District Court venue rule quoted from the profile, the two court designations the source names, and the county slot marked awaiting_owner_supplied_source.
+- Exported it from src/lib/rcap/state-packs/montana/index.ts, which already carried a full pack.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/MT-montana.json — untouched.
+- Montana's eleven other state-pack modules — untouched.
+- The four fallback-dependent Montana routes are dispositioned LEGAL_OWNER_DECISION_REQUIRED, not bound. Every duration reachable for them belongs to the § 46-18-1104 misdemeanor petition or is a DOJ processing latency.
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 16 |
+| Packet-ready reachable from rendered screens only | **yes** |
+| Payment reachable from rendered screens only | **yes** |
+| Best terminal found | `packet_ready_with_caution` |
+| Best pathway | `misdemeanor-conviction-expungement-under-mont-code-46-18-1104` |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `deferred-sentence-dismissal-or-confidentiality-route` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `doj-record-removal-update-request` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `marijuana-related-redesignation-expungement-under-mmrta` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `non-conviction-criminal-history-removal-through-criss` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+10 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- Does the § 46-18-204 deferred-sentence dismissal / confidentiality route carry a waiting period?
+- Does an administrative DOJ record-removal request carry one, or should it be bound no_waiting_period?
+- Does MMRTA redesignation carry one?
+- Does § 44-5-202 CRISS non-conviction removal carry one?
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` and `UX-COUNTY-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/montana/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer, and the owner-supplied `TEST_COUNTY_AND_COURT_DATA_SOURCE` that was never supplied — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.

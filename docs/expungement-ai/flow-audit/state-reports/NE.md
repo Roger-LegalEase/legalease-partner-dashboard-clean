@@ -112,3 +112,75 @@ docs/expungement-ai/flow-audit/state-reports/NE.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `not_held`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/nebraska/county-court-instructions.ts — the UX-COURT-001 and UX-COUNTY-001 state binding. Nebraska's profile carries no filingDestinationRules at all, so the venue statements are quoted from its sourceSections instead, and that is recorded in the module.
+- Exported it from src/lib/rcap/state-packs/nebraska/index.ts.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/NE-nebraska.json — untouched, including wait-07 and wait-15, whose structured durations this shard found to be mis-captured. Correcting a waitingPeriodRule changes an evaluator input for routes still on the provisional selector.
+- Six of the seven fallback-dependent Nebraska routes are dispositioned LEGAL_OWNER_DECISION_REQUIRED; the seventh, pardon-then-seal, carries a conditional binding proposal.
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 15 |
+| Packet-ready reachable from rendered screens only | **yes** |
+| Payment reachable from rendered screens only | **yes** |
+| Best terminal found | `packet_ready_with_caution` |
+| Best pathway | `set-aside-probation-fine-community-service` |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `automatic-nonconviction-sealing` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `juvenile-automatic-sealing` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `law-enforcement-error-expungement` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `pardon-then-seal` | `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | a fact the participant already supplies selects between published rules; field, values and rule ids recorded |
+| `set-aside-incarceration-one-year-or-less` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `set-aside-probation-fine-community-service` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `trafficking-survivor-set-aside-and-seal` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+15 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- § 29-3523(3) — when a participant answers 'Diversion, deferred disposition, supervision, or similar program', does the two-year completed-diversion rule or the immediate deferred-judgment rule govern? The flow cannot tell them apart.
+- §§ 43-2,108.01–.05 — does automatic juvenile sealing run on a period or on the qualifying event?
+- § 29-3523(6) — does law-enforcement-error expungement carry a waiting period?
+- § 29-2264(2) and (3) — do the set-aside routes require any elapsed period beyond completion?
+- § 29-3005 — does the trafficking-survivor route require one?
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` and `UX-COUNTY-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/nebraska/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer, and the owner-supplied `TEST_COUNTY_AND_COURT_DATA_SOURCE` that was never supplied — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.

@@ -100,3 +100,69 @@ docs/expungement-ai/flow-audit/state-reports/TN.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 — SHARD-1
+
+**Base SHA:** `93e05e945a52cfa1cdd2ab590636290875a48f68` · **Branch:** `claude/expai-state-shard-01` · **Hold status:** `not_held`
+
+Full sign-off packet: `data/expungement-ai/flow-audit/shard-results/SHARD-1.json`.
+
+### What changed
+
+- Added src/lib/rcap/state-packs/tennessee/county-court-instructions.ts — the UX-COURT-001 state binding: the originating-court venue rule quoted from the profile and the three clerk designations the source names (criminal, circuit, general sessions).
+- Exported it from src/lib/rcap/state-packs/tennessee/index.ts.
+
+### What was deliberately not changed
+
+- src/lib/rcap-engine/compiled/profiles/TN-tennessee.json — untouched, including wait-02, whose eighteen-month duration is a mis-capture of a probation term and which the diversion route would otherwise be a candidate to bind.
+- Two of the four fallback-dependent Tennessee routes carry binding proposals; the conviction routes do not, because the flow cannot tell a Class E felony from a Class C or D one.
+
+### Reachability re-measured at this base
+
+| Measure | Value |
+| --- | --- |
+| Rendered screens | 15 |
+| Packet-ready reachable from rendered screens only | **yes** |
+| Payment reachable from rendered screens only | **yes** |
+| Best terminal found | `packet_ready_with_caution` |
+| Best pathway | `pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106` |
+| Facts the evaluator uses that this flow never renders | `record_documents` |
+
+### Fallback-dependent routes and their Phase 3 disposition
+
+| Route | Disposition | Why, in short |
+| --- | --- | --- |
+| `pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106` | `EXPLICIT_BINDING_PROPOSED` | one rule in this state's own profile governs unconditionally; rule id and source text recorded |
+| `pathway-2-diversion-expunction-under-40-15-105-40-35-313` | `EXPLICIT_BINDING_PROPOSED` | one rule in this state's own profile governs unconditionally; rule id and source text recorded |
+| `pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+| `pathway-4-two-offense-expunction-under-40-32-101-k` | `LEGAL_OWNER_DECISION_REQUIRED` | the repository cannot settle which rule governs, or the candidates conflict |
+
+None is recommended ACTIVE. Every one still resolves through the provisional prose selector kept in the shared evaluator, and a proposal is evidence, not a binding.
+
+### Terminals
+
+9 flow row(s) belong to this jurisdiction in SHARD-1. **0** moved.
+
+This shard changed no compiled profile, no question, no decision rule and no waiting rule, so no terminal moved and no entry is proposed for the Phase 2 correction allowlist.
+
+### Legal questions left open
+
+- §§ 40-32-101(g) / 40-32-107 — reconcile the route's 'defined set of Class E felonies' with the master table's 'Eligible Class C or D felony 10 years', and decide the rule for a felony whose class we never asked.
+- § 40-32-101(k) — is a two-offence route screenable at all in a flow that handles one matter at a time?
+
+### County and court — `SHARED_PHASE2_BLOCKER`
+
+`UX-COURT-001` cannot be completed inside a Phase 3 shard, and Shards 4 and 6 reproduced the
+same blocker independently. One bounded state-configuration attempt was made and reverted:
+rebinding `AZ:court` from `text` to a controlled `single_choice` list fails
+`scripts/verify-expungement-plain-language-values.mjs` with *"changed type"* and
+*"changed option values/order"*. The assertion is structural and applies to every question in
+every one of the 51 compiled profiles, so it was not retried per state.
+
+What this shard preserved instead is the source-backed state half, ready to apply:
+`src/lib/rcap/state-packs/tennessee/county-court-instructions.ts`.
+
+The shared paths and controls the rebind needs — the parity approval record, the selector branch
+in the shared question renderer — are listed in
+`SHARD-1.json#sharedPhase2Blocker`, together with the exact steps and option lists to apply once
+the shared half lands.
