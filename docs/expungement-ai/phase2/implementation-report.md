@@ -1,6 +1,6 @@
 # Expungement.ai — Phase 2 implementation report
 
-Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `5909ca134da648c3a00df2b01cce812745ba7400`. Evaluator clock pinned to `2026-07-01`.
+Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `7f1ab6038c778b52437c7bfda771f58c95a2c5f1`. Evaluator clock pinned to `2026-07-01`.
 
 ## What was implemented
 
@@ -97,6 +97,19 @@ Every verify-* and test-* script in the expungement and RCAP families was run at
 - `verify-rcap-worker-publication-workflow` — Runs the fingerprint verifier. Same disposition.
 
 The published worker image was built from a specific commit and the fingerprint pins `src/` to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.
+
+### The browser harness
+
+The audit's own crawler was run against a local `next dev` origin, never a hosted or production one, with mutation refused.
+
+- **UX-GLOBAL-014** — confirmed. GET /expungement-ai/screening/{mississippi,illinois,district-of-columbia,MS} all answer 200, and GET /api/expungement-ai/profiles/{mississippi,MS,pennsylvania} all return the compiled profile for the right jurisdiction. At the product base the slug form answered 404 unsupported_jurisdiction for 50 of 51.
+
+What it could not reach:
+
+- walking the questionnaire to a terminal — Under a local next dev in this container the screening page renders its frame and stays on "Loading your state's questions...": no question heading appears within 45 seconds and the page reports no JavaScript error. The same probe against the PRODUCT BASE source, served the same way from the same container, behaves identically, so this is a property of the environment and not of the correction.
+- every authenticated surface — Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.
+
+The deterministic harness covers what the browser could not: the audit's own generators re-run at this head, the 51-jurisdiction evaluator baseline, the 325-pathway packet-question sweep, and the per-route remedy-context replay. Phase 1's browser evidence remains the recorded baseline, as the phase authorisation states.
 
 ## Guards added
 

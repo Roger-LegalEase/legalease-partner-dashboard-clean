@@ -42,6 +42,7 @@ const bindingEvidence = readJson("data/expungement-ai/phase2/waiting-rule-bindin
 const remedyReplay = readJson("data/expungement-ai/phase2/remedy-context-replay-after.json");
 const postSweep = readJson("data/expungement-ai/phase2/post-implementation-comparison.json");
 const verifierParity = readJson("data/expungement-ai/phase2/verifier-parity.json");
+const browserRecord = readJson("data/expungement-ai/phase2/browser-harness-record.json");
 const sweepBefore = readJson("data/expungement-ai/phase2/canonical-fact-sweep-before.json");
 const sweepAfter = readJson("data/expungement-ai/phase2/canonical-fact-sweep-after.json");
 
@@ -451,6 +452,18 @@ const lines = [
   ...verifierParity.newFailuresAtHead.map((name) => "- " + code(name) + " — " + verifierParity.newFailureDisposition[name]),
   "",
   "The published worker image was built from a specific commit and the fingerprint pins " + code("src/") + " to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.",
+  "",
+  "### The browser harness",
+  "",
+  "The audit's own crawler was run against a local " + code("next dev") + " origin, never a hosted or production one, with mutation refused.",
+  "",
+  ...browserRecord.confirmedInABrowser.map((entry) => "- **" + entry.issueId + "** — " + entry.result + ". " + entry.detail),
+  "",
+  "What it could not reach:",
+  "",
+  ...browserRecord.blocked.map((entry) => "- " + entry.what + " — " + entry.detail),
+  "",
+  browserRecord.standingIn,
   "",
   "## Guards added",
   "",

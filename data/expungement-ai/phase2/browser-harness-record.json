@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "expai-phase2-browser-harness-record/v1",
+  "head": "7f1ab6038c778b52437c7bfda771f58c95a2c5f1",
+  "productBase": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "harness": "tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+  "origin": "http://127.0.0.1:3113 (local next dev; never a hosted or production origin)",
+  "mutationAllowed": false,
+  "chromium": "/opt/pw-browsers/chromium-1194/chrome-linux/chrome (the pre-installed build; the harness default path does not exist in this container)",
+  "confirmedInABrowser": [
+    {
+      "issueId": "UX-GLOBAL-014",
+      "result": "confirmed",
+      "detail": "GET /expungement-ai/screening/{mississippi,illinois,district-of-columbia,MS} all answer 200, and GET /api/expungement-ai/profiles/{mississippi,MS,pennsylvania} all return the compiled profile for the right jurisdiction. At the product base the slug form answered 404 unsupported_jurisdiction for 50 of 51."
+    }
+  ],
+  "blocked": [
+    {
+      "what": "walking the questionnaire to a terminal",
+      "detail": "Under a local next dev in this container the screening page renders its frame and stays on \"Loading your state's questions...\": no question heading appears within 45 seconds and the page reports no JavaScript error. The same probe against the PRODUCT BASE source, served the same way from the same container, behaves identically, so this is a property of the environment and not of the correction.",
+      "evidence": "data/expungement-ai/phase2/post-implementation/evidence/crawl-report.json \u2014 4 flows crawled, 0 screens entered, terminal headings empty. The 160 recorded browser errors are all next dev webpack-hmr WebSocket failures.",
+      "provenBaseIdentical": true
+    },
+    {
+      "what": "every authenticated surface",
+      "detail": "Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.",
+      "surfaces": [
+        "/briefcase",
+        "/briefcase/{matterId}",
+        "/briefcase/{matterId}/packet-information",
+        "/briefcase/{matterId}/review",
+        "POST /api/expungement-ai/checkout"
+      ]
+    }
+  ],
+  "standingIn": "The deterministic harness covers what the browser could not: the audit's own generators re-run at this head, the 51-jurisdiction evaluator baseline, the 325-pathway packet-question sweep, and the per-route remedy-context replay. Phase 1's browser evidence remains the recorded baseline, as the phase authorisation states."
+}

@@ -1,0 +1,1224 @@
+{
+  "schemaVersion": "expai-flow-audit-crawl/v1",
+  "generatedBy": "tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+  "baseOrigin": "http://127.0.0.1:3111",
+  "mutationAllowed": false,
+  "syntheticIdentitiesOnly": true,
+  "stripePaymentCompleted": false,
+  "totals": {
+    "flowsCrawled": 4,
+    "desktopCaptures": 4,
+    "mobileCaptures": 2,
+    "browserErrors": 160,
+    "productBrowserErrors": 160,
+    "environmentBrowserErrors": 0,
+    "flowsLosingAnswersOnRefresh": 0,
+    "flowsWhereBackPreservedTheAnswer": 0,
+    "flowsWithRawTokenOnAParticipantScreen": 0,
+    "analyticsRequestsObserved": 0,
+    "analyticsRequestsCarryingAnAnswerValue": 0,
+    "failedRequests": 0,
+    "redirectCyclesDetected": 4,
+    "terminalsMatchingTheManifest": 0,
+    "terminalsDivergingFromTheManifest": 4,
+    "flowsWithBlockers": 4
+  },
+  "screenshots": [
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-MS-9243c35cd3__desktop-1440x1000__terminal.png",
+      "sha256": "8d00c5c7f2262db88bf1273e3211091b981dcf871932a47f12471980303142db",
+      "bytes": 27970,
+      "flowId": "EXPAI-MS-9243c35cd3",
+      "jurisdiction": "MS",
+      "route": "/expungement-ai/screening/MS",
+      "viewport": "desktop-1440x1000",
+      "label": "terminal",
+      "findingIds": [],
+      "alsoProves": []
+    },
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-MS-8c977237d0__desktop-1440x1000__terminal.png",
+      "sha256": "e037cf7d094dcca6fed66e54da5427c67367751fe24b33d5abe4cd1a1b99dc5c",
+      "bytes": 28074,
+      "flowId": "EXPAI-MS-8c977237d0",
+      "jurisdiction": "MS",
+      "route": "/expungement-ai/screening/MS",
+      "viewport": "desktop-1440x1000",
+      "label": "terminal",
+      "findingIds": [],
+      "alsoProves": []
+    },
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-MS-9243c35cd3__mobile-390x844__terminal.png",
+      "sha256": "ec21d41963cc591f79ecbd57d7cd0e808bdf2e8701771ad4df61e95914989e10",
+      "bytes": 77694,
+      "flowId": "EXPAI-MS-9243c35cd3",
+      "jurisdiction": "MS",
+      "route": "/expungement-ai/screening/MS",
+      "viewport": "mobile-390x844",
+      "label": "terminal",
+      "findingIds": [],
+      "alsoProves": []
+    },
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-MS-8c977237d0__mobile-390x844__terminal.png",
+      "sha256": "563f21d26ee3a44ad28b7a8aa54915e4fb0ebd193ee7b7a39b96f9a6935e5226",
+      "bytes": 77784,
+      "flowId": "EXPAI-MS-8c977237d0",
+      "jurisdiction": "MS",
+      "route": "/expungement-ai/screening/MS",
+      "viewport": "mobile-390x844",
+      "label": "terminal",
+      "findingIds": [],
+      "alsoProves": []
+    },
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-SURFACE-state-picker__desktop-1440x1000__state-picker.png",
+      "sha256": "d79d5e6df9eb2ad90c0ed40495111405e0daf2bda1803e976a0e250d0f06235d",
+      "bytes": 147266,
+      "flowId": "EXPAI-SURFACE-state-picker",
+      "jurisdiction": "XX",
+      "route": "/expungement-ai/screening",
+      "viewport": "desktop-1440x1000",
+      "label": "state-picker",
+      "findingIds": [],
+      "alsoProves": []
+    },
+    {
+      "file": "data/expungement-ai/phase2/post-implementation/evidence/screenshots/EXPAI-SURFACE-unregistered-jurisdiction__desktop-1440x1000__unregistered-jurisdiction.png",
+      "sha256": "a406426a59304fb40919590588ed7d36623b82ef13d5fc0b5bb4324c5f37a550",
+      "bytes": 27949,
+      "flowId": "EXPAI-SURFACE-unregistered-jurisdiction",
+      "jurisdiction": "XX",
+      "route": "/expungement-ai/screening/mississippi",
+      "viewport": "desktop-1440x1000",
+      "label": "unregistered-jurisdiction",
+      "findingIds": [],
+      "alsoProves": []
+    }
+  ],
+  "flows": [
+    {
+      "flowId": "EXPAI-MS-9243c35cd3",
+      "jurisdiction": "MS",
+      "role": "canonical_supported",
+      "viewport": "desktop-1440x1000",
+      "entryRoute": "/expungement-ai/screening/MS",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening/MS",
+        "heading": "",
+        "eyebrow": "",
+        "expectedResultCode": "packet_ready_with_caution",
+        "actionLabels": [
+          "Want me to explain these questions?"
+        ],
+        "primaryActionLabel": "Want me to explain these questions?",
+        "declaredResultCode": null,
+        "observedResultCode": null,
+        "terminalMatchesManifest": false,
+        "forwardActionClicked": false,
+        "forwardActionNote": "forward action NOT clicked: it writes a pending screening row, and EXPAI_FLOW_AUDIT_ALLOW_MUTATION is not set",
+        "whyText": []
+      },
+      "browserErrors": [
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sj0TJ-4BpGUV46hTcI1eD' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=w0HlKbpZYATI6eGqbEMxW' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=aEv2HGclQkLrHhxjfmxhk' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=aEv2HGclQkLrHhxjfmxhk' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=aEv2HGclQkLrHhxjfmxhk' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sho7_pQfypJWvIqhCejd3' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        }
+      ],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": true,
+      "reviewPageRawValueLeak": {
+        "tokens": [],
+        "count": 0
+      },
+      "saveRefreshResumeVerified": {
+        "urlUnchanged": true,
+        "headingAfterRefresh": "",
+        "resumesWhereItLeftOff": true,
+        "note": "The screening flow holds answers in component state only; a refresh is expected to restart the flow unless a resume session exists."
+      },
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "8d00c5c7f2262db88bf1273e3211091b981dcf871932a47f12471980303142db"
+      ],
+      "blockers": [
+        {
+          "kind": "authenticated_surface_not_reachable",
+          "detail": "Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.",
+          "surfaces": [
+            "/briefcase",
+            "/briefcase/{matterId}",
+            "/briefcase/{matterId}/packet-information",
+            "/briefcase/{matterId}/review",
+            "POST /api/expungement-ai/checkout"
+          ]
+        }
+      ]
+    },
+    {
+      "flowId": "EXPAI-MS-8c977237d0",
+      "jurisdiction": "MS",
+      "role": "unsupported_or_referral",
+      "viewport": "desktop-1440x1000",
+      "entryRoute": "/expungement-ai/screening/MS",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening/MS",
+        "heading": "",
+        "eyebrow": "",
+        "expectedResultCode": "hard_stop",
+        "actionLabels": [
+          "Want me to explain these questions?"
+        ],
+        "primaryActionLabel": "Want me to explain these questions?",
+        "declaredResultCode": null,
+        "observedResultCode": null,
+        "terminalMatchesManifest": false,
+        "forwardActionClicked": false,
+        "forwardActionNote": "forward action NOT clicked: it writes a pending screening row, and EXPAI_FLOW_AUDIT_ALLOW_MUTATION is not set",
+        "whyText": []
+      },
+      "browserErrors": [
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Sn2Bv90NcH4-2-BlJU754' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wTwcBoC_HUkijcOTxgSU9' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8KtJXTOCYNepjVG19ArwY' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=8oQbak6XsCnxBNG35pFIy' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        }
+      ],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": true,
+      "reviewPageRawValueLeak": {
+        "tokens": [],
+        "count": 0
+      },
+      "saveRefreshResumeVerified": {
+        "urlUnchanged": true,
+        "headingAfterRefresh": "",
+        "resumesWhereItLeftOff": true,
+        "note": "The screening flow holds answers in component state only; a refresh is expected to restart the flow unless a resume session exists."
+      },
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "e037cf7d094dcca6fed66e54da5427c67367751fe24b33d5abe4cd1a1b99dc5c"
+      ],
+      "blockers": [
+        {
+          "kind": "authenticated_surface_not_reachable",
+          "detail": "Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.",
+          "surfaces": [
+            "/briefcase",
+            "/briefcase/{matterId}",
+            "/briefcase/{matterId}/packet-information",
+            "/briefcase/{matterId}/review",
+            "POST /api/expungement-ai/checkout"
+          ]
+        }
+      ]
+    },
+    {
+      "flowId": "EXPAI-MS-9243c35cd3",
+      "jurisdiction": "MS",
+      "role": "canonical_supported",
+      "viewport": "mobile-390x844",
+      "entryRoute": "/expungement-ai/screening/MS",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening/MS",
+        "heading": "",
+        "eyebrow": "",
+        "expectedResultCode": "packet_ready_with_caution",
+        "actionLabels": [
+          "Want me to explain these questions?"
+        ],
+        "primaryActionLabel": "Want me to explain these questions?",
+        "declaredResultCode": null,
+        "observedResultCode": null,
+        "terminalMatchesManifest": false,
+        "forwardActionClicked": false,
+        "forwardActionNote": "forward action NOT clicked: it writes a pending screening row, and EXPAI_FLOW_AUDIT_ALLOW_MUTATION is not set",
+        "whyText": []
+      },
+      "browserErrors": [
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=4UUXuZSwQGHnWX3wmVykO' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=qm8u-SgmjUiy8JY4_F0bv' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=GA_QYgGTZ4ENGutmfzm0c' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=GA_QYgGTZ4ENGutmfzm0c' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=GA_QYgGTZ4ENGutmfzm0c' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=Kg6d0WKYGGZxsE0vQE_vx' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        }
+      ],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": true,
+      "reviewPageRawValueLeak": {
+        "tokens": [],
+        "count": 0
+      },
+      "saveRefreshResumeVerified": {
+        "urlUnchanged": true,
+        "headingAfterRefresh": "",
+        "resumesWhereItLeftOff": true,
+        "note": "The screening flow holds answers in component state only; a refresh is expected to restart the flow unless a resume session exists."
+      },
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "ec21d41963cc591f79ecbd57d7cd0e808bdf2e8701771ad4df61e95914989e10"
+      ],
+      "blockers": [
+        {
+          "kind": "authenticated_surface_not_reachable",
+          "detail": "Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.",
+          "surfaces": [
+            "/briefcase",
+            "/briefcase/{matterId}",
+            "/briefcase/{matterId}/packet-information",
+            "/briefcase/{matterId}/review",
+            "POST /api/expungement-ai/checkout"
+          ]
+        }
+      ]
+    },
+    {
+      "flowId": "EXPAI-MS-8c977237d0",
+      "jurisdiction": "MS",
+      "role": "unsupported_or_referral",
+      "viewport": "mobile-390x844",
+      "entryRoute": "/expungement-ai/screening/MS",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening/MS",
+        "heading": "",
+        "eyebrow": "",
+        "expectedResultCode": "hard_stop",
+        "actionLabels": [
+          "Want me to explain these questions?"
+        ],
+        "primaryActionLabel": "Want me to explain these questions?",
+        "declaredResultCode": null,
+        "observedResultCode": null,
+        "terminalMatchesManifest": false,
+        "forwardActionClicked": false,
+        "forwardActionNote": "forward action NOT clicked: it writes a pending screening row, and EXPAI_FLOW_AUDIT_ALLOW_MUTATION is not set",
+        "whyText": []
+      },
+      "browserErrors": [
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=wkluD0Tol9db_EzSOKVbB' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=sxo9Sd-gAJEig3wcNp3Gl' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=ko0k_bfgUi9lWfWwxnH5w' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        },
+        {
+          "at": "/expungement-ai/screening/MS",
+          "message": "WebSocket connection to 'ws://127.0.0.1:3111/_next/webpack-hmr?id=G7UOrwskUNHiFXi6wzm-O' failed: Error during WebSocket handshake: net::ERR_INVALID_HTTP_RESPONSE",
+          "classification": "product_error"
+        }
+      ],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS",
+        "/expungement-ai/screening/MS"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": true,
+      "reviewPageRawValueLeak": {
+        "tokens": [],
+        "count": 0
+      },
+      "saveRefreshResumeVerified": {
+        "urlUnchanged": true,
+        "headingAfterRefresh": "",
+        "resumesWhereItLeftOff": true,
+        "note": "The screening flow holds answers in component state only; a refresh is expected to restart the flow unless a resume session exists."
+      },
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "563f21d26ee3a44ad28b7a8aa54915e4fb0ebd193ee7b7a39b96f9a6935e5226"
+      ],
+      "blockers": [
+        {
+          "kind": "authenticated_surface_not_reachable",
+          "detail": "Save-and-continue, the Briefcase matter page, packet information, the accuracy review page, checkout and the sponsored lane all require a Supabase-backed consumer session. This crawl runs against a local build with no Supabase project, so those screens were not entered.",
+          "surfaces": [
+            "/briefcase",
+            "/briefcase/{matterId}",
+            "/briefcase/{matterId}/packet-information",
+            "/briefcase/{matterId}/review",
+            "POST /api/expungement-ai/checkout"
+          ]
+        }
+      ]
+    },
+    {
+      "flowId": "EXPAI-SURFACE-state-picker",
+      "jurisdiction": "XX",
+      "role": "shared_surface",
+      "viewport": "desktop-1440x1000",
+      "entryRoute": "/expungement-ai/screening",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening",
+        "heading": "Where is the record?",
+        "eyebrow": null,
+        "expectedResultCode": "n/a",
+        "actionLabels": [],
+        "observedResultCode": null,
+        "terminalMatchesManifest": null,
+        "forwardActionClicked": false,
+        "forwardActionNote": "shared surface, no forward action exercised"
+      },
+      "statePickerJurisdictionCount": 51,
+      "browserErrors": [],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": false,
+      "reviewPageRawValueLeak": null,
+      "saveRefreshResumeVerified": null,
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "d79d5e6df9eb2ad90c0ed40495111405e0daf2bda1803e976a0e250d0f06235d"
+      ],
+      "blockers": []
+    },
+    {
+      "flowId": "EXPAI-SURFACE-unregistered-jurisdiction",
+      "jurisdiction": "XX",
+      "role": "shared_surface",
+      "viewport": "desktop-1440x1000",
+      "entryRoute": "/expungement-ai/screening/mississippi",
+      "screens": [],
+      "terminal": {
+        "route": "/expungement-ai/screening/mississippi",
+        "heading": "",
+        "eyebrow": null,
+        "expectedResultCode": "unsupported_jurisdiction",
+        "actionLabels": [],
+        "observedResultCode": null,
+        "terminalMatchesManifest": null,
+        "forwardActionClicked": false,
+        "forwardActionNote": "shared surface, no forward action exercised"
+      },
+      "statePickerJurisdictionCount": null,
+      "browserErrors": [],
+      "failedRequests": [],
+      "routeTrail": [
+        "/expungement-ai/screening/mississippi"
+      ],
+      "analyticsRequests": [],
+      "redirectCycleDetected": false,
+      "reviewPageRawValueLeak": null,
+      "saveRefreshResumeVerified": null,
+      "backPreservesCommittedAnswer": null,
+      "saveProgressAffordancePresent": null,
+      "screenshotIds": [
+        "a406426a59304fb40919590588ed7d36623b82ef13d5fc0b5bb4324c5f37a550"
+      ],
+      "blockers": []
+    }
+  ]
+}
