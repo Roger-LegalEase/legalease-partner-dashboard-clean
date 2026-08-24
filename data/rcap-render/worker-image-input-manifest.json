@@ -63,8 +63,11 @@
       "scripts/lib/rcap-acceptance-schema-snapshot.mjs"
     ],
     "infrastructureModulesOutsideBuildContext": [
+      "scripts/control/fixtures/actionlint-negative-control.yml",
       "scripts/control/rcap-execution-authority.mjs",
-      "scripts/control/rcap-worker-image-inputs.mjs"
+      "scripts/control/rcap-minimal-yaml.mjs",
+      "scripts/control/rcap-worker-image-inputs.mjs",
+      "scripts/control/rcap-workflow-expression.mjs"
     ],
     "note": "scripts/control/ carries infrastructure-only control-plane modules and is read by no COPY instruction, so those modules are not worker image inputs. The two ENV-007 modules under scripts/lib/ ARE inputs, because line 29 of the Dockerfile copies that directory whole. Narrowing that COPY would change the image and is not done while WORKER_AUTHORITY_BLOCKED stands."
   },

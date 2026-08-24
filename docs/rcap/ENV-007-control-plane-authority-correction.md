@@ -13,6 +13,9 @@ Environment created, no repository or environment variable created, no tag creat
 | Safety branch | `safety/rcap-acceptance-infra-independent-review-a2206642` @ the rejected candidate |
 | Diagnostic branch (evidence) | `claude/rcap-workflow-parser-isolation-a2206642` |
 | Correction branch | `claude/rcap-acceptance-infra-corrections-syj0fy` |
+| First-review head (rejected) | `6f13650e675862192ea0acbca5365f20abc5f083` |
+| **Final candidate head** | **this commit** — the F1–F5 correction; `git log --oneline -1` on the branch names it |
+| Second-review disposition | `CORRECTION_REQUIRED` (F1–F5), corrected here |
 
 ---
 
@@ -320,8 +323,22 @@ request. It reads two **non-secret** values and no secret:
 - `RCAP_AUTHORIZED_INFRASTRUCTURE_SHA` — must equal `github.sha`
 - `RCAP_AUTHORIZED_EXECUTION_REF` — must equal `github.ref`
 
-and additionally requires `github.job_workflow_sha == github.sha`, which proves the caller and the
-called workflow resolved from one execution authority rather than assuming it.
+**F1 correction.** The first version of this gate compared a workflow-SHA property on the `github`
+context that GitHub does not define. It resolved to the empty string, the comparison was written to
+skip on empty, and the gate therefore asserted nothing while printing that caller and callee agreed.
+The documented contract replaces it. The **caller** gate compares `github.sha`, `github.workflow_sha`
+and `github.ref`. Each of the four **called-workflow** jobs additionally compares `job.workflow_sha`,
+`job.workflow_repository == github.repository`,
+`job.workflow_file_path == .github/workflows/rcap-hosted-acceptance-staging.yml`, and requires
+`job.workflow_ref` to name the repository and the workflow path and to end at the authorized
+execution ref. Every comparison is unconditional: an empty observed value is a refusal, never a
+skipped check, and the success line is printed only after all of them pass. No OIDC was introduced
+and no `id-token: write` permission was added.
+
+The control checkout is bound to the reusable workflow's own documented identity —
+`repository: ${{ job.workflow_repository }}`, `ref: ${{ job.workflow_sha }}` — so `control/` is the
+very bytes being executed, and `control_authority` still re-proves that commit against
+`RCAP_AUTHORIZED_INFRASTRUCTURE_SHA` against the checked-out tree.
 
 Any mismatch fails with **`INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID`**. So does an *unconfigured*
 authority: the gate fails closed, not open. **Neither variable and no tag were created by this
@@ -385,12 +402,42 @@ The YAML the suite reads is parsed by `scripts/control/rcap-minimal-yaml.mjs`, w
 correction because the repository has no YAML dependency and one must not be added. Its output is
 **byte-for-byte identical to PyYAML's for all twelve workflow files**.
 
-`actionlint v1.7.7` over all twelve workflows: **exit 0**, with two documented model gaps ignored —
-`github.job_workflow_sha` (a real context property actionlint does not model) and the two
-environment-scoped Stripe secrets (which actionlint cannot model for a reusable workflow's job-level
-environment, and which must not be removed).
+**F2.** `actionlint v1.7.12` (pinned; binary SHA-256
+`0fa8437eef3b82afc1b3ea92fcee8623e4db1451c32fb514659f762b621ac2cf`, module zip
+`h1:vQ4GeJN86C0QH+gTUQcs8McmK62OLT3kmakPMtEWYnY=`) over all twelve workflows: **exit 0**, with a
+checked-in `.github/actionlint.yaml` rather than command-line flags. Every ignore is scoped to
+`.github/workflows/rcap-hosted-acceptance-staging.yml` alone and names ONE property or secret:
+
+| ignored | why |
+|---|---|
+| `job.workflow_sha`, `job.workflow_ref`, `job.workflow_repository`, `job.workflow_file_path` | the documented job-context workflow identity, which actionlint v1.7.12 does not yet model — its `job` type is `{check_run_id, container, services, status}`. Each pattern is anchored on that object type, so a *misspelled* job property is still reported. |
+| `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET` | supplied only by the job-level `rcap-acceptance-payment` GitHub Environment and deliberately absent from `on.workflow_call.secrets`; actionlint cannot model environment secrets. Named individually, so any other undefined secret still fails. |
+
+Nothing else is suppressed: not whole rules, not syntax, workflow-call or `needs` errors, not
+arbitrary undefined properties or secrets, and not any other workflow.
+
+**Negative control.** `scripts/control/fixtures/actionlint-negative-control.yml` is a deliberately
+invalid `workflow_call` workflow with a declared `secrets:` block, living *outside*
+`.github/workflows` so GitHub never loads it and no path ignore covers it. The suite runs actionlint
+against it and requires all six MUST-FAIL findings — a misspelled `github` property, a misspelled
+`job` property, an unrelated undefined secret, and the four ignored names *at a path the config does
+not cover* — while the one correctly declared secret produces no finding. That is the scoping proof.
 
 ---
+
+## 9a. F1–F5, the second-review correction
+
+| finding | correction |
+|---|---|
+| **F1** — the gate compared an undefined `github`-context workflow-SHA property, which resolved to empty and skipped | the documented contract: caller compares `github.sha`, `github.workflow_sha`, `github.ref`; each called-workflow job additionally compares `job.workflow_sha`, `job.workflow_repository == github.repository`, `job.workflow_file_path`, and requires `job.workflow_ref` to name the repository and path and end at the authorized ref. Every comparison unconditional; empty is a refusal; the success line is printed only after all pass. Control checkout bound to `job.workflow_repository` / `job.workflow_sha`. No OIDC, no `id-token: write`. |
+| **F2** — actionlint was only green behind command-line `-ignore` flags | pinned **v1.7.12** and a checked-in `.github/actionlint.yaml` scoped to the hosted called workflow alone, six patterns each naming one property or secret, with a negative-control fixture proving the ignores do not widen. `actionlint -shellcheck= -pyflakes= .github/workflows/*.yml` exits **0** with no flags. |
+| **F3** — `accept` has `DEPLOY=false` but the resolver returned `created_one_new_preview`, so the matrix ran against nothing and the anti-skip gate reported a misleading "deploy one new Preview" failure | a `require_exact_preview` contract column (true only for `accept`, and refused outright if a phase ever claims it together with deploy authority) and an early refusal step returning **`ACCEPTANCE_EXACT_PREVIEW_REQUIRED`** before npm ci, the build, Auth configuration or the matrix. The anti-skip gate now demands deploy success only when `RUNS_DEPLOY=true && O_REUSED!=true`. `full_nonpayment` still reuses when valid and otherwise deploys exactly one Preview. |
+| **F4** — two `node` invocations preceded `actions/setup-node` | order is now execution authority (step 0, shell only) → control/application/worker checkout → `actions/setup-node` → worker image-input manifest → control-plane gate → the remaining Node scripts. The before-checkout authority gate is unmoved. |
+| **F5** — the `tools_sha` description still read as an orchestration-source input | both the dispatch and `workflow_call` descriptions now state it is a provenance label only, must equal the reviewed control-plane SHA, is not a checkout ref, is not executable authority, and that the former `6d9e8792` value is no longer valid. No `tools_sha` checkout was restored. |
+
+GitHub's parser accepted the F1–F5 workflow set on diagnostic commit
+`42dbdc3b052afc5a3ebe94a64ccd796d80f83c72`: zero invalid-workflow runs and zero `github-actions`
+check suites, with the `vercel` and `claude` app suites confirming the push was processed.
 
 ## 10. Exact remaining blockers
 

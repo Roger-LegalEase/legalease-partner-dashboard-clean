@@ -58,7 +58,7 @@ on:
         required: true
         type: string
       tools_sha:
-        description: "Integration-branch commit carrying the hosted orchestration scripts (must be image-input-equivalent to the freeze)"
+        description: "PROVENANCE LABEL ONLY — must equal the reviewed control-plane SHA (github.sha / job.workflow_sha). It is NOT a checkout ref and NOT executable authority: nothing is ever checked out from it. The former 6d9e8792 value is no longer valid and is refused."
         required: true
         type: string
       supabase_project_ref:
@@ -129,7 +129,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      # ENV-007 C7 — IMMUTABLE EXECUTION AUTHORITY.
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY.
       #
       # The first executable step of this job, ahead of checkout, ahead of
       # setup, ahead of every secret expression and ahead of every external
@@ -140,43 +140,103 @@ jobs:
       # both are set every job refuses here. That is deliberate: an unconfigured
       # authority is not a permissive one.
       #
-      # github.job_workflow_sha is the commit THIS reusable workflow resolved
-      # from. Comparing it to github.sha proves the caller and the called
-      # workflow came from one execution authority instead of assuming it.
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define. It resolved to the empty
+      # string, the comparison was written to skip on empty, and the gate
+      # therefore asserted nothing while printing that caller and callee agreed.
+      # The documented contract is used instead:
+      #
+      #   github.workflow_sha      the workflow in the github context, which in a
+      #                            reusable workflow stays associated with the CALLER
+      #   job.workflow_sha         the commit of the workflow file defining THIS job
+      #   job.workflow_ref         its full ref
+      #   job.workflow_repository  its repository
+      #   job.workflow_file_path   its path
+      #
+      # Every comparison below is unconditional: an absent value is a refusal,
+      # never a skipped check, and the success statement is printed only after
+      # all of them have passed.
       - name: Validate the execution authority before checkout, setup or secrets
         id: execution_authority
         env:
           OBSERVED_SHA: ${{ github.sha }}
           OBSERVED_REF: ${{ github.ref }}
-          OBSERVED_JOB_WORKFLOW_SHA: ${{ github.job_workflow_sha }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          OBSERVED_JOB_SHA: ${{ job.workflow_sha }}
+          OBSERVED_JOB_REF: ${{ job.workflow_ref }}
+          OBSERVED_JOB_REPO: ${{ job.workflow_repository }}
+          OBSERVED_JOB_PATH: ${{ job.workflow_file_path }}
+          OBSERVED_REPOSITORY: ${{ github.repository }}
           EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
+          EXPECTED_WORKFLOW_PATH: .github/workflows/rcap-hosted-acceptance-staging.yml
         run: |
           set -uo pipefail
           fail=0
           note() { echo "  - $1"; fail=1; }
-          echo "INFRASTRUCTURE EXECUTION AUTHORITY"
-          [ -n "${EXPECTED_SHA:-}" ] || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured"
-          [ -n "${EXPECTED_REF:-}" ] || note "RCAP_AUTHORIZED_EXECUTION_REF is not configured"
-          printf '%s' "${OBSERVED_SHA:-}" | grep -Eq '^[0-9a-f]{40}$' \
-            || note "github.sha is not a full commit SHA"
-          [ -n "${OBSERVED_REF:-}" ] || note "github.ref is empty"
-          if [ -n "${EXPECTED_SHA:-}" ] && [ "${OBSERVED_SHA:-}" != "${EXPECTED_SHA}" ]; then
-            note "github.sha ${OBSERVED_SHA:-<empty>} is not the authorized infrastructure SHA"
+          # present <label> <value>  — an empty value is a refusal, not a skip.
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          # equal <label> <observed> <expected>
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (called workflow)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+            equal "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
+            present "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      || true
           fi
-          if [ -n "${EXPECTED_REF:-}" ] && [ "${OBSERVED_REF:-}" != "${EXPECTED_REF}" ]; then
-            note "github.ref ${OBSERVED_REF:-<empty>} is not the authorized execution ref"
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
           fi
-          if [ -n "${OBSERVED_JOB_WORKFLOW_SHA:-}" ] && [ "${OBSERVED_JOB_WORKFLOW_SHA}" != "${OBSERVED_SHA:-}" ]; then
-            note "the called workflow resolved from ${OBSERVED_JOB_WORKFLOW_SHA}, the caller from ${OBSERVED_SHA:-<empty>}"
+          equal "job.workflow_repository" "${OBSERVED_JOB_REPO:-}" "${OBSERVED_REPOSITORY:-}" || true
+          equal "job.workflow_file_path"  "${OBSERVED_JOB_PATH:-}" "${EXPECTED_WORKFLOW_PATH}" || true
+          # job.workflow_ref is the full ref of the file defining this job. It
+          # must name this repository, this workflow path AND the authorized
+          # execution ref — checked by containment because GitHub composes it as
+          # <owner>/<repo>/<path>@<ref>.
+          if present "job.workflow_ref" "${OBSERVED_JOB_REF:-}"; then
+            case "$OBSERVED_JOB_REF" in
+              *"${OBSERVED_REPOSITORY}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name repository '${OBSERVED_REPOSITORY}'" ;;
+            esac
+            case "$OBSERVED_JOB_REF" in
+              *"${EXPECTED_WORKFLOW_PATH}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name '${EXPECTED_WORKFLOW_PATH}'" ;;
+            esac
+            if [ -n "${EXPECTED_REF:-}" ]; then
+              case "$OBSERVED_JOB_REF" in
+                *"@${EXPECTED_REF}") ;;
+                *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not end at the authorized execution ref '${EXPECTED_REF}'" ;;
+              esac
+            fi
           fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             exit 1
           fi
-          echo "  ok   sha=$OBSERVED_SHA"
-          echo "  ok   ref=$OBSERVED_REF"
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   job.workflow_sha=$OBSERVED_JOB_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   job.workflow_repository=$OBSERVED_JOB_REPO"
+          echo "  ok   job.workflow_file_path=$OBSERVED_JOB_PATH"
+          echo "  ok   job.workflow_ref=$OBSERVED_JOB_REF"
           echo "  ok   caller and called workflow resolve from one execution authority"
 
       - name: Refuse any input that is not the authorized pinned value
@@ -216,7 +276,15 @@ jobs:
       - name: Check out the reviewed control plane
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          # F1 — bound to the reusable workflow's OWN documented identity, not to
+          # the caller's github.sha. job.workflow_repository and job.workflow_sha
+          # name the repository and commit of the workflow file defining this
+          # job, so the control tree is the very bytes being executed. The gate
+          # above has already proved both equal the authorized infrastructure
+          # SHA, and the control_authority gate below re-proves it against the
+          # checked-out tree.
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
           path: control
           fetch-depth: 0
 
@@ -233,6 +301,11 @@ jobs:
           ref: ${{ inputs.worker_source_sha }}
           path: worker
           fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Verify ancestry and worker image-input equivalence of every pinned SHA
         working-directory: control
@@ -262,15 +335,10 @@ jobs:
         working-directory: control
         env:
           RCAP_CONTROL_DIR: ${{ github.workspace }}/control
-          RCAP_CONTROL_SHA: ${{ github.sha }}
+          RCAP_CONTROL_SHA: ${{ job.workflow_sha }}
           RCAP_AUTHORIZED_INFRASTRUCTURE_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-verify-control-plane.mjs
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - name: Verify the read-only post-failure Vercel audit
         if: inputs.phase == 'vercel_audit'
@@ -396,7 +464,7 @@ jobs:
       # environment has neither, so an empty value is exactly the signal needed.
       # Nothing is printed but the variable names and the literal expected
       # values, which are not secret.
-      # ENV-007 C7 — IMMUTABLE EXECUTION AUTHORITY.
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY.
       #
       # The first executable step of this job, ahead of checkout, ahead of
       # setup, ahead of every secret expression and ahead of every external
@@ -407,43 +475,103 @@ jobs:
       # both are set every job refuses here. That is deliberate: an unconfigured
       # authority is not a permissive one.
       #
-      # github.job_workflow_sha is the commit THIS reusable workflow resolved
-      # from. Comparing it to github.sha proves the caller and the called
-      # workflow came from one execution authority instead of assuming it.
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define. It resolved to the empty
+      # string, the comparison was written to skip on empty, and the gate
+      # therefore asserted nothing while printing that caller and callee agreed.
+      # The documented contract is used instead:
+      #
+      #   github.workflow_sha      the workflow in the github context, which in a
+      #                            reusable workflow stays associated with the CALLER
+      #   job.workflow_sha         the commit of the workflow file defining THIS job
+      #   job.workflow_ref         its full ref
+      #   job.workflow_repository  its repository
+      #   job.workflow_file_path   its path
+      #
+      # Every comparison below is unconditional: an absent value is a refusal,
+      # never a skipped check, and the success statement is printed only after
+      # all of them have passed.
       - name: Validate the execution authority before checkout, setup or secrets
         id: execution_authority
         env:
           OBSERVED_SHA: ${{ github.sha }}
           OBSERVED_REF: ${{ github.ref }}
-          OBSERVED_JOB_WORKFLOW_SHA: ${{ github.job_workflow_sha }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          OBSERVED_JOB_SHA: ${{ job.workflow_sha }}
+          OBSERVED_JOB_REF: ${{ job.workflow_ref }}
+          OBSERVED_JOB_REPO: ${{ job.workflow_repository }}
+          OBSERVED_JOB_PATH: ${{ job.workflow_file_path }}
+          OBSERVED_REPOSITORY: ${{ github.repository }}
           EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
+          EXPECTED_WORKFLOW_PATH: .github/workflows/rcap-hosted-acceptance-staging.yml
         run: |
           set -uo pipefail
           fail=0
           note() { echo "  - $1"; fail=1; }
-          echo "INFRASTRUCTURE EXECUTION AUTHORITY"
-          [ -n "${EXPECTED_SHA:-}" ] || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured"
-          [ -n "${EXPECTED_REF:-}" ] || note "RCAP_AUTHORIZED_EXECUTION_REF is not configured"
-          printf '%s' "${OBSERVED_SHA:-}" | grep -Eq '^[0-9a-f]{40}$' \
-            || note "github.sha is not a full commit SHA"
-          [ -n "${OBSERVED_REF:-}" ] || note "github.ref is empty"
-          if [ -n "${EXPECTED_SHA:-}" ] && [ "${OBSERVED_SHA:-}" != "${EXPECTED_SHA}" ]; then
-            note "github.sha ${OBSERVED_SHA:-<empty>} is not the authorized infrastructure SHA"
+          # present <label> <value>  — an empty value is a refusal, not a skip.
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          # equal <label> <observed> <expected>
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (called workflow)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+            equal "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
+            present "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      || true
           fi
-          if [ -n "${EXPECTED_REF:-}" ] && [ "${OBSERVED_REF:-}" != "${EXPECTED_REF}" ]; then
-            note "github.ref ${OBSERVED_REF:-<empty>} is not the authorized execution ref"
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
           fi
-          if [ -n "${OBSERVED_JOB_WORKFLOW_SHA:-}" ] && [ "${OBSERVED_JOB_WORKFLOW_SHA}" != "${OBSERVED_SHA:-}" ]; then
-            note "the called workflow resolved from ${OBSERVED_JOB_WORKFLOW_SHA}, the caller from ${OBSERVED_SHA:-<empty>}"
+          equal "job.workflow_repository" "${OBSERVED_JOB_REPO:-}" "${OBSERVED_REPOSITORY:-}" || true
+          equal "job.workflow_file_path"  "${OBSERVED_JOB_PATH:-}" "${EXPECTED_WORKFLOW_PATH}" || true
+          # job.workflow_ref is the full ref of the file defining this job. It
+          # must name this repository, this workflow path AND the authorized
+          # execution ref — checked by containment because GitHub composes it as
+          # <owner>/<repo>/<path>@<ref>.
+          if present "job.workflow_ref" "${OBSERVED_JOB_REF:-}"; then
+            case "$OBSERVED_JOB_REF" in
+              *"${OBSERVED_REPOSITORY}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name repository '${OBSERVED_REPOSITORY}'" ;;
+            esac
+            case "$OBSERVED_JOB_REF" in
+              *"${EXPECTED_WORKFLOW_PATH}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name '${EXPECTED_WORKFLOW_PATH}'" ;;
+            esac
+            if [ -n "${EXPECTED_REF:-}" ]; then
+              case "$OBSERVED_JOB_REF" in
+                *"@${EXPECTED_REF}") ;;
+                *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not end at the authorized execution ref '${EXPECTED_REF}'" ;;
+              esac
+            fi
           fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             exit 1
           fi
-          echo "  ok   sha=$OBSERVED_SHA"
-          echo "  ok   ref=$OBSERVED_REF"
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   job.workflow_sha=$OBSERVED_JOB_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   job.workflow_repository=$OBSERVED_JOB_REPO"
+          echo "  ok   job.workflow_file_path=$OBSERVED_JOB_PATH"
+          echo "  ok   job.workflow_ref=$OBSERVED_JOB_REF"
           echo "  ok   caller and called workflow resolve from one execution authority"
 
       - name: Acceptance environment identity sentinel
@@ -609,7 +737,9 @@ jobs:
         if: inputs.phase != 'environment_probe'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          # F1 — bound to the reusable workflow's OWN documented identity.
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
           path: control
           fetch-depth: 0
 
@@ -628,6 +758,12 @@ jobs:
           ref: ${{ inputs.worker_source_sha }}
           path: worker
           fetch-depth: 0
+
+      - name: Set up Node
+        if: inputs.phase != 'environment_probe'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Verify ancestry and worker image-input equivalence of every pinned SHA
         if: inputs.phase != 'environment_probe'
@@ -659,16 +795,10 @@ jobs:
         working-directory: control
         env:
           RCAP_CONTROL_DIR: ${{ github.workspace }}/control
-          RCAP_CONTROL_SHA: ${{ github.sha }}
+          RCAP_CONTROL_SHA: ${{ job.workflow_sha }}
           RCAP_AUTHORIZED_INFRASTRUCTURE_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-verify-control-plane.mjs
-
-      - name: Set up Node
-        if: inputs.phase != 'environment_probe'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - name: Prove the credentials and the acceptance project
         id: preflight
@@ -776,12 +906,20 @@ jobs:
           # `checkout_gate`, which read as a real Checkout Session test; the only
           # step that creates a Session lives in the payment job. Both old values
           # are refused by name in an earlier step.
+          #
+          # F3 — one more column, defaulted here so every row that does not set
+          # it is explicitly false: REQUIRE_EXACT_PREVIEW, true only for `accept`.
+          REQUIRE_EXACT_PREVIEW=false
           case "$PHASE" in
             environment_probe)
                              DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
             migrate)         DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
             deploy)          DEPLOY=true;  MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
-            accept)          DEPLOY=false; MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
+            # F3 — `accept` deploys nothing, so it can only run against a
+            # Preview that already exists and matches exactly. Requiring that
+            # explicitly is what stops the run proceeding with no Preview and
+            # then failing later for the wrong reason.
+            accept)          DEPLOY=false; MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false; REQUIRE_EXACT_PREVIEW=true ;;
             full_nonpayment) DEPLOY=true;  MATRIX=true;  VERIFY_GATE=true;  CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
             checkout_pinning) DEPLOY=false; MATRIX=false; VERIFY_GATE=true; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
             worker_contract) DEPLOY=false; MATRIX=false; VERIFY_GATE=false; CHECKOUT_SESSION=false; S_ACCESS=false; S_TXN=false ;;
@@ -807,6 +945,11 @@ jobs:
           if [ "$CHECKOUT_SESSION" = "true" ] && [ "$S_TXN" != "true" ]; then
             echo "::error::phase '$PHASE' would create a Checkout Session without transaction authority"; exit 1
           fi
+          # F3 — a phase cannot demand an exact existing Preview and also claim
+          # authority to make one.
+          if [ "$REQUIRE_EXACT_PREVIEW" = "true" ] && [ "$DEPLOY" = "true" ]; then
+            echo "::error::phase '$PHASE' requires an exact existing Preview and also claims deploy authority"; exit 1
+          fi
           # The lane decides which JOB does the work.
           #   probe      — hosted_write does nothing external; the probe step is all there is
           #   payment    — hosted_write stands down after this step; hosted_payment continues
@@ -823,6 +966,7 @@ jobs:
             echo "phase=$PHASE"
             echo "lane=$LANE"
             echo "deploy=$DEPLOY"
+            echo "require_exact_preview=$REQUIRE_EXACT_PREVIEW"
             echo "matrix=$MATRIX"
             echo "verify_gate=$VERIFY_GATE"
             echo "checkout_session=$CHECKOUT_SESSION"
@@ -885,6 +1029,42 @@ jobs:
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
         working-directory: control
         run: node scripts/rcap-hosted-resolve-preview.mjs
+
+      # ENV-007 F3 — AN EXACT EXISTING PREVIEW, OR AN EARLY REFUSAL.
+      #
+      # `accept` has DEPLOY=false: it runs the matrix against a Preview somebody
+      # else already made. The resolver, finding no candidate supplied and none
+      # matching, returns `created_one_new_preview` and exits 0 — the right
+      # answer for a phase that may deploy, and the wrong one here. Nothing then
+      # created a Preview, the matrix ran against nothing, and the anti-skip gate
+      # reported the misleading `deploy one new Preview` failure for a deploy the
+      # contract had forbidden.
+      #
+      # This refuses instead, and refuses HERE: before npm ci, before the
+      # application build, before Auth configuration and before the matrix, so no
+      # application operation proceeds on the strength of a Preview that does not
+      # exist.
+      - name: An exact existing Preview is required for this phase
+        id: require_exact_preview
+        if: steps.contract.outputs.lane == 'nonpayment' && steps.contract.outputs.require_exact_preview == 'true' && steps.resolve_preview.outputs.reused != 'true'
+        env:
+          PHASE: ${{ inputs.phase }}
+          OUTCOME: ${{ steps.resolve_preview.outputs.outcome }}
+          HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
+          DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+        run: |
+          set -uo pipefail
+          echo "::error::ACCEPTANCE_EXACT_PREVIEW_REQUIRED"
+          echo "ACCEPTANCE_EXACT_PREVIEW_REQUIRED"
+          echo "  phase '$PHASE' does not deploy, so it requires an exact existing READY Preview."
+          echo "  preview resolution outcome:  ${OUTCOME:-<none>}"
+          echo "  preview_hostname input:      ${HOSTNAME_INPUT:-<empty>}"
+          echo "  preview_deployment_id input: ${DEPLOYMENT_ID_INPUT:-<empty>}"
+          echo "  No Preview was created and none is claimed. Supply an exact"
+          echo "  preview_hostname (or preview_deployment_id) that already matches"
+          echo "  the pinned application SHA, or run hosted_full_nonpayment, which"
+          echo "  may deploy exactly one new Preview."
+          exit 1
 
       - name: Deploy the frozen application SHA to Vercel Preview
         id: deploy_preview
@@ -1056,6 +1236,9 @@ jobs:
           PHASE: ${{ inputs.phase }}
           LANE: ${{ steps.contract.outputs.lane }}
           O_CONTRACT: ${{ steps.contract.outcome }}
+          RUNS_DEPLOY: ${{ steps.contract.outputs.deploy }}
+          RUNS_REQUIRE_EXACT_PREVIEW: ${{ steps.contract.outputs.require_exact_preview }}
+          O_REQUIRE_EXACT_PREVIEW: ${{ steps.require_exact_preview.outcome }}
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
           RUNS_VERIFY_GATE: ${{ steps.contract.outputs.verify_gate }}
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
@@ -1153,11 +1336,20 @@ jobs:
             require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
             require "audited surface equals deployment source" "$O_AUDIT_EQUIVALENCE"
             require "Preview resolution boundary"        "$O_RESOLVE"
-            # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
-            if [ "$O_REUSED" != "true" ]; then
+            # F3 — deploy success is required ONLY when the contract grants
+            # deploy authority AND the resolver did not reuse. A phase whose
+            # contract forbids deploying is never asked to have deployed; it is
+            # asked to have reused, and the exact-Preview gate above has already
+            # refused the run if it did not.
+            if [ "$RUNS_DEPLOY" = "true" ] && [ "$O_REUSED" != "true" ]; then
               require "deploy one new Preview"            "$O_DEPLOY"
-            else
+            elif [ "$O_REUSED" = "true" ]; then
               echo "  ok       Preview reused; no deployment command executed"
+            else
+              echo "  ok       the contract forbids deploying in this phase; no deploy step was required"
+              if [ "$RUNS_REQUIRE_EXACT_PREVIEW" = "true" ] && [ "${O_REQUIRE_EXACT_PREVIEW:-skipped}" != "skipped" ]; then
+                echo "::error::the exact-Preview requirement fired; this run is not acceptance evidence"; fail=1
+              fi
             fi
             require "acceptance Auth and identities"     "$O_AUTH"
             require "frozen application build"           "$O_BUILD"
@@ -1253,7 +1445,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # ENV-007 C7 — IMMUTABLE EXECUTION AUTHORITY.
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY.
       #
       # The first executable step of this job, ahead of checkout, ahead of
       # setup, ahead of every secret expression and ahead of every external
@@ -1264,43 +1456,103 @@ jobs:
       # both are set every job refuses here. That is deliberate: an unconfigured
       # authority is not a permissive one.
       #
-      # github.job_workflow_sha is the commit THIS reusable workflow resolved
-      # from. Comparing it to github.sha proves the caller and the called
-      # workflow came from one execution authority instead of assuming it.
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define. It resolved to the empty
+      # string, the comparison was written to skip on empty, and the gate
+      # therefore asserted nothing while printing that caller and callee agreed.
+      # The documented contract is used instead:
+      #
+      #   github.workflow_sha      the workflow in the github context, which in a
+      #                            reusable workflow stays associated with the CALLER
+      #   job.workflow_sha         the commit of the workflow file defining THIS job
+      #   job.workflow_ref         its full ref
+      #   job.workflow_repository  its repository
+      #   job.workflow_file_path   its path
+      #
+      # Every comparison below is unconditional: an absent value is a refusal,
+      # never a skipped check, and the success statement is printed only after
+      # all of them have passed.
       - name: Validate the execution authority before checkout, setup or secrets
         id: execution_authority
         env:
           OBSERVED_SHA: ${{ github.sha }}
           OBSERVED_REF: ${{ github.ref }}
-          OBSERVED_JOB_WORKFLOW_SHA: ${{ github.job_workflow_sha }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          OBSERVED_JOB_SHA: ${{ job.workflow_sha }}
+          OBSERVED_JOB_REF: ${{ job.workflow_ref }}
+          OBSERVED_JOB_REPO: ${{ job.workflow_repository }}
+          OBSERVED_JOB_PATH: ${{ job.workflow_file_path }}
+          OBSERVED_REPOSITORY: ${{ github.repository }}
           EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
+          EXPECTED_WORKFLOW_PATH: .github/workflows/rcap-hosted-acceptance-staging.yml
         run: |
           set -uo pipefail
           fail=0
           note() { echo "  - $1"; fail=1; }
-          echo "INFRASTRUCTURE EXECUTION AUTHORITY"
-          [ -n "${EXPECTED_SHA:-}" ] || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured"
-          [ -n "${EXPECTED_REF:-}" ] || note "RCAP_AUTHORIZED_EXECUTION_REF is not configured"
-          printf '%s' "${OBSERVED_SHA:-}" | grep -Eq '^[0-9a-f]{40}$' \
-            || note "github.sha is not a full commit SHA"
-          [ -n "${OBSERVED_REF:-}" ] || note "github.ref is empty"
-          if [ -n "${EXPECTED_SHA:-}" ] && [ "${OBSERVED_SHA:-}" != "${EXPECTED_SHA}" ]; then
-            note "github.sha ${OBSERVED_SHA:-<empty>} is not the authorized infrastructure SHA"
+          # present <label> <value>  — an empty value is a refusal, not a skip.
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          # equal <label> <observed> <expected>
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (called workflow)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+            equal "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
+            present "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      || true
           fi
-          if [ -n "${EXPECTED_REF:-}" ] && [ "${OBSERVED_REF:-}" != "${EXPECTED_REF}" ]; then
-            note "github.ref ${OBSERVED_REF:-<empty>} is not the authorized execution ref"
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
           fi
-          if [ -n "${OBSERVED_JOB_WORKFLOW_SHA:-}" ] && [ "${OBSERVED_JOB_WORKFLOW_SHA}" != "${OBSERVED_SHA:-}" ]; then
-            note "the called workflow resolved from ${OBSERVED_JOB_WORKFLOW_SHA}, the caller from ${OBSERVED_SHA:-<empty>}"
+          equal "job.workflow_repository" "${OBSERVED_JOB_REPO:-}" "${OBSERVED_REPOSITORY:-}" || true
+          equal "job.workflow_file_path"  "${OBSERVED_JOB_PATH:-}" "${EXPECTED_WORKFLOW_PATH}" || true
+          # job.workflow_ref is the full ref of the file defining this job. It
+          # must name this repository, this workflow path AND the authorized
+          # execution ref — checked by containment because GitHub composes it as
+          # <owner>/<repo>/<path>@<ref>.
+          if present "job.workflow_ref" "${OBSERVED_JOB_REF:-}"; then
+            case "$OBSERVED_JOB_REF" in
+              *"${OBSERVED_REPOSITORY}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name repository '${OBSERVED_REPOSITORY}'" ;;
+            esac
+            case "$OBSERVED_JOB_REF" in
+              *"${EXPECTED_WORKFLOW_PATH}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name '${EXPECTED_WORKFLOW_PATH}'" ;;
+            esac
+            if [ -n "${EXPECTED_REF:-}" ]; then
+              case "$OBSERVED_JOB_REF" in
+                *"@${EXPECTED_REF}") ;;
+                *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not end at the authorized execution ref '${EXPECTED_REF}'" ;;
+              esac
+            fi
           fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             exit 1
           fi
-          echo "  ok   sha=$OBSERVED_SHA"
-          echo "  ok   ref=$OBSERVED_REF"
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   job.workflow_sha=$OBSERVED_JOB_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   job.workflow_repository=$OBSERVED_JOB_REPO"
+          echo "  ok   job.workflow_file_path=$OBSERVED_JOB_PATH"
+          echo "  ok   job.workflow_ref=$OBSERVED_JOB_REF"
           echo "  ok   caller and called workflow resolve from one execution authority"
 
       - name: Payment environment identity sentinel
@@ -1541,7 +1793,7 @@ jobs:
       # network-capable or externally writing step. See the acceptance sentinel
       # in hosted_write for why an empty environment is the failure mode this
       # exists to catch.
-      # ENV-007 C7 — IMMUTABLE EXECUTION AUTHORITY.
+      # ENV-007 C7 / F1 — IMMUTABLE EXECUTION AUTHORITY.
       #
       # The first executable step of this job, ahead of checkout, ahead of
       # setup, ahead of every secret expression and ahead of every external
@@ -1552,43 +1804,103 @@ jobs:
       # both are set every job refuses here. That is deliberate: an unconfigured
       # authority is not a permissive one.
       #
-      # github.job_workflow_sha is the commit THIS reusable workflow resolved
-      # from. Comparing it to github.sha proves the caller and the called
-      # workflow came from one execution authority instead of assuming it.
+      # F1 CORRECTION. The previous gate compared a workflow-SHA property on the
+      # `github` context that GitHub does not define. It resolved to the empty
+      # string, the comparison was written to skip on empty, and the gate
+      # therefore asserted nothing while printing that caller and callee agreed.
+      # The documented contract is used instead:
+      #
+      #   github.workflow_sha      the workflow in the github context, which in a
+      #                            reusable workflow stays associated with the CALLER
+      #   job.workflow_sha         the commit of the workflow file defining THIS job
+      #   job.workflow_ref         its full ref
+      #   job.workflow_repository  its repository
+      #   job.workflow_file_path   its path
+      #
+      # Every comparison below is unconditional: an absent value is a refusal,
+      # never a skipped check, and the success statement is printed only after
+      # all of them have passed.
       - name: Validate the execution authority before checkout, setup or secrets
         id: execution_authority
         env:
           OBSERVED_SHA: ${{ github.sha }}
           OBSERVED_REF: ${{ github.ref }}
-          OBSERVED_JOB_WORKFLOW_SHA: ${{ github.job_workflow_sha }}
+          OBSERVED_WORKFLOW_SHA: ${{ github.workflow_sha }}
+          OBSERVED_JOB_SHA: ${{ job.workflow_sha }}
+          OBSERVED_JOB_REF: ${{ job.workflow_ref }}
+          OBSERVED_JOB_REPO: ${{ job.workflow_repository }}
+          OBSERVED_JOB_PATH: ${{ job.workflow_file_path }}
+          OBSERVED_REPOSITORY: ${{ github.repository }}
           EXPECTED_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           EXPECTED_REF: ${{ vars.RCAP_AUTHORIZED_EXECUTION_REF }}
+          EXPECTED_WORKFLOW_PATH: .github/workflows/rcap-hosted-acceptance-staging.yml
         run: |
           set -uo pipefail
           fail=0
           note() { echo "  - $1"; fail=1; }
-          echo "INFRASTRUCTURE EXECUTION AUTHORITY"
-          [ -n "${EXPECTED_SHA:-}" ] || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured"
-          [ -n "${EXPECTED_REF:-}" ] || note "RCAP_AUTHORIZED_EXECUTION_REF is not configured"
-          printf '%s' "${OBSERVED_SHA:-}" | grep -Eq '^[0-9a-f]{40}$' \
-            || note "github.sha is not a full commit SHA"
-          [ -n "${OBSERVED_REF:-}" ] || note "github.ref is empty"
-          if [ -n "${EXPECTED_SHA:-}" ] && [ "${OBSERVED_SHA:-}" != "${EXPECTED_SHA}" ]; then
-            note "github.sha ${OBSERVED_SHA:-<empty>} is not the authorized infrastructure SHA"
+          # present <label> <value>  — an empty value is a refusal, not a skip.
+          present() {
+            if [ -z "${2:-}" ]; then note "$1 is missing or empty"; return 1; fi
+            return 0
+          }
+          # equal <label> <observed> <expected>
+          equal() {
+            present "$1" "${2:-}" || return 1
+            if [ "$2" != "$3" ]; then note "$1 is '${2}'; expected '${3}'"; return 1; fi
+            return 0
+          }
+          echo "INFRASTRUCTURE EXECUTION AUTHORITY (called workflow)"
+          present "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA" "${EXPECTED_SHA:-}" || true
+          present "RCAP_AUTHORIZED_EXECUTION_REF"      "${EXPECTED_REF:-}" || true
+          if [ -n "${EXPECTED_SHA:-}" ]; then
+            printf '%s' "${EXPECTED_SHA}" | grep -Eq '^[0-9a-f]{40}$'               || note "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA"
+            equal "github.sha"          "${OBSERVED_SHA:-}"          "${EXPECTED_SHA}" || true
+            equal "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" "${EXPECTED_SHA}" || true
+            equal "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      "${EXPECTED_SHA}" || true
+          else
+            present "github.sha"          "${OBSERVED_SHA:-}"          || true
+            present "github.workflow_sha" "${OBSERVED_WORKFLOW_SHA:-}" || true
+            present "job.workflow_sha"    "${OBSERVED_JOB_SHA:-}"      || true
           fi
-          if [ -n "${EXPECTED_REF:-}" ] && [ "${OBSERVED_REF:-}" != "${EXPECTED_REF}" ]; then
-            note "github.ref ${OBSERVED_REF:-<empty>} is not the authorized execution ref"
+          if [ -n "${EXPECTED_REF:-}" ]; then
+            equal "github.ref" "${OBSERVED_REF:-}" "${EXPECTED_REF}" || true
+          else
+            present "github.ref" "${OBSERVED_REF:-}" || true
           fi
-          if [ -n "${OBSERVED_JOB_WORKFLOW_SHA:-}" ] && [ "${OBSERVED_JOB_WORKFLOW_SHA}" != "${OBSERVED_SHA:-}" ]; then
-            note "the called workflow resolved from ${OBSERVED_JOB_WORKFLOW_SHA}, the caller from ${OBSERVED_SHA:-<empty>}"
+          equal "job.workflow_repository" "${OBSERVED_JOB_REPO:-}" "${OBSERVED_REPOSITORY:-}" || true
+          equal "job.workflow_file_path"  "${OBSERVED_JOB_PATH:-}" "${EXPECTED_WORKFLOW_PATH}" || true
+          # job.workflow_ref is the full ref of the file defining this job. It
+          # must name this repository, this workflow path AND the authorized
+          # execution ref — checked by containment because GitHub composes it as
+          # <owner>/<repo>/<path>@<ref>.
+          if present "job.workflow_ref" "${OBSERVED_JOB_REF:-}"; then
+            case "$OBSERVED_JOB_REF" in
+              *"${OBSERVED_REPOSITORY}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name repository '${OBSERVED_REPOSITORY}'" ;;
+            esac
+            case "$OBSERVED_JOB_REF" in
+              *"${EXPECTED_WORKFLOW_PATH}"*) ;;
+              *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not name '${EXPECTED_WORKFLOW_PATH}'" ;;
+            esac
+            if [ -n "${EXPECTED_REF:-}" ]; then
+              case "$OBSERVED_JOB_REF" in
+                *"@${EXPECTED_REF}") ;;
+                *) note "job.workflow_ref '${OBSERVED_JOB_REF}' does not end at the authorized execution ref '${EXPECTED_REF}'" ;;
+              esac
+            fi
           fi
           if [ "$fail" -ne 0 ]; then
             echo "::error::INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"
             exit 1
           fi
-          echo "  ok   sha=$OBSERVED_SHA"
-          echo "  ok   ref=$OBSERVED_REF"
+          echo "  ok   github.sha=$OBSERVED_SHA"
+          echo "  ok   github.workflow_sha=$OBSERVED_WORKFLOW_SHA"
+          echo "  ok   job.workflow_sha=$OBSERVED_JOB_SHA"
+          echo "  ok   github.ref=$OBSERVED_REF"
+          echo "  ok   job.workflow_repository=$OBSERVED_JOB_REPO"
+          echo "  ok   job.workflow_file_path=$OBSERVED_JOB_PATH"
+          echo "  ok   job.workflow_ref=$OBSERVED_JOB_REF"
           echo "  ok   caller and called workflow resolve from one execution authority"
 
       - name: Payment environment identity sentinel
@@ -1733,7 +2045,9 @@ jobs:
         if: steps.capability.outputs.stripe_transaction == 'true'
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          # F1 — bound to the reusable workflow's OWN documented identity.
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
           path: control
           fetch-depth: 0
 
@@ -1752,6 +2066,12 @@ jobs:
           ref: ${{ inputs.worker_source_sha }}
           path: worker
           fetch-depth: 0
+
+      - name: Set up Node
+        if: steps.capability.outputs.stripe_transaction == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Verify ancestry and worker image-input equivalence of every pinned SHA
         if: steps.capability.outputs.stripe_transaction == 'true'
@@ -1783,16 +2103,10 @@ jobs:
         working-directory: control
         env:
           RCAP_CONTROL_DIR: ${{ github.workspace }}/control
-          RCAP_CONTROL_SHA: ${{ github.sha }}
+          RCAP_CONTROL_SHA: ${{ job.workflow_sha }}
           RCAP_AUTHORIZED_INFRASTRUCTURE_SHA: ${{ vars.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA }}
           RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-verify-control-plane.mjs
-
-      - name: Set up Node
-        if: steps.capability.outputs.stripe_transaction == 'true'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
 
       - name: Static verification that the Checkout pinning records name the accepted release (no Stripe call)
         id: verify_checkout_pinning

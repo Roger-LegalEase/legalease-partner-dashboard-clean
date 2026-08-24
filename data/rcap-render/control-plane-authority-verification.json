@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-control-plane-authority-verification/v1",
-  "total": 34,
-  "passed": 34,
+  "total": 55,
+  "passed": 55,
   "failed": 0,
   "checks": [
     {
@@ -12,7 +12,7 @@
     {
       "id": "c1_application_and_worker_checkouts_cannot_overwrite_control",
       "ok": true,
-      "observed": "each of readonly_probe, hosted_write, hosted_payment checks out exactly three trees at distinct paths — control/ at github.sha, application/ at application_sha, worker/ at worker_source_sha — none at the workspace root, and no executable git checkout/reset/switch line exists anywhere in the workflow"
+      "observed": "each of readonly_probe, hosted_write, hosted_payment checks out exactly three trees at distinct paths — control/ at job.workflow_sha from job.workflow_repository, application/ at application_sha, worker/ at worker_source_sha — none at the workspace root, and no executable git checkout/reset/switch line exists anywhere in the workflow"
     },
     {
       "id": "c1_old_tools_runner_cannot_execute",
@@ -27,7 +27,7 @@
     {
       "id": "c1_all_seven_migration_hashes_are_checked_before_write",
       "ok": true,
-      "observed": "all 7 manifest SHA-256 values recompute from the control tree's own SQL bytes; a single tampered hash and a six-member manifest are both refused; the gate sits at step 9, ahead of the credential preflight (11) and the migration runner (14)"
+      "observed": "all 7 manifest SHA-256 values recompute from the control tree's own SQL bytes; a single tampered hash and a six-member manifest are both refused; the gate sits at step 10, ahead of the credential preflight (11) and the migration runner (14)"
     },
     {
       "id": "c1_migration_sql_is_unchanged",
@@ -52,7 +52,7 @@
     {
       "id": "worker_manifest_states_which_control_modules_enter_the_image",
       "ok": true,
-      "observed": "recorded rather than hidden: COPY scripts/lib/ is a whole-directory copy, so scripts/lib/rcap-migration-manifest.mjs and scripts/lib/rcap-acceptance-schema-snapshot.mjs DO enter the image context; 2 infrastructure-only module(s) under scripts/control/ do not"
+      "observed": "recorded rather than hidden: COPY scripts/lib/ is a whole-directory copy, so scripts/lib/rcap-migration-manifest.mjs and scripts/lib/rcap-acceptance-schema-snapshot.mjs DO enter the image context; 5 infrastructure-only module(s) under scripts/control/ do not"
     },
     {
       "id": "worker_authority_remains_blocked_and_no_worker_is_selected",
@@ -137,17 +137,17 @@
     {
       "id": "c7_wrong_sha_refuses",
       "ok": true,
-      "observed": "a github.sha other than RCAP_AUTHORIZED_INFRASTRUCTURE_SHA returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.sha 2222222222222222222222222222222222222222 is not the authorized infrastructure SHA 1111111111111111111111111111111111111111"
+      "observed": "a github.sha other than RCAP_AUTHORIZED_INFRASTRUCTURE_SHA returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.sha is '2222222222222222222222222222222222222222'; expected '1111111111111111111111111111111111111111'"
     },
     {
       "id": "c7_wrong_ref_refuses",
       "ok": true,
-      "observed": "a github.ref other than RCAP_AUTHORIZED_EXECUTION_REF returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.ref refs/heads/some-branch is not the authorized execution ref refs/tags/rcap-acceptance-infra-v1"
+      "observed": "a github.ref other than RCAP_AUTHORIZED_EXECUTION_REF returns INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID — github.ref is 'refs/heads/some-branch'; expected 'refs/tags/rcap-acceptance-infra-v1'"
     },
     {
       "id": "c7_caller_and_called_workflow_must_share_one_authority",
       "ok": true,
-      "observed": "a called workflow resolving from a different commit than its caller refuses (the called workflow resolved from 3333333333333333333333333333333333333333, the caller from 1111111111111111111111111111111111111111); an UNCONFIGURED authority also refuses rather than passing — 2 reason(s), so the gate fails closed until both variables exist"
+      "observed": "a called workflow resolving from a different commit than its caller refuses (job.workflow_sha is '3333333333333333333333333333333333333333'; expected '1111111111111111111111111111111111111111'); an UNCONFIGURED authority also refuses rather than passing — 6 reason(s), so the gate fails closed until both variables exist"
     },
     {
       "id": "c7_authority_gate_precedes_checkout_setup_and_secrets",
@@ -158,6 +158,111 @@
       "id": "c7_expected_values_are_named_but_not_created",
       "ok": true,
       "observed": "both non-secret names appear as `vars.*` references only; no value is hard-coded, no repository or environment variable is created by this change, and no tag is created"
+    },
+    {
+      "id": "f1_the_undefined_github_workflow_sha_property_appears_nowhere",
+      "ok": true,
+      "observed": "the undefined github-context workflow-SHA property appears in none of the 12 workflow files and in no script, document or evidence artifact"
+    },
+    {
+      "id": "f1_missing_github_workflow_sha_refuses",
+      "ok": true,
+      "observed": "github.workflow_sha is missing or empty"
+    },
+    {
+      "id": "f1_wrong_github_workflow_sha_refuses",
+      "ok": true,
+      "observed": "github.workflow_sha is '2222222222222222222222222222222222222222'; expected '1111111111111111111111111111111111111111'"
+    },
+    {
+      "id": "f1_missing_job_context_workflow_sha_refuses",
+      "ok": true,
+      "observed": "job.workflow_sha is missing or empty"
+    },
+    {
+      "id": "f1_wrong_job_context_workflow_sha_refuses",
+      "ok": true,
+      "observed": "job.workflow_sha is '3333333333333333333333333333333333333333'; expected '1111111111111111111111111111111111111111'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_repository_refuses",
+      "ok": true,
+      "observed": "job.workflow_repository is 'attacker/fork'; expected 'Roger-LegalEase/legalease-partner-dashboard-clean'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_file_path_refuses",
+      "ok": true,
+      "observed": "job.workflow_file_path is '.github/workflows/other.yml'; expected '.github/workflows/rcap-hosted-acceptance-staging.yml'"
+    },
+    {
+      "id": "f1_wrong_job_workflow_ref_refuses",
+      "ok": true,
+      "observed": "job.workflow_ref 'Roger-LegalEase/legalease-partner-dashboard-clean/.github/workflows/rcap-hosted-acceptance-staging.yml@refs/heads/anything' does not end at the authorized execution ref 'refs/tags/rcap-acceptance-infra-v1'"
+    },
+    {
+      "id": "f1_correct_caller_and_called_shas_pass",
+      "ok": true,
+      "observed": "the called gate passes when github.sha, github.workflow_sha and job.workflow_sha all equal the authorized SHA, job.workflow_repository equals github.repository, job.workflow_file_path equals .github/workflows/rcap-hosted-acceptance-staging.yml and job.workflow_ref ends at the authorized ref; the caller gate passes on its three comparisons"
+    },
+    {
+      "id": "f1_success_statement_is_unreachable_until_every_comparison_passes",
+      "ok": true,
+      "observed": "in all four called-workflow jobs the refusal branch precedes the success line and is reached whenever fail is set; all seven documented values are compared; an empty observed value calls note() and so is a refusal, never a skipped check. The caller gate compares its three values on the same rule."
+    },
+    {
+      "id": "f1_control_checkout_uses_job_workflow_repository_and_sha",
+      "ok": true,
+      "observed": "all three control checkouts read repository: job.workflow_repository and ref: job.workflow_sha, so the control tree is the reusable workflow's own bytes; the control_authority gate still re-proves that commit against RCAP_AUTHORIZED_INFRASTRUCTURE_SHA"
+    },
+    {
+      "id": "f2_actionlint_configuration_is_narrowly_scoped",
+      "ok": true,
+      "observed": ".github/actionlint.yaml scopes every ignore to .github/workflows/rcap-hosted-acceptance-staging.yml alone and lists exactly 6 patterns, each naming ONE property or secret; the four job-context patterns are anchored on actionlint's own {check_run_id: number; container: …} object type, so a misspelled job property is not covered"
+    },
+    {
+      "id": "f2_actionlint_exits_zero_with_the_checked_in_configuration",
+      "ok": true,
+      "observed": "actionlint -shellcheck= -pyflakes= over all 12 workflow files exits 0 with the checked-in .github/actionlint.yaml"
+    },
+    {
+      "id": "f2_a_misspelled_property_and_an_unrelated_secret_still_fail",
+      "ok": true,
+      "observed": "the negative control exits 1 and all six MUST-FAIL findings are reported — including the four names the config DOES ignore, at a path the config does not cover, which is the scoping proof; the one correctly declared secret produces no finding"
+    },
+    {
+      "id": "f3_accept_with_an_exact_preview_reaches_the_matrix",
+      "ok": true,
+      "observed": "accept with a reused exact Preview skips the refusal, runs auth_identities, matrix_build, gate_deps, golden_journey, verify_harness, galleries, and never runs deploy_preview"
+    },
+    {
+      "id": "f3_accept_without_an_exact_preview_refuses_early",
+      "ok": true,
+      "observed": "accept with no exact Preview reaches require_exact_preview at position 16, ahead of every application step (first at 17); it prints ACCEPTANCE_EXACT_PREVIEW_REQUIRED and exits 1, so npm ci, the build, Auth configuration and the matrix are never reached"
+    },
+    {
+      "id": "f3_accept_performs_no_deploy",
+      "ok": true,
+      "observed": "the contract row for accept is DEPLOY=false with REQUIRE_EXACT_PREVIEW=true, and the contract refuses outright if any phase ever claims both"
+    },
+    {
+      "id": "f3_full_nonpayment_deploys_when_no_exact_preview_exists",
+      "ok": true,
+      "observed": "full_nonpayment with no exact Preview runs deploy_preview and never reaches the exact-Preview refusal; with a reused exact Preview it deploys nothing"
+    },
+    {
+      "id": "f3_the_antiskip_gate_no_longer_requires_a_forbidden_deploy",
+      "ok": true,
+      "observed": "the anti-skip gate demands deploy success only when RUNS_DEPLOY=true and O_REUSED!=true, so a phase whose contract forbids deploying is never failed for not having deployed — the misleading \"deploy one new Preview\" failure cannot occur for accept"
+    },
+    {
+      "id": "f4_no_node_invocation_precedes_setup_node",
+      "ok": true,
+      "observed": "every job orders execution authority (step 0, shell only) → control/application/worker checkout → actions/setup-node@node-version 20 → the worker image-input manifest → the control-plane gate → the remaining Node scripts. No node command runs before setup-node, and the before-checkout authority gate is unmoved."
+    },
+    {
+      "id": "f5_tools_sha_is_documented_as_a_provenance_label_only",
+      "ok": true,
+      "observed": "both the dispatch input and the workflow_call input state that tools_sha is a provenance label only, must equal the reviewed control-plane SHA, is not a checkout ref, is not executable authority, and that the former 6d9e8792 value is no longer valid; it appears as a checkout ref in neither workflow"
     },
     {
       "id": "product_files_remain_unchanged",

@@ -17,6 +17,7 @@ import {
   AUTHORIZED_MANIFEST_HASH,
   APPLICATION_ROOT,
   CONTROL_ROOT,
+  HOSTED_WORKFLOW_FILE_PATH,
   REQUIRED_CONTROL_FILES,
   RETIRED_TOOLS_COMMIT_PREFIX,
   WORKER_ROOT,
@@ -111,14 +112,18 @@ const indexByName = (wf, job, name) => stepsOf(wf, job).findIndex((s) => (s.name
   for (const job of jobs) {
     for (const s of stepsOf(hosted, job)) {
       if (typeof s.uses === "string" && s.uses.startsWith("actions/checkout")) {
-        rows.push({ job, path: s.with?.path, ref: s.with?.ref });
+        rows.push({ job, path: s.with?.path, ref: s.with?.ref, repository: s.with?.repository });
       }
     }
   }
   const perJob = jobs.map((j) => rows.filter((r) => r.job === j));
   const shapeOk = perJob.every((rs) =>
     rs.length === 3 &&
-    rs.some((r) => r.path === CONTROL_ROOT && r.ref === "${{ github.sha }}") &&
+    // F1 — the control tree is bound to the reusable workflow's OWN documented
+    // identity, not to the caller's github.sha.
+    rs.some((r) => r.path === CONTROL_ROOT &&
+      r.ref === "${{ job.workflow_sha }}" &&
+      r.repository === "${{ job.workflow_repository }}") &&
     rs.some((r) => r.path === APPLICATION_ROOT && r.ref === "${{ inputs.application_sha }}") &&
     rs.some((r) => r.path === WORKER_ROOT && r.ref === "${{ inputs.worker_source_sha }}")
   );
@@ -129,7 +134,7 @@ const indexByName = (wf, job, name) => stepsOf(wf, job).findIndex((s) => (s.name
     "c1_application_and_worker_checkouts_cannot_overwrite_control",
     shapeOk && noRootCheckout && mutations.length === 0,
     shapeOk && noRootCheckout && mutations.length === 0
-      ? `each of ${jobs.join(", ")} checks out exactly three trees at distinct paths — ${CONTROL_ROOT}/ at github.sha, ${APPLICATION_ROOT}/ at application_sha, ${WORKER_ROOT}/ at worker_source_sha — none at the workspace root, and no executable git checkout/reset/switch line exists anywhere in the workflow`
+      ? `each of ${jobs.join(", ")} checks out exactly three trees at distinct paths — ${CONTROL_ROOT}/ at job.workflow_sha from job.workflow_repository, ${APPLICATION_ROOT}/ at application_sha, ${WORKER_ROOT}/ at worker_source_sha — none at the workspace root, and no executable git checkout/reset/switch line exists anywhere in the workflow`
       : `shape=${shapeOk} rootless=${noRootCheckout} tree-mutating lines=${JSON.stringify(mutations)}`
   );
 }
@@ -463,8 +468,12 @@ for (const phase of ["accept", "full_nonpayment"]) {
   const files = fs.readdirSync(path.join(rootDir, ".github/workflows")).filter((f) => f.endsWith(".yml"));
   const broken = [];
   const ctx = {
-    inputs: { mode: "hosted_accept", phase: "accept" }, github: { sha: "x", ref: "y", workspace: "/w", run_id: "1", actor: "a", job_workflow_sha: "x" },
-    vars: {}, secrets: {}, env: {}, needs: {}, steps: {}, matrix: { entry: {} }, job: {}, runner: {}, strategy: {}
+    inputs: { mode: "hosted_accept", phase: "accept" },
+    // The documented contexts only. The undefined github-context workflow-SHA
+    // property that F1 removed is deliberately absent here too.
+    github: { sha: "x", ref: "y", workspace: "/w", run_id: "1", actor: "a", workflow_sha: "x", repository: "o/r" },
+    job: { workflow_sha: "x", workflow_ref: "o/r/p@r", workflow_repository: "o/r", workflow_file_path: "p" },
+    vars: {}, secrets: {}, env: {}, needs: {}, steps: {}, matrix: { entry: {} }, runner: {}, strategy: {}
   };
   for (const f of files) {
     const text = read(`.github/workflows/${f}`);
@@ -634,9 +643,21 @@ for (const phase of ["accept", "full_nonpayment"]) {
 {
   const AUTHORIZED = "1".repeat(40);
   const REF = "refs/tags/rcap-acceptance-infra-v1";
-  const base = { githubSha: AUTHORIZED, githubRef: REF, jobWorkflowSha: AUTHORIZED, expectedSha: AUTHORIZED, expectedRef: REF };
+  const REPO = "Roger-LegalEase/legalease-partner-dashboard-clean";
+  const base = {
+    githubSha: AUTHORIZED,
+    githubRef: REF,
+    githubWorkflowSha: AUTHORIZED,
+    githubRepository: REPO,
+    jobWorkflowSha: AUTHORIZED,
+    jobWorkflowRef: `${REPO}/${HOSTED_WORKFLOW_FILE_PATH}@${REF}`,
+    jobWorkflowRepository: REPO,
+    jobWorkflowFilePath: HOSTED_WORKFLOW_FILE_PATH,
+    expectedSha: AUTHORIZED,
+    expectedRef: REF
+  };
   const good = evaluateExecutionAuthority(base);
-  const wrongSha = evaluateExecutionAuthority({ ...base, githubSha: "2".repeat(40), jobWorkflowSha: "2".repeat(40) });
+  const wrongSha = evaluateExecutionAuthority({ ...base, githubSha: "2".repeat(40) });
   const wrongRef = evaluateExecutionAuthority({ ...base, githubRef: "refs/heads/some-branch" });
   const splitAuthority = evaluateExecutionAuthority({ ...base, jobWorkflowSha: "3".repeat(40) });
   const unset = evaluateExecutionAuthority({ ...base, expectedSha: "", expectedRef: "" });
@@ -686,6 +707,298 @@ for (const phase of ["accept", "full_nonpayment"]) {
     /RCAP_AUTHORIZED_INFRASTRUCTURE_SHA/.test(names) && /RCAP_AUTHORIZED_EXECUTION_REF/.test(names) &&
       !/vars\.RCAP_AUTHORIZED_INFRASTRUCTURE_SHA\s*:\s*[0-9a-f]{40}/.test(hostedText),
     `both non-secret names appear as \`vars.*\` references only; no value is hard-coded, no repository or environment variable is created by this change, and no tag is created`
+  );
+}
+
+// ===========================================================================
+// F1 — documented caller and called-workflow identities
+// ===========================================================================
+{
+  const files = fs.readdirSync(path.join(rootDir, ".github/workflows")).filter((f) => f.endsWith(".yml"));
+  // Composed rather than written out, so this file is not itself a hit.
+  const UNDEFINED_PROPERTY = ["job", "workflow", "sha"].join("_");
+  const offenders = files.filter((f) => read(`.github/workflows/${f}`).includes(UNDEFINED_PROPERTY));
+  const inSources = ["scripts", "docs", "data"].flatMap((d) => {
+    const walk = (rel) => fs.readdirSync(path.join(rootDir, rel), { withFileTypes: true }).flatMap((e) =>
+      e.isDirectory() ? walk(`${rel}/${e.name}`) : [`${rel}/${e.name}`]);
+    return walk(d);
+  }).filter((rel) => /\.(mjs|md|json|ya?ml)$/.test(rel) && read(rel).includes(UNDEFINED_PROPERTY));
+  check(
+    "f1_the_undefined_github_workflow_sha_property_appears_nowhere",
+    offenders.length === 0 && inSources.length === 0,
+    offenders.length === 0 && inSources.length === 0
+      ? `the undefined github-context workflow-SHA property appears in none of the ${files.length} workflow files and in no script, document or evidence artifact`
+      : `still referenced in: ${[...offenders, ...inSources].join(", ")}`
+  );
+}
+
+{
+  const AUTHORIZED = "1".repeat(40);
+  const REF = "refs/tags/rcap-acceptance-infra-v1";
+  const REPO = "Roger-LegalEase/legalease-partner-dashboard-clean";
+  const base = {
+    githubSha: AUTHORIZED, githubRef: REF, githubWorkflowSha: AUTHORIZED, githubRepository: REPO,
+    jobWorkflowSha: AUTHORIZED, jobWorkflowRef: `${REPO}/${HOSTED_WORKFLOW_FILE_PATH}@${REF}`,
+    jobWorkflowRepository: REPO, jobWorkflowFilePath: HOSTED_WORKFLOW_FILE_PATH,
+    expectedSha: AUTHORIZED, expectedRef: REF
+  };
+  const cases = [
+    ["f1_missing_github_workflow_sha_refuses",     { githubWorkflowSha: "" }],
+    ["f1_wrong_github_workflow_sha_refuses",       { githubWorkflowSha: "2".repeat(40) }],
+    ["f1_missing_job_context_workflow_sha_refuses", { jobWorkflowSha: null }],
+    ["f1_wrong_job_context_workflow_sha_refuses",   { jobWorkflowSha: "3".repeat(40) }],
+    ["f1_wrong_job_workflow_repository_refuses",   { jobWorkflowRepository: "attacker/fork" }],
+    ["f1_wrong_job_workflow_file_path_refuses",    { jobWorkflowFilePath: ".github/workflows/other.yml" }],
+    ["f1_wrong_job_workflow_ref_refuses",          { jobWorkflowRef: `${REPO}/${HOSTED_WORKFLOW_FILE_PATH}@refs/heads/anything` }]
+  ];
+  for (const [id, patch] of cases) {
+    const r = evaluateExecutionAuthority({ ...base, ...patch });
+    check(id, r.ok === false && r.code === "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID", r.ok ? "ACCEPTED — the gate did not refuse" : r.reasons[0]);
+  }
+  const ok = evaluateExecutionAuthority(base);
+  const caller = evaluateExecutionAuthority({
+    githubSha: AUTHORIZED, githubRef: REF, githubWorkflowSha: AUTHORIZED,
+    expectedSha: AUTHORIZED, expectedRef: REF, called: false
+  });
+  check(
+    "f1_correct_caller_and_called_shas_pass",
+    ok.ok && caller.ok,
+    `the called gate passes when github.sha, github.workflow_sha and job.workflow_sha all equal the authorized SHA, job.workflow_repository equals github.repository, job.workflow_file_path equals ${HOSTED_WORKFLOW_FILE_PATH} and job.workflow_ref ends at the authorized ref; the caller gate passes on its three comparisons`
+  );
+}
+
+{
+  // Structural, in the workflow itself: the success line cannot be reached
+  // while any comparison is outstanding, and no comparison is conditional on
+  // the observed value being non-empty.
+  const bodies = ["readonly_probe", "hosted_write", "payment_probe", "hosted_payment"]
+    .map((j) => ({ j, body: String(stepById(hosted, j, "execution_authority")?.run ?? "") }));
+  const guardedByFail = bodies.every(({ body }) => {
+    const successAt = body.indexOf("caller and called workflow resolve from one execution authority");
+    const exitAt = body.indexOf('echo "INFRASTRUCTURE_EXECUTION_AUTHORITY_INVALID"');
+    return successAt > 0 && exitAt > 0 && exitAt < successAt && /if \[ "\$fail" -ne 0 \]/.test(body);
+  });
+  const comparesAll = bodies.every(({ body }) =>
+    ["github.sha", "github.workflow_sha", "job.workflow_sha", "github.ref",
+     "job.workflow_repository", "job.workflow_file_path", "job.workflow_ref"].every((k) => body.includes(k)));
+  const emptyIsRefusal = bodies.every(({ body }) => /note "\$1 is missing or empty"/.test(body));
+  const callerBody = String((f1.jobs.route.steps ?? []).find((s) => s.id === "execution_authority")?.run ?? "");
+  const callerCompares = ["github.sha", "github.workflow_sha", "github.ref"].every((k) => callerBody.includes(k)) &&
+    /note "\$1 is missing or empty"/.test(callerBody);
+  check(
+    "f1_success_statement_is_unreachable_until_every_comparison_passes",
+    guardedByFail && comparesAll && emptyIsRefusal && callerCompares,
+    `in all four called-workflow jobs the refusal branch precedes the success line and is reached whenever fail is set; all seven documented values are compared; an empty observed value calls note() and so is a refusal, never a skipped check. The caller gate compares its three values on the same rule.`
+  );
+
+  const controlCheckouts = ["readonly_probe", "hosted_write", "hosted_payment"].map((j) =>
+    stepsOf(hosted, j).find((s) => String(s.uses ?? "").startsWith("actions/checkout") && s.with?.path === CONTROL_ROOT));
+  check(
+    "f1_control_checkout_uses_job_workflow_repository_and_sha",
+    controlCheckouts.every((s) => s?.with?.repository === "${{ job.workflow_repository }}" && s?.with?.ref === "${{ job.workflow_sha }}"),
+    `all three control checkouts read repository: job.workflow_repository and ref: job.workflow_sha, so the control tree is the reusable workflow's own bytes; the control_authority gate still re-proves that commit against RCAP_AUTHORIZED_INFRASTRUCTURE_SHA`
+  );
+}
+
+// ===========================================================================
+// F2 — actionlint exits zero, and the ignores stay narrow
+// ===========================================================================
+{
+  const cfgPath = ".github/actionlint.yaml";
+  const cfgExists = fs.existsSync(path.join(rootDir, cfgPath));
+  const cfg = cfgExists ? read(cfgPath) : "";
+  const scoped = /^paths:\s*$/m.test(cfg) &&
+    (cfg.match(/^ {2}\S+:\s*$/gm) ?? []).length === 1 &&
+    cfg.includes(`  ${HOSTED_WORKFLOW_FILE_PATH}:`);
+  const ignores = (cfg.match(/^ {6}- '(.+)'$/gm) ?? []).map((l) => l.replace(/^ {6}- '/, "").replace(/'$/, ""));
+  const named = ["workflow_sha", "workflow_ref", "workflow_repository", "workflow_file_path",
+                 "hosted_stripe_test_secret", "hosted_stripe_test_webhook_secret"];
+  const everyIgnoreNamesOneProperty = ignores.length === named.length &&
+    named.every((n) => ignores.some((i) => i.includes(`"${n}"`)));
+  const jobIgnoresAnchored = ignores.filter((i) => /workflow_(sha|ref|repository|file_path)/.test(i))
+    .every((i) => i.includes("check_run_id: number; container:"));
+  const noBlanket = !/^\s*ignore:\s*\[\s*\]/m.test(cfg) &&
+    !ignores.some((i) => i === ".*" || i === "" || /^property ".\*"/.test(i));
+  check(
+    "f2_actionlint_configuration_is_narrowly_scoped",
+    cfgExists && scoped && everyIgnoreNamesOneProperty && jobIgnoresAnchored && noBlanket,
+    cfgExists
+      ? `${cfgPath} scopes every ignore to ${HOSTED_WORKFLOW_FILE_PATH} alone and lists exactly ${ignores.length} patterns, each naming ONE property or secret; the four job-context patterns are anchored on actionlint's own {check_run_id: number; container: …} object type, so a misspelled job property is not covered`
+      : `${cfgPath} is absent`
+  );
+
+  const bin = process.env.RCAP_ACTIONLINT_BIN ?? "actionlint";
+  const runLint = (args) => {
+    try { return { status: 0, out: execFileSync(bin, args, { cwd: rootDir, encoding: "utf8" }) }; }
+    catch (e) { return { status: e.status ?? -1, out: `${e.stdout ?? ""}${e.stderr ?? ""}` }; }
+  };
+  const available = (() => { try { execFileSync(bin, ["--version"], { cwd: rootDir }); return true; } catch { return false; } })();
+  if (!available) {
+    check(
+      "f2_actionlint_exits_zero_with_the_checked_in_configuration",
+      false,
+      `actionlint is not on PATH and RCAP_ACTIONLINT_BIN is unset, so this check cannot be evaluated. Install the pinned v1.7.12 or set RCAP_ACTIONLINT_BIN.`
+    );
+  } else {
+    const workflows = fs.readdirSync(path.join(rootDir, ".github/workflows"))
+      .filter((f) => f.endsWith(".yml")).map((f) => `.github/workflows/${f}`);
+    const green = runLint(["-shellcheck=", "-pyflakes=", ...workflows]);
+    check(
+      "f2_actionlint_exits_zero_with_the_checked_in_configuration",
+      green.status === 0,
+      green.status === 0
+        ? `actionlint -shellcheck= -pyflakes= over all ${workflows.length} workflow files exits 0 with the checked-in ${cfgPath}`
+        : `exit ${green.status}: ${green.out.slice(0, 400)}`
+    );
+
+    // The negative control lives OUTSIDE .github/workflows, so no path ignore
+    // applies to it. Every MUST-FAIL must still be reported.
+    const FIXTURE = "scripts/control/fixtures/actionlint-negative-control.yml";
+    const neg = runLint(["-shellcheck=", "-pyflakes=", "-oneline", "-no-color", FIXTURE]);
+    const reported = (needle) => neg.out.includes(needle);
+    const mustFail = {
+      "misspelled github property": reported('property "workfl0w_sha" is not defined'),
+      "misspelled job property": reported('property "workflow_shaa" is not defined'),
+      "unrelated undefined secret": reported('property "some_secret_that_is_not_declared" is not defined'),
+      "ignored job property outside the hosted workflow": reported('property "workflow_sha" is not defined'),
+      "ignored job repository outside the hosted workflow": reported('property "workflow_repository" is not defined'),
+      "ignored Stripe secret outside the hosted workflow": reported('property "hosted_stripe_test_secret" is not defined')
+    };
+    const declaredSecretQuiet = !neg.out.includes('property "declared_secret" is not defined');
+    const missed = Object.entries(mustFail).filter(([, v]) => !v).map(([k]) => k);
+    check(
+      "f2_a_misspelled_property_and_an_unrelated_secret_still_fail",
+      neg.status === 1 && missed.length === 0 && declaredSecretQuiet,
+      missed.length === 0
+        ? `the negative control exits ${neg.status} and all six MUST-FAIL findings are reported — including the four names the config DOES ignore, at a path the config does not cover, which is the scoping proof; the one correctly declared secret produces no finding`
+        : `not reported: ${missed.join(", ")}`
+    );
+  }
+}
+
+// ===========================================================================
+// F3 — accept requires an exact existing Preview
+// ===========================================================================
+{
+  // Preview resolution is the only variable, so it is supplied to the
+  // simulation as the resolver's real outputs.
+  const simAccept = (reused) => simulateJob("hosted_write", "accept", {
+    contract: { ...contractOutputsFor("accept"), require_exact_preview: "true" },
+    resolve_preview: { reused: reused ? "true" : "false", outcome: reused ? "reused_exact_ready_preview" : "created_one_new_preview" }
+  });
+  const withPreview = simAccept(true);
+  const withoutPreview = simAccept(false);
+  const APPLICATION_STEPS = ["auth_identities", "matrix_build", "gate_deps", "golden_journey", "verify_harness", "galleries"];
+
+  check(
+    "f3_accept_with_an_exact_preview_reaches_the_matrix",
+    withPreview.ran.includes("require_exact_preview") === false &&
+      APPLICATION_STEPS.every((id) => withPreview.ran.includes(id)) &&
+      withPreview.ran.includes("deploy_preview") === false,
+    `accept with a reused exact Preview skips the refusal, runs ${APPLICATION_STEPS.join(", ")}, and never runs deploy_preview`
+  );
+
+  const refusalAt = withoutPreview.ran.indexOf("require_exact_preview");
+  const firstApplicationAt = Math.min(...APPLICATION_STEPS.map((id) => {
+    const i = withoutPreview.ran.indexOf(id);
+    return i === -1 ? Number.POSITIVE_INFINITY : i;
+  }));
+  const refusalBody = String(stepById(hosted, "hosted_write", "require_exact_preview")?.run ?? "");
+  check(
+    "f3_accept_without_an_exact_preview_refuses_early",
+    refusalAt >= 0 && refusalAt < firstApplicationAt &&
+      /ACCEPTANCE_EXACT_PREVIEW_REQUIRED/.test(refusalBody) && /exit 1/.test(refusalBody),
+    `accept with no exact Preview reaches require_exact_preview at position ${refusalAt}, ahead of every application step (first at ${firstApplicationAt === Number.POSITIVE_INFINITY ? "n/a" : firstApplicationAt}); it prints ACCEPTANCE_EXACT_PREVIEW_REQUIRED and exits 1, so npm ci, the build, Auth configuration and the matrix are never reached`
+  );
+
+  const acceptContract = contractOutputsFor("accept");
+  const contractBody = String(stepById(hosted, "hosted_write", "contract")?.run ?? "");
+  check(
+    "f3_accept_performs_no_deploy",
+    acceptContract.deploy === "false" &&
+      /accept\)\s+DEPLOY=false;.*REQUIRE_EXACT_PREVIEW=true/.test(contractBody) &&
+      /requires an exact existing Preview and also claims deploy authority/.test(contractBody),
+    `the contract row for accept is DEPLOY=false with REQUIRE_EXACT_PREVIEW=true, and the contract refuses outright if any phase ever claims both`
+  );
+
+  const fullNo = simulateJob("hosted_write", "full_nonpayment", {
+    contract: contractOutputsFor("full_nonpayment"),
+    resolve_preview: { reused: "false", outcome: "created_one_new_preview" }
+  });
+  const fullReuse = simulateJob("hosted_write", "full_nonpayment", {
+    contract: contractOutputsFor("full_nonpayment"),
+    resolve_preview: { reused: "true", outcome: "reused_exact_ready_preview" }
+  });
+  check(
+    "f3_full_nonpayment_deploys_when_no_exact_preview_exists",
+    fullNo.ran.includes("deploy_preview") && !fullNo.ran.includes("require_exact_preview") &&
+      !fullReuse.ran.includes("deploy_preview"),
+    `full_nonpayment with no exact Preview runs deploy_preview and never reaches the exact-Preview refusal; with a reused exact Preview it deploys nothing`
+  );
+
+  const antiskip = String(stepById(hosted, "hosted_write", "antiskip")?.run ?? "");
+  const gated = /if \[ "\$RUNS_DEPLOY" = "true" \] && \[ "\$O_REUSED" != "true" \]; then\n\s+require "deploy one new Preview"/.test(antiskip);
+  const envHasRunsDeploy = JSON.stringify(stepById(hosted, "hosted_write", "antiskip")?.env ?? {})
+    .includes("steps.contract.outputs.deploy");
+  check(
+    "f3_the_antiskip_gate_no_longer_requires_a_forbidden_deploy",
+    gated && envHasRunsDeploy,
+    `the anti-skip gate demands deploy success only when RUNS_DEPLOY=true and O_REUSED!=true, so a phase whose contract forbids deploying is never failed for not having deployed — the misleading "deploy one new Preview" failure cannot occur for accept`
+  );
+}
+
+// ===========================================================================
+// F4 — Node is pinned before any Node execution
+// ===========================================================================
+{
+  const violations = [];
+  for (const [job, j] of Object.entries(hosted.jobs)) {
+    const steps = j.steps ?? [];
+    const setupAt = steps.findIndex((s) => String(s.uses ?? "").startsWith("actions/setup-node"));
+    const firstNodeAt = steps.findIndex((s) => typeof s.run === "string" && /(^|\s)node\s/.test(s.run));
+    const firstCheckoutAt = steps.findIndex((s) => String(s.uses ?? "").startsWith("actions/checkout"));
+    const authorityAt = steps.findIndex((s) => s.id === "execution_authority");
+    if (firstNodeAt === -1) continue;
+    if (setupAt === -1) { violations.push(`${job}: node runs with no setup-node`); continue; }
+    if (setupAt > firstNodeAt) violations.push(`${job}: setup-node at ${setupAt} follows node at ${firstNodeAt}`);
+    if (firstCheckoutAt !== -1 && setupAt < firstCheckoutAt) violations.push(`${job}: setup-node at ${setupAt} precedes checkout at ${firstCheckoutAt}`);
+    if (authorityAt !== 0) violations.push(`${job}: execution_authority is at ${authorityAt}, not 0`);
+  }
+  const versions = Object.values(hosted.jobs).flatMap((j) => (j.steps ?? [])
+    .filter((s) => String(s.uses ?? "").startsWith("actions/setup-node"))
+    .map((s) => String(s.with?.["node-version"])));
+  const pinned = versions.length > 0 && versions.every((v) => v === versions[0]);
+  check(
+    "f4_no_node_invocation_precedes_setup_node",
+    violations.length === 0 && pinned,
+    violations.length === 0
+      ? `every job orders execution authority (step 0, shell only) → control/application/worker checkout → actions/setup-node@node-version ${versions[0]} → the worker image-input manifest → the control-plane gate → the remaining Node scripts. No node command runs before setup-node, and the before-checkout authority gate is unmoved.`
+      : violations.join("; ")
+  );
+}
+
+// ===========================================================================
+// F5 — tools_sha is a provenance label
+// ===========================================================================
+{
+  const descs = [
+    String(hosted.on?.workflow_call?.inputs?.tools_sha?.description ?? ""),
+    String(f1.on?.workflow_dispatch?.inputs?.tools_sha?.description ?? "")
+  ];
+  const statesAll = descs.every((d) =>
+    /PROVENANCE LABEL ONLY/.test(d) &&
+    /must equal the reviewed control-plane SHA/i.test(d) &&
+    /NOT a checkout ref/i.test(d) &&
+    /NOT executable/i.test(d) &&
+    /6d9e8792/.test(d));
+  const neverCheckedOut = ![hostedExec, f1Exec].some((t) =>
+    /ref:\s*\$\{\{\s*inputs\.tools_sha/.test(t) || /checkout --detach\s+"?\$\{\{\s*inputs\.tools_sha/.test(t));
+  check(
+    "f5_tools_sha_is_documented_as_a_provenance_label_only",
+    statesAll && neverCheckedOut && descs.every(Boolean),
+    statesAll
+      ? `both the dispatch input and the workflow_call input state that tools_sha is a provenance label only, must equal the reviewed control-plane SHA, is not a checkout ref, is not executable authority, and that the former 6d9e8792 value is no longer valid; it appears as a checkout ref in neither workflow`
+      : `descriptions: ${JSON.stringify(descs)} neverCheckedOut=${neverCheckedOut}`
   );
 }
 

@@ -31,10 +31,10 @@
     ]
   },
   "localDerivation": {
-    "validator": "actionlint v1.7.7",
-    "installedBy": "go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7, into a temporary GOPATH outside the repository",
-    "moduleZipHash": "h1:0KgkoNTrYY7vmOCs9BW2AHxLvvpoY9nEUzgBHiPUr0k=",
-    "binarySha256": "b242a990881fe6697a9ff63819939e587d43c8169ead78294297eb1a0dc3ae4c",
+    "validator": "actionlint v1.7.12 (pinned; the earlier v1.7.7 result is superseded)",
+    "installedBy": "go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12, into a temporary GOPATH outside the repository",
+    "moduleZipHash": "h1:vQ4GeJN86C0QH+gTUQcs8McmK62OLT3kmakPMtEWYnY=",
+    "binarySha256": "0fa8437eef3b82afc1b3ea92fcee8623e4db1451c32fb514659f762b621ac2cf",
     "addedAsRepositoryDependency": false,
     "error": {
       "file": ".github/workflows/rcap-f1-ephemeral-staging.yml",
@@ -133,6 +133,11 @@
       "sha": "5ca3aad38a11a1e9fdadd06424b9b45db4b77f5c",
       "content": "the exact final workflow bytes, provenance caveats included",
       "invalidWorkflowRuns": 0
+    },
+    {
+      "sha": "42dbdc3b052afc5a3ebe94a64ccd796d80f83c72",
+      "content": "the F1-F5 workflow set plus the narrow actionlint configuration",
+      "invalidWorkflowRuns": 0
     }
   ],
   "diagnosticPushSafety": {
@@ -177,14 +182,16 @@
   },
   "knownValidatorModelGaps": [
     {
-      "finding": "property \"job_workflow_sha\" is not defined in object type github",
-      "reality": "github.job_workflow_sha is a documented GitHub context property; actionlint v1.7.7 does not model it. GitHub's parser accepts it.",
-      "suppressedWith": "-ignore 'property \"job_workflow_sha\" is not defined'"
+      "finding": "property \"workflow_sha\" / \"workflow_ref\" / \"workflow_repository\" / \"workflow_file_path\" is not defined in object type {check_run_id: number; container: ...}",
+      "reality": "These are the documented `job` context workflow-identity properties. actionlint v1.7.12 models the job context as {check_run_id, container, services, status} and does not yet carry them. GitHub's parser accepts them.",
+      "suppressedWith": ".github/actionlint.yaml \u2014 four patterns, each naming ONE property and anchored on that object type, scoped to .github/workflows/rcap-hosted-acceptance-staging.yml alone",
+      "negativeControl": "scripts/control/fixtures/actionlint-negative-control.yml proves a misspelled job property, and these same four names at any other path, are still reported"
     },
     {
       "finding": "property \"hosted_stripe_test_secret\" / \"hosted_stripe_test_webhook_secret\" is not defined in object type secrets",
-      "reality": "environment-scoped secrets, which actionlint cannot model for a reusable workflow's job-level environment. Removing them would dismantle the Stripe privilege boundary.",
-      "suppressedWith": "-ignore 'property \"hosted_stripe_test_(secret|webhook_secret)\" is not defined'"
+      "reality": "Environment-scoped secrets supplied only by the job-level rcap-acceptance-payment GitHub Environment, deliberately absent from on.workflow_call.secrets. actionlint cannot model environment secrets for a reusable workflow's job-level environment. Removing them would dismantle the Stripe privilege boundary.",
+      "suppressedWith": ".github/actionlint.yaml \u2014 two patterns, each naming ONE secret, scoped to the hosted called workflow alone",
+      "negativeControl": "the fixture proves an unrelated undefined secret, and these two names at any other path, are still reported"
     }
   ],
   "confirmedOnCorrectionBranch": {
@@ -196,5 +203,47 @@
     "processingEvidence": "the vercel and claude app check suites were created for this commit; github-actions created none",
     "hostedPhasesDispatched": 0,
     "note": "The implementation commit itself, not only the diagnostic branch, is accepted by GitHub's workflow parser."
+  },
+  "f1Correction": {
+    "finding": "The C7 gate compared a workflow-SHA property on the `github` context that GitHub does not define. It resolved to the empty string, the comparison was written to skip on empty, and the gate therefore asserted nothing while printing that caller and callee agreed.",
+    "correctedContract": {
+      "github.workflow_sha": "the workflow in the github context; inside a reusable workflow it stays associated with the CALLER",
+      "job.workflow_sha": "the commit of the workflow file defining the current job",
+      "job.workflow_ref": "its full ref, <owner>/<repo>/<path>@<ref>",
+      "job.workflow_repository": "its repository",
+      "job.workflow_file_path": "its path"
+    },
+    "callerGate": [
+      "github.sha",
+      "github.workflow_sha",
+      "github.ref"
+    ],
+    "calledGate": [
+      "github.sha",
+      "github.workflow_sha",
+      "job.workflow_sha",
+      "github.ref",
+      "job.workflow_repository == github.repository",
+      "job.workflow_file_path == .github/workflows/rcap-hosted-acceptance-staging.yml",
+      "job.workflow_ref contains the repository and the workflow path and ends at the authorized execution ref"
+    ],
+    "everyComparisonUnconditional": true,
+    "emptyValueIsRefusalNotSkip": true,
+    "controlCheckoutBoundTo": "repository: job.workflow_repository, ref: job.workflow_sha",
+    "oidcIntroduced": false,
+    "idTokenWritePermissionAdded": false
+  },
+  "f1f5ParserConfirmation": {
+    "branch": "claude/rcap-workflow-parser-isolation-a2206642",
+    "sha": "42dbdc3b052afc5a3ebe94a64ccd796d80f83c72",
+    "content": "the two corrected workflow files and .github/actionlint.yaml, and nothing else",
+    "why": "This commit exercises the documented job-context workflow-identity properties (job.workflow_sha, job.workflow_ref, job.workflow_repository, job.workflow_file_path) for the first time, in both the execution-authority gates and the control checkout, which is the specific thing needing GitHub's verdict.",
+    "invalidWorkflowRuns": 0,
+    "githubActionsCheckSuites": 0,
+    "checkSuitesReportingParseFailure": 0,
+    "githubProcessedThePush": true,
+    "processingEvidence": "the vercel and claude app check suites were created at the push timestamp 2026-08-24T09:50:23Z; github-actions created none",
+    "hostedPhasesDispatched": 0,
+    "workflowDispatchesPerformed": 0
   }
 }

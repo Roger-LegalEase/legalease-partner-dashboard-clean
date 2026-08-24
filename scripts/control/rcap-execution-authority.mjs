@@ -65,40 +65,87 @@ export const AUTHORITY_VARIABLE_NAMES = Object.freeze([
 
 const FULL_SHA = /^[0-9a-f]{40}$/;
 
+export const HOSTED_WORKFLOW_FILE_PATH = ".github/workflows/rcap-hosted-acceptance-staging.yml";
+
 /**
- * C7. Decide whether this execution may proceed at all, before checkout, before
- * setup, before any secret is read and before any external request.
+ * C7 / F1. Decide whether this execution may proceed at all, before checkout,
+ * before setup, before any secret is read and before any external request.
  *
- * Fails closed: an unset expected value is not a pass, it is an unconfigured
- * control plane. `jobWorkflowSha` is github.job_workflow_sha — the commit the
- * called reusable workflow itself resolved from — so caller and callee are
- * proven to come from one execution authority rather than assumed to.
+ * DOCUMENTED CONTRACT ONLY. The earlier implementation compared a workflow-SHA
+ * property on the `github` context that GitHub does not define; it resolved to
+ * the empty string, the comparison skipped on empty, and the gate asserted
+ * nothing while reporting agreement. What GitHub actually documents:
+ *
+ *   github.workflow_sha      the workflow in the github context, which inside a
+ *                            reusable workflow stays associated with the CALLER
+ *   job.workflow_sha         the commit of the workflow file defining THIS job
+ *   job.workflow_ref         its full ref, `<owner>/<repo>/<path>@<ref>`
+ *   job.workflow_repository  its repository
+ *   job.workflow_file_path   its path
+ *
+ * Fails closed on every axis: an unset expected value, an empty observed value
+ * and a mismatched value are all refusals. `called: false` evaluates the caller
+ * gate, which has no `job.workflow_*` to compare.
  */
 export function evaluateExecutionAuthority({
   githubSha,
   githubRef,
+  githubWorkflowSha,
+  githubRepository = null,
   jobWorkflowSha = null,
+  jobWorkflowRef = null,
+  jobWorkflowRepository = null,
+  jobWorkflowFilePath = null,
   expectedSha,
-  expectedRef
+  expectedRef,
+  expectedWorkflowFilePath = HOSTED_WORKFLOW_FILE_PATH,
+  called = true
 }) {
   const reasons = [];
-  if (!expectedSha) reasons.push("RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not configured");
-  else if (!FULL_SHA.test(expectedSha)) reasons.push(`RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA: ${expectedSha}`);
-  if (!expectedRef) reasons.push("RCAP_AUTHORIZED_EXECUTION_REF is not configured");
-  if (!githubSha || !FULL_SHA.test(githubSha)) reasons.push(`github.sha is not a full commit SHA: ${githubSha ?? "<empty>"}`);
-  if (!githubRef) reasons.push("github.ref is empty");
+  const present = (label, value) => {
+    if (value === undefined || value === null || value === "") {
+      reasons.push(`${label} is missing or empty`);
+      return false;
+    }
+    return true;
+  };
+  const equal = (label, observed, expected, expectedLabel) => {
+    if (!present(label, observed)) return false;
+    if (!present(expectedLabel ?? `expected value for ${label}`, expected)) return false;
+    if (observed !== expected) {
+      reasons.push(`${label} is '${observed}'; expected '${expected}'`);
+      return false;
+    }
+    return true;
+  };
 
-  if (expectedSha && githubSha && expectedSha !== githubSha) {
-    reasons.push(`github.sha ${githubSha} is not the authorized infrastructure SHA ${expectedSha}`);
+  present("RCAP_AUTHORIZED_INFRASTRUCTURE_SHA", expectedSha);
+  present("RCAP_AUTHORIZED_EXECUTION_REF", expectedRef);
+  if (expectedSha && !FULL_SHA.test(expectedSha)) {
+    reasons.push(`RCAP_AUTHORIZED_INFRASTRUCTURE_SHA is not a full commit SHA: ${expectedSha}`);
   }
-  if (expectedRef && githubRef && expectedRef !== githubRef) {
-    reasons.push(`github.ref ${githubRef} is not the authorized execution ref ${expectedRef}`);
+
+  equal("github.sha", githubSha, expectedSha, "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA");
+  equal("github.workflow_sha", githubWorkflowSha, expectedSha, "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA");
+  equal("github.ref", githubRef, expectedRef, "RCAP_AUTHORIZED_EXECUTION_REF");
+
+  if (called) {
+    equal("job.workflow_sha", jobWorkflowSha, expectedSha, "RCAP_AUTHORIZED_INFRASTRUCTURE_SHA");
+    equal("job.workflow_repository", jobWorkflowRepository, githubRepository, "github.repository");
+    equal("job.workflow_file_path", jobWorkflowFilePath, expectedWorkflowFilePath, "the hosted workflow path");
+    if (present("job.workflow_ref", jobWorkflowRef)) {
+      if (githubRepository && !jobWorkflowRef.includes(githubRepository)) {
+        reasons.push(`job.workflow_ref '${jobWorkflowRef}' does not name repository '${githubRepository}'`);
+      }
+      if (!jobWorkflowRef.includes(expectedWorkflowFilePath)) {
+        reasons.push(`job.workflow_ref '${jobWorkflowRef}' does not name '${expectedWorkflowFilePath}'`);
+      }
+      if (expectedRef && !jobWorkflowRef.endsWith(`@${expectedRef}`)) {
+        reasons.push(`job.workflow_ref '${jobWorkflowRef}' does not end at the authorized execution ref '${expectedRef}'`);
+      }
+    }
   }
-  // A reusable workflow resolved from a different commit than its caller would
-  // mean two execution authorities in one run.
-  if (jobWorkflowSha && githubSha && jobWorkflowSha !== githubSha) {
-    reasons.push(`the called workflow resolved from ${jobWorkflowSha}, the caller from ${githubSha}`);
-  }
+
   return { ok: reasons.length === 0, code: reasons.length === 0 ? null : AUTHORITY_INVALID, reasons };
 }
 
