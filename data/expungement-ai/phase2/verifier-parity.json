@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "expai-phase2-verifier-parity/v1",
+  "note": "Every verify-* and test-* script in scripts/ matching the expungement and RCAP families, run at the product base and at this head. A failure present at the base is not this correction's.",
+  "productBase": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "totals": {
+    "run": 181,
+    "failingAtHead": 24,
+    "failingAtBase": 24
+  },
+  "newFailuresAtHead": [
+    "test-rcap-worker-digest-binding-mutations",
+    "verify-rcap-deployment-closure",
+    "verify-rcap-image-input-fingerprint",
+    "verify-rcap-worker-publication-workflow"
+  ],
+  "fixedByThisCorrection": [
+    "verify-expungement-consumer-payment-http",
+    "verify-public-profile-route",
+    "verify-rcap-evaluator-rule-driven-safety",
+    "verify-rcap-partner-access-codes"
+  ],
+  "failingAtBaseToo": [
+    "test-rcap-github-hosted-acceptance-mutations",
+    "test-rcap-partner-provisioning-journey",
+    "test-rcap-partner-provisioning-lifecycle",
+    "verify-expungement-commercial-browser",
+    "verify-expungement-frontend-all51",
+    "verify-expungement-homepage-v3-browser",
+    "verify-expungement-launch-polish",
+    "verify-expungement-stripe-test-readiness",
+    "verify-rcap-commercial-browser",
+    "verify-rcap-github-hosted-acceptance",
+    "verify-rcap-guidance-terminalization",
+    "verify-rcap-hosted-checkout-gate",
+    "verify-rcap-memo-promotion-safety",
+    "verify-rcap-no-generic-fallbacks",
+    "verify-rcap-partner-result-cta",
+    "verify-rcap-production-schema-upgrade",
+    "verify-rcap-sellable-pathway-closure",
+    "verify-rcap-wilma-intake",
+    "verify-rcap-worker-image-revision",
+    "verify-rcap-worker-tag-integrity"
+  ],
+  "newFailureDisposition": {
+    "verify-rcap-image-input-fingerprint": "The fingerprint pins src/ to the commit the published worker image was built from. Any change to src/ makes it stale by design. Clearing it means regenerating the fingerprint and republishing the worker image at a new freeze, which is worker publication and deployment. Both are outside this phase and require the owner.",
+    "verify-rcap-worker-publication-workflow": "Runs the fingerprint verifier. Same disposition.",
+    "verify-rcap-deployment-closure": "Asserts the application and worker image inputs are byte-identical to the accepted SHA. Same disposition.",
+    "test-rcap-worker-digest-binding-mutations": "Refuses to run because the committed record is not green to begin with, for the same reason. Same disposition."
+  }
+}

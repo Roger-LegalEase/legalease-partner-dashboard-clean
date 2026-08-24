@@ -1,6 +1,6 @@
 # Expungement.ai — Phase 2 implementation report
 
-Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `05bc9d24c501bb8f9681c4d150fe686c0d76b5ef`. Evaluator clock pinned to `2026-07-01`.
+Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `5909ca134da648c3a00df2b01cce812745ba7400`. Evaluator clock pinned to `2026-07-01`.
 
 ## What was implemented
 
@@ -87,7 +87,16 @@ Bounded UI reachability — can a participant reach packet-ready answering only 
 
 NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.
 
-31 of 625 recorded witness fixtures no longer reproduce their flow's terminal. Twelve are the corrected routes opening; eighteen return needs_more_info because the flow now asks for facts the fixture predates; one is the same staleness in Vermont. `data/rcap-ledger/` is not this correction's to regenerate.
+The witness ledger's own deterministic generators are re-run so its recorded answer sets describe this runtime; after that every fixture reproduces, and the comparison records 0 stale fixtures.
+
+Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: 181 scripts, 24 failing at the base and 24 here. Four are green here that were red at the base. Four are red here that were green at the base, and all four are the same thing:
+
+- `test-rcap-worker-digest-binding-mutations` — Refuses to run because the committed record is not green to begin with, for the same reason. Same disposition.
+- `verify-rcap-deployment-closure` — Asserts the application and worker image inputs are byte-identical to the accepted SHA. Same disposition.
+- `verify-rcap-image-input-fingerprint` — The fingerprint pins src/ to the commit the published worker image was built from. Any change to src/ makes it stale by design. Clearing it means regenerating the fingerprint and republishing the worker image at a new freeze, which is worker publication and deployment. Both are outside this phase and require the owner.
+- `verify-rcap-worker-publication-workflow` — Runs the fingerprint verifier. Same disposition.
+
+The published worker image was built from a specific commit and the fingerprint pins `src/` to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.
 
 ## Guards added
 

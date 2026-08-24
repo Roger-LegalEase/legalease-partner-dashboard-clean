@@ -41,6 +41,7 @@ const priorSelection = readJson("data/expungement-ai/phase2/prior-waiting-rule-s
 const bindingEvidence = readJson("data/expungement-ai/phase2/waiting-rule-binding-evidence.json");
 const remedyReplay = readJson("data/expungement-ai/phase2/remedy-context-replay-after.json");
 const postSweep = readJson("data/expungement-ai/phase2/post-implementation-comparison.json");
+const verifierParity = readJson("data/expungement-ai/phase2/verifier-parity.json");
 const sweepBefore = readJson("data/expungement-ai/phase2/canonical-fact-sweep-before.json");
 const sweepAfter = readJson("data/expungement-ai/phase2/canonical-fact-sweep-after.json");
 
@@ -128,13 +129,13 @@ const ALLOWED = [
     boundedBy: "West Virginia is held with its payment clamp preserved. paymentAllowed was false at the base and is false now, so nothing sellable changes. The route is in the counsel queue in waiting-rule-bindings.json#unresolvedPreserved."
   },
   {
-    id: "witness-fixtures-predate-the-shared-facts",
+    id: "witness-ledger-regenerated",
     issueId: "UX-GLOBAL-019",
     jurisdictions: ["*"],
     fields: [],
-    change: "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal",
-    why: "Twelve are the corrected routes moving from needs_review to packet_ready_with_caution. Eighteen (PA and UT) return needs_more_info because the flow now asks for shared facts the recorded fixture predates. One (VT) replays to needs_review while the flow's own convergence still reaches packet_ready_with_caution at this head, which is the same staleness. data/rcap-ledger/ is not this correction's to regenerate.",
-    boundedBy: "Recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json."
+    change: "the recorded witness answer sets, divergence diagnosis and fixtures are regenerated at this head",
+    why: "The flow now asks for shared facts the recorded fixtures predate, so 31 of 625 stopped reproducing their terminal: twelve were the corrected routes opening, eighteen returned needs_more_info because the fixture omits a question the flow now asks, and one was the same staleness in Vermont. These are deterministic generators whose --check is part of the repository's own test run, so they are re-run rather than left describing a runtime that no longer exists. No answer set is hand-edited.",
+    boundedBy: "After regeneration every fixture reproduces: verify-rcap-reachability-evidence passes with 284 of 284, and the post-implementation comparison records zero stale fixtures."
   },
   {
     id: "contact-information-loses-its-review-row",
@@ -443,7 +444,13 @@ const lines = [
   "",
   "NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.",
   "",
-  postSweep.staleWitnessFixtures.count + " of 625 recorded witness fixtures no longer reproduce their flow's terminal. Twelve are the corrected routes opening; eighteen return needs_more_info because the flow now asks for facts the fixture predates; one is the same staleness in Vermont. " + code("data/rcap-ledger/") + " is not this correction's to regenerate.",
+  "The witness ledger's own deterministic generators are re-run so its recorded answer sets describe this runtime; after that every fixture reproduces, and the comparison records " + postSweep.staleWitnessFixtures.count + " stale fixtures.",
+  "",
+  "Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: " + verifierParity.totals.run + " scripts, " + verifierParity.totals.failingAtBase + " failing at the base and " + verifierParity.totals.failingAtHead + " here. Four are green here that were red at the base. Four are red here that were green at the base, and all four are the same thing:",
+  "",
+  ...verifierParity.newFailuresAtHead.map((name) => "- " + code(name) + " — " + verifierParity.newFailureDisposition[name]),
+  "",
+  "The published worker image was built from a specific commit and the fingerprint pins " + code("src/") + " to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.",
   "",
   "## Guards added",
   "",

@@ -2,7 +2,7 @@
   "schemaVersion": "expai-phase2-correction-allowlist/v1",
   "generatedBy": "scripts/expungement-ai/phase2/build-phase2-record.mjs",
   "productBase": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
-  "head": "05bc9d24c501bb8f9681c4d150fe686c0d76b5ef",
+  "head": "5909ca134da648c3a00df2b01cce812745ba7400",
   "evaluatorToday": "2026-07-01",
   "contract": "One reviewed list. Every evaluator-output difference between the product base and this head must be covered by an entry here; anything else is a failure, not a finding.",
   "comparedFields": [
@@ -113,15 +113,15 @@
       "boundedBy": "West Virginia is held with its payment clamp preserved. paymentAllowed was false at the base and is false now, so nothing sellable changes. The route is in the counsel queue in waiting-rule-bindings.json#unresolvedPreserved."
     },
     {
-      "id": "witness-fixtures-predate-the-shared-facts",
+      "id": "witness-ledger-regenerated",
       "issueId": "UX-GLOBAL-019",
       "jurisdictions": [
         "*"
       ],
       "fields": [],
-      "change": "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal",
-      "why": "Twelve are the corrected routes moving from needs_review to packet_ready_with_caution. Eighteen (PA and UT) return needs_more_info because the flow now asks for shared facts the recorded fixture predates. One (VT) replays to needs_review while the flow's own convergence still reaches packet_ready_with_caution at this head, which is the same staleness. data/rcap-ledger/ is not this correction's to regenerate.",
-      "boundedBy": "Recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json."
+      "change": "the recorded witness answer sets, divergence diagnosis and fixtures are regenerated at this head",
+      "why": "The flow now asks for shared facts the recorded fixtures predate, so 31 of 625 stopped reproducing their terminal: twelve were the corrected routes opening, eighteen returned needs_more_info because the fixture omits a question the flow now asks, and one was the same staleness in Vermont. These are deterministic generators whose --check is part of the repository's own test run, so they are re-run rather than left describing a runtime that no longer exists. No answer set is hand-edited.",
+      "boundedBy": "After regeneration every fixture reproduces: verify-rcap-reachability-evidence passes with 284 of 284, and the post-implementation comparison records zero stale fixtures."
     },
     {
       "id": "contact-information-loses-its-review-row",
