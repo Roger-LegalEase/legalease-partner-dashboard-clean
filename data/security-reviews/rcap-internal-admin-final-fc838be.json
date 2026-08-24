@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-internal-admin-final-security-and-staging-acceptance/v1",
-  "recordedAt": "2026-08-24T18:28:59Z",
+  "recordedAt": "2026-08-24T18:52:07Z",
   "verdict": "CORRECTION_REQUIRED",
   "candidate": {
     "sha": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
@@ -145,6 +145,45 @@
       "largeFunctionUsed": "inferred_yes_same_635.89mb_uncompressed_function_accepted_after_opt_in",
       "measuredUncompressedFunctionSizeMb": 635.89
     },
+    "environmentRebind": {
+      "requestedBranch": "codex/rcap-internal-admin-release-evidence",
+      "requestedEnvironment": "preview",
+      "candidateHead": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
+      "candidateTree": "91ca2ba3b6e901980bf80b7e4c23aa6399de674c",
+      "requiredVariables": [
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "ENABLE_SUPABASE_PARTNER_DATA"
+      ],
+      "canonicalPartnerDataValue": "true",
+      "largeFunctionsPreserved": true,
+      "acceptanceProjectAccess": "success",
+      "acceptanceProjectRef": "hyflxnlhpmiqxvvcoiia",
+      "existingKeysRetrieved": [
+        "legacy_anon",
+        "legacy_service_role"
+      ],
+      "keysCreatedOrRotated": false,
+      "anonKeyValidation": "nonempty_role_anon_ref_match_auth_settings_200",
+      "serviceRoleKeyValidation": "nonempty_role_service_role_ref_match_auth_settings_200",
+      "secretOutputPrinted": false,
+      "temporarySecretFilesDeleted": true,
+      "branchSpecificVariablesBefore": [],
+      "branchSpecificVariablesAfter": [],
+      "publicPrefixSensitiveAttempt": "rejected_invalid_visibility",
+      "supportedConfigAttempt": "rejected_project_has_no_connected_git_repository",
+      "vercelMessage": "Project \"legalease-partner-dashboard-clean\" does not have a connected Git repository.",
+      "projectGitConnected": false,
+      "githubConnectionChanged": false,
+      "globalPreviewVariablesChanged": false,
+      "productionVariablesChanged": false,
+      "effectivePredeploymentRef": null,
+      "deploymentAttempted": false,
+      "newPreviewCreated": false,
+      "browserAcceptanceAttempted": false,
+      "result": "blocked_branch_specific_preview_variables_require_connected_git_repository"
+    },
     "deploymentInput": {
       "candidateTree": "91ca2ba3b6e901980bf80b7e4c23aa6399de674c",
       "archive": "tgz",
@@ -254,6 +293,7 @@
     "exactCandidatePreviewDeployment": "pass_ready_large_functions_preview_opt_in",
     "deployedRuntimeSupabaseIdentity": "fail_actual_wwtwtsmywnckfkdaqqeg_expected_hyflxnlhpmiqxvvcoiia",
     "deployedBrowserAndRequestAcceptance": "not_run_wrong_supabase_project_pre_authentication_stop",
+    "branchSpecificAcceptanceEnvironmentRebind": "blocked_vercel_project_has_no_connected_git_repository",
     "npmTest": "pass",
     "typecheck": "pass",
     "lint": "pass_0_errors_102_warnings",
@@ -280,13 +320,13 @@
     "clinicModeFoundation": false
   },
   "recovery": {
-    "classification": "EXISTING_FINAL_REVIEW_RECOVERED_LARGE_FUNCTION_PREVIEW_READY_WRONG_SUPABASE_PROJECT",
-    "reviewHeadRecovered": "d6363414f304da02a7e6580dbfca88b349e39c68",
+    "classification": "EXISTING_FINAL_REVIEW_RECOVERED_BRANCH_ENVIRONMENT_REBIND_BLOCKED_PROJECT_NOT_GIT_CONNECTED",
+    "reviewHeadRecovered": "0fd10c878fd4ff0ce68011211efd8cc913dedb53",
     "candidateWorktreeRecreated": true,
     "candidateImplementationChanged": false,
     "migrationReapplied": false,
     "workerEvidenceRegenerated": false,
     "releaseEvidenceRegenerated": false
   },
-  "exactBlocker": "The authorized Preview-only VERCEL_SUPPORT_LARGE_FUNCTIONS=1 setting allowed the single exact-candidate retry dpl_BuysudSvAMr8S2kGJznoj79cp5gi to become Ready. Before authentication, real Chromium loaded the deployed sign-in application and the same-origin client bundle exposed Supabase project ref wwtwtsmywnckfkdaqqeg, not the required acceptance ref hyflxnlhpmiqxvvcoiia. Per the pre-authentication identity gate, no credentials were submitted, no application mutation was attempted, and the identity, Sign Out, redirect, API, and mutation acceptance was stopped. The candidate tree remained 91ca2ba3b6e901980bf80b7e4c23aa6399de674c and clean; no implementation, RLS migration, worker evidence, application source, or Production byte was changed."
+  "exactBlocker": "The authorized acceptance project hyflxnlhpmiqxvvcoiia was accessible, its existing legacy anon and service_role keys were securely retrieved and validated against that exact ref, and all temporary secret files were deleted without printing values. Vercel refused creation of branch-specific Preview variables for codex/rcap-internal-admin-release-evidence because project legalease-partner-dashboard-clean has no connected Git repository. The exact platform message was: Project \"legalease-partner-dashboard-clean\" does not have a connected Git repository. The branch-specific variable set remained empty; global Preview and Production variables were unchanged; no deployment, authentication, browser test, application mutation, Git connection, repository-byte change, or Production action was performed."
 }

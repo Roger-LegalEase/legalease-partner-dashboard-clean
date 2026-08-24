@@ -2,7 +2,7 @@
 
 Verdict: `CORRECTION_REQUIRED`
 
-This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. The authorized Preview-only Large Functions opt-in allowed the single exact-candidate retry to become Ready. The mandatory pre-authentication runtime check then found that the deployed client is configured for Supabase project `wwtwtsmywnckfkdaqqeg`, not acceptance project `hyflxnlhpmiqxvvcoiia`, so authentication and application mutation were stopped.
+This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. The authorized Preview-only Large Functions opt-in allowed the exact candidate to become Ready, but its inherited Preview environment points to Supabase project `wwtwtsmywnckfkdaqqeg`. The requested branch-only acceptance-environment rebind could not be created because Vercel requires this project to have a connected Git repository before it will accept branch-specific Preview variables.
 
 ## Frozen input
 
@@ -186,8 +186,30 @@ Before authentication, real Chromium opened the deployed sign-in application usi
 
 Per the controlling pre-authentication stop rule, no credentials were submitted and no application mutation was attempted. The five identity journeys, browser Sign Out and switch-account controls, Origin/Referer controls, return-destination matrix, and direct deployed page/API/mutation checks were therefore not run against the wrong Supabase project. The candidate HEAD, tree, and clean tracked status remained unchanged after deployment and inspection; implementation, RLS migration, worker evidence, and application-source bytes moved are all zero.
 
+## Branch-specific acceptance-environment rebind
+
+The reviewer recovered clean review head `0fd10c878fd4ff0ce68011211efd8cc913dedb53` and the existing detached candidate worktree at exact HEAD `fc838be7871dc977e0a3e811b801d6c8ee7398e5` and tree `91ca2ba3b6e901980bf80b7e4c23aa6399de674c`. Vercel CLI remained authenticated as `roger947`, and the worktree remained linked to the existing `roger947s-projects/legalease-partner-dashboard-clean` project.
+
+Candidate source and acceptance configuration establish this exact environment contract:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ENABLE_SUPABASE_PARTNER_DATA=true`
+- inherited `VERCEL_SUPPORT_LARGE_FUNCTIONS=1`
+
+The authenticated Supabase CLI accessed project `hyflxnlhpmiqxvvcoiia` and retrieved its existing legacy `anon` and `service_role` keys directly to a mode-0600 temporary file. No key was created or rotated. JWT claims established roles `anon` and `service_role` and exact ref `hyflxnlhpmiqxvvcoiia`; both keys returned HTTP 200 from the expected project's non-mutating Auth settings endpoint. No key value was printed, and all temporary secret material and Supabase CLI working files were deleted.
+
+The branch-specific Preview inventory was empty before the write attempt. Vercel first refused legacy Sensitive visibility for a new `NEXT_PUBLIC_` entry under its current public-prefix policy. The supported Config form then reached the branch-target validation and failed with this exact platform response:
+
+> Project "legalease-partner-dashboard-clean" does not have a connected Git repository.
+
+No branch-specific variable was created. The post-attempt branch inventory remained empty, while all global Preview and Production variable timestamps remained unchanged and the global Preview Large Functions setting remained present. GitHub was not connected because this review did not have authority to expand the operational scope after Vercel exposed that prerequisite.
+
+The effective branch configuration therefore could not be established, and the required predeployment environment gate stopped the task. No new Preview was deployed, the incorrect Preview was not reused, and no authentication, browser control, direct request, or application mutation was attempted. Candidate HEAD, tree, and clean status remained unchanged; implementation, RLS migration, worker/release evidence, and application source bytes moved are zero.
+
 ## Final disposition
 
 `CORRECTION_REQUIRED`
 
-The candidate is not ready to merge because the Ready exact-candidate Preview points to Supabase project `wwtwtsmywnckfkdaqqeg`, not acceptance project `hyflxnlhpmiqxvvcoiia`. Runtime identity failed before authentication, so real-browser controls and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
+The candidate is not ready to merge because Vercel refused the required branch-specific acceptance-environment variables while the project has no connected Git repository. The inherited Ready Preview still points to `wwtwtsmywnckfkdaqqeg`; no correctly bound replacement Preview exists, so runtime identity, real-browser controls, and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
