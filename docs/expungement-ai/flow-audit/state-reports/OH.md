@@ -113,3 +113,70 @@ docs/expungement-ai/flow-audit/state-reports/OH.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+---
+
+# Phase 3 — SHARD-5 sign-off
+
+Built from `93e05e945a52cfa1cdd2ab590636290875a48f68` (the Phase 2 product head). Evaluator clock pinned to `2026-07-01`.
+Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-5.json`.
+
+## What changed for OH
+
+| File | Change |
+| --- | --- |
+| `src/lib/rcap/state-packs/ohio/county-court-directory.ts` | **New.** The controlled county and court dataset for Ohio: all 88 counties, 2 court options each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require. |
+| `src/lib/rcap/state-packs/ohio/index.ts` | Re-exports the new module. |
+| `src/lib/rcap-engine/compiled/profiles/OH-ohio.json` | **Unchanged**, deliberately. See below. |
+
+No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or `operationallySellable` value was changed. No question was deleted. No terminal moved.
+
+## Why the compiled profile is unchanged
+
+The county and court selector this issue asks for **was written for OH, measured, and reverted**. Two independent reasons, either sufficient:
+
+1. **It would have been invisible.** `buildProfileDraft` in `src/lib/rcap-engine/public-profile-projection.ts` builds the public profile from `src/lib/rcap-engine/compiled/all51.json`, not from the per-state compiled profile, whenever the jurisdiction is present there — and all 51 are. The audit's own manifest already records this: `runtimeConsumerQuestionAuthority` is `all51.json`; `runtimeEligibilityAuthority` is `compiled/profiles/*.json`. This shard owns the second and not the first. Measured: with the binding applied, re-projecting OH returned the unchanged question.
+2. **It would have failed this shard's own acceptance test.** `scripts/verify-expungement-plain-language-values.mjs` fails on a changed question type, option list, prompt, order or count unless the change is recorded in `data/expungement-ai/screening-parity-approved-deltas.json`, which is a prohibited path for this shard.
+
+The exact question objects are preserved in the shard result under `proposedCompiledProfileQuestions`, and the option lists are re-derivable from the state pack, so the integration captain can land them without re-deriving anything.
+
+## Reachability at this base
+
+| Measure | Phase 1 artifact | This base | Explanation |
+| --- | --- | --- | --- |
+| Rendered consumer screens | 11 | 15 | allowlist `shared-facts-rendered` |
+| Best terminal from rendered screens only | `packet_ready_with_caution / payment reachable` | `packet_ready_with_caution / payment reachable` | unchanged |
+
+Every difference is explained by `data/expungement-ai/phase2/correction-allowlist.json`. None is caused by this shard.
+
+## Waiting-rule dispositions
+
+7 of this shard's 41 fallback-dependent routes are OH's. Each resolves through the provisional prose selector kept in the evaluator, and each is dispositioned rather than bound: `waiting-rule-bindings.json` and `evaluator.ts` are prohibited paths, so a shard proposes and the integration captain binds.
+
+| Route | Disposition | Rule |
+| --- | --- | --- |
+| `adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-01, wait-02, wait-03, wait-04, wait-05, wait-06, wait-07, wait-08, wait-09, wait-14, wait-15, wait-16, wait-17, wait-18 |
+| `adult-non-conviction-sealing-or-expungement-under-2953-33` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-01, wait-03, wait-04, wait-08, wait-09, wait-20, wait-21, wait-22 |
+| `certain-firearm-carry-conviction-expungement-under-2953-35` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-01, wait-02, wait-05, wait-06, wait-07, wait-08, wait-12 |
+| `human-trafficking-survivor-conviction-expungement-under-2953-36` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-01, wait-02, wait-05, wait-06, wait-07, wait-08 |
+| `human-trafficking-survivor-non-conviction-expungement-under-2953-521` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-01, wait-02, wait-03, wait-04, wait-05, wait-06, wait-07, wait-08 |
+| `juvenile-sealing-and-expungement` | `HELD_FOR_CORRECTION` | candidates: wait-13, wait-22 |
+| `marijuana-hashish-possession-expungement-under-2953-321` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-08, wait-11, wait-12, wait-16, wait-17 |
+
+6 × `LEGAL_OWNER_DECISION_REQUIRED` · 1 × `HELD_FOR_CORRECTION` · **0 recommended active.**
+
+No duration in any proposal was written by this shard. Every one is quoted from the duration Ohio's own compiled profile already publishes, with its rule id.
+
+## Findings and open questions
+
+- **UX-LEGAL-001 is recorded, not implemented, as the shard prompt directs.** Selecting a state exclusion category, and choosing the shortest timing bucket, both still return packet-ready on `EXPAI-OH-258490318e` and `EXPAI-OH-8ad7543c27`. Whether Ohio's exclusion list and waiting rule are meant to bind the § 2953.33 non-conviction routes is a source-law decision (`OH-LEGAL-001`). No Ohio exclusion rule and no Ohio waiting rule was changed.
+- **One new observation for counsel.** The same shape now appears in Pennsylvania and Pennsylvania is not on UX-LEGAL-001's jurisdiction list. At this base PA's `_probe_state_exclusion_selected` row moved to `packet_ready_with_caution` and opened payment, as a consequence of the Phase 2 waiting-rule binding.
+- **Why all seven Ohio routes are `LEGAL_OWNER_DECISION_REQUIRED`.** Each carries between ten and nineteen waiting rules whose durations run from 6 months to 10 years, and the rule that governs is chosen by offence degree — minor misdemeanor, M1, F3, F4, F5. Ohio's rendered `offense_level` question offers only Misdemeanor / Felony / Infraction or violation / Traffic or driving matter / Municipal or ordinance matter, and `charge` is a postpay field. Nothing a participant can answer separates a minor misdemeanor from an M1, or an F3 from an F5.
+- **Ohio is the one state where a court selector would be a regression, so it was not built.** This repository names only the Court of Common Pleas and the juvenile court, while most Ohio misdemeanours are filed in a municipal or county court it does not name, and Ohio courts use their own local forms so the exact court name decides which packet is filed. A two-option selector would push most Ohio participants onto the fallback and drop the real court name out of the packet. The free-text field stays; the gap is recorded.
+
+## Court dataset
+
+- Counties: **88**, complete for Ohio, no duplicate. OH is not on UX-COUNTY-001's jurisdiction list — it asks `county_or_filing_location` ("Where in Ohio did the case happen?"), which is a location rather than a county, which is why the audit scoped the issue elsewhere. The dataset is shipped anyway because the packet binds a county.
+- Courts: **2**, not exhaustive by design. A court this repository does not name is absent rather than invented, which is why the manual-entry fallback is part of the contract and not a nicety.
+  - `Court of Common Pleas` — "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction." (`OH-ohio.json#sourceSections (§ 2953.32)`)
+  - `Juvenile Court` — "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person's 23rd birthday, wh…" (`OH-ohio.json#waitingPeriodRules wait-13`)

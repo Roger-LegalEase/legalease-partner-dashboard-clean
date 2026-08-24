@@ -102,3 +102,64 @@ docs/expungement-ai/flow-audit/state-reports/AR.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+---
+
+# Phase 3 — SHARD-5 sign-off
+
+Built from `93e05e945a52cfa1cdd2ab590636290875a48f68` (the Phase 2 product head). Evaluator clock pinned to `2026-07-01`.
+Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-5.json`.
+
+## What changed for AR
+
+| File | Change |
+| --- | --- |
+| `src/lib/rcap/state-packs/arkansas/county-court-directory.ts` | **New.** The controlled county and court dataset for Arkansas: all 75 counties, 2 court options each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require. |
+| `src/lib/rcap/state-packs/arkansas/index.ts` | Re-exports the new module. |
+| `src/lib/rcap-engine/compiled/profiles/AR-arkansas.json` | **Unchanged**, deliberately. See below. |
+
+No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or `operationallySellable` value was changed. No question was deleted. No terminal moved.
+
+## Why the compiled profile is unchanged
+
+The county and court selector this issue asks for **was written for AR, measured, and reverted**. Two independent reasons, either sufficient:
+
+1. **It would have been invisible.** `buildProfileDraft` in `src/lib/rcap-engine/public-profile-projection.ts` builds the public profile from `src/lib/rcap-engine/compiled/all51.json`, not from the per-state compiled profile, whenever the jurisdiction is present there — and all 51 are. The audit's own manifest already records this: `runtimeConsumerQuestionAuthority` is `all51.json`; `runtimeEligibilityAuthority` is `compiled/profiles/*.json`. This shard owns the second and not the first. Measured: with the binding applied, re-projecting AR returned the unchanged question.
+2. **It would have failed this shard's own acceptance test.** `scripts/verify-expungement-plain-language-values.mjs` fails on a changed question type, option list, prompt, order or count unless the change is recorded in `data/expungement-ai/screening-parity-approved-deltas.json`, which is a prohibited path for this shard.
+
+The exact question objects are preserved in the shard result under `proposedCompiledProfileQuestions`, and the option lists are re-derivable from the state pack, so the integration captain can land them without re-deriving anything.
+
+## Reachability at this base
+
+| Measure | Phase 1 artifact | This base | Explanation |
+| --- | --- | --- | --- |
+| Rendered consumer screens | 11 | 14 | allowlist `shared-facts-rendered` |
+| Best terminal from rendered screens only | `packet_ready_with_caution / payment reachable` | `packet_ready_with_caution / payment reachable` | unchanged |
+
+Every difference is explained by `data/expungement-ai/phase2/correction-allowlist.json`. None is caused by this shard.
+
+## Waiting-rule dispositions
+
+3 of this shard's 41 fallback-dependent routes are AR's. Each resolves through the provisional prose selector kept in the evaluator, and each is dispositioned rather than bound: `waiting-rule-bindings.json` and `evaluator.ts` are prohibited paths, so a shard proposes and the integration captain binds.
+
+| Route | Disposition | Rule |
+| --- | --- | --- |
+| `situation-a-non-convictions` | `EXPLICIT_BINDING_PROPOSED` | wait-01 |
+| `situation-b-misdemeanor-convictions` | `LEGAL_OWNER_DECISION_REQUIRED` | candidates: wait-05, wait-06, wait-14 |
+| `situation-c-felony-convictions` | `HELD_FOR_CORRECTION` | candidates: wait-02, wait-07 |
+
+1 × `EXPLICIT_BINDING_PROPOSED` · 1 × `LEGAL_OWNER_DECISION_REQUIRED` · 1 × `HELD_FOR_CORRECTION` · **0 recommended active.**
+
+No duration in any proposal was written by this shard. Every one is quoted from the duration Arkansas's own compiled profile already publishes, with its rule id.
+
+## Findings and open questions
+
+- **A defect this shard found and did not fix.** Ordered decision rule `rule-45-and-2021-amendments-the-agent-must-confirm-the-current-` is a truncated source sentence compiled into a participant-facing rule. Its `when.fieldsReferenced` and `when.caseOutcomes` are both empty, so it fires for every participant on `situation-c-felony-convictions` and returns `needs_more_info` with `return_to_exact_missing_questions` while `missingQuestionIds` is empty — a return to a screen with nothing on it. Its condition text is an instruction to a human agent ("The agent must confirm the current § 16-90-1405 list…"). Removing it opens a currently-closed Arkansas route, which moves an evaluator output and needs a reviewed entry in the shared correction allowlist, so it is proposed rather than applied (`AR-DEFECT-001`, allowlist entry `ar-situation-c-agent-note-not-a-participant-rule`).
+- `situation-a-non-convictions` is one of only eight routes in this shard where a single published rule governs unconditionally. `wait-01` ("generally carry no waiting period") is proposed, corroborated by `wait-14`'s own table row: "Acquittal / nolle prosequi / dismissal / arrest — None".
+
+## Court dataset
+
+- Counties: **75**, complete for Arkansas, no duplicate. AR is not on UX-COUNTY-001's jurisdiction list — it asks `county_or_filing_location` ("Where in Arkansas did the case happen?"), which is a location rather than a county, which is why the audit scoped the issue elsewhere. The dataset is shipped anyway because the packet binds a county.
+- Courts: **2**, not exhaustive by design. A court this repository does not name is absent rather than invented, which is why the manual-entry fallback is part of the contract and not a nicety.
+  - `Circuit Court` — "File in the circuit or district court that handled the case." (`AR-arkansas.json#packetGenerator.filingDestinationRules`)
+  - `District Court` — "File in the circuit or district court that handled the case." (`AR-arkansas.json#packetGenerator.filingDestinationRules`)

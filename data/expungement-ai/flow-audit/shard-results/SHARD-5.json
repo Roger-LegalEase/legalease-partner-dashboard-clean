@@ -1,0 +1,2017 @@
+{
+  "schemaVersion": "expai-phase3-shard-result/v1",
+  "shardId": "SHARD-5",
+  "generatedBy": "Phase 3 state shard 5",
+  "phase2ProductHead": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "baseSha": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "headSha": "SET_AT_COMMIT",
+  "evaluatorToday": "2026-07-01",
+  "jurisdictions": [
+    "AR",
+    "CO",
+    "GA",
+    "KS",
+    "OH",
+    "PA",
+    "UT",
+    "WV"
+  ],
+  "contract": "One state sign-off packet per jurisdiction: what changed, what deliberately did not, which legal questions remain open, and the before-and-after terminal for every flow whose outcome moved. Proposals in this file are evidence, not changes.",
+  "headline": {
+    "compiledProfilesChanged": 0,
+    "statePackFilesAdded": 8,
+    "statePackFilesModified": 8,
+    "flowsChanged": 0,
+    "questionsChanged": 0,
+    "terminalsMoved": 0,
+    "evaluatorOutputDifferences": 0,
+    "fallbackRoutesAssigned": 41,
+    "fallbackRoutesDispositioned": 41,
+    "fallbackRoutesRecommendedActive": 0,
+    "sharedPathsTouched": 0,
+    "unassignedJurisdictionsTouched": 0,
+    "heldJurisdictionsTouched": 0
+  },
+  "step1ManifestReconciliation": {
+    "question": "Re-run the audit's generators with --check at this base and reconcile every difference against data/expungement-ai/phase2/correction-allowlist.json before treating it as a defect.",
+    "verdict": "Every difference is explained by the allowlist. No unexplained difference, so no finding to stop on.",
+    "detail": [
+      "build-flow-manifest, build-question-inventory, build-branch-coverage and build-ui-reachability all report the committed Phase 1 artifact stale at this base, and verify-flow-audit fails FA-17 and FA-21 for the same reason. All five already fail at the unmodified base commit, before any change of this shard's, so they are inherited, not caused.",
+      "Regenerating and diffing: of this shard's 95 flow rows, 93 differ only in screeningScreenIds length - AR 11 to 14, CO 8 to 13, GA 12 to 16, KS 7 to 11, OH 11 to 15, PA 6 to 12, UT 6 to 12, WV 13 to 17. That is allowlist entry 'shared-facts-rendered' exactly, and no terminalOutcome, packetFamily, forms, paymentMode or launchGovernance value moves with it on any retained row.",
+      "The only rows that are not simple diffs are Pennsylvania's, and they are allowlist entry 'waiting-rule-recovery-packet-ready': _probe_inside_waiting_period moved needs_review to not_yet, and _probe_state_exclusion_selected moved needs_review to packet_ready_with_caution and now appears twice, once dtc_paid and once partner_sponsored_no_charge, because payment opened. PA's flow-row count is therefore 96 at this base against the 95 the shard scope names.",
+      "Bounded reachability for this shard's eight: GA not_yet to packet_ready_with_caution and PA needs_more_info to packet_ready_with_caution, both now reaching payment, which is allowlist entry 'ui-reachability-recovered'. WV packet_ready_with_caution to not_yet, which is allowlist entry 'wv-waiting-rule-now-reached' - WV's payment was already closed at the base and is closed now, so nothing sellable moved. AR, CO, OH unchanged and still reaching packet-ready and payment. KS and UT unchanged and still not reaching either."
+    ]
+  },
+  "step2Reachability": {
+    "alreadyReopenedByPhase2NotReInvestigated": {
+      "GA": "Confirmed. Replaying data/expungement-ai/phase2/remedy-context-replay-after.json at this base reproduces every one of its 13 rows byte-for-byte, 0 differences. Georgia's SB 288 misdemeanor-conviction restriction and sealing route returns packet_ready_with_caution with paymentAllowed true on the same participant the Phase 1B reconciliation used. Re-running the audit's own bounded reachability sweep at this base finds Georgia reaching packet-ready and payment from rendered screens only, where the Phase 1 artifact recorded not_yet and false.",
+      "PA": "Confirmed. Path A - Non-conviction expungement returns packet_ready_with_caution with paymentAllowed true on the same participant, and the bounded reachability sweep finds Pennsylvania reaching packet-ready and payment from rendered screens only, where the Phase 1 artifact recorded needs_more_info and false.",
+      "proof": "node scripts/expungement-ai/phase2/replay-remedy-contexts.mjs at this base reproduces all 13 rows of data/expungement-ai/phase2/remedy-context-replay-after.json with 0 differences."
+    },
+    "stillThisShards": {
+      "KS": "Neither branch of the step-2 question is true for Kansas. See openLegalQuestions KS-LEGAL-002. It is the waiting rule, and Kansas is held on exactly that.",
+      "UT": "Split. Paths D, E and I are the waiting rule (UT-LEGAL-001). Paths F, J, K, L and M are the second branch - a product claim about whether the route is available to a self-help participant - and are escalated, not answered (UT-LEGAL-002). Paths A, B and C are automatic routes returning guidance_only, which is correct.",
+      "lifecycleClassificationCorrectionsMade": 0,
+      "whyNone": "A lifecycle correction in either state would move a terminal in a jurisdiction recorded HELD_FOR_LEGAL_DECISION, and the hold says preserve current behaviour exactly and record what you find instead of resolving it. Both terminals are unchanged: KS needs_review to needs_review, UT guidance_only to guidance_only, payment false to false in both."
+    }
+  },
+  "step3ReleaseCriticalIssues": {
+    "UX-COUNTY-001": {
+      "severity": "P1",
+      "releaseCritical": true,
+      "assignedJurisdictions": [
+        "GA",
+        "KS",
+        "PA",
+        "WV"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED_REMAINDER_BLOCKED_ON_SHARED_PATHS",
+      "done": "The controlled county dataset exists for all four assigned jurisdictions, and for the other four of this shard's eight as well: GA 159, KS 105, PA 67, WV 55, plus AR 75, CO 64, OH 88, UT 29. Each list is complete for its state, carries no duplicate, and is shipped with the two clearly-labelled fallbacks the issue asks for.",
+      "notDone": "The dataset is not bound to a rendered selector. See sharedBlocker.",
+      "note": "AR, CO and OH ask county_or_filing_location ('Where in <state> did the case happen?'), which is a location and not a county, which is why the audit scoped this issue to the four states that ask a county question. Their datasets are shipped anyway because the packet binds a county and the data is the same work.",
+      "classification": "SHARED_PHASE2_BLOCKER"
+    },
+    "UX-COURT-001": {
+      "severity": "P1",
+      "releaseCritical": true,
+      "assignedJurisdictions": [
+        "AR",
+        "CO",
+        "GA",
+        "KS",
+        "OH",
+        "PA",
+        "UT",
+        "WV"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED_REMAINDER_BLOCKED_ON_SHARED_PATHS",
+      "done": "A controlled court dataset exists for all eight, every option carrying the verbatim quote from this repository that supports it and the file that holds it. No court name is invented: a court this repository does not name is absent by design, which is why the manual-entry fallback is part of the contract.",
+      "notDone": "The dataset is not bound to a rendered selector. See sharedBlocker.",
+      "residual": "Ohio must keep free text even after the shared blocker is cleared, until its municipal and county courts are in the dataset. Colorado, Kansas and West Virginia each have a single-entry dataset. See CO-DATA-001.",
+      "classification": "SHARED_PHASE2_BLOCKER"
+    },
+    "UX-STATELAW-001": {
+      "severity": "P1",
+      "releaseCritical": true,
+      "assignedJurisdictions": [
+        "GA",
+        "KS",
+        "PA",
+        "UT"
+      ],
+      "legalReviewRequired": true,
+      "status": "RECORDED_NOT_IMPLEMENTED_AS_INSTRUCTED",
+      "detail": "GA and PA confirmed reopened at this base. KS and UT recorded as open legal questions KS-LEGAL-001, KS-LEGAL-002, UT-LEGAL-001 and UT-LEGAL-002. No rule changed."
+    },
+    "UX-LEGAL-001": {
+      "severity": "P1",
+      "releaseCritical": true,
+      "assignedJurisdictions": [
+        "OH"
+      ],
+      "legalReviewRequired": true,
+      "status": "RECORDED_NOT_IMPLEMENTED_AS_INSTRUCTED",
+      "detail": "Recorded as OH-LEGAL-001, with a new observation that Pennsylvania now shows the same shape and is not on the issue's jurisdiction list."
+    },
+    "UX-CONTENT-001": {
+      "severity": "P3",
+      "releaseCritical": false,
+      "assignedJurisdictions": [
+        "AR",
+        "CO",
+        "GA",
+        "KS",
+        "OH",
+        "PA",
+        "UT",
+        "WV"
+      ],
+      "status": "RECORDED_LEFT_ALONE_THIS_PHASE",
+      "detail": "Not release-critical, so recorded and left alone as the shard prompt directs. The five ids reach the browser inside the public profile's postPaymentPacketCompletion groups but are in no pathway's requiredInputIds, so PacketInformationBuilder never renders them. record_documents is the clearest case: its only named consumer anywhere in src is the drop-point nudge email's question-to-copy mapping. Note for whoever picks it up: the fix is a change to the same all51.json in sharedBlocker, so it is not a state-shard change either."
+    },
+    "UX-STATECFG-001": {
+      "severity": "P2",
+      "releaseCritical": false,
+      "assignedJurisdictions": [],
+      "status": "NOT_ASSIGNED_TO_THIS_SHARD_ONE_FINDING_RECORDED",
+      "detail": "None of this shard's eight are on the issue's jurisdiction list (CA, DC, HI, IN, NY, WI). One Arkansas finding of the same class is recorded as AR-DEFECT-001."
+    }
+  },
+  "step4GlobalIssues": {
+    "implemented": 0,
+    "statement": "No issue whose category begins GLOBAL_ was implemented, and none was started. Everything found that belongs to that family is added to the record below rather than acted on.",
+    "additionsToTheP2P3Backlog": [
+      {
+        "issueId": "UX-COUNTY-001 / UX-COURT-001",
+        "addition": "Both are recorded in data/expungement-ai/phase2/p2-p3-backlog.json as 'State-specific: needs a controlled county dataset per state' and the court equivalent. That reason is now only half the story. The dataset was the missing half that a state shard could supply, and it is supplied. The other half - binding a question - is not reachable from any state-shard path, for the two independent reasons in sharedBlocker. The backlog entry should say so, or the next six shards will each rediscover it."
+      },
+      {
+        "issueId": "UX-GLOBAL-015",
+        "addition": "Recorded in the backlog as 'a compiler-side change to all 51 profiles'. Confirmed from this shard's angle: the compiler-side artifact is src/lib/rcap-engine/compiled/all51.json, the same file as sharedBlocker, so UX-GLOBAL-015, UX-CONTENT-001, UX-COUNTY-001 and UX-COURT-001 all land on one file and could be landed in one reviewed pass."
+      }
+    ]
+  },
+  "waitingRuleDispositions": {
+    "AR:situation-a-non-convictions": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-01"
+      ],
+      "corroboratingRuleRefs": [
+        "wait-03",
+        "wait-13",
+        "wait-14"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 0,
+        "unit": "days",
+        "raw": "immediate/upon event"
+      },
+      "quote": "These are the most accessible filings and generally carry no waiting period.",
+      "corroboratingQuote": "Disposition / offense Waiting period Measured from Acquittal / nolle prosequi / dismissal / arrest None",
+      "why": "This is the only waiting rule the Arkansas pathway itself names, and its text is byte-identical to profile rule wait-01. The § 16-90-1409/1410 non-conviction route has no competing rule: wait-14's own table row for 'Acquittal / nolle prosequi / dismissal / arrest' reads 'None', and wait-03 and wait-13 both state that most Arkansas sealing has no waiting period after the 2019/2021 amendments. No duration is authored here; the value is the one the profile already publishes.",
+      "recommendedActive": false
+    },
+    "AR:situation-b-misdemeanor-convictions": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-05",
+        "wait-06",
+        "wait-14"
+      ],
+      "why": "The pathway publishes no waitingRules of its own, and three profile rules compete for the same participant with different durations: wait-14 states 'None' for 'Most misdemeanor convictions and violations', wait-05 states 5 years for 'Certain listed misdemeanors (e.g., negligent homicide, 3rd-degree battery, indecent exposure, public sexual indecency, 4th-degree sexual assault, certain domestic offenses)', and wait-06 states 10 years for a DWI/BWI misdemeanor conviction. Nothing on a rendered Arkansas screen identifies which band a participant is in: offense_level offers only Misdemeanor / Felony / Infraction or violation / Traffic or driving matter / I am not sure, and the one exclusion option that names DUI/DWI routes the participant to likely_not_eligible rather than to a waiting rule. Picking among 0 years, 5 years and 10 years from the offence name would be authoring legal content.",
+      "recommendedActive": false
+    },
+    "AR:situation-c-felony-convictions": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "candidateRuleRefs": [
+        "wait-02",
+        "wait-07"
+      ],
+      "why": "A binding is not yet meaningful on this route because the route does not reach the timing gate. Ordered decision rule 'rule-45-and-2021-amendments-the-agent-must-confirm-the-current-' (priority 40, stage timing_and_completion, candidatePathwayIds ['situation-c-felony-convictions']) has an empty when.fieldsReferenced and an empty when.caseOutcomes, so it fires for every participant on this route and returns needs_more_info with frontendAction 'return_to_exact_missing_questions' while missingQuestionIds is empty. Its sourceConditionText is a truncated sentence fragment from the source waiting-periods section ('and 2021 amendments. The agent must confirm the current § 16-90-1405 list and the § 5-4-501(d)(2) violence'), i.e. an instruction to a human agent compiled into a participant-facing decision rule. Correcting it changes an Arkansas evaluator output and so needs a reviewed allowlist entry, which is shared. Separately, the waiting rule itself is not settled: wait-02 states most eligible felonies have no general waiting period while wait-07 states 5 years for a 'Violent Class C / D felony (where otherwise eligible)', and this route's own scope says 'mainly non-violent', so both are live and no rendered field separates them.",
+      "recommendedActive": false
+    },
+    "KS:conviction-or-diversion-216614": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02"
+      ],
+      "why": "Kansas is HELD_FOR_LEGAL_DECISION and this route is why. Its own waiting rule, profile rule wait-01, publishes duration null: 'The form provides offense-dependent one-, three-, five-, or ten-year periods after diversion completion, sentence satisfaction, or discharge from supervision.' The profile states that the period depends on the offence but never states which offence takes which period, so there is no duration in the repository to bind to. wait-02 is a two-year conviction-free condition, not the route's filing wait. Measured at this base with a fully clear record: every one of the eight timing-bucket values, including gt_10_years, returns not_yet with ks.timing_or_completion_blocker, which is the ambiguity being reported rather than a waiting period being applied.",
+      "recommendedActive": false
+    },
+    "KS:specialty-court-accelerated": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-03"
+      ],
+      "why": "Kansas is HELD_FOR_LEGAL_DECISION. wait-03 reads 'The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years' — the three years is the period the conviction would ordinarily wait, and this route exists to be reached sooner than that. Binding wait-03 to it would impose the very wait the route accelerates past. The repository does not state what the accelerated period is, so no rule can be bound without authoring one. Measured at this base: not_yet with ks.timing_or_completion_blocker at every timing-bucket value.",
+      "recommendedActive": false
+    },
+    "KS:drug-registration-relief-coordination": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "Kansas is HELD_FOR_LEGAL_DECISION. This pathway publishes no waitingRules at all and no profile rule names it, so there is nothing to bind. It is automatic true / filingRequired false with suggestedResultCode guidance_only, and it returns guidance_only with ks.guidance_only_no_user_filed_court_petition at every timing-bucket value, which is correct for a route the participant does not file. Absence of a published rule is not the same as a published 'no waiting period' rule, so no_waiting_period may not be inferred here.",
+      "recommendedActive": false
+    },
+    "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08",
+        "wait-09",
+        "wait-14",
+        "wait-15",
+        "wait-16",
+        "wait-17",
+        "wait-18"
+      ],
+      "why": "This route carries nineteen waiting rules whose durations run from 6 months to 10 years, and the rule that governs is chosen by offence degree: wait-05 'minor misdemeanor 6 months', wait-02 'F4, F5, or misdemeanor 1 year', wait-01 '1 or 2 F3 convictions 3 years', wait-08 'felony 10 years after the date the person first becomes eligible to apply for sealing for that felony', wait-03 '2921.43 soliciting improper compensation 7 years'. Ohio's rendered offense_level question offers only Misdemeanor / Felony / Infraction or violation / Traffic or driving matter / Municipal or ordinance matter — it cannot separate a minor misdemeanor from an M1, or an F3 from an F5, and the charge field is postpay. Choosing 6 months over 1 year, or 1 year over 3 or 10, from the answers a participant can actually give would be authoring legal content.",
+      "recommendedActive": false
+    },
+    "OH:adult-non-conviction-sealing-or-expungement-under-2953-33": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-03",
+        "wait-04",
+        "wait-08",
+        "wait-09",
+        "wait-20",
+        "wait-21",
+        "wait-22"
+      ],
+      "why": "Same degree-dependent ambiguity as § 2953.32, with an added conflict of kind: the route is the non-conviction route, yet the rules attached to it are conviction-sealing waits (wait-01 F3 3 years, wait-08 felony 10 years) alongside wait-20, the only genuinely non-conviction rule, which states 'Grand jury no bill 2 years after no-bill report'. Whether a two-year no-bill wait governs an acquittal or a dismissal, and whether any wait binds a non-conviction route at all, is the open question UX-LEGAL-001 records for Ohio. It is a source-law decision, not a configuration one.",
+      "recommendedActive": false
+    },
+    "OH:certain-firearm-carry-conviction-expungement-under-2953-35": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08",
+        "wait-12"
+      ],
+      "why": "No profile rule names § 2953.35. The route carries the general § 2953.32 degree table plus wait-12, which is the § 2953.39 prosecutor-initiated rule and publishes duration null ('The prosecutor can file after the corresponding 2953.32 waiting period expires'). So the repository points this route back at the § 2953.32 table, which is itself unresolved for the reasons above.",
+      "recommendedActive": false
+    },
+    "OH:human-trafficking-survivor-conviction-expungement-under-2953-36": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08"
+      ],
+      "why": "No profile rule names § 2953.36. The route inherits the general degree table, and whether a survivor-vacatur route carries the ordinary conviction-sealing wait at all is precisely the kind of question the repository does not answer. Trafficking-survivor relief is commonly available without the ordinary wait, but the repository does not say so for Ohio, and saying it here would be authoring legal content.",
+      "recommendedActive": false
+    },
+    "OH:human-trafficking-survivor-non-conviction-expungement-under-2953-521": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02",
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-08"
+      ],
+      "why": "No profile rule names § 2953.521, and the route carries the conviction-sealing degree table even though it is a non-conviction route. Both the kind conflict and the degree ambiguity are open.",
+      "recommendedActive": false
+    },
+    "OH:juvenile-sealing-and-expungement": {
+      "disposition": "HELD_FOR_CORRECTION",
+      "candidateRuleRefs": [
+        "wait-13",
+        "wait-22"
+      ],
+      "why": "A binding is not yet meaningful because the route never reaches the timing gate: at this base it returns guidance_only with oh.guidance_only_no_user_filed_court_petition at every timing-bucket value, so no waiting rule is consulted. The classification that produces that is isCourtFiledPetitionRoute in src/lib/rcap-engine/evaluator.ts, a prohibited shared path for this shard, while Ohio's own filing instructions describe a juvenile-court filing under §§ 2151.356 / 2151.358. Correct the classification first, then bind. The waiting rule is closer to settled here than anywhere else in Ohio — wait-13 and wait-22 agree on 'five years after the sealing order or upon the person's 23rd birthday, whichever comes earlier' — but that rule is itself two-branch on age, and it presumes a prior juvenile sealing that this route may or may not have, so it needs the legal owner once the route is reachable.",
+      "recommendedActive": false
+    },
+    "OH:marijuana-hashish-possession-expungement-under-2953-321": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-08",
+        "wait-11",
+        "wait-12",
+        "wait-16",
+        "wait-17"
+      ],
+      "why": "The only rule attached to this route that names § 2953.321 is wait-11, and its content is a hearing-and-fee rule, not a filing wait: 'The hearing must be held 45-90 days after filing; the prosecutor may object ... The filing fee is $50 unless the applicant is indigent.' Binding a 90-day post-filing hearing window as this route's pre-filing waiting period would misstate the rule. Everything else attached is the § 2953.32 degree table. Unresolved.",
+      "recommendedActive": false
+    },
+    "PA:path-b-complete-acquittal-not-guilty-expungement": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-01"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "the date of acquittal if the statutory requirements are met",
+      "quote": "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute does not apply to partial acquittals.",
+      "why": "wait-01 is the only Pennsylvania rule about acquittal, and this is the only Pennsylvania route about acquittal; the rule's own scope sentence ('acquitted of all charges based on the same conduct or criminal episode', 'does not apply to partial acquittals') is the route's entry condition restated. It governs unconditionally within the route. The same rule is already the first ruleRef of the authored PA:path-a-non-conviction-expungement binding, so this proposal is consistent with what the integration captain has already reviewed for Pennsylvania.",
+      "recommendedActive": false
+    },
+    "PA:path-c-summary-conviction-expungement": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-02"
+      ],
+      "corroboratingRuleRefs": [
+        "wait-03",
+        "wait-14"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 5,
+        "unit": "years",
+        "raw": "five years"
+      },
+      "quote": "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses.",
+      "corroboratingQuote": "Summary conviction expungement 5 years free of arrest/prosecution",
+      "why": "Every rule in the Pennsylvania profile that speaks to a summary conviction states the same five years: wait-02 as the operative statement, wait-03 as the agent check ('Check whether five years have passed since the summary conviction'), and wait-14 as the summary table row. There is no competing duration for this route, so the binding is unconditional and no duration is authored.",
+      "recommendedActive": false
+    },
+    "PA:path-d-ard-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "No Pennsylvania waiting rule names ARD. The route carries the profile's full seventeen-rule list in default order with no route-specific prefix, which is the compiler's signal that nothing route-specific was found. Whether ARD expungement carries a wait at all, and whether it is measured from ARD completion or from dismissal, is not in the repository.",
+      "recommendedActive": false
+    },
+    "PA:path-e-age-70-expungement": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-06"
+      ],
+      "corroboratingRuleRefs": [
+        "wait-16"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "final release from supervision or confinement?",
+      "quote": "Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervision or confinement?",
+      "corroboratingQuote": "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release",
+      "why": "wait-06 and wait-16 both publish 10 years from final release for this route, and no other Pennsylvania rule speaks to it. DEFECT RECORDED WITH THIS PROPOSAL: the third rule in the same group, wait-05, carries duration {value: 70, unit: 'years'} because the compiler read the age threshold ('the person is 70 years of age or older') as a duration. A binding that resolved by longest_bound_duration across wait-05 and wait-06 would therefore impose a seventy-year waiting period. That is why this proposal names wait-06 explicitly and excludes wait-05, and why wait-05's structured duration should be corrected or nulled before any Pennsylvania binding uses a longest-duration disambiguation over this route.",
+      "recommendedActive": false
+    },
+    "PA:path-f-deceased-person-expungement": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-07"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 3,
+        "unit": "years",
+        "raw": "three years"
+      },
+      "quote": "Pennsylvania permits expungement when the person has been dead for three years.",
+      "why": "wait-07 is the only Pennsylvania rule about a deceased person and this is the only Pennsylvania route about a deceased person. One rule, one duration, one anchor, no competing candidate.",
+      "recommendedActive": false
+    },
+    "PA:path-g-underage-drinking-conviction-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "No Pennsylvania waiting rule names underage drinking, § 6308, or attainment of age 21. The route carries the full list in default order with no route-specific prefix. Nothing to bind.",
+      "recommendedActive": false
+    },
+    "PA:path-h-pardon-based-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-13"
+      ],
+      "why": "The only place 'pardon-based' appears in the Pennsylvania waiting rules is wait-13, which is not a rule but a bucket enumeration: '[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]'. Its structured duration is {0 days, immediate/upon event}, which is an artefact of the compiler taking the first bucket in the list, not a statement that pardon-based expungement is immediate. Binding it would convert a list of buckets into a legal conclusion.",
+      "recommendedActive": false
+    },
+    "PA:path-i-petition-for-limited-access": {
+      "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+      "proposedResolution": "rules_conditional",
+      "selectingFieldId": "offense_level",
+      "conditions": [
+        {
+          "answerValue": "Misdemeanor",
+          "ruleRefs": [
+            "wait-08"
+          ],
+          "corroboratingRuleRefs": [
+            "wait-10"
+          ],
+          "durationAsTheProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchor": "conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "quote": "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "corroboratingQuote": "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution"
+        },
+        {
+          "answerValue": "Felony",
+          "ruleRefs": [
+            "wait-09"
+          ],
+          "corroboratingRuleRefs": [
+            "wait-11"
+          ],
+          "durationAsTheProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchor": "conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "quote": "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
+          "corroboratingQuote": "Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payment of restitution"
+        }
+      ],
+      "unresolvedAnswerValues": [
+        "Traffic or driving matter",
+        "I am not sure"
+      ],
+      "why": "offense_level is a rendered Pennsylvania screen the participant already answers, and the two rules the compiler prefixed to this route split on exactly that axis: wait-08 for a qualifying misdemeanor or ungraded offence, wait-09 for a qualifying felony. wait-10 and wait-11 restate the same split with the same conviction-free counts, so all four candidates agree. Both durations are the ones the profile already publishes. NOT COMPLETE: 'Traffic or driving matter' and 'I am not sure' select no rule. Neither may be defaulted to the misdemeanor branch — a summary traffic offence is a different remedy in Pennsylvania, and 'I am not sure' is the absence of a fact, which the evaluator's existing missing-fact path should continue to handle. Those two values are for the legal owner.",
+      "recommendedActive": false
+    },
+    "PA:path-j-clean-slate-automatic-limited-access": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-04",
+        "wait-15"
+      ],
+      "why": "The only Clean Slate rules the Pennsylvania profile publishes are about summary convictions: wait-04 'Clean Slate may also automatically seal some summary convictions after five years' and wait-15 'Clean Slate summary sealing 5 years after judgment + restitution'. This route is not limited to summary convictions, and the profile publishes no Clean Slate period for the misdemeanor band it also covers. Binding the summary five years to the whole route would understate the wait for part of it, which is the shape of error the release rule exists to prevent.",
+      "recommendedActive": false
+    },
+    "PA:path-k-human-trafficking-vacatur-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "No Pennsylvania waiting rule names trafficking, vacatur, or § 9122.4. Nothing to bind.",
+      "recommendedActive": false
+    },
+    "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-01"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "the court's order of acquittal or dismissal",
+      "quote": "Timing: the petition may be filed no sooner than 60 days after the court's order of acquittal or dismissal. (\"https://code.wvlegislature.gov/61-11-25/\")",
+      "why": "wait-01 is the § 61-11-25 timing rule and this is the § 61-11-25 route; the rule states one period, from one named anchor, with its statutory citation. West Virginia's own filing instructions restate it: 'file a civil petition in the circuit court where the charges were filed, no sooner than 60 days after the acquittal/dismissal order'. wait-02 (pretrial diversion agreements 'generally may not exceed 24 months') and wait-03 (deferred adjudication 'can last up to three years for a felony and up to two years for a misdemeanor') are the lengths of the programmes, not waits before filing, and the filing instructions confirm the diversion route still files on the dismissal order. Nothing is authored: the duration and the anchor are the profile's own.",
+      "recommendedActive": false
+    },
+    "WV:eligible-conviction-expungement-under-w-va-code-61-11-26": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-12",
+        "wait-13",
+        "wait-14"
+      ],
+      "why": "The profile states the source plainly — 'These waiting periods are directly set by 61-11-26(b)' — and publishes all three: wait-12 'Single misdemeanor 1 year', wait-13 'Multiple misdemeanors 2 years', wait-14 'Nonviolent felony 5 years'. The rule that governs turns on whether the participant has one misdemeanor or more than one, and no rendered West Virginia screen asks that: offense_level offers only Misdemeanor / Felony / Infraction or violation / Traffic or driving matter / I am not sure, and criminal_history is a postpay packet field. A conditional binding on offense_level would resolve 'Felony' to wait-14 but would have to guess between 1 and 2 years for every misdemeanor participant, so it is not proposed. Adding a rendered single-versus-multiple conviction-count question would make this bindable, and that is a shared-flow change, not a shard change.",
+      "recommendedActive": false
+    },
+    "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-05",
+        "wait-06",
+        "wait-07"
+      ],
+      "why": "The § 61-11-26a table has the same three-way shape and the same missing selector: wait-05 'Single misdemeanor After sentence/supervision completion and 90 days of approved treatment/recovery compliance or job-readiness completion', wait-06 'Multiple misdemeanors 1 year', wait-07 'Eligible nonviolent felony 3 years'. Single versus multiple is not asked, so the misdemeanor branch cannot be resolved without guessing between 90 days and 1 year.",
+      "recommendedActive": false
+    },
+    "WV:first-offense-drug-possession-conditional-discharge-relief": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-11",
+        "wait-15",
+        "wait-16"
+      ],
+      "why": "West Virginia's filing instructions describe a six-month waiting-period calculation for the § 60A-4-407 conditional-discharge route, and the pathway carries a clause reading '4 Six-month waiting-period calculation.' — but no West Virginia waitingPeriodRules entry publishes a six-month structured duration. The three rules that could carry it (wait-11, wait-15, wait-16) all have duration null; wait-16's entire ruleText is the string 'not_eligible_yet_waiting_period'. Writing six months into a binding would be authoring the duration, because the profile does not publish it. The right fix is to compile the six-month rule into this jurisdiction's waitingPeriodRules with its source quote, and then bind it.",
+      "recommendedActive": false
+    },
+    "WV:juvenile-record-relief": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-10"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "the juvenile's 18th birthday, or one year after personal or juvenile jurisdiction ends, whichever is later",
+      "quote": "West Virginia juvenile proceeding records are generally not public records. One year after the juvenile's 18th birthday, or one year after personal or juvenile jurisdiction ends, whichever is later, juvenile records may be kept in a separate secure confidential place and may not be inspected except by circuit court order. (\"https://code.wvlegislature.gov/49-5-104/\")",
+      "why": "wait-10 is the only West Virginia rule about juvenile records and this is the only West Virginia juvenile route; the rule carries one duration, one named anchor and its statutory citation. This is the route the Phase 2 allowlist entry 'wv-waiting-rule-now-reached' names as reporting that it cannot execute its waiting rule now that disposition_date is asked, so this proposal is the direct answer to that recorded gap. The 'whichever is later' clause is a max over two anchors of the same one-year duration, not a choice between two durations, so the binding stays unconditional.",
+      "recommendedActive": false
+    },
+    "WV:pardon-based-expungement": {
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "proposedResolution": "rules",
+      "ruleRefs": [
+        "wait-09"
+      ],
+      "durationAsTheProfileStatesIt": {
+        "value": 1,
+        "unit": "years",
+        "raw": "one year"
+      },
+      "anchor": "being pardoned and five years after discharge of the sentence for the pardoned conviction",
+      "quote": "A person is not eligible until one year after being pardoned and five years after discharge of the sentence for the pardoned conviction. Pardon-based expungement is not available for first-degree murder, treason, kidnapping, or felony sex offenses under Article 8B. (\"https://code.wvlegislature.gov/5-1-16A/\")",
+      "why": "wait-09 is the only West Virginia rule about a pardon and this is the only West Virginia pardon route. It is a single published rule with a single structured duration and its citation. Note for the reviewer: the rule is conjunctive — one year after the pardon AND five years after discharge — and the profile's structured duration captures only the one-year limb, with the five-year limb inside the anchor string. The binding is still unconditional because there is one rule and no competing candidate, but the evaluator will apply the shorter limb unless the five-year limb is also compiled as structured data. That is a compilation gap in the profile, recorded here rather than papered over.",
+      "recommendedActive": false
+    },
+    "WV:sex-trafficking-victim-vacatur-and-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "No West Virginia waiting rule names § 61-14-9, trafficking, or vacatur. The pathway's rule list is the profile's whole list in default order with no route-specific prefix. Nothing to bind.",
+      "recommendedActive": false
+    },
+    "UT:path-a-automatic-clean-slate-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-20",
+        "wait-21"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION: 'The waiting rule for these routes cannot be settled from repository content. Choosing one would author legal content, so none is authored and none is guessed.' This shard preserves that and records rather than resolves. On its own terms the route is also unresolved: Clean Slate periods are published per offence class (wait-06/wait-20 'Class C misdemeanor or infraction 5 years', wait-07/wait-21 'Class A misdemeanor controlled-substance possession 7 years'), and Utah's rendered offense_level cannot express a Utah offence class.",
+      "recommendedActive": false
+    },
+    "UT:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02",
+        "wait-04",
+        "wait-18",
+        "wait-19"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. The route's own rule wait-04 publishes two different periods for the two outcomes it covers — 60 days after acquittal, 180 days after a qualifying dismissal with prejudice — and case_outcome does distinguish those two answers, so a conditional binding is arguably within reach. It is deliberately not proposed: the hold says none is authored and none is guessed, and wait-02's carve-out 'unless dismissed after plea in abeyance' is a third branch that no rendered Utah screen can express. Recorded for the legal owner as the Utah route closest to bindable.",
+      "recommendedActive": false
+    },
+    "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-20",
+        "wait-21"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. Offence-class-dependent Clean Slate periods with no rendered selector, plus the plea-in-abeyance carve-out that wait-02 and wait-19 both exclude from the automatic route.",
+      "recommendedActive": false
+    },
+    "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-08",
+        "wait-09",
+        "wait-22",
+        "wait-23",
+        "wait-24",
+        "wait-25",
+        "wait-26",
+        "wait-27",
+        "wait-28"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. The two rules the compiler prefixed to this route are process rules, not filing waits: wait-08 'File the petition in the correct Utah court within 180 days of certificate issuance' and wait-09, the BCI response time. The actual periods are the petition table (wait-22 Class C/infraction 3 years, wait-23 Class B 4 years, wait-24 Class A 5 years, wait-25 felony drug possession 5 years, wait-26 felony generally 7 years, wait-27 misdemeanor DUI 10 years) and it is selected by Utah offence class, which no rendered screen supplies. Measured at this base: not_yet with ut.timing_or_completion_blocker at every timing-bucket value.",
+      "recommendedActive": false
+    },
+    "UT:path-e-petition-based-non-conviction-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-10"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. The route's own rule wait-10 publishes duration {30 days} but its ruleText is a description of who may petition ('If the person was arrested or charged but not convicted, Utah may allow petition-based expungement of records of arrest, investigation, and detention'), and the 30 days sits in an anchor string that is a truncated list of statutory outcomes rather than a period measured from a named event. Binding a 30-day wait off that text would be reading a duration the rule does not state. Measured at this base: not_yet with ut.timing_or_completion_blocker at every timing-bucket value.",
+      "recommendedActive": false
+    },
+    "UT:path-f-petition-based-conviction-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-22",
+        "wait-23",
+        "wait-24",
+        "wait-25",
+        "wait-26",
+        "wait-27"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. The petition table is offence-class-selected with six competing durations from 3 to 10 years and no rendered selector. Recorded alongside it: this route is typed court_filing but returns guidance_only with ut.guidance_only_no_user_filed_court_petition at every timing-bucket value, so it never reaches the timing gate at all. Both the classification and the rule are for the legal owner; neither is this shard's to move while Utah is held.",
+      "recommendedActive": false
+    },
+    "UT:path-i-traffic-offense-expungement-or-deletion": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [
+        "wait-15",
+        "wait-16",
+        "wait-34",
+        "wait-35"
+      ],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. Four rules and four different periods for one route: wait-16 '3 years after adjudication or dismissal for Class C misdemeanor/infraction traffic cases and 4 years for Class B', wait-34 'Traffic petition No BCI certificate; 3 or 4 years depending level', wait-35 'Traffic automatic deletion 5 or 6 years depending level', wait-15 5 years. The route covers both the petition and the automatic-deletion remedy, which have different periods, and the level split is not askable on a rendered screen. Measured at this base: not_yet with ut.timing_or_completion_blocker at every timing-bucket value.",
+      "recommendedActive": false
+    },
+    "UT:path-j-cannabis-possession-petition-without-a-bci-certificate": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. No Utah waiting rule names cannabis or the medical-cannabis petition; the route carries the profile's whole list in default order with no route-specific prefix. It also returns guidance_only with ut.guidance_only_no_user_filed_court_petition at every timing-bucket value despite being typed court_filing.",
+      "recommendedActive": false
+    },
+    "UT:path-k-pardon-based-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. No Utah waiting rule names a pardon or the Board of Pardons and Parole waiting period. Nothing to bind, and the route returns guidance_only with ut.guidance_only_no_user_filed_court_petition at every timing-bucket value.",
+      "recommendedActive": false
+    },
+    "UT:path-l-vacatur-human-trafficking-related-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. No Utah waiting rule names § 77-40a-402, vacatur or trafficking. Utah's own filing instructions route this matter to an attorney or survivor legal services, which is consistent with the guidance_only terminal it returns.",
+      "recommendedActive": false
+    },
+    "UT:path-m-juvenile-expungement": {
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "candidateRuleRefs": [],
+      "why": "Utah is HELD_FOR_LEGAL_DECISION. No Utah waiting rule names juvenile expungement or § 80-6-1002; the juvenile material in the profile is about which court and which BCI report, not about a period. Nothing to bind, and the route returns guidance_only with ut.guidance_only_no_user_filed_court_petition at every timing-bucket value.",
+      "recommendedActive": false
+    }
+  },
+  "waitingRuleDispositionSummary": {
+    "assigned": 41,
+    "dispositioned": 41,
+    "EXPLICIT_BINDING_PROPOSED": 8,
+    "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 1,
+    "LEGAL_OWNER_DECISION_REQUIRED": 30,
+    "HELD_FOR_CORRECTION": 2,
+    "recommendedActive": 0,
+    "contract": "A proposal is evidence, not a change. src/lib/rcap-engine/waiting-rule-bindings.json and src/lib/rcap-engine/evaluator.ts are prohibited to this shard and neither was touched. No duration in this file was written by this shard: every one is quoted from the duration the jurisdiction's own compiled profile already publishes, with its rule id.",
+    "method": "A route earns EXPLICIT_BINDING_PROPOSED only when one published rule governs it with no competing candidate inside the route's own scope. Where the governing rule turns on a fact a rendered screen already collects, and the answer values are nameable, it earns EXPLICIT_CONDITIONAL_BINDING_PROPOSED, with any answer value that selects no rule listed as unresolved rather than defaulted. Everything else is LEGAL_OWNER_DECISION_REQUIRED, which the release rule makes the correct answer over a guess. HELD_FOR_CORRECTION is used only where the route does not reach the timing gate at all, so a binding could not take effect if it were made."
+  },
+  "defectsFoundInWaitingRuleData": [
+    {
+      "id": "WAIT-DATA-001",
+      "jurisdiction": "PA",
+      "ruleId": "wait-05",
+      "severity": "would impose a seventy-year waiting period",
+      "detail": "PA wait-05 carries duration {value: 70, unit: 'years'}. Its ruleText is 'Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision.' The compiler read the age threshold as a duration. The actual period is 10 years and is published correctly by wait-06 and wait-16.",
+      "consequence": "Any binding over the age-70 route that disambiguates by longest_bound_duration - which is the disambiguation the eleven authored bindings in waiting-rule-bindings.json use - would select 70 years. The authored PA:path-a-non-conviction-expungement binding does not list wait-05 in its ruleRefs, so it is not affected today.",
+      "recommendation": "Correct or null wait-05's structured duration before any Pennsylvania binding uses longest_bound_duration over path-e."
+    },
+    {
+      "id": "WAIT-DATA-002",
+      "jurisdiction": "PA",
+      "ruleId": "wait-13",
+      "severity": "a bucket list compiled as a rule with a zero duration",
+      "detail": "PA wait-13's entire ruleText is '[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]' and it carries duration {value: 0, unit: 'days', raw: 'immediate/upon event'} because the compiler took the first bucket. It is an enumeration of the buckets a reviewer picks from, not a rule.",
+      "consequence": "A shortest-duration or first-match disambiguation over any Pennsylvania route would read it as 'no waiting period'.",
+      "recommendation": "Exclude wait-13 from every Pennsylvania binding, or drop it from waitingPeriodRules."
+    },
+    {
+      "id": "WAIT-DATA-003",
+      "jurisdiction": "WV",
+      "ruleId": "wait-09",
+      "severity": "a conjunctive rule with only one limb compiled",
+      "detail": "WV wait-09 states two conditions - one year after the pardon and five years after discharge of the sentence - but publishes duration {1 year}, with the five-year limb surviving only inside the anchor string. An evaluator reading the structured duration applies the shorter limb.",
+      "consequence": "The proposed WV:pardon-based-expungement binding is still correct as the only pardon rule, but it will under-apply the wait until the second limb is compiled.",
+      "recommendation": "Compile the five-year limb as structured data before the binding goes active."
+    },
+    {
+      "id": "WAIT-DATA-004",
+      "jurisdiction": "WV",
+      "ruleIds": [
+        "wait-11",
+        "wait-15",
+        "wait-16"
+      ],
+      "severity": "three rules with no rule in them",
+      "detail": "WV wait-11's ruleText is 'Conviction category Waiting period' (a table header), wait-15's is 'These waiting periods are directly set by 61-11-26(b). (' (a truncated citation), and wait-16's is the bare string 'not_eligible_yet_waiting_period' (a reason code). All three have duration null.",
+      "consequence": "The § 60A-4-407 six-month period that West Virginia's own filing instructions describe has no compiled home, which is why WV:first-offense-drug-possession-conditional-discharge-relief cannot be bound.",
+      "recommendation": "Compile the six-month rule with its source quote and drop the three non-rules."
+    },
+    {
+      "id": "WAIT-DATA-005",
+      "jurisdiction": "AR",
+      "ruleId": "rule-45-and-2021-amendments-the-agent-must-confirm-the-current-",
+      "severity": "an instruction to a human agent compiled into a participant-facing decision rule",
+      "detail": "See AR-DEFECT-001. Priority 40, stage timing_and_completion, empty when.fieldsReferenced and empty when.caseOutcomes, so it fires unconditionally on situation-c-felony-convictions and returns needs_more_info with frontendAction 'return_to_exact_missing_questions' while missingQuestionIds is empty.",
+      "consequence": "Arkansas's felony route cannot reach a terminal decision, and the participant is returned to a screen with nothing on it to answer.",
+      "recommendation": "Remove it or convert it to an internal review flag, with the correction allowlist entry proposed below."
+    }
+  ],
+  "proposedCorrectionAllowlistEntries": [
+    {
+      "proposedId": "ar-situation-c-agent-note-not-a-participant-rule",
+      "issueId": "UX-STATECFG-001",
+      "jurisdictions": [
+        "AR"
+      ],
+      "fields": [
+        "resultCode"
+      ],
+      "change": "needs_more_info with ar.compiled_rule_match.rule-45-... becomes whatever the route's remaining ordered rules decide, once the agent-note rule stops firing",
+      "why": "The rule is a truncated source sentence with an empty condition set, so it fires for every participant on the route and returns them to an empty set of missing questions. It states no legal test and references no field.",
+      "boundedBy": "Not applied by this shard. Applying it moves an Arkansas evaluator output and Arkansas situation-c has no explicit waiting-rule binding, so the release rule forbids recommending it active either way. Proposed for the integration captain with AR-DEFECT-001.",
+      "status": "PROPOSED_NOT_APPLIED"
+    },
+    {
+      "proposedId": "shard-5-county-and-court-selectors",
+      "issueId": "UX-COUNTY-001 / UX-COURT-001",
+      "jurisdictions": [
+        "AR",
+        "CO",
+        "GA",
+        "KS",
+        "OH",
+        "PA",
+        "UT",
+        "WV"
+      ],
+      "fields": [
+        "renderedQuestionIds",
+        "questionType",
+        "questionOptions"
+      ],
+      "change": "county and court become state-aware single_choice questions sourced from the state pack's controlled dataset, each with a clearly-labelled manual-entry fallback",
+      "why": "The issues' own expected outcome. No eligibility rule reads either question - both are stage case_details, which the evaluator's isPrepayQuestion and the answer normalizer both exclude - so no decision field moves. Measured: with the binding applied to all eight compiled profiles at this base, capture-evaluator-baseline reports 0 differences across resultCode, pathwayId, paymentAllowed, packetFamily, formSet and decisionGraph for all 51.",
+      "boundedBy": "Not applied by this shard. It needs the parity delta in data/expungement-ai/screening-parity-approved-deltas.json and the all51.json edit, both prohibited paths. See sharedBlocker.",
+      "status": "PROPOSED_NOT_APPLIED"
+    }
+  ],
+  "proposedCompiledProfileQuestions": {
+    "contract": "The exact question objects this shard wrote, measured and reverted. They are reproduced here so the integration captain can apply them to src/lib/rcap-engine/compiled/all51.json and to the eight compiled profiles without re-deriving them. Option lists are re-derivable from the state packs.",
+    "questions": {
+      "AR": {
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Arkansas court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Circuit Court",
+            "District Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/arkansas/county-court-directory.ts",
+          "helperText": "These are the Arkansas courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents."
+        }
+      },
+      "CO": {
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Colorado court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "District Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/colorado/county-court-directory.ts",
+          "helperText": "These are the Colorado courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents."
+        }
+      },
+      "GA": {
+        "county": {
+          "id": "county",
+          "stage": "case_details",
+          "prompt": "Which county (or local area) handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Appling",
+            "Atkinson",
+            "Bacon",
+            "Baker",
+            "Baldwin",
+            "Banks",
+            "Barrow",
+            "Bartow",
+            "Ben Hill",
+            "Berrien",
+            "Bibb",
+            "Bleckley",
+            "Brantley",
+            "Brooks",
+            "Bryan",
+            "Bulloch",
+            "Burke",
+            "Butts",
+            "Calhoun",
+            "Camden",
+            "Candler",
+            "Carroll",
+            "Catoosa",
+            "Charlton",
+            "Chatham",
+            "Chattahoochee",
+            "Chattooga",
+            "Cherokee",
+            "Clarke",
+            "Clay",
+            "Clayton",
+            "Clinch",
+            "Cobb",
+            "Coffee",
+            "Colquitt",
+            "Columbia",
+            "Cook",
+            "Coweta",
+            "Crawford",
+            "Crisp",
+            "Dade",
+            "Dawson",
+            "Decatur",
+            "DeKalb",
+            "Dodge",
+            "Dooly",
+            "Dougherty",
+            "Douglas",
+            "Early",
+            "Echols",
+            "Effingham",
+            "Elbert",
+            "Emanuel",
+            "Evans",
+            "Fannin",
+            "Fayette",
+            "Floyd",
+            "Forsyth",
+            "Franklin",
+            "Fulton",
+            "Gilmer",
+            "Glascock",
+            "Glynn",
+            "Gordon",
+            "Grady",
+            "Greene",
+            "Gwinnett",
+            "Habersham",
+            "Hall",
+            "Hancock",
+            "Haralson",
+            "Harris",
+            "Hart",
+            "Heard",
+            "Henry",
+            "Houston",
+            "Irwin",
+            "Jackson",
+            "Jasper",
+            "Jeff Davis",
+            "Jefferson",
+            "Jenkins",
+            "Johnson",
+            "Jones",
+            "Lamar",
+            "Lanier",
+            "Laurens",
+            "Lee",
+            "Liberty",
+            "Lincoln",
+            "Long",
+            "Lowndes",
+            "Lumpkin",
+            "Macon",
+            "Madison",
+            "Marion",
+            "McDuffie",
+            "McIntosh",
+            "Meriwether",
+            "Miller",
+            "Mitchell",
+            "Monroe",
+            "Montgomery",
+            "Morgan",
+            "Murray",
+            "Muscogee",
+            "Newton",
+            "Oconee",
+            "Oglethorpe",
+            "Paulding",
+            "Peach",
+            "Pickens",
+            "Pierce",
+            "Pike",
+            "Polk",
+            "Pulaski",
+            "Putnam",
+            "Quitman",
+            "Rabun",
+            "Randolph",
+            "Richmond",
+            "Rockdale",
+            "Schley",
+            "Screven",
+            "Seminole",
+            "Spalding",
+            "Stephens",
+            "Stewart",
+            "Sumter",
+            "Talbot",
+            "Taliaferro",
+            "Tattnall",
+            "Taylor",
+            "Telfair",
+            "Terrell",
+            "Thomas",
+            "Tift",
+            "Toombs",
+            "Towns",
+            "Treutlen",
+            "Troup",
+            "Turner",
+            "Twiggs",
+            "Union",
+            "Upson",
+            "Walker",
+            "Walton",
+            "Ware",
+            "Warren",
+            "Washington",
+            "Wayne",
+            "Webster",
+            "Wheeler",
+            "White",
+            "Whitfield",
+            "Wilcox",
+            "Wilkes",
+            "Wilkinson",
+            "Worth",
+            "I am not sure which county handled the case",
+            "My county is not listed - I will provide it with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_county_directory:src/lib/rcap/state-packs/georgia/county-court-directory.ts",
+          "helperText": "Pick the Georgia county whose court handled the case. All 159 counties are listed. If you are not sure, or the case was handled somewhere that is not on this list, choose the last option and we will confirm it with your documents."
+        },
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Georgia court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Superior Court",
+            "State Court",
+            "Arresting agency or prosecutor's office (non-conviction restriction — not a court filing)",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/georgia/county-court-directory.ts",
+          "helperText": "These are the Georgia courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents."
+        }
+      },
+      "KS": {
+        "county": {
+          "id": "county",
+          "stage": "case_details",
+          "prompt": "Which county (or local area) handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Allen",
+            "Anderson",
+            "Atchison",
+            "Barber",
+            "Barton",
+            "Bourbon",
+            "Brown",
+            "Butler",
+            "Chase",
+            "Chautauqua",
+            "Cherokee",
+            "Cheyenne",
+            "Clark",
+            "Clay",
+            "Cloud",
+            "Coffey",
+            "Comanche",
+            "Cowley",
+            "Crawford",
+            "Decatur",
+            "Dickinson",
+            "Doniphan",
+            "Douglas",
+            "Edwards",
+            "Elk",
+            "Ellis",
+            "Ellsworth",
+            "Finney",
+            "Ford",
+            "Franklin",
+            "Geary",
+            "Gove",
+            "Graham",
+            "Grant",
+            "Gray",
+            "Greeley",
+            "Greenwood",
+            "Hamilton",
+            "Harper",
+            "Harvey",
+            "Haskell",
+            "Hodgeman",
+            "Jackson",
+            "Jefferson",
+            "Jewell",
+            "Johnson",
+            "Kearny",
+            "Kingman",
+            "Kiowa",
+            "Labette",
+            "Lane",
+            "Leavenworth",
+            "Lincoln",
+            "Linn",
+            "Logan",
+            "Lyon",
+            "Marion",
+            "Marshall",
+            "McPherson",
+            "Meade",
+            "Miami",
+            "Mitchell",
+            "Montgomery",
+            "Morris",
+            "Morton",
+            "Nemaha",
+            "Neosho",
+            "Ness",
+            "Norton",
+            "Osage",
+            "Osborne",
+            "Ottawa",
+            "Pawnee",
+            "Phillips",
+            "Pottawatomie",
+            "Pratt",
+            "Rawlins",
+            "Reno",
+            "Republic",
+            "Rice",
+            "Riley",
+            "Rooks",
+            "Rush",
+            "Russell",
+            "Saline",
+            "Scott",
+            "Sedgwick",
+            "Seward",
+            "Shawnee",
+            "Sheridan",
+            "Sherman",
+            "Smith",
+            "Stafford",
+            "Stanton",
+            "Stevens",
+            "Sumner",
+            "Thomas",
+            "Trego",
+            "Wabaunsee",
+            "Wallace",
+            "Washington",
+            "Wichita",
+            "Wilson",
+            "Woodson",
+            "Wyandotte",
+            "I am not sure which county handled the case",
+            "My county is not listed - I will provide it with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_county_directory:src/lib/rcap/state-packs/kansas/county-court-directory.ts",
+          "helperText": "Pick the Kansas county whose court handled the case. All 105 counties are listed. If you are not sure, or the case was handled somewhere that is not on this list, choose the last option and we will confirm it with your documents."
+        },
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Kansas court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "District Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/kansas/county-court-directory.ts",
+          "helperText": "These are the Kansas courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents."
+        }
+      },
+      "OH": {
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Ohio court handled the case?",
+          "type": "text",
+          "options": null,
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/ohio/county-court-directory.ts (free text retained; see UX-COURT-001 residual)",
+          "helperText": "Type the court exactly as it appears on your paperwork - for example \"Court of Common Pleas of ___ County\" or the municipal or county court that heard the charge. Ohio courts use their own local forms, so the exact court name decides which packet you file."
+        }
+      },
+      "PA": {
+        "county": {
+          "id": "county",
+          "stage": "case_details",
+          "prompt": "Which Pennsylvania county handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Adams",
+            "Allegheny",
+            "Armstrong",
+            "Beaver",
+            "Bedford",
+            "Berks",
+            "Blair",
+            "Bradford",
+            "Bucks",
+            "Butler",
+            "Cambria",
+            "Cameron",
+            "Carbon",
+            "Centre",
+            "Chester",
+            "Clarion",
+            "Clearfield",
+            "Clinton",
+            "Columbia",
+            "Crawford",
+            "Cumberland",
+            "Dauphin",
+            "Delaware",
+            "Elk",
+            "Erie",
+            "Fayette",
+            "Forest",
+            "Franklin",
+            "Fulton",
+            "Greene",
+            "Huntingdon",
+            "Indiana",
+            "Jefferson",
+            "Juniata",
+            "Lackawanna",
+            "Lancaster",
+            "Lawrence",
+            "Lebanon",
+            "Lehigh",
+            "Luzerne",
+            "Lycoming",
+            "McKean",
+            "Mercer",
+            "Mifflin",
+            "Monroe",
+            "Montgomery",
+            "Montour",
+            "Northampton",
+            "Northumberland",
+            "Perry",
+            "Philadelphia",
+            "Pike",
+            "Potter",
+            "Schuylkill",
+            "Snyder",
+            "Somerset",
+            "Sullivan",
+            "Susquehanna",
+            "Tioga",
+            "Union",
+            "Venango",
+            "Warren",
+            "Washington",
+            "Wayne",
+            "Westmoreland",
+            "Wyoming",
+            "York",
+            "I am not sure which county handled the case",
+            "My county is not listed - I will provide it with my documents"
+          ],
+          "required": true,
+          "helperText": "Pick the Pennsylvania county whose court handled the case. All 67 counties are listed. If you are not sure, or the case was handled somewhere that is not on this list, choose the last option and we will confirm it with your documents.",
+          "source": "state_controlled_county_directory:src/lib/rcap/state-packs/pennsylvania/county-court-directory.ts"
+        },
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Pennsylvania court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Court of Common Pleas",
+            "Magisterial District Court",
+            "Philadelphia Municipal Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "helperText": "These are the Pennsylvania courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents.",
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/pennsylvania/county-court-directory.ts"
+        }
+      },
+      "UT": {
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which Utah court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "District Court",
+            "Juvenile Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "helperText": "These are the Utah courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents.",
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/utah/county-court-directory.ts"
+        }
+      },
+      "WV": {
+        "county": {
+          "id": "county",
+          "stage": "case_details",
+          "prompt": "Which county (or local area) handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Barbour",
+            "Berkeley",
+            "Boone",
+            "Braxton",
+            "Brooke",
+            "Cabell",
+            "Calhoun",
+            "Clay",
+            "Doddridge",
+            "Fayette",
+            "Gilmer",
+            "Grant",
+            "Greenbrier",
+            "Hampshire",
+            "Hancock",
+            "Hardy",
+            "Harrison",
+            "Jackson",
+            "Jefferson",
+            "Kanawha",
+            "Lewis",
+            "Lincoln",
+            "Logan",
+            "Marion",
+            "Marshall",
+            "Mason",
+            "McDowell",
+            "Mercer",
+            "Mineral",
+            "Mingo",
+            "Monongalia",
+            "Monroe",
+            "Morgan",
+            "Nicholas",
+            "Ohio",
+            "Pendleton",
+            "Pleasants",
+            "Pocahontas",
+            "Preston",
+            "Putnam",
+            "Raleigh",
+            "Randolph",
+            "Ritchie",
+            "Roane",
+            "Summers",
+            "Taylor",
+            "Tucker",
+            "Tyler",
+            "Upshur",
+            "Wayne",
+            "Webster",
+            "Wetzel",
+            "Wirt",
+            "Wood",
+            "Wyoming",
+            "I am not sure which county handled the case",
+            "My county is not listed - I will provide it with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_county_directory:src/lib/rcap/state-packs/west-virginia/county-court-directory.ts",
+          "helperText": "Pick the West Virginia county whose court handled the case. All 55 counties are listed. If you are not sure, or the case was handled somewhere that is not on this list, choose the last option and we will confirm it with your documents."
+        },
+        "court": {
+          "id": "court",
+          "stage": "case_details",
+          "prompt": "Which West Virginia court handled the case?",
+          "type": "single_choice",
+          "options": [
+            "Circuit Court",
+            "I am not sure which court handled the case",
+            "My court is not listed - I will provide the exact court name with my documents"
+          ],
+          "required": true,
+          "source": "state_controlled_court_directory:src/lib/rcap/state-packs/west-virginia/county-court-directory.ts",
+          "helperText": "These are the West Virginia courts this service has source material for. If the case was heard somewhere else, choose the last option and type the exact court name from your paperwork when we ask for your documents."
+        }
+      }
+    }
+  },
+  "proposedSharedFlowChanges": [
+    {
+      "id": "SHARED-PROPOSAL-001",
+      "forIssue": "UX-STATELAW-001 (WV)",
+      "change": "Render a single-versus-multiple conviction-count question in West Virginia.",
+      "why": "WV § 61-11-26(b) and § 61-11-26a both publish their periods as a three-row table keyed on single misdemeanor / multiple misdemeanors / nonviolent felony. offense_level supplies the third row and nothing supplies the first two, which is the only reason WV:eligible-conviction-expungement-under-w-va-code-61-11-26 and WV:accelerated-... are LEGAL_OWNER_DECISION_REQUIRED rather than conditional proposals. With that one answer, both become bindable from rules the profile already publishes, with no duration authored.",
+      "owner": "INTEGRATION_CAPTAIN"
+    },
+    {
+      "id": "SHARED-PROPOSAL-002",
+      "forIssue": "UX-STATELAW-001 (OH, UT)",
+      "change": "Let a jurisdiction declare an offence-class question - Ohio's minor misdemeanor / M1 / F3 / F4 / F5, Utah's infraction / Class C / Class B / Class A / felony.",
+      "why": "Every one of Ohio's seven fallback-dependent routes and Utah's petition table is unresolvable for the same single reason: the governing rule is chosen by offence class and the rendered offense_level question cannot express one. This is the largest single unlock in this shard - 18 of its 30 LEGAL_OWNER_DECISION_REQUIRED routes turn on it.",
+      "owner": "INTEGRATION_CAPTAIN"
+    },
+    {
+      "id": "SHARED-PROPOSAL-003",
+      "forIssue": "harness",
+      "change": "The bounded reachability sweep ranks needs_more_info (2) above not_yet (3), so on Utah paths D, E and I it deliberately leaves resolved_timing_bucket unanswered to keep the better rank, and records missingQuestionIds ['resolved_timing_bucket'] for a question Utah does render.",
+      "why": "That reads as 'the flow never asks this', which is the UX-GLOBAL-019 shape, when the true finding is 'every answer to it returns not_yet'. Two different defects with two different owners are being reported as one.",
+      "owner": "HARNESS_OWNER"
+    }
+  ],
+  "defectsInJurisdictionsOutsideThisShard": [
+    {
+      "jurisdiction": "MULTIPLE",
+      "note": "None found that is specific to another jurisdiction. The two cross-cutting findings - sharedBlocker and the harness ranking in SHARED-PROPOSAL-003 - affect all 51 and are recorded above rather than as per-state defects. No code outside this shard's eight jurisdictions was read for defects, and none was changed."
+    }
+  ],
+  "stateSignOffPackets": [
+    {
+      "jurisdiction": "AR",
+      "name": "Arkansas",
+      "changed": [
+        "src/lib/rcap/state-packs/arkansas/county-court-directory.ts - new. The controlled county and court dataset for Arkansas: all 75 counties, 2 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/arkansas/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": false,
+      "countyDataset": {
+        "countyCount": 75,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 2,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "Circuit Court",
+            "quote": "File in the circuit or district court that handled the case.",
+            "sourceRef": "AR-arkansas.json#packetGenerator.filingDestinationRules"
+          },
+          {
+            "value": "District Court",
+            "quote": "File in the circuit or district court that handled the case.",
+            "sourceRef": "AR-arkansas.json#packetGenerator.filingDestinationRules"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 3,
+      "waitingRuleDispositionCounts": {
+        "EXPLICIT_BINDING_PROPOSED": 1,
+        "LEGAL_OWNER_DECISION_REQUIRED": 1,
+        "HELD_FOR_CORRECTION": 1
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "AR-DEFECT-001",
+          "issueId": "UX-STATECFG-001",
+          "question": "Arkansas ordered decision rule 'rule-45-and-2021-amendments-the-agent-must-confirm-the-current-' is a source sentence fragment compiled into a participant-facing rule. It has an empty when.fieldsReferenced and an empty when.caseOutcomes, so it fires for every participant on situation-c-felony-convictions and returns needs_more_info with frontendAction 'return_to_exact_missing_questions' while there are no missing questions - a return to nothing. Should it be removed, scoped, or converted to an internal review flag?",
+          "whyItIsNotAnsweredHere": "Removing it opens an Arkansas route that is currently closed, which moves an evaluator output and needs a reviewed entry in the shared correction allowlist. The release rule for this phase also forbids recommending a fallback-dependent route active without an explicit binding, and Arkansas situation-c has none. Proposed allowlist entry is in proposedCorrectionAllowlistEntries.",
+          "owner": "OWNER_THEN_LEGAL_REVIEW"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "CO",
+      "name": "Colorado",
+      "changed": [
+        "src/lib/rcap/state-packs/colorado/county-court-directory.ts - new. The controlled county and court dataset for Colorado: all 64 counties, 1 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/colorado/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/CO-colorado.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": false,
+      "countyDataset": {
+        "countyCount": 64,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 1,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "District Court",
+            "quote": "Example A — Motion to Seal Conviction Records (JDF 612, § 24-72-706) DISTRICT COURT, EL PASO COUNTY, COLORADO",
+            "sourceRef": "CO-colorado.json#sourceSections (JDF 612 sample caption)"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 0,
+      "waitingRuleDispositionCounts": {},
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "CO-DATA-001",
+          "issueId": "UX-COURT-001",
+          "question": "Colorado's controlled court dataset has one entry, because the district court caption in the JDF 612 sample is the only Colorado court this repository names. Colorado county courts and municipal courts also hear cases that reach these routes. Which courts belong in the Colorado dataset?",
+          "whyItIsNotAnsweredHere": "Adding a court this repository does not name would be inventing the dataset the audit asked to be controlled. The same gap, smaller, applies to Kansas (one entry) and West Virginia (one entry), and larger to Ohio.",
+          "owner": "OWNER"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "GA",
+      "name": "Georgia",
+      "changed": [
+        "src/lib/rcap/state-packs/georgia/county-court-directory.ts - new. The controlled county and court dataset for Georgia: all 159 counties, 3 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/georgia/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/GA-georgia.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": true,
+      "countyDataset": {
+        "countyCount": 159,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 3,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "Superior Court",
+            "quote": "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+            "sourceRef": "GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+          },
+          {
+            "value": "State Court",
+            "quote": "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+            "sourceRef": "GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+          },
+          {
+            "value": "Arresting agency or prosecutor's office (non-conviction restriction — not a court filing)",
+            "quote": "Submit the non-conviction application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve or deny).",
+            "sourceRef": "src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 0,
+      "waitingRuleDispositionCounts": {},
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "GA-CONFIRMED-001",
+          "issueId": "UX-STATELAW-001",
+          "question": "Georgia was reopened by Phase 2 and this shard was asked to confirm that it still holds at this base, not to re-investigate it.",
+          "confirmedAtThisBase": "Confirmed. Replaying data/expungement-ai/phase2/remedy-context-replay-after.json at this base reproduces every one of its 13 rows byte-for-byte, 0 differences. Georgia's SB 288 misdemeanor-conviction restriction and sealing route returns packet_ready_with_caution with paymentAllowed true on the same participant the Phase 1B reconciliation used. Re-running the audit's own bounded reachability sweep at this base finds Georgia reaching packet-ready and payment from rendered screens only, where the Phase 1 artifact recorded not_yet and false.",
+          "owner": "CLOSED_BY_CONFIRMATION"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "KS",
+      "name": "Kansas",
+      "changed": [
+        "src/lib/rcap/state-packs/kansas/county-court-directory.ts - new. The controlled county and court dataset for Kansas: all 105 counties, 1 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/kansas/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/KS-kansas.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": true,
+      "countyDataset": {
+        "countyCount": 105,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 1,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "District Court",
+            "quote": "IN THE JUDICIAL DISTRICT DISTRICT COURT OF COUNTY, KANSAS",
+            "sourceRef": "KS-kansas.json#sourceSections (Petition for Expungement of Conviction or Diversion caption)"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 3,
+      "waitingRuleDispositionCounts": {
+        "LEGAL_OWNER_DECISION_REQUIRED": 3
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "KS-LEGAL-001",
+          "issueId": "UX-STATELAW-001",
+          "question": "Kansas publishes no waiting period this product can execute. K.S.A. 21-6614 relief is offence-dependent - one, three, five or ten years - and the compiled profile records that sentence without recording which offence takes which period. What are the periods, and which participant answer selects between them?",
+          "whyItIsNotAnsweredHere": "Answering it means writing a duration the repository does not contain, which is authoring legal content. Kansas is HELD_FOR_LEGAL_DECISION and this shard preserves that hold exactly.",
+          "measuredAtThisBase": "With a fully clear record and each of the eight timing-bucket values in turn, conviction-or-diversion-216614 and specialty-court-accelerated both return not_yet with ks.timing_or_completion_blocker at every value, including gt_10_years. A gate that answers identically at over ten years and at under one year is reporting that it cannot resolve a rule, not applying one.",
+          "owner": "LEGAL_REVIEW"
+        },
+        {
+          "id": "KS-LEGAL-002",
+          "issueId": "UX-STATELAW-001",
+          "question": "Step 2 of this shard asks which of two things is true for Kansas: the missing fact is a genuine legal precondition that must be asked before a packet, or the route is not available to a self-help participant. Measured here, neither is.",
+          "whyItIsNotAnsweredHere": "Nothing is missing. The bounded sweep answers every rendered Kansas screen and the evaluator returns an empty missingQuestionIds. And the route is available to a self-help participant: conviction-or-diversion-216614 is routeType court_filing, filingRequired true, and the Kansas source itself says 'The petition is filed in the county of arrest, followed by notice, a hearing, and proposed grant/denial orders.' So this is not a lifecycle classification correction and it is not a product-claim escalation. It is the waiting rule in KS-LEGAL-001 and nothing else. Correcting a lifecycle phase here would move a Kansas terminal while the jurisdiction is held, which the hold forbids.",
+          "owner": "LEGAL_REVIEW"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "OH",
+      "name": "Ohio",
+      "changed": [
+        "src/lib/rcap/state-packs/ohio/county-court-directory.ts - new. The controlled county and court dataset for Ohio: all 88 counties, 2 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/ohio/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/OH-ohio.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": false,
+      "countyDataset": {
+        "countyCount": 88,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 2,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "Court of Common Pleas",
+            "quote": "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction.",
+            "sourceRef": "OH-ohio.json#sourceSections (§ 2953.32)"
+          },
+          {
+            "value": "Juvenile Court",
+            "quote": "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person's 23rd birthday, whichever comes earlier.",
+            "sourceRef": "OH-ohio.json#waitingPeriodRules wait-13"
+          }
+        ],
+        "selectorWouldBeLossless": false,
+        "note": "Ohio is the exception. This repository names only the Court of Common Pleas and the juvenile court, while most Ohio misdemeanours are filed in a municipal or county court it does not name, and Ohio courts use their own local forms so the exact court name decides the packet. A selector over two options would push most Ohio participants onto the fallback and drop the real court name out of the packet, so the free-text field must be kept for Ohio until the municipal and county courts are in the dataset. Recorded as a residual, not implemented as a regression."
+      },
+      "waitingRuleRoutes": 7,
+      "waitingRuleDispositionCounts": {
+        "LEGAL_OWNER_DECISION_REQUIRED": 6,
+        "HELD_FOR_CORRECTION": 1
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "OH-LEGAL-001",
+          "issueId": "UX-LEGAL-001",
+          "question": "Do Ohio's exclusion list and its waiting rule bind the non-conviction routes? Selecting a state exclusion category, and choosing the shortest timing bucket, both still return packet-ready on flows EXPAI-OH-258490318e and EXPAI-OH-8ad7543c27.",
+          "whyItIsNotAnsweredHere": "The shard prompt marks UX-LEGAL-001 'record the question, do not implement it'. Either answer is a source-law decision: an exclusion that does not bind a § 2953.33 non-conviction route may be entirely correct, or the exclusion rules may be under-scoped. This shard changed no Ohio exclusion rule and no Ohio waiting rule.",
+          "additionalObservationFromThisShard": "The same shape now appears in Pennsylvania and was not in the Phase 1 register for it. At this base PA's _probe_state_exclusion_selected flow row moved from needs_review to packet_ready_with_caution as a consequence of the Phase 2 waiting-rule binding, and it opened payment - the row is recorded twice at this base, once dtc_paid and once partner_sponsored_no_charge. Pennsylvania is not on UX-LEGAL-001's jurisdiction list, so counsel should be asked whether it belongs there now.",
+          "owner": "LEGAL_REVIEW"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "PA",
+      "name": "Pennsylvania",
+      "changed": [
+        "src/lib/rcap/state-packs/pennsylvania/county-court-directory.ts - new. The controlled county and court dataset for Pennsylvania: all 67 counties, 3 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/pennsylvania/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/PA-pennsylvania.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": true,
+      "countyDataset": {
+        "countyCount": 67,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 3,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "Court of Common Pleas",
+            "quote": "File petition-based Pennsylvania court relief in the Court of Common Pleas in the county where the case was heard.",
+            "sourceRef": "src/lib/rcap/state-packs/pennsylvania/filing-instructions.ts; PA-pennsylvania.json#questions source_question_06_court-of-common-pleas"
+          },
+          {
+            "value": "Magisterial District Court",
+            "quote": "Magisterial District Court",
+            "sourceRef": "PA-pennsylvania.json#questions source_question_04_magisterial-district-court"
+          },
+          {
+            "value": "Philadelphia Municipal Court",
+            "quote": "Philadelphia Municipal Court",
+            "sourceRef": "PA-pennsylvania.json#questions source_question_05_philadelphia-municipal-court"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 10,
+      "waitingRuleDispositionCounts": {
+        "EXPLICIT_BINDING_PROPOSED": 4,
+        "LEGAL_OWNER_DECISION_REQUIRED": 5,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 1
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "PA-CONFIRMED-001",
+          "issueId": "UX-STATELAW-001",
+          "question": "Pennsylvania was reopened by Phase 2 and this shard was asked to confirm that it still holds at this base, not to re-investigate it.",
+          "confirmedAtThisBase": "Confirmed. Path A - Non-conviction expungement returns packet_ready_with_caution with paymentAllowed true on the same participant, and the bounded reachability sweep finds Pennsylvania reaching packet-ready and payment from rendered screens only, where the Phase 1 artifact recorded needs_more_info and false.",
+          "owner": "CLOSED_BY_CONFIRMATION"
+        },
+        {
+          "id": "PA-LEGAL-001",
+          "issueId": "UX-STATELAW-001",
+          "question": "Ten of Pennsylvania's eleven routes are marked guidance-only by counsel for this release (reason code pa.lawrence_hold_guidance_only). Four of them have a waiting rule this shard can now propose from the repository. Should the hold be lifted for any of them?",
+          "whyItIsNotAnsweredHere": "A counsel hold is counsel's to lift. The proposals stand as evidence and none is recommended active.",
+          "owner": "LEGAL_REVIEW"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "UT",
+      "name": "Utah",
+      "changed": [
+        "src/lib/rcap/state-packs/utah/county-court-directory.ts - new. The controlled county and court dataset for Utah: all 29 counties, 2 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/utah/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/UT-utah.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": false,
+      "countyDataset": {
+        "countyCount": 29,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 2,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "District Court",
+            "quote": "If charges were never filed, the petition is filed in the district court in the county where the arrest occurred or citation was issued.",
+            "sourceRef": "UT-utah.json#packetGenerator.filingDestinationRules; src/lib/rcap/state-packs/utah/filing-instructions.ts"
+          },
+          {
+            "value": "Juvenile Court",
+            "quote": "Juvenile matters: use the juvenile court expungement process, not the adult BCI certificate application; the juvenile court requires an adult Utah criminal-history report from BCI.",
+            "sourceRef": "src/lib/rcap/state-packs/utah/filing-instructions.ts"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 11,
+      "waitingRuleDispositionCounts": {
+        "LEGAL_OWNER_DECISION_REQUIRED": 11
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": [
+        {
+          "id": "UT-LEGAL-001",
+          "issueId": "UX-STATELAW-001",
+          "question": "Utah's three packet-producing routes (paths D, E and I) are blocked by a waiting rule the repository cannot resolve, and its eight other routes never reach the timing gate at all. Which Utah petition periods govern which routes, and which participant answer selects between them?",
+          "whyItIsNotAnsweredHere": "Utah is HELD_FOR_LEGAL_DECISION on exactly this point. The petition table publishes six competing durations (3, 4, 5, 5, 7 and 10 years) keyed to Utah offence classes that no rendered screen can express.",
+          "measuredAtThisBase": "Paths D, E and I return not_yet with ut.timing_or_completion_blocker at every one of the eight timing-bucket values. Paths A, B, C, F, J, K, L and M return guidance_only with ut.guidance_only_no_user_filed_court_petition at every value. For A, B and C that is correct - they are automatic true routes a participant does not file. For F, J, K, L and M it is not obviously correct: they are typed court_filing, pardon_then_court, special and juvenile respectively, and Utah's own filing instructions describe court filings for several of them.",
+          "owner": "LEGAL_REVIEW"
+        },
+        {
+          "id": "UT-LEGAL-002",
+          "issueId": "UX-STATELAW-001",
+          "question": "Step 2's second branch, for Utah: is path-f-petition-based-conviction-expungement (and J, K, L, M) genuinely not available to a self-help participant, or is it misclassified as a non-court route?",
+          "whyItIsNotAnsweredHere": "This is the branch the shard prompt says 'changes what the product claims and must be escalated, not answered'. It is escalated here. The classification lives in isCourtFiledPetitionRoute in src/lib/rcap-engine/evaluator.ts, a prohibited shared path, and Utah is held, so the shard may not move it from either direction.",
+          "owner": "OWNER_ESCALATION"
+        }
+      ]
+    },
+    {
+      "jurisdiction": "WV",
+      "name": "West Virginia",
+      "changed": [
+        "src/lib/rcap/state-packs/west-virginia/county-court-directory.ts - new. The controlled county and court dataset for West Virginia: all 55 counties, 1 court option(s) each carrying the verbatim quote from this repository that supports it, and the two clearly-labelled fallbacks UX-COUNTY-001 and UX-COURT-001 require.",
+        "src/lib/rcap/state-packs/west-virginia/index.ts - re-exports the new module."
+      ],
+      "deliberatelyNotChanged": [
+        "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json - left at the product base. The county and court binding was written, measured and reverted for the reason in sharedBlocker: it is inert against the runtime question authority and it fails this shard's own parity acceptance test. The exact question objects are preserved in proposedCompiledProfileQuestions.",
+        "No waiting rule, exclusion rule, ordered decision rule, packet family, form mapping, payment clamp or operationallySellable value was changed anywhere in this shard.",
+        "No question was deleted, and no state-specific legal rule was removed."
+      ],
+      "countySelectorAssigned": true,
+      "countyDataset": {
+        "countyCount": 55,
+        "exhaustive": true,
+        "boundToRuntime": false
+      },
+      "courtDataset": {
+        "optionCount": 1,
+        "exhaustive": false,
+        "boundToRuntime": false,
+        "options": [
+          {
+            "value": "Circuit Court",
+            "quote": "No-conviction expungement (§ 61-11-25): file a civil petition in the circuit court where the charges were filed, no sooner than 60 days after the acquittal/dismissal order",
+            "sourceRef": "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts; WV-west-virginia.json#waitingPeriodRules wait-01"
+          }
+        ],
+        "selectorWouldBeLossless": true,
+        "note": "Court type plus the county question together identify the court, so a selector over these options loses nothing a participant can currently type."
+      },
+      "waitingRuleRoutes": 7,
+      "waitingRuleDispositionCounts": {
+        "EXPLICIT_BINDING_PROPOSED": 3,
+        "LEGAL_OWNER_DECISION_REQUIRED": 4
+      },
+      "terminalsMoved": [],
+      "openLegalQuestions": []
+    }
+  ],
+  "flowsWhoseTerminalMoved": {
+    "count": 0,
+    "rows": [],
+    "statement": "No flow of this shard's 95 changed terminal as a result of this shard. The Pennsylvania and Georgia movements recorded in step1ManifestReconciliation are Phase 2's, already covered by the correction allowlist, and are present at the unmodified base commit."
+  },
+  "acceptanceTests": {
+    "contract": "Every acceptance test was run at the unmodified base commit first, so a failure can be attributed. Five fail at the base and fail identically here; none is caused by this shard and none is cleared by it.",
+    "method": "node <script> at 93e05e945a52cfa1cdd2ab590636290875a48f68 with a clean tracked worktree, then again at this head."
+  },
+  "acceptanceTestResults": {
+    "rows": [
+      {
+        "test": "scripts/expungement-ai/flow-audit/build-flow-manifest.mjs --check",
+        "atProductBase": "FAIL",
+        "atThisHead": "FAIL",
+        "verdict": "no change",
+        "note": "Reports the committed Phase 1 artifact stale. Inherited: the Phase 2 shared-fact rendering moved the counts, which is allowlist entry shared-facts-rendered. Regenerated and reconciled in step1ManifestReconciliation; the regenerated artifact was NOT committed because data/expungement-ai/flow-audit/flow-manifest.json is not a path this shard owns."
+      },
+      {
+        "test": "scripts/expungement-ai/flow-audit/build-question-inventory.mjs --check",
+        "atProductBase": "FAIL",
+        "atThisHead": "FAIL",
+        "verdict": "no change",
+        "note": "Same cause, same disposition."
+      },
+      {
+        "test": "scripts/expungement-ai/flow-audit/build-branch-coverage.mjs --check",
+        "atProductBase": "FAIL",
+        "atThisHead": "FAIL",
+        "verdict": "no change",
+        "note": "Same cause, same disposition."
+      },
+      {
+        "test": "scripts/expungement-ai/flow-audit/build-ui-reachability.mjs --check",
+        "atProductBase": "FAIL",
+        "atThisHead": "FAIL",
+        "verdict": "no change",
+        "note": "Same cause, same disposition."
+      },
+      {
+        "test": "scripts/expungement-ai/flow-audit/verify-flow-audit.mjs",
+        "atProductBase": "FAIL (31/33; FA-17, FA-21)",
+        "atThisHead": "FAIL (31/33; FA-17, FA-21)",
+        "verdict": "no change",
+        "note": "Identical check ids, identical messages. FA-17 counts Phase 2 product-behaviour files outside the audit owned paths; FA-21 is the four stale artifacts above."
+      },
+      {
+        "test": "scripts/verify-rcap-evaluator-all51-provability.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/verify-rcap-reachability-evidence.mjs",
+        "atProductBase": "FAIL",
+        "atThisHead": "FAIL",
+        "verdict": "no change",
+        "note": "Inherited and already recorded by Phase 2 as a named new verifier failure: 31 of 625 witness fixtures no longer reproduce their terminal because the flow now asks shared facts the fixtures predate. The generators that produce them are deterministic and clear it, but data/rcap-* is outside what any shard may modify."
+      },
+      {
+        "test": "scripts/verify-public-profile-projection.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/verify-expungement-dtc-flow-unchanged.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/expungement-ai/phase2/verify-expungement-fact-model.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/expungement-ai/phase2/verify-jurisdiction-slug-routes.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/expungement-ai/phase2/build-phase2-record.mjs",
+        "atProductBase": "PASS (unexplainedDifferences 0)",
+        "atThisHead": "PASS (unexplainedDifferences 0)",
+        "verdict": "no change",
+        "note": "Required to report 0 and does. The files it regenerates are prohibited paths and differ only in their head stamp, so they were restored after the run."
+      },
+      {
+        "test": "scripts/verify-expungement-plain-language-values.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change",
+        "note": "Green only because the county and court binding was reverted. See sharedBlocker."
+      },
+      {
+        "test": "scripts/verify-rcap-md-pardon-pathway.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "scripts/verify-all50-state-packs.mjs",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change",
+        "note": "Not on the acceptance list but run because this shard adds a file to eight state packs. 51 packs verified."
+      },
+      {
+        "test": "npm run lint",
+        "atProductBase": "PASS (0 errors, 62 warnings)",
+        "atThisHead": "PASS (0 errors, 62 warnings)",
+        "verdict": "no change",
+        "note": "Warning count unchanged; none is in a file this shard touched."
+      },
+      {
+        "test": "npm run typecheck",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      },
+      {
+        "test": "git diff --check",
+        "atProductBase": "PASS",
+        "atThisHead": "PASS",
+        "verdict": "no change"
+      }
+    ],
+    "browserCrawls": {
+      "tests": [
+        "EXPAI_FLOW_AUDIT_JURISDICTIONS=<AR|CO|GA|KS|OH|PA|UT|WV> node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs"
+      ],
+      "atProductBase": "NOT RUN - exits immediately with \"EXPAI_FLOW_AUDIT_BASE_URL is required\" for all eight.",
+      "atThisHead": "NOT COMPLETED - see environmentBlockers ENV-SHARD5-001. A single-flow smoke run against a local next dev origin completed; the unbounded crawl did not.",
+      "verdict": "ENVIRONMENT_BLOCKER, recorded once and not retried.",
+      "whyItDoesNotGateThisShard": "The crawl exists to catch a rendered-flow regression. This shard changed no rendered question, no evaluator output and no terminal, which the deterministic harness proves: capture-evaluator-baseline reports 0 differences across all 51 for resultCode, pathwayId, paymentAllowed, packetFamily, formSet and decisionGraph, and replay-remedy-contexts reproduces all 13 recorded rows with 0 differences."
+    },
+    "changedPathProof": {
+      "command": "git diff --name-only 93e05e945a52cfa1cdd2ab590636290875a48f68...HEAD",
+      "paths": 25,
+      "verdict": "Every path matches an allowed configuration path for this shard: src/lib/rcap/state-packs/<one of the eight>/**, docs/expungement-ai/flow-audit/state-reports/<one of the eight>.md, and data/expungement-ai/flow-audit/shard-results/SHARD-5.json.",
+      "sharedPathsTouched": "none",
+      "unassignedJurisdictionsTouched": "none",
+      "heldJurisdictionBehaviourChanged": "none - KS, UT and WV terminals and paymentAllowed values are unchanged"
+    },
+    "summary": {
+      "total": 18,
+      "passingHere": 12,
+      "failingHere": 6,
+      "failingHereButAlsoAtTheBase": 6,
+      "newFailuresCausedByThisShard": 0
+    }
+  },
+  "sharedBlocker": {
+    "id": "SHARED-BLOCKER-001",
+    "classification": "SHARED_PHASE2_BLOCKER",
+    "title": "A state shard cannot change a question, because neither authority for a question is a shard path",
+    "severity": "blocks UX-COUNTY-001 and UX-COURT-001 for every Phase 3 state shard, not only this one",
+    "confirmedProgrammeWide": "Confirmed independently by SHARD-4 and SHARD-6 and by the owner mid-shard. One bounded state-configuration attempt was made here, the blocker reproduced, and no further attempt was made. No shared profile projection, shared renderer, parity approval file or shared fixture was modified.",
+    "evidence": [
+      {
+        "what": "The runtime authority for what a participant is asked is a single all-51 file.",
+        "where": "src/lib/rcap-engine/public-profile-projection.ts:1051 buildProfileDraft",
+        "detail": "buildProfileDraft looks the jurisdiction up in getDesignerPublicProfiles() (src/lib/rcap-engine/compiled/all51.json) and, when it finds it, builds the entire public profile from designerProfile.questions. profile.questions from src/lib/rcap-engine/compiled/profiles/<STATE>.json is not consulted on that path. All 51 jurisdictions are present in all51.json, so the per-state branch never runs for any of them.",
+        "corroboration": "data/expungement-ai/flow-audit/flow-manifest.json#authorities already records this: runtimeConsumerQuestionAuthority is src/lib/rcap-engine/compiled/all51.json (designer public profiles), while runtimeEligibilityAuthority is src/lib/rcap-engine/compiled/profiles/*.json. This shard owns the second and not the first.",
+        "measured": "Binding a state-aware county and court selector into all eight compiled profiles at this base and re-projecting returns the unchanged question every time: AR court came back type text, options null, prompt \"Which court or agency handled the case?\"."
+      },
+      {
+        "what": "A second guard independently refuses the same change.",
+        "where": "scripts/verify-expungement-plain-language-values.mjs",
+        "detail": "The screening parity guard compares every compiled profile question against the baseline ref and fails on a changed type, option list, prompt, order or count unless the change is recorded in data/expungement-ai/screening-parity-approved-deltas.json. That file is named in this shard prohibited paths. With the binding applied the guard failed with 26 messages across AR, CO, GA, KS, OH, PA, UT and WV; with it reverted the guard passes.",
+        "corroboration": "The guard is one of this shard own required acceptance tests, so the change could not have been pushed even if it had been effective."
+      }
+    ],
+    "boundedAttempt": {
+      "attempts": 1,
+      "whatWasAttempted": "Bind a state-aware county and court selector, sourced from the new state-pack datasets, into all eight compiled profiles at src/lib/rcap-engine/compiled/profiles/<STATE>.json - a path this shard owns.",
+      "whatWasMeasured": "Re-projecting through projectPublicProfile returned the unchanged question for every jurisdiction, and scripts/verify-expungement-plain-language-values.mjs failed with 26 messages across all eight. Reverting restored the guard to green. capture-evaluator-baseline with the binding applied reported 0 evaluator-output differences across all 51, so the change was provably inert on decisions as well as on rendering.",
+      "outcome": "Reverted. The dataset and the ready-to-apply payload are preserved.",
+      "retriesAfterConfirmation": 0
+    },
+    "consequence": "UX-COUNTY-001 and UX-COURT-001 are recorded in the Phase 1 register as state_specific with owner PHASE_2_SHARED_DATASET_THEN_PHASE_3_STATE_BINDING. The state-binding half is real work and is done here. The half that makes it visible to a participant is not reachable from any shard path.",
+    "whatThisShardDidInstead": "Built the controlled datasets, with per-option provenance, in the eight state packs this shard owns, and specified the exact shared edits below so the integration captain can land them without re-deriving anything.",
+    "readyToApplyPayload": "proposedCompiledProfileQuestions.questions in this file holds the exact question objects for all eight jurisdictions. src/lib/rcap/state-packs/<state>/county-court-directory.ts holds the source-backed dataset they are derived from, exported as <state>CountySelectorOptions and <state>CourtSelectorOptions, so the payload can be regenerated rather than transcribed.",
+    "exactSharedPathsAndControlsRequired": [
+      {
+        "path": "src/lib/rcap-engine/compiled/all51.json",
+        "control": "the runtime consumer-question authority read by buildProfileDraft; not a state-shard path",
+        "action": "apply the county and court question objects for the eight jurisdictions"
+      },
+      {
+        "path": "data/expungement-ai/screening-parity-approved-deltas.json",
+        "control": "the reviewed-delta record the screening parity guard checks; named in this shard prohibited paths",
+        "action": "record one reviewed delta per changed question id"
+      },
+      {
+        "path": "src/lib/rcap-engine/compiled/profiles/<STATE>.json",
+        "control": "a state-shard path, but inert without the two above",
+        "action": "apply the same question objects so the two authorities agree"
+      },
+      {
+        "path": "src/components/expungement-ai/screening/QuestionField.tsx",
+        "control": "shared renderer; NOT modified and NOT required",
+        "action": "none - single_choice already renders through OptionGroup and packet-information.ts already validates a single_choice answer against its option list"
+      }
+    ]
+  },
+  "environmentBlockers": [
+    {
+      "id": "ENV-SHARD5-001",
+      "classification": "ENVIRONMENT_BLOCKER",
+      "what": "tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs could not complete a full per-jurisdiction crawl in this container.",
+      "measured": "Against a local next dev origin with mutation refused, a single-flow smoke run (EXPAI_FLOW_AUDIT_MAX_FLOWS=1, Arkansas) completed and wrote its report. The unbounded three-flow Arkansas crawl did not finish, and an earlier attempt ended with \"browserContext.newPage: Target page, context or browser has been closed\" after two flows. Chromium was supplied explicitly at /opt/pw-browsers/chromium-1194/chrome-linux/chrome because the build Playwright expected was absent.",
+      "priorRecord": "Phase 2 recorded the same class of blocker: under a local next dev in this container the screening page renders its frame and does not reach a question heading, and it behaves identically against the PRODUCT BASE source, so it is a property of the environment and not of any correction.",
+      "disposition": "Recorded once and not retried, per the owner instruction not to repeatedly retry the browser environment. No product change depends on it: this shard changed no rendered question and no evaluator output, so there is nothing for the crawl to regress.",
+      "evidenceKeptOutOfTheRepository": "The smoke run wrote to a scratch directory via EXPAI_FLOW_AUDIT_EVIDENCE_DIR so that data/expungement-ai/flow-audit/evidence/** - not a path this shard owns - stayed at the product base. Two screenshots written by the earlier attempt were reverted."
+    }
+  ]
+}
