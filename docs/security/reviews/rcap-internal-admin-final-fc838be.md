@@ -1,8 +1,8 @@
 # RCAP internal admin final security and staging acceptance
 
-Verdict: `CORRECTION_REQUIRED`
+Verdict: `APPROVED_FOR_MERGE`
 
-This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. The authorized Preview-only Large Functions opt-in allowed the exact candidate to become Ready, but its inherited Preview environment points to Supabase project `wwtwtsmywnckfkdaqqeg`. The requested branch-only acceptance-environment rebind could not be created because Vercel requires this project to have a connected Git repository before it will accept branch-specific Preview variables.
+This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. A single final Preview used secure per-deployment build and runtime overrides, became Ready with the frozen candidate and Large Functions enabled, contacted only acceptance Supabase project `hyflxnlhpmiqxvvcoiia`, and passed the remaining deployed identity, browser-control, redirect, API, mutation, and data-before-authorization checks. No repository implementation byte, Vercel project environment setting, or Production resource changed.
 
 ## Frozen input
 
@@ -208,8 +208,52 @@ No branch-specific variable was created. The post-attempt branch inventory remai
 
 The effective branch configuration therefore could not be established, and the required predeployment environment gate stopped the task. No new Preview was deployed, the incorrect Preview was not reused, and no authentication, browser control, direct request, or application mutation was attempted. Candidate HEAD, tree, and clean status remained unchanged; implementation, RLS migration, worker/release evidence, and application source bytes moved are zero.
 
+## One-shot per-deployment acceptance Preview
+
+The reviewer recovered clean review head `a185572e6699f3e8a7020f128c692e24715e0735` and the existing detached candidate worktree at exact HEAD `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. Its complete Git tree was `91ca2ba3b6e901980bf80b7e4c23aa6399de674c` before deployment and remained identical afterward. The candidate worktree was clean before and after.
+
+The authenticated Supabase CLI retrieved the existing acceptance project's legacy `anon` and `service_role` keys without creating, rotating, revoking, or printing a key. JWT claims established the exact project ref and distinct client/server roles. A mode-0600 Node wrapper outside the repository constructed the Vercel argument array in memory and executed without shell interpolation. It supplied these names to both `--build-env` and `--env` for this deployment only:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ENABLE_SUPABASE_PARTNER_DATA=true`
+- `VERCEL_SUPPORT_LARGE_FUNCTIONS=1`
+
+Exactly one Preview was created by this final mechanism:
+
+- URL: `https://legalease-partner-dashboard-clean-5ckis2c20-roger947s-projects.vercel.app`
+- Deployment: `dpl_GquPPeqnFKKyuxL5K7UbQ4XGrybw`
+- Project: `roger947s-projects/legalease-partner-dashboard-clean`
+- Target/status: Preview, Ready
+- Metadata SHA: `fc838be7871dc977e0a3e811b801d6c8ee7398e5`
+- Metadata branch: `codex/rcap-internal-admin-release-evidence`
+- Large Functions: effective; the unchanged function previously measured at 635.89 MB uncompressed deployed successfully
+
+The command used only per-deployment values. It did not add, update, or remove a global Preview, Production, Development, branch-specific, or custom-environment variable. No Production deployment or domain changed. All temporary key, capture, and wrapper files were removed; none appears in Git status or the review diff.
+
+Before authentication, real Chromium loaded the new deployment through the project's existing automation bypass and observed only `hyflxnlhpmiqxvvcoiia.supabase.co` in Supabase client initialization and network destinations. The client bundle carried the `anon` class only. No service-role key reached a client bundle, browser request, log, screenshot, or reviewer record.
+
+The deployed synthetic identity matrix passed:
+
+| Identity | Deployed result |
+| --- | --- |
+| Active global internal administrator | Authenticated; provisioning page, email, effective `internal_admin` role, Sign Out, and read-only provisioning records visible |
+| External email with no role and forged metadata | Authenticated; internal page denied; email visible; no protected partner data; direct API and mutations denied |
+| Corporate-domain account without a role | Denied; domain alone granted nothing |
+| Partner administrator | Denied from LegalEase internal administration |
+| Disabled/revoked internal administrator | Denied |
+
+Real Chromium submitted the internal-shell, denial-page, and content-route Sign Out/switch-account HTML forms. The deployment emitted `Referrer-Policy: same-origin`; Chromium sent the expected same-origin Origin and Referer; accepted posts returned local 303 redirects; Supabase session cookies cleared; protected pages and mutations were denied afterward; browser Back exposed no usable protected page or identity. A cross-origin HTML form with an unsafe Origin and Referer returned 403 without clearing the session. An opaque `data:` form produced `Origin: null` without Referer and returned 403 without clearing the session. GET redirected without mutation, and the consumer Sign Out control remained functional.
+
+The deployed return-destination matrix rejected protocol-relative, backslash-host, absolute HTTP, absolute HTTPS, encoded slash, encoded backslash, double-encoded, CRLF/control-character, and malformed-encoding inputs to the local `/briefcase` fallback. A nested internal provisioning detail route retained its query string and fragment exactly.
+
+An authenticated external-no-role browser issued deployed unauthorized requests for provisioning read/write, invitation create/resend/revoke, onboarding workspace creation, commercial-gate mutation, publication, activation, role/user mutation, protected promotion export, and protected media mutation. Every request returned 403. The malformed JSON cases returned authorization denial instead of a parse error, proving the gate ran before body parsing; all denied bodies omitted protected partner markers, and membership state remained unchanged.
+
+All five named Auth fixtures and the synthetic acceptance partner were removed. A final acceptance-project inventory returned zero matching users and zero matching partner rows. Implementation, application source, RLS migration, worker/release evidence, and candidate-tree bytes moved are all zero.
+
 ## Final disposition
 
-`CORRECTION_REQUIRED`
+`APPROVED_FOR_MERGE`
 
-The candidate is not ready to merge because Vercel refused the required branch-specific acceptance-environment variables while the project has no connected Git repository. The inherited Ready Preview still points to `wwtwtsmywnckfkdaqqeg`; no correctly bound replacement Preview exists, so runtime identity, real-browser controls, and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
+The exact candidate is ready to merge. The final Preview is Ready, its runtime Supabase identity matches the authorized acceptance project, and every remaining deployed browser and direct-request gate passed. Production account cutover, Production deployment, and Clinic Mode foundation remain explicitly unauthorized and not ready.
