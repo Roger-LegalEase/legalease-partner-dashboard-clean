@@ -302,7 +302,11 @@ function applyPrivateInternalHeaders(response: NextResponse, pathname: string) {
   if (pathname.startsWith("/internal")) {
     response.headers.set("Cache-Control", "private, no-store, max-age=0, must-revalidate");
     response.headers.set("Pragma", "no-cache");
-    response.headers.set("Referrer-Policy", "no-referrer");
+    // Ordinary same-origin form POSTs need a browser-supplied source signal for
+    // the Sign Out request boundary. `same-origin` preserves that signal while
+    // withholding both the internal URL and its origin from cross-origin
+    // destinations.
+    response.headers.set("Referrer-Policy", "same-origin");
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
   return response;
