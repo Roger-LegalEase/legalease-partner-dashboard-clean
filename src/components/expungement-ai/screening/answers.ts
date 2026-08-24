@@ -7,6 +7,12 @@
  *
  * Answers are held in memory by the flow component and never written to URLs, analytics,
  * localStorage, or logs (sensitive-answer constraint).
+ *
+ * One deliberate exception, added with UX-GLOBAL-017: the in-progress set is mirrored into
+ * sessionStorage so a refresh, a back-forward navigation or a tab restore does not silently
+ * drop every answer and return the participant to question one. sessionStorage and not
+ * localStorage, because the answers must not outlive the browser session on a shared machine;
+ * the key is cleared as soon as the matter is claimed. See ScreeningFlow.tsx.
  */
 import type {
   AnswerValue,
