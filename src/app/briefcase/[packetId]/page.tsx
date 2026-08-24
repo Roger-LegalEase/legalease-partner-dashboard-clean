@@ -12,7 +12,7 @@ import { LocalizedRuntimeText } from "@/components/expungement-ai/LocalizationPr
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import { humanMatterState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
-import { expectedPacketComponents, packetInformationModelFor } from "@/lib/expungement-ai/packet-information";
+import { expectedPacketComponents, packetInformationAvailability, PACKET_INFORMATION_UNAVAILABLE_COPY } from "@/lib/expungement-ai/packet-information";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +27,11 @@ export default async function BriefcasePacketPage({
   const sponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
   const artifact = item ? packetArtifactFor(item) : null;
   const packetMatter = item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution";
-  const model = item && packetMatter ? packetInformationModelFor(item) : null;
+  // UX-GLOBAL-001. The forward CTA is decided by the SAME predicate the
+  // destination enforces, so it can no longer send a participant to a page that
+  // refuses them and offers only a link back here.
+  const availability = packetInformationAvailability(item, { sponsored });
+  const model = availability.available ? availability.model : null;
 
   return (
     <BriefcaseShell
@@ -69,13 +73,20 @@ export default async function BriefcasePacketPage({
                   {expectedPacketComponents(model?.packetPlan ?? null).map((component) => <li key={component}>• {component}</li>)}
                 </ul>
 
+                {!availability.available ? (
+                  <div className="mt-5 rounded-[12px] border border-[#F0D9A8] bg-[#FFFBF2] p-4">
+                    <h3 className="text-sm font-extrabold text-[#0B1320]">{PACKET_INFORMATION_UNAVAILABLE_COPY[availability.reason].title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-[#5A6275]">{PACKET_INFORMATION_UNAVAILABLE_COPY[availability.reason].body}</p>
+                  </div>
+                ) : null}
+
                 <div className="mt-6 flex flex-wrap gap-3">
-                  {!artifact && model?.stage !== "ready_to_generate" ? (
+                  {availability.available && !artifact && model?.stage !== "ready_to_generate" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
                       {model?.stage === "in_progress" ? "Resume packet information" : "Complete packet information"}
                     </Link>
                   ) : null}
-                  {!artifact && model?.stage === "ready_to_generate" ? (
+                  {availability.available && !artifact && model?.stage === "ready_to_generate" ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>Review for accuracy</Link>
                   ) : null}
                   {item.paymentStatus === "paid" && item.packetStatus === "failed" ? <PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" /> : null}

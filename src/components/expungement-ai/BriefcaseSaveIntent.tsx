@@ -22,9 +22,9 @@ export function BriefcaseSaveIntent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ pendingId, next: "/briefcase" })
         });
-        const payload = await response.json().catch(() => null) as { redirectTo?: string } | null;
+        const payload = await response.json().catch(() => null) as { redirectTo?: string; nextActionPath?: string } | null;
         if (!cancelled && response.ok && payload?.redirectTo) {
-          router.replace(payload.redirectTo);
+          router.replace(payload.nextActionPath ?? payload.redirectTo);
         }
       } catch {
         // Best effort for old pending query links. The primary sign-in handoff

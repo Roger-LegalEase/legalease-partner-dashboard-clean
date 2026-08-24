@@ -7,6 +7,7 @@ import {
 } from "@/lib/expungement-ai/briefcase";
 import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { buildSaveInput } from "@/lib/expungement-ai/save-result-policy";
+import { packetInformationAvailability } from "@/lib/expungement-ai/packet-information";
 import { getSafeRequestId, logSecurityError } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue, ScreeningEvaluation } from "@/lib/rcap-engine/contracts";
@@ -169,10 +170,24 @@ export async function POST(request: Request) {
     }
   }
 
+  // UX-GLOBAL-003 — "continue" must land on the saved matter's NEXT ACTION, not
+  // on a list and not on a page that will refuse. The availability predicate is
+  // the same one both Briefcase pages use, so the destination can never be a
+  // step the participant is not allowed to take.
+  const matterPath = `/briefcase/${encodeURIComponent(item.id)}`;
+  const availability = packetInformationAvailability(item, { sponsored: false });
+  const nextActionPath = availability.available && availability.model.stage !== "ready_to_generate"
+    ? `${matterPath}/packet-information`
+    : availability.available
+      ? `${matterPath}/review`
+      : matterPath;
+
   return NextResponse.json({
     ok: true,
     itemId: item.id,
-    redirectTo: `/briefcase/${encodeURIComponent(item.id)}`
+    // The exact saved matter remains the claim's redirect target.
+    redirectTo: `/briefcase/${encodeURIComponent(item.id)}`,
+    nextActionPath
   });
 }
 

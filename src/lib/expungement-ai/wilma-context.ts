@@ -30,6 +30,20 @@ export type WilmaResource = {
   href: string;
 };
 
+/**
+ * UX-GLOBAL-011 — the question the participant is looking at.
+ *
+ * Ids, prompt and helper copy only. The participant's ANSWER is deliberately
+ * absent: the help surface needs to explain the question, not to be told what
+ * was said, and the case summary is already sanitized separately.
+ */
+export type WilmaActiveQuestion = {
+  id: string;
+  prompt: string;
+  helperText?: string;
+  stage?: string;
+};
+
 export type WilmaContext = {
   stateContent: VerifiedStateContent;
   caseContext: ReadOnlyCaseSummary;
@@ -37,16 +51,19 @@ export type WilmaContext = {
   humanResources: WilmaResource[];
   supportResources: WilmaResource[];
   injectedStateContentIds: string[];
+  activeQuestion?: WilmaActiveQuestion;
 };
 
 export function buildWilmaContext({
   state,
   pageContext,
-  briefcaseItem
+  briefcaseItem,
+  activeQuestion
 }: {
   state?: string;
   pageContext: WilmaPageContext;
   briefcaseItem?: ConsumerBriefcaseItem | null;
+  activeQuestion?: WilmaActiveQuestion | null;
 }): WilmaContext {
   const selectedState = (briefcaseItem?.state ?? state ?? "US").toUpperCase();
   const stateContent = verifiedStateContentFor(selectedState);
@@ -64,7 +81,8 @@ export function buildWilmaContext({
       { label: "Open Briefcase", kind: "briefcase", href: "/briefcase" },
       { label: "Use the screening tool", kind: "screening_tool", href: "/expungement-ai/start" }
     ],
-    injectedStateContentIds: [stateContent.contentId]
+    injectedStateContentIds: [stateContent.contentId],
+    ...(activeQuestion ? { activeQuestion } : {})
   };
 }
 

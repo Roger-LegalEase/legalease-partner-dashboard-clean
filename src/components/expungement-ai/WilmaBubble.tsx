@@ -59,12 +59,19 @@ type TurnstileApi = {
 export function WilmaBubble({
   context,
   currentQuestion,
+  activeQuestion,
   state,
   briefcaseItemId,
   mode = "authenticated"
 }: {
   context: WilmaPageContext;
   currentQuestion?: string;
+  /**
+   * UX-GLOBAL-011 — the question actually on screen. The page context alone
+   * ("check" or "results") cannot answer "what does this question mean", which
+   * is the question participants most often bring to the help surface.
+   */
+  activeQuestion?: { id: string; prompt: string; helperText?: string; stage?: string };
   // Sent only when a specific case is in scope (briefcase/check surfaces). When absent the
   // POST body stays the byte-identical { message, pageContext, history }.
   state?: string;
@@ -211,7 +218,20 @@ export function WilmaBubble({
         conversationId?: string;
         turnstileToken?: string;
         locale?: string;
+        activeQuestion?: { id: string; prompt: string; helperText?: string; stage?: string };
       } = { message: userMessage, pageContext: context, history };
+
+    // The active question travels with the message so Wilma can explain the
+    // screen the participant is looking at. Ids, prompt and helper copy only —
+    // never the participant's answer.
+    if (activeQuestion) {
+      requestBody.activeQuestion = {
+        id: activeQuestion.id,
+        prompt: activeQuestion.prompt,
+        ...(activeQuestion.helperText ? { helperText: activeQuestion.helperText } : {}),
+        ...(activeQuestion.stage ? { stage: activeQuestion.stage } : {})
+      };
+    }
       requestBody.locale = locale;
       if (isPublic) {
         // Anonymous payload: state picker + conversation id + bot token. NEVER briefcaseItemId.

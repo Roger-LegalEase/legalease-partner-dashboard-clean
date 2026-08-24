@@ -31,6 +31,9 @@ import {
 import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
+
+/** UX-GLOBAL-017 — where an in-progress answer set is kept for this session. */
+const IN_PROGRESS_STORAGE_KEY = "expungement-ai:in-progress-screening";
 import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import { deriveScreens } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
@@ -92,6 +95,10 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
   const [packetActionError, setPacketActionError] = useState<string | null>(null);
+  // UX-GLOBAL-002 — handlePacketAction runs two sequential POSTs. Without an
+  // in-flight state the control was never disabled, never relabelled and never
+  // debounced, and a second click started a second pending row.
+  const [packetActionPending, setPacketActionPending] = useState(false);
   const [sessionId, setSessionId] = useState<string | undefined>(effectiveInitialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
   const [saveEmail, setSaveEmail] = useState("");
@@ -149,6 +156,70 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     for (const screen of screens) map[screen.id] = screen.prompt;
     return map;
   }, [screens]);
+
+  // UX-GLOBAL-017 — persist the in-progress answer set so a refresh, a
+  // back-forward navigation or a tab restore does not silently drop every answer
+  // and return the participant to question one. The read path already existed;
+  // nothing ever wrote it except the emailed resume link.
+  //
+  // sessionStorage, not localStorage: this is a record-clearing questionnaire,
+  // and the answers should not outlive the browser session on a shared machine.
+  useEffect(() => {
+    if (load.status !== "ready" || screens.length === 0) return;
+    if (Object.keys(answers).length === 0) return;
+    try {
+      window.sessionStorage.setItem(IN_PROGRESS_STORAGE_KEY, JSON.stringify({
+        sessionId,
+        jurisdiction: load.profile.jurisdiction.code,
+        profileVersion: load.profile.profileVersion,
+        answers,
+        currentQuestionId: screens[currentIndex]?.id ?? null,
+        phase
+      }));
+    } catch {
+      // A full or blocked store must never break the questionnaire.
+    }
+  }, [answers, currentIndex, phase, sessionId, load, screens]);
+
+  // Restore an in-progress set on mount. The emailed resume link still wins:
+  // it is handled by the effect below and clears this one.
+  useEffect(() => {
+    if (load.status !== "ready" || screens.length === 0) return;
+    if (Object.keys(answers).length > 0) return;
+    let stored: string | null = null;
+    try { stored = window.sessionStorage.getItem(IN_PROGRESS_STORAGE_KEY); } catch { stored = null; }
+    if (!stored) return;
+    try {
+      const parsed = JSON.parse(stored) as {
+        sessionId?: string;
+        jurisdiction?: string;
+        profileVersion?: string;
+        answers?: Record<string, AnswerValue>;
+        currentQuestionId?: string | null;
+        phase?: Phase;
+      };
+      // A stored set from another state, or from a profile version whose
+      // questions have changed, is discarded rather than half-applied.
+      if (parsed.jurisdiction !== load.profile.jurisdiction.code) return;
+      if (parsed.profileVersion && parsed.profileVersion !== load.profile.profileVersion) {
+        window.sessionStorage.removeItem(IN_PROGRESS_STORAGE_KEY);
+        return;
+      }
+      if (!parsed.answers || Object.keys(parsed.answers).length === 0) return;
+      queueMicrotask(() => {
+        if (parsed.sessionId) setSessionId(parsed.sessionId);
+        setAnswers(parsed.answers ?? {});
+        if (parsed.currentQuestionId) {
+          const target = screens.findIndex((screen) => screen.id === parsed.currentQuestionId);
+          if (target >= 0) setCurrentIndex(target);
+        }
+      });
+    } catch {
+      try { window.sessionStorage.removeItem(IN_PROGRESS_STORAGE_KEY); } catch { /* ignore */ }
+    }
+    // Restores once, on the first ready render for this profile.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [load.status, screens.length]);
 
   useEffect(() => {
     if (load.status !== "ready" || screens.length === 0) return;
@@ -250,8 +321,20 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   // route or payment identity. The pending endpoint re-evaluates those inputs;
   // the authenticated claim does it again and lands on the exact saved matter.
   async function handlePacketAction() {
-    if (!evaluation) return;
+    if (!evaluation || packetActionPending) return;
     setPacketActionError(null);
+    setPacketActionPending(true);
+    try {
+      await runPacketAction();
+    } finally {
+      // Left pending on a successful navigation would be a lie the moment the
+      // route changes; cleared here so a failure returns a usable control.
+      setPacketActionPending(false);
+    }
+  }
+
+  async function runPacketAction() {
+    if (!evaluation) return;
 
     const pendingResponse = await fetch("/api/expungement-ai/screening/pending", {
       method: "POST",
@@ -276,9 +359,12 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })
     }).catch(() => null);
-    const claimed = await claimResponse?.json().catch(() => null) as { redirectTo?: string } | null;
+    const claimed = await claimResponse?.json().catch(() => null) as { redirectTo?: string; nextActionPath?: string } | null;
     if (claimResponse?.ok && claimed?.redirectTo) {
-      router.push(claimed.redirectTo);
+      // The answers now live on the saved matter; the session copy would only
+      // resurrect a stale set if the participant started the flow again.
+      try { window.sessionStorage.removeItem(IN_PROGRESS_STORAGE_KEY); } catch { /* ignore */ }
+      router.push(claimed.nextActionPath ?? claimed.redirectTo);
       return;
     }
     if (claimResponse?.status !== 401) {
@@ -394,6 +480,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             onEditAnswers={goToQuestions}
             onPacketAction={() => void handlePacketAction()}
             actionError={packetActionError}
+            actionPending={packetActionPending}
             hasScreeningSession={isPartnerSession}
           />
         </div>
@@ -404,7 +491,11 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const question = screens[currentIndex];
 
   return (
-    <FlowFrame currentQuestion={question.prompt} state={state}>
+    <FlowFrame
+      currentQuestion={question.prompt}
+      activeQuestion={{ id: question.id, prompt: question.prompt, ...(question.helperText ? { helperText: question.helperText } : {}), ...(question.stage ? { stage: question.stage } : {}) }}
+      state={state}
+    >
       <ProgressRail current={currentIndex + 1} total={screens.length} />
       <div className="mb-4 flex items-center justify-between">
         <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">{translate("screening.state_screening", "{state} screening", { state: stateName })}</p>
@@ -530,11 +621,14 @@ function SaveProgressDialog({
 function FlowFrame({
   children,
   currentQuestion,
+  activeQuestion,
   wilmaContext = "check",
   state
 }: {
   children: React.ReactNode;
   currentQuestion?: string;
+  /** UX-GLOBAL-011 — the question on screen, for the help surface. */
+  activeQuestion?: { id: string; prompt: string; helperText?: string; stage?: string };
   wilmaContext?: WilmaPageContext;
   // The screening jurisdiction, threaded to Wilma so the check/result surfaces send a
   // case-aware payload (verified state content injection). Undefined on pre-case states.
@@ -545,7 +639,7 @@ function FlowFrame({
   return (
     <>
       <section className="mx-auto max-w-2xl px-4 pb-16 pt-28 font-sans md:px-8">{children}</section>
-      <WilmaBubble context={wilmaContext} currentQuestion={currentQuestion} state={state} />
+      <WilmaBubble context={wilmaContext} currentQuestion={currentQuestion} activeQuestion={activeQuestion} state={state} />
     </>
   );
 }

@@ -131,6 +131,7 @@ export function ScreeningResult({
   onEditAnswers,
   onPacketAction,
   actionError,
+  actionPending = false,
   hasScreeningSession = false
 }: {
   evaluation: ScreeningEvaluation;
@@ -139,6 +140,8 @@ export function ScreeningResult({
   onEditAnswers: (focusQuestionId?: string) => void;
   onPacketAction: () => void;
   actionError?: string | null;
+  /** UX-GLOBAL-002 — in flight across two sequential POSTs. */
+  actionPending?: boolean;
   // Partner/session mode: the screening was started through a partner program (a screening
   // session already exists). In that mode the consumer pay-and-generate flow does not apply —
   // the packet action saves to Briefcase and no $50 charge is shown here.
@@ -263,20 +266,28 @@ export function ScreeningResult({
           <button
             type="button"
             onClick={onPacketAction}
-            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+            disabled={actionPending}
+            aria-busy={actionPending}
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            {translate(PARTNER_RESULT_LANES[evaluation.resultCode].key, PARTNER_RESULT_LANES[evaluation.resultCode].fallback)}
+            {actionPending
+              ? translate("screening.saving_matter", "Saving your matter...")
+              : translate(PARTNER_RESULT_LANES[evaluation.resultCode].key, PARTNER_RESULT_LANES[evaluation.resultCode].fallback)}
           </button>
         ) : (
           // DTC mode: every authoritative result can be saved before payment.
           <button
             type="button"
             onClick={onPacketAction}
-            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+            disabled={actionPending}
+            aria-busy={actionPending}
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            {translate(DTC_RESULT_ACTIONS[evaluation.resultCode].key, DTC_RESULT_ACTIONS[evaluation.resultCode].fallback)}
+            {actionPending
+              ? translate("screening.saving_matter", "Saving your matter...")
+              : translate(DTC_RESULT_ACTIONS[evaluation.resultCode].key, DTC_RESULT_ACTIONS[evaluation.resultCode].fallback)}
           </button>
         )}
         {missing.length > 0 ? (

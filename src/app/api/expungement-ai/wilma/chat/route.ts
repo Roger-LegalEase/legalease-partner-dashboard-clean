@@ -18,6 +18,8 @@ type WilmaChatRequest = {
   state?: string;
   briefcaseItemId?: string;
   locale?: string;
+  /** UX-GLOBAL-011 — the question on screen. Bounded and sanitized below. */
+  activeQuestion?: { id?: string; prompt?: string; helperText?: string; stage?: string };
   // Prior turns in this conversation, oldest first, excluding the current message.
   // Normalized (validated, bounded) server-side before reaching the model.
   history?: WilmaTurn[];
@@ -39,10 +41,23 @@ export async function POST(request: NextRequest) {
   }
 
   const briefcaseItem = body?.briefcaseItemId ? await getBriefcaseItem(auth.userId, body.briefcaseItemId) : null;
+  // Bounded: an id, a prompt and helper copy, each length-capped. Anything else
+  // a caller sends on this field is dropped rather than forwarded to the model.
+  const rawQuestion = body?.activeQuestion;
+  const activeQuestion = rawQuestion?.id && rawQuestion?.prompt
+    ? {
+      id: String(rawQuestion.id).slice(0, 120),
+      prompt: String(rawQuestion.prompt).slice(0, 400),
+      ...(rawQuestion.helperText ? { helperText: String(rawQuestion.helperText).slice(0, 600) } : {}),
+      ...(rawQuestion.stage ? { stage: String(rawQuestion.stage).slice(0, 80) } : {})
+    }
+    : null;
+
   const context = buildWilmaContext({
     state: body?.state,
     pageContext,
-    briefcaseItem
+    briefcaseItem,
+    activeQuestion
   });
 
   const history = normalizeWilmaHistory(body?.history);

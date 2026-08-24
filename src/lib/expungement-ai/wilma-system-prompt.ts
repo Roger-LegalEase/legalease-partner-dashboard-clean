@@ -109,6 +109,23 @@ export function buildWilmaSystemPrompt(
         renderCaseContext(context)
       ];
 
+  // UX-GLOBAL-011 — the question the participant is looking at right now. Without
+  // it Wilma received a page-level context only ("check" or "results") and could
+  // not answer "what does this question mean" for any of the 553 consumer screen
+  // nodes across the 51 jurisdictions.
+  const activeQuestionSection = context.activeQuestion
+    ? [
+        "## QUESTION ON SCREEN",
+        "The user is looking at this screening question right now. If they ask what it means, what it decides, or why it is being asked, explain THIS question in plain language. You may restate and clarify its wording and its helper text; you may not tell them how to answer it, and you may not draw an eligibility conclusion from it.",
+        `- id: ${context.activeQuestion.id}`,
+        `- prompt: ${context.activeQuestion.prompt}`,
+        ...(context.activeQuestion.helperText ? [`- helper text shown to the user: ${context.activeQuestion.helperText}`] : []),
+        ...(context.activeQuestion.stage ? [`- stage: ${context.activeQuestion.stage}`] : []),
+        "The user's answer is deliberately not included here.",
+        ""
+      ]
+    : [];
+
   const reference = [
     "---",
     "",
@@ -117,6 +134,7 @@ export function buildWilmaSystemPrompt(
     "## RESPONSE LANGUAGE",
     languageInstruction,
     "",
+    ...activeQuestionSection,
     ...caseContextSection,
     "",
     "## VERIFIED STATE CONTENT",

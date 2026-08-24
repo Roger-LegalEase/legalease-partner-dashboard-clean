@@ -27,6 +27,29 @@ import { localizeProfileText } from "@/lib/expungement-ai/localization";
 const YES_NO_UNSURE_OPTIONS = ["Yes", "No", "I am not sure"];
 const YES_NO_PREFER_NOT_OPTIONS = ["Yes", "No", "Prefer not to say"];
 
+/**
+ * UX-GLOBAL-012 — the reason and the visibility statement for every question
+ * classified special_category or identity_direct. A question in this table
+ * cannot render without them.
+ */
+const SENSITIVE_QUESTION_DISCLOSURES: Record<string, { key: string; why: string; visibility: string }> = {
+  trafficking_status: {
+    key: "screening.sensitive.trafficking_status",
+    why: "Why we ask:",
+    visibility: "Some states offer a separate, faster route to clear a record connected to trafficking, and this answer decides whether we check that route for you. It is stored with your matter, used only to pick the right route and prepare your packet, and never shared with anyone outside LegalEase without your instruction. You may answer \u201cPrefer not to say\u201d and we will simply not check that route."
+  },
+  residency_or_location: {
+    key: "screening.sensitive.residency_or_location",
+    why: "Why we ask:",
+    visibility: "Some routes are only open to people who live in the state, or require filing where you live now. This answer is used to pick the right route and to fill the address fields on your court forms. It is stored with your matter and is not shared with anyone outside LegalEase without your instruction."
+  },
+  participant_full_legal_name: {
+    key: "screening.sensitive.participant_full_legal_name",
+    why: "Why we ask:",
+    visibility: "Court forms must carry your name exactly as it appears on the case record, so we ask for it to fill your packet. It is stored with your matter, used only to prepare your documents, and is not shared with anyone outside LegalEase without your instruction."
+  }
+};
+
 export function QuestionField({
   question,
   stateCode,
@@ -70,10 +93,27 @@ export function QuestionField({
   );
   const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
-  const helperNode = question.helperText ? (
-    <p id={helperId} className="text-[13.5px] leading-6 text-[#5A6275]">
-      {helperText}
-    </p>
+  // UX-GLOBAL-012 — a special-category or identity-direct question must carry a
+  // plain reason and a visibility statement. Three rendered questions carried
+  // neither, and trafficking status is the sharpest case: a
+  // yes_no_prefer_not_to_say question asked as a REQUIRED prepay screen with no
+  // copy saying what it decides or who sees it.
+  //
+  // Declared here rather than per profile so no jurisdiction can ship the
+  // question without the explanation.
+  const sensitiveDisclosure = SENSITIVE_QUESTION_DISCLOSURES[question.id];
+  const helperNode = question.helperText || sensitiveDisclosure ? (
+    <div id={helperId} className="space-y-2">
+      {question.helperText ? (
+        <p className="text-[13.5px] leading-6 text-[#5A6275]">{helperText}</p>
+      ) : null}
+      {sensitiveDisclosure ? (
+        <p className="rounded-[10px] border border-[#DCE6F5] bg-[#F5F8FD] px-3 py-2 text-[13px] leading-6 text-[#41506B]">
+          <span className="font-bold">{translate(`${sensitiveDisclosure.key}.why`, sensitiveDisclosure.why)}</span>{" "}
+          {translate(`${sensitiveDisclosure.key}.visibility`, sensitiveDisclosure.visibility)}
+        </p>
+      ) : null}
+    </div>
   ) : null;
   const errorNode = error ? (
     <p id={errorId} role="alert" className="text-[13px] font-semibold text-[#C2410C]">
