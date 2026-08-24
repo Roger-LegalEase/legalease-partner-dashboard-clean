@@ -46,7 +46,7 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "a67a2d95529ab48c1b982f363f6f28f065b495c2b26d6a5822b40ec07e99b100"
+        "src/lib/rcap-engine/evaluator.ts": "c6cc330f7f191b5422b8214f46b0ab84e59b7c45477d138ae49e5112ece0ca43"
       },
       "originallyApprovedSha256": {
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
@@ -81,6 +81,13 @@
           "sha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
           "supersededOn": "2026-08-24",
           "reason": "Waiting-rule selection now consults an explicit pathway-to-rule binding table before the pre-correction prose selector, which stays verbatim as the fallback for a route with no authored binding. Thirteen routes the prose search could not settle now resolve to a rule the jurisdiction's own compiled profile already defines. Every other route keeps the selector it had, because that search is answer-dependent and replacing it wholesale closed six jurisdictions that were open at the base. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes, Maryland gains no binding, and its routes evaluate exactly as before. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
+          "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "a67a2d95529ab48c1b982f363f6f28f065b495c2b26d6a5822b40ec07e99b100",
+          "supersededOn": "2026-08-24",
+          "reason": "Phase 4 product corrections to the shared evaluator: a single fail-closed checkout authority now decides paymentAllowed, the timing gate records what its conclusion was computed from, and ambiguityReason judges an uncertain answer against the route it belongs to instead of every rendered question. None of it touches the Maryland pardon route this delta approves — no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved, and the route's counsel-approved payment behaviour is preserved verbatim and recorded as its own payment authority in src/lib/rcap-engine/route-payment-authority.json.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         }
       ],

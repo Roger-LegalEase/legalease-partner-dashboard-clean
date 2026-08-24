@@ -1,0 +1,6339 @@
+{
+  "schemaVersion": "rcap-county-court-catalog/v1",
+  "generatedBy": "scripts/expungement-ai/phase4-corrections/build-county-court-catalog.mjs",
+  "head": "fd2c73d9006b3761a000d9b9e42244be24467e1a",
+  "contract": {
+    "provenance": "Every option is harvested from a committed state-pack module. This file invents no county and no court.",
+    "manualEntry": "A participant may always type a value the list does not carry. That value is stored separately and is never treated as verified.",
+    "compatibility": "A jurisdiction absent from `jurisdictions` renders exactly as it did before: the existing free-text question, unchanged.",
+    "parity": "This is published as an additive field on the question. No question id, type, stage, options array, required flag or contextOnly flag changes, so the screening-parity gate is unaffected and no approved delta is consumed."
+  },
+  "totals": {
+    "jurisdictionsWithACatalog": 42,
+    "counties": 1231,
+    "courts": 140,
+    "jurisdictionsPublishingNoCountyOrCourtQuestion": 6
+  },
+  "jurisdictionsPublishingNoCountyOrCourtQuestion": [
+    "MS",
+    "ND",
+    "NH",
+    "PA",
+    "RI",
+    "UT"
+  ],
+  "jurisdictions": {
+    "AL": {
+      "jurisdiction": "AL",
+      "statePack": "alabama",
+      "counties": [
+        {
+          "id": "the_county_where_the_charges_were_filed",
+          "label": "The county where the charges were FILED",
+          "sourceQuote": "Venue is the circuit court of the county where the charges were FILED.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court_criminal_division_of_the_county_where_the_charges_were_filed",
+          "label": "Circuit court (criminal division) of the county where the charges were filed",
+          "counties": null,
+          "sourceQuote": "File in the criminal division of the circuit court of the county where the charges were filed, and pay the $500 administrative filing fee (§ 15-27-4) or file an indigency declaration for a waiver.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "alabama_law_enforcement_agency_alea",
+          "label": "Alabama Law Enforcement Agency (ALEA)",
+          "counties": null,
+          "sourceQuote": "Request the official ALEA criminal history record (and the court file) to confirm each charge, the disposition, the offense classification, and the conviction or completion dates.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "AR": {
+      "jurisdiction": "AR",
+      "statePack": "arkansas",
+      "counties": [
+        {
+          "id": "arkansas",
+          "label": "Arkansas"
+        },
+        {
+          "id": "ashley",
+          "label": "Ashley"
+        },
+        {
+          "id": "baxter",
+          "label": "Baxter"
+        },
+        {
+          "id": "benton",
+          "label": "Benton"
+        },
+        {
+          "id": "boone",
+          "label": "Boone"
+        },
+        {
+          "id": "bradley",
+          "label": "Bradley"
+        },
+        {
+          "id": "calhoun",
+          "label": "Calhoun"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "chicot",
+          "label": "Chicot"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "cleburne",
+          "label": "Cleburne"
+        },
+        {
+          "id": "cleveland",
+          "label": "Cleveland"
+        },
+        {
+          "id": "columbia",
+          "label": "Columbia"
+        },
+        {
+          "id": "conway",
+          "label": "Conway"
+        },
+        {
+          "id": "craighead",
+          "label": "Craighead"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "crittenden",
+          "label": "Crittenden"
+        },
+        {
+          "id": "cross",
+          "label": "Cross"
+        },
+        {
+          "id": "dallas",
+          "label": "Dallas"
+        },
+        {
+          "id": "desha",
+          "label": "Desha"
+        },
+        {
+          "id": "drew",
+          "label": "Drew"
+        },
+        {
+          "id": "faulkner",
+          "label": "Faulkner"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "garland",
+          "label": "Garland"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "hempstead",
+          "label": "Hempstead"
+        },
+        {
+          "id": "hot_spring",
+          "label": "Hot Spring"
+        },
+        {
+          "id": "howard",
+          "label": "Howard"
+        },
+        {
+          "id": "independence",
+          "label": "Independence"
+        },
+        {
+          "id": "izard",
+          "label": "Izard"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "lafayette",
+          "label": "Lafayette"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "lee",
+          "label": "Lee"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "little_river",
+          "label": "Little River"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "lonoke",
+          "label": "Lonoke"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "miller",
+          "label": "Miller"
+        },
+        {
+          "id": "mississippi",
+          "label": "Mississippi"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "nevada",
+          "label": "Nevada"
+        },
+        {
+          "id": "newton",
+          "label": "Newton"
+        },
+        {
+          "id": "ouachita",
+          "label": "Ouachita"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "phillips",
+          "label": "Phillips"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "poinsett",
+          "label": "Poinsett"
+        },
+        {
+          "id": "polk",
+          "label": "Polk"
+        },
+        {
+          "id": "pope",
+          "label": "Pope"
+        },
+        {
+          "id": "prairie",
+          "label": "Prairie"
+        },
+        {
+          "id": "pulaski",
+          "label": "Pulaski"
+        },
+        {
+          "id": "randolph",
+          "label": "Randolph"
+        },
+        {
+          "id": "st_francis",
+          "label": "St. Francis"
+        },
+        {
+          "id": "saline",
+          "label": "Saline"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "searcy",
+          "label": "Searcy"
+        },
+        {
+          "id": "sebastian",
+          "label": "Sebastian"
+        },
+        {
+          "id": "sevier",
+          "label": "Sevier"
+        },
+        {
+          "id": "sharp",
+          "label": "Sharp"
+        },
+        {
+          "id": "stone",
+          "label": "Stone"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "van_buren",
+          "label": "Van Buren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "white",
+          "label": "White"
+        },
+        {
+          "id": "woodruff",
+          "label": "Woodruff"
+        },
+        {
+          "id": "yell",
+          "label": "Yell"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null,
+          "sourceQuote": "File in the circuit or district court that handled the case.",
+          "sourceRef": "AR-arkansas.json#packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "File in the circuit or district court that handled the case.",
+          "sourceRef": "AR-arkansas.json#packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "AZ": {
+      "jurisdiction": "AZ",
+      "statePack": "arizona",
+      "counties": [],
+      "courts": [
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null,
+          "sourceQuote": "File in the court that handled the case (superior, justice, or municipal)."
+        },
+        {
+          "id": "justice_court",
+          "label": "Justice Court",
+          "counties": null,
+          "sourceQuote": "File in the court that handled the case (superior, justice, or municipal)."
+        },
+        {
+          "id": "municipal_court",
+          "label": "Municipal Court",
+          "counties": null,
+          "sourceQuote": "File in the court that handled the case (superior, justice, or municipal)."
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "CA": {
+      "jurisdiction": "CA",
+      "statePack": "california",
+      "counties": [],
+      "courts": [
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null,
+          "sourceQuote": "Venue is the county of conviction's Superior Court — not the county of residence."
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "CO": {
+      "jurisdiction": "CO",
+      "statePack": "colorado",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "alamosa",
+          "label": "Alamosa"
+        },
+        {
+          "id": "arapahoe",
+          "label": "Arapahoe"
+        },
+        {
+          "id": "archuleta",
+          "label": "Archuleta"
+        },
+        {
+          "id": "baca",
+          "label": "Baca"
+        },
+        {
+          "id": "bent",
+          "label": "Bent"
+        },
+        {
+          "id": "boulder",
+          "label": "Boulder"
+        },
+        {
+          "id": "broomfield",
+          "label": "Broomfield"
+        },
+        {
+          "id": "chaffee",
+          "label": "Chaffee"
+        },
+        {
+          "id": "cheyenne",
+          "label": "Cheyenne"
+        },
+        {
+          "id": "clear_creek",
+          "label": "Clear Creek"
+        },
+        {
+          "id": "conejos",
+          "label": "Conejos"
+        },
+        {
+          "id": "costilla",
+          "label": "Costilla"
+        },
+        {
+          "id": "crowley",
+          "label": "Crowley"
+        },
+        {
+          "id": "custer",
+          "label": "Custer"
+        },
+        {
+          "id": "delta",
+          "label": "Delta"
+        },
+        {
+          "id": "denver",
+          "label": "Denver"
+        },
+        {
+          "id": "dolores",
+          "label": "Dolores"
+        },
+        {
+          "id": "douglas",
+          "label": "Douglas"
+        },
+        {
+          "id": "eagle",
+          "label": "Eagle"
+        },
+        {
+          "id": "elbert",
+          "label": "Elbert"
+        },
+        {
+          "id": "el_paso",
+          "label": "El Paso"
+        },
+        {
+          "id": "fremont",
+          "label": "Fremont"
+        },
+        {
+          "id": "garfield",
+          "label": "Garfield"
+        },
+        {
+          "id": "gilpin",
+          "label": "Gilpin"
+        },
+        {
+          "id": "grand",
+          "label": "Grand"
+        },
+        {
+          "id": "gunnison",
+          "label": "Gunnison"
+        },
+        {
+          "id": "hinsdale",
+          "label": "Hinsdale"
+        },
+        {
+          "id": "huerfano",
+          "label": "Huerfano"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "kiowa",
+          "label": "Kiowa"
+        },
+        {
+          "id": "kit_carson",
+          "label": "Kit Carson"
+        },
+        {
+          "id": "lake",
+          "label": "Lake"
+        },
+        {
+          "id": "la_plata",
+          "label": "La Plata"
+        },
+        {
+          "id": "larimer",
+          "label": "Larimer"
+        },
+        {
+          "id": "las_animas",
+          "label": "Las Animas"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "mesa",
+          "label": "Mesa"
+        },
+        {
+          "id": "mineral",
+          "label": "Mineral"
+        },
+        {
+          "id": "moffat",
+          "label": "Moffat"
+        },
+        {
+          "id": "montezuma",
+          "label": "Montezuma"
+        },
+        {
+          "id": "montrose",
+          "label": "Montrose"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "otero",
+          "label": "Otero"
+        },
+        {
+          "id": "ouray",
+          "label": "Ouray"
+        },
+        {
+          "id": "park",
+          "label": "Park"
+        },
+        {
+          "id": "phillips",
+          "label": "Phillips"
+        },
+        {
+          "id": "pitkin",
+          "label": "Pitkin"
+        },
+        {
+          "id": "prowers",
+          "label": "Prowers"
+        },
+        {
+          "id": "pueblo",
+          "label": "Pueblo"
+        },
+        {
+          "id": "rio_blanco",
+          "label": "Rio Blanco"
+        },
+        {
+          "id": "rio_grande",
+          "label": "Rio Grande"
+        },
+        {
+          "id": "routt",
+          "label": "Routt"
+        },
+        {
+          "id": "saguache",
+          "label": "Saguache"
+        },
+        {
+          "id": "san_juan",
+          "label": "San Juan"
+        },
+        {
+          "id": "san_miguel",
+          "label": "San Miguel"
+        },
+        {
+          "id": "sedgwick",
+          "label": "Sedgwick"
+        },
+        {
+          "id": "summit",
+          "label": "Summit"
+        },
+        {
+          "id": "teller",
+          "label": "Teller"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "weld",
+          "label": "Weld"
+        },
+        {
+          "id": "yuma",
+          "label": "Yuma"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "Example A — Motion to Seal Conviction Records (JDF 612, § 24-72-706) DISTRICT COURT, EL PASO COUNTY, COLORADO",
+          "sourceRef": "CO-colorado.json#sourceSections (JDF 612 sample caption)"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "CT": {
+      "jurisdiction": "CT",
+      "statePack": "connecticut",
+      "counties": [
+        {
+          "id": "ansonia_milford",
+          "label": "Ansonia-Milford"
+        },
+        {
+          "id": "danbury",
+          "label": "Danbury"
+        },
+        {
+          "id": "fairfield",
+          "label": "Fairfield"
+        },
+        {
+          "id": "hartford",
+          "label": "Hartford"
+        },
+        {
+          "id": "litchfield",
+          "label": "Litchfield"
+        },
+        {
+          "id": "middlesex",
+          "label": "Middlesex"
+        },
+        {
+          "id": "new_britain",
+          "label": "New Britain"
+        },
+        {
+          "id": "new_haven",
+          "label": "New Haven"
+        },
+        {
+          "id": "new_london",
+          "label": "New London"
+        },
+        {
+          "id": "stamford_norwalk",
+          "label": "Stamford-Norwalk"
+        },
+        {
+          "id": "tolland",
+          "label": "Tolland"
+        },
+        {
+          "id": "waterbury",
+          "label": "Waterbury"
+        },
+        {
+          "id": "windham",
+          "label": "Windham"
+        }
+      ],
+      "courts": [
+        {
+          "id": "superior_court_criminal",
+          "label": "Superior Court — Criminal",
+          "counties": null
+        },
+        {
+          "id": "superior_court_geographical_area_g_a_court",
+          "label": "Superior Court — Geographical Area (G.A.) court",
+          "counties": null
+        },
+        {
+          "id": "superior_court_juvenile_matters",
+          "label": "Superior Court — Juvenile Matters",
+          "counties": null
+        },
+        {
+          "id": "board_of_pardons_and_paroles",
+          "label": "Board of Pardons and Paroles",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "DE": {
+      "jurisdiction": "DE",
+      "statePack": "delaware",
+      "counties": [
+        {
+          "id": "kent",
+          "label": "Kent"
+        },
+        {
+          "id": "new_castle",
+          "label": "New Castle"
+        },
+        {
+          "id": "sussex",
+          "label": "Sussex"
+        }
+      ],
+      "courts": [
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null
+        },
+        {
+          "id": "court_of_common_pleas",
+          "label": "Court of Common Pleas",
+          "counties": null
+        },
+        {
+          "id": "family_court",
+          "label": "Family Court",
+          "counties": null
+        },
+        {
+          "id": "justice_of_the_peace_court",
+          "label": "Justice of the Peace Court",
+          "counties": null
+        },
+        {
+          "id": "state_bureau_of_identification_sbi",
+          "label": "State Bureau of Identification (SBI)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "FL": {
+      "jurisdiction": "FL",
+      "statePack": "florida",
+      "counties": [
+        {
+          "id": "the_county_where_the_arrest_occurred",
+          "label": "The county where the arrest occurred",
+          "sourceQuote": "the user files the petition, sworn statement/affidavit, certificate, and proposed order in the court with jurisdiction over the arrest, usually the county where the arrest occurred",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "florida_court_with_jurisdiction_over_the_arrest_usually_the_county_where_the_arr",
+          "label": "Florida court with jurisdiction over the arrest (usually the county where the arrest occurred)",
+          "counties": null,
+          "sourceQuote": "After FDLE issues the certificate, the user files the petition, sworn statement/affidavit, certificate, and proposed order in the court with jurisdiction over the arrest, usually the county where the arrest occurred.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "florida_department_of_law_enforcement_fdle",
+          "label": "Florida Department of Law Enforcement (FDLE)",
+          "counties": null,
+          "sourceQuote": "For normal sealing/expunction, the user submits the FDLE Certificate of Eligibility application with certified disposition, fingerprints, notarized signature, and $75 fee.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "a_court_in_the_circuit_of_arrest_human_trafficking_victim_expunction_943_0583",
+          "label": "A court in the circuit of arrest (human-trafficking victim expunction, § 943.0583)",
+          "counties": null,
+          "sourceQuote": "human-trafficking victim expunction (§ 943.0583) is filed in a court in the circuit of arrest with no clerk fee",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "GA": {
+      "jurisdiction": "GA",
+      "statePack": "georgia",
+      "counties": [
+        {
+          "id": "appling",
+          "label": "Appling"
+        },
+        {
+          "id": "atkinson",
+          "label": "Atkinson"
+        },
+        {
+          "id": "bacon",
+          "label": "Bacon"
+        },
+        {
+          "id": "baker",
+          "label": "Baker"
+        },
+        {
+          "id": "baldwin",
+          "label": "Baldwin"
+        },
+        {
+          "id": "banks",
+          "label": "Banks"
+        },
+        {
+          "id": "barrow",
+          "label": "Barrow"
+        },
+        {
+          "id": "bartow",
+          "label": "Bartow"
+        },
+        {
+          "id": "ben_hill",
+          "label": "Ben Hill"
+        },
+        {
+          "id": "berrien",
+          "label": "Berrien"
+        },
+        {
+          "id": "bibb",
+          "label": "Bibb"
+        },
+        {
+          "id": "bleckley",
+          "label": "Bleckley"
+        },
+        {
+          "id": "brantley",
+          "label": "Brantley"
+        },
+        {
+          "id": "brooks",
+          "label": "Brooks"
+        },
+        {
+          "id": "bryan",
+          "label": "Bryan"
+        },
+        {
+          "id": "bulloch",
+          "label": "Bulloch"
+        },
+        {
+          "id": "burke",
+          "label": "Burke"
+        },
+        {
+          "id": "butts",
+          "label": "Butts"
+        },
+        {
+          "id": "calhoun",
+          "label": "Calhoun"
+        },
+        {
+          "id": "camden",
+          "label": "Camden"
+        },
+        {
+          "id": "candler",
+          "label": "Candler"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "catoosa",
+          "label": "Catoosa"
+        },
+        {
+          "id": "charlton",
+          "label": "Charlton"
+        },
+        {
+          "id": "chatham",
+          "label": "Chatham"
+        },
+        {
+          "id": "chattahoochee",
+          "label": "Chattahoochee"
+        },
+        {
+          "id": "chattooga",
+          "label": "Chattooga"
+        },
+        {
+          "id": "cherokee",
+          "label": "Cherokee"
+        },
+        {
+          "id": "clarke",
+          "label": "Clarke"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "clayton",
+          "label": "Clayton"
+        },
+        {
+          "id": "clinch",
+          "label": "Clinch"
+        },
+        {
+          "id": "cobb",
+          "label": "Cobb"
+        },
+        {
+          "id": "coffee",
+          "label": "Coffee"
+        },
+        {
+          "id": "colquitt",
+          "label": "Colquitt"
+        },
+        {
+          "id": "columbia",
+          "label": "Columbia"
+        },
+        {
+          "id": "cook",
+          "label": "Cook"
+        },
+        {
+          "id": "coweta",
+          "label": "Coweta"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "crisp",
+          "label": "Crisp"
+        },
+        {
+          "id": "dade",
+          "label": "Dade"
+        },
+        {
+          "id": "dawson",
+          "label": "Dawson"
+        },
+        {
+          "id": "decatur",
+          "label": "Decatur"
+        },
+        {
+          "id": "dekalb",
+          "label": "DeKalb"
+        },
+        {
+          "id": "dodge",
+          "label": "Dodge"
+        },
+        {
+          "id": "dooly",
+          "label": "Dooly"
+        },
+        {
+          "id": "dougherty",
+          "label": "Dougherty"
+        },
+        {
+          "id": "douglas",
+          "label": "Douglas"
+        },
+        {
+          "id": "early",
+          "label": "Early"
+        },
+        {
+          "id": "echols",
+          "label": "Echols"
+        },
+        {
+          "id": "effingham",
+          "label": "Effingham"
+        },
+        {
+          "id": "elbert",
+          "label": "Elbert"
+        },
+        {
+          "id": "emanuel",
+          "label": "Emanuel"
+        },
+        {
+          "id": "evans",
+          "label": "Evans"
+        },
+        {
+          "id": "fannin",
+          "label": "Fannin"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "floyd",
+          "label": "Floyd"
+        },
+        {
+          "id": "forsyth",
+          "label": "Forsyth"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "gilmer",
+          "label": "Gilmer"
+        },
+        {
+          "id": "glascock",
+          "label": "Glascock"
+        },
+        {
+          "id": "glynn",
+          "label": "Glynn"
+        },
+        {
+          "id": "gordon",
+          "label": "Gordon"
+        },
+        {
+          "id": "grady",
+          "label": "Grady"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "gwinnett",
+          "label": "Gwinnett"
+        },
+        {
+          "id": "habersham",
+          "label": "Habersham"
+        },
+        {
+          "id": "hall",
+          "label": "Hall"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "haralson",
+          "label": "Haralson"
+        },
+        {
+          "id": "harris",
+          "label": "Harris"
+        },
+        {
+          "id": "hart",
+          "label": "Hart"
+        },
+        {
+          "id": "heard",
+          "label": "Heard"
+        },
+        {
+          "id": "henry",
+          "label": "Henry"
+        },
+        {
+          "id": "houston",
+          "label": "Houston"
+        },
+        {
+          "id": "irwin",
+          "label": "Irwin"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jasper",
+          "label": "Jasper"
+        },
+        {
+          "id": "jeff_davis",
+          "label": "Jeff Davis"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jenkins",
+          "label": "Jenkins"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "jones",
+          "label": "Jones"
+        },
+        {
+          "id": "lamar",
+          "label": "Lamar"
+        },
+        {
+          "id": "lanier",
+          "label": "Lanier"
+        },
+        {
+          "id": "laurens",
+          "label": "Laurens"
+        },
+        {
+          "id": "lee",
+          "label": "Lee"
+        },
+        {
+          "id": "liberty",
+          "label": "Liberty"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "long",
+          "label": "Long"
+        },
+        {
+          "id": "lowndes",
+          "label": "Lowndes"
+        },
+        {
+          "id": "lumpkin",
+          "label": "Lumpkin"
+        },
+        {
+          "id": "macon",
+          "label": "Macon"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "mcduffie",
+          "label": "McDuffie"
+        },
+        {
+          "id": "mcintosh",
+          "label": "McIntosh"
+        },
+        {
+          "id": "meriwether",
+          "label": "Meriwether"
+        },
+        {
+          "id": "miller",
+          "label": "Miller"
+        },
+        {
+          "id": "mitchell",
+          "label": "Mitchell"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "murray",
+          "label": "Murray"
+        },
+        {
+          "id": "muscogee",
+          "label": "Muscogee"
+        },
+        {
+          "id": "newton",
+          "label": "Newton"
+        },
+        {
+          "id": "oconee",
+          "label": "Oconee"
+        },
+        {
+          "id": "oglethorpe",
+          "label": "Oglethorpe"
+        },
+        {
+          "id": "paulding",
+          "label": "Paulding"
+        },
+        {
+          "id": "peach",
+          "label": "Peach"
+        },
+        {
+          "id": "pickens",
+          "label": "Pickens"
+        },
+        {
+          "id": "pierce",
+          "label": "Pierce"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "polk",
+          "label": "Polk"
+        },
+        {
+          "id": "pulaski",
+          "label": "Pulaski"
+        },
+        {
+          "id": "putnam",
+          "label": "Putnam"
+        },
+        {
+          "id": "quitman",
+          "label": "Quitman"
+        },
+        {
+          "id": "rabun",
+          "label": "Rabun"
+        },
+        {
+          "id": "randolph",
+          "label": "Randolph"
+        },
+        {
+          "id": "richmond",
+          "label": "Richmond"
+        },
+        {
+          "id": "rockdale",
+          "label": "Rockdale"
+        },
+        {
+          "id": "schley",
+          "label": "Schley"
+        },
+        {
+          "id": "screven",
+          "label": "Screven"
+        },
+        {
+          "id": "seminole",
+          "label": "Seminole"
+        },
+        {
+          "id": "spalding",
+          "label": "Spalding"
+        },
+        {
+          "id": "stephens",
+          "label": "Stephens"
+        },
+        {
+          "id": "stewart",
+          "label": "Stewart"
+        },
+        {
+          "id": "sumter",
+          "label": "Sumter"
+        },
+        {
+          "id": "talbot",
+          "label": "Talbot"
+        },
+        {
+          "id": "taliaferro",
+          "label": "Taliaferro"
+        },
+        {
+          "id": "tattnall",
+          "label": "Tattnall"
+        },
+        {
+          "id": "taylor",
+          "label": "Taylor"
+        },
+        {
+          "id": "telfair",
+          "label": "Telfair"
+        },
+        {
+          "id": "terrell",
+          "label": "Terrell"
+        },
+        {
+          "id": "thomas",
+          "label": "Thomas"
+        },
+        {
+          "id": "tift",
+          "label": "Tift"
+        },
+        {
+          "id": "toombs",
+          "label": "Toombs"
+        },
+        {
+          "id": "towns",
+          "label": "Towns"
+        },
+        {
+          "id": "treutlen",
+          "label": "Treutlen"
+        },
+        {
+          "id": "troup",
+          "label": "Troup"
+        },
+        {
+          "id": "turner",
+          "label": "Turner"
+        },
+        {
+          "id": "twiggs",
+          "label": "Twiggs"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "upson",
+          "label": "Upson"
+        },
+        {
+          "id": "walker",
+          "label": "Walker"
+        },
+        {
+          "id": "walton",
+          "label": "Walton"
+        },
+        {
+          "id": "ware",
+          "label": "Ware"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "webster",
+          "label": "Webster"
+        },
+        {
+          "id": "wheeler",
+          "label": "Wheeler"
+        },
+        {
+          "id": "white",
+          "label": "White"
+        },
+        {
+          "id": "whitfield",
+          "label": "Whitfield"
+        },
+        {
+          "id": "wilcox",
+          "label": "Wilcox"
+        },
+        {
+          "id": "wilkes",
+          "label": "Wilkes"
+        },
+        {
+          "id": "wilkinson",
+          "label": "Wilkinson"
+        },
+        {
+          "id": "worth",
+          "label": "Worth"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null,
+          "sourceQuote": "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+          "sourceRef": "GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+        },
+        {
+          "id": "state_court",
+          "label": "State Court",
+          "counties": null,
+          "sourceQuote": "File in the Superior/State Court of the county of conviction and pay the filing fee (county-set).",
+          "sourceRef": "GA-georgia.json#sourceSections; src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+        },
+        {
+          "id": "arresting_agency_or_prosecutor_s_office_non_conviction_restriction_not_a_court_f",
+          "label": "Arresting agency or prosecutor's office (non-conviction restriction — not a court filing)",
+          "counties": null,
+          "sourceQuote": "Submit the non-conviction application to the arresting agency / prosecutor; the prosecutor completes Section Three (approve or deny).",
+          "sourceRef": "src/lib/rcap/state-packs/georgia/filing-instructions.ts"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "IA": {
+      "jurisdiction": "IA",
+      "statePack": "iowa",
+      "counties": [
+        {
+          "id": "the_county_where_the_application_is_filed",
+          "label": "The county where the application is filed",
+          "sourceQuote": "In the Iowa District Court for County / County where you are filing this Application",
+          "sourceRef": "sourceSections (official application caption)"
+        }
+      ],
+      "courts": [
+        {
+          "id": "iowa_district_court_for_the_county_where_the_application_is_filed",
+          "label": "Iowa District Court for the county where the application is filed",
+          "counties": null,
+          "sourceQuote": "In the Iowa District Court for County / County where you are filing this Application",
+          "sourceRef": "sourceSections (official application caption)"
+        },
+        {
+          "id": "clerk_of_district_court",
+          "label": "Clerk of district court",
+          "counties": null,
+          "sourceQuote": "All court costs, fees, fines, restitution, and any other financial obligations ordered by the court or assessed by the clerk of district court in relation to the misdemeanor convictions covered by this application",
+          "sourceRef": "sourceSections"
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "ID": {
+      "jurisdiction": "ID",
+      "statePack": "idaho",
+      "counties": [
+        {
+          "id": "ada",
+          "label": "Ada"
+        },
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "bannock",
+          "label": "Bannock"
+        },
+        {
+          "id": "bear_lake",
+          "label": "Bear Lake"
+        },
+        {
+          "id": "benewah",
+          "label": "Benewah"
+        },
+        {
+          "id": "bingham",
+          "label": "Bingham"
+        },
+        {
+          "id": "blaine",
+          "label": "Blaine"
+        },
+        {
+          "id": "boise",
+          "label": "Boise"
+        },
+        {
+          "id": "bonner",
+          "label": "Bonner"
+        },
+        {
+          "id": "bonneville",
+          "label": "Bonneville"
+        },
+        {
+          "id": "boundary",
+          "label": "Boundary"
+        },
+        {
+          "id": "butte",
+          "label": "Butte"
+        },
+        {
+          "id": "camas",
+          "label": "Camas"
+        },
+        {
+          "id": "canyon",
+          "label": "Canyon"
+        },
+        {
+          "id": "caribou",
+          "label": "Caribou"
+        },
+        {
+          "id": "cassia",
+          "label": "Cassia"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clearwater",
+          "label": "Clearwater"
+        },
+        {
+          "id": "custer",
+          "label": "Custer"
+        },
+        {
+          "id": "elmore",
+          "label": "Elmore"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fremont",
+          "label": "Fremont"
+        },
+        {
+          "id": "gem",
+          "label": "Gem"
+        },
+        {
+          "id": "gooding",
+          "label": "Gooding"
+        },
+        {
+          "id": "idaho",
+          "label": "Idaho"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jerome",
+          "label": "Jerome"
+        },
+        {
+          "id": "kootenai",
+          "label": "Kootenai"
+        },
+        {
+          "id": "latah",
+          "label": "Latah"
+        },
+        {
+          "id": "lemhi",
+          "label": "Lemhi"
+        },
+        {
+          "id": "lewis",
+          "label": "Lewis"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "minidoka",
+          "label": "Minidoka"
+        },
+        {
+          "id": "nez_perce",
+          "label": "Nez Perce"
+        },
+        {
+          "id": "oneida",
+          "label": "Oneida"
+        },
+        {
+          "id": "owyhee",
+          "label": "Owyhee"
+        },
+        {
+          "id": "payette",
+          "label": "Payette"
+        },
+        {
+          "id": "power",
+          "label": "Power"
+        },
+        {
+          "id": "shoshone",
+          "label": "Shoshone"
+        },
+        {
+          "id": "teton",
+          "label": "Teton"
+        },
+        {
+          "id": "twin_falls",
+          "label": "Twin Falls"
+        },
+        {
+          "id": "valley",
+          "label": "Valley"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        }
+      ],
+      "courts": [
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null
+        },
+        {
+          "id": "district_court_magistrate_division",
+          "label": "District Court — Magistrate Division",
+          "counties": null
+        },
+        {
+          "id": "idaho_state_police_bureau_of_criminal_identification",
+          "label": "Idaho State Police — Bureau of Criminal Identification",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "IL": {
+      "jurisdiction": "IL",
+      "statePack": "illinois",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "alexander",
+          "label": "Alexander"
+        },
+        {
+          "id": "bond",
+          "label": "Bond"
+        },
+        {
+          "id": "boone",
+          "label": "Boone"
+        },
+        {
+          "id": "brown",
+          "label": "Brown"
+        },
+        {
+          "id": "bureau",
+          "label": "Bureau"
+        },
+        {
+          "id": "calhoun",
+          "label": "Calhoun"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "cass",
+          "label": "Cass"
+        },
+        {
+          "id": "champaign",
+          "label": "Champaign"
+        },
+        {
+          "id": "christian",
+          "label": "Christian"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "clinton",
+          "label": "Clinton"
+        },
+        {
+          "id": "coles",
+          "label": "Coles"
+        },
+        {
+          "id": "cook",
+          "label": "Cook"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "cumberland",
+          "label": "Cumberland"
+        },
+        {
+          "id": "de_witt",
+          "label": "De Witt"
+        },
+        {
+          "id": "dekalb",
+          "label": "DeKalb"
+        },
+        {
+          "id": "douglas",
+          "label": "Douglas"
+        },
+        {
+          "id": "dupage",
+          "label": "DuPage"
+        },
+        {
+          "id": "edgar",
+          "label": "Edgar"
+        },
+        {
+          "id": "edwards",
+          "label": "Edwards"
+        },
+        {
+          "id": "effingham",
+          "label": "Effingham"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "ford",
+          "label": "Ford"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "gallatin",
+          "label": "Gallatin"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "grundy",
+          "label": "Grundy"
+        },
+        {
+          "id": "hamilton",
+          "label": "Hamilton"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "hardin",
+          "label": "Hardin"
+        },
+        {
+          "id": "henderson",
+          "label": "Henderson"
+        },
+        {
+          "id": "henry",
+          "label": "Henry"
+        },
+        {
+          "id": "iroquois",
+          "label": "Iroquois"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jasper",
+          "label": "Jasper"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jersey",
+          "label": "Jersey"
+        },
+        {
+          "id": "jo_daviess",
+          "label": "Jo Daviess"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "kane",
+          "label": "Kane"
+        },
+        {
+          "id": "kankakee",
+          "label": "Kankakee"
+        },
+        {
+          "id": "kendall",
+          "label": "Kendall"
+        },
+        {
+          "id": "knox",
+          "label": "Knox"
+        },
+        {
+          "id": "lasalle",
+          "label": "LaSalle"
+        },
+        {
+          "id": "lake",
+          "label": "Lake"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "lee",
+          "label": "Lee"
+        },
+        {
+          "id": "livingston",
+          "label": "Livingston"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "macon",
+          "label": "Macon"
+        },
+        {
+          "id": "macoupin",
+          "label": "Macoupin"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "mason",
+          "label": "Mason"
+        },
+        {
+          "id": "massac",
+          "label": "Massac"
+        },
+        {
+          "id": "mcdonough",
+          "label": "McDonough"
+        },
+        {
+          "id": "mchenry",
+          "label": "McHenry"
+        },
+        {
+          "id": "mclean",
+          "label": "McLean"
+        },
+        {
+          "id": "menard",
+          "label": "Menard"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "moultrie",
+          "label": "Moultrie"
+        },
+        {
+          "id": "ogle",
+          "label": "Ogle"
+        },
+        {
+          "id": "peoria",
+          "label": "Peoria"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "piatt",
+          "label": "Piatt"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "pope",
+          "label": "Pope"
+        },
+        {
+          "id": "pulaski",
+          "label": "Pulaski"
+        },
+        {
+          "id": "putnam",
+          "label": "Putnam"
+        },
+        {
+          "id": "randolph",
+          "label": "Randolph"
+        },
+        {
+          "id": "richland",
+          "label": "Richland"
+        },
+        {
+          "id": "rock_island",
+          "label": "Rock Island"
+        },
+        {
+          "id": "saline",
+          "label": "Saline"
+        },
+        {
+          "id": "sangamon",
+          "label": "Sangamon"
+        },
+        {
+          "id": "schuyler",
+          "label": "Schuyler"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "shelby",
+          "label": "Shelby"
+        },
+        {
+          "id": "st_clair",
+          "label": "St. Clair"
+        },
+        {
+          "id": "stark",
+          "label": "Stark"
+        },
+        {
+          "id": "stephenson",
+          "label": "Stephenson"
+        },
+        {
+          "id": "tazewell",
+          "label": "Tazewell"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "vermilion",
+          "label": "Vermilion"
+        },
+        {
+          "id": "wabash",
+          "label": "Wabash"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "white",
+          "label": "White"
+        },
+        {
+          "id": "whiteside",
+          "label": "Whiteside"
+        },
+        {
+          "id": "will",
+          "label": "Will"
+        },
+        {
+          "id": "williamson",
+          "label": "Williamson"
+        },
+        {
+          "id": "winnebago",
+          "label": "Winnebago"
+        },
+        {
+          "id": "woodford",
+          "label": "Woodford"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null
+        },
+        {
+          "id": "circuit_court_of_cook_county",
+          "label": "Circuit Court of Cook County",
+          "counties": null
+        },
+        {
+          "id": "circuit_court_juvenile_division",
+          "label": "Circuit Court — Juvenile Division",
+          "counties": null
+        },
+        {
+          "id": "illinois_state_police_bureau_of_identification",
+          "label": "Illinois State Police — Bureau of Identification",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "IN": {
+      "jurisdiction": "IN",
+      "statePack": "indiana",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "allen",
+          "label": "Allen"
+        },
+        {
+          "id": "bartholomew",
+          "label": "Bartholomew"
+        },
+        {
+          "id": "benton",
+          "label": "Benton"
+        },
+        {
+          "id": "blackford",
+          "label": "Blackford"
+        },
+        {
+          "id": "boone",
+          "label": "Boone"
+        },
+        {
+          "id": "brown",
+          "label": "Brown"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "cass",
+          "label": "Cass"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "clinton",
+          "label": "Clinton"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "daviess",
+          "label": "Daviess"
+        },
+        {
+          "id": "dearborn",
+          "label": "Dearborn"
+        },
+        {
+          "id": "decatur",
+          "label": "Decatur"
+        },
+        {
+          "id": "dekalb",
+          "label": "DeKalb"
+        },
+        {
+          "id": "delaware",
+          "label": "Delaware"
+        },
+        {
+          "id": "dubois",
+          "label": "Dubois"
+        },
+        {
+          "id": "elkhart",
+          "label": "Elkhart"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "floyd",
+          "label": "Floyd"
+        },
+        {
+          "id": "fountain",
+          "label": "Fountain"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "gibson",
+          "label": "Gibson"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "hamilton",
+          "label": "Hamilton"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "harrison",
+          "label": "Harrison"
+        },
+        {
+          "id": "hendricks",
+          "label": "Hendricks"
+        },
+        {
+          "id": "henry",
+          "label": "Henry"
+        },
+        {
+          "id": "howard",
+          "label": "Howard"
+        },
+        {
+          "id": "huntington",
+          "label": "Huntington"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jasper",
+          "label": "Jasper"
+        },
+        {
+          "id": "jay",
+          "label": "Jay"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jennings",
+          "label": "Jennings"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "knox",
+          "label": "Knox"
+        },
+        {
+          "id": "kosciusko",
+          "label": "Kosciusko"
+        },
+        {
+          "id": "lagrange",
+          "label": "LaGrange"
+        },
+        {
+          "id": "lake",
+          "label": "Lake"
+        },
+        {
+          "id": "laporte",
+          "label": "LaPorte"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "martin",
+          "label": "Martin"
+        },
+        {
+          "id": "miami",
+          "label": "Miami"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "newton",
+          "label": "Newton"
+        },
+        {
+          "id": "noble",
+          "label": "Noble"
+        },
+        {
+          "id": "ohio",
+          "label": "Ohio"
+        },
+        {
+          "id": "orange",
+          "label": "Orange"
+        },
+        {
+          "id": "owen",
+          "label": "Owen"
+        },
+        {
+          "id": "parke",
+          "label": "Parke"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "porter",
+          "label": "Porter"
+        },
+        {
+          "id": "posey",
+          "label": "Posey"
+        },
+        {
+          "id": "pulaski",
+          "label": "Pulaski"
+        },
+        {
+          "id": "putnam",
+          "label": "Putnam"
+        },
+        {
+          "id": "randolph",
+          "label": "Randolph"
+        },
+        {
+          "id": "ripley",
+          "label": "Ripley"
+        },
+        {
+          "id": "rush",
+          "label": "Rush"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "shelby",
+          "label": "Shelby"
+        },
+        {
+          "id": "spencer",
+          "label": "Spencer"
+        },
+        {
+          "id": "st_joseph",
+          "label": "St. Joseph"
+        },
+        {
+          "id": "starke",
+          "label": "Starke"
+        },
+        {
+          "id": "steuben",
+          "label": "Steuben"
+        },
+        {
+          "id": "sullivan",
+          "label": "Sullivan"
+        },
+        {
+          "id": "switzerland",
+          "label": "Switzerland"
+        },
+        {
+          "id": "tippecanoe",
+          "label": "Tippecanoe"
+        },
+        {
+          "id": "tipton",
+          "label": "Tipton"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "vanderburgh",
+          "label": "Vanderburgh"
+        },
+        {
+          "id": "vermillion",
+          "label": "Vermillion"
+        },
+        {
+          "id": "vigo",
+          "label": "Vigo"
+        },
+        {
+          "id": "wabash",
+          "label": "Wabash"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "warrick",
+          "label": "Warrick"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "wells",
+          "label": "Wells"
+        },
+        {
+          "id": "white",
+          "label": "White"
+        },
+        {
+          "id": "whitley",
+          "label": "Whitley"
+        }
+      ],
+      "courts": [
+        {
+          "id": "the_trial_court_that_handled_the_case_sentencing_court",
+          "label": "The trial court that handled the case (sentencing court)",
+          "counties": null
+        },
+        {
+          "id": "the_juvenile_court_that_handled_the_allegation",
+          "label": "The juvenile court that handled the allegation",
+          "counties": null
+        },
+        {
+          "id": "the_county_prosecutor_s_office_service_copy",
+          "label": "The county prosecutor's office (service copy)",
+          "counties": null
+        },
+        {
+          "id": "the_trial_court_clerk_confidential_information_filing",
+          "label": "The trial court clerk (confidential-information filing)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "KS": {
+      "jurisdiction": "KS",
+      "statePack": "kansas",
+      "counties": [
+        {
+          "id": "allen",
+          "label": "Allen"
+        },
+        {
+          "id": "anderson",
+          "label": "Anderson"
+        },
+        {
+          "id": "atchison",
+          "label": "Atchison"
+        },
+        {
+          "id": "barber",
+          "label": "Barber"
+        },
+        {
+          "id": "barton",
+          "label": "Barton"
+        },
+        {
+          "id": "bourbon",
+          "label": "Bourbon"
+        },
+        {
+          "id": "brown",
+          "label": "Brown"
+        },
+        {
+          "id": "butler",
+          "label": "Butler"
+        },
+        {
+          "id": "chase",
+          "label": "Chase"
+        },
+        {
+          "id": "chautauqua",
+          "label": "Chautauqua"
+        },
+        {
+          "id": "cherokee",
+          "label": "Cherokee"
+        },
+        {
+          "id": "cheyenne",
+          "label": "Cheyenne"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "cloud",
+          "label": "Cloud"
+        },
+        {
+          "id": "coffey",
+          "label": "Coffey"
+        },
+        {
+          "id": "comanche",
+          "label": "Comanche"
+        },
+        {
+          "id": "cowley",
+          "label": "Cowley"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "decatur",
+          "label": "Decatur"
+        },
+        {
+          "id": "dickinson",
+          "label": "Dickinson"
+        },
+        {
+          "id": "doniphan",
+          "label": "Doniphan"
+        },
+        {
+          "id": "douglas",
+          "label": "Douglas"
+        },
+        {
+          "id": "edwards",
+          "label": "Edwards"
+        },
+        {
+          "id": "elk",
+          "label": "Elk"
+        },
+        {
+          "id": "ellis",
+          "label": "Ellis"
+        },
+        {
+          "id": "ellsworth",
+          "label": "Ellsworth"
+        },
+        {
+          "id": "finney",
+          "label": "Finney"
+        },
+        {
+          "id": "ford",
+          "label": "Ford"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "geary",
+          "label": "Geary"
+        },
+        {
+          "id": "gove",
+          "label": "Gove"
+        },
+        {
+          "id": "graham",
+          "label": "Graham"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "gray",
+          "label": "Gray"
+        },
+        {
+          "id": "greeley",
+          "label": "Greeley"
+        },
+        {
+          "id": "greenwood",
+          "label": "Greenwood"
+        },
+        {
+          "id": "hamilton",
+          "label": "Hamilton"
+        },
+        {
+          "id": "harper",
+          "label": "Harper"
+        },
+        {
+          "id": "harvey",
+          "label": "Harvey"
+        },
+        {
+          "id": "haskell",
+          "label": "Haskell"
+        },
+        {
+          "id": "hodgeman",
+          "label": "Hodgeman"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jewell",
+          "label": "Jewell"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "kearny",
+          "label": "Kearny"
+        },
+        {
+          "id": "kingman",
+          "label": "Kingman"
+        },
+        {
+          "id": "kiowa",
+          "label": "Kiowa"
+        },
+        {
+          "id": "labette",
+          "label": "Labette"
+        },
+        {
+          "id": "lane",
+          "label": "Lane"
+        },
+        {
+          "id": "leavenworth",
+          "label": "Leavenworth"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "linn",
+          "label": "Linn"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "lyon",
+          "label": "Lyon"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "mcpherson",
+          "label": "McPherson"
+        },
+        {
+          "id": "meade",
+          "label": "Meade"
+        },
+        {
+          "id": "miami",
+          "label": "Miami"
+        },
+        {
+          "id": "mitchell",
+          "label": "Mitchell"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morris",
+          "label": "Morris"
+        },
+        {
+          "id": "morton",
+          "label": "Morton"
+        },
+        {
+          "id": "nemaha",
+          "label": "Nemaha"
+        },
+        {
+          "id": "neosho",
+          "label": "Neosho"
+        },
+        {
+          "id": "ness",
+          "label": "Ness"
+        },
+        {
+          "id": "norton",
+          "label": "Norton"
+        },
+        {
+          "id": "osage",
+          "label": "Osage"
+        },
+        {
+          "id": "osborne",
+          "label": "Osborne"
+        },
+        {
+          "id": "ottawa",
+          "label": "Ottawa"
+        },
+        {
+          "id": "pawnee",
+          "label": "Pawnee"
+        },
+        {
+          "id": "phillips",
+          "label": "Phillips"
+        },
+        {
+          "id": "pottawatomie",
+          "label": "Pottawatomie"
+        },
+        {
+          "id": "pratt",
+          "label": "Pratt"
+        },
+        {
+          "id": "rawlins",
+          "label": "Rawlins"
+        },
+        {
+          "id": "reno",
+          "label": "Reno"
+        },
+        {
+          "id": "republic",
+          "label": "Republic"
+        },
+        {
+          "id": "rice",
+          "label": "Rice"
+        },
+        {
+          "id": "riley",
+          "label": "Riley"
+        },
+        {
+          "id": "rooks",
+          "label": "Rooks"
+        },
+        {
+          "id": "rush",
+          "label": "Rush"
+        },
+        {
+          "id": "russell",
+          "label": "Russell"
+        },
+        {
+          "id": "saline",
+          "label": "Saline"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "sedgwick",
+          "label": "Sedgwick"
+        },
+        {
+          "id": "seward",
+          "label": "Seward"
+        },
+        {
+          "id": "shawnee",
+          "label": "Shawnee"
+        },
+        {
+          "id": "sheridan",
+          "label": "Sheridan"
+        },
+        {
+          "id": "sherman",
+          "label": "Sherman"
+        },
+        {
+          "id": "smith",
+          "label": "Smith"
+        },
+        {
+          "id": "stafford",
+          "label": "Stafford"
+        },
+        {
+          "id": "stanton",
+          "label": "Stanton"
+        },
+        {
+          "id": "stevens",
+          "label": "Stevens"
+        },
+        {
+          "id": "sumner",
+          "label": "Sumner"
+        },
+        {
+          "id": "thomas",
+          "label": "Thomas"
+        },
+        {
+          "id": "trego",
+          "label": "Trego"
+        },
+        {
+          "id": "wabaunsee",
+          "label": "Wabaunsee"
+        },
+        {
+          "id": "wallace",
+          "label": "Wallace"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wichita",
+          "label": "Wichita"
+        },
+        {
+          "id": "wilson",
+          "label": "Wilson"
+        },
+        {
+          "id": "woodson",
+          "label": "Woodson"
+        },
+        {
+          "id": "wyandotte",
+          "label": "Wyandotte"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "IN THE JUDICIAL DISTRICT DISTRICT COURT OF COUNTY, KANSAS",
+          "sourceRef": "KS-kansas.json#sourceSections (Petition for Expungement of Conviction or Diversion caption)"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "KY": {
+      "jurisdiction": "KY",
+      "statePack": "kentucky",
+      "counties": [
+        {
+          "id": "adair",
+          "label": "Adair"
+        },
+        {
+          "id": "allen",
+          "label": "Allen"
+        },
+        {
+          "id": "anderson",
+          "label": "Anderson"
+        },
+        {
+          "id": "ballard",
+          "label": "Ballard"
+        },
+        {
+          "id": "barren",
+          "label": "Barren"
+        },
+        {
+          "id": "bath",
+          "label": "Bath"
+        },
+        {
+          "id": "bell",
+          "label": "Bell"
+        },
+        {
+          "id": "boone",
+          "label": "Boone"
+        },
+        {
+          "id": "bourbon",
+          "label": "Bourbon"
+        },
+        {
+          "id": "boyd",
+          "label": "Boyd"
+        },
+        {
+          "id": "boyle",
+          "label": "Boyle"
+        },
+        {
+          "id": "bracken",
+          "label": "Bracken"
+        },
+        {
+          "id": "breathitt",
+          "label": "Breathitt"
+        },
+        {
+          "id": "breckinridge",
+          "label": "Breckinridge"
+        },
+        {
+          "id": "bullitt",
+          "label": "Bullitt"
+        },
+        {
+          "id": "butler",
+          "label": "Butler"
+        },
+        {
+          "id": "caldwell",
+          "label": "Caldwell"
+        },
+        {
+          "id": "calloway",
+          "label": "Calloway"
+        },
+        {
+          "id": "campbell",
+          "label": "Campbell"
+        },
+        {
+          "id": "carlisle",
+          "label": "Carlisle"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "carter",
+          "label": "Carter"
+        },
+        {
+          "id": "casey",
+          "label": "Casey"
+        },
+        {
+          "id": "christian",
+          "label": "Christian"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "clinton",
+          "label": "Clinton"
+        },
+        {
+          "id": "crittenden",
+          "label": "Crittenden"
+        },
+        {
+          "id": "cumberland",
+          "label": "Cumberland"
+        },
+        {
+          "id": "daviess",
+          "label": "Daviess"
+        },
+        {
+          "id": "edmonson",
+          "label": "Edmonson"
+        },
+        {
+          "id": "elliott",
+          "label": "Elliott"
+        },
+        {
+          "id": "estill",
+          "label": "Estill"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "fleming",
+          "label": "Fleming"
+        },
+        {
+          "id": "floyd",
+          "label": "Floyd"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "gallatin",
+          "label": "Gallatin"
+        },
+        {
+          "id": "garrard",
+          "label": "Garrard"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "graves",
+          "label": "Graves"
+        },
+        {
+          "id": "grayson",
+          "label": "Grayson"
+        },
+        {
+          "id": "green",
+          "label": "Green"
+        },
+        {
+          "id": "greenup",
+          "label": "Greenup"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "hardin",
+          "label": "Hardin"
+        },
+        {
+          "id": "harlan",
+          "label": "Harlan"
+        },
+        {
+          "id": "harrison",
+          "label": "Harrison"
+        },
+        {
+          "id": "hart",
+          "label": "Hart"
+        },
+        {
+          "id": "henderson",
+          "label": "Henderson"
+        },
+        {
+          "id": "henry",
+          "label": "Henry"
+        },
+        {
+          "id": "hickman",
+          "label": "Hickman"
+        },
+        {
+          "id": "hopkins",
+          "label": "Hopkins"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jessamine",
+          "label": "Jessamine"
+        },
+        {
+          "id": "johnson",
+          "label": "Johnson"
+        },
+        {
+          "id": "kenton",
+          "label": "Kenton"
+        },
+        {
+          "id": "knott",
+          "label": "Knott"
+        },
+        {
+          "id": "knox",
+          "label": "Knox"
+        },
+        {
+          "id": "larue",
+          "label": "Larue"
+        },
+        {
+          "id": "laurel",
+          "label": "Laurel"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "lee",
+          "label": "Lee"
+        },
+        {
+          "id": "leslie",
+          "label": "Leslie"
+        },
+        {
+          "id": "letcher",
+          "label": "Letcher"
+        },
+        {
+          "id": "lewis",
+          "label": "Lewis"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "livingston",
+          "label": "Livingston"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "lyon",
+          "label": "Lyon"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "magoffin",
+          "label": "Magoffin"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "martin",
+          "label": "Martin"
+        },
+        {
+          "id": "mason",
+          "label": "Mason"
+        },
+        {
+          "id": "mccracken",
+          "label": "McCracken"
+        },
+        {
+          "id": "mccreary",
+          "label": "McCreary"
+        },
+        {
+          "id": "mclean",
+          "label": "McLean"
+        },
+        {
+          "id": "meade",
+          "label": "Meade"
+        },
+        {
+          "id": "menifee",
+          "label": "Menifee"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "metcalfe",
+          "label": "Metcalfe"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "muhlenberg",
+          "label": "Muhlenberg"
+        },
+        {
+          "id": "nelson",
+          "label": "Nelson"
+        },
+        {
+          "id": "nicholas",
+          "label": "Nicholas"
+        },
+        {
+          "id": "ohio",
+          "label": "Ohio"
+        },
+        {
+          "id": "oldham",
+          "label": "Oldham"
+        },
+        {
+          "id": "owen",
+          "label": "Owen"
+        },
+        {
+          "id": "owsley",
+          "label": "Owsley"
+        },
+        {
+          "id": "pendleton",
+          "label": "Pendleton"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "powell",
+          "label": "Powell"
+        },
+        {
+          "id": "pulaski",
+          "label": "Pulaski"
+        },
+        {
+          "id": "robertson",
+          "label": "Robertson"
+        },
+        {
+          "id": "rockcastle",
+          "label": "Rockcastle"
+        },
+        {
+          "id": "rowan",
+          "label": "Rowan"
+        },
+        {
+          "id": "russell",
+          "label": "Russell"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "shelby",
+          "label": "Shelby"
+        },
+        {
+          "id": "simpson",
+          "label": "Simpson"
+        },
+        {
+          "id": "spencer",
+          "label": "Spencer"
+        },
+        {
+          "id": "taylor",
+          "label": "Taylor"
+        },
+        {
+          "id": "todd",
+          "label": "Todd"
+        },
+        {
+          "id": "trigg",
+          "label": "Trigg"
+        },
+        {
+          "id": "trimble",
+          "label": "Trimble"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "webster",
+          "label": "Webster"
+        },
+        {
+          "id": "whitley",
+          "label": "Whitley"
+        },
+        {
+          "id": "wolfe",
+          "label": "Wolfe"
+        },
+        {
+          "id": "woodford",
+          "label": "Woodford"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null
+        },
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null
+        },
+        {
+          "id": "circuit_court_family_court_division",
+          "label": "Circuit Court — Family Court Division",
+          "counties": null
+        },
+        {
+          "id": "administrative_office_of_the_courts_expungement_certification",
+          "label": "Administrative Office of the Courts — expungement certification",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "LA": {
+      "jurisdiction": "LA",
+      "statePack": "louisiana",
+      "counties": [
+        {
+          "id": "acadia",
+          "label": "Acadia"
+        },
+        {
+          "id": "allen",
+          "label": "Allen"
+        },
+        {
+          "id": "ascension",
+          "label": "Ascension"
+        },
+        {
+          "id": "assumption",
+          "label": "Assumption"
+        },
+        {
+          "id": "avoyelles",
+          "label": "Avoyelles"
+        },
+        {
+          "id": "beauregard",
+          "label": "Beauregard"
+        },
+        {
+          "id": "bienville",
+          "label": "Bienville"
+        },
+        {
+          "id": "bossier",
+          "label": "Bossier"
+        },
+        {
+          "id": "caddo",
+          "label": "Caddo"
+        },
+        {
+          "id": "calcasieu",
+          "label": "Calcasieu"
+        },
+        {
+          "id": "caldwell",
+          "label": "Caldwell"
+        },
+        {
+          "id": "cameron",
+          "label": "Cameron"
+        },
+        {
+          "id": "catahoula",
+          "label": "Catahoula"
+        },
+        {
+          "id": "claiborne",
+          "label": "Claiborne"
+        },
+        {
+          "id": "concordia",
+          "label": "Concordia"
+        },
+        {
+          "id": "de_soto",
+          "label": "De Soto"
+        },
+        {
+          "id": "east_baton_rouge",
+          "label": "East Baton Rouge"
+        },
+        {
+          "id": "east_carroll",
+          "label": "East Carroll"
+        },
+        {
+          "id": "east_feliciana",
+          "label": "East Feliciana"
+        },
+        {
+          "id": "evangeline",
+          "label": "Evangeline"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "iberia",
+          "label": "Iberia"
+        },
+        {
+          "id": "iberville",
+          "label": "Iberville"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jefferson_davis",
+          "label": "Jefferson Davis"
+        },
+        {
+          "id": "la_salle",
+          "label": "La Salle"
+        },
+        {
+          "id": "lafayette",
+          "label": "Lafayette"
+        },
+        {
+          "id": "lafourche",
+          "label": "Lafourche"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "livingston",
+          "label": "Livingston"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "morehouse",
+          "label": "Morehouse"
+        },
+        {
+          "id": "natchitoches",
+          "label": "Natchitoches"
+        },
+        {
+          "id": "orleans",
+          "label": "Orleans"
+        },
+        {
+          "id": "ouachita",
+          "label": "Ouachita"
+        },
+        {
+          "id": "plaquemines",
+          "label": "Plaquemines"
+        },
+        {
+          "id": "pointe_coupee",
+          "label": "Pointe Coupee"
+        },
+        {
+          "id": "rapides",
+          "label": "Rapides"
+        },
+        {
+          "id": "red_river",
+          "label": "Red River"
+        },
+        {
+          "id": "richland",
+          "label": "Richland"
+        },
+        {
+          "id": "sabine",
+          "label": "Sabine"
+        },
+        {
+          "id": "st_bernard",
+          "label": "St. Bernard"
+        },
+        {
+          "id": "st_charles",
+          "label": "St. Charles"
+        },
+        {
+          "id": "st_helena",
+          "label": "St. Helena"
+        },
+        {
+          "id": "st_james",
+          "label": "St. James"
+        },
+        {
+          "id": "st_john_the_baptist",
+          "label": "St. John the Baptist"
+        },
+        {
+          "id": "st_landry",
+          "label": "St. Landry"
+        },
+        {
+          "id": "st_martin",
+          "label": "St. Martin"
+        },
+        {
+          "id": "st_mary",
+          "label": "St. Mary"
+        },
+        {
+          "id": "st_tammany",
+          "label": "St. Tammany"
+        },
+        {
+          "id": "tangipahoa",
+          "label": "Tangipahoa"
+        },
+        {
+          "id": "tensas",
+          "label": "Tensas"
+        },
+        {
+          "id": "terrebonne",
+          "label": "Terrebonne"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "vermilion",
+          "label": "Vermilion"
+        },
+        {
+          "id": "vernon",
+          "label": "Vernon"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "webster",
+          "label": "Webster"
+        },
+        {
+          "id": "west_baton_rouge",
+          "label": "West Baton Rouge"
+        },
+        {
+          "id": "west_carroll",
+          "label": "West Carroll"
+        },
+        {
+          "id": "west_feliciana",
+          "label": "West Feliciana"
+        },
+        {
+          "id": "winn",
+          "label": "Winn"
+        }
+      ],
+      "courts": [
+        {
+          "id": "judicial_district_court",
+          "label": "Judicial District Court",
+          "counties": null
+        },
+        {
+          "id": "orleans_parish_criminal_district_court",
+          "label": "Orleans Parish Criminal District Court",
+          "counties": null
+        },
+        {
+          "id": "municipal_and_traffic_court_of_new_orleans",
+          "label": "Municipal and Traffic Court of New Orleans",
+          "counties": null
+        },
+        {
+          "id": "city_court",
+          "label": "City Court",
+          "counties": null
+        },
+        {
+          "id": "juvenile_court",
+          "label": "Juvenile Court",
+          "counties": null
+        },
+        {
+          "id": "louisiana_state_police_bureau_of_criminal_identification_and_information",
+          "label": "Louisiana State Police — Bureau of Criminal Identification and Information",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MA": {
+      "jurisdiction": "MA",
+      "statePack": "massachusetts",
+      "counties": [],
+      "courts": [
+        {
+          "id": "district_court_the_division_where_the_case_started",
+          "label": "District Court — the division where the case started",
+          "counties": null
+        },
+        {
+          "id": "boston_municipal_court_the_division_where_the_person_lives_or_the_division_the_r",
+          "label": "Boston Municipal Court — the division where the person lives, or the division the record is from",
+          "counties": null
+        },
+        {
+          "id": "the_court_connected_to_the_record_100k_and_marijuana_only_petitions",
+          "label": "The court connected to the record (§ 100K and marijuana-only petitions)",
+          "counties": null
+        },
+        {
+          "id": "massachusetts_probation_service_office_of_the_commissioner_of_probation",
+          "label": "Massachusetts Probation Service — Office of the Commissioner of Probation",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MI": {
+      "jurisdiction": "MI",
+      "statePack": "michigan",
+      "counties": [
+        {
+          "id": "the_county_of_the_convicting_court",
+          "label": "The county of the convicting court",
+          "sourceQuote": "Venue is the convicting court — file where each conviction was entered; convictions in different courts need separate applications.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "the_convicting_court_the_court_where_the_conviction_was_entered",
+          "label": "The convicting court (the court where the conviction was entered)",
+          "counties": null,
+          "sourceQuote": "Venue is the convicting court — file where each conviction was entered; convictions in different courts need separate applications.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "michigan_state_police",
+          "label": "Michigan State Police",
+          "counties": null,
+          "sourceQuote": "File in the convicting court and submit fingerprints with the fee to the Michigan State Police (the application processing fee is set by statute, commonly around $50).",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MN": {
+      "jurisdiction": "MN",
+      "statePack": "minnesota",
+      "counties": [],
+      "courts": [
+        {
+          "id": "minnesota_district_court_the_county_where_the_case_was_filed",
+          "label": "Minnesota District Court — the county where the case was filed",
+          "counties": null
+        },
+        {
+          "id": "court_administrator_order_distribution",
+          "label": "Court administrator (order distribution)",
+          "counties": null
+        },
+        {
+          "id": "minnesota_bureau_of_criminal_apprehension_bca",
+          "label": "Minnesota Bureau of Criminal Apprehension (BCA)",
+          "counties": null
+        },
+        {
+          "id": "driver_and_vehicle_services_dvs_separate_driving_record",
+          "label": "Driver and Vehicle Services (DVS) — separate driving record",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MO": {
+      "jurisdiction": "MO",
+      "statePack": "missouri",
+      "counties": [],
+      "courts": [
+        {
+          "id": "the_missouri_circuit_court_where_the_person_was_charged_or_found_guilty",
+          "label": "The Missouri circuit court where the person was charged or found guilty",
+          "counties": null
+        },
+        {
+          "id": "the_circuit_court_in_the_county_of_arrest_arrest_only_610_140_petitions",
+          "label": "The circuit court in the county of arrest (arrest-only § 610.140 petitions)",
+          "counties": null
+        },
+        {
+          "id": "civil_division_of_the_circuit_court_in_the_county_of_arrest_610_122_123",
+          "label": "Civil division of the circuit court in the county of arrest (§§ 610.122–.123)",
+          "counties": null
+        },
+        {
+          "id": "the_circuit_clerk_fees_and_filing_confirmation",
+          "label": "The circuit clerk (fees and filing confirmation)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MS": {
+      "jurisdiction": "MS",
+      "statePack": "mississippi",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "alcorn",
+          "label": "Alcorn"
+        },
+        {
+          "id": "amite",
+          "label": "Amite"
+        },
+        {
+          "id": "attala",
+          "label": "Attala"
+        },
+        {
+          "id": "benton",
+          "label": "Benton"
+        },
+        {
+          "id": "bolivar",
+          "label": "Bolivar"
+        },
+        {
+          "id": "calhoun",
+          "label": "Calhoun"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "chickasaw",
+          "label": "Chickasaw"
+        },
+        {
+          "id": "choctaw",
+          "label": "Choctaw"
+        },
+        {
+          "id": "claiborne",
+          "label": "Claiborne"
+        },
+        {
+          "id": "clarke",
+          "label": "Clarke"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "coahoma",
+          "label": "Coahoma"
+        },
+        {
+          "id": "copiah",
+          "label": "Copiah"
+        },
+        {
+          "id": "covington",
+          "label": "Covington"
+        },
+        {
+          "id": "desoto",
+          "label": "DeSoto"
+        },
+        {
+          "id": "forrest",
+          "label": "Forrest"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "george",
+          "label": "George"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "grenada",
+          "label": "Grenada"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "harrison",
+          "label": "Harrison"
+        },
+        {
+          "id": "hinds",
+          "label": "Hinds"
+        },
+        {
+          "id": "holmes",
+          "label": "Holmes"
+        },
+        {
+          "id": "humphreys",
+          "label": "Humphreys"
+        },
+        {
+          "id": "issaquena",
+          "label": "Issaquena"
+        },
+        {
+          "id": "itawamba",
+          "label": "Itawamba"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jasper",
+          "label": "Jasper"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "jefferson_davis",
+          "label": "Jefferson Davis"
+        },
+        {
+          "id": "jones",
+          "label": "Jones"
+        },
+        {
+          "id": "kemper",
+          "label": "Kemper"
+        },
+        {
+          "id": "lafayette",
+          "label": "Lafayette"
+        },
+        {
+          "id": "lamar",
+          "label": "Lamar"
+        },
+        {
+          "id": "lauderdale",
+          "label": "Lauderdale"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "leake",
+          "label": "Leake"
+        },
+        {
+          "id": "lee",
+          "label": "Lee"
+        },
+        {
+          "id": "leflore",
+          "label": "Leflore"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "lowndes",
+          "label": "Lowndes"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "neshoba",
+          "label": "Neshoba"
+        },
+        {
+          "id": "newton",
+          "label": "Newton"
+        },
+        {
+          "id": "noxubee",
+          "label": "Noxubee"
+        },
+        {
+          "id": "oktibbeha",
+          "label": "Oktibbeha"
+        },
+        {
+          "id": "panola",
+          "label": "Panola"
+        },
+        {
+          "id": "pearl_river",
+          "label": "Pearl River"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "pontotoc",
+          "label": "Pontotoc"
+        },
+        {
+          "id": "prentiss",
+          "label": "Prentiss"
+        },
+        {
+          "id": "quitman",
+          "label": "Quitman"
+        },
+        {
+          "id": "rankin",
+          "label": "Rankin"
+        },
+        {
+          "id": "scott",
+          "label": "Scott"
+        },
+        {
+          "id": "sharkey",
+          "label": "Sharkey"
+        },
+        {
+          "id": "simpson",
+          "label": "Simpson"
+        },
+        {
+          "id": "smith",
+          "label": "Smith"
+        },
+        {
+          "id": "stone",
+          "label": "Stone"
+        },
+        {
+          "id": "sunflower",
+          "label": "Sunflower"
+        },
+        {
+          "id": "tallahatchie",
+          "label": "Tallahatchie"
+        },
+        {
+          "id": "tate",
+          "label": "Tate"
+        },
+        {
+          "id": "tippah",
+          "label": "Tippah"
+        },
+        {
+          "id": "tishomingo",
+          "label": "Tishomingo"
+        },
+        {
+          "id": "tunica",
+          "label": "Tunica"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "walthall",
+          "label": "Walthall"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "webster",
+          "label": "Webster"
+        },
+        {
+          "id": "wilkinson",
+          "label": "Wilkinson"
+        },
+        {
+          "id": "winston",
+          "label": "Winston"
+        },
+        {
+          "id": "yalobusha",
+          "label": "Yalobusha"
+        },
+        {
+          "id": "yazoo",
+          "label": "Yazoo"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null
+        },
+        {
+          "id": "county_court",
+          "label": "County Court",
+          "counties": null
+        },
+        {
+          "id": "justice_court",
+          "label": "Justice Court",
+          "counties": null
+        },
+        {
+          "id": "municipal_court",
+          "label": "Municipal Court",
+          "counties": null
+        },
+        {
+          "id": "youth_court",
+          "label": "Youth Court",
+          "counties": null
+        },
+        {
+          "id": "intervention_court_drug_veterans_mental_health_court",
+          "label": "Intervention court (drug/veterans/mental-health court)",
+          "counties": null
+        },
+        {
+          "id": "district_attorney_10_days_written_notice_before_a_felony_hearing",
+          "label": "District attorney (10 days' written notice before a felony hearing)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "MT": {
+      "jurisdiction": "MT",
+      "statePack": "montana",
+      "counties": [],
+      "courts": [
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "The petition is filed in a District Court where at least one misdemeanor conviction occurred."
+        },
+        {
+          "id": "court_of_limited_jurisdiction",
+          "label": "Court of Limited Jurisdiction",
+          "counties": null,
+          "sourceQuote": "the user should also search Montana's public access portals for District Courts and Courts of Limited Jurisdiction."
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NC": {
+      "jurisdiction": "NC",
+      "statePack": "north-carolina",
+      "counties": [],
+      "courts": [
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null,
+          "sourceQuote": "Venue is the Superior Court of the county where the charge was brought."
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "ND": {
+      "jurisdiction": "ND",
+      "statePack": "north-dakota",
+      "counties": [
+        {
+          "id": "the_county_of_the_existing_criminal_case",
+          "label": "The county of the existing criminal case",
+          "sourceQuote": "A petition to seal must be filed in the existing criminal case for the offense.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "north_dakota_state_district_court_the_existing_criminal_case",
+          "label": "North Dakota state district court (the existing criminal case)",
+          "counties": null,
+          "sourceQuote": "A petition to seal must be filed in the existing criminal case for the offense. The existing case must be a North Dakota municipal court case or North Dakota state district court case.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "north_dakota_municipal_court_the_existing_criminal_case",
+          "label": "North Dakota municipal court (the existing criminal case)",
+          "counties": null,
+          "sourceQuote": "The existing case must be a North Dakota municipal court case or North Dakota state district court case.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NE": {
+      "jurisdiction": "NE",
+      "statePack": "nebraska",
+      "counties": [],
+      "courts": [
+        {
+          "id": "sentencing_court_the_court_that_decided_this_case",
+          "label": "Sentencing court (the court that decided this case)",
+          "counties": null,
+          "sourceQuote": "A petition may be filed in the sentencing court at any time after completion of sentence."
+        },
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "A person arrested due to the error of a law enforcement agency may petition the district court to expunge the criminal history record information related to the error."
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NH": {
+      "jurisdiction": "NH",
+      "statePack": "new-hampshire",
+      "counties": [
+        {
+          "id": "belknap",
+          "label": "Belknap"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "cheshire",
+          "label": "Cheshire"
+        },
+        {
+          "id": "coos",
+          "label": "Coos"
+        },
+        {
+          "id": "grafton",
+          "label": "Grafton"
+        },
+        {
+          "id": "hillsborough",
+          "label": "Hillsborough"
+        },
+        {
+          "id": "merrimack",
+          "label": "Merrimack"
+        },
+        {
+          "id": "rockingham",
+          "label": "Rockingham"
+        },
+        {
+          "id": "strafford",
+          "label": "Strafford"
+        },
+        {
+          "id": "sullivan",
+          "label": "Sullivan"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court_district_division",
+          "label": "Circuit Court — District Division",
+          "counties": null
+        },
+        {
+          "id": "superior_court",
+          "label": "Superior Court",
+          "counties": null
+        },
+        {
+          "id": "circuit_court_family_division",
+          "label": "Circuit Court — Family Division",
+          "counties": null
+        },
+        {
+          "id": "new_hampshire_state_police_criminal_records_unit",
+          "label": "New Hampshire State Police — Criminal Records Unit",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NJ": {
+      "jurisdiction": "NJ",
+      "statePack": "new-jersey",
+      "counties": [
+        {
+          "id": "atlantic",
+          "label": "Atlantic"
+        },
+        {
+          "id": "bergen",
+          "label": "Bergen"
+        },
+        {
+          "id": "burlington",
+          "label": "Burlington"
+        },
+        {
+          "id": "camden",
+          "label": "Camden"
+        },
+        {
+          "id": "cape_may",
+          "label": "Cape May"
+        },
+        {
+          "id": "cumberland",
+          "label": "Cumberland"
+        },
+        {
+          "id": "essex",
+          "label": "Essex"
+        },
+        {
+          "id": "gloucester",
+          "label": "Gloucester"
+        },
+        {
+          "id": "hudson",
+          "label": "Hudson"
+        },
+        {
+          "id": "hunterdon",
+          "label": "Hunterdon"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "middlesex",
+          "label": "Middlesex"
+        },
+        {
+          "id": "monmouth",
+          "label": "Monmouth"
+        },
+        {
+          "id": "morris",
+          "label": "Morris"
+        },
+        {
+          "id": "ocean",
+          "label": "Ocean"
+        },
+        {
+          "id": "passaic",
+          "label": "Passaic"
+        },
+        {
+          "id": "salem",
+          "label": "Salem"
+        },
+        {
+          "id": "somerset",
+          "label": "Somerset"
+        },
+        {
+          "id": "sussex",
+          "label": "Sussex"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        }
+      ],
+      "courts": [
+        {
+          "id": "superior_court_law_division_criminal_part",
+          "label": "Superior Court — Law Division, Criminal Part",
+          "counties": null
+        },
+        {
+          "id": "superior_court_chancery_division_family_part",
+          "label": "Superior Court — Chancery Division, Family Part",
+          "counties": null
+        },
+        {
+          "id": "municipal_court",
+          "label": "Municipal Court",
+          "counties": null
+        },
+        {
+          "id": "new_jersey_state_police_criminal_information_unit",
+          "label": "New Jersey State Police — Criminal Information Unit",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NV": {
+      "jurisdiction": "NV",
+      "statePack": "nevada",
+      "counties": [
+        {
+          "id": "the_county_where_the_arrest_occurred",
+          "label": "The county where the arrest occurred",
+          "sourceQuote": "Nevada State Police says a person should contact the court in the jurisdiction where the arrest occurred",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "the_nevada_court_in_the_jurisdiction_where_the_arrest_occurred",
+          "label": "The Nevada court in the jurisdiction where the arrest occurred",
+          "counties": null,
+          "sourceQuote": "Nevada State Police says a person should contact the court in the jurisdiction where the arrest occurred and obtain a Nevada criminal-history record to complete court forms.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "nevada_district_court_single_petition_for_records_across_several_courts_nrs_179_",
+          "label": "Nevada district court (single petition for records across several courts, NRS 179.2595)",
+          "counties": null,
+          "sourceQuote": "If a person wants to seal more than one record and would otherwise need to file in more than one court, they may file in district court for sealing of all such records. A district court may also order sealing of records in justice or municipal courts under the Nevada record-sealing statutes.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "justice_or_municipal_court_records_sealed_by_district_court_order_under_nrs_179_",
+          "label": "Justice or municipal court (records sealed by district-court order under NRS 179.2595)",
+          "counties": null,
+          "sourceQuote": "A district court may also order sealing of records in justice or municipal courts under the Nevada record-sealing statutes.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "NY": {
+      "jurisdiction": "NY",
+      "statePack": "new-york",
+      "counties": [],
+      "courts": [
+        {
+          "id": "court_of_conviction_the_court_that_decided_this_case",
+          "label": "Court of conviction (the court that decided this case)",
+          "counties": null,
+          "sourceQuote": "File the application in the court of conviction — for multiple eligible offenses, the court where the most serious offense was decided (or, if equal class, where last convicted)."
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "OH": {
+      "jurisdiction": "OH",
+      "statePack": "ohio",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "allen",
+          "label": "Allen"
+        },
+        {
+          "id": "ashland",
+          "label": "Ashland"
+        },
+        {
+          "id": "ashtabula",
+          "label": "Ashtabula"
+        },
+        {
+          "id": "athens",
+          "label": "Athens"
+        },
+        {
+          "id": "auglaize",
+          "label": "Auglaize"
+        },
+        {
+          "id": "belmont",
+          "label": "Belmont"
+        },
+        {
+          "id": "brown",
+          "label": "Brown"
+        },
+        {
+          "id": "butler",
+          "label": "Butler"
+        },
+        {
+          "id": "carroll",
+          "label": "Carroll"
+        },
+        {
+          "id": "champaign",
+          "label": "Champaign"
+        },
+        {
+          "id": "clark",
+          "label": "Clark"
+        },
+        {
+          "id": "clermont",
+          "label": "Clermont"
+        },
+        {
+          "id": "clinton",
+          "label": "Clinton"
+        },
+        {
+          "id": "columbiana",
+          "label": "Columbiana"
+        },
+        {
+          "id": "coshocton",
+          "label": "Coshocton"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "cuyahoga",
+          "label": "Cuyahoga"
+        },
+        {
+          "id": "darke",
+          "label": "Darke"
+        },
+        {
+          "id": "defiance",
+          "label": "Defiance"
+        },
+        {
+          "id": "delaware",
+          "label": "Delaware"
+        },
+        {
+          "id": "erie",
+          "label": "Erie"
+        },
+        {
+          "id": "fairfield",
+          "label": "Fairfield"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "gallia",
+          "label": "Gallia"
+        },
+        {
+          "id": "geauga",
+          "label": "Geauga"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "guernsey",
+          "label": "Guernsey"
+        },
+        {
+          "id": "hamilton",
+          "label": "Hamilton"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "hardin",
+          "label": "Hardin"
+        },
+        {
+          "id": "harrison",
+          "label": "Harrison"
+        },
+        {
+          "id": "henry",
+          "label": "Henry"
+        },
+        {
+          "id": "highland",
+          "label": "Highland"
+        },
+        {
+          "id": "hocking",
+          "label": "Hocking"
+        },
+        {
+          "id": "holmes",
+          "label": "Holmes"
+        },
+        {
+          "id": "huron",
+          "label": "Huron"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "knox",
+          "label": "Knox"
+        },
+        {
+          "id": "lake",
+          "label": "Lake"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "licking",
+          "label": "Licking"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "lorain",
+          "label": "Lorain"
+        },
+        {
+          "id": "lucas",
+          "label": "Lucas"
+        },
+        {
+          "id": "madison",
+          "label": "Madison"
+        },
+        {
+          "id": "mahoning",
+          "label": "Mahoning"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "medina",
+          "label": "Medina"
+        },
+        {
+          "id": "meigs",
+          "label": "Meigs"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "miami",
+          "label": "Miami"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "morrow",
+          "label": "Morrow"
+        },
+        {
+          "id": "muskingum",
+          "label": "Muskingum"
+        },
+        {
+          "id": "noble",
+          "label": "Noble"
+        },
+        {
+          "id": "ottawa",
+          "label": "Ottawa"
+        },
+        {
+          "id": "paulding",
+          "label": "Paulding"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "pickaway",
+          "label": "Pickaway"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "portage",
+          "label": "Portage"
+        },
+        {
+          "id": "preble",
+          "label": "Preble"
+        },
+        {
+          "id": "putnam",
+          "label": "Putnam"
+        },
+        {
+          "id": "richland",
+          "label": "Richland"
+        },
+        {
+          "id": "ross",
+          "label": "Ross"
+        },
+        {
+          "id": "sandusky",
+          "label": "Sandusky"
+        },
+        {
+          "id": "scioto",
+          "label": "Scioto"
+        },
+        {
+          "id": "seneca",
+          "label": "Seneca"
+        },
+        {
+          "id": "shelby",
+          "label": "Shelby"
+        },
+        {
+          "id": "stark",
+          "label": "Stark"
+        },
+        {
+          "id": "summit",
+          "label": "Summit"
+        },
+        {
+          "id": "trumbull",
+          "label": "Trumbull"
+        },
+        {
+          "id": "tuscarawas",
+          "label": "Tuscarawas"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "van_wert",
+          "label": "Van Wert"
+        },
+        {
+          "id": "vinton",
+          "label": "Vinton"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "williams",
+          "label": "Williams"
+        },
+        {
+          "id": "wood",
+          "label": "Wood"
+        },
+        {
+          "id": "wyandot",
+          "label": "Wyandot"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "court_of_common_pleas",
+          "label": "Court of Common Pleas",
+          "counties": null,
+          "sourceQuote": "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction.",
+          "sourceRef": "OH-ohio.json#sourceSections (§ 2953.32)"
+        },
+        {
+          "id": "juvenile_court",
+          "label": "Juvenile Court",
+          "counties": null,
+          "sourceQuote": "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person's 23rd birthday, whichever comes earlier.",
+          "sourceRef": "OH-ohio.json#waitingPeriodRules wait-13"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "OK": {
+      "jurisdiction": "OK",
+      "statePack": "oklahoma",
+      "counties": [],
+      "courts": [
+        {
+          "id": "district_court_of_the_county_where_the_arrest_information_is_located",
+          "label": "District court of the county where the arrest information is located",
+          "counties": null
+        },
+        {
+          "id": "district_attorney_30_days_notice",
+          "label": "District attorney (30 days' notice)",
+          "counties": null
+        },
+        {
+          "id": "the_arresting_agency",
+          "label": "The arresting agency",
+          "counties": null
+        },
+        {
+          "id": "oklahoma_state_bureau_of_investigation_osbi",
+          "label": "Oklahoma State Bureau of Investigation (OSBI)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "OR": {
+      "jurisdiction": "OR",
+      "statePack": "oregon",
+      "counties": [],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null,
+          "sourceQuote": "Venue is the circuit court of the county where the conviction was entered or the citation issued."
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "PA": {
+      "jurisdiction": "PA",
+      "statePack": "pennsylvania",
+      "counties": [
+        {
+          "id": "adams",
+          "label": "Adams"
+        },
+        {
+          "id": "allegheny",
+          "label": "Allegheny"
+        },
+        {
+          "id": "armstrong",
+          "label": "Armstrong"
+        },
+        {
+          "id": "beaver",
+          "label": "Beaver"
+        },
+        {
+          "id": "bedford",
+          "label": "Bedford"
+        },
+        {
+          "id": "berks",
+          "label": "Berks"
+        },
+        {
+          "id": "blair",
+          "label": "Blair"
+        },
+        {
+          "id": "bradford",
+          "label": "Bradford"
+        },
+        {
+          "id": "bucks",
+          "label": "Bucks"
+        },
+        {
+          "id": "butler",
+          "label": "Butler"
+        },
+        {
+          "id": "cambria",
+          "label": "Cambria"
+        },
+        {
+          "id": "cameron",
+          "label": "Cameron"
+        },
+        {
+          "id": "carbon",
+          "label": "Carbon"
+        },
+        {
+          "id": "centre",
+          "label": "Centre"
+        },
+        {
+          "id": "chester",
+          "label": "Chester"
+        },
+        {
+          "id": "clarion",
+          "label": "Clarion"
+        },
+        {
+          "id": "clearfield",
+          "label": "Clearfield"
+        },
+        {
+          "id": "clinton",
+          "label": "Clinton"
+        },
+        {
+          "id": "columbia",
+          "label": "Columbia"
+        },
+        {
+          "id": "crawford",
+          "label": "Crawford"
+        },
+        {
+          "id": "cumberland",
+          "label": "Cumberland"
+        },
+        {
+          "id": "dauphin",
+          "label": "Dauphin"
+        },
+        {
+          "id": "delaware",
+          "label": "Delaware"
+        },
+        {
+          "id": "elk",
+          "label": "Elk"
+        },
+        {
+          "id": "erie",
+          "label": "Erie"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "forest",
+          "label": "Forest"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "fulton",
+          "label": "Fulton"
+        },
+        {
+          "id": "greene",
+          "label": "Greene"
+        },
+        {
+          "id": "huntingdon",
+          "label": "Huntingdon"
+        },
+        {
+          "id": "indiana",
+          "label": "Indiana"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "juniata",
+          "label": "Juniata"
+        },
+        {
+          "id": "lackawanna",
+          "label": "Lackawanna"
+        },
+        {
+          "id": "lancaster",
+          "label": "Lancaster"
+        },
+        {
+          "id": "lawrence",
+          "label": "Lawrence"
+        },
+        {
+          "id": "lebanon",
+          "label": "Lebanon"
+        },
+        {
+          "id": "lehigh",
+          "label": "Lehigh"
+        },
+        {
+          "id": "luzerne",
+          "label": "Luzerne"
+        },
+        {
+          "id": "lycoming",
+          "label": "Lycoming"
+        },
+        {
+          "id": "mckean",
+          "label": "McKean"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "mifflin",
+          "label": "Mifflin"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "montgomery",
+          "label": "Montgomery"
+        },
+        {
+          "id": "montour",
+          "label": "Montour"
+        },
+        {
+          "id": "northampton",
+          "label": "Northampton"
+        },
+        {
+          "id": "northumberland",
+          "label": "Northumberland"
+        },
+        {
+          "id": "perry",
+          "label": "Perry"
+        },
+        {
+          "id": "philadelphia",
+          "label": "Philadelphia"
+        },
+        {
+          "id": "pike",
+          "label": "Pike"
+        },
+        {
+          "id": "potter",
+          "label": "Potter"
+        },
+        {
+          "id": "schuylkill",
+          "label": "Schuylkill"
+        },
+        {
+          "id": "snyder",
+          "label": "Snyder"
+        },
+        {
+          "id": "somerset",
+          "label": "Somerset"
+        },
+        {
+          "id": "sullivan",
+          "label": "Sullivan"
+        },
+        {
+          "id": "susquehanna",
+          "label": "Susquehanna"
+        },
+        {
+          "id": "tioga",
+          "label": "Tioga"
+        },
+        {
+          "id": "union",
+          "label": "Union"
+        },
+        {
+          "id": "venango",
+          "label": "Venango"
+        },
+        {
+          "id": "warren",
+          "label": "Warren"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "westmoreland",
+          "label": "Westmoreland"
+        },
+        {
+          "id": "wyoming",
+          "label": "Wyoming"
+        },
+        {
+          "id": "york",
+          "label": "York"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "court_of_common_pleas",
+          "label": "Court of Common Pleas",
+          "counties": null,
+          "sourceQuote": "File petition-based Pennsylvania court relief in the Court of Common Pleas in the county where the case was heard.",
+          "sourceRef": "src/lib/rcap/state-packs/pennsylvania/filing-instructions.ts; PA-pennsylvania.json#questions source_question_06_court-of-common-pleas"
+        },
+        {
+          "id": "magisterial_district_court",
+          "label": "Magisterial District Court",
+          "counties": null,
+          "sourceQuote": "Magisterial District Court",
+          "sourceRef": "PA-pennsylvania.json#questions source_question_04_magisterial-district-court"
+        },
+        {
+          "id": "philadelphia_municipal_court",
+          "label": "Philadelphia Municipal Court",
+          "counties": null,
+          "sourceQuote": "Philadelphia Municipal Court",
+          "sourceRef": "PA-pennsylvania.json#questions source_question_05_philadelphia-municipal-court"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "RI": {
+      "jurisdiction": "RI",
+      "statePack": "rhode-island",
+      "counties": [
+        {
+          "id": "rhode_island_is_a_single_statewide_judicial_system_venue_is_the_court_of_convict",
+          "label": "Rhode Island is a single statewide judicial system; venue is the court of conviction, not a county",
+          "sourceQuote": "A conviction expungement motion is filed in the court where the conviction took place.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "the_rhode_island_court_where_the_conviction_occurred",
+          "label": "The Rhode Island court where the conviction occurred",
+          "counties": null,
+          "sourceQuote": "A conviction expungement motion is filed in the court where the conviction took place. The Rhode Island Judiciary says the motion should be filed in the court where the conviction occurred, and the clerk's office will fill in the hearing date.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "rhode_island_department_of_attorney_general_bci_unit",
+          "label": "Rhode Island Department of Attorney General (BCI unit)",
+          "counties": null,
+          "sourceQuote": "One copy is for the petitioner, one is for the Attorney General's BCI unit, and one is for the police department that charged the case.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "SC": {
+      "jurisdiction": "SC",
+      "statePack": "south-carolina",
+      "counties": [],
+      "courts": [
+        {
+          "id": "magistrate_court_summary_court",
+          "label": "Magistrate court (summary court)",
+          "counties": null
+        },
+        {
+          "id": "municipal_court_summary_court",
+          "label": "Municipal court (summary court)",
+          "counties": null
+        },
+        {
+          "id": "court_of_general_sessions",
+          "label": "Court of General Sessions",
+          "counties": null
+        },
+        {
+          "id": "family_court_juvenile_63_19_2050",
+          "label": "Family Court (juvenile § 63-19-2050)",
+          "counties": null
+        },
+        {
+          "id": "the_solicitor_s_office_for_the_circuit_county_where_the_charge_occurred",
+          "label": "The Solicitor's Office for the circuit/county where the charge occurred",
+          "counties": null
+        },
+        {
+          "id": "clerk_of_court_order_filing",
+          "label": "Clerk of Court (order filing)",
+          "counties": null
+        },
+        {
+          "id": "south_carolina_law_enforcement_division_sled",
+          "label": "South Carolina Law Enforcement Division (SLED)",
+          "counties": null
+        },
+        {
+          "id": "department_of_probation_parole_and_pardon_services_pardon_route_only_not_expunge",
+          "label": "Department of Probation, Parole and Pardon Services (pardon route only — not expungement)",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "TN": {
+      "jurisdiction": "TN",
+      "statePack": "tennessee",
+      "counties": [],
+      "courts": [
+        {
+          "id": "criminal_court",
+          "label": "Criminal Court",
+          "counties": null,
+          "sourceQuote": "Confirm the right clerk (criminal, circuit, or general sessions) for the case."
+        },
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null,
+          "sourceQuote": "Confirm the right clerk (criminal, circuit, or general sessions) for the case."
+        },
+        {
+          "id": "general_sessions_court",
+          "label": "General Sessions Court",
+          "counties": null,
+          "sourceQuote": "Confirm the right clerk (criminal, circuit, or general sessions) for the case."
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "TX": {
+      "jurisdiction": "TX",
+      "statePack": "texas",
+      "counties": [
+        {
+          "id": "the_county_of_arrest_or_prosecution_not_the_county_of_residence",
+          "label": "The county of arrest or prosecution — not the county of residence",
+          "sourceQuote": "A person with arrests in multiple counties files a separate petition in each county.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "courts": [
+        {
+          "id": "texas_district_court_for_the_county_of_arrest_or_prosecution_art_55a_251",
+          "label": "Texas district court for the county of arrest or prosecution (Art. 55A.251)",
+          "counties": null,
+          "sourceQuote": "Venue is the DISTRICT court of the county of ARREST or PROSECUTION — not the county of residence.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        },
+        {
+          "id": "texas_department_of_public_safety_dps",
+          "label": "Texas Department of Public Safety (DPS)",
+          "counties": null,
+          "sourceQuote": "Obtain your Texas DPS criminal history and, for expunction, a certified disposition from the arresting agency or court so the petition is accurate.",
+          "sourceRef": "packetGenerator.filingDestinationRules"
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "UT": {
+      "jurisdiction": "UT",
+      "statePack": "utah",
+      "counties": [
+        {
+          "id": "beaver",
+          "label": "Beaver"
+        },
+        {
+          "id": "box_elder",
+          "label": "Box Elder"
+        },
+        {
+          "id": "cache",
+          "label": "Cache"
+        },
+        {
+          "id": "carbon",
+          "label": "Carbon"
+        },
+        {
+          "id": "daggett",
+          "label": "Daggett"
+        },
+        {
+          "id": "davis",
+          "label": "Davis"
+        },
+        {
+          "id": "duchesne",
+          "label": "Duchesne"
+        },
+        {
+          "id": "emery",
+          "label": "Emery"
+        },
+        {
+          "id": "garfield",
+          "label": "Garfield"
+        },
+        {
+          "id": "grand",
+          "label": "Grand"
+        },
+        {
+          "id": "iron",
+          "label": "Iron"
+        },
+        {
+          "id": "juab",
+          "label": "Juab"
+        },
+        {
+          "id": "kane",
+          "label": "Kane"
+        },
+        {
+          "id": "millard",
+          "label": "Millard"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "piute",
+          "label": "Piute"
+        },
+        {
+          "id": "rich",
+          "label": "Rich"
+        },
+        {
+          "id": "salt_lake",
+          "label": "Salt Lake"
+        },
+        {
+          "id": "san_juan",
+          "label": "San Juan"
+        },
+        {
+          "id": "sanpete",
+          "label": "Sanpete"
+        },
+        {
+          "id": "sevier",
+          "label": "Sevier"
+        },
+        {
+          "id": "summit",
+          "label": "Summit"
+        },
+        {
+          "id": "tooele",
+          "label": "Tooele"
+        },
+        {
+          "id": "uintah",
+          "label": "Uintah"
+        },
+        {
+          "id": "utah",
+          "label": "Utah"
+        },
+        {
+          "id": "wasatch",
+          "label": "Wasatch"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "weber",
+          "label": "Weber"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "district_court",
+          "label": "District Court",
+          "counties": null,
+          "sourceQuote": "If charges were never filed, the petition is filed in the district court in the county where the arrest occurred or citation was issued.",
+          "sourceRef": "UT-utah.json#packetGenerator.filingDestinationRules; src/lib/rcap/state-packs/utah/filing-instructions.ts"
+        },
+        {
+          "id": "juvenile_court",
+          "label": "Juvenile Court",
+          "counties": null,
+          "sourceQuote": "Juvenile matters: use the juvenile court expungement process, not the adult BCI certificate application; the juvenile court requires an adult Utah criminal-history report from BCI.",
+          "sourceRef": "src/lib/rcap/state-packs/utah/filing-instructions.ts"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [],
+      "courtQuestionIds": [],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "VA": {
+      "jurisdiction": "VA",
+      "statePack": "virginia",
+      "counties": [],
+      "courts": [
+        {
+          "id": "circuit_court_expungement_19_2_392_2_and_petition_based_sealing_19_2_392_12",
+          "label": "Circuit court — expungement (§ 19.2-392.2) and petition-based sealing (§ 19.2-392.12)",
+          "counties": null
+        },
+        {
+          "id": "general_district_court_the_court_that_heard_the_case",
+          "label": "General District Court — the court that heard the case",
+          "counties": null
+        },
+        {
+          "id": "office_of_the_executive_secretary_of_the_supreme_court_of_virginia",
+          "label": "Office of the Executive Secretary of the Supreme Court of Virginia",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "VT": {
+      "jurisdiction": "VT",
+      "statePack": "vermont",
+      "counties": [
+        {
+          "id": "addison",
+          "label": "Addison"
+        },
+        {
+          "id": "bennington",
+          "label": "Bennington"
+        },
+        {
+          "id": "caledonia",
+          "label": "Caledonia"
+        },
+        {
+          "id": "chittenden",
+          "label": "Chittenden"
+        },
+        {
+          "id": "essex",
+          "label": "Essex"
+        },
+        {
+          "id": "franklin",
+          "label": "Franklin"
+        },
+        {
+          "id": "grand_isle",
+          "label": "Grand Isle"
+        },
+        {
+          "id": "lamoille",
+          "label": "Lamoille"
+        },
+        {
+          "id": "orange",
+          "label": "Orange"
+        },
+        {
+          "id": "orleans",
+          "label": "Orleans"
+        },
+        {
+          "id": "rutland",
+          "label": "Rutland"
+        },
+        {
+          "id": "washington",
+          "label": "Washington"
+        },
+        {
+          "id": "windham",
+          "label": "Windham"
+        },
+        {
+          "id": "windsor",
+          "label": "Windsor"
+        }
+      ],
+      "courts": [
+        {
+          "id": "superior_court_criminal_division",
+          "label": "Superior Court — Criminal Division",
+          "counties": null
+        },
+        {
+          "id": "superior_court_family_division",
+          "label": "Superior Court — Family Division",
+          "counties": null
+        },
+        {
+          "id": "judicial_bureau",
+          "label": "Judicial Bureau",
+          "counties": null
+        },
+        {
+          "id": "vermont_crime_information_center",
+          "label": "Vermont Crime Information Center",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "WI": {
+      "jurisdiction": "WI",
+      "statePack": "wisconsin",
+      "counties": [],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null,
+          "sourceQuote": "Wilma should start with two records: 1 Wisconsin Circuit Court Access / court docket for the case details."
+        }
+      ],
+      "countyQuestionIds": [
+        "county_or_filing_location"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    },
+    "WV": {
+      "jurisdiction": "WV",
+      "statePack": "west-virginia",
+      "counties": [
+        {
+          "id": "barbour",
+          "label": "Barbour"
+        },
+        {
+          "id": "berkeley",
+          "label": "Berkeley"
+        },
+        {
+          "id": "boone",
+          "label": "Boone"
+        },
+        {
+          "id": "braxton",
+          "label": "Braxton"
+        },
+        {
+          "id": "brooke",
+          "label": "Brooke"
+        },
+        {
+          "id": "cabell",
+          "label": "Cabell"
+        },
+        {
+          "id": "calhoun",
+          "label": "Calhoun"
+        },
+        {
+          "id": "clay",
+          "label": "Clay"
+        },
+        {
+          "id": "doddridge",
+          "label": "Doddridge"
+        },
+        {
+          "id": "fayette",
+          "label": "Fayette"
+        },
+        {
+          "id": "gilmer",
+          "label": "Gilmer"
+        },
+        {
+          "id": "grant",
+          "label": "Grant"
+        },
+        {
+          "id": "greenbrier",
+          "label": "Greenbrier"
+        },
+        {
+          "id": "hampshire",
+          "label": "Hampshire"
+        },
+        {
+          "id": "hancock",
+          "label": "Hancock"
+        },
+        {
+          "id": "hardy",
+          "label": "Hardy"
+        },
+        {
+          "id": "harrison",
+          "label": "Harrison"
+        },
+        {
+          "id": "jackson",
+          "label": "Jackson"
+        },
+        {
+          "id": "jefferson",
+          "label": "Jefferson"
+        },
+        {
+          "id": "kanawha",
+          "label": "Kanawha"
+        },
+        {
+          "id": "lewis",
+          "label": "Lewis"
+        },
+        {
+          "id": "lincoln",
+          "label": "Lincoln"
+        },
+        {
+          "id": "logan",
+          "label": "Logan"
+        },
+        {
+          "id": "marion",
+          "label": "Marion"
+        },
+        {
+          "id": "marshall",
+          "label": "Marshall"
+        },
+        {
+          "id": "mason",
+          "label": "Mason"
+        },
+        {
+          "id": "mcdowell",
+          "label": "McDowell"
+        },
+        {
+          "id": "mercer",
+          "label": "Mercer"
+        },
+        {
+          "id": "mineral",
+          "label": "Mineral"
+        },
+        {
+          "id": "mingo",
+          "label": "Mingo"
+        },
+        {
+          "id": "monongalia",
+          "label": "Monongalia"
+        },
+        {
+          "id": "monroe",
+          "label": "Monroe"
+        },
+        {
+          "id": "morgan",
+          "label": "Morgan"
+        },
+        {
+          "id": "nicholas",
+          "label": "Nicholas"
+        },
+        {
+          "id": "ohio",
+          "label": "Ohio"
+        },
+        {
+          "id": "pendleton",
+          "label": "Pendleton"
+        },
+        {
+          "id": "pleasants",
+          "label": "Pleasants"
+        },
+        {
+          "id": "pocahontas",
+          "label": "Pocahontas"
+        },
+        {
+          "id": "preston",
+          "label": "Preston"
+        },
+        {
+          "id": "putnam",
+          "label": "Putnam"
+        },
+        {
+          "id": "raleigh",
+          "label": "Raleigh"
+        },
+        {
+          "id": "randolph",
+          "label": "Randolph"
+        },
+        {
+          "id": "ritchie",
+          "label": "Ritchie"
+        },
+        {
+          "id": "roane",
+          "label": "Roane"
+        },
+        {
+          "id": "summers",
+          "label": "Summers"
+        },
+        {
+          "id": "taylor",
+          "label": "Taylor"
+        },
+        {
+          "id": "tucker",
+          "label": "Tucker"
+        },
+        {
+          "id": "tyler",
+          "label": "Tyler"
+        },
+        {
+          "id": "upshur",
+          "label": "Upshur"
+        },
+        {
+          "id": "wayne",
+          "label": "Wayne"
+        },
+        {
+          "id": "webster",
+          "label": "Webster"
+        },
+        {
+          "id": "wetzel",
+          "label": "Wetzel"
+        },
+        {
+          "id": "wirt",
+          "label": "Wirt"
+        },
+        {
+          "id": "wood",
+          "label": "Wood"
+        },
+        {
+          "id": "wyoming",
+          "label": "Wyoming"
+        },
+        {
+          "id": "i_am_not_sure_which_county_handled_the_case",
+          "label": "I am not sure which county handled the case"
+        },
+        {
+          "id": "my_county_is_not_listed_i_will_provide_it_with_my_documents",
+          "label": "My county is not listed - I will provide it with my documents"
+        }
+      ],
+      "courts": [
+        {
+          "id": "circuit_court",
+          "label": "Circuit Court",
+          "counties": null,
+          "sourceQuote": "No-conviction expungement (§ 61-11-25): file a civil petition in the circuit court where the charges were filed, no sooner than 60 days after the acquittal/dismissal order",
+          "sourceRef": "src/lib/rcap/state-packs/west-virginia/filing-instructions.ts; WV-west-virginia.json#waitingPeriodRules wait-01"
+        },
+        {
+          "id": "i_am_not_sure_which_court_handled_the_case",
+          "label": "I am not sure which court handled the case",
+          "counties": null
+        },
+        {
+          "id": "my_court_is_not_listed_i_will_provide_the_exact_court_name_with_my_documents",
+          "label": "My court is not listed - I will provide the exact court name with my documents",
+          "counties": null
+        }
+      ],
+      "countyQuestionIds": [
+        "county"
+      ],
+      "courtQuestionIds": [
+        "court"
+      ],
+      "reviewStatus": "source_backed_from_the_phase_3_state_packs; dataset-owner confirmation still recorded as outstanding"
+    }
+  }
+}

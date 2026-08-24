@@ -16,6 +16,7 @@
  */
 import type {
   AnswerValue,
+  ControlledLocationValue,
   ProfileQuestion,
   ScreeningAnswerValue
 } from "@/lib/expungement-ai/frontend/contracts";
@@ -25,6 +26,31 @@ export type OrUnknownValue = { value?: string; unknown?: boolean };
 
 export function isOrUnknownValue(value: AnswerValue | undefined): value is OrUnknownValue {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Read a county/court answer.
+ *
+ * `value` is the label of a controlled option and is the only half ever treated
+ * as verified. `manualValue` is what the participant typed when the list did not
+ * carry their court; it lives in its own field so nothing downstream can mistake
+ * it for a confirmed filing destination.
+ */
+export function readControlledLocation(value: AnswerValue | undefined): ControlledLocationValue {
+  if (!isOrUnknownValue(value)) return {};
+  const record = value as ControlledLocationValue;
+  return {
+    value: typeof record.value === "string" ? record.value : undefined,
+    controlledId: typeof record.controlledId === "string" ? record.controlledId : undefined,
+    controlledCountyId: typeof record.controlledCountyId === "string" ? record.controlledCountyId : undefined,
+    manualValue: typeof record.manualValue === "string" ? record.manualValue : undefined,
+    unknown: record.unknown === true
+  };
+}
+
+/** Is this answer for a question the jurisdiction publishes a controlled dataset for? */
+function isControlledLocationQuestion(question: ProfileQuestion) {
+  return question.controlledLocationDataset !== undefined;
 }
 
 /** Read an OrUnknown value safely from any stored answer. */
@@ -41,6 +67,15 @@ export function readOrUnknown(value: AnswerValue | undefined): OrUnknownValue {
  * affordances, and it lets an anxious user who genuinely does not know still move forward.
  */
 export function hasAnswer(question: ProfileQuestion, value: AnswerValue | undefined): boolean {
+  if (isControlledLocationQuestion(question)) {
+    // A controlled pick, an explicit "I'm not sure" and a typed-in value are all
+    // answers. Only the first is verified, and that difference is carried on the
+    // value rather than by refusing to accept the other two.
+    const location = readControlledLocation(value);
+    return location.unknown === true
+      || (typeof location.controlledId === "string" && location.controlledId !== "")
+      || (typeof location.manualValue === "string" && location.manualValue.trim() !== "");
+  }
   switch (question.type) {
     case "single_choice":
     case "yes_no_unsure":
@@ -100,8 +135,34 @@ function toWireValue(value: AnswerValue | undefined): ScreeningAnswerValue | und
   if (typeof value === "string") return value.trim() === "" ? undefined : value;
   if (typeof value === "number") return value;
   if (Array.isArray(value)) return value.length > 0 ? value : undefined;
+  const location = readControlledLocation(value);
+  if (location.controlledId !== undefined || location.manualValue !== undefined) {
+    // Only the controlled label goes over the wire as the fact. A manual value is
+    // reported as not-yet-confirmed, which is what it is: it travels alongside in
+    // its own field for a human to check, and never becomes the verified answer.
+    if (typeof location.value === "string" && location.value.trim() !== "") return location.value;
+    return UNKNOWN_WIRE_VALUE;
+  }
   const orUnknown = readOrUnknown(value);
   if (orUnknown.unknown === true) return UNKNOWN_WIRE_VALUE;
   if (typeof orUnknown.value === "string" && orUnknown.value.trim() !== "") return orUnknown.value;
   return undefined;
+}
+
+/**
+ * The manual county/court values a participant typed, keyed by question id.
+ *
+ * Kept apart from `toScreeningAnswers` on purpose: these are unverified, they are
+ * never the answer to the question, and a caller has to ask for them explicitly.
+ */
+export function manualLocationValues(answers: Record<string, AnswerValue>): Record<string, { manualValue: string; verified: false }> {
+  const out: Record<string, { manualValue: string; verified: false }> = {};
+  for (const [id, value] of Object.entries(answers)) {
+    const location = readControlledLocation(value);
+    if (location.controlledId) continue;
+    if (typeof location.manualValue === "string" && location.manualValue.trim() !== "") {
+      out[id] = { manualValue: location.manualValue.trim(), verified: false };
+    }
+  }
+  return out;
 }

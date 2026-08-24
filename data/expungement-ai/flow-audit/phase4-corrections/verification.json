@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "expai-phase4-correction-verification/v1",
+  "head": "fd2c73d9006b3761a000d9b9e42244be24467e1a",
+  "checks": [
+    {
+      "id": "C-01",
+      "requirement": "all 356 real participant flows accounted for",
+      "pass": true,
+      "observed": "356 flows, one disposition each"
+    },
+    {
+      "id": "C-02",
+      "requirement": "zero route allows payment before its operative waiting period",
+      "pass": true,
+      "observed": "0 routes allow payment at the shortest published timing bucket (14 before)"
+    },
+    {
+      "id": "C-03",
+      "requirement": "zero prohibited open-case route allows payment",
+      "pass": true,
+      "observed": "0 routes allow payment while the case is still open (5 before)"
+    },
+    {
+      "id": "C-04a",
+      "requirement": "the only payment authority outside the binding table is the named counsel approval",
+      "pass": true,
+      "observed": "counsel-approved routes: MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8; behavioural proof scripts/verify-rcap-md-pardon-pathway.mjs passes and the approval is re-pinned to the corrected evaluator"
+    },
+    {
+      "id": "C-04",
+      "requirement": "zero fallback-dependent route reaches payment, apart from the named counsel approval",
+      "pass": true,
+      "observed": "0 of 268 fallback routes are payment-eligible on the fallback alone; 1 carries a counsel approval instead"
+    },
+    {
+      "id": "C-05",
+      "requirement": "every binding a payable route relies on passes duration-provenance validation",
+      "pass": true,
+      "observed": "23 of 43 committed bindings validated; 0 payable routes rely on an unvalidated binding"
+    },
+    {
+      "id": "C-06",
+      "requirement": "no unexplained eligibility change",
+      "pass": true,
+      "observed": "0 remedy-pathway changes, 0 remedy-kind changes across 356 real flows"
+    },
+    {
+      "id": "C-07",
+      "requirement": "no unexplained packet-family or form-set change",
+      "pass": true,
+      "observed": "0 packet-family changes, 0 form-set changes"
+    },
+    {
+      "id": "C-08",
+      "requirement": "unsupported/referral status and sponsorship bypass unchanged",
+      "pass": true,
+      "observed": "0 unsupported-status changes, 0 sponsorship-mode changes"
+    },
+    {
+      "id": "C-09",
+      "requirement": "county/court manual values remain separate and unverified",
+      "pass": true,
+      "observed": "42 jurisdictions served, 1231 counties, 140 courts; manualEntry.treatedAsVerified is false everywhere and a manual value is never written to the answer's verified field; 0 malformed options"
+    },
+    {
+      "id": "C-10",
+      "requirement": "all legal-owner and correction holds remain non-purchasable, apart from the named counsel approval",
+      "pass": true,
+      "observed": "0 held routes are payment-eligible; Maryland's pardon route is held by its shard on a waiting-rule question and separately approved by counsel on its timing treatment — the hold stands and is recorded, the approval carries the payment, and the conflict is raised for the legal owner rather than decided here"
+    },
+    {
+      "id": "C-11",
+      "requirement": "no route marked active",
+      "pass": true,
+      "observed": "356 rows, all active=false; activation belongs to Phase 5"
+    }
+  ],
+  "passing": 12,
+  "failing": [],
+  "dispositions": {
+    "realParticipantFlows": 356,
+    "READY_FOR_HOSTED_ACCEPTANCE": 32,
+    "HELD_FOR_CORRECTION": 120,
+    "HELD_FOR_LEGAL_DECISION": 196,
+    "HELD_FOR_ENVIRONMENT": 8,
+    "purchasableBefore": 62,
+    "purchasableAfter": 7,
+    "reviewedChanges": 61,
+    "paymentWithdrawn": 58,
+    "paymentOpened": 3
+  },
+  "bindings": {
+    "total": 43,
+    "VALIDATED_EXPLICIT_BINDING": 17,
+    "VALIDATED_INLINE_RULE": 6,
+    "CORRECTION_REQUIRED": 11,
+    "LEGAL_OWNER_DECISION_REQUIRED": 9
+  },
+  "proposals": {
+    "applied": 14,
+    "held": 73
+  },
+  "routePaymentAuthority": {
+    "routes": 325,
+    "paymentEligible": 38,
+    "refused": 287
+  },
+  "countyCourt": {
+    "jurisdictionsWithACatalog": 42,
+    "counties": 1231,
+    "courts": 140,
+    "jurisdictionsPublishingNoCountyOrCourtQuestion": 6
+  },
+  "timingSweepAfter": {
+    "jurisdictions": 51,
+    "routesSwept": 325,
+    "timingInert": 178,
+    "paymentAtShortestBucket": 0,
+    "paymentWhileCaseStillOpen": 0
+  }
+}

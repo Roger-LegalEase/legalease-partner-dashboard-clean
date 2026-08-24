@@ -1,6 +1,7 @@
 import "server-only";
 
 import { factConsumerIndex, PREPAY_CONSUMERS } from "@/lib/rcap-engine/fact-consumers";
+import { controlledLocationDatasetFor } from "@/lib/rcap-engine/county-court-catalog";
 import type { FactConsumer } from "@/lib/rcap-engine/fact-consumers";
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
@@ -1045,7 +1046,30 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  * mapper above then decides what is actually allowed out.
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
-  return toPublicJurisdictionProfile(buildProfileDraft(profile));
+  return withControlledLocationDatasets(toPublicJurisdictionProfile(buildProfileDraft(profile)));
+}
+
+/**
+ * Attach the jurisdiction's controlled county/court dataset to the questions that
+ * collect them.
+ *
+ * This is the projection half the six Phase 3 shards could not reach: each of
+ * them prepared its state's dataset and every one of them recorded the same
+ * SHARED_PHASE2_BLOCKER, because a state-pack edit alone never reaches the served
+ * profile. The attachment is additive — nothing about the question's identity,
+ * type, stage, options, required flag or contextOnly flag changes — so screening
+ * parity is unaffected and a jurisdiction with no dataset is returned untouched.
+ */
+function withControlledLocationDatasets(publicProfile: PublicJurisdictionProfile): PublicJurisdictionProfile {
+  const code = publicProfile.jurisdiction.code;
+  let attached = false;
+  const questions = publicProfile.questions.map((question) => {
+    const dataset = controlledLocationDatasetFor(code, question.id);
+    if (!dataset) return question;
+    attached = true;
+    return { ...question, controlledLocationDataset: dataset };
+  });
+  return attached ? { ...publicProfile, questions } : publicProfile;
 }
 
 function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {

@@ -96,6 +96,8 @@ export type ProfileQuestion = {
    * pathway.
    */
   contextOnly: boolean;
+  /** Controlled county/court data, when the jurisdiction publishes one. */
+  controlledLocationDataset?: ControlledLocationDatasetPayload;
   lifecyclePhase?:
     | "prepay_required"
     | "prepay_route_splitter"
@@ -160,11 +162,49 @@ export type JurisdictionProfile = {
  * frontend's working shape; it is converted to the wire shape (`ScreeningAnswerValue`) before the
  * request is sent (see `toScreeningAnswers`).
  */
+/**
+ * The controlled county/court data a question may carry. Structural only — the
+ * question's id, type, stage, options, required flag and contextOnly flag are
+ * unchanged by its presence.
+ */
+export type ControlledLocationDatasetPayload = {
+  kind: "county" | "court";
+  jurisdiction: string;
+  counties: { id: string; label: string; sourceQuote?: string; sourceRef?: string }[];
+  courts: { id: string; label: string; courtType?: string; location?: string; counties: string[] | null; sourceQuote?: string; sourceRef?: string }[];
+  manualEntry: { label: string; helperText: string; treatedAsVerified: false };
+  notSure: { label: string; helperText: string };
+};
+
+/**
+ * A county/court answer.
+ *
+ * `controlledId` is the only half that is ever treated as verified. `manualValue`
+ * is what the participant typed when the list did not carry their court, kept in
+ * its own field precisely so that nothing downstream can mistake it for a
+ * confirmed filing destination.
+ */
+export type ControlledLocationValue = {
+  /**
+   * The verified label — set only when the participant picked a controlled
+   * option. Every existing reader of an answer's `value` sees this and nothing
+   * else, which is what keeps a hand-typed court out of the packet as if it were
+   * confirmed.
+   */
+  value?: string;
+  controlledId?: string;
+  controlledCountyId?: string;
+  /** What the participant typed when the list did not carry their court. Never verified. */
+  manualValue?: string;
+  unknown?: boolean;
+};
+
 export type AnswerValue =
   | string
   | string[]
   | number
   | { value?: string | number | null; unknown?: boolean }
+  | ControlledLocationValue
   | null;
 
 /**

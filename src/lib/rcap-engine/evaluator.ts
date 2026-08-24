@@ -7,6 +7,8 @@ import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engin
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import waitingRuleBindings from "@/lib/rcap-engine/waiting-rule-bindings.json";
+import { evaluateCheckoutAuthority, type TimingBasis } from "@/lib/rcap-engine/checkout-authority";
+import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -403,10 +405,18 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
-  const ambiguity = ambiguityReason(publicProfile, answers);
-  if (ambiguity) return result(profile, request, "needs_review", [ambiguity]);
-
+  // The route has to be known before uncertainty can be judged against it, so
+  // pathway selection runs first. Selection reads only answers, never the
+  // ambiguity verdict, so nothing here changes which route is chosen.
   const preselectedPathway = selectPathway(profile, answers);
+
+  const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
+  if (ambiguity) {
+    return result(profile, request, "needs_review", [ambiguity], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
+    });
+  }
+
   const preRouteSafetyGate = preselectedPathway ? routeSpecificSafetyGate(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preRouteSafetyGate) {
     const code = preRouteSafetyGate.code.endsWith("not_eligible") ? "likely_not_eligible" : "needs_review";
@@ -551,17 +561,39 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   const selectedCode: ScreeningResultCode = ruleCode === "packet_ready" || ruleCode === "packet_ready_with_caution"
     ? ruleCode
     : sourceCaution(profile, answers, pathway.id) ? "packet_ready_with_caution" : "packet_ready";
-  const paymentAllowed = route.deterministic === true
+  const purchasableAtEvaluator = route.deterministic === true
     && Boolean(plan)
     && !routeIsAutomaticOrNoFiling(profile, pathway)
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
 
-  return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
+  // The single server-side checkout gate. It only ever subtracts: every
+  // condition above still has to hold, and this refuses on top of them when the
+  // waiting period was never actually run against something the participant
+  // said, when the route's binding is not provenance-validated, or when the
+  // route is held. Nothing a client sends reaches it.
+  const checkout = evaluateCheckoutAuthority({
+    jurisdiction,
+    pathwayId: pathway.id,
+    routePurchasableAtEvaluator: purchasableAtEvaluator,
+    timingStatus: timing.status,
+    timingBasis: timing.basis ?? "not_evaluated",
+    resolvedTimingBucket: answerText(answers[RESOLVED_TIMING_BUCKET_FIELD_ID]),
+    pendingCasesAffirmative: isAffirmative(answers.pending_cases)
+  });
+
+  const reasons = [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)];
+  if (purchasableAtEvaluator && !checkout.purchasable) {
+    // Say why checkout is closed on a route that otherwise reads as ready. A
+    // silent clamp is how the premature-payment routes survived three phases.
+    reasons.push(reason(jurisdiction, `checkout_withheld.${checkout.denials[0].code.toLowerCase()}`, checkout.denials[0].detail, route.rule.sourceRef ?? pathway.sourceRef));
+  }
+
+  return result(profile, request, selectedCode, reasons, {
     pathwayId: pathway.id,
     packetPlan: plan,
-    paymentAllowed
+    paymentAllowed: checkout.purchasable
   });
 }
 
@@ -593,14 +625,31 @@ function exclusionReason(profile: EngineProfile, answers: Record<string, Screeni
   return undefined;
 }
 
-function ambiguityReason(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
+function ambiguityReason(
+  profile: EngineProfile,
+  publicProfile: PublicJurisdictionProfile,
+  answers: Record<string, ScreeningAnswerValue>,
+  selectedPathway: CompiledPathway | undefined
+): ScreeningReason | undefined {
   const jurisdiction = publicProfile.jurisdiction.code;
   // Only consider questions the frontend actually renders. The full engine profile carries hidden
   // internal `source_question_*` questions that are never shown and never answered; scanning those
   // would treat every completed screening as ambiguous. Missing/empty public answers are not
   // ambiguity here — required public answers are enforced by requiredMissingPublicQuestionIds().
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
-  const ambiguous = legalFields.find((question) => isExplicitUnknownAnswer(answers[question.id]));
+
+  // ...and only questions that decide THIS route. A profile publishes its
+  // route-scoped questions to every participant in the state, so scanning all of
+  // them let an optional Proposition 64 answer close California's unrelated
+  // dismissal/set-aside remedy, and hi_court_order_confirmed close Hawaii's
+  // non-conviction remedy. Relevance is the pathway's own consumed facts, plus
+  // packet selection, plus the route's escalation conditions; with no pathway
+  // selected yet every pathway is still viable and the union applies, which is
+  // exactly the previous behaviour.
+  const relevant = relevantFactIds(profile, selectedPathway);
+  const ambiguous = legalFields
+    .filter((question) => relevant.has(question.id))
+    .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
 }
@@ -618,8 +667,20 @@ function isPrepaymentQuestion(question: PublicQuestion) {
   return !["record_readiness", "case_details", "packet_information"].includes(question.stage);
 }
 
+/**
+ * The one optional question that does steer the route.
+ *
+ * EXPAI-FA-023: `possible_pathway_context` is projected contextOnly and
+ * doesNotSelectPathway, and is read here as the first and strongest selection
+ * signal. Changing that would change which remedy participants get, which is not
+ * this correction's to do — so the exception is named here, and the participant
+ * is told the truth about it in ContextOnlyBanner rather than promised the
+ * answer is inert.
+ */
+const OPTIONAL_QUESTION_IDS_THAT_STEER_THE_ROUTE = ["possible_pathway_context"] as const;
+
 function selectPathway(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>) {
-  const context = answerText(answers.possible_pathway_context).toLowerCase();
+  const context = answerText(answers[OPTIONAL_QUESTION_IDS_THAT_STEER_THE_ROUTE[0]]).toLowerCase();
   if (context) {
     const exactContext = profile.pathways.find((pathway) => normalizeContextMatch(pathway.label) === normalizeContextMatch(context));
     if (exactContext) return exactContext;
@@ -948,11 +1009,11 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
         missingQuestionIds: ["pardon_signed_date"]
       };
     }
-    return { status: "satisfied" };
+    return { status: "satisfied", basis: "anchor_date" };
   }
-  if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
-  if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
-  if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied" };
+  if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
+  if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
+  if (key === "NY:conditional-treatment-sealing-under-cpl-160-58") return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
   if (key === "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59") {
     return latestAnchorTiming(profile, answers, rule, pathway, ["sentencing_date", "release_date"], { value: 10, unit: "years", raw: "10 years" }, "NY CPL 160.59 requires ten years from the later of sentencing or release; release captures incarceration tolling when present.");
   }
@@ -1016,7 +1077,7 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 10, unit: "years", raw: "10 years" }, "RSMo 610.130 sets a ten-year wait for a first intoxication-related traffic or boating offense (disposition date used as the available anchor for sentence completion).");
   }
   if (key === "MO:stolen-or-mistaken-identity-expungement-under-610-145") {
-    return { status: "satisfied" };
+    return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
   }
   // ---- Louisiana (corrected, awaiting Lawrence reconfirmation) ----
   // disposition_date is the available anchor proxy for completion of sentence/probation/parole.
@@ -1119,10 +1180,10 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   // arrest/charge resolved without a conviction (HRS § 831-3.2); conviction eligibility is established
   // by the attached Court Order Granting Expungement (gated in hiAdminApplicationSafetyGate).
   if (key === "HI:nonconviction-arrest-expungement") {
-    return { status: "satisfied" };
+    return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
   }
   if (key === "HI:first-time-drug-conviction" || key === "HI:dui-under-21-conviction") {
-    return { status: "satisfied" };
+    return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
   }
   return undefined;
 }
@@ -1184,7 +1245,7 @@ function timingFromAnchor(profile: EngineProfile, answers: Record<string, Screen
       reason: reason(jurisdiction, "waiting_period_not_satisfied", `${text} The source-specific waiting period runs until ${earliest.toISOString().slice(0, 10)}.`, rule.sourceRef ?? pathway.sourceRef)
     };
   }
-  return { status: "satisfied" };
+  return { status: "satisfied", basis: "anchor_date" };
 }
 
 function timingFromResolvedBucket(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, duration: CompiledDuration, text: string): TimingResult | undefined {
@@ -1213,8 +1274,8 @@ function timingFromResolvedBucket(profile: EngineProfile, answers: Record<string
       reason: reason(jurisdiction, "waiting_rule_not_executed", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef)
     };
   }
-  if (requiredYears <= 0) return { status: "satisfied" };
-  if (window.minYears >= requiredYears) return { status: "satisfied" };
+  if (requiredYears <= 0) return { status: "satisfied", basis: "timing_bucket" };
+  if (window.minYears >= requiredYears) return { status: "satisfied", basis: "timing_bucket" };
   const overlapsBoundary = window.maxYears === undefined ? false : window.maxYears > requiredYears;
   return {
     status: "not_yet",
@@ -1232,7 +1293,9 @@ function durationInYears(duration: CompiledDuration) {
 function latestTimingResult(first: TimingResult, second: TimingResult): TimingResult {
   if (first.status === "needs_review" || first.status === "missing_anchor" || first.status === "not_yet") return first;
   if (second.status === "needs_review" || second.status === "missing_anchor" || second.status === "not_yet") return second;
-  return { status: "satisfied" };
+  // Two satisfied results still only prove as much as the weaker of them did.
+  const weaker: TimingBasis = first.basis === "anchor_date" && second.basis === "anchor_date" ? "anchor_date" : (first.basis ?? second.basis ?? "not_evaluated");
+  return { status: "satisfied", basis: weaker };
 }
 
 function guidanceTextForPathway(profile: EngineProfile, pathway: CompiledPathway) {
@@ -1392,9 +1455,15 @@ type RouteMatch =
   };
 
 type TimingResult =
-  | { status: "satisfied" | "not_applicable"; reason?: undefined; missingQuestionIds?: undefined }
-  | { status: "not_yet" | "needs_review"; reason: ScreeningReason; missingQuestionIds?: undefined }
-  | { status: "missing_anchor"; reason: ScreeningReason; missingQuestionIds: string[] };
+  /**
+   * `basis` names what the conclusion was actually computed from. "satisfied" on
+   * its own does not distinguish a wait that ran against the participant's own
+   * date from a route override that never asked, and the checkout authority has
+   * to be able to tell those apart.
+   */
+  | { status: "satisfied" | "not_applicable"; basis?: TimingBasis; reason?: undefined; missingQuestionIds?: undefined }
+  | { status: "not_yet" | "needs_review"; basis?: TimingBasis; reason: ScreeningReason; missingQuestionIds?: undefined }
+  | { status: "missing_anchor"; basis?: TimingBasis; reason: ScreeningReason; missingQuestionIds: string[] };
 
 type CompiledDuration = {
   value: number;
@@ -1625,10 +1694,19 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
     };
   }
   if (profile.jurisdiction.code === "WI" && pathway.id === "adult-conviction-expungement-under-wis-stat-973-015") {
-    return { status: "satisfied" };
+    return { status: "satisfied", basis: "route_override_without_a_participant_timing_fact" };
   }
   const routeOverride = specialRouteTiming(profile, answers, rule, pathway);
-  if (routeOverride) return routeOverride;
+  if (routeOverride) {
+    // A counsel-approved override carries its own duration and anchor, so the
+    // binding table is not its authority. Re-label a conclusion it reached from
+    // a participant date, so the checkout gate can tell that apart from an
+    // override that concluded "satisfied" having asked nothing.
+    if (routeOverride.status === "satisfied" && routeOverride.basis === "anchor_date") {
+      return { status: "satisfied", basis: "route_override_anchor_date" };
+    }
+    return routeOverride;
+  }
 
   const compiledRuleWait = normalizeDuration(compiledRuleDuration(rule));
   const resolution: WaitingRuleResolution = compiledRuleWait
@@ -1645,7 +1723,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
 
   // The source says this route has no ordinary waiting period. That is an
   // answer, not an absence: there is nothing to run a clock against.
-  if (resolution.status === "no_waiting_period") return { status: "satisfied" };
+  if (resolution.status === "no_waiting_period") return { status: "satisfied", basis: "authored_no_waiting_period" };
 
   if (resolution.status === "failed") {
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
@@ -1731,7 +1809,7 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
       reason: reason(jurisdiction, "waiting_period_not_satisfied", `This may not be ready yet. The waiting period appears to run until ${earliest.toISOString().slice(0, 10)}. The court or agency makes the final decision.`, rule.sourceRef ?? pathway.sourceRef)
     };
   }
-  return { status: "satisfied" };
+  return { status: "satisfied", basis: "anchor_date" };
 }
 
 function fieldsPresentOrInternal(fields: string[], publicQuestionIds: Set<string>, answers: Record<string, ScreeningAnswerValue>) {

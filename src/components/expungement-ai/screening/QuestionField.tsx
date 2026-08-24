@@ -21,6 +21,7 @@ import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
 import { OrUnknownField } from "@/components/expungement-ai/screening/fields/OrUnknownField";
+import { ControlledLocationField } from "@/components/expungement-ai/screening/fields/ControlledLocationField";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
 import { localizeProfileText } from "@/lib/expungement-ai/localization";
 
@@ -91,7 +92,7 @@ export function QuestionField({
       optionalLabel={translate("common.optional", "Optional")}
     />
   );
-  const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} /> : null;
+  const bannerNode = question.contextOnly ? <ContextOnlyBanner id={contextId} questionId={question.id} /> : null;
   // TODO(save-and-resume): PR 3 attaches the save affordance near readiness helper copy.
   // UX-GLOBAL-012 — a special-category or identity-direct question must carry a
   // plain reason and a visibility statement. Three rendered questions carried
@@ -120,6 +121,28 @@ export function QuestionField({
       {translate("screening.answer_required", error)}
     </p>
   ) : null;
+
+  // County and court come first, whatever type the question declares: when the
+  // jurisdiction publishes a controlled dataset, this is the only arm that can
+  // offer the list and a separately stored manual value at the same time. A
+  // jurisdiction without one falls through and renders exactly as before.
+  if (question.controlledLocationDataset) {
+    return (
+      <div className="grid gap-3">
+        {heading}
+        {helperNode}
+        {bannerNode}
+        <ControlledLocationField
+          dataset={question.controlledLocationDataset}
+          value={value}
+          onChange={(next) => onChange(next)}
+          labelledBy={promptId}
+          describedBy={describedBy}
+        />
+        {errorNode}
+      </div>
+    );
+  }
 
   switch (question.type) {
     case "single_choice":

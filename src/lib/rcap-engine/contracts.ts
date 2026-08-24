@@ -88,6 +88,13 @@ export type PublicQuestion = {
   required: boolean;
   contextOnly?: boolean;
   doesNotSelectPathway?: boolean;
+  /**
+   * Controlled county/court data for this question, when the jurisdiction has a
+   * source-backed one. Additive: the question's id, type, stage, options array,
+   * required flag and contextOnly flag are all unchanged, so the screening-parity
+   * gate is unaffected and a jurisdiction without a dataset renders as before.
+   */
+  controlledLocationDataset?: unknown;
   lifecyclePhase?:
     | "prepay_required"
     | "prepay_route_splitter"
