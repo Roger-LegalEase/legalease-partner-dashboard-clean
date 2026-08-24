@@ -3449,5 +3449,25 @@
       "officialForms": 3
     },
     "reviewStatus": "source_compiled; attorney/source-freshness/form-visual review still required before production"
+  },
+  "controlledDataBindings": {
+    "schema": "rcap-controlled-data-binding/v1",
+    "issueIds": [
+      "UX-COURT-001"
+    ],
+    "purpose": "Names the controlled dataset a state-aware selector should serve this jurisdiction's court and filing-location questions from, so the selector does not have to guess which state pack holds it. Declaration only: no question's type, options, prompt, required flag or stage changes here, and the public profile projection does not publish this block.",
+    "bindings": [
+      {
+        "questionId": "court",
+        "collects": "court_or_filing_destination",
+        "datasetModule": "src/lib/rcap/state-packs/virginia/controlled-filing-dataset.ts",
+        "datasetExport": "virginiaControlledFilingDataset",
+        "optionsField": "courtDestinations",
+        "manualEntryField": "courtManualEntry"
+      }
+    ],
+    "consumedBy": "none_yet_shared_selector_is_phase_2",
+    "reviewStatus": "requires_dataset_owner_confirmation",
+    "addedBy": "expungement-ai phase 3 state shard SHARD-3"
   }
 }
