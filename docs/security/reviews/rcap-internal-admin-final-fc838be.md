@@ -1,8 +1,8 @@
 # RCAP internal admin final security and staging acceptance
 
-Verdict: `STAGING_ENVIRONMENT_BLOCKED`
+Verdict: `CORRECTION_REQUIRED`
 
-This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks are green. A follow-up Vercel CLI session authenticated successfully and linked only to the existing project, but its pulled Preview configuration did not identify the required acceptance Supabase project. The exact candidate was therefore not deployed, as required by the predeployment safety gate, and real-browser/deployed-request acceptance remains blocked.
+This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks remain green and were not repeated. After Codespace recovery, exactly one Vercel CLI Preview deployment was attempted from the exact candidate. Vercel created the Preview deployment record but rejected its function output at the platform size gate, so it never became Ready and deployed browser/request acceptance could not run.
 
 ## Frozen input
 
@@ -75,7 +75,7 @@ The shared internal layout, page adapters, API/route adapters, UUID-bound sessio
 
 Initial exact candidate deployment discovery returned zero GitHub deployments and zero commit deployment statuses. The GitHub-hosted and Vercel-hosted acceptance workflows both set `AUTHORIZED_APPLICATION_SHA` to `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926` and fail any different input. The later CLI follow-up authenticated successfully but stopped at the independent Preview-environment identity check described below.
 
-Consequently, the following mandatory tests are `NOT RUN — STAGING ENVIRONMENT BLOCKED` for the exact candidate:
+Consequently, the following mandatory tests are `NOT RUN — PREVIEW DEPLOYMENT ERROR` for the exact candidate:
 
 - desktop and mobile active-admin, external-email, corporate-domain, partner-admin, and inactive/revoked account browser journeys;
 - exact-Preview identity/role display, page rendering, switch-account behavior, cookie clearing, Back behavior, and post-Sign-Out denial;
@@ -133,10 +133,39 @@ The exact required pull was then run for Preview and branch `codex/rcap-internal
 
 The required predeployment identity gate failed before any `vercel deploy` command. No Preview or Production deployment was created, no URL or deployment ID was assigned, and a Vercel query for Preview deployments carrying candidate metadata `githubCommitSha=fc838be7871dc977e0a3e811b801d6c8ee7398e5` returned zero. No environment variable was edited. The temporary worktree and its ignored `.vercel`/`.env.local` runtime material were removed after the clean-tree and tree-hash recheck.
 
-Because no exact Preview was safely created, the previously blocked browser, Sign Out, redirect, direct API, mutation, and guard-before-body tests remain not run. The database migration and worker evidence were not repeated or changed.
+Because no exact Preview became Ready, the previously blocked browser, Sign Out, redirect, direct API, mutation, and guard-before-body tests remain not run. The database migration and worker evidence were not repeated or changed.
+
+## Codespace recovery and single exact Preview attempt
+
+The restarted session recovered existing review head `d6071d1765244daeb5cf259346158b03f284492f` on `codex/final-review-rcap-internal-admin-fc838be`. The review worktree was clean, both controlling remote branches and both controlling SHAs existed, and no merge or rebase was active. `/workspaces/rcap-admin-exact-preview` did not exist, so it was recreated as a detached worktree at exactly `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. Its tracked status was clean and its complete candidate tree was `91ca2ba3b6e901980bf80b7e4c23aa6399de674c` before and after the attempt.
+
+Vercel CLI 59.5.0 was already authenticated as `roger947` with active scope `roger947s-projects`. The detached worktree linked only to the existing `roger947s-projects/legalease-partner-dashboard-clean` project. No project was created, no Git repository was connected, and `.vercel` was not committed.
+
+Source inspection identified these required Preview variable names, and `vercel env ls preview` showed all four configured:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `ENABLE_SUPABASE_PARTNER_DATA`
+
+The CLI version did not support `env ls preview --git-branch`. Sensitive values remained hidden and were neither printed nor changed.
+
+Exactly one deployment command then targeted Preview with a TGZ archive and the required candidate metadata. It created:
+
+- URL: `https://legalease-partner-dashboard-clean-42dvvcmo1-roger947s-projects.vercel.app`
+- Deployment: `dpl_9pcLXpea33u3csd1QWebrJGCXCBX`
+- Project: `legalease-partner-dashboard-clean`
+- Metadata SHA: `fc838be7871dc977e0a3e811b801d6c8ee7398e5`
+- Metadata branch: `codex/rcap-internal-admin-release-evidence`
+- Environment/target: Preview
+- Final status: `ERROR`
+
+Vercel failed while deploying outputs because function `api/expungement-ai/briefcase/[itemId]/packet-information` was 635.89 MB uncompressed, exceeding the 250 MB function limit. The deployment has no alias and never became Ready. No second deployment was attempted, no environment variable was edited, and no Production domain or deployment changed.
+
+Because there was no runnable application, Chromium was not opened for authentication, no credential was submitted, and no application mutation occurred. The actual Supabase runtime project ref could not be observed; neither a match nor a mismatch was claimed. The five identity journeys, browser controls, origin/referrer controls, return-destination matrix, and deployed page/API/mutation guards therefore remain unexecuted.
 
 ## Final disposition
 
-`STAGING_ENVIRONMENT_BLOCKED`
+`CORRECTION_REQUIRED`
 
-The candidate is not ready to merge because the pulled Vercel Preview settings did not provide safe proof that the deployment would use the required acceptance Supabase project. Deployment was correctly stopped before creating a Preview. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
+The candidate is not ready to merge because the one permitted exact-candidate Preview failed Vercel's function-size gate before becoming Ready. Runtime acceptance Supabase identity, real-browser controls, and deployed request guards remain unproved. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
