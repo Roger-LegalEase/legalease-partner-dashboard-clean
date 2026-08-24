@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "expai-phase2-correction-allowlist/v1",
+  "generatedBy": "scripts/expungement-ai/phase2/build-phase2-record.mjs",
+  "productBase": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+  "head": "6814a7247b9acdb3fcb0a0467d287019a05259e2",
+  "evaluatorToday": "2026-07-01",
+  "contract": "One reviewed list. Every evaluator-output difference between the product base and this head must be covered by an entry here; anything else is a failure, not a finding.",
+  "comparedFields": [
+    "resultCode",
+    "pathwayId",
+    "paymentAllowed",
+    "packetFamily",
+    "formSet",
+    "decisionGraph"
+  ],
+  "allowed": [
+    {
+      "id": "waiting-rule-recovery-packet-ready",
+      "issueId": "UX-GLOBAL-013",
+      "jurisdictions": [
+        "FL",
+        "IA",
+        "PA",
+        "SD"
+      ],
+      "fields": [
+        "resultCode",
+        "paymentAllowed"
+      ],
+      "change": "needs_review with paymentAllowed false becomes packet_ready_with_caution with paymentAllowed true",
+      "why": "The prior selector could not choose a waiting rule the profile already contained, so a route the repository has curated rules for was closed. The explicit binding resolves it to a rule that already exists in that jurisdiction's compiled profile, with its own duration and its own quoted source. No waiting period is authored, shortened, or reordered.",
+      "boundedBy": "Only where an authored binding resolves. The pathway, packet family, form set and decision graph are unchanged in all four."
+    },
+    {
+      "id": "md-10-110-configuration-reported-once",
+      "issueId": "UX-GLOBAL-013",
+      "jurisdictions": [
+        "MD"
+      ],
+      "fields": [],
+      "change": "needs_more_info with md.waiting_anchor_missing becomes needs_review with md.configuration_missing",
+      "why": "At the product base, supplying either timing-bucket value produced needs_review with md.waiting_rule_not_executed, so the question the participant was asked first could not change the outcome. The terminal, the pathway and paymentAllowed false are all unchanged; what is removed is a round-trip that blamed the participant for a gap in our configuration.",
+      "boundedBy": "Recorded in the Maryland pardon control fixture and proved by scripts/verify-rcap-md-pardon-pathway.mjs. Does not appear in the jurisdiction baseline diff because that sweep supplies the timing bucket."
+    },
+    {
+      "id": "shared-facts-rendered",
+      "issueId": "UX-GLOBAL-019",
+      "jurisdictions": [
+        "*"
+      ],
+      "fields": [
+        "renderedScreenCount",
+        "renderedQuestionIds"
+      ],
+      "change": "the rendered screen count rises where a shared fact the evaluator consumes is now asked",
+      "why": "A fact must be available before its earliest consumer needs it. These facts were consumed before the packet decision and never rendered, so a participant answering everything shown could not reach the outcome the engine would reach.",
+      "boundedBy": "No decision field moves with it: resultCode, pathwayId, paymentAllowed, packetFamily, formSet and decisionGraph are unchanged in all 51."
+    },
+    {
+      "id": "packet-questions-not-re-asked",
+      "issueId": "UX-GLOBAL-004",
+      "jurisdictions": [
+        "*"
+      ],
+      "fields": [],
+      "change": "the packet questionnaire asks only for facts the canonical store does not already hold",
+      "why": "Carry-forward was name-matched and scoped to the packet plan's required-input list, so facts the participant had already given were dropped or re-asked with an empty control.",
+      "boundedBy": "The required-input set and the pre-payment validation set are byte-identical across all 325 packet-producing pathways; only which of them are put to the participant a second time changes."
+    },
+    {
+      "id": "contact-information-split",
+      "issueId": "UX-GLOBAL-005",
+      "jurisdictions": [
+        "*"
+      ],
+      "fields": [],
+      "change": "one free-text contact question becomes three validated fields composed back into contact_information",
+      "why": "Three separately-formatted, separately-validated facts shared one unvalidated string that no court form field could be filled from.",
+      "boundedBy": "contact_information remains the packet plan's required input and remains the value the packet binds. Only the required part blocks, so the blocking surface is the same size as the single field it replaces."
+    }
+  ],
+  "measuredDifferences": [
+    {
+      "jurisdiction": "FL",
+      "field": "resultCode",
+      "before": "needs_review",
+      "after": "packet_ready_with_caution"
+    },
+    {
+      "jurisdiction": "FL",
+      "field": "paymentAllowed",
+      "before": false,
+      "after": true
+    },
+    {
+      "jurisdiction": "IA",
+      "field": "resultCode",
+      "before": "needs_review",
+      "after": "packet_ready_with_caution"
+    },
+    {
+      "jurisdiction": "IA",
+      "field": "paymentAllowed",
+      "before": false,
+      "after": true
+    },
+    {
+      "jurisdiction": "PA",
+      "field": "resultCode",
+      "before": "needs_review",
+      "after": "packet_ready_with_caution"
+    },
+    {
+      "jurisdiction": "PA",
+      "field": "paymentAllowed",
+      "before": false,
+      "after": true
+    },
+    {
+      "jurisdiction": "SD",
+      "field": "resultCode",
+      "before": "needs_review",
+      "after": "packet_ready_with_caution"
+    },
+    {
+      "jurisdiction": "SD",
+      "field": "paymentAllowed",
+      "before": false,
+      "after": true
+    }
+  ],
+  "measuredDifferenceCount": 8,
+  "unexplainedDifferences": [],
+  "unexplainedDifferenceCount": 0,
+  "verdict": "every measured difference is covered by a reviewed entry"
+}

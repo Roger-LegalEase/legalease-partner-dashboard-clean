@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "expai-phase2-backlog/v1",
+  "generatedBy": "scripts/expungement-ai/phase2/build-phase2-record.mjs",
+  "head": "6814a7247b9acdb3fcb0a0467d287019a05259e2",
+  "contract": "Everything Phase 1 found that this phase deliberately did not build, with the reason. Nothing here is closed.",
+  "implemented": [
+    "UX-GLOBAL-001",
+    "UX-GLOBAL-002",
+    "UX-GLOBAL-003",
+    "UX-GLOBAL-004",
+    "UX-GLOBAL-005",
+    "UX-GLOBAL-008",
+    "UX-GLOBAL-009",
+    "UX-GLOBAL-011",
+    "UX-GLOBAL-012",
+    "UX-GLOBAL-013",
+    "UX-GLOBAL-014",
+    "UX-GLOBAL-017",
+    "UX-GLOBAL-018",
+    "UX-GLOBAL-019"
+  ],
+  "backlog": [
+    {
+      "issueId": "UX-COUNTY-001",
+      "severity": "P1",
+      "scope": "state_specific",
+      "category": "COUNTY_DATA",
+      "title": "County is collected as free text with no state-aware selector and no controlled dataset behind it",
+      "expected": "A state-aware county selector sourced from a controlled dataset, with a clearly-labelled manual entry fallback.",
+      "affectedJurisdictionCount": 15,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "State-specific: needs a controlled county dataset per state."
+    },
+    {
+      "issueId": "UX-COURT-001",
+      "severity": "P1",
+      "scope": "state_specific",
+      "category": "COURT_DATA",
+      "title": "Court is collected as free text with no state-aware selector and no controlled dataset behind it",
+      "expected": "A state-aware court selector sourced from a controlled dataset, with a clearly-labelled manual entry fallback.",
+      "affectedJurisdictionCount": 51,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "State-specific: needs a controlled court dataset per state."
+    },
+    {
+      "issueId": "UX-GLOBAL-006",
+      "severity": "P2",
+      "scope": "global",
+      "category": "GLOBAL_FACT_MODEL",
+      "title": "Full legal name is collected once, as a single text field, and only after the result and the save",
+      "expected": "Structured name parts collected at a point where the participant expects to identify themselves.",
+      "affectedJurisdictionCount": 51,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Structured name parts change what is bound into a petition caption and where identity is collected in the flow. Neither is a release blocker and both need the packet-binding review this sprint does not carry."
+    },
+    {
+      "issueId": "UX-GLOBAL-007",
+      "severity": "P2",
+      "scope": "global",
+      "category": "GLOBAL_FACT_MODEL",
+      "title": "Current city duplicates the address already requested inside contact information",
+      "expected": "One structured address, from which the city is derived, or one clearly distinct question explaining why a second location is needed.",
+      "affectedJurisdictionCount": 36,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Resolving the city duplication means deriving the city from the structured address the contact split now collects. That is the natural follow-on, and it changes a value bound into packets, so it waits for the same binding review."
+    },
+    {
+      "issueId": "UX-GLOBAL-010",
+      "severity": "P2",
+      "scope": "global",
+      "category": "GLOBAL_PAYMENT",
+      "title": "Sponsorship is a server-side session property with no consumer entry point, so it cannot be distinguished from a discount by anyone using the product",
+      "expected": "One code entry that names what it is, and a distinct route for a sponsorship grant versus a price reduction.",
+      "affectedJurisdictionCount": 19,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "A consumer entry point for sponsorship is a payment-authority change. The checkout surface now states the code policy and routes anyone told their packet is covered to help, which closes the dead end without touching payment authority."
+    },
+    {
+      "issueId": "UX-STATECFG-001",
+      "severity": "P2",
+      "scope": "state_specific",
+      "category": "STATE_CONFIGURATION",
+      "title": "Route-specific facts are asked of every participant in the state before the route is known",
+      "expected": "Route-specific questions appear only once the answers so far make that route possible.",
+      "affectedJurisdictionCount": 6,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Conditional rendering of route-specific questions changes which screens a participant sees per state and needs the per-state work in the shard prompts."
+    },
+    {
+      "issueId": "UX-STATELAW-001",
+      "severity": "P1",
+      "scope": "state_specific",
+      "category": "STATE_LEGAL_LOGIC",
+      "title": "19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders",
+      "expected": "Every jurisdiction whose promotion manifest marks the Expungement.ai channel approved has at least one packet-ready outcome reachable from the rendered screens, or states plainly that it does not.",
+      "affectedJurisdictionCount": 19,
+      "legalReviewRequired": true,
+      "notImplementedBecause": "State-specific legal work across 19 jurisdictions; the shard prompts carry it."
+    },
+    {
+      "issueId": "UX-CONTENT-001",
+      "severity": "P3",
+      "scope": "state_specific",
+      "category": "CONTENT_ONLY",
+      "title": "5 question id(s) are served in the public profile payload with no eligibility, form, packet-selection or escalation consumer",
+      "expected": "A question is either asked and consumed, or not published.",
+      "affectedJurisdictionCount": 52,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Content-only. No flow is blocked."
+    },
+    {
+      "issueId": "UX-GLOBAL-015",
+      "severity": "P3",
+      "scope": "global",
+      "category": "GLOBAL_SHARED_COMPONENT",
+      "title": "Every jurisdiction's public profile carries other states' state-prefixed questions (51 jurisdictions affected)",
+      "expected": "A jurisdiction's public profile carries its own questions.",
+      "affectedJurisdictionCount": 52,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Cross-state question leakage in the public payload is a compiler-side change to all 51 profiles."
+    },
+    {
+      "issueId": "UX-GLOBAL-016",
+      "severity": "P2",
+      "scope": "global",
+      "category": "GLOBAL_SHARED_COMPONENT",
+      "title": "The frontend contract states a contextOnly question never selects the pathway; the evaluator selects the pathway from one",
+      "expected": "Either the label matches the behaviour, or the behaviour matches the label.",
+      "affectedJurisdictionCount": 51,
+      "legalReviewRequired": false,
+      "notImplementedBecause": "Making the contextOnly label and the routing behaviour agree is a change to pathway selection, which is a legal-route decision rather than a presentation fix."
+    },
+    {
+      "issueId": "UX-LEGAL-001",
+      "severity": "P1",
+      "scope": "state_specific",
+      "category": "REQUIRES_LEGAL_REVIEW",
+      "title": "Selecting a state exclusion category still returns packet-ready in some jurisdictions, and so does the shortest timing bucket",
+      "expected": "Counsel confirms that the exclusion list and the waiting rule do not bind the non-conviction routes, or the rules are corrected.",
+      "affectedJurisdictionCount": 7,
+      "legalReviewRequired": true,
+      "notImplementedBecause": "Requires legal review. Not safe for automatic implementation."
+    }
+  ],
+  "backlogCount": 11,
+  "alsoRecorded": [
+    {
+      "factId": "record_documents",
+      "note": "Phase 1 named this among the shared facts the evaluator consumes but the flow never asks. It stays classified postpay_external_document: no prepay consumer reads it in any compiled profile, and adding it to the answer set changes no decision in any of the 51. Promoting it on the strength of the fixtures alone would add a question no outcome depends on."
+    },
+    {
+      "factId": "conviction_date",
+      "note": "Same finding, same evidence, same disposition. It is an exact timing anchor, so where a route needs it the timing bucket already carries the fact."
+    }
+  ]
+}
