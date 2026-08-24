@@ -11,6 +11,8 @@ import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
+import { buildCanonicalFactStore, REVIEWED_CONTEXT_FACT_IDS, routeCriticalContextFactIds } from "@/lib/expungement-ai/canonical-facts";
+import type { CanonicalFactOrigin } from "@/lib/expungement-ai/canonical-facts";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "ready_to_generate";
 
@@ -22,6 +24,15 @@ export type PacketInformationModel = {
   packetPlan: PacketPlan | null;
   questions: ProfileQuestion[];
   builderQuestions: ProfileQuestion[];
+  /**
+   * UX-GLOBAL-004 — everything a participant may edit for this packet. A
+   * superset of `questions`: it also carries the reviewed context facts, which
+   * are editable everywhere but only blocking where a route declares them so.
+   */
+  editableQuestions: ProfileQuestion[];
+  /** UX-GLOBAL-004 — questions the canonical store already answers. */
+  carriedForwardQuestions: ProfileQuestion[];
+  factOrigins: Record<string, CanonicalFactOrigin>;
   initialAnswers: Record<string, AnswerValue>;
   screeningAnswers: Record<string, AnswerValue>;
   requiredInputIds: string[];
@@ -76,37 +87,54 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const screeningAnswers = answerRecord(screening.answers);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
   const savedAnswers = answerRecord(progress.answers);
-  const initialAnswers: Record<string, AnswerValue> = {
-    ...Object.fromEntries(requiredInputIds.filter((id) => id in screeningAnswers).map((id) => [id, screeningAnswers[id]])),
-    ...prefilledAnswers,
-    ...savedAnswers
-  };
 
-  const mississippiNonConviction = profile.jurisdiction.code === "MS"
-    && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
-  if (mississippiNonConviction) {
-    for (const id of ["ownership_scope", "jurisdiction_scope", "resolved_timing_bucket", "court_requirements_completed"]) {
-      if (!(id in initialAnswers) && id in screeningAnswers) initialAnswers[id] = screeningAnswers[id];
-    }
-    if (!("offense_category" in initialAnswers) && "offense_level" in initialAnswers) initialAnswers.offense_category = initialAnswers.offense_level;
-    if (!("sentence_completion_date" in initialAnswers) && screeningAnswers.court_requirements_completed) {
-      initialAnswers.sentence_completion_date = answerTextRaw(screeningAnswers.court_requirements_completed) === "yes" ? "Yes" : "No";
-    }
-    if (!("court_requirements_completed" in initialAnswers) && screeningAnswers.court_requirements_completed) {
-      initialAnswers.court_requirements_completed = screeningAnswers.court_requirements_completed;
-    }
-  }
+  /**
+   * UX-GLOBAL-004 — one canonical fact store, built once and used for both
+   * "what do we already know" and "what still has to be asked".
+   *
+   * This replaced `requiredInputIds.filter((id) => id in screeningAnswers)`,
+   * which carried a screening answer forward only when the packet plan happened
+   * to name the same id. See canonical-facts.ts for why the generalisation is a
+   * transcription rather than a legal judgement, and for the two Mississippi
+   * cross-id derivations that stay declared and state-scoped.
+   */
+  const canonical = buildCanonicalFactStore({
+    jurisdictionCode: profile.jurisdiction.code,
+    pathwayId,
+    screeningAnswers,
+    prefilledAnswers,
+    savedAnswers
+  });
+  const initialAnswers = canonical.answers;
 
   const questionById = new Map<string, ProfileQuestion>();
   for (const question of allPublicQuestions(publicProfile)) {
     questionById.set(question.id, toProfileQuestion(question));
   }
+  const askableQuestion = (id: string): ProfileQuestion => ({
+    ...(questionById.get(id) ?? fallbackPacketQuestion(id)),
+    required: true,
+    contextOnly: false
+  });
 
-  let questions = requiredInputIds
-    .filter((id) => !(id in serverFacts))
-    .map((id) => questionById.get(id) ?? fallbackPacketQuestion(id))
-    .map((question) => ({ ...question, required: true, contextOnly: false }));
+  const questionIds = requiredInputIds.filter((id) => !(id in serverFacts));
+  /**
+   * A route may declare context facts as payment preconditions. Adding an id
+   * here puts it in the packet's question set, which is what the pre-payment
+   * re-check validates — so it is a route judgement, declared per route in
+   * canonical-facts.ts rather than assumed for every state.
+   */
+  for (const id of routeCriticalContextFactIds(profile.jurisdiction.code, pathwayId)) {
+    if (id in serverFacts || questionIds.includes(id)) continue;
+    questionIds.push(id);
+  }
+  let questions = questionIds.map(askableQuestion);
+
+  const mississippiNonConviction = profile.jurisdiction.code === "MS"
+    && pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
   if (mississippiNonConviction) {
+    // Route-specific wording only. The facts themselves are carried by the
+    // canonical store above, the same way they are for every other state.
     const owner = answerTextRaw(screeningAnswers.ownership_scope).toLowerCase() === "yes";
     questions = questions.map((question) => question.id === "pending_cases"
       ? { ...question, prompt: owner ? "Do you currently have any pending criminal charges?" : "Does this person currently have any pending criminal charges?" }
@@ -115,17 +143,28 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
         : question.id === "offense_category"
           ? { ...question, prompt: "How is the offense classified on the court record?", helperText: "Use the classification printed on the record; for this route it is carried forward from the charge level when they match." }
           : question);
-    const courtCompletion = questionById.get("court_requirements_completed")
-      ?? packetQuestion("court_requirements_completed", owner ? "Have you completed everything the court ordered in this case?" : "Has this person completed everything the court ordered in this case?", "yes_no_unsure");
-    questions.push({ ...courtCompletion, required: true, contextOnly: false });
-    for (const id of ["ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"]) {
-      const known = questionById.get(id);
-      if (known && !questions.some((question) => question.id === id)) questions.push({ ...known, required: true, contextOnly: false });
-    }
   }
-  const builderQuestions = mississippiNonConviction
-    ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
-    : questions;
+
+  /**
+   * The accuracy review renders these facts for every state and links to
+   * `?edit=<id>`. They are editable everywhere the participant actually gave
+   * them, whether or not the route makes them blocking.
+   */
+  const editableQuestions = [...questions];
+  for (const id of REVIEWED_CONTEXT_FACT_IDS) {
+    if (id in serverFacts || editableQuestions.some((question) => question.id === id)) continue;
+    if (!questionById.has(id) || !(id in initialAnswers)) continue;
+    editableQuestions.push(askableQuestion(id));
+  }
+
+  /**
+   * Ask only for facts the canonical store does not already hold. Everything
+   * already known stays in the question set so the review page can render it and
+   * offer a working edit link — it is simply not put to the participant a second
+   * time.
+   */
+  const builderQuestions = questions.filter((question) => !answerIsKnown(initialAnswers[question.id]));
+  const carriedForwardQuestions = editableQuestions.filter((question) => answerIsKnown(initialAnswers[question.id]));
   const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
 
   return {
@@ -138,6 +177,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     packetPlan,
     questions,
     builderQuestions,
+    editableQuestions,
+    carriedForwardQuestions,
+    factOrigins: canonical.origins,
     initialAnswers,
     screeningAnswers,
     requiredInputIds,
@@ -153,6 +195,61 @@ const MATERIAL_REVIEW_FIELDS = [
   "offense_category", "offense_level", "pending_cases", "prior_relief", "record_type",
   "residency_or_location", "sentence_completion_date", "trafficking_status", "court_requirements_completed"
 ];
+
+/**
+ * UX-GLOBAL-001 — ONE predicate, used by the matter page's forward CTA and by
+ * the packet-information page's own guard.
+ *
+ * They used to disagree. The matter page offered "Complete packet information"
+ * whenever `packetInformationModelFor(item)` returned a model; the destination
+ * additionally required `item.paymentAllowed || sponsored`. A saved matter whose
+ * result was packet-ready but whose paymentAllowed was false therefore got a
+ * forward CTA that landed on a page which refused and offered only "Open
+ * matter" — straight back to the CTA. The second route in was a legacy matter
+ * with no persisted commercialFlow whose stored pathwayLabel did not
+ * string-match a packetGenerator label, which makes the model null on both
+ * sides but only after the participant has clicked.
+ *
+ * Both pages now ask this. A caller that cannot proceed gets a reason, not a
+ * link that bounces.
+ */
+export type PacketInformationUnavailableReason =
+  | "not_a_packet_matter"
+  | "payment_not_authorized"
+  | "packet_plan_unavailable";
+
+export type PacketInformationAvailability =
+  | { available: true; model: PacketInformationModel }
+  | { available: false; reason: PacketInformationUnavailableReason };
+
+export function packetInformationAvailability(
+  item: ConsumerBriefcaseItem | null,
+  options: { sponsored: boolean }
+): PacketInformationAvailability {
+  if (!item) return { available: false, reason: "not_a_packet_matter" };
+  const packetResult = item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution";
+  if (!packetResult) return { available: false, reason: "not_a_packet_matter" };
+  if (!item.paymentAllowed && !options.sponsored) return { available: false, reason: "payment_not_authorized" };
+  const model = packetInformationModelFor(item);
+  if (!model) return { available: false, reason: "packet_plan_unavailable" };
+  return { available: true, model };
+}
+
+/** Participant-facing copy for each refusal. Never a dead end. */
+export const PACKET_INFORMATION_UNAVAILABLE_COPY: Record<PacketInformationUnavailableReason, { title: string; body: string }> = {
+  not_a_packet_matter: {
+    title: "This matter does not have a packet to complete",
+    body: "This saved result is guidance rather than a filing packet, so there is no packet information to collect. Your saved answers and next steps stay in your Briefcase."
+  },
+  payment_not_authorized: {
+    title: "This packet is not available to purchase yet",
+    body: "Your result is saved and your answers are kept. This route is not open for packet purchase at the moment — that is a limit on our side, not something missing from your answers. Wilma can explain what this route needs and what you can do next."
+  },
+  packet_plan_unavailable: {
+    title: "We cannot rebuild this packet's question set",
+    body: "This matter was saved before we recorded which packet it belongs to, so we cannot show its packet information form. Your saved result and answers are unchanged. Wilma can pick this up and route it to a specialist."
+  }
+};
 
 export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
   const model = packetInformationModelFor(item);
@@ -209,7 +306,10 @@ export function packetInformationPatch(input: {
     ...(pathwayId ? { pathway_id: pathwayId } : {})
   };
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
-  const allowedIds = new Set(current.questions.map((question) => question.id));
+  // UX-GLOBAL-004 — an edit reached from the accuracy review may target a
+  // reviewed context fact, which is editable everywhere even where the route
+  // does not make it a payment precondition.
+  const allowedIds = new Set(current.editableQuestions.map((question) => question.id));
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
@@ -342,6 +442,57 @@ function answerTextRaw(value: AnswerValue | undefined) {
 
 function answerText(value: AnswerValue | undefined) {
   return answerTextRaw(value).toLowerCase();
+}
+
+/**
+ * UX-GLOBAL-008 — every value rendered to a participant passes through a human
+ * formatter.
+ *
+ * The review page held a three-entry map — gt_10_years, yes, no — and returned
+ * String(value) for everything else, so the other snake_case option values the
+ * 51 public profiles serve reached the participant raw. These are the canonical
+ * labels, taken from the same option displays the questionnaire renders, so the
+ * review page and the question cannot disagree.
+ */
+export const DECLARED_ANSWER_VALUE_LABELS: Record<string, string> = {
+  yes: "Yes",
+  no: "No",
+  not_sure: "I'm not sure",
+  not_applicable: "This does not apply to my case",
+  still_open: "This case is still open",
+  lt_1_year: "Less than 1 year ago",
+  years_1_to_2: "1-2 years ago",
+  years_2_to_3: "2-3 years ago",
+  years_3_to_5: "3-5 years ago",
+  years_5_to_7: "5-7 years ago",
+  years_7_to_10: "7-10 years ago",
+  gt_10_years: "More than 10 years ago",
+  prefer_not_to_say: "Prefer not to say"
+};
+
+/** A machine-shaped token a participant should never be shown as-is. */
+export function looksMachineShaped(value: string) {
+  return /^[a-z][a-z0-9]*(_[a-z0-9]+)+$/.test(value);
+}
+
+/**
+ * The one formatter. A declared label wins; anything else machine-shaped is
+ * humanized rather than printed raw. `verifyAnswerValueLabels` fails the build
+ * when a profile serves a machine-shaped option this table does not declare, so
+ * the humanizer is a floor and not a substitute for a real label.
+ */
+export function humanAnswerValue(value: unknown): string {
+  if (value === undefined || value === null || value === "") return "Missing";
+  if (Array.isArray(value)) return value.map((entry) => humanAnswerValue(entry)).join(", ");
+  if (typeof value === "object") {
+    const record = value as { unknown?: boolean; value?: unknown };
+    return record.unknown ? "I'm not sure" : humanAnswerValue(record.value);
+  }
+  const raw = String(value);
+  const declared = DECLARED_ANSWER_VALUE_LABELS[raw];
+  if (declared) return declared;
+  if (!looksMachineShaped(raw)) return raw;
+  return raw.replaceAll("_", " ").replace(/^./, (first) => first.toUpperCase());
 }
 
 export function answerLabel(id: string) {

@@ -10,6 +10,7 @@ import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
   answerLabel,
+  humanAnswerValue,
   expectedPacketComponents,
   packetInformationModelFor,
   packetInformationReviewSafety
@@ -66,9 +67,9 @@ export default async function PacketAccuracyReviewPage({
               row("Current city", "residency_or_location", model.initialAnswers)
             ]} />
             <AnswerSection title="Important confirmations" itemId={item.id} rows={[
-              row("Asking about", "ownership_scope", model.screeningAnswers, "ownership_scope"),
-              row("Case jurisdiction", "jurisdiction_scope", model.screeningAnswers, "jurisdiction_scope"),
-              row("How long ago the case ended", "resolved_timing_bucket", model.screeningAnswers, "resolved_timing_bucket"),
+              row("Asking about", "ownership_scope", model.initialAnswers),
+              row("Case jurisdiction", "jurisdiction_scope", model.initialAnswers),
+              row("How long ago the case ended", "resolved_timing_bucket", model.initialAnswers),
               row("Age when this happened", "age_at_offense", model.initialAnswers),
               row("Court-ordered requirements completed", "court_requirements_completed", model.initialAnswers),
               row("Financial obligations satisfied", "financial_obligations", model.initialAnswers),
@@ -184,16 +185,11 @@ function row(label: string, fieldId: string, answers: Record<string, AnswerValue
   return { label, fieldId: editId, value: displayAnswer(answers[fieldId]) };
 }
 
+// UX-GLOBAL-008 — one formatter, shared with the questionnaire's own option
+// labels. The three-entry map this replaced let every other snake_case option
+// the profiles serve reach the participant unformatted.
 function displayAnswer(value: AnswerValue | undefined) {
-  if (value === undefined || value === null || value === "") return "Missing";
-  if (Array.isArray(value)) return value.join(", ");
-  if (typeof value === "object") return value.unknown ? "I’m not sure" : String(value.value ?? "Missing");
-  const labels: Record<string, string> = {
-    gt_10_years: "More than 10 years ago",
-    yes: "Yes",
-    no: "No"
-  };
-  return labels[String(value)] ?? String(value);
+  return humanAnswerValue(value);
 }
 
 function AnswerSection({ title, itemId, rows }: { title: string; itemId: string; rows: ReviewRow[] }) {
