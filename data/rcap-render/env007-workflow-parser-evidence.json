@@ -42,7 +42,7 @@
       "column": 639,
       "rule": "expression",
       "message": "parser did not reach end of input after parsing the expression. 1 remaining token(s) in the input: \")\"",
-      "construct": "the hosted `phase:` map — a chained && / || expression carrying nine opening and ten closing parentheses, ending in `|| 'preflight'`"
+      "construct": "the hosted `phase:` map \u2014 a chained && / || expression carrying nine opening and ten closing parentheses, ending in `|| 'preflight'`"
     },
     "firstInvalidCommit": {
       "sha": "fe250b9862022349abe6a378ac957bda53cce9b1",
@@ -50,22 +50,60 @@
       "why": "It added hosted_environment_probe and hosted_payment_environment_probe to the chain, taking the opening parentheses from seven to nine while leaving ten closing parentheses in place."
     },
     "commitByCommit": [
-      { "sha": "dd93579871962260b12918e54c44cf9bf1e81529", "role": "base", "openParens": 7, "closeParens": 7, "locallyValid": true },
-      { "sha": "360d341e8b9ad9e7266e855252d0c6b774890415", "openParens": 7, "closeParens": 7, "locallyValid": true },
-      { "sha": "6355d1ae3acd1c1c79ce5cb99d3c74a2a35fa5d6", "openParens": 7, "closeParens": 7, "locallyValid": true },
-      { "sha": "b1412a0260ee73bc8034fe944b35faa99fc21dbc", "openParens": 7, "closeParens": 7, "locallyValid": true },
-      { "sha": "fe250b9862022349abe6a378ac957bda53cce9b1", "openParens": 9, "closeParens": 10, "locallyValid": false },
-      { "sha": "a22066423096882f1f202990519f1dcb0d96afca", "role": "rejected candidate", "openParens": 9, "closeParens": 10, "locallyValid": false }
+      {
+        "sha": "dd93579871962260b12918e54c44cf9bf1e81529",
+        "role": "base",
+        "openParens": 7,
+        "closeParens": 7,
+        "locallyValid": true
+      },
+      {
+        "sha": "360d341e8b9ad9e7266e855252d0c6b774890415",
+        "openParens": 7,
+        "closeParens": 7,
+        "locallyValid": true
+      },
+      {
+        "sha": "6355d1ae3acd1c1c79ce5cb99d3c74a2a35fa5d6",
+        "openParens": 7,
+        "closeParens": 7,
+        "locallyValid": true
+      },
+      {
+        "sha": "b1412a0260ee73bc8034fe944b35faa99fc21dbc",
+        "openParens": 7,
+        "closeParens": 7,
+        "locallyValid": true
+      },
+      {
+        "sha": "fe250b9862022349abe6a378ac957bda53cce9b1",
+        "openParens": 9,
+        "closeParens": 10,
+        "locallyValid": false
+      },
+      {
+        "sha": "a22066423096882f1f202990519f1dcb0d96afca",
+        "role": "rejected candidate",
+        "openParens": 9,
+        "closeParens": 10,
+        "locallyValid": false
+      }
     ]
   },
   "before": {
     "sha": "a22066423096882f1f202990519f1dcb0d96afca",
     "branch": "claude/rcap-acceptance-workflow-hardening",
     "invalidWorkflowRuns": 2,
-    "runIds": [32679318369, 32681783697],
+    "runIds": [
+      32679318369,
+      32681783697
+    ],
     "runShape": "event=push, conclusion=failure, jobs=0, created_at == updated_at == run_started_at",
     "checkSuitesReportingParseFailure": 2,
-    "checkSuiteIds": [88535712359, 88541581337],
+    "checkSuiteIds": [
+      88535712359,
+      88541581337
+    ],
     "checkSuiteShape": "app=github-actions, conclusion=failure, latest_check_runs_count=0"
   },
   "after": {
@@ -81,9 +119,21 @@
     "workflowDispatchesPerformed": 0
   },
   "diagnosticCommits": [
-    { "sha": "8869b3d6a717c54fe6b04883cdaafc57c3431237", "content": "the one-character minimum C4 correction only", "invalidWorkflowRuns": 0 },
-    { "sha": "ca2c1c548f78c5d993c785ae0709f3a06326d7e1", "content": "the three corrected workflow files", "invalidWorkflowRuns": 0 },
-    { "sha": "5ca3aad38a11a1e9fdadd06424b9b45db4b77f5c", "content": "the exact final workflow bytes, provenance caveats included", "invalidWorkflowRuns": 0 }
+    {
+      "sha": "8869b3d6a717c54fe6b04883cdaafc57c3431237",
+      "content": "the one-character minimum C4 correction only",
+      "invalidWorkflowRuns": 0
+    },
+    {
+      "sha": "ca2c1c548f78c5d993c785ae0709f3a06326d7e1",
+      "content": "the three corrected workflow files",
+      "invalidWorkflowRuns": 0
+    },
+    {
+      "sha": "5ca3aad38a11a1e9fdadd06424b9b45db4b77f5c",
+      "content": "the exact final workflow bytes, provenance caveats included",
+      "invalidWorkflowRuns": 0
+    }
   ],
   "diagnosticPushSafety": {
     "verdict": "DIAGNOSTIC_PUSH_SAFE",
@@ -110,7 +160,15 @@
       "rcap-worker-image-acceptance.yml": "pull_request and workflow_dispatch only",
       "rcap-worker-tag-integrity.yml": "workflow_dispatch only"
     },
-    "triggersAbsentEntirely": ["create", "release", "pull_request_target", "workflow_run", "repository_dispatch", "issue_comment", "schedule"]
+    "triggersAbsentEntirely": [
+      "create",
+      "release",
+      "pull_request_target",
+      "workflow_run",
+      "repository_dispatch",
+      "issue_comment",
+      "schedule"
+    ]
   },
   "correction": {
     "minimum": "delete the one unmatched closing parenthesis on line 135",
@@ -128,5 +186,15 @@
       "reality": "environment-scoped secrets, which actionlint cannot model for a reusable workflow's job-level environment. Removing them would dismantle the Stripe privilege boundary.",
       "suppressedWith": "-ignore 'property \"hosted_stripe_test_(secret|webhook_secret)\" is not defined'"
     }
-  ]
+  ],
+  "confirmedOnCorrectionBranch": {
+    "branch": "claude/rcap-acceptance-infra-corrections-syj0fy",
+    "sha": "d17bd4fe935cb9efa8a72330aab86705e6dc3a01",
+    "invalidWorkflowRuns": 0,
+    "githubActionsCheckSuites": 0,
+    "githubProcessedThePush": true,
+    "processingEvidence": "the vercel and claude app check suites were created for this commit; github-actions created none",
+    "hostedPhasesDispatched": 0,
+    "note": "The implementation commit itself, not only the diagnostic branch, is accepted by GitHub's workflow parser."
+  }
 }
