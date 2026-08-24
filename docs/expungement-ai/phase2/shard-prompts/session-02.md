@@ -21,11 +21,14 @@ No other jurisdiction is yours. If you find a defect in a jurisdiction outside t
 ## Base
 
 ```text
-BASE_SHA = 288b0d9a1d6683b91b447275a1474710d433ef95
-BRANCH   = claude/expai-phase3-shard-2
+PHASE2_PRODUCT_HEAD = 93e05e945a52cfa1cdd2ab590636290875a48f68
+BASE_SHA            = 93e05e945a52cfa1cdd2ab590636290875a48f68
+BRANCH              = claude/expai-phase3-shard-2
 ```
 
-Create your branch from exactly `288b0d9a1d6683b91b447275a1474710d433ef95`. That commit is the Phase 2 head: the shared fact model, the waiting-rule bindings, the canonical fact store and the contact-field split are already in it. Fetch origin with prune first. Require a clean tracked worktree and no merge or rebase in progress. Do not push to `main`. Do not deploy. Do not run a migration. Do not change a feature flag. Do not create a payment.
+`PHASE2_PRODUCT_HEAD` is the Phase 2 product base and the commit you build from. A later commit on this branch may publish these prompt files themselves; that publication commit is NOT the product base and you must not branch from it.
+
+Create your branch from exactly `93e05e945a52cfa1cdd2ab590636290875a48f68`. That commit is the Phase 2 head: the shared fact model, the waiting-rule bindings, the canonical fact store and the contact-field split are already in it. Fetch origin with prune first. Require a clean tracked worktree and no merge or rebase in progress. Do not push to `main`. Do not deploy. Do not run a migration. Do not change a feature flag. Do not create a payment.
 
 ## Read before you change anything
 
@@ -132,6 +135,88 @@ data/expungement-ai/fixtures/**
 You may not remove a state-specific legal rule because it is inconvenient. You may not delete a question because the audit could not find its purpose. You may not change a packet family, a form mapping, a payment clamp or an `operationallySellable` value.
 
 **Waiting periods.** The waiting rule a route resolves is now an explicit binding in `src/lib/rcap-engine/waiting-rule-bindings.json`, which is shared and not yours. If one of your routes needs a binding it does not have, record the route, the rule you believe applies and the source text in your shard result file. Do not author a waiting period, and do not add a binding.
+
+## RELEASE RULE — the provisional waiting-rule fallback
+
+Read this before you touch a route.
+
+The waiting-rule binding table in `src/lib/rcap-engine/waiting-rule-bindings.json` is the authority **only where a binding exists**. It covers 43 of the 325 compiled pathways. The other 282 are still resolved by the pre-correction prose selector, which is retained verbatim in the evaluator and is **provisional**. It was kept because it is answer-dependent and removing it closed six jurisdictions that were open at the product base; it is not the design, it is the thing the design is replacing one reviewed binding at a time.
+
+**53 of your assigned routes depend on that provisional fallback.** For every one of them you must return exactly one Phase 3 disposition:
+
+| Disposition | Use it when |
+| --- | --- |
+| `EXPLICIT_BINDING_PROPOSED` | one waiting rule the jurisdiction's own compiled profile already publishes governs this route unconditionally, and you can name its rule id and quote its source text |
+| `EXPLICIT_CONDITIONAL_BINDING_PROPOSED` | the rule that governs depends on a fact the participant already supplies, and you can name the rule ids, the field id and the exact answer values that select between them |
+| `LEGAL_OWNER_DECISION_REQUIRED` | the repository does not contain enough to settle which rule governs, or the candidates conflict, and choosing one would be authoring legal content |
+| `HELD_FOR_CORRECTION` | the route needs a correction outside this shard's scope before a binding is meaningful |
+
+Rules, without exception:
+
+- **Do not modify the shared evaluator or the shared fallback in a shard.** `src/lib/rcap-engine/evaluator.ts` and `src/lib/rcap-engine/waiting-rule-bindings.json` are prohibited paths above. You propose; the integration captain binds.
+- **Do not guess a waiting rule.** A duration you cannot trace to a rule id already published by that jurisdiction's compiled profile is invented legal content. `LEGAL_OWNER_DECISION_REQUIRED` is always the correct answer over a guess.
+- **No fallback-dependent route may be recommended ACTIVE without an explicit, repository-supported binding.** A route still resolving through the provisional selector is not release-ready, whatever terminal it currently returns. Recommending it ACTIVE is a shard failure.
+- A proposal is evidence, not a change: rule id, quoted source text, the duration as the profile already states it, and — for a conditional proposal — the field id and answer values. Never a duration you wrote yourself.
+
+Your 53 fallback-dependent routes:
+
+```text
+AL:eligible-conviction-expungement-under-the-redeemer-act
+AL:human-trafficking-victim-expungement
+AL:non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a
+AL:pardoned-felony-expungement-under-ala-code-15-27-2-c
+FL:administrative-expunction-mistaken-or-unlawful-arrest
+FL:automatic-sealing-943-0595
+FL:court-ordered-sealing-943-059
+FL:early-juvenile-expunction-943-0515
+FL:human-trafficking-victim-expunction-943-0583
+FL:juvenile-diversion-expunction-943-0582
+FL:lawful-self-defense-expunction-943-0578
+HI:deferred-acceptance-one-year
+HI:deferred-prostitution-three-year
+HI:dui-under-21-conviction
+HI:first-time-drug-conviction
+HI:nonconviction-arrest-expungement
+IA:minor-prostitution-7251
+IA:misdemeanor-901c3
+IA:public-intoxication-12346
+IA:underage-alcohol-12347
+MI:automatic-clean-slate-set-aside-under-mcl-780-621g
+MI:first-offense-owi-set-aside-by-application
+MI:human-trafficking-related-set-aside-application
+MI:set-aside-by-application-under-mcl-780-621
+ND:deferred-imposition-dismissal-and-sealing
+ND:dui-record-sealing-under-the-separate-dui-statute
+ND:first-offense-possession-sealing
+ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1
+ND:marijuana-specific-summary-pardon-or-sealing-relief
+ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05
+NV:controlled-substance-possession-sealing-under-nrs-453-3365
+NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211
+NV:general-conviction-record-sealing-under-nrs-179-245
+NV:non-conviction-record-sealing
+NV:probation-or-specialty-court-dismissal-set-aside-sealing
+NV:reentry-program-sealing-under-nrs-179-259
+NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247
+RI:path-a-first-offender-conviction-expungement
+RI:path-b-multiple-misdemeanor-expungement
+RI:path-c-deferred-sentence-expungement
+RI:path-d-non-conviction-sealing-expungement
+RI:path-e-filed-complaint-relief-under-12-10-12
+RI:path-f-marijuana-possession-expungement
+RI:path-g-decriminalized-offense-expungement
+RI:path-h-commercial-sexual-activity-related-expungement
+TX:automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07
+TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a
+TX:expunction-after-pardon-or-actual-innocence-relief
+TX:expunction-after-qualifying-class-c-deferred-disposition
+TX:expunction-after-qualifying-dismissal-or-quash
+TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period
+TX:first-offense-dwi-nondisclosure
+TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725
+```
+
+Record one disposition per route in your shard result file under `waitingRuleDispositions`, keyed by the route id exactly as spelled above.
 
 **Held jurisdictions in your shard.** These are held deliberately. Preserve their current behaviour exactly and record what you find instead of resolving it:
 
@@ -244,7 +329,7 @@ git diff --check
 And prove the negative that matters most — that you changed no shared code and no unassigned jurisdiction:
 
 ```bash
-git diff --name-only 288b0d9a1d6683b91b447275a1474710d433ef95...HEAD
+git diff --name-only 93e05e945a52cfa1cdd2ab590636290875a48f68...HEAD
 ```
 
 Every path in that output must match one of your allowed configuration paths.
@@ -257,6 +342,7 @@ Commit your configuration changes, your state reports, and your shard result fil
 
 ```text
 PHASE 3 SHARD-2 COMPLETE
+PHASE2 PRODUCT HEAD:
 BASE SHA:
 HEAD:
 JURISDICTIONS:
@@ -264,6 +350,13 @@ FLOWS CHANGED:
 QUESTIONS CHANGED:
 TERMINALS MOVED:
 EVALUATOR OUTPUT DIFFERENCES PROPOSED FOR THE ALLOWLIST:
+FALLBACK-DEPENDENT ROUTES ASSIGNED:            53
+FALLBACK ROUTES DISPOSITIONED:
+  EXPLICIT_BINDING_PROPOSED:
+  EXPLICIT_CONDITIONAL_BINDING_PROPOSED:
+  LEGAL_OWNER_DECISION_REQUIRED:
+  HELD_FOR_CORRECTION:
+FALLBACK ROUTES RECOMMENDED ACTIVE:
 LEGAL QUESTIONS STILL OPEN:
 HELD JURISDICTIONS TOUCHED:
 SHARED PATHS TOUCHED:
@@ -273,3 +366,5 @@ EXACT BLOCKERS:
 ```
 
 `SHARED PATHS TOUCHED`, `HELD JURISDICTIONS TOUCHED` and `UNASSIGNED JURISDICTIONS TOUCHED` must all read `none`.
+
+`FALLBACK ROUTES RECOMMENDED ACTIVE` must read `none`. The four disposition counts must sum to `FALLBACK-DEPENDENT ROUTES ASSIGNED`; a route left undispositioned fails the shard.

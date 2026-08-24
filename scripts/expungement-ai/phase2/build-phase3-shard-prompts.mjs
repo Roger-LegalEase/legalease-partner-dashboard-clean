@@ -18,13 +18,51 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 process.chdir(root);
 const readJson = (relative) => JSON.parse(fs.readFileSync(relative, "utf8"));
-const head = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+
+/**
+ * The Phase 2 product head, pinned.
+ *
+ * This used to read `git rev-parse HEAD`, which is wrong for a generator whose
+ * own output gets committed: publishing the prompts moves HEAD, and the prompts
+ * then name a commit that is not the product base they were built from. The
+ * product SHA is a constant, and the publication commit that carries these files
+ * is deliberately NOT it.
+ */
+const PHASE2_PRODUCT_HEAD = "93e05e945a52cfa1cdd2ab590636290875a48f68";
+const head = PHASE2_PRODUCT_HEAD;
+
+/**
+ * The pin is only honest if the product has not moved under it. These are the
+ * paths a shard builds against; if any of them differs between the pinned SHA
+ * and the tree being published from, the prompt would send six sessions at a
+ * base that no longer describes the product.
+ */
+const PRODUCT_PATHS = ["src", "public", "data/rcap-all50", "data/rcap-ledger", "data/rcap-codex", "data/rcap-render"];
+const drift = execFileSync("git", ["diff", "--name-only", `${PHASE2_PRODUCT_HEAD}..HEAD`, "--", ...PRODUCT_PATHS], { encoding: "utf8" })
+  .split("\n")
+  .map((line) => line.trim())
+  .filter(Boolean);
+if (drift.length > 0) {
+  throw new Error(`the product moved away from the pinned Phase 2 head ${PHASE2_PRODUCT_HEAD}: ${drift.join(", ")}`);
+}
 
 const assignment = readJson("data/expungement-ai/flow-audit/shard-assignment.json");
 const register = readJson("data/expungement-ai/flow-audit/issue-register.json");
 const held = readJson("data/expungement-ai/phase2/held-jurisdiction-dispositions.json");
 const backlog = readJson("data/expungement-ai/phase2/p2-p3-backlog.json");
 const replay = readJson("data/expungement-ai/phase2/remedy-context-replay-after.json");
+const waitingRules = readJson("src/lib/rcap-engine/waiting-rule-bindings.json");
+
+/**
+ * Routes with no authored binding, which the provisional legacy prose selector
+ * still resolves. Grouped per shard so each session gets its own list and no
+ * session has to derive it.
+ */
+const FALLBACK_ROUTE_KEYS = [
+  ...(waitingRules.unresolvedPreserved?.keys ?? []),
+  ...(waitingRules.unresolvedAtBase?.keys ?? [])
+].sort();
+const NO_RULE_AT_BASE = new Set(waitingRules.unresolvedAtBase?.keys ?? []);
 
 /**
  * Jurisdictions whose intended route now reaches a packet-ready terminal for the
@@ -98,6 +136,7 @@ function promptFor(shard) {
   const number = String(shard.sessionNumber).padStart(2, "0");
   const codes = shard.jurisdictions.map((entry) => entry.jurisdiction);
   const heldMine = codes.map(heldNote).filter(Boolean);
+  const shardFallbackRoutes = FALLBACK_ROUTE_KEYS.filter((key) => codes.includes(key.split(":")[0]));
   const recordedUnreachable = shard.jurisdictionsWithNoUiReachablePacketReady ?? [];
   const reopened = recordedUnreachable.filter((code) => RESOLVED_BY_PHASE2.has(code));
   const unreachable = recordedUnreachable.filter((code) => !RESOLVED_BY_PHASE2.has(code));
@@ -118,9 +157,12 @@ No other jurisdiction is yours. If you find a defect in a jurisdiction outside t
 ## Base
 
 \`\`\`text
-BASE_SHA = ${head}
-BRANCH   = claude/expai-phase3-shard-${shard.sessionNumber}
+PHASE2_PRODUCT_HEAD = ${PHASE2_PRODUCT_HEAD}
+BASE_SHA            = ${head}
+BRANCH              = claude/expai-phase3-shard-${shard.sessionNumber}
 \`\`\`
+
+\`PHASE2_PRODUCT_HEAD\` is the Phase 2 product base and the commit you build from. A later commit on this branch may publish these prompt files themselves; that publication commit is NOT the product base and you must not branch from it.
 
 Create your branch from exactly \`${head}\`. That commit is the Phase 2 head: the shared fact model, the waiting-rule bindings, the canonical fact store and the contact-field split are already in it. Fetch origin with prune first. Require a clean tracked worktree and no merge or rebase in progress. Do not push to \`main\`. Do not deploy. Do not run a migration. Do not change a feature flag. Do not create a payment.
 
@@ -161,6 +203,36 @@ ${[...new Set([...shard.prohibitedSharedPaths, ...PHASE2_SHARED_PATHS])].join("\
 You may not remove a state-specific legal rule because it is inconvenient. You may not delete a question because the audit could not find its purpose. You may not change a packet family, a form mapping, a payment clamp or an \`operationallySellable\` value.
 
 **Waiting periods.** The waiting rule a route resolves is now an explicit binding in \`src/lib/rcap-engine/waiting-rule-bindings.json\`, which is shared and not yours. If one of your routes needs a binding it does not have, record the route, the rule you believe applies and the source text in your shard result file. Do not author a waiting period, and do not add a binding.
+
+## RELEASE RULE — the provisional waiting-rule fallback
+
+Read this before you touch a route.
+
+The waiting-rule binding table in \`src/lib/rcap-engine/waiting-rule-bindings.json\` is the authority **only where a binding exists**. It covers 43 of the 325 compiled pathways. The other 282 are still resolved by the pre-correction prose selector, which is retained verbatim in the evaluator and is **provisional**. It was kept because it is answer-dependent and removing it closed six jurisdictions that were open at the product base; it is not the design, it is the thing the design is replacing one reviewed binding at a time.
+
+**${shardFallbackRoutes.length} of your assigned routes depend on that provisional fallback.** For every one of them you must return exactly one Phase 3 disposition:
+
+| Disposition | Use it when |
+| --- | --- |
+| \`EXPLICIT_BINDING_PROPOSED\` | one waiting rule the jurisdiction's own compiled profile already publishes governs this route unconditionally, and you can name its rule id and quote its source text |
+| \`EXPLICIT_CONDITIONAL_BINDING_PROPOSED\` | the rule that governs depends on a fact the participant already supplies, and you can name the rule ids, the field id and the exact answer values that select between them |
+| \`LEGAL_OWNER_DECISION_REQUIRED\` | the repository does not contain enough to settle which rule governs, or the candidates conflict, and choosing one would be authoring legal content |
+| \`HELD_FOR_CORRECTION\` | the route needs a correction outside this shard's scope before a binding is meaningful |
+
+Rules, without exception:
+
+- **Do not modify the shared evaluator or the shared fallback in a shard.** \`src/lib/rcap-engine/evaluator.ts\` and \`src/lib/rcap-engine/waiting-rule-bindings.json\` are prohibited paths above. You propose; the integration captain binds.
+- **Do not guess a waiting rule.** A duration you cannot trace to a rule id already published by that jurisdiction's compiled profile is invented legal content. \`LEGAL_OWNER_DECISION_REQUIRED\` is always the correct answer over a guess.
+- **No fallback-dependent route may be recommended ACTIVE without an explicit, repository-supported binding.** A route still resolving through the provisional selector is not release-ready, whatever terminal it currently returns. Recommending it ACTIVE is a shard failure.
+- A proposal is evidence, not a change: rule id, quoted source text, the duration as the profile already states it, and — for a conditional proposal — the field id and answer values. Never a duration you wrote yourself.
+
+Your ${shardFallbackRoutes.length} fallback-dependent routes:
+
+\`\`\`text
+${shardFallbackRoutes.map((key) => `${key}${NO_RULE_AT_BASE.has(key) ? "   [no candidate rule at base]" : ""}`).join("\n")}
+\`\`\`
+
+Record one disposition per route in your shard result file under \`waitingRuleDispositions\`, keyed by the route id exactly as spelled above.
 ${heldMine.length > 0 ? `
 **Held jurisdictions in your shard.** These are held deliberately. Preserve their current behaviour exactly and record what you find instead of resolving it:
 
@@ -236,6 +308,7 @@ Commit your configuration changes, your state reports, and your shard result fil
 
 \`\`\`text
 PHASE 3 SHARD-${shard.sessionNumber} COMPLETE
+PHASE2 PRODUCT HEAD:
 BASE SHA:
 HEAD:
 JURISDICTIONS:
@@ -243,6 +316,13 @@ FLOWS CHANGED:
 QUESTIONS CHANGED:
 TERMINALS MOVED:
 EVALUATOR OUTPUT DIFFERENCES PROPOSED FOR THE ALLOWLIST:
+FALLBACK-DEPENDENT ROUTES ASSIGNED:            ${shardFallbackRoutes.length}
+FALLBACK ROUTES DISPOSITIONED:
+  EXPLICIT_BINDING_PROPOSED:
+  EXPLICIT_CONDITIONAL_BINDING_PROPOSED:
+  LEGAL_OWNER_DECISION_REQUIRED:
+  HELD_FOR_CORRECTION:
+FALLBACK ROUTES RECOMMENDED ACTIVE:
 LEGAL QUESTIONS STILL OPEN:
 HELD JURISDICTIONS TOUCHED:
 SHARED PATHS TOUCHED:
@@ -252,6 +332,8 @@ EXACT BLOCKERS:
 \`\`\`
 
 \`SHARED PATHS TOUCHED\`, \`HELD JURISDICTIONS TOUCHED\` and \`UNASSIGNED JURISDICTIONS TOUCHED\` must all read \`none\`.
+
+\`FALLBACK ROUTES RECOMMENDED ACTIVE\` must read \`none\`. The four disposition counts must sum to \`FALLBACK-DEPENDENT ROUTES ASSIGNED\`; a route left undispositioned fails the shard.
 `;
 }
 
