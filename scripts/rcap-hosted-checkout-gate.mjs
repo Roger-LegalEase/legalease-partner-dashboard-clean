@@ -46,7 +46,7 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 // history — they are simply no longer what this gate is gating.
 const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
+const EXPECTED_WORKER_DIGEST = "sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [

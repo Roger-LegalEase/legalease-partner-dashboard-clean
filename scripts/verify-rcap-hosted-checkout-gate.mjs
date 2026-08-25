@@ -25,9 +25,9 @@ function includesEvery(text, values, label) {
 // Lane A supplies the exact final application SHA at dispatch time. The only
 // reusable publication pin is the accepted worker source/digest pair, and the
 // workflow's canonical-input diff decides whether that pair is still valid.
-const RELEASE_CONTROL_BASE_SHA = "646d8969576e33b9ed72d3bca64b33b7e352c452";
-const ACCEPTED_WORKER_SOURCE_SHA = "646d8969576e33b9ed72d3bca64b33b7e352c452";
-const ACCEPTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
+const RELEASE_CONTROL_BASE_SHA = "784a58d2283abbbfe6b0c43ca54663ee4c59f3ea";
+const ACCEPTED_WORKER_SOURCE_SHA = "7cc8675d2835675d5bf40d18e6e09468bd84f790";
+const ACCEPTED_WORKER_DIGEST = "sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d";
 
 includesEvery(gate, [
   "applicationShaExact",

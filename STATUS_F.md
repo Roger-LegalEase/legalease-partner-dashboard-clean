@@ -1,6 +1,6 @@
 # STATUS F — Hosted Environment and Release Mechanics
 
-- State: **HOSTED LANE READY FOR FINAL CANDIDATE**
+- State: **FINAL CANDIDATE BOUND — EXACT PREVIEW DISPATCH PENDING**
 - Worktree: `/Users/rogerroman/LegalEase/legalease-sprint-hosted`
 - Branch: `sprint/20260825-hosted`
 - Sprint base: `07675789a80e732d2b835c1e8ba2092b39201b79`
@@ -9,11 +9,11 @@
 
 ## Final-candidate release identity
 
-- Application/source SHA: **awaiting Lane A's exact frozen candidate**. No application SHA is hardcoded as a substitute.
-- Accepted worker source: `646d8969576e33b9ed72d3bca64b33b7e352c452`
-- Accepted immutable worker digest: `sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402`
-- This Lane F release-control branch changes no canonical application or worker inputs relative to the accepted worker source.
-- Digest reuse is allowed only while the exact final candidate remains empty across every canonical worker input. A nonempty diff requires a new full-SHA-only image build, secret scans, exact-digest acceptance, and immutable-digest evidence.
+- Application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea` (Lane A's exact frozen candidate).
+- Accepted worker source: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
+- Accepted immutable worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
+- Lane G supplied and accepted this replacement full-SHA worker publication for the frozen candidate. The complete canonical worker-input diff from the accepted source to the application SHA is empty.
+- This Lane F release-control commit changes no canonical application or worker inputs relative to the frozen application SHA.
 
 ## Environment status
 
@@ -95,10 +95,10 @@ The approved release-control files now share one candidate-driven application co
 
 The workflows do not declare or pass `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`. Runtime scripts resolve and validate the pinned public Vercel slug/name pair in memory from `VERCEL_TOKEN`.
 
-Candidate-time inputs:
+Bound release inputs:
 
-- application/source SHA: exact final SHA supplied by Lane A
-- worker source SHA: `646d8969576e33b9ed72d3bca64b33b7e352c452`
-- worker digest: `sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402`
+- application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea`
+- worker source SHA: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
+- worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
 
-No Preview, migration, payment, worker, or browser action will begin until Lane A supplies the exact final candidate SHA and the canonical worker-input decision is recomputed.
+The exact Preview may begin after Lane A integrates this release-control-only commit on the canonical captain branch. Production remains untouched.
