@@ -7,6 +7,7 @@ import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engin
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { legalRouteContract, routeCheckoutIsClosed, routePaymentAuthority } from "@/lib/legal-authority/index";
+import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -396,10 +397,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
-  const ambiguity = ambiguityReason(publicProfile, answers);
-  if (ambiguity) return result(profile, request, "needs_review", [ambiguity]);
-
   const preselectedPathway = selectPathway(profile, answers);
+  const ambiguity = ambiguityReason(profile, publicProfile, answers, preselectedPathway);
+  if (ambiguity) {
+    return result(profile, request, "needs_review", [ambiguity], {
+      ...(preselectedPathway ? { pathwayId: preselectedPathway.id } : {})
+    });
+  }
+
   const preRouteSafetyGate = preselectedPathway ? routeSpecificSafetyGate(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preRouteSafetyGate) {
     const code = preRouteSafetyGate.code.endsWith("not_eligible") ? "likely_not_eligible" : "needs_review";
@@ -622,14 +627,22 @@ function exclusionReason(profile: EngineProfile, answers: Record<string, Screeni
   return undefined;
 }
 
-function ambiguityReason(publicProfile: PublicJurisdictionProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
+function ambiguityReason(
+  profile: EngineProfile,
+  publicProfile: PublicJurisdictionProfile,
+  answers: Record<string, ScreeningAnswerValue>,
+  selectedPathway: CompiledPathway | undefined
+): ScreeningReason | undefined {
   const jurisdiction = publicProfile.jurisdiction.code;
   // Only consider questions the frontend actually renders. The full engine profile carries hidden
   // internal `source_question_*` questions that are never shown and never answered; scanning those
   // would treat every completed screening as ambiguous. Missing/empty public answers are not
   // ambiguity here — required public answers are enforced by requiredMissingPublicQuestionIds().
   const legalFields = publicProfile.questions.filter((question) => question.contextOnly !== true && isPrepaymentQuestion(question));
-  const ambiguous = legalFields.find((question) => isExplicitUnknownAnswer(answers[question.id]));
+  const relevant = relevantFactIds(profile, selectedPathway);
+  const ambiguous = legalFields
+    .filter((question) => relevant.has(question.id))
+    .find((question) => isExplicitUnknownAnswer(answers[question.id]));
   if (ambiguous) return reason(jurisdiction, "source_fact_unknown", `${ambiguous.id} is uncertain and requires source review.`);
   return undefined;
 }
