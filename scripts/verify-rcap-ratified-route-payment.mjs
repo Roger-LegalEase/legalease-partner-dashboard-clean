@@ -24,15 +24,12 @@ const ROUTES = [
   // Missouri
   { code: "MO", route: /610-140/, name: "MO 610.140 felony 3yr", wait: { value: 3, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
   { code: "MO", route: /610-140/, name: "MO 610.140 misdemeanor 1yr", wait: { value: 1, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
-  { code: "MO", route: /610-130/, name: "MO 610.130 first-DWI 10yr", wait: { value: 10, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "MO", route: /610-145/, name: "MO 610.145 mistaken-identity event", wait: null, caseOutcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offenseLevel: "Misdemeanor" },
   // Louisiana
   { code: "LA", route: /^non-conviction-arrest-expungement$/, name: "LA non-conviction event", wait: null, caseOutcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /894-b-set-aside/, name: "LA 894(B) set-aside event", wait: null, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
-  { code: "LA", route: /misdemeanor-five-year-clean-period/, name: "LA misdemeanor 5yr clean", wait: { value: 5, unit: "years" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /first-offense-marijuana.*998/, name: "LA marijuana 90d", wait: { value: 90, unit: "days" }, caseOutcome: "Misdemeanor conviction", offenseLevel: "Misdemeanor" },
   { code: "LA", route: /893-e-set-aside/, name: "LA 893(E) set-aside event", wait: null, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
-  { code: "LA", route: /felony-ten-year-clean-period/, name: "LA felony 10yr clean", wait: { value: 10, unit: "years" }, caseOutcome: "Felony conviction", offenseLevel: "Felony" },
   // Nebraska
   { code: "NE", route: /set-aside-probation-fine-community-service/, name: "NE set-aside probation event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Misdemeanor" },
   { code: "NE", route: /set-aside-incarceration-one-year-or-less/, name: "NE set-aside incarceration event", wait: null, caseOutcome: "Conviction or adjudication", offenseLevel: "Felony" },

@@ -58,13 +58,31 @@ if (!INTEGRATED_MODE) {
 const ratifiedRemovals = new Set(closure.sharedHandoff.removeFromRatifiedDeployable);
 const closureByKey = new Map(closure.routes.map((row) => [row.routeKey, row]));
 const currentPaymentLeaks = [];
+const integratedExactFacts = {
+  "LA:first-offense-marijuana-expungement-after-90-days-art-998": {
+    conviction_date: "2000-01-01"
+  },
+  "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
+    ms_last_conviction_date_any_court: "2000-01-01"
+  },
+  "MS:first-offense-dui-expungement": {
+    ms_successful_sentence_completion_date: "2000-01-01"
+  },
+  "MS:minor-in-possession-underage-alcohol-expungement": {
+    ms_mip_sentence_completion_date: "2000-01-01",
+    ms_mip_fine_imposed: "Yes",
+    ms_mip_fine_payment_date: "2000-01-01"
+  }
+};
 
 for (const row of fixture.routes) {
   const evaluation = evaluateScreening({
     jurisdiction: row.jurisdiction,
     profileVersion: row.profileVersion,
     matterId: `corrections-a-${row.jurisdiction.toLowerCase()}-${row.pathwayId}`,
-    answers: row.answers
+    answers: INTEGRATED_MODE
+      ? { ...row.answers, ...(integratedExactFacts[row.routeKey] ?? {}) }
+      : row.answers
   });
   assert.equal(evaluation.pathwayId, row.pathwayId, `${row.routeKey}: actual evaluator selected a different pathway`);
   if (!INTEGRATED_MODE) {

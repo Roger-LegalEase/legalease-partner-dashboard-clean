@@ -52,6 +52,8 @@ const DELTA_KEYS = new Set([
   "purpose",
   "routeBehavior",
   "authorization",
+  "supersedesApproval",
+  "beforeAfterEvidence",
   "authorizedPaths",
   "authorizedSha256",
   "originallyApprovedSha256",
@@ -61,6 +63,16 @@ const DELTA_KEYS = new Set([
 ]);
 
 const AUTHORIZATION_KEYS = new Set(["authorizedBy", "authorizedOn", "statement", "doesNotAuthorize"]);
+const SUPERSEDES_APPROVAL_KEYS = new Set(["id", "authorizedBy", "authorizedOn"]);
+const BEFORE_AFTER_EVIDENCE_KEYS = new Set([
+  "beforeRef",
+  "afterRef",
+  "behaviorBefore",
+  "behaviorAfter",
+  "beforeSha256",
+  "afterSha256",
+  "behavioralProof"
+]);
 const SUPERSEDED_KEYS = new Set(["path", "sha256", "supersededOn", "reason", "behaviouralProof"]);
 const OPTIONAL_DELTA_KEY = "supersededSha256";
 const PROJECTION_KEYS = new Set([
@@ -237,6 +249,42 @@ function validateDelta(delta, rootDir) {
     reject(`${delta.id}.authorization.doesNotAuthorize is missing`);
   }
 
+  requireExactKeys(delta.supersedesApproval, SUPERSEDES_APPROVAL_KEYS, `${delta.id}.supersedesApproval`);
+  for (const key of SUPERSEDES_APPROVAL_KEYS) {
+    if (!(key in delta.supersedesApproval)) reject(`${delta.id}.supersedesApproval is missing "${key}"`);
+  }
+  if (typeof delta.supersedesApproval.id !== "string" || delta.supersedesApproval.id.length === 0) {
+    reject(`${delta.id}.supersedesApproval.id is missing`);
+  }
+  if (typeof delta.supersedesApproval.authorizedBy !== "string" || delta.supersedesApproval.authorizedBy.length === 0) {
+    reject(`${delta.id}.supersedesApproval.authorizedBy is missing`);
+  }
+  requireString(delta.supersedesApproval.authorizedOn, ISO_DATE, `${delta.id}.supersedesApproval.authorizedOn`);
+  if (delta.supersedesApproval.id === delta.id) reject(`${delta.id} cannot supersede itself`);
+
+  requireExactKeys(delta.beforeAfterEvidence, BEFORE_AFTER_EVIDENCE_KEYS, `${delta.id}.beforeAfterEvidence`);
+  for (const key of BEFORE_AFTER_EVIDENCE_KEYS) {
+    if (!(key in delta.beforeAfterEvidence)) reject(`${delta.id}.beforeAfterEvidence is missing "${key}"`);
+  }
+  if (typeof delta.beforeAfterEvidence.beforeRef !== "string" || delta.beforeAfterEvidence.beforeRef.length < 12) {
+    reject(`${delta.id}.beforeAfterEvidence.beforeRef is missing`);
+  }
+  if (typeof delta.beforeAfterEvidence.afterRef !== "string" || delta.beforeAfterEvidence.afterRef.length < 12) {
+    reject(`${delta.id}.beforeAfterEvidence.afterRef is missing`);
+  }
+  for (const key of ["behaviorBefore", "behaviorAfter"]) {
+    if (!Array.isArray(delta.beforeAfterEvidence[key]) || delta.beforeAfterEvidence[key].length === 0) {
+      reject(`${delta.id}.beforeAfterEvidence.${key} is missing`);
+    }
+  }
+  if (!Array.isArray(delta.beforeAfterEvidence.behavioralProof) || delta.beforeAfterEvidence.behavioralProof.length === 0) {
+    reject(`${delta.id}.beforeAfterEvidence.behavioralProof is missing`);
+  }
+  for (const proofPath of delta.beforeAfterEvidence.behavioralProof) {
+    requireExactPath(proofPath, `${delta.id}.beforeAfterEvidence.behavioralProof entry`);
+    if (!fs.existsSync(path.join(rootDir, proofPath))) reject(`${delta.id} cites missing behavioral proof ${proofPath}`);
+  }
+
   if (!Array.isArray(delta.authorizedPaths) || delta.authorizedPaths.length === 0) {
     reject(`${delta.id}.authorizedPaths is not a non-empty array`);
   }
@@ -246,6 +294,18 @@ function validateDelta(delta, rootDir) {
   for (const candidate of delta.authorizedPaths) {
     if (!(candidate in delta.authorizedSha256)) reject(`${delta.id} pins no hash for ${candidate}`);
     requireString(delta.authorizedSha256[candidate], SHA256, `${delta.id}.authorizedSha256["${candidate}"]`);
+  }
+
+  for (const evidenceKey of ["beforeSha256", "afterSha256"]) {
+    const evidenceHashes = delta.beforeAfterEvidence[evidenceKey];
+    requireExactKeys(evidenceHashes, new Set(delta.authorizedPaths), `${delta.id}.beforeAfterEvidence.${evidenceKey}`);
+    for (const candidate of delta.authorizedPaths) {
+      if (!(candidate in evidenceHashes)) reject(`${delta.id}.beforeAfterEvidence.${evidenceKey} pins no hash for ${candidate}`);
+      requireString(evidenceHashes[candidate], SHA256, `${delta.id}.beforeAfterEvidence.${evidenceKey}["${candidate}"]`);
+      if (evidenceKey === "afterSha256" && evidenceHashes[candidate] !== delta.authorizedSha256[candidate]) {
+        reject(`${delta.id}.beforeAfterEvidence.afterSha256 for ${candidate} does not equal the live authorized hash`);
+      }
+    }
   }
 
   // The hashes as of authorization.authorizedOn. These never change. They are

@@ -3,7 +3,7 @@
   "note": "The single reviewed exception mechanism for verify-expungement-plain-language-values. It does not excuse a parity failure. Each record is APPLIED to the origin/main baseline to produce the exact expected shape, and the verifier's existing strict comparison then runs unchanged against that. Anything outside the recorded delta is still a failure, because the expected result is fully specified rather than partially waived. Unknown keys are rejected and no field accepts a wildcard, a prefix or a glob, so widening scope requires changing the schema and its tests, not editing a list.",
   "deltas": [
     {
-      "id": "md-pardon-signed-date-2026-08-11",
+      "id": "md-pardon-signed-date-2026-08-25",
       "jurisdiction": "MD",
       "questionId": "pardon_signed_date",
       "questionType": "date_or_unknown",
@@ -17,13 +17,14 @@
       "routeBehavior": [
         "A participant not on the pardon pathway is unaffected.",
         "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
-        "A pardon within the statutory period may proceed.",
-        "A pardon outside the ten-year period receives the statute-specific ineligibility treatment."
+        "A pardon signed no more than ten years before evaluation may proceed to the approved participant packet when every other route fact is satisfied.",
+        "A pardon signed more than ten years before evaluation receives the statute-specific ineligibility treatment.",
+        "Unknown facts unrelated to the selected Maryland pardon route do not create ambiguity; unknown facts relevant to that route remain fail closed."
       ],
       "authorization": {
-        "authorizedBy": "Roger",
-        "authorizedOn": "2026-08-11",
-        "statement": "Approved the Maryland screening-flow change for the counsel-approved pardon expungement pathway, limited to this jurisdiction, this question id, this type, this placement and this pathway. No existing screening question may be removed, renamed, reordered or substantively changed. No other jurisdiction, pathway, flow stage or screening value is authorized. This is not a generic parity bypass or a wildcard allowlist, and it authorizes no migration application, deployment, worker publication, staging change, production change or nationwide launch.",
+        "authorizedBy": "Roger Roman and the LegalEase legal team",
+        "authorizedOn": "2026-08-25",
+        "statement": "Roger Roman and the LegalEase legal team approve the exact current Maryland pardon screening behavior and exact file bytes pinned by this record. Approval is limited to Maryland, pardon_signed_date, date_or_unknown, its timing_and_completion placement, and the pardoned-conviction pathway. It preserves route-relevant uncertainty, ignores only unrelated unknown facts, and does not authorize any other screening mutation. No existing question may be removed, renamed, reordered or substantively changed. This is not a generic parity bypass or wildcard allowlist, and it authorizes no migration, deployment, worker publication, staging change, production change or nationwide launch.",
         "doesNotAuthorize": [
           "a generic parity bypass",
           "a wildcard allowlist",
@@ -36,6 +37,40 @@
           "the nationwide launch"
         ]
       },
+      "supersedesApproval": {
+        "id": "md-pardon-signed-date-2026-08-11",
+        "authorizedBy": "Roger",
+        "authorizedOn": "2026-08-11"
+      },
+      "beforeAfterEvidence": {
+        "beforeRef": "md-pardon-signed-date-2026-08-11 (prior approved evaluator bytes)",
+        "afterRef": "79e9a69faf374b8e4615e6eb9b761a1f69ffb73b (captain after Corrections A/B and Maryland metadata regeneration)",
+        "behaviorBefore": [
+          "The Maryland pardon question, placement, pathway addition, missing-date behavior and ten-year filing deadline were approved.",
+          "The shared evaluator bytes predated the final route-scoped ambiguity and Corrections A service classifications."
+        ],
+        "behaviorAfter": [
+          "The Maryland pardon question, placement, pathway addition, missing-date behavior and ten-year filing deadline are unchanged and verifier-proven.",
+          "Route-relevant uncertainty remains fail closed while unrelated unknown facts are ignored, and Corrections B reports no captain patch pending."
+        ],
+        "beforeSha256": {
+          "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+          "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
+          "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
+          "src/lib/rcap-engine/evaluator.ts": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459"
+        },
+        "afterSha256": {
+          "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+          "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
+          "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
+          "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
+        },
+        "behavioralProof": [
+          "scripts/verify-rcap-md-pardon-pathway.mjs",
+          "scripts/verify-rcap-evaluator-public-ambiguity.mjs",
+          "scripts/verify-expungement-corrections-b.mjs"
+        ]
+      },
       "authorizedPaths": [
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
         "src/lib/rcap-engine/compiled/all51.json",
@@ -46,13 +81,13 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459"
+        "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
       },
       "originallyApprovedSha256": {
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e"
+        "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
       },
       "supersededSha256": [
         {
@@ -75,6 +110,13 @@
           "supersededOn": "2026-08-19",
           "reason": "The production test no longer depends on the spelling of an environment variable. It matched NODE_ENV === \"production\" exactly, so Production, PRODUCTION and prod all bypassed it and froze the evaluator's clock; it now matches any prod-prefixed NODE_ENV in any case and consults VERCEL_ENV as well, because a deployment can set that without NODE_ENV agreeing. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
           "behaviouralProof": "scripts/verify-rcap-evaluator-clock-boundary.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
+          "supersededOn": "2026-08-25",
+          "reason": "The final captain integrates route-scoped ambiguity for California, exact Corrections A anchors and Mississippi clocks, concrete service classifications for all thirty-six Corrections A routes, and legal-contract authority over stale packet-plan labels. Roger Roman and the LegalEase legal team expressly approve the Maryland pardon behavior over the final bytes. The Maryland question, placement, pathway, missing-date outcome and ten-year filing deadline remain unchanged and are independently verifier-proven.",
+          "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",

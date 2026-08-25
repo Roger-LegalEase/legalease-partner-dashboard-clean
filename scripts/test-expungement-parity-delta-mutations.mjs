@@ -66,6 +66,8 @@ function repin(file) {
   const hash = sha256File(file);
   record.deltas[0].authorizedSha256[file] = hash;
   record.deltas[0].originallyApprovedSha256[file] = hash;
+  record.deltas[0].beforeAfterEvidence.beforeSha256[file] = hash;
+  record.deltas[0].beforeAfterEvidence.afterSha256[file] = hash;
   writeJson(RECORD, record);
 }
 
@@ -295,6 +297,7 @@ mutation(
     repinned.deltas[0].authorizedSha256[EVALUATOR] = createHash("sha256")
       .update(fs.readFileSync(file))
       .digest("hex");
+    repinned.deltas[0].beforeAfterEvidence.afterSha256[EVALUATOR] = repinned.deltas[0].authorizedSha256[EVALUATOR];
     writeJson(RECORD, repinned);
   },
   "without recording that hash as superseded"
@@ -345,6 +348,18 @@ mutation(
     writeJson(RECORD, record);
   },
   "which it does not authorize"
+);
+
+// 17 — the dated before/after record is load-bearing. Its after hash must be
+// the same exact byte pin the live approval enforces.
+mutation(
+  "the before-after evidence names different final bytes",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas[0].beforeAfterEvidence.afterSha256[EVALUATOR] = "0".repeat(64);
+    writeJson(RECORD, record);
+  },
+  "beforeAfterEvidence.afterSha256 for src/lib/rcap-engine/evaluator.ts does not equal the live authorized hash"
 );
 
 // 10 — the approval is gone. Parity must simply be strict again.
