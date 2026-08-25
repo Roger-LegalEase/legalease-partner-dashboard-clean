@@ -13,6 +13,10 @@ const MS_CORRECTIONS_PATH = path.join(
   ROOT,
   "src/lib/rcap/state-packs/mississippi/correction-closures.ts"
 );
+const MS_CORRECTIONS_TEST_PATH = path.join(
+  ROOT,
+  "scripts/verify-mississippi-corrections-a.mjs"
+);
 
 const EXPECTED_ROUTE_KEYS = [
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
@@ -52,6 +56,10 @@ const EXPECTED_ROUTE_KEYS = [
   "MS:first-offense-dui-expungement",
   "MS:minor-in-possession-underage-alcohol-expungement"
 ];
+const SELF_AUTHORITATIVE_PAID_ROUTES = new Set([
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+  "LA:first-offense-marijuana-expungement-after-90-days-art-998"
+]);
 
 const failures = [];
 function check(condition, message) {
@@ -150,16 +158,22 @@ for (const row of routes) {
   check(row.evidence?.pathwaySourceRef === pathway.sourceRef, `${row.routeKey}: evidence sourceRef does not match the compiled pathway.`);
   check(Array.isArray(row.evidence?.sourceQuotes) && row.evidence.sourceQuotes.length > 0, `${row.routeKey}: source quotes are missing.`);
 
-  const sourceCorpus = JSON.stringify({ pathway, waitingPeriodRules: profile.waitingPeriodRules ?? [] });
+  const sourceCorpus = [pathway.summary, ...(pathway.waitingRules ?? [])].filter(Boolean);
+  if (row.evidence?.stateLocalPath) {
+    const stateLocalPath = path.join(ROOT, row.evidence.stateLocalPath);
+    check(fs.existsSync(stateLocalPath), `${row.routeKey}: state-local evidence path is missing.`);
+    if (fs.existsSync(stateLocalPath)) sourceCorpus.push(fs.readFileSync(stateLocalPath, "utf8"));
+  }
   for (const quote of row.evidence?.sourceQuotes ?? []) {
     check(typeof quote === "string" && quote.length >= 12, `${row.routeKey}: source quote is too short.`);
-    check(sourceCorpus.includes(quote), `${row.routeKey}: source quote is not present in the route/profile evidence.`);
+    check(sourceCorpus.some((source) => source.includes(quote)), `${row.routeKey}: source quote is not present in the declared route evidence.`);
   }
 
   const memberships = Object.values(controlSets).filter((set) => set.has(row.routeKey)).length;
   check(memberships <= 1, `${row.routeKey}: route appears in more than one evaluator control set.`);
 
   if (row.closureCategory === "paid_packet") {
+    check(SELF_AUTHORITATIVE_PAID_ROUTES.has(row.routeKey), `${row.routeKey}: paid closure lacks an exact self-authoritative runtime timing override.`);
     check(row.checkoutExpected === true, `${row.routeKey}: paid-packet closure must expect checkout.`);
     check(routeMetadata.legalSignoffStatus === "signed_off", `${row.routeKey}: paid-packet closure lacks signed-off legal metadata.`);
     check(paidRouteTypes.has(routeMetadata.productRouteType), `${row.routeKey}: paid-packet closure has non-paid route type ${routeMetadata.productRouteType}.`);
@@ -189,26 +203,27 @@ for (const row of routes) {
   }
 }
 
+check(
+  routes
+    .filter((row) => row.closureCategory === "paid_packet")
+    .every((row) => SELF_AUTHORITATIVE_PAID_ROUTES.has(row.routeKey)) &&
+    [...SELF_AUTHORITATIVE_PAID_ROUTES].every((routeKey) =>
+      routes.some((row) => row.routeKey === routeKey && row.closureCategory === "paid_packet")
+    ),
+  "Paid closures do not exactly match the two source-backed self-authoritative runtime overrides."
+);
+
 check(fs.existsSync(MS_CORRECTIONS_PATH), "Mississippi state-local correction closures are missing.");
-if (fs.existsSync(MS_CORRECTIONS_PATH)) {
-  const mississippiSource = fs.readFileSync(MS_CORRECTIONS_PATH, "utf8");
-  const requiredMississippiEvidence = [
-    "additional-justice-or-municipal-court-misdemeanor-relief",
-    "last_conviction_date_any_court",
-    "two_years_good_conduct",
-    "Miss. Code Ann. § 9-11-15(3)",
-    "Miss. Code Ann. § 21-23-7(6)",
-    "first-offense-dui-expungement",
-    "five_years_after_successful_sentence_completion",
-    "Miss. Code Ann. § 63-11-30(13)",
-    "minor-in-possession-underage-alcohol-expungement",
-    "one_year_after_dismissal_or_discharge",
-    "latest_of_sentence_completion_or_fine_payment",
-    "Miss. Code Ann. § 67-3-70(6)",
-    "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
-  ];
-  for (const evidence of requiredMississippiEvidence) {
-    check(mississippiSource.includes(evidence), `Mississippi correction source is missing ${evidence}.`);
+check(fs.existsSync(MS_CORRECTIONS_TEST_PATH), "Mississippi structured correction verifier is missing.");
+if (fs.existsSync(MS_CORRECTIONS_PATH) && fs.existsSync(MS_CORRECTIONS_TEST_PATH)) {
+  try {
+    execFileSync(process.execPath, ["--experimental-strip-types", MS_CORRECTIONS_TEST_PATH], {
+      cwd: ROOT,
+      encoding: "utf8",
+      env: { ...process.env, NODE_NO_WARNINGS: "1" }
+    });
+  } catch (error) {
+    check(false, `Mississippi structured correction verifier failed: ${error.message}`);
   }
 }
 

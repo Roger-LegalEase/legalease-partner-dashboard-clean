@@ -1,32 +1,15 @@
-export type MississippiCorrectionCheckoutState =
+import assert from "node:assert/strict";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+
+const sourcePath = path.resolve(
+  "src/lib/rcap/state-packs/mississippi/correction-closures.ts"
+);
+const { mississippiCorrectionClosures } = await import(pathToFileURL(sourcePath).href);
+const checkoutState =
   "fail_closed_pending_formal_legal_approval_and_hosted_acceptance";
 
-export interface MississippiCorrectionTimingBranch {
-  id: string;
-  duration: string;
-  anchor: string;
-  rule: string;
-}
-
-export interface MississippiCorrectionClosure {
-  routeId: string;
-  remedy: string;
-  authorities: readonly string[];
-  timing: readonly MississippiCorrectionTimingBranch[];
-  requiredFacts: readonly string[];
-  packetFamily: readonly string[];
-  checkoutState: MississippiCorrectionCheckoutState;
-}
-
-/**
- * Route-specific corrections from the definitive Mississippi decisions.
- *
- * These definitions intentionally do not reuse the generic felony, DUI,
- * lower-court, or uncharged-misdemeanor clocks. Shared resolver and product
- * metadata integration belongs to the release captain; until that integration,
- * legal approval, and hosted acceptance are complete, each route stays fail closed.
- */
-export const mississippiCorrectionClosures = {
+assert.deepStrictEqual(mississippiCorrectionClosures, {
   additionalJusticeOrMunicipalMisdemeanor: {
     routeId: "additional-justice-or-municipal-court-misdemeanor-relief",
     remedy: "Additional justice-court or municipal-court misdemeanor relief",
@@ -57,7 +40,7 @@ export const mississippiCorrectionClosures = {
       "justice_court_additional_misdemeanor_petition",
       "municipal_court_additional_misdemeanor_petition"
     ],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState
   },
   firstOffenseDui: {
     routeId: "first-offense-dui-expungement",
@@ -85,7 +68,7 @@ export const mississippiCorrectionClosures = {
       "justification_for_relief"
     ],
     packetFamily: ["circuit_court_first_offense_dui_expungement_petition"],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState
   },
   minorInPossessionUnderageAlcohol: {
     routeId: "minor-in-possession-underage-alcohol-expungement",
@@ -120,6 +103,8 @@ export const mississippiCorrectionClosures = {
       "related_charges_outside_67_3_70"
     ],
     packetFamily: ["section_67_3_70_6_expungement_petition"],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState
   }
-} as const satisfies Readonly<Record<string, MississippiCorrectionClosure>>;
+});
+
+console.log("verify-mississippi-corrections-a: GREEN");

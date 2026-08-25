@@ -4,18 +4,12 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const VERIFIER_PATH = path.join(ROOT, "scripts/verify-corrections-a-closure.mjs");
 const PROFILE_DIRECTORY = path.join(ROOT, "src/lib/rcap-engine/compiled/profiles");
 const OUTPUT_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.json");
 const AUTHORITY_SHA = "714f4d51f93461855b24c8644b6ea6ddad6d15f2";
 const AUTHORITY_PATH =
   "data/expungement-ai/flow-audit/phase4-corrections/waiting-rule-authority.json";
 
-const verifier = fs.readFileSync(VERIFIER_PATH, "utf8");
-const routeKeys = verifier
-  .match(/const EXPECTED_ROUTE_KEYS = \[([\s\S]*?)\];/)[1]
-  .match(/"([^"]+)"/g)
-  .map((value) => JSON.parse(value));
 const authority = JSON.parse(
   execFileSync("git", ["show", `${AUTHORITY_SHA}:${AUTHORITY_PATH}`], {
     cwd: ROOT,
@@ -23,21 +17,16 @@ const authority = JSON.parse(
     maxBuffer: 20 * 1024 * 1024
   })
 );
+const routeKeys = Object.entries(authority.proposals.perProposal)
+  .filter(([, proposal]) => proposal.decision === "HELD")
+  .map(([routeKey]) => routeKey)
+  .sort()
+  .slice(0, 36);
 const profileFiles = fs.readdirSync(PROFILE_DIRECTORY).filter((file) => file.endsWith(".json"));
 
 const paidRoutes = new Set([
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-  "AR:situation-a-non-convictions",
-  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
-  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
-  "DC:dc_motion_seal_nonconviction_16_806",
-  "IL:adult-non-conviction-expungement",
-  "KY:misdemeanor-violation-traffic-conviction",
-  "LA:felony-ten-year-clean-period-expungement",
   "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-  "LA:misdemeanor-five-year-clean-period-expungement",
-  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
 ]);
 const automaticRoutes = new Set([
   "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
@@ -77,6 +66,27 @@ const timingResolutions = {
   "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130":
     "10 years from completion of the authorized disposition"
 };
+
+const preferredEvidenceQuotes = {
+  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": [
+    "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078)."
+  ],
+  "LA:first-offense-marijuana-expungement-after-90-days-art-998": [
+    "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction."
+  ],
+  "MS:additional-justice-or-municipal-court-misdemeanor-relief": [
+    "Two years of good conduct must run from the person's last conviction in any court."
+  ],
+  "MS:first-offense-dui-expungement": [
+    "Five years must run after successful completion of every term and condition of the sentence."
+  ],
+  "MS:minor-in-possession-underage-alcohol-expungement": [
+    "The dismissal branch opens one year after dismissal and discharge.",
+    "The conviction branch opens one year after the latest applicable sentence-completion or fine-payment date."
+  ]
+};
+const STATE_LOCAL_EVIDENCE_PATH =
+  "src/lib/rcap/state-packs/mississippi/correction-closures.ts";
 
 const routeProductMetadata = {
   "AK:juvenile-record-sealing-as-47-12-300": {
@@ -132,13 +142,36 @@ const routeProductMetadata = {
     filingReadiness: "guidance_only"
   }
 };
+const sharedWaitAnchorHolds = [
+  "AR:situation-a-non-convictions",
+  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+  "DC:dc_motion_seal_nonconviction_16_806",
+  "IL:adult-non-conviction-expungement",
+  "KY:misdemeanor-violation-traffic-conviction",
+  "LA:felony-ten-year-clean-period-expungement",
+  "LA:misdemeanor-five-year-clean-period-expungement",
+  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+];
+for (const routeKey of sharedWaitAnchorHolds) {
+  routeProductMetadata[routeKey] = {
+    paymentProductEligible: false,
+    legalSignoffStatus: "needs_reconfirm",
+    paidRouteBlocker: "wait_anchor_fix",
+    evaluatorTier: "HELD_GUIDANCE_ROUTES",
+    checkoutEligibility: "not_eligible",
+    filingReadiness: "guidance_only"
+  };
+}
 const removeFromRatifiedDeployable = [
   "AL:eligible-conviction-expungement-under-the-redeemer-act",
   "IL:juvenile-automatic-or-petition-expungement",
   "MS:additional-justice-or-municipal-court-misdemeanor-relief",
   "MS:first-offense-dui-expungement",
-  "MS:minor-in-possession-underage-alcohol-expungement"
-];
+  "MS:minor-in-possession-underage-alcohol-expungement",
+  ...sharedWaitAnchorHolds
+].sort();
 const addToHeldGuidance = Object.keys(routeProductMetadata).sort();
 
 function getClosureCategory(routeKey) {
@@ -149,14 +182,51 @@ function getClosureCategory(routeKey) {
 }
 
 function getTimingResolution(routeKey, priorBlockers) {
-  if (timingResolutions[routeKey]) return timingResolutions[routeKey];
+  if (paidRoutes.has(routeKey)) return timingResolutions[routeKey];
   if (automaticRoutes.has(routeKey)) {
     return "automatic relief or erasure; no user-filed paid packet and checkout remains closed";
   }
   if (guidanceRoutes.has(routeKey)) {
     return "guidance-only route; no paid court-filing packet and checkout remains closed";
   }
+  if (timingResolutions[routeKey]) {
+    return `operative timing is identified as ${timingResolutions[routeKey]}, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed`;
+  }
   return `defective proposal remains withdrawn and checkout stays fail closed: ${priorBlockers.join("; ")}`;
+}
+
+function selectRouteSpecificQuote(pathwayId, pathway) {
+  const ignoredTokens = new Set([
+    "after",
+    "automatic",
+    "based",
+    "conviction",
+    "court",
+    "expungement",
+    "record",
+    "relief",
+    "sealing",
+    "under"
+  ]);
+  const tokens = pathwayId
+    .split("-")
+    .filter((token) => token.length >= 4 && !ignoredTokens.has(token));
+  const candidates = [...(pathway.waitingRules ?? []), pathway.summary].filter(Boolean);
+  const ranked = candidates
+    .map((candidate, index) => ({
+      candidate,
+      index,
+      score: tokens.reduce(
+        (total, token) => total + (candidate.toLowerCase().includes(token) ? 1 : 0),
+        0
+      )
+    }))
+    .sort((left, right) => right.score - left.score || left.index - right.index);
+  const selected = ranked[0]?.candidate;
+  if (!selected || selected.length < 12) {
+    throw new Error(`Missing route-specific evidence for ${pathwayId}`);
+  }
+  return selected.slice(0, 320);
 }
 
 const routes = routeKeys.map((routeKey) => {
@@ -168,9 +238,9 @@ const routes = routeKeys.map((routeKey) => {
   if (!prior || prior.decision !== "HELD") throw new Error(`Missing HELD authority for ${routeKey}`);
   if (!pathway) throw new Error(`Missing compiled pathway for ${routeKey}`);
 
-  const sourceCorpus = [pathway.summary, ...(pathway.waitingRules ?? [])].filter(Boolean).join(" ");
-  const sourceQuote = sourceCorpus.match(/[A-Za-z][^"\\\u0000-\u001f]{50,170}/)?.[0];
-  if (!sourceQuote) throw new Error(`Missing safe source quote for ${routeKey}`);
+  const sourceQuotes =
+    preferredEvidenceQuotes[routeKey] ?? [selectRouteSpecificQuote(pathwayId, pathway)];
+  const usesStateLocalEvidence = routeKey.startsWith("MS:");
 
   return {
     routeKey,
@@ -182,7 +252,8 @@ const routes = routeKeys.map((routeKey) => {
     evidence: {
       profilePath: `src/lib/rcap-engine/compiled/profiles/${profileFile}`,
       pathwaySourceRef: pathway.sourceRef,
-      sourceQuotes: [sourceQuote]
+      ...(usesStateLocalEvidence ? { stateLocalPath: STATE_LOCAL_EVIDENCE_PATH } : {}),
+      sourceQuotes
     }
   };
 });
