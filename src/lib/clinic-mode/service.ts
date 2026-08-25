@@ -2,6 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes } from "node:crypto";
 import QRCode from "qrcode";
+import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { absolutePartnerAppUrl } from "@/lib/app-url";
 import { resolveSessionPartner, SessionPartnerError, type SessionPartner } from "@/lib/partners/session-partner";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -17,14 +18,7 @@ import type {
   SetClinicStaffInput
 } from "@/lib/clinic-mode/types";
 
-export type ClinicServiceErrorCode = "unauthenticated" | "forbidden" | "unavailable" | "not_found" | "conflict";
-
-export class ClinicServiceError extends Error {
-  constructor(readonly code: ClinicServiceErrorCode, message: string) {
-    super(message);
-    this.name = "ClinicServiceError";
-  }
-}
+export { ClinicServiceError } from "@/lib/clinic-mode/errors";
 
 type ClinicActor = SessionPartner;
 

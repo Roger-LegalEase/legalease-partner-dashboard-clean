@@ -110,3 +110,57 @@ export type ClinicQueueCase = {
   followUpDueAt: string | null;
   lastActivityAt: string;
 };
+
+export type ClinicFollowUp = {
+  id: string;
+  clinicCaseId: string;
+  ownerEventStaffId: string | null;
+  jurisdiction: string;
+  dueAt: string | null;
+  status: "open" | "waiting_on_participant" | "waiting_on_staff" | "completed" | "cancelled";
+  communicationState: "draft" | "approved" | "sent" | "failed" | "no_contact";
+  participantSafeMessage: string | null;
+  internalNotes: string | null;
+  updatedAt: string;
+};
+
+export type SaveClinicFollowUpInput = {
+  id: string | null;
+  clinicCaseId: string;
+  ownerEventStaffId: string | null;
+  dueAt: string | null;
+  status: ClinicFollowUp["status"];
+  communicationState: ClinicFollowUp["communicationState"];
+  participantSafeMessage: string;
+  internalNotes: string;
+};
+
+export type ClinicEventReport = {
+  eventId: string;
+  eventName: string;
+  eventStatus: ClinicEventStatus;
+  capacity: number;
+  entries: number;
+  participants: number;
+  queueCounts: Record<string, number>;
+  routeCounts: Record<string, number>;
+  followUpCounts: Record<string, number>;
+  sponsorship: { allocation: number | null; reserved: number; consumed: number; released: number };
+  incidents: { open: number; resolved: number };
+};
+
+export type ClinicPacketAccountingOutcome =
+  | "reserved"
+  | "already_reserved"
+  | "consumed"
+  | "already_consumed"
+  | "released"
+  | "already_released"
+  | "artifact_not_validated"
+  | "accounting_blocked"
+  | "reservation_not_found"
+  | "reservation_released"
+  | "render_job_owner_mismatch"
+  | "sponsorship_exhausted"
+  | "no_credit_route"
+  | "job_not_failed";

@@ -2,7 +2,7 @@ import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
 import { ClinicEntryClient } from "@/components/clinic-mode/ClinicEntryClient";
 import { getPublicClinicEvent } from "@/lib/clinic-mode/participant-service";
-import { ClinicServiceError } from "@/lib/clinic-mode/service";
+import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

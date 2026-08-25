@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ClinicServiceError } from "@/lib/clinic-mode/service";
+import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import { ClinicValidationError } from "@/lib/clinic-mode/validation";
 
 export function clinicErrorResponse(error: unknown) {
