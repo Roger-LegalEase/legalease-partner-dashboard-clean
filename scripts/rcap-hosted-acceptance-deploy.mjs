@@ -69,6 +69,7 @@ const REQUIRED_CASES = [
   "bound_to_the_acceptance_supabase_project_only",
   "production_aliases_unchanged",
   "production_environment_variables_unchanged",
+  "deployed_application_health_is_200",
   "delivery_route_refuses_on_the_deployed_instance"
 ];
 
@@ -155,6 +156,15 @@ async function findReusableDeployment() {
 
 const reusable = await findReusableDeployment();
 
+// Resolve the acceptance project's keys before the scoped-identity decision.
+// A completely fresh acceptance project has no consumer A yet, and the scope
+// must name a real UUID before Vercel bakes the deployment environment.
+const keys = await supabaseKeys();
+if (!keys.anon || !keys.service) {
+  console.error("DEPLOY: could not read the acceptance project's anon/service_role keys");
+  process.exit(1);
+}
+
 // The scoped state names UUIDs, and a deployment's environment is fixed at
 // creation, so the scope has to be resolved BEFORE the build rather than after.
 // Consumer A alone: B stays outside on purpose, so the hosted admission test can
@@ -166,21 +176,35 @@ if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS) {
     body: JSON.stringify({ query: "select id from auth.users where email = 'acceptance-consumer-a@rcap-acceptance.test' limit 1" })
   });
   const rows = await lookup.json().catch(() => null);
-  const id = Array.isArray(rows) ? rows[0]?.id : null;
+  let id = Array.isArray(rows) ? rows[0]?.id : null;
   if (!id) {
-    console.error("DEPLOY: staging_scoped was requested but the acceptance consumer identity does not exist yet; run the accept phase first so the scope names a real user");
+    const created = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
+      method: "POST",
+      headers: {
+        apikey: keys.service,
+        Authorization: `Bearer ${keys.service}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: "acceptance-consumer-a@rcap-acceptance.test",
+        password: "Acceptance-a-4f7c21!",
+        email_confirm: true
+      })
+    });
+    const createdUser = await created.json().catch(() => null);
+    id = createdUser?.id ?? createdUser?.user?.id ?? null;
+    evidence.syntheticConsumerBootstrap = id ? "created_consumer_a" : `failed_status_${created.status}`;
+  } else {
+    evidence.syntheticConsumerBootstrap = "reused_consumer_a";
+  }
+  if (!id) {
+    console.error("DEPLOY: staging_scoped was requested but consumer A could not be resolved or created in the pinned acceptance project");
     process.exit(1);
   }
   SCOPE_IDS = id;
 }
 
 // --- 1. Deploy to Preview ----------------------------------------------------
-const keys = await supabaseKeys();
-if (!keys.anon || !keys.service) {
-  console.error("DEPLOY: could not read the acceptance project's anon/service_role keys");
-  process.exit(1);
-}
-
 // Public at build time, server-only at runtime. The delivery flag is passed
 // ONLY when ROUTE_STATE is explicitly set; the default deployment carries no
 // flag at all, so the control's own default (disabled) applies.
@@ -484,6 +508,16 @@ let deployedAcceptanceProjectRef = null;
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ itemId: crypto.randomUUID() })
   });
+
+  const healthy = health.status === 200
+    && health.json !== null
+    && typeof health.json === "object"
+    && "checks" in health.json;
+  record(
+    "deployed_application_health_is_200",
+    healthy,
+    `GET /api/health=${health.status}; application JSON with checks=${Boolean(health.json && typeof health.json === "object" && "checks" in health.json)}`
+  );
 
   // 401 is Vercel deployment protection answering ahead of the app; 503 is the
   // delivery control answering; 401 from the app is the auth gate. All three

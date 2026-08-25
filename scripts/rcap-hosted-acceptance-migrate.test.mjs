@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = fs.readFileSync(path.join(rootDir, "scripts/rcap-hosted-acceptance-migrate.mjs"), "utf8");
+const f1Source = fs.readFileSync(path.join(rootDir, "scripts/f1-ephemeral-staging-stack.mjs"), "utf8");
+const f1Workflow = fs.readFileSync(path.join(rootDir, ".github/workflows/rcap-f1-ephemeral-staging.yml"), "utf8");
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
 
 test("baseline exclusions derive from the authorized action sequence, which includes phase 55", () => {
@@ -65,4 +67,18 @@ test("phase 55 matter, product, and person binding has a mandatory hosted readba
 test("remote migration is pinned to the acceptance Supabase project", () => {
   assert.match(source, /const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"/);
   assert.match(source, /PROJECT_REF !== EXPECTED_PROJECT_REF/);
+});
+
+test("disposable-stack evidence derives the complete phase 49-through-55 label", () => {
+  assert.match(
+    f1Source,
+    /const authorizedPhaseLabel = action\.migrationsInApplyOrder\.map\(\(entry\) => entry\.phase\)\.join\(" -> "\)/
+  );
+  assert.match(f1Source, /`\$\{authorizedPhaseLabel\} applied in order/);
+  assert.doesNotMatch(f1Source, /six-migration|49 -> 54|phases 49-54|phase 49-54/i);
+  assert.doesNotMatch(f1Workflow, /six-migration/i);
+  assert.match(f1Source, /applicationSha: ENV\("F1_APPLICATION_SHA"\)/);
+  assert.match(f1Workflow, /F1_APPLICATION_SHA: \$\{\{ inputs\.application_sha \}\}/);
+  assert.doesNotMatch(f1Workflow, /export F1_APPLICATION_SHA="\$APPLICATION_SHA_INPUT"/);
+  assert.doesNotMatch(f1Source, /ENV\("AUTHORIZED_APPLICATION_SHA"\)/);
 });

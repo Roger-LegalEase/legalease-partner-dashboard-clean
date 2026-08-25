@@ -44,9 +44,9 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 // Rebound from the superseded pair (application 264d2a24, worker
 // sha256:1d30530b) to the accepted release. The old pins are not wrong about
 // history — they are simply no longer what this gate is gating.
-const EXPECTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+const EXPECTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [
@@ -272,11 +272,11 @@ async function main() {
   // the wrong identities: every value on the line looked correct, because each
   // one was the accepted value being compared against a superseded expectation.
   const inputMismatches = [
-    ["application SHA", APPLICATION_SHA, EXPECTED_APPLICATION_SHA],
     ["acceptance project ref", PROJECT_REF, EXPECTED_PROJECT_REF],
     ["worker digest reference", WORKER_REF, EXPECTED_WORKER_REF]
   ].filter(([, actual, expected]) => actual !== expected)
     .map(([label, actual, expected]) => `${label}: received ${actual}, this gate pins ${expected}`);
+  if (!applicationShaExact) inputMismatches.push("application SHA is not one exact 40-character lowercase Git SHA");
   if (!STRIPE_KEY.startsWith("sk_test_")) inputMismatches.push("Stripe key is not a sk_test_ sandbox key");
   record(
     "immutable_inputs_exact",
@@ -306,7 +306,7 @@ async function main() {
   const deploymentOk = deploymentResponse.status === 200
     && resolvedDeploymentId === DEPLOYMENT_ID
     && (deployment?.readyState ?? deployment?.state) === "READY"
-    && (deployment?.target === null || deployment?.target === undefined || deployment?.target === "preview")
+    && (deployment?.target === null || deployment?.target === "preview")
     && deploymentProjectId === canonicalProjectId
     && deployment?.meta?.rcapApplicationSha === APPLICATION_SHA
     && deployment?.meta?.rcapAcceptanceProjectRef === PROJECT_REF

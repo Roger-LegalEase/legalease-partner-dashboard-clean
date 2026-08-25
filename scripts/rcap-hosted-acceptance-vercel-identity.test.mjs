@@ -177,6 +177,28 @@ test("Preview reuse requires exact candidate, project, and Preview target metada
   }
 });
 
+test("every hosted consumer reads the one resolved Preview by immutable deployment id", () => {
+  const workflow = fs.readFileSync(
+    path.join(ROOT, ".github/workflows/rcap-hosted-acceptance-staging.yml"),
+    "utf8"
+  );
+  for (const [stepName, scriptName] of [
+    ["Configure acceptance Auth and create the synthetic identities", "rcap-hosted-acceptance-auth-config.mjs"],
+    ["Run the hosted Stripe payment and packet-delivery journey", "rcap-hosted-acceptance-payment.mjs"],
+    ["Prove the Pennsylvania, Mississippi and Illinois galleries render", "rcap-hosted-acceptance-gallery.mjs"]
+  ]) {
+    const step = workflow.match(new RegExp(`- name: ${stepName}[\\s\\S]*?\\n\\s+run: node scripts/${scriptName.replaceAll(".", "\\.")}`))?.[0] ?? "";
+    assert.match(step, /HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id \|\| steps\.deploy_preview\.outputs\.deployment_id \}\}/);
+    assert.match(step, /HOSTED_PREVIEW_HOSTNAME: \$\{\{ steps\.resolve_preview\.outputs\.hostname \|\| steps\.deploy_preview\.outputs\.hostname \}\}/);
+
+    const source = fs.readFileSync(path.join(ROOT, "scripts", scriptName), "utf8");
+    assert.match(source, /const EXACT_DEPLOYMENT_ID = process\.env\.HOSTED_PREVIEW_DEPLOYMENT_ID/);
+    assert.match(source, /const EXACT_PREVIEW_HOSTNAME = \(?process\.env\.HOSTED_PREVIEW_HOSTNAME/);
+    assert.match(source, /\/v13\/deployments\/\$\{encodeURIComponent\(EXACT_DEPLOYMENT_ID\)\}/);
+    assert.doesNotMatch(source, /\/v6\/deployments\?/);
+  }
+});
+
 test("nonproduction Vercel runtimes refuse any Supabase project except acceptance", () => {
   for (const [name, variable] of [
     ["rcap-hosted-acceptance-auth-config.mjs", "PROJECT_REF"],
@@ -207,4 +229,28 @@ test("gallery defaults to the pinned acceptance project when workflow input is a
     "the always-run gallery step must remain runnable when its workflow does not pass the project ref"
   );
   assert.match(source, /PROJECT_REF !== EXPECTED_PROJECT_REF/);
+});
+
+test("fresh staging-scoped deploy bootstraps consumer A before binding the immutable Preview", () => {
+  const source = fs.readFileSync(
+    path.join(ROOT, "scripts/rcap-hosted-acceptance-deploy.mjs"),
+    "utf8"
+  );
+  const keysIndex = source.indexOf("const keys = await supabaseKeys()");
+  const scopeIndex = source.indexOf('if (ROUTE_STATE === "staging_scoped" && !SCOPE_IDS)');
+  assert.ok(keysIndex >= 0 && keysIndex < scopeIndex, "service credentials must be resolved before scoped identity bootstrap");
+  assert.match(source, /fetch\(`\$\{SUPABASE_URL\}\/auth\/v1\/admin\/users`/);
+  assert.match(source, /acceptance-consumer-a@rcap-acceptance\.test/);
+  assert.doesNotMatch(source, /run the accept phase first/);
+});
+
+test("deploy cannot pass unless the exact Preview health endpoint is application JSON", () => {
+  const source = fs.readFileSync(
+    path.join(ROOT, "scripts/rcap-hosted-acceptance-deploy.mjs"),
+    "utf8"
+  );
+  assert.match(source, /"deployed_application_health_is_200"/);
+  assert.match(source, /health\.status === 200/);
+  assert.match(source, /health\.json !== null/);
+  assert.match(source, /"checks" in health\.json/);
 });

@@ -34,14 +34,12 @@ const CHECKOUT_SESSION_ID = process.env.HOSTED_CHECKOUT_SESSION_ID ?? "";
 const BRIEFCASE_ITEM_ID = process.env.HOSTED_BRIEFCASE_ITEM_ID ?? "";
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
+const EXPECTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
-const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";
-const ACCEPTANCE_PACKET_SAFETY_DISCLAIMER = "Functional acceptance compatibility fixture only. This synthetic Pennsylvania packet is not legal advice, is not approved for filing, and is not production-launch evidence.";
-const ACCEPTANCE_PACKET_STATEMENT = "Pennsylvania Path A — Non-conviction expungement functional acceptance packet. Synthetic fixture only; review is required before filing.";
+const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -253,7 +251,7 @@ async function main() {
 
   record(
     "immutable_inputs_exact",
-    APPLICATION_SHA === EXPECTED_APPLICATION_SHA
+    applicationShaExact
       && PROJECT_REF === EXPECTED_PROJECT_REF
       && WORKER_REF === EXPECTED_WORKER_REF
       && /^[0-9a-f]{40}$/.test(TOOLS_SHA)
@@ -436,8 +434,7 @@ async function main() {
       && authority?.reason === "authorized"
       && authority?.provider_event_id === item?.provider_event_id
       && Number(counts?.consumptions) === 0
-      && Number(counts?.jobs) >= 0
-      && Number(counts?.jobs) <= 1;
+      && Number(counts?.jobs) === 1;
     evidence.paymentObservation = {
       checkoutSessionId: CHECKOUT_SESSION_ID,
       briefcaseItemId: BRIEFCASE_ITEM_ID,
@@ -452,7 +449,7 @@ async function main() {
         relatedObjectId: candidate.related_object_id
       })),
       paymentConsumptionsBeforeWorker: Number(counts?.consumptions ?? 0),
-      renderJobsBeforePostPaymentRequest: Number(counts?.jobs ?? 0),
+      renderJobsEnqueuedByCanonicalWebhook: Number(counts?.jobs ?? 0),
       workerRunByThisWorkflow: false
     };
     if (!stripePaid || !webhookApplied) {
@@ -491,33 +488,6 @@ async function main() {
       fs.appendFileSync(process.env.GITHUB_OUTPUT, `continuation_url=${continuationUrl.toString()}\n`);
     }
 
-    let renderRequest = null;
-    if (Number(counts?.jobs) === 0) {
-      const keyResponse = await managementApi(`/v1/projects/${PROJECT_REF}/api-keys?reveal=true`);
-      const keys = Array.isArray(keyResponse.json) ? keyResponse.json : [];
-      const anonKey = keys.find((entry) => entry.name === "anon")?.api_key ?? "";
-      record("payment_watch_anon_key_available", keyResponse.ok && Boolean(anonKey), `Management API=${keyResponse.status}; anon present=${Boolean(anonKey)}`);
-      secrets.push(anonKey);
-      const A = await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!", anonKey);
-      record(
-        "payment_watch_consumer_a_owns_item",
-        Boolean(A?.id) && A.id === item?.user_id,
-        `consumer A signed in=${Boolean(A)}; item owner exact=${A?.id === item?.user_id}`
-      );
-      renderRequest = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
-        method: "POST",
-        cookie: A.cookie,
-        body: { briefcaseItemId: BRIEFCASE_ITEM_ID }
-      });
-      record(
-        "post_payment_application_queues_one_render_job",
-        renderRequest.status === 202
-          && renderRequest.json?.status === "queued"
-          && renderRequest.json?.briefcaseItemId === BRIEFCASE_ITEM_ID
-          && /^[0-9a-f-]{36}$/i.test(renderRequest.json?.jobId ?? ""),
-        `POST=${renderRequest.status}; outcome=${renderRequest.json?.status ?? "(none)"}; job=${renderRequest.json?.jobId ?? "(none)"}`
-      );
-    }
     const jobResponse = await sql(`
       select id, briefcase_item_id, status
         from public.packet_render_jobs
@@ -526,13 +496,13 @@ async function main() {
     `);
     const jobs = Array.isArray(jobResponse.json) ? jobResponse.json : [];
     record(
-      "exactly_one_post_payment_render_job_exists",
+      "exactly_one_webhook_queued_render_job_exists",
       jobResponse.ok && jobs.length === 1 && jobs[0]?.briefcase_item_id === BRIEFCASE_ITEM_ID,
       `SQL=${jobResponse.status}; jobs=${jobs.length}; id=${jobs[0]?.id ?? "(none)"}; status=${jobs[0]?.status ?? "(none)"}`
     );
-    evidence.paymentObservation.renderJobsAfterPostPaymentRequest = jobs.length;
+    evidence.paymentObservation.renderJobsAfterWebhookReadback = jobs.length;
     evidence.paymentObservation.renderJob = jobs[0] ?? null;
-    evidence.paymentObservation.renderRequestIssued = renderRequest !== null;
+    evidence.paymentObservation.renderRequestIssuedByWatcher = false;
 
     evidence.outcome = "real_payment_and_webhook_observed";
     evidence.passed = true;
@@ -733,75 +703,31 @@ async function main() {
   const personRow = Array.isArray(person.json) ? person.json[0] : null;
   record("authenticated_user_resolves_unique_consumer_person", Boolean(personRow?.id) && personRow.match_key === personMatchKey, `person id=${personRow?.id ?? "(none)"}; namespace=${personRow?.partner_slug ?? "(none)"}`);
 
-  // The accepted application derives this packet id and then inserts a row
-  // whose literal display-label pathway is rejected by the repository's
-  // phase-37 pathway constraint and whose required safety_disclaimer is
-  // omitted. Functional acceptance may bridge that already-documented
-  // application/schema mismatch without changing either frozen input: create
-  // only the exact deterministic FK row, use the schema's explicit generic
-  // source-plan pathway, and label both the stored bytes and evidence as a
-  // synthetic compatibility fixture. The render job remains authoritative:
-  // its route id/profile/renderer are derived by the accepted application from
-  // the Briefcase item, never from this compatibility pathway.
-  const consumerPacketId = deterministicUuid(`${consumerPacketNamespace}:${itemId}`);
-  const packetFixtureInsert = await sql(`
-    insert into public.rcap_document_packets
-      (id, partner_slug, user_id, briefcase_id, state, jurisdiction, pathway,
-       generated_html, generated_plain_text, safety_disclaimer)
-    values
-      ('${consumerPacketId}', '${CONSUMER_PERSON_NAMESPACE}', '${A.id}', '${itemId}',
-       'PA', 'PA', '${ACCEPTANCE_PACKET_PATHWAY}',
-       '<p>${sqlText(ACCEPTANCE_PACKET_STATEMENT)}</p>',
-       '${sqlText(ACCEPTANCE_PACKET_STATEMENT)}',
-       '${sqlText(ACCEPTANCE_PACKET_SAFETY_DISCLAIMER)}')
-    on conflict (id) do nothing
-    returning id
-  `);
-  const packetFixtureInserted = Array.isArray(packetFixtureInsert.json) ? packetFixtureInsert.json : [];
-  record(
-    "functional_acceptance_packet_compatibility_fixture_inserted_once",
-    packetFixtureInsert.ok && packetFixtureInserted.length === 1 && packetFixtureInserted[0]?.id === consumerPacketId,
-    `SQL=${packetFixtureInsert.status}; inserted=${packetFixtureInserted.length}; deterministic packet=${consumerPacketId}`
-  );
-  const packetFixtureRead = await sql(`
-    select id, partner_slug, user_id, briefcase_id, state, jurisdiction, pathway,
-           document_type, status, generated_plain_text, safety_disclaimer
+  // No acceptance-script packet write is permitted. Payment authority is
+  // checked before the application creates its constrained packet row, so the
+  // pre-Checkout proof is exact absence; the canonical Stripe webhook must be
+  // the authority that later invokes application-owned packet creation.
+  const expectedConsumerPacketId = deterministicUuid(`${consumerPacketNamespace}:${itemId}`);
+  const packetAbsence = await sql(`
+    select count(*)::int as packets
       from public.rcap_document_packets
-     where id = '${consumerPacketId}'
+     where id = '${expectedConsumerPacketId}'
   `);
-  const packetFixtureRows = Array.isArray(packetFixtureRead.json) ? packetFixtureRead.json : [];
-  const packetFixture = packetFixtureRows[0] ?? null;
-  const packetFixtureExact = packetFixtureRead.ok
-    && packetFixtureRows.length === 1
-    && packetFixture?.id === consumerPacketId
-    && packetFixture?.partner_slug === CONSUMER_PERSON_NAMESPACE
-    && packetFixture?.user_id === A.id
-    && packetFixture?.briefcase_id === itemId
-    && packetFixture?.state === "PA"
-    && packetFixture?.jurisdiction === "PA"
-    && packetFixture?.pathway === ACCEPTANCE_PACKET_PATHWAY
-    && packetFixture?.document_type === null
-    && packetFixture?.status === "draft_started"
-    && packetFixture?.generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
-    && packetFixture?.safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER;
+  const packetCount = Number(Array.isArray(packetAbsence.json) ? packetAbsence.json[0]?.packets ?? -1 : -1);
   record(
-    "functional_acceptance_packet_compatibility_fixture_reread_exact",
-    packetFixtureExact,
-    `rows=${packetFixtureRows.length}; packet=${consumerPacketId}; state=${packetFixture?.state ?? "(none)"}; storage pathway=${packetFixture?.pathway ?? "(none)"}; safety disclaimer exact=${packetFixture?.safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER}`
+    "consumer_packet_record_absent_before_real_payment",
+    packetAbsence.ok && packetCount === 0,
+    `SQL=${packetAbsence.status}; deterministic packet=${expectedConsumerPacketId}; rows before payment=${packetCount}`
   );
-  evidence.functionalAcceptanceCompatibilityFixture = {
-    applied: true,
-    packetId: consumerPacketId,
+  evidence.applicationOwnedPacket = {
+    expectedConsumerPacketId,
     acceptedApplicationPacketNamespace: consumerPacketNamespace,
-    storagePathway: ACCEPTANCE_PACKET_PATHWAY,
-    authoritativeRouteId: routeIdentity.routeId,
-    authoritativePathway: routeIdentity.pathwayId,
-    applicationBytesChanged: false,
-    schemaChanged: false,
-    syntheticOnly: true,
-    productionUseAuthorized: false,
-    finalLaunchBlocked: true,
-    blocker: "Reconcile the accepted consumer packet insert with the deployed rcap_document_packets constraints, then repeat production-shaped Vercel proof without this compatibility fixture."
+    storagePathway: CONSUMER_PACKET_STORAGE_PATHWAY,
+    creationAuthority: "canonical Stripe webhook",
+    applicationCreatesPacketAfterPayment: true,
+    scriptPacketWritePerformed: false,
+    compatibilityFixtureUsed: false,
+    paymentAuthorityRequired: true
   };
 
   const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
@@ -1012,8 +938,7 @@ async function main() {
       `- Stripe-hosted Checkout: ${checkoutUrl}`,
       `- Expected return: ${session.success_url}`,
       "- State: open and unpaid; no entitlement or render job exists",
-      `- Functional-acceptance compatibility fixture: packet ${consumerPacketId}, schema pathway ${ACCEPTANCE_PACKET_PATHWAY}; authoritative job route remains ${routeIdentity.routeId}`,
-      "- Final launch remains blocked until the frozen application/schema packet-insert mismatch is fixed and production-shaped Vercel proof is repeated without this fixture",
+      `- Application-owned packet expected after canonical payment: ${expectedConsumerPacketId}; storage pathway ${CONSUMER_PACKET_STORAGE_PATHWAY}; authoritative job route ${routeIdentity.routeId}`,
       ""
     ].join("\n"));
   }

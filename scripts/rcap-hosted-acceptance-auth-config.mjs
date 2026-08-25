@@ -40,11 +40,17 @@ const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir }
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const EXACT_DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const EXACT_PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
-if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
-  console.error("AUTH: SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and HOSTED_APPLICATION_SHA are required");
+if (!SUPABASE_ACCESS_TOKEN
+  || PROJECT_REF !== EXPECTED_PROJECT_REF
+  || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)
+  || !/^dpl_[A-Za-z0-9]+$/.test(EXACT_DEPLOYMENT_ID)
+  || !/^[A-Za-z0-9.-]+\.vercel\.app$/.test(EXACT_PREVIEW_HOSTNAME)) {
+  console.error("AUTH: acceptance credentials, final application SHA, and one exact resolved Preview identity are required");
   process.exit(1);
 }
 if (!VERCEL_TOKEN) {
@@ -128,28 +134,29 @@ const evidence = {
   touchedProductionProject: false
 };
 
-// --- 1. Discover the Preview deployment, on the same terms as the deploy step -
+// --- 1. Re-read the one Preview resolved by the workflow boundary ------------
 let previewUrl = null;
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
-  const candidates = Array.isArray(res.json?.deployments) ? res.json.deployments : [];
-  const match = candidates.find(
-    (d) =>
-      (d.readyState ?? d.state) === "READY" &&
-      (d.target === null || d.target === "preview") &&
-      d.meta?.rcapApplicationSha === APPLICATION_SHA &&
-      d.meta?.rcapAcceptanceProjectRef === PROJECT_REF
-  );
-  previewUrl = match ? `https://${match.url}` : null;
+  const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
+  const match = res.json;
+  const exact = res.status === 200
+    && match?.id === EXACT_DEPLOYMENT_ID
+    && match?.url === EXACT_PREVIEW_HOSTNAME
+    && (match?.readyState ?? match?.state) === "READY"
+    && (match?.target === null || match?.target === "preview")
+    && match?.meta?.rcapApplicationSha === APPLICATION_SHA
+    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF;
+  previewUrl = exact ? `https://${EXACT_PREVIEW_HOSTNAME}` : null;
   record(
     "preview_deployment_discovered",
     Boolean(previewUrl),
     previewUrl
       ? `${previewUrl} — READY, target=${JSON.stringify(match.target ?? null)}, rcapApplicationSha=${APPLICATION_SHA}`
-      : `no READY non-production deployment carrying rcapApplicationSha=${APPLICATION_SHA} among ${candidates.length} candidate(s)`
+      : `resolved deployment ${EXACT_DEPLOYMENT_ID} did not preserve the exact READY nonproduction candidate contract`
   );
   if (!previewUrl) finish();
   evidence.previewUrl = previewUrl;
+  evidence.previewDeploymentId = EXACT_DEPLOYMENT_ID;
 }
 
 // --- 2. Point GoTrue at the Preview deployment --------------------------------

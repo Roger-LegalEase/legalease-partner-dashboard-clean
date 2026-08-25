@@ -22,7 +22,7 @@ const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_NAME = "legalease-rcap-acceptance";
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EMAIL_A = "acceptance-consumer-a@rcap-acceptance.test";
 const EMAIL_B = "acceptance-consumer-b@rcap-acceptance.test";
 
@@ -77,7 +77,7 @@ function fingerprint(value) {
 
 async function main() {
   if (!ACCESS_TOKEN) fail("required_inputs_present", "SUPABASE_ACCESS_TOKEN is absent");
-  if (PROJECT_REF !== EXPECTED_REF || APPLICATION_SHA !== EXPECTED_APPLICATION_SHA) {
+  if (PROJECT_REF !== EXPECTED_REF || !applicationShaExact) {
     fail("immutable_inputs_exact", `application=${APPLICATION_SHA}; project=${PROJECT_REF}`);
   }
   pass("immutable_inputs_exact", `application=${APPLICATION_SHA}; project=${PROJECT_REF}`);

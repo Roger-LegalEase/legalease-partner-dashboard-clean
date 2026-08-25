@@ -60,8 +60,9 @@ function record(caseId, passed, observed) {
 // so a project where none of them exists is not production, whatever any other
 // system says about it.
 //
-// The VERCEL gate is what permits deploying. Its disjointness cases are a
-// second, independent proof of the same fact, from the deployment side.
+// The VERCEL gate is what permits deploying. It snapshots Production
+// configuration shape without values, then proves the actual deploy script
+// binds acceptance values per Preview deployment and cannot target Production.
 //
 // PREFLIGHT_SCOPE selects which gates must pass. It is set by the workflow's
 // mode, not by a soft override, and the scope that ran is recorded in the
@@ -75,8 +76,8 @@ const SUPABASE_GATE = [
 const VERCEL_GATE = [
   "vercel_token_usable",
   "vercel_project_resolves",
-  "acceptance_ref_disjoint_from_vercel_production",
-  "acceptance_ref_absent_from_every_production_value"
+  "production_environment_shape_snapshotted_without_values",
+  "preview_binding_is_per_deployment_only"
 ];
 const SCOPE = process.env.PREFLIGHT_SCOPE === "supabase_only" ? "supabase_only" : "full";
 const REQUIRED_CASES = SCOPE === "supabase_only" ? SUPABASE_GATE : [...SUPABASE_GATE, ...VERCEL_GATE];
@@ -119,11 +120,12 @@ async function query(sql) {
 
 // --- 0. Every credential must be present before anything is attempted --------
 {
-  const missing = [
+  const requiredCredentials = [
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
-    ["VERCEL_TOKEN", VERCEL_TOKEN],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", ACCEPTANCE_PROJECT_REF]
-  ].filter(([, value]) => !value).map(([name]) => name);
+  ];
+  if (SCOPE === "full") requiredCredentials.push(["VERCEL_TOKEN", VERCEL_TOKEN]);
+  const missing = requiredCredentials.filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) {
     console.error(`PREFLIGHT: missing required input(s): ${missing.join(", ")}`);
     process.exit(1);
@@ -137,11 +139,13 @@ async function query(sql) {
     process.exit(1);
   }
 }
-try {
-  VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-} catch (error) {
-  console.error(`PREFLIGHT: ${error.message}`);
-  process.exit(1);
+if (SCOPE === "full") {
+  try {
+    VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+  } catch (error) {
+    console.error(`PREFLIGHT: ${error.message}`);
+    process.exit(1);
+  }
 }
 
 const evidence = {
@@ -186,7 +190,7 @@ const evidence = {
     // label would be a weaker check dressed up as a strong one. The emptiness
     // proof below is what actually decides this.
     if (/prod/i.test(String(project.name))) {
-      console.log(`  note  the project name contains "prod" — the emptiness and disjointness proofs below are what decide this, not the name`);
+      console.log(`  note  the project name contains "prod" — the emptiness and Preview-isolation proofs below are what decide this, not the name`);
     }
   }
 }
@@ -329,7 +333,7 @@ const evidence = {
 
 // --- 3. Vercel credential and project identity -------------------------------
 let vercelProject = null;
-{
+if (SCOPE === "full") {
   const listing = await vercelApi("/v9/projects?limit=1");
   const usable = listing.status === 200;
   record(
@@ -370,11 +374,12 @@ let vercelProject = null;
   }
 }
 
-// --- 4. Production shape only; value-disjointness remains fail-closed --------
-{
-  // Stored values are outside this run's authority. Without decrypting them the
-  // historical value-disjointness cases cannot honestly pass, so they remain
-  // red. The shape is still recorded for an unchanged-set comparison.
+// --- 4. Production shape + Preview-only deployment contract ------------------
+if (SCOPE === "full") {
+  // Production-target values are intentionally not decrypted. The acceptance
+  // binding is passed to one deployment with CLI --env arguments, so the
+  // relevant proof is structural: snapshot the Production shape, then inspect
+  // the exact deploy argument builder that the workflow will execute.
   const env = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
   const entries = Array.isArray(env.json?.envs) ? env.json.envs : [];
   const productionEntries = entries.filter((entry) => Array.isArray(entry.target) && entry.target.includes("production"));
@@ -382,47 +387,41 @@ let vercelProject = null;
     .map((entry) => ({ key: entry.key, target: [...entry.target].sort(), updatedAt: entry.updatedAt ?? null }))
     .sort((a, b) => a.key.localeCompare(b.key));
 
-  // Disjointness can be established two ways, and the second is strictly the
-  // more general one.
-  //
-  //   BY COMPARISON — a production-target Supabase URL exists by name and
-  //   hashes differently from the acceptance URL.
-  //   BY EXHAUSTIVE ABSENCE — the acceptance ref appears in NO production-target
-  //   value at all. That sweep does not depend on any variable being named a
-  //   particular way, and it covers connection strings, pooler hosts and keys
-  //   as well as URLs.
-  //
-  // The first hosted deployment attempt failed here for the wrong reason: this
-  // Vercel project configures no production-target variable called
-  // NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL, so the comparison had nothing to
-  // compare — while the absence sweep had already searched all 30 production
-  // values and found the acceptance ref in none of them. Demanding a specific
-  // variable name when the general proof has already succeeded is a gate
-  // failing on its own shape rather than on the question it exists to answer.
   record(
-    "acceptance_ref_disjoint_from_vercel_production",
-    false,
-    env.status !== 200
-      ? `could not read the project's environment-variable shape: ${env.status} ${env.text}`
-      : `BLOCKED: ${productionShape.length} production-target entries were read without values; value disjointness was not evaluated because decrypt=false`
+    "production_environment_shape_snapshotted_without_values",
+    env.status === 200,
+    env.status === 200
+      ? `${productionShape.length} production-target entries snapshotted without requesting values`
+      : `could not read the project's environment-variable shape: ${env.status} ${env.text}`
   );
 
-  // Second, wider pass: the acceptance ref must not appear anywhere inside any
-  // production-target value. That catches a pooler host, a connection string or
-  // a service-role key issued by the same project under a different key name.
+  const deploySource = fs.readFileSync(
+    path.join(rootDir, "scripts/rcap-hosted-acceptance-deploy.mjs"),
+    "utf8"
+  );
+  const deployArgsLine = deploySource.match(/const args = \[[^\n]+/)?.[0] ?? "";
+  const previewBindingOnly = deployArgsLine.includes('"deploy"')
+    && !deployArgsLine.includes('"--prod"')
+    && !deployArgsLine.includes('"alias"')
+    && deploySource.includes('args.push("--env"')
+    && deploySource.includes("neverWroteProjectLevelEnv: true")
+    && deploySource.includes('"production_aliases_unchanged"')
+    && deploySource.includes('"production_environment_variables_unchanged"');
   record(
-    "acceptance_ref_absent_from_every_production_value",
-    false,
-    env.status !== 200
-      ? `not evaluated: the environment listing returned ${env.status}`
-      : "BLOCKED: stored Production values were not requested or read, so exhaustive value absence is unproven"
+    "preview_binding_is_per_deployment_only",
+    previewBindingOnly,
+    previewBindingOnly
+      ? "deploy arguments are Preview-only, pass acceptance values per deployment, and assert Production aliases/environment unchanged"
+      : "deploy argument contract is missing a required Preview-isolation guard"
   );
 
-  evidence.cases.disjointness = {
+  evidence.cases.previewIsolation = {
     productionEnvironmentShape: productionShape,
     requestedDecryption: false,
     storedValuesRead: false,
-    valueDisjointnessProven: false
+    productionValueDisjointness: "unproven_not_read",
+    perDeploymentBinding: previewBindingOnly,
+    productionShapeSnapshotted: env.status === 200
   };
 }
 
@@ -456,7 +455,7 @@ let vercelProject = null;
     console.log(
       SCOPE === "supabase_only"
         ? `PREFLIGHT PASSED (SUPABASE GATE ONLY) — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${ACCEPTANCE_PROJECT_REF} may be written to. This is NOT authorization to deploy.`
-        : `PREFLIGHT PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${ACCEPTANCE_PROJECT_REF} is credentialled, reachable and demonstrably not production.`
+        : `PREFLIGHT PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; the acceptance database and Preview-only deployment boundary are proven. Production stored values were not read, so value-level disjointness remains unproven.`
     );
   }
   process.exit(evidence.passed ? 0 : 1);

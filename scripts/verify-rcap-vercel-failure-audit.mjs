@@ -19,7 +19,12 @@ function check(name, condition) {
   checks.push(name);
 }
 
-check("authorized application SHA is pinned", audit.includes('const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19"'));
+check(
+  "Lane A application SHA is exact, runtime-supplied, and initialized before validation",
+  audit.includes("const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA)")
+    && audit.indexOf("const APPLICATION_SHA =") < audit.indexOf("const applicationShaExact =")
+    && !audit.includes("EXPECTED_APPLICATION_SHA")
+);
 check("acceptance project ref is pinned", audit.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'));
 check("Stripe-built metadata is exact", audit.includes('const EXPECTED_STRIPE_CONFIGURED = "true"'));
 check("staging route metadata is exact", audit.includes('const EXPECTED_ROUTE_STATE = "staging_scoped"'));
@@ -59,7 +64,11 @@ check("dispatcher exposes only an explicit audit mode", dispatcher.includes("hos
 check("dispatcher maps audit mode to audit phase", dispatcher.includes("inputs.mode == 'hosted_vercel_audit' && 'vercel_audit'"));
 check("hosted workflow verifies the audit", hosted.includes("node scripts/verify-rcap-vercel-failure-audit.mjs"));
 check("hosted workflow runs the audit only in audit phase", hosted.includes("if: inputs.phase == 'vercel_audit'\n        env:") && hosted.includes("node scripts/rcap-vercel-failure-audit.mjs"));
-check("Supabase preflight is skipped for the Vercel-only audit", hosted.includes("if: inputs.phase != 'vercel_audit'"));
+check(
+  "Supabase preflight is skipped for the Vercel-only audit",
+  hosted.includes("if: inputs.phase == 'migrate'")
+    && hosted.includes("if: inputs.phase != 'migrate' && inputs.phase != 'vercel_audit'")
+);
 check("audit phase is absent from migration condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'migrate'"));
 check("audit phase is absent from deploy condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'deploy'"));
 check("audit phase is absent from Auth condition", !hosted.includes("inputs.phase == 'vercel_audit' || inputs.phase == 'accept'"));

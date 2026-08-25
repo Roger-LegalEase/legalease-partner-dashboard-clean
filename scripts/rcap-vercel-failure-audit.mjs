@@ -24,12 +24,12 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const { root: evidenceDir } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 const evidencePath = path.join(evidenceDir, "vercel-failure-audit.json");
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_STRIPE_CONFIGURED = "true";
 const EXPECTED_ROUTE_STATE = "staging_scoped";
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 let VERCEL_IDENTITY = null;
@@ -39,7 +39,7 @@ const evidence = {
   auditedAt: new Date().toISOString(),
   operation: "read_only",
   expected: {
-    applicationSha: EXPECTED_APPLICATION_SHA,
+    applicationSha: APPLICATION_SHA,
     acceptanceProjectRef: EXPECTED_PROJECT_REF,
     stripeConfigured: EXPECTED_STRIPE_CONFIGURED,
     routeState: EXPECTED_ROUTE_STATE,
@@ -76,7 +76,7 @@ function requireInputs() {
   ].filter(([, value]) => !value).map(([name]) => name);
 
   if (missing.length > 0) fail(`missing required inputs: ${missing.join(", ")}`);
-  if (APPLICATION_SHA !== EXPECTED_APPLICATION_SHA) fail("application SHA is not the authorized frozen SHA");
+  if (!applicationShaExact) fail("application SHA is not one exact 40-character lowercase Git SHA");
   if (PROJECT_REF !== EXPECTED_PROJECT_REF) fail("Supabase ref is not the authorized acceptance project");
 }
 

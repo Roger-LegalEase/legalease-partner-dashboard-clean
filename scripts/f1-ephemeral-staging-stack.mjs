@@ -13,8 +13,8 @@
 //     abort and rollback — is executed by the repository's proven verifier
 //     battery, which the workflow runs as its own step (the same battery the
 //     blocking chain runs, exercised here on the runner).
-//   * THIS script proves what only the real stack can: the six-migration
-//     sequence hash-gated onto the stack database, real GoTrue identities,
+//   * THIS script proves what only the real stack can: the complete authorized
+//     migration sequence hash-gated onto the stack database, real GoTrue identities,
 //     browser-role denial through Kong/PostgREST, cross-tenant denial through
 //     RLS, private Storage with corruption detection, Mailpit email capture,
 //     the delivery-route flag lifecycle (disabled -> staging_scoped ->
@@ -111,8 +111,9 @@ async function api(url, { method = "GET", key = ANON_KEY, token = null, body = n
 }
 
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
+const authorizedPhaseLabel = action.migrationsInApplyOrder.map((entry) => entry.phase).join(" -> ");
 
-// --- 1+2. The six-migration sequence, hash-gated, in order -------------------
+// --- 1+2. The authorized migration sequence, hash-gated, in order ------------
 {
   // Environment shaping first: the consumer-path prerequisites the sequence
   // builds on (the same prerequisite set the repository's HTTP battery uses).
@@ -120,8 +121,8 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",
-    // partner_entitlement is not referenced by phases 49-54 (verified: 0 hits in
-    // all six files), but the real pre-49 staging schema carries it and the
+    // partner_entitlement is not referenced by the authorized sequence, but
+    // the real pre-sequence staging schema carries it and the
     // sponsored surface reads it, so the disposable baseline carries it too.
     "supabase/phase-35-rcap-partner-entitlement.sql"
   ];
@@ -141,8 +142,9 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   //
   // Proves the disposable stack carries the REAL pre-Phase-49 application
   // schema before a single migration of the sequence is applied. Derived from
-  // what phases 49-54 actually reference, plus the consumer baseline columns
-  // phases 51-53 read. Deliberately asserts NO phase 49-54 object: `currency`,
+  // what the authorized sequence actually references, plus the consumer
+  // baseline columns its payment phases read. Deliberately asserts NO
+  // authorized-sequence object: `currency`,
   // `provider_event_id`, `payment_authority`, `payment_recorded_at`,
   // `payment_recorded_by`, `consumer_briefcase_item_id` and
   // `consumer_auth_user_id` are created BY phase 52/53, so requiring them here
@@ -195,7 +197,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     assertedBeforePhase49: true
   };
   record("baseline_schema_complete", baselineOk, baselineOk
-    ? `pre-phase-49 baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no phase 49-54 object present yet`
+    ? `pre-sequence baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no authorized-sequence object present yet`
     : `MISSING: ${censusMissing}`);
   if (!baselineOk) {
     console.error("F1: refusing to apply phase 49 onto an incomplete baseline");
@@ -226,7 +228,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     if (r.status !== 0) { applyErr = `${m.path}: ${r.err}`; break; }
     applied += 1;
   }
-  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `49 -> 54 applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
+  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `${authorizedPhaseLabel} applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
   fs.writeFileSync(path.join(EVIDENCE_DIR, "migration-hashes.json"), JSON.stringify(observedHashes, null, 2));
   // PostgREST discovers the new relations before the REST-surface cases run.
   psql(`notify pgrst, 'reload schema'`);
@@ -578,7 +580,7 @@ function finish(forceExit = null) {
     stagingEnvironmentName: "rcap-ci-staging",
     workflowRunId: ENV("GITHUB_RUN_ID"),
     toolsSha: gitHead(),
-    applicationSha: ENV("AUTHORIZED_APPLICATION_SHA"),
+    applicationSha: ENV("F1_APPLICATION_SHA"),
     workerSourceSha: ENV("AUTHORIZED_WORKER_SOURCE_SHA"),
     workerDigest: ENV("AUTHORIZED_WORKER_DIGEST"),
     baselineSchemaComplete: {
