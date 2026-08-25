@@ -4,12 +4,12 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "25601ca0b07b0d1ea31abf607ccf95e8ea7cec83e75f0a73ba645c010124817f",
-    "pathways": 284,
+    "sha256": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149",
+    "pathways": 271,
     "dispositions": {
-      "family_bridge_missing_no_family": 167,
-      "approved_by_decision_owner": 76,
-      "family_bridge_missing_no_track": 41
+      "family_bridge_missing_no_family": 152,
+      "approved_by_decision_owner": 72,
+      "family_bridge_missing_no_track": 47
     }
   },
   "createsNoDenominator": "The pathway set is Session A's graph, consumed as-is. No pathway is added, dropped or reclassified here.",
@@ -18,7 +18,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 284
+    "combosTried": 271
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -26,10 +26,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 284,
-    "correct_pathway": 284,
+    "pathways": 271,
+    "correct_pathway": 271,
     "baselineOutcomes": {
-      "correct_pathway": 284
+      "correct_pathway": 271
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -102,11 +102,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "juvenile-record-sealing-as-47-12-300",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ak.guidance_only_no_user_filed_court_petition"
+          "ak.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -125,11 +125,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ak.guidance_only_no_user_filed_court_petition"
+          "ak.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -171,11 +171,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "eligible-conviction-expungement-under-the-redeemer-act",
         "paymentAllowed": false,
         "reasonCodes": [
-          "al.waiting_rule_not_executed"
+          "al.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -263,11 +263,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "situation-a-non-convictions",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ar.waiting_rule_not_executed"
+          "ar.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -309,11 +309,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_more_info",
+        "resultCode": "needs_review",
         "pathwayId": "situation-c-felony-convictions",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ar.compiled_rule_match.rule-45-and-2021-amendments-the-agent-must-confirm-the-current-"
+          "ar.waiting_rule_not_executed"
         ]
       },
       "combosTried": 1
@@ -658,11 +658,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
         "paymentAllowed": false,
         "reasonCodes": [
-          "dc.selected_pathway_rule_not_matched"
+          "dc.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -683,11 +683,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
         "paymentAllowed": false,
         "reasonCodes": [
-          "dc.waiting_rule_not_executed"
+          "dc.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -708,11 +708,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "dc_motion_seal_nonconviction_16_806",
         "paymentAllowed": false,
         "reasonCodes": [
-          "dc.waiting_rule_not_executed"
+          "dc.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -787,29 +787,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "FL:administrative-expunction-mistaken-or-unlawful-arrest",
-      "jurisdiction": "FL",
-      "pathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
-      "pathwayLabel": "Administrative expunction - mistaken or unlawful arrest",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "fl.guidance_only_no_user_filed_court_petition"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "FL:court-ordered-expunction-943-0585",
       "jurisdiction": "FL",
       "pathwayId": "court-ordered-expunction-943-0585",
@@ -869,11 +846,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "early-juvenile-expunction-943-0515",
         "paymentAllowed": false,
         "reasonCodes": [
-          "fl.lawrence_hold_guidance_only"
+          "fl.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -897,52 +874,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "fl.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "FL:juvenile-diversion-expunction-943-0582",
-      "jurisdiction": "FL",
-      "pathwayId": "juvenile-diversion-expunction-943-0582",
-      "pathwayLabel": "Juvenile diversion expunction - 943.0582",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "juvenile-diversion-expunction-943-0582",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "fl.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "FL:lawful-self-defense-expunction-943-0578",
-      "jurisdiction": "FL",
-      "pathwayId": "lawful-self-defense-expunction-943-0578",
-      "pathwayLabel": "Lawful self-defense expunction - 943.0578",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "lawful-self-defense-expunction-943-0578",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "fl.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1
@@ -1352,11 +1283,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
         "paymentAllowed": false,
         "reasonCodes": [
-          "id.lawrence_hold_guidance_only"
+          "id.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1421,11 +1352,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "adult-non-conviction-expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "il.compiled_rule_match.rule-01-released-without-charging-expungement-or-sealing-expung"
+          "il.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1536,11 +1467,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
-          "il.waiting_rule_not_executed"
+          "il.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1559,11 +1490,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "juvenile-automatic-or-petition-expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "il.compiled_rule_match.rule-06-order-of-supervision-successfully-completed-expungement"
+          "il.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1743,7 +1674,7 @@
         "pathwayId": "felony-conviction-431073",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ky.guidance_only_no_user_filed_court_petition"
+          "ky.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1762,11 +1693,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "misdemeanor-violation-traffic-conviction",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "ky.compiled_rule_match.rule-10-the-source-requires-eligibility-certification-prosecuto"
+          "ky.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1835,7 +1766,7 @@
         "pathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
         "paymentAllowed": true,
         "reasonCodes": [
-          "la.compiled_rule_match.rule-18-if-article-893-e-set-aside-route"
+          "la.compiled_rule_match.route-felony-article-893-e-set-aside-followed-by-expungement"
         ]
       },
       "combosTried": 1
@@ -1854,11 +1785,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "felony-ten-year-clean-period-expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "la.compiled_rule_match.route-felony-ten-year-clean-period-expungement"
+          "la.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -1996,7 +1927,7 @@
         "pathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
         "paymentAllowed": true,
         "reasonCodes": [
-          "la.compiled_rule_match.rule-16-1-article-998-marijuana-specific-motion-for-expungement"
+          "la.compiled_rule_match.route-misdemeanor-article-894-b-set-aside-followed-by-expungement"
         ]
       },
       "combosTried": 1
@@ -2015,11 +1946,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "misdemeanor-five-year-clean-period-expungement",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "la.compiled_rule_match.rule-11-2-after-set-aside-dismissal-motion-for-expungement-art-"
+          "la.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2061,11 +1992,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "ma.compiled_rule_match.route-adult-conviction-sealing-under-m-g-l-c-276-100a"
+          "ma.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2107,11 +2038,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "juvenile-record-sealing-under-100b",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ma.lawrence_hold_guidance_only"
+          "ma.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2176,11 +2107,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "time-based-expungement-under-100f-100j",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ma.lawrence_hold_guidance_only"
+          "ma.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2222,11 +2153,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "cannabis-specific-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
-          "md.waiting_rule_not_executed"
+          "md.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2268,11 +2199,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "juvenile-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
-          "md.lawrence_hold_guidance_only"
+          "md.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2314,11 +2245,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "likely_not_eligible",
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
         "paymentAllowed": false,
         "reasonCodes": [
-          "md.waiting_rule_not_executed"
+          "md.md_police_record_deadline_not_eligible"
         ]
       },
       "combosTried": 1
@@ -2337,11 +2268,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "pathwayId": "second-chance-act-shielding",
         "paymentAllowed": false,
         "reasonCodes": [
-          "md.waiting_rule_not_executed"
+          "md.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2452,11 +2383,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
         "paymentAllowed": false,
         "reasonCodes": [
-          "me.lawrence_hold_guidance_only"
+          "me.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2567,11 +2498,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "pathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
         "paymentAllowed": false,
         "reasonCodes": [
-          "mn.guidance_only_no_user_filed_court_petition"
+          "mn.legal_authority_referral_required"
         ]
       },
       "combosTried": 1
@@ -2590,11 +2521,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "petition-based-expungement-under-609a-02-03",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "mn.waiting_rule_not_executed"
+          "mn.compiled_rule_match.route-petition-based-expungement-under-609a-02-03"
         ]
       },
       "combosTried": 1
@@ -2618,29 +2549,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "mn.guidance_only_no_user_filed_court_petition"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MO:closed-record-outcome-under-rsmo-610-105",
-      "jurisdiction": "MO",
-      "pathwayId": "closed-record-outcome-under-rsmo-610-105",
-      "pathwayLabel": "Closed-record outcome under RSMo § 610.105",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "closed-record-outcome-under-rsmo-610-105",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "mo.lawrence_hold_guidance_only"
         ]
       },
       "combosTried": 1
@@ -2682,11 +2590,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "not_covered_yet",
         "pathwayId": "first-intoxication-related-traffic-or-boating-expungement-under-610-130",
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "reasonCodes": [
-          "mo.compiled_rule_match.rule-12-wilma-should-recommend-legal-review-if"
+          "mo.intentional_unsupported_route"
         ]
       },
       "combosTried": 1
@@ -2732,30 +2640,7 @@
         "pathwayId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
         "paymentAllowed": true,
         "reasonCodes": [
-          "mo.compiled_rule_match.rule-04-wilma-status-labels-not-eligible-yet-waiting-periodwait"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MO:marijuana-expungement-under-missouri-constitution-article-xiv",
-      "jurisdiction": "MO",
-      "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
-      "pathwayLabel": "Marijuana expungement under Missouri Constitution article XIV",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "mo.lawrence_hold_guidance_only"
+          "mo.compiled_rule_match.route-general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
         ]
       },
       "combosTried": 1
@@ -2778,7 +2663,30 @@
         "pathwayId": "stolen-or-mistaken-identity-expungement-under-610-145",
         "paymentAllowed": true,
         "reasonCodes": [
-          "mo.compiled_rule_match.rule-14-identity-theft-or-mistaken-identity-requires-proof"
+          "mo.compiled_rule_match.route-stolen-or-mistaken-identity-expungement-under-610-145"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "pathwayLabel": "Additional justice-court misdemeanor relief",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1
@@ -2801,7 +2709,53 @@
         "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.legal_authority_referral_required"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "pathwayLabel": "Additional municipal-court misdemeanor relief",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+      "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.selected_pathway_rule_not_matched"
         ]
       },
       "combosTried": 1
@@ -2843,11 +2797,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-eligible-felony-conviction-expungement-99-19-71"
         ]
       },
       "combosTried": 1
@@ -2912,11 +2866,57 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "first-offense-dui-expungement",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "ms.compiled_rule_match.route-first-offense-dui-expungement"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "pathwayLabel": "Human-trafficking survivor expungement",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.legal_authority_attorney_review_required"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "pathwayLabel": "Human-trafficking survivor vacatur",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.legal_authority_attorney_review_required"
         ]
       },
       "combosTried": 1
@@ -2939,17 +2939,40 @@
         "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.legal_authority_referral_required"
         ]
       },
       "combosTried": 1
     },
     {
-      "pathwayKey": "MS:intervention-court-completion-expungement",
+      "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "jurisdiction": "MS",
-      "pathwayId": "intervention-court-completion-expungement",
-      "pathwayLabel": "Intervention-court completion expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
+      "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "pathwayLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-statutory-result-enforcement-referral",
+      "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
+      "sessionADisposition": "family_bridge_missing_no_track",
       "outcome": "correct_pathway",
       "reachedBy": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -2959,10 +2982,10 @@
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
         "resultCode": "needs_review",
-        "pathwayId": "intervention-court-completion-expungement",
+        "pathwayId": "intervention-court-statutory-result-enforcement-referral",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.selected_pathway_rule_not_matched"
         ]
       },
       "combosTried": 1
@@ -2981,11 +3004,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "minor-in-possession-underage-alcohol-expungement",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-minor-in-possession-underage-alcohol-expungement"
         ]
       },
       "combosTried": 1
@@ -3014,11 +3037,34 @@
       "combosTried": 1
     },
     {
+      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+      "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.selected_pathway_rule_not_matched"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
       "pathwayKey": "MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
       "pathwayId": "nonadjudication-under-99-15-26",
       "pathwayLabel": "Nonadjudication under § 99-15-26",
-      "sessionADisposition": "family_bridge_missing_no_family",
+      "sessionADisposition": "family_bridge_missing_no_track",
       "outcome": "correct_pathway",
       "reachedBy": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -3032,6 +3078,29 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ms.waiting_rule_not_executed"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "pretrial-intervention-active-case-admission",
+      "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "needs_review",
+        "pathwayId": "pretrial-intervention-active-case-admission",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.selected_pathway_rule_not_matched"
         ]
       },
       "combosTried": 1
@@ -3060,6 +3129,29 @@
       "combosTried": 1
     },
     {
+      "pathwayKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "pathwayLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "sessionADisposition": "family_bridge_missing_no_track",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ms.guidance_only_no_user_filed_court_petition"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
       "pathwayKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
       "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
@@ -3073,34 +3165,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "ms.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MT:deferred-sentence-dismissal-or-confidentiality-route",
-      "jurisdiction": "MT",
-      "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
-      "pathwayLabel": "Deferred-sentence dismissal or confidentiality route",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "mt.waiting_rule_not_executed"
+          "ms.compiled_rule_match.route-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
         ]
       },
       "combosTried": 1
@@ -3144,29 +3213,6 @@
       "terminalEvaluation": {
         "resultCode": "needs_review",
         "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "mt.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MT:non-conviction-criminal-history-removal-through-criss",
-      "jurisdiction": "MT",
-      "pathwayId": "non-conviction-criminal-history-removal-through-criss",
-      "pathwayLabel": "Non-conviction criminal-history removal through CRISS",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "non-conviction-criminal-history-removal-through-criss",
         "paymentAllowed": false,
         "reasonCodes": [
           "mt.waiting_rule_not_executed"
@@ -3556,11 +3602,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_review",
         "pathwayId": "annulment-of-a-vacated-conviction",
         "paymentAllowed": false,
         "reasonCodes": [
-          "nh.compiled_rule_match.rule-11-for-offenses-disposed-of-before-january-1-2019-a-person"
+          "nh.waiting_rule_not_executed"
         ]
       },
       "combosTried": 1
@@ -3681,29 +3727,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "jurisdiction": "NJ",
-      "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "pathwayLabel": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "nj.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
       "jurisdiction": "NJ",
       "pathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
@@ -3721,7 +3744,7 @@
         "pathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
         "paymentAllowed": false,
         "reasonCodes": [
-          "nj.waiting_rule_not_executed"
+          "nj.route_gate_pending_lawrence_review"
         ]
       },
       "combosTried": 1
@@ -3768,29 +3791,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "nm.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "NM:dna-sample-profile-expungement",
-      "jurisdiction": "NM",
-      "pathwayId": "dna-sample-profile-expungement",
-      "pathwayLabel": "DNA sample/profile expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "dna-sample-profile-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "nm.lawrence_hold_guidance_only"
         ]
       },
       "combosTried": 1
@@ -4614,11 +4614,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "or.waiting_rule_not_executed"
+          "or.compiled_rule_match.route-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
         ]
       },
       "combosTried": 1
@@ -4665,213 +4665,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "pa.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-b-complete-acquittal-not-guilty-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-b-complete-acquittal-not-guilty-expungement",
-      "pathwayLabel": "Path B — Complete-acquittal / not-guilty expungement",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-b-complete-acquittal-not-guilty-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-c-summary-conviction-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-c-summary-conviction-expungement",
-      "pathwayLabel": "Path C — Summary-conviction expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-c-summary-conviction-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-d-ard-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-d-ard-expungement",
-      "pathwayLabel": "Path D — ARD expungement",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-d-ard-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-e-age-70-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-e-age-70-expungement",
-      "pathwayLabel": "Path E — Age-70 expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-e-age-70-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-f-deceased-person-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-f-deceased-person-expungement",
-      "pathwayLabel": "Path F — Deceased-person expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-f-deceased-person-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-g-underage-drinking-conviction-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-g-underage-drinking-conviction-expungement",
-      "pathwayLabel": "Path G — Underage-drinking conviction expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-g-underage-drinking-conviction-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-h-pardon-based-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-h-pardon-based-expungement",
-      "pathwayLabel": "Path H — Pardon-based expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-h-pardon-based-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-i-petition-for-limited-access",
-      "jurisdiction": "PA",
-      "pathwayId": "path-i-petition-for-limited-access",
-      "pathwayLabel": "Path I — Petition for limited access",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-i-petition-for-limited-access",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "PA:path-k-human-trafficking-vacatur-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-k-human-trafficking-vacatur-expungement",
-      "pathwayLabel": "Path K — Human-trafficking vacatur / expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-k-human-trafficking-vacatur-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "pa.lawrence_hold_guidance_only"
         ]
       },
       "combosTried": 1
@@ -4992,29 +4785,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "RI:path-f-marijuana-possession-expungement",
-      "jurisdiction": "RI",
-      "pathwayId": "path-f-marijuana-possession-expungement",
-      "pathwayLabel": "Path F — Marijuana-possession expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "path-f-marijuana-possession-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ri.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
       "jurisdiction": "RI",
       "pathwayId": "path-g-decriminalized-offense-expungement",
@@ -5032,7 +4802,7 @@
         "pathwayId": "path-g-decriminalized-offense-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
-          "ri.waiting_rule_not_executed"
+          "ri.legal_authority_referral_required"
         ]
       },
       "combosTried": 1
@@ -5176,29 +4946,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
-      "jurisdiction": "SC",
-      "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
-      "pathwayLabel": "Pardon guidance for otherwise ineligible convictions",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "sc.guidance_only_no_user_filed_court_petition"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "SC:summary-court-non-conviction-expungement",
       "jurisdiction": "SC",
       "pathwayId": "summary-court-non-conviction-expungement",
@@ -5332,29 +5079,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "sd.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "SD:pardon-based-sealing",
-      "jurisdiction": "SD",
-      "pathwayId": "pardon-based-sealing",
-      "pathwayLabel": "Pardon-based sealing",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "pardon-based-sealing",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "sd.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1
@@ -5741,11 +5465,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "path-i-traffic-offense-expungement-or-deletion",
-        "paymentAllowed": false,
+        "paymentAllowed": true,
         "reasonCodes": [
-          "ut.waiting_rule_not_executed"
+          "ut.compiled_rule_match.route-path-i-traffic-offense-expungement-or-deletion"
         ]
       },
       "combosTried": 1
@@ -5766,29 +5490,6 @@
       "terminalEvaluation": {
         "resultCode": "guidance_only",
         "pathwayId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ut.guidance_only_no_user_filed_court_petition"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "UT:path-k-pardon-based-expungement",
-      "jurisdiction": "UT",
-      "pathwayId": "path-k-pardon-based-expungement",
-      "pathwayLabel": "Path K — Pardon-based expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "path-k-pardon-based-expungement",
         "paymentAllowed": false,
         "reasonCodes": [
           "ut.guidance_only_no_user_filed_court_petition"
@@ -6155,11 +5856,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "juvenile-record-sealing-under-rcw-13-50-260",
         "paymentAllowed": false,
         "reasonCodes": [
-          "wa.waiting_rule_not_executed"
+          "wa.compiled_rule_match.route-juvenile-record-sealing-under-rcw-13-50-260"
         ]
       },
       "combosTried": 1
@@ -6408,11 +6109,11 @@
       "baselineOutcome": "correct_pathway",
       "correctedByFixtureAlone": false,
       "terminalEvaluation": {
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "pathwayId": "first-offense-drug-possession-conditional-discharge-relief",
         "paymentAllowed": false,
         "reasonCodes": [
-          "wv.waiting_rule_not_executed"
+          "wv.compiled_rule_match.route-first-offense-drug-possession-conditional-discharge-relief"
         ]
       },
       "combosTried": 1

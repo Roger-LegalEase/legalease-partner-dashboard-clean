@@ -106,11 +106,11 @@
   "aggregates": {
     "windowId": "2026-08-12-w3",
     "registryTracks": 497,
-    "tracksTerminal": 497,
-    "tracksNonterminal": 0,
+    "tracksTerminal": 496,
+    "tracksNonterminal": 1,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
-      "production_packet": 0,
+      "production_packet": 1,
       "complete_guidance": 0,
       "complete_composed_route": 0,
       "deliberate_scope_exclusion": 0,
@@ -118,12 +118,12 @@
     },
     "nonterminalTracksByLane": {
       "B": 0,
-      "C": 0,
+      "C": 1,
       "D": 0,
       "E": 0,
       "F": 0
     },
-    "jobsRemainingToLaunch": 0,
+    "jobsRemainingToLaunch": 1,
     "tracksTerminalizedThisWindow": 106,
     "candidateTreatmentsPendingReview": 0,
     "candidateTreatmentBreakdown": {
@@ -149,7 +149,29 @@
     "unsupportedRoutesSellable": 0
   },
   "runtimeContradictedDeferrals": [],
-  "jobs": [],
+  "jobs": [
+    {
+      "jobId": "T-C-MS-production-packet",
+      "lane": "C",
+      "jurisdiction": "MS",
+      "implementationFamily": "controlled_pleading",
+      "outputStrategy": "custom_pleading",
+      "requiredTreatment": "production_packet",
+      "sourceDependency": "private/Nationwide Record Clearing/ (MS) + pinned registry 3b6f4c10",
+      "ownedPaths": [
+        "data/rcap-all50/pleadings/",
+        "data/rcap-all50/composed-routes/"
+      ],
+      "reviewArchetype": "F-visual-and-field-fidelity",
+      "terminalEffect": [
+        "MS:ms-nonadj -> terminal"
+      ],
+      "runtimeWiringRequired": false,
+      "trackIds": [
+        "ms-nonadj"
+      ]
+    }
+  ],
   "decisions": [
     {
       "id": "DEC-AR-ar-misdemeanor-dwi-seal",
@@ -4649,12 +4671,12 @@
       "jurisdiction": "MO",
       "trackId": "mo-610-141-automatic-drug",
       "declaredStrategy": "process_guidance",
-      "coverageDisposition": "missing_from_compiled_runtime",
-      "mappedCompiledPathwayIds": [],
-      "terminal": true,
-      "holds": [
-        "missing_from_compiled_runtime"
+      "coverageDisposition": "exact_current_pathway",
+      "mappedCompiledPathwayIds": [
+        "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141"
       ],
+      "terminal": true,
+      "holds": [],
       "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mo.json",
@@ -4814,13 +4836,13 @@
       "jurisdiction": "MS",
       "trackId": "ms-nonadj",
       "declaredStrategy": "custom_pleading",
-      "coverageDisposition": "exact_current_pathway",
-      "mappedCompiledPathwayIds": [
-        "nonadjudication-under-99-15-26"
+      "coverageDisposition": "unresolved_ambiguous_candidates",
+      "mappedCompiledPathwayIds": [],
+      "terminal": false,
+      "holds": [
+        "missing_from_compiled_runtime"
       ],
-      "terminal": true,
-      "holds": [],
-      "requiredTreatment": null,
+      "requiredTreatment": "production_packet",
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,
