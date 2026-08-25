@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const INTEGRATED_MODE = process.argv.includes("--integrated");
 const CLOSURE_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.json");
 const CLOSURE_BUILDER_PATH = path.join(ROOT, "scripts/build-corrections-a-closure.mjs");
 const METADATA_PATH = path.join(ROOT, "data/expungement-ai/route-product-metadata.json");
@@ -116,6 +117,13 @@ const counts = { paid_packet: 0, automatic_or_no_filing: 0, guidance_only: 0, le
 const metadataHandoff = closure.sharedHandoff?.routeProductMetadata ?? {};
 const ratifiedRemovals = new Set(closure.sharedHandoff?.removeFromRatifiedDeployable ?? []);
 const heldGuidanceAdditions = new Set(closure.sharedHandoff?.addToHeldGuidance ?? []);
+const isEffectivelyRatified = (routeKey) =>
+  controlSets.ratified.has(routeKey) && (INTEGRATED_MODE || !ratifiedRemovals.has(routeKey));
+const isEffectivelyHeld = (routeKey) =>
+  controlSets.corrected.has(routeKey) ||
+  controlSets.hardGate.has(routeKey) ||
+  controlSets.heldGuidance.has(routeKey) ||
+  (!INTEGRATED_MODE && heldGuidanceAdditions.has(routeKey));
 
 check(
   [...ratifiedRemovals].every((routeKey) => EXPECTED_ROUTE_KEYS.includes(routeKey)),
@@ -133,6 +141,22 @@ check(
   [...heldGuidanceAdditions].every((routeKey) => !controlSets.ratified.has(routeKey) || ratifiedRemovals.has(routeKey)),
   "Held-guidance handoff leaves a route effectively ratified."
 );
+if (INTEGRATED_MODE) {
+  check(
+    [...ratifiedRemovals].every((routeKey) => !controlSets.ratified.has(routeKey)),
+    "Integrated evaluator still ratifies a route listed for removal."
+  );
+  check(
+    [...heldGuidanceAdditions].every((routeKey) => controlSets.heldGuidance.has(routeKey)),
+    "Integrated evaluator is missing a required held-guidance route."
+  );
+  for (const [routeKey, patch] of Object.entries(metadataHandoff)) {
+    check(
+      Object.entries(patch).every(([field, value]) => metadata[routeKey]?.[field] === value),
+      `${routeKey}: integrated product metadata does not include the exact handoff patch.`
+    );
+  }
+}
 
 for (const row of routes) {
   const [code, pathwayId] = String(row.routeKey).split(/:(.+)/);
@@ -143,7 +167,9 @@ for (const row of routes) {
   const profile = JSON.parse(fs.readFileSync(path.join(PROFILES_PATH, profileFile), "utf8"));
   const pathway = (profile.pathways ?? []).find((candidate) => candidate.id === pathwayId);
   const committedMetadata = metadata[row.routeKey];
-  const routeMetadata = { ...committedMetadata, ...metadataHandoff[row.routeKey] };
+  const routeMetadata = INTEGRATED_MODE
+    ? committedMetadata
+    : { ...committedMetadata, ...metadataHandoff[row.routeKey] };
   check(Boolean(pathway), `${row.routeKey}: pathway is missing from ${profileFile}.`);
   check(Boolean(committedMetadata), `${row.routeKey}: product metadata is missing.`);
   if (!pathway || !committedMetadata) continue;
@@ -177,12 +203,12 @@ for (const row of routes) {
     check(row.checkoutExpected === true, `${row.routeKey}: paid-packet closure must expect checkout.`);
     check(routeMetadata.legalSignoffStatus === "signed_off", `${row.routeKey}: paid-packet closure lacks signed-off legal metadata.`);
     check(paidRouteTypes.has(routeMetadata.productRouteType), `${row.routeKey}: paid-packet closure has non-paid route type ${routeMetadata.productRouteType}.`);
-    check(controlSets.ratified.has(row.routeKey) && !ratifiedRemovals.has(row.routeKey), `${row.routeKey}: paid-packet closure is not effectively ratified.`);
+    check(isEffectivelyRatified(row.routeKey), `${row.routeKey}: paid-packet closure is not effectively ratified.`);
     check(!/pending|fallback|unresolved/i.test(row.timingResolution), `${row.routeKey}: paid-packet timing remains unresolved.`);
   } else {
     check(nonPaymentCategories.has(row.closureCategory), `${row.routeKey}: non-payment route uses an invalid closure category.`);
     check(row.checkoutExpected === false, `${row.routeKey}: non-payment closure unexpectedly permits checkout.`);
-    check(!controlSets.ratified.has(row.routeKey) || ratifiedRemovals.has(row.routeKey), `${row.routeKey}: non-payment closure is effectively ratified for checkout.`);
+    check(!isEffectivelyRatified(row.routeKey), `${row.routeKey}: non-payment closure is effectively ratified for checkout.`);
   }
 
   if (row.closureCategory === "automatic_or_no_filing") {
@@ -194,10 +220,7 @@ for (const row of routes) {
   if (row.closureCategory === "legal_hold_guidance") {
     check(["blocked", "needs_reconfirm"].includes(routeMetadata.legalSignoffStatus), `${row.routeKey}: legal-hold closure lacks a blocked/reconfirm status.`);
     check(
-      controlSets.corrected.has(row.routeKey) ||
-        controlSets.hardGate.has(row.routeKey) ||
-        controlSets.heldGuidance.has(row.routeKey) ||
-        heldGuidanceAdditions.has(row.routeKey),
+      isEffectivelyHeld(row.routeKey),
       `${row.routeKey}: legal-hold closure is not represented by an evaluator hold set or handoff.`
     );
   }
