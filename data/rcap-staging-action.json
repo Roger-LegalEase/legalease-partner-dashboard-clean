@@ -151,15 +151,15 @@
       "why": "The application must carry the Phase 52 payment writer, and the deployed commit must be the final accepted integration SHA — a descendant of the 13e356c4 checkpoint, re-derived once this preparation lands and CI is green on it."
     },
     "workerImageDigest": {
-      "value": "sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d",
+      "value": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
       "owner": "Terminal D",
       "why": "An immutable registry digest, not a local image ID. Minted by the publication workflow at the freeze SHA and read from committed evidence (data/rcap-render/worker-publication-evidence.json), never typed.",
       "evidence": {
-        "sourceSha": "7cc8675d2835675d5bf40d18e6e09468bd84f790",
-        "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:7cc8675d2835675d5bf40d18e6e09468bd84f790",
-        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d",
-        "workflowRunId": 32850336907,
-        "registryPullByDigestStatus": "verified_by_worker_image_acceptance_workflow"
+        "sourceSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
+        "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:441ee3188ee52047a012232d8d11f890a09b4ac5",
+        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+        "workflowRunId": 32856262198,
+        "registryPullByDigestStatus": "pending_worker_image_acceptance_workflow"
       }
     },
     "workerDeploymentTarget": {
@@ -296,7 +296,7 @@
       },
       {
         "path": "src/",
-        "treeSha": "c9479ae3433a38e9f7e575ddf7c03c28c01a6d99"
+        "treeSha": "ae331d6774963ed741dde8be73f4f7e00a99378f"
       },
       {
         "path": "deploy/rcap-render-worker/Dockerfile",
@@ -312,9 +312,9 @@
     "workerEntrypointSha256": "e021e936bb677ea98283823bc0a1ac3ad7295a8d61b2fd21635feda718020b70",
     "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
     "scriptsLibTreeHash": "5188836468b32e41899d40deda7331cd4ce38fd3",
-    "srcTreeHash": "c9479ae3433a38e9f7e575ddf7c03c28c01a6d99"
+    "srcTreeHash": "ae331d6774963ed741dde8be73f4f7e00a99378f"
   },
-  "imageInputFingerprintBaseSha": "31a64c13e55920e5c2224e29ebc8b0116bb800bc",
+  "imageInputFingerprintBaseSha": "441ee3188ee52047a012232d8d11f890a09b4ac5",
   "imageInputEquivalenceRequired": true,
   "imageInputEquivalenceRule": "git diff --quiet {imageInputFingerprintBaseSha} HEAD -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs scripts/lib src deploy/rcap-render-worker/Dockerfile must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.",
   "supersedes": [
