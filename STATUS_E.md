@@ -2,13 +2,13 @@
 
 - Branch: `sprint/20260825-clinic`
 - Base: `07675789a80e732d2b835c1e8ba2092b39201b79`
-- Status: Batch 1 complete; Batch 2 pending
+- Status: Batch 2 complete; Batch 3 pending
 - Scope: Dedicated Clinic Mode namespace only; no shared-file, DTC, live route, production, or migration-ledger changes.
 
 ## Checkpoints
 
 - [x] Batch 1 — schema/RLS
-- [ ] Batch 2 — event/staff/admin routes
+- [x] Batch 2 — event/staff/admin routes
 - [ ] Batch 3 — assisted participant/reset/queue
 - [ ] Batch 4 — accounting/reporting/tests
 
@@ -20,3 +20,7 @@
 - Batch 1 verifier: `node scripts/clinic-mode/verify-schema-rls.mjs` — PASS in isolated PGlite; no external database used.
 - Security evidence: 10/10 Clinic tables have RLS; authenticated roles have no direct INSERT/UPDATE/DELETE; partner A/B, participant A/B, and internal-admin isolation matrix passed.
 - Accounting evidence: first reservation `reserved`, replay `already_reserved`, premature finalize `artifact_not_validated`, validated finalize `consumed`, replay `already_consumed`, referral route `no_credit_route`.
+- Batch 2 routes: `/internal/clinic`, `/internal/clinic/[eventId]`, `/partner/clinic`, `/partner/clinic/[eventId]`, `/api/clinic/events`, `/api/clinic/events/[eventId]`, `/staff`, and `/access-codes`.
+- Batch 2 verifier: `node scripts/clinic-mode/verify-admin-routes.mjs` — PASS.
+- Focused compile: `tsc -p tsconfig.clinic-mode.json --noEmit` — PASS.
+- Repository-wide compile is not claimed: it stops in pre-existing content editor files because the available dependency tree lacks `@tiptap/*`; no Clinic Mode type errors were reported, and lane E did not modify package manifests.
