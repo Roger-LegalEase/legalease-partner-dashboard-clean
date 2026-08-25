@@ -63,7 +63,7 @@ check('the canonical integration history is main',
 // to pass until a worker exists for the current image inputs. The widening is
 // held to one exact branch name so it cannot become "any branch".
 check('the release-integration branch is pinned to one exact name',
-  /^\s{2}RELEASE_INTEGRATION_BRANCH:\s*claude\/rcap-48h-launch-integration\s*$/m.test(src),
+  /^\s{2}RELEASE_INTEGRATION_BRANCH:\s*sprint\/20260825-full-product-captain\s*$/m.test(src),
   'the release-integration branch is absent or is not the exact expected branch');
 
 check('no wildcard or pattern is accepted as a containment branch',
