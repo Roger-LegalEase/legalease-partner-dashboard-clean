@@ -17,6 +17,7 @@ const mutations = [
   ["worker digest", "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c", "sha256:07132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c"],
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
+  ["optional server URL match", "optional_server_supabase_url_matches_when_present", "optional_server_url_match_removed"],
   ["rollback verdict", "rollback_target_recorded_before_mutation", "rollback_not_recorded"],
   ["GET-only transport", 'method: "GET"', 'method: "POST"']
 ];

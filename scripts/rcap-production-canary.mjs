@@ -132,8 +132,16 @@ try {
     return matches[0];
   };
 
+  const optionalProductionEntry = (key) => {
+    const matches = envs.filter((entry) => entry?.key === key && targetsProduction(entry) && !entry?.gitBranch);
+    if (matches.length > 1 || (matches.length === 1 && !matches[0]?.id)) {
+      throw new Error(`Optional Production environment key ${key} is ambiguous`);
+    }
+    return matches[0] ?? null;
+  };
+
   const publicUrlEntry = exactProductionEntry("NEXT_PUBLIC_SUPABASE_URL");
-  const serverUrlEntry = exactProductionEntry("SUPABASE_URL");
+  const serverUrlEntry = optionalProductionEntry("SUPABASE_URL");
   const anonEntry = exactProductionEntry("NEXT_PUBLIC_SUPABASE_ANON_KEY");
   const serviceEntry = exactProductionEntry("SUPABASE_SERVICE_ROLE_KEY");
 
@@ -146,11 +154,18 @@ try {
   };
 
   const publicRef = projectRefFromSupabaseUrl(await decryptProductionValue(publicUrlEntry));
-  const serverRef = projectRefFromSupabaseUrl(await decryptProductionValue(serverUrlEntry));
-  const productionRef = publicRef && publicRef === serverRef ? publicRef : null;
+  const serverRef = serverUrlEntry
+    ? projectRefFromSupabaseUrl(await decryptProductionValue(serverUrlEntry))
+    : null;
+  const optionalServerMatches = !serverUrlEntry || (Boolean(publicRef) && serverRef === publicRef);
+  if (!record("optional_server_supabase_url_matches_when_present", optionalServerMatches,
+    `present=${Boolean(serverUrlEntry)}; matchesAuthoritativePublicRef=${optionalServerMatches}`)) {
+    throw new Error("optional Production SUPABASE_URL disagrees with NEXT_PUBLIC_SUPABASE_URL");
+  }
+  const productionRef = publicRef;
   if (!record("production_supabase_project_is_exact", Boolean(productionRef),
-    `public/server URL refs agree=${Boolean(productionRef)}; anon entry=${anonEntry.id ? "present" : "missing"}; service entry=${serviceEntry.id ? "present" : "missing"}`)) {
-    throw new Error("Production Supabase URL identities do not agree");
+    `authoritative public URL ref resolved=${Boolean(productionRef)}; optional server URL present=${Boolean(serverUrlEntry)}; anon entry=${anonEntry.id ? "present" : "missing"}; service entry=${serviceEntry.id ? "present" : "missing"}`)) {
+    throw new Error("authoritative Production Supabase URL identity could not be resolved");
   }
 
   if (!record("production_environment_is_separate_from_acceptance", productionRef !== ACCEPTANCE_PROJECT_REF,
@@ -229,6 +244,8 @@ try {
       acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
       productionProjectRef: productionRef,
       distinct: true,
+      optionalServerUrlPresent: Boolean(serverUrlEntry),
+      optionalServerUrlMatched: optionalServerMatches,
       decryptedValuesPersisted: false
     }
   };

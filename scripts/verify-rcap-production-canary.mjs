@@ -30,6 +30,11 @@ check(script.includes("production_environment_is_separate_from_acceptance"), "en
 check(script.includes("current_ready_production_target_is_exact"), "current READY target is a required verdict");
 check(script.includes("rollback_target_recorded_before_mutation"), "rollback identity is a required verdict");
 check(script.includes("production_supabase_project_is_exact"), "Production Supabase identity is a required verdict");
+check(script.includes("optional_server_supabase_url_matches_when_present"), "optional server URL must match the authoritative public URL when present");
+check(script.includes('optionalProductionEntry("SUPABASE_URL")'), "SUPABASE_URL is optional rather than fabricated or required");
+check(script.includes('exactProductionEntry("NEXT_PUBLIC_SUPABASE_URL")'), "NEXT_PUBLIC_SUPABASE_URL remains the one authoritative Production URL");
+check(script.includes('exactProductionEntry("NEXT_PUBLIC_SUPABASE_ANON_KEY")'), "Production anon key entry remains exact");
+check(script.includes('exactProductionEntry("SUPABASE_SERVICE_ROLE_KEY")'), "Production service key entry remains exact");
 check(script.includes("method: \"GET\""), "Vercel and Supabase discovery calls are explicitly GET-only");
 check(!/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/.test(script), "preflight contains no mutating HTTP method");
 check(!script.includes("database/query"), "preflight does not issue SQL, even read-only SQL through a POST endpoint");
