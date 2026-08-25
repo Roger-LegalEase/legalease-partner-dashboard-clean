@@ -13,13 +13,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const ROOT = process.cwd();
-const EVIDENCE_DIR = path.join(ROOT, "hosted-acceptance-evidence");
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: ROOT });
 const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "github-checkout-gate.json");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";

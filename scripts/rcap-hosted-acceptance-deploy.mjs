@@ -30,9 +30,10 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";

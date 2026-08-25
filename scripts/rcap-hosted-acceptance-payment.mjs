@@ -4,6 +4,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 // Hosted acceptance staging — the Stripe payment and packet-delivery journey.
 //
 // Runs against the DEPLOYED Preview instance and the hosted acceptance Supabase
@@ -30,8 +32,7 @@ const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rc
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
 const rootDir = process.cwd();
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";

@@ -10,11 +10,12 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 const ROOT = process.cwd();
-const EVIDENCE_DIR = path.join(ROOT, "hosted-acceptance-evidence");
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: ROOT });
 const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "github-bootstrap.json");
 const RUNTIME_ENV_PATH = "/tmp/rcap-acceptance-runtime.env";
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
