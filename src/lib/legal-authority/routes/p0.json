@@ -1,0 +1,333 @@
+{
+  "batch": "p0",
+  "authority": "Record Clearing Implementation Authority Reconciled (2026-08-24), Completed Decision Matrix — P0 decisions and effective-date-gated routes",
+  "routes": [
+    {
+      "routeKey": "GA:automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+      "jurisdiction": "GA",
+      "pathwayId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
+      "decisionId": "LD-GA-01",
+      "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+      "mechanism": "Record restriction for qualifying nonconvictions from arrests on or after July 1, 2013",
+      "statute": "O.C.G.A. § 35-3-37",
+      "stage": "automatic",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "handled through the prosecutor and GCIC process without a participant waiting period"
+      },
+      "requiredFacts": [
+        "Arrest and disposition dates?",
+        "Exact offense?",
+        "First-offender sentence/discharge?",
+        "Pardon and date?",
+        "Pending/later charges?",
+        "Restriction/sealing status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
+      "exclusions": [
+        "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+        "Apply July 1, 2026 first-offender law prospectively as written"
+      ],
+      "packetFamily": null,
+      "effectiveFrom": "2013-07-01",
+      "notes": "Status, correction and prosecutor-contact guidance. Do not sell a court packet unless a statutory judicial-review path is actually triggered."
+    },
+    {
+      "routeKey": "GA:restriction-and-sealing-of-a-pardoned-felony",
+      "jurisdiction": "GA",
+      "pathwayId": "restriction-and-sealing-of-a-pardoned-felony",
+      "decisionId": "LD-GA-01",
+      "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+      "mechanism": "Restriction and sealing of a pardoned felony",
+      "statute": "O.C.G.A. § 35-3-37",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "available after the pardon issues; there is no separate post-pardon elapsed wait"
+      },
+      "requiredFacts": [
+        "Arrest and disposition dates?",
+        "Exact offense?",
+        "First-offender sentence/discharge?",
+        "Pardon and date?",
+        "Pending/later charges?",
+        "Restriction/sealing status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases"
+      ],
+      "exclusions": [
+        "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+        "Apply July 1, 2026 first-offender law prospectively as written"
+      ],
+      "packetFamily": "Georgia Restriction and Sealing Petition for a Pardoned Felony under § 35-3-37",
+      "packetComponents": [
+        "Petition under § 35-3-37",
+        "Pardon documentation",
+        "Balancing showing"
+      ],
+      "notes": "Statutory exclusions, the no-disqualifying-later-conviction rule, the no-pending-charge rule, and the balancing requirement must all be met."
+    },
+    {
+      "routeKey": "GA:youthful-first-offender-restriction-route",
+      "jurisdiction": "GA",
+      "pathwayId": "youthful-first-offender-restriction-route",
+      "decisionId": "LD-GA-01",
+      "ruleId": "GA-35-3-37-42-8-62.1-THREE-MECHANISM-MAP",
+      "mechanism": "First-offender restriction and sealing under the July 1, 2026 amendments",
+      "statute": "O.C.G.A. § 42-8-62.1",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "restriction and sealing are addressed at sentencing or disposition under the amended process; older first-offender records use the applicable retroactive petition or correction mechanism"
+      },
+      "requiredFacts": [
+        "Arrest and disposition dates?",
+        "Exact offense?",
+        "First-offender sentence/discharge?",
+        "Pardon and date?",
+        "Pending/later charges?",
+        "Restriction/sealing status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Separate post-July 1, 2013 nonconviction, pardoned-felony, and first-offender mechanisms",
+        "Apply July 1, 2026 first-offender law prospectively as written"
+      ],
+      "packetFamily": "Georgia First-Offender Restriction and Sealing Petition under § 42-8-62.1",
+      "packetComponents": [
+        "Petition or motion under § 42-8-62.1",
+        "First-offender discharge documentation"
+      ],
+      "effectiveFrom": "2026-07-01",
+      "notes": "The intake must branch explicitly on the July 1, 2026 statutory change; apply the new law prospectively as written."
+    },
+    {
+      "routeKey": "HI:first-time-drug-conviction",
+      "jurisdiction": "HI",
+      "pathwayId": "first-time-drug-conviction",
+      "decisionId": "LD-HI-01",
+      "ruleId": "HI-706-622.5-831-3.2-TWO-ROUTE-BRANCH-MAP",
+      "mechanism": "First-time drug offender expungement after treatment and dismissal",
+      "statute": "Haw. Rev. Stat. § 706-622.5",
+      "stage": "post_completion",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "discharge_date",
+        "anchorText": "event-triggered on successful treatment or probation completion, discharge, and dismissal; no additional ordinary waiting period applies"
+      },
+      "requiredFacts": [
+        "Exact statute and disposition?",
+        "Treatment/probation completion?",
+        "Discharge/dismissal date?",
+        "Deferred acceptance?",
+        "Bail forfeiture?",
+        "Petty misdemeanor/violation?",
+        "Prior use of relief?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed",
+        "discharge_date"
+      ],
+      "exclusions": [
+        "Exact disposition and statutory subsection",
+        "First-time status",
+        "Treatment completion",
+        "Deferred-acceptance or bail-forfeiture exception",
+        "Statutory exclusions"
+      ],
+      "packetFamily": "Hawaii First-Time Drug Offender Expungement Order Request under § 706-622.5",
+      "packetComponents": [
+        "Request for the statutory expungement order",
+        "Treatment or probation completion proof",
+        "Discharge and dismissal order"
+      ],
+      "notes": "No ordinary waiting period is added after successful discharge and dismissal."
+    },
+    {
+      "routeKey": "HI:nonconviction-arrest-expungement",
+      "jurisdiction": "HI",
+      "pathwayId": "nonconviction-arrest-expungement",
+      "decisionId": "LD-HI-01",
+      "ruleId": "HI-706-622.5-831-3.2-TWO-ROUTE-BRANCH-MAP",
+      "mechanism": "Nonconviction arrest expungement through the Attorney General",
+      "statute": "Haw. Rev. Stat. § 831-3.2",
+      "stage": "single_stage",
+      "outcomeMode": "agency_application",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "generally available on a qualifying nonconviction disposition, with two coded statutory exceptions: one year after discharge or dismissal in the specified deferred-acceptance branch, and five years in the specified petty-misdemeanor or violation bail-forfeiture branch"
+      },
+      "processingDeadlines": [
+        {
+          "label": "Attorney General processing period",
+          "note": "agency processing after the application, not a filing wait"
+        }
+      ],
+      "requiredFacts": [
+        "Exact statute and disposition?",
+        "Treatment/probation completion?",
+        "Discharge/dismissal date?",
+        "Deferred acceptance?",
+        "Bail forfeiture?",
+        "Petty misdemeanor/violation?",
+        "Prior use of relief?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "hi_court_order_confirmed"
+      ],
+      "exclusions": [
+        "Exact disposition and statutory subsection",
+        "First-time status",
+        "Treatment completion",
+        "Deferred-acceptance or bail-forfeiture exception",
+        "Statutory exclusions"
+      ],
+      "packetFamily": "Hawaii Attorney General Expungement Application under § 831-3.2",
+      "packetComponents": [
+        "Written application to the Attorney General",
+        "Disposition documentation"
+      ],
+      "effectiveFrom": "2025-07-01",
+      "notes": "Since July 1, 2025 the Attorney General process also addresses related court-record removal under the one-step procedure. The one-year deferred-acceptance and five-year bail-forfeiture exceptions must be coded separately and never applied to the general branch."
+    },
+    {
+      "routeKey": "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
+      "jurisdiction": "MO",
+      "pathwayId": "first-minor-in-possession-alcohol-expungement-under-311-326",
+      "decisionId": "LD-MO-01",
+      "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+      "mechanism": "First minor-in-possession alcohol expungement",
+      "statute": "Mo. Rev. Stat. § 311.326",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "twenty_first_birthday",
+        "anchorText": "not less than one year after the person's twenty-first birthday"
+      },
+      "requiredFacts": [
+        "Date of birth?",
+        "Date age 21?",
+        "Exact MIP offense?",
+        "Later alcohol offenses?",
+        "CDL/CMV facts?",
+        "Offense level?",
+        "Sentence completion?",
+        "Arrest-only/no-charge status?",
+        "Excluded offense?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Exact statute and offense level",
+        "Route-specific completion, clean-record, excluded-offense, and frequency conditions"
+      ],
+      "packetFamily": "Missouri § 311.326 Minor-in-Possession Expungement Petition",
+      "packetComponents": [
+        "Petition under § 311.326",
+        "Record of the alcohol offense"
+      ],
+      "notes": "The age-21 clock is its own rule object and must never share a rule with the § 610.140 completion clock. Subject to the first-offense, later-alcohol-record, commercial-driver and other statutory conditions."
+    },
+    {
+      "routeKey": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+      "jurisdiction": "MO",
+      "pathwayId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+      "decisionId": "LD-MO-01",
+      "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+      "mechanism": "General expungement of an arrest, charge, plea, trial, or conviction",
+      "statute": "Mo. Rev. Stat. § 610.140",
+      "stage": "single_stage",
+      "outcomeMode": "participant_packet",
+      "timing": {
+        "kind": "elapsed_eligibility_clock",
+        "value": 1,
+        "unit": "years",
+        "anchorFactId": "sentence_completion_actual_date",
+        "anchorText": "one year for a misdemeanor, municipal offense or infraction and three years for a felony, measured from completion of the disposition or sentence and satisfaction of the statute; the arrest-only or no-charge branch uses the separate eighteen-month statutory anchor"
+      },
+      "requiredFacts": [
+        "Date of birth?",
+        "Date age 21?",
+        "Exact MIP offense?",
+        "Later alcohol offenses?",
+        "CDL/CMV facts?",
+        "Offense level?",
+        "Sentence completion?",
+        "Arrest-only/no-charge status?",
+        "Excluded offense?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
+      ],
+      "exclusions": [
+        "Exact statute and offense level",
+        "Route-specific completion, clean-record, excluded-offense, and frequency conditions"
+      ],
+      "packetFamily": "Missouri § 610.140 Expungement Petition",
+      "packetComponents": [
+        "Petition under § 610.140",
+        "Completion proof",
+        "Service on the required parties"
+      ],
+      "notes": "One year, three years and eighteen months are three separate branches keyed to offense level and the arrest-only condition; the stored value is the misdemeanor branch and the exact branch is a mandatory intake fact."
+    },
+    {
+      "routeKey": "MO:marijuana-expungement-under-missouri-constitution-article-xiv",
+      "jurisdiction": "MO",
+      "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
+      "decisionId": "LD-MO-03",
+      "ruleId": "MO-CONST-ART-XIV-AUTOMATIC-VS-INCARCERATED-PETITION",
+      "mechanism": "Marijuana expungement — automatic constitutional processing for completed and nonincarcerated cases",
+      "statute": "Mo. Const. art. XIV, § 2",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the constitutional processing mandate applies; no ordinary elapsed waiting period is used"
+      },
+      "requiredFacts": [
+        "Exact marijuana offense?",
+        "Conduct date?",
+        "Quantity?",
+        "Sentence status?",
+        "Current incarceration/supervision?",
+        "Excluded conduct?",
+        "Automatic-expungement status?"
+      ],
+      "screeningFactIds": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "exclusions": [
+        "Qualifying marijuana conduct within Article XIV quantity/offense limits and not within constitutional exclusions"
+      ],
+      "packetFamily": null,
+      "notes": "Do not sell a routine § 610.140 packet for a constitutionally automatic marijuana record. Where the record remains, give status and correction or escalation guidance. A person currently incarcerated for conduct made lawful uses the Article XIV petition for vacatur, release and expungement; no general one- or three-year § 610.140 period applies to that branch either."
+    }
+  ]
+}
