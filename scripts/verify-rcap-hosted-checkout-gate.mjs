@@ -57,7 +57,6 @@ includesEvery(gate, [
   'routeKind === "legacy_verified"',
   'rendererKind === "packet_document_v1"',
   'rendererVersion === "1.0.0"',
-  "stored_row_matches_authoritative_resolver",
   "unpaid_render_returns_402",
   "checkoutSessionId",
   "exactly_one_real_stripe_session_for_item",
@@ -82,6 +81,15 @@ check(
     && gate.includes('stored.packet_information_stage === "ready_to_generate"')
     && gate.includes("stored.packet_information_reviewed === true"),
   "Checkout fixture must carry an authoritative reviewed packet-information flow before the unpaid render probe"
+);
+check(
+  gate.includes("convergeSellableScreening")
+    && gate.includes('[routeIdentity.jurisdiction, ...["MS", "IL", "PA"].filter')
+    && gate.includes("checkout_fixture_route_derived_from_authorities")
+    && gate.includes("stored_row_matches_authoritative_resolver")
+    && gate.includes("jurisdiction: checkoutRouteIdentity.jurisdiction")
+    && gate.includes("pathway_label: checkoutRouteIdentity.pathwayLabel"),
+  "Checkout fixture must fall back to an evaluator-proven sellable route and derive its metadata dynamically"
 );
 
 // A partial rebind is the dangerous shape: one constant moved, the other left
