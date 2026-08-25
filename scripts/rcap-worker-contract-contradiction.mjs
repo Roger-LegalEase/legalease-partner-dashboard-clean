@@ -35,11 +35,12 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const OUT_DIR = path.resolve("hosted-acceptance-evidence");
-fs.mkdirSync(OUT_DIR, { recursive: true });
+const { root: OUT_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: process.cwd() });
 
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";

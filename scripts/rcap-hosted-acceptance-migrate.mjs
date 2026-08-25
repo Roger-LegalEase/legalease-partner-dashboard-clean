@@ -15,12 +15,13 @@
 //   expects. A baseline file that fails is recorded with its error and does not
 //   stop the run; what stops the run is a REQUIRED table missing afterwards.
 //
-//   AUTHORIZED SEQUENCE — phases 49 through 54. Each file's SHA-256 is
+//   AUTHORIZED SEQUENCE — the exact phases named by the prepared action. Each
+//   file's SHA-256 is
 //   recomputed from disk and must match BOTH independent records that carry it
 //   (the prepared staging action and the authorization readiness file) before
-//   ANY of the six is applied. One mismatch anywhere stops the run with nothing
+//   ANY of the sequence is applied. One mismatch anywhere stops the run with nothing
 //   from the sequence applied. Once applying starts, a single failure is fatal:
-//   the six are indivisible, and an environment that stops at 51 reintroduces
+//   the sequence is indivisible, and an environment that stops at 51 reintroduces
 //   RCAP-SEC-001 by construction.
 //
 // The readback is not a catalog tour. It ends with a live negative control that
@@ -39,9 +40,10 @@ const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir }
 
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF)) {
-  console.error("MIGRATE: SUPABASE_ACCESS_TOKEN and a well-formed ACCEPTANCE_SUPABASE_PROJECT_REF are required");
+if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF) {
+  console.error("MIGRATE: SUPABASE_ACCESS_TOKEN and the pinned acceptance project ref are required");
   process.exit(1);
 }
 
@@ -58,6 +60,7 @@ const REQUIRED_CASES = [
   "render_jobs_table_secured",
   "person_namespace_hardened",
   "payment_authority_functions_present",
+  "matter_payment_binding_enforced",
   "legacy_enqueue_signature_dropped",
   "consumption_unit_keyed_on_item",
   "participant_cannot_self_declare_payment"
@@ -87,6 +90,7 @@ async function scalar(sql) {
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-migrate/v1",
   acceptanceProjectRef: PROJECT_REF,
+  phase55Status: "unproven",
   baseline: [],
   authorizedSequence: [],
   readback: {}
@@ -100,8 +104,11 @@ const HARDENING_PHASE = "phase-56-public-view-and-default-privilege-hardening.sq
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
 const readiness = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-authorization-readiness.json"), "utf8"));
 const sequence = action.migrationsInApplyOrder;
+const authorizedPhaseLabel = sequence.map((entry) => entry.phase).join(" -> ");
+const authorizedPhaseCount = sequence.length;
+const authorizedMigrationPaths = new Set(sequence.map((entry) => entry.path));
 {
-  // The readiness file carries the same six hashes in a second, independently
+  // The readiness file carries the same hashes in a second, independently
   // maintained place. Requiring agreement means a single edited record cannot
   // wave a changed migration through.
   const secondOpinion = readiness.blockers?.find((b) => b.id === "RCAP-SEC-001")?.resolution?.migrationSha256 ?? {};
@@ -169,7 +176,7 @@ const sequence = action.migrationsInApplyOrder;
 {
   const files = fs.readdirSync(path.join(rootDir, "supabase"))
     .filter((name) => name.endsWith(".sql"))
-    .filter((name) => !/^phase-(49|50|51|52|53|54)-/.test(name))
+    .filter((name) => !authorizedMigrationPaths.has(`supabase/${name}`))
     // The hardening phase withdraws the default privileges that grant anon and
     // authenticated everything on future objects. Applying it here would run it before
     // the authorized sequence creates its tables, and those tables would end up with
@@ -255,17 +262,17 @@ const sequence = action.migrationsInApplyOrder;
   );
   if (missing.length > 0) {
     fs.writeFileSync(path.join(EVIDENCE_DIR, "migrate.json"), `${JSON.stringify({ ...evidence, passed: false }, null, 2)}\n`);
-    console.error("\nMIGRATE STOPPED — the baseline did not produce the schema the authorized sequence builds on. Phases 49-54 were NOT applied.");
+    console.error(`\nMIGRATE STOPPED — the baseline did not produce the schema the authorized sequence builds on. Authorized phases ${authorizedPhaseLabel} were NOT applied.`);
     process.exit(1);
   }
 }
 
-// --- 3. The authorized six, in order, indivisibly ---------------------------
+// --- 3. The authorized sequence, in order, indivisibly ----------------------
 {
   // A migration ledger, because "apply the sequence" and "the sequence is
   // applied" are different claims and only the second one matters.
   //
-  // These six files are not written to be re-runnable — phase 50 creates a
+  // These files are not written to be re-runnable — phase 50 creates a
   // trigger unconditionally — so a second run against an environment that
   // already has them fails on a duplicate object. That is a re-run artifact,
   // not a defect, and treating it as a failure would mean the pipeline could
@@ -340,8 +347,8 @@ const sequence = action.migrationsInApplyOrder;
     "authorized_sequence_applied_in_order",
     satisfied === sequence.length,
     satisfied === sequence.length
-      ? `49 -> 50 -> 51 -> 52 -> 53 -> 54 are all present on ${PROJECT_REF} at their authorized hashes (${satisfied}/${sequence.length}: ${evidence.authorizedSequence.map((r) => `${r.phase}=${r.disposition}`).join(", ")}). The readback below is what proves they took effect.`
-      : `${failure} — satisfied ${satisfied}/${sequence.length}; the sequence is indivisible, so this environment must not serve a participant`
+      ? `${authorizedPhaseLabel} are all present on ${PROJECT_REF} at their authorized hashes (${satisfied}/${authorizedPhaseCount}: ${evidence.authorizedSequence.map((r) => `${r.phase}=${r.disposition}`).join(", ")}). The readback below is what proves they took effect.`
+      : `${failure} — satisfied ${satisfied}/${authorizedPhaseCount}; the sequence is indivisible, so this environment must not serve a participant`
   );
 }
 
@@ -421,6 +428,96 @@ const sequence = action.migrationsInApplyOrder;
       `record_consumer_packet_payment=${byName("record_consumer_packet_payment").length} (security definer ${definer("record_consumer_packet_payment")}), finalize_packet_render_job=${byName("finalize_packet_render_job").length} (security definer ${definer("finalize_packet_render_job")}), enqueue_packet_render_job=${byName("enqueue_packet_render_job").length}`
     );
     evidence.readback.functions = found;
+  }
+
+  {
+    // Phase 55 is not proven merely because its ledger row exists. Read back
+    // the exact product, person and matter contract the migration installs,
+    // including the constraint and queue guards that enforce it.
+    const columnsResult = await query(
+      `select column_name, data_type from information_schema.columns
+       where table_schema = 'public' and table_name = 'consumer_briefcase_items'
+         and column_name in ('payment_product_id','payment_person_id','payment_matter_id')`
+    );
+    const columns = new Map(
+      (Array.isArray(columnsResult.json) ? columnsResult.json : [])
+        .map((row) => [String(row.column_name), String(row.data_type)])
+    );
+    const productId = await scalar(`select public.expungement_packet_product_id()`);
+    const firstMatter = await scalar(
+      `select public.consumer_matter_id_for_briefcase_item('00000000-0000-4000-8000-000000000001'::uuid)::text`
+    );
+    const repeatedMatter = await scalar(
+      `select public.consumer_matter_id_for_briefcase_item('00000000-0000-4000-8000-000000000001'::uuid)::text`
+    );
+    const otherMatter = await scalar(
+      `select public.consumer_matter_id_for_briefcase_item('00000000-0000-4000-8000-000000000002'::uuid)::text`
+    );
+    const matterHelperDefinition = String(await scalar(
+      `select pg_get_functiondef(to_regprocedure('public.consumer_matter_id_for_briefcase_item(uuid)'))`
+    ) ?? "");
+    const constraintDefinition = String(await scalar(
+      `select pg_get_constraintdef(c.oid)
+         from pg_constraint c
+         join pg_class t on t.oid = c.conrelid
+         join pg_namespace n on n.oid = t.relnamespace
+        where n.nspname = 'public'
+          and t.relname = 'consumer_briefcase_items'
+          and c.conname = 'consumer_briefcase_items_paid_requires_server_evidence'`
+    ) ?? "");
+    const authorityDefinition = String(await scalar(
+      `select pg_get_functiondef(to_regprocedure('public.consumer_packet_payment_authority(uuid,uuid,text,uuid,uuid)'))`
+    ) ?? "");
+    const queueGuardTriggers = Number(await scalar(
+      `select count(*)::int
+         from pg_trigger t
+         join pg_class c on c.oid = t.tgrelid
+         join pg_namespace n on n.oid = c.relnamespace
+        where n.nspname = 'public'
+          and c.relname = 'packet_render_jobs'
+          and not t.tgisinternal
+          and t.tgenabled <> 'D'
+          and t.tgname in (
+            'packet_render_jobs_paid_matter_insert_trg',
+            'packet_render_jobs_paid_matter_finalize_trg'
+          )`
+    ));
+
+    const columnsMatch = columns.get("payment_product_id") === "text"
+      && columns.get("payment_person_id") === "uuid"
+      && columns.get("payment_matter_id") === "uuid";
+    const matterHelperMatches = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(firstMatter))
+      && firstMatter === repeatedMatter
+      && firstMatter !== otherMatter
+      && /rcap:consumer-matter:v1:/.test(matterHelperDefinition);
+    const constraintMatches = /payment_product_id.+expungement_packet/is.test(constraintDefinition)
+      && /payment_person_id.+IS NOT NULL/is.test(constraintDefinition)
+      && /payment_matter_id.+consumer_matter_id_for_briefcase_item/is.test(constraintDefinition);
+    const authorityMatches = /product_mismatch/.test(authorityDefinition)
+      && /person_mismatch/.test(authorityDefinition)
+      && /matter_mismatch/.test(authorityDefinition)
+      && /consumer_matter_id_for_briefcase_item/.test(authorityDefinition);
+    const pass = columnsMatch
+      && productId === "expungement_packet"
+      && matterHelperMatches
+      && constraintMatches
+      && authorityMatches
+      && queueGuardTriggers === 2;
+
+    record(
+      "matter_payment_binding_enforced",
+      pass,
+      `phase 55 authenticated readback: columns=${columnsMatch}, product=${productId ?? "missing"}, deterministicMatter=${matterHelperMatches}, paidEvidenceConstraint=${constraintMatches}, authorityMismatchGuards=${authorityMatches}, queueGuardTriggers=${queueGuardTriggers}/2`
+    );
+    evidence.readback.matterPaymentBinding = {
+      columnsMatch,
+      productId,
+      deterministicMatter: matterHelperMatches,
+      paidEvidenceConstraint: constraintMatches,
+      authorityMismatchGuards: authorityMatches,
+      queueGuardTriggers
+    };
+    evidence.phase55Status = pass ? "authenticated_readback_confirmed" : "unproven";
   }
 
   {
@@ -531,6 +628,6 @@ const sequence = action.migrationsInApplyOrder;
   console.log("");
   if (missing.length > 0) console.error(`MIGRATE INCOMPLETE — no verdict registered for: ${missing.join(", ")}`);
   if (failed.length > 0) console.error(`MIGRATE FAILED — ${failed.join(", ")}`);
-  if (evidence.passed) console.log(`MIGRATE PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; 49-54 are applied and enforcing on ${PROJECT_REF}.`);
+  if (evidence.passed) console.log(`MIGRATE PASSED — ${REQUIRED_CASES.length}/${REQUIRED_CASES.length} cases; ${authorizedPhaseLabel} are applied and enforcing on ${PROJECT_REF}.`);
   process.exit(evidence.passed ? 0 : 1);
 }

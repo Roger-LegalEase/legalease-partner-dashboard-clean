@@ -16,6 +16,9 @@ const WORKER_PLAN_MODULE = path.join(SCRIPTS, "rcap-hosted-acceptance-worker-inp
 const CURRENT_BASE = "07675789a80e732d2b835c1e8ba2092b39201b79";
 const ACCEPTED_SOURCE = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
 const ACCEPTED_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+const CANONICAL_ACCEPTED_SOURCE = "646d8969576e33b9ed72d3bca64b33b7e352c452";
+const CANONICAL_ACCEPTED_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
+const EVIDENCE_ONLY_CANDIDATE = "4e5be3922cbc5c8974f2729eb4637fbb9c4de487";
 const PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 const EXISTING_HOSTED_ENTRYPOINTS = [
@@ -28,7 +31,11 @@ const EXISTING_HOSTED_ENTRYPOINTS = [
   "rcap-hosted-acceptance-preflight.mjs",
   "rcap-github-acceptance-bootstrap.mjs",
   "rcap-github-acceptance-gate.mjs",
-  "rcap-hosted-checkout-gate.mjs"
+  "rcap-github-post-payment-acceptance.mjs",
+  "rcap-hosted-checkout-gate.mjs",
+  "rcap-hosted-resolve-preview.mjs",
+  "rcap-vercel-failure-audit.mjs",
+  "rcap-worker-contract-contradiction.mjs"
 ];
 
 const CANONICAL_INPUTS = [
@@ -217,6 +224,29 @@ test("same worker source SHA reuses the accepted immutable digest", async () => 
   assert.equal(plan.image.digest, ACCEPTED_DIGEST);
   assert.deepEqual(plan.image.tags, []);
   assert.match(plan.aggregateInputSha256, /^sha256:[0-9a-f]{64}$/);
+});
+
+test("distinct evidence-only SHA reuses the digest with the accepted image revision", async () => {
+  const { createWorkerInputPlan } = await importFeature(
+    WORKER_PLAN_MODULE,
+    "Lane F worker-input plan module"
+  );
+  const plan = createWorkerInputPlan({
+    rootDir: ROOT,
+    acceptedSourceSha: CANONICAL_ACCEPTED_SOURCE,
+    acceptedDigest: CANONICAL_ACCEPTED_DIGEST,
+    candidateSha: EVIDENCE_ONLY_CANDIDATE
+  });
+
+  assert.deepEqual(plan.changedPaths, []);
+  assert.equal(plan.rebuildRequired, false);
+  assert.equal(plan.decision, "reuse-accepted-digest");
+  assert.equal(plan.image.digest, CANONICAL_ACCEPTED_DIGEST);
+  assert.equal(plan.image.sourceSha, CANONICAL_ACCEPTED_SOURCE);
+  assert.equal(
+    plan.image.ociAnnotations["org.opencontainers.image.revision"],
+    CANONICAL_ACCEPTED_SOURCE
+  );
 });
 
 test("current base versus accepted worker source requires a full-SHA-only rebuild", async () => {

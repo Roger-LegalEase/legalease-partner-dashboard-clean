@@ -24,13 +24,13 @@ check("acceptance project ref is pinned", audit.includes('const EXPECTED_PROJECT
 check("Stripe-built metadata is exact", audit.includes('const EXPECTED_STRIPE_CONFIGURED = "true"'));
 check("staging route metadata is exact", audit.includes('const EXPECTED_ROUTE_STATE = "staging_scoped"'));
 check("READY state is required", audit.includes('deploymentState(deployment) === "READY"'));
-check("only Preview-shaped targets are admitted", audit.includes('target === null || target === undefined || target === "preview"'));
+check("only Preview-shaped targets are admitted", audit.includes('target === null || target === "preview"') && !audit.includes('target === undefined'));
 check("application metadata is compared", audit.includes("deployment?.meta?.rcapApplicationSha === APPLICATION_SHA"));
 check("acceptance-ref metadata is compared", audit.includes("deployment?.meta?.rcapAcceptanceProjectRef === PROJECT_REF"));
 check("Stripe metadata is compared", audit.includes("deployment?.meta?.rcapStripeConfigured === EXPECTED_STRIPE_CONFIGURED"));
 check("route-state metadata is compared", audit.includes("deployment?.meta?.rcapRouteState === EXPECTED_ROUTE_STATE"));
 
-check("project identity is resolved read-only", audit.includes("/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}"));
+check("project identity is resolved read-only", audit.includes("resolveHostedVercelIdentity") && audit.includes("/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}"));
 check("production environment shape is read", audit.includes("/v9/projects/${encodeURIComponent(canonicalProjectId)}/env"));
 check("READY deployments are listed", audit.includes("/v6/deployments?${params}"));
 check("each exact candidate is read by immutable id", audit.includes("/v13/deployments/${encodeURIComponent(id)}"));

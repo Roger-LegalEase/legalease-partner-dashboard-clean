@@ -29,6 +29,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
@@ -37,17 +41,17 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
-  console.error("AUTH: SUPABASE_ACCESS_TOKEN, a well-formed ACCEPTANCE_SUPABASE_PROJECT_REF and HOSTED_APPLICATION_SHA are required");
+if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
+  console.error("AUTH: SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and HOSTED_APPLICATION_SHA are required");
   process.exit(1);
 }
-if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID) {
-  console.error("AUTH: VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID are required to discover the Preview deployment");
+if (!VERCEL_TOKEN) {
+  console.error("AUTH: VERCEL_TOKEN is required to resolve the pinned nonproduction Preview project");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
@@ -66,9 +70,7 @@ const REQUIRED_CASES = [
 ];
 
 async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
   });
   let json = null;
@@ -129,13 +131,14 @@ const evidence = {
 // --- 1. Discover the Preview deployment, on the same terms as the deploy step -
 let previewUrl = null;
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
+  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
   const candidates = Array.isArray(res.json?.deployments) ? res.json.deployments : [];
   const match = candidates.find(
     (d) =>
       (d.readyState ?? d.state) === "READY" &&
-      d.target !== "production" &&
-      d.meta?.rcapApplicationSha === APPLICATION_SHA
+      (d.target === null || d.target === "preview") &&
+      d.meta?.rcapApplicationSha === APPLICATION_SHA &&
+      d.meta?.rcapAcceptanceProjectRef === PROJECT_REF
   );
   previewUrl = match ? `https://${match.url}` : null;
   record(

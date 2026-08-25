@@ -14,10 +14,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const evidenceDir = path.join(rootDir, "hosted-acceptance-evidence");
+const { root: evidenceDir } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 const evidencePath = path.join(evidenceDir, "vercel-failure-audit.json");
-fs.mkdirSync(evidenceDir, { recursive: true });
 
 const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
@@ -27,8 +32,7 @@ const EXPECTED_ROUTE_STATE = "staging_scoped";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
+let VERCEL_IDENTITY = null;
 
 const evidence = {
   schemaVersion: "rcap-vercel-failure-audit/v1",
@@ -54,7 +58,7 @@ function writeEvidence() {
 
 function redactError(error) {
   let message = String(error?.message ?? error);
-  for (const value of [VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID].filter(Boolean)) {
+  for (const value of [VERCEL_TOKEN].filter(Boolean)) {
     message = message.split(value).join("***");
   }
   return message;
@@ -68,9 +72,7 @@ function requireInputs() {
   const missing = [
     ["HOSTED_APPLICATION_SHA", APPLICATION_SHA],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", PROJECT_REF],
-    ["VERCEL_TOKEN", VERCEL_TOKEN],
-    ["VERCEL_ORG_ID", VERCEL_ORG_ID],
-    ["VERCEL_PROJECT_ID", VERCEL_PROJECT_ID]
+    ["VERCEL_TOKEN", VERCEL_TOKEN]
   ].filter(([, value]) => !value).map(([name]) => name);
 
   if (missing.length > 0) fail(`missing required inputs: ${missing.join(", ")}`);
@@ -78,18 +80,9 @@ function requireInputs() {
   if (PROJECT_REF !== EXPECTED_PROJECT_REF) fail("Supabase ref is not the authorized acceptance project");
 }
 
-function scopeCandidates() {
-  return VERCEL_ORG_ID.startsWith("team_") ? ["teamId", "slug"] : ["slug", "teamId"];
-}
-
-function scopedUrl(pathname, scopeName) {
-  const url = new URL(pathname, "https://api.vercel.com");
-  url.searchParams.set(scopeName, VERCEL_ORG_ID);
-  return url;
-}
-
-async function getJson(pathname, scopeName) {
-  const response = await fetch(scopedUrl(pathname, scopeName), {
+async function getJson(pathname) {
+  if (!VERCEL_IDENTITY) fail("the pinned Vercel identity has not been resolved");
+  const response = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     method: "GET",
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
     signal: AbortSignal.timeout(30_000)
@@ -134,7 +127,7 @@ function deploymentState(deployment) {
 }
 
 function isPreviewTarget(target) {
-  return target === null || target === undefined || target === "preview";
+  return target === null || target === "preview";
 }
 
 function hasExactTuple(deployment) {
@@ -153,16 +146,16 @@ function hostname(rawUrl) {
 }
 
 async function resolveProject() {
-  for (const scopeName of scopeCandidates()) {
-    const response = await getJson(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`, scopeName);
-    if (response.status === 200 && response.json?.id) {
-      return { scopeName, project: response.json };
-    }
+  const response = await getJson(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
+  if (response.status === 200
+    && response.json?.id === VERCEL_IDENTITY.projectId
+    && response.json?.name === VERCEL_IDENTITY.projectName) {
+    return { project: response.json };
   }
-  fail("Vercel project could not be resolved in either authorized team scope form");
+  fail("the pinned Vercel project could not be re-read at its canonical identity");
 }
 
-async function listAllReadyDeployments(canonicalProjectId, scopeName) {
+async function listAllReadyDeployments(canonicalProjectId) {
   const deployments = [];
   const seenIds = new Set();
   const seenCursors = new Set();
@@ -180,7 +173,7 @@ async function listAllReadyDeployments(canonicalProjectId, scopeName) {
     });
     if (until !== null) params.set("until", String(until));
 
-    const response = await getJson(`/v6/deployments?${params}`, scopeName);
+    const response = await getJson(`/v6/deployments?${params}`);
     if (response.status !== 200 || !Array.isArray(response.json?.deployments)) {
       fail(`Vercel READY deployment list failed with HTTP ${response.status}`);
     }
@@ -205,10 +198,11 @@ async function listAllReadyDeployments(canonicalProjectId, scopeName) {
 
 async function main() {
   requireInputs();
+  VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
-  const { scopeName, project } = await resolveProject();
+  const { project } = await resolveProject();
   const canonicalProjectId = project.id;
-  const envResponse = await getJson(`/v9/projects/${encodeURIComponent(canonicalProjectId)}/env`, scopeName);
+  const envResponse = await getJson(`/v9/projects/${encodeURIComponent(canonicalProjectId)}/env`);
   if (envResponse.status !== 200 || !Array.isArray(envResponse.json?.envs)) {
     fail(`Vercel environment-shape read failed with HTTP ${envResponse.status}`);
   }
@@ -219,7 +213,7 @@ async function main() {
     identityResolved: true,
     name: project.name ?? null,
     framework: project.framework ?? null,
-    scopeParameter: scopeName,
+    scopeParameter: "teamId",
     productionAliases: productionAliases(project)
   };
   evidence.productionEnvironment = {
@@ -229,14 +223,14 @@ async function main() {
     valuesIncluded: false
   };
 
-  const listed = await listAllReadyDeployments(canonicalProjectId, scopeName);
+  const listed = await listAllReadyDeployments(canonicalProjectId);
   const exactSummaries = listed.deployments.filter(hasExactTuple);
   const matchingReadyPreviews = [];
   const rejectedAfterDetailRead = [];
 
   for (const summary of exactSummaries) {
     const id = deploymentId(summary);
-    const response = await getJson(`/v13/deployments/${encodeURIComponent(id)}`, scopeName);
+    const response = await getJson(`/v13/deployments/${encodeURIComponent(id)}`);
     if (response.status !== 200 || !response.json) {
       fail(`Vercel detail read for an exact summary candidate failed with HTTP ${response.status}`);
     }

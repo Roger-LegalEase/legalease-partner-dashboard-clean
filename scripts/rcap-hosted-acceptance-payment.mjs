@@ -5,6 +5,12 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  HOSTED_VERCEL_TEAM_SLUG,
+  hostedVercelCliEnvironment,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 // Hosted acceptance staging — the Stripe payment and packet-delivery journey.
 //
@@ -39,11 +45,10 @@ const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
@@ -75,10 +80,11 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
  */
 const WORKER_PARTNER_DATA_FLAG = "true";
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN) {
-  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF and VERCEL_TOKEN are required");
+if (!SUPABASE_ACCESS_TOKEN || PROJECT_REF !== EXPECTED_PROJECT_REF || !VERCEL_TOKEN) {
+  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, the pinned acceptance project ref and VERCEL_TOKEN are required");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 if (!STRIPE_KEY.startsWith("sk_test_") || !WEBHOOK_SECRET.startsWith("whsec_")) {
   console.error("PAYMENT: a sandbox Stripe secret key (sk_test_) and signing secret (whsec_) are required; refusing to run a payment journey without them");
   process.exit(1);
@@ -147,9 +153,7 @@ const REQUIRED_CASES = [
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
 async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
   });
   let json = null;
@@ -294,11 +298,12 @@ function finish() {
 
 // --- 1. The deployment that actually carries Stripe --------------------------
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
+  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&limit=100&state=READY`);
   const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
     (d) => (d.readyState ?? d.state) === "READY"
-      && d.target !== "production"
+      && (d.target === null || d.target === "preview")
       && d.meta?.rcapApplicationSha === APPLICATION_SHA
+      && d.meta?.rcapAcceptanceProjectRef === PROJECT_REF
       && d.meta?.rcapStripeConfigured === "true"
       && d.meta?.rcapRouteState === "staging_scoped"
   );
@@ -418,8 +423,13 @@ function finish() {
       "vercel@latest", "curl", "/api/health",
       "--deployment", PREVIEW,
       "--token", process.env.VERCEL_TOKEN ?? "",
-      "--scope", VERCEL_ORG_ID
-    ], { encoding: "utf8", timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
+      "--scope", HOSTED_VERCEL_TEAM_SLUG
+    ], {
+      encoding: "utf8",
+      timeout: 120000,
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
+    });
     const token = process.env.VERCEL_TOKEN ?? "";
     let out = sanitize(`${run.stdout ?? ""}${run.stderr ?? ""}`);
     if (token) out = out.split(token).join("***TOKEN***");

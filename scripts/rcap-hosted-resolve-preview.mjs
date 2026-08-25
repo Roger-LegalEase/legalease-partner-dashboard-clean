@@ -22,17 +22,31 @@
 // not evidence; the deployment record is.
 import fs from "node:fs";
 import path from "node:path";
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
-const OUT_DIR = path.resolve("hosted-acceptance-evidence");
+const { root: OUT_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: process.cwd() });
 
 const HOSTNAME_INPUT = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const DEPLOYMENT_ID_INPUT = (process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "").trim();
 const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_TEAM = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT = process.env.VERCEL_PROJECT_ID ?? "";
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+
+if (!/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
+  console.error("PREVIEW RESOLUTION: HOSTED_APPLICATION_SHA must be one exact lowercase 40-character SHA");
+  process.exit(1);
+}
+if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
+  console.error("PREVIEW RESOLUTION: ACCEPTANCE_SUPABASE_PROJECT_REF is not the pinned acceptance project");
+  process.exit(1);
+}
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
 // Phases that transact — Checkout, payment, worker, artifact, delivery — need
 // the delivery route OPEN and narrowed to the named synthetic identity. Phases
@@ -47,6 +61,7 @@ const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
 const REQUIRED_ROUTE_STATE = "staging_scoped";
 const REQUIRE_STAGING_SCOPED = (process.env.HOSTED_REQUIRE_STAGING_SCOPED ?? "").trim() === "true";
 const routeStateOf = (deployment) => deployment?.meta?.rcapRouteState ?? null;
+const isPreviewTarget = (target) => target === null || target === "preview";
 
 /** The route state is acceptable for this phase, or it is not. Never inferred. */
 function routeStateAcceptable(state) {
@@ -96,9 +111,9 @@ function emit(outcome, extra = {}) {
 }
 
 const api = async (route) => {
-  const url = new URL(`https://api.vercel.com${route}`);
-  if (VERCEL_TEAM) url.searchParams.set("teamId", VERCEL_TEAM);
-  const response = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
+  const response = await fetch(hostedVercelScopedUrl(route, VERCEL_IDENTITY), {
+    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
+  });
   if (!response.ok) throw new Error(`Vercel ${route} returned HTTP ${response.status}`);
   return response.json();
 };
@@ -110,7 +125,7 @@ const api = async (route) => {
  * environment someone could later mistake for the accepted one.
  */
 async function findExistingExactPreview() {
-  const listed = await api(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT)}&target=preview&state=READY&limit=40`);
+  const listed = await api(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_IDENTITY.projectId)}&target=preview&state=READY&limit=40`);
   const candidates = listed.deployments ?? [];
   const examined = [];
   for (const summary of candidates) {
@@ -121,9 +136,9 @@ async function findExistingExactPreview() {
     const meta = full.meta ?? {};
     const state = routeStateOf(full);
     const matches = (full.readyState ?? full.status) === "READY"
-      && full.target !== "production"
+      && isPreviewTarget(full.target)
       && meta.rcapApplicationSha === APPLICATION_SHA
-      && (meta.rcapAcceptanceProjectRef ?? PROJECT_REF) === PROJECT_REF
+      && meta.rcapAcceptanceProjectRef === PROJECT_REF
       && meta.rcapStripeConfigured === "true"
       && routeStateAcceptable(state);
     examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, matches });
@@ -198,8 +213,8 @@ if (HOSTNAME_INPUT) {
     : bad("hostname_matches_the_authorized_preview", `resolved ${resolvedHost}, authorized ${HOSTNAME_INPUT}`);
 }
 readyState === "READY" ? ok("deployment_is_ready", readyState) : bad("deployment_is_ready", `readyState=${readyState}`);
-// target null means Preview. "production" is the one value that must never pass.
-target !== "production" ? ok("target_is_preview_not_production", `target=${target}`) : bad("target_is_preview_not_production", "target=production");
+// Vercel represents Preview as null or "preview". No other target is admitted.
+isPreviewTarget(target) ? ok("target_is_preview_not_production", `target=${target}`) : bad("target_is_preview_not_production", `target=${target}`);
 
 const deployedSha = meta.rcapApplicationSha ?? null;
 deployedSha === APPLICATION_SHA
@@ -216,14 +231,10 @@ routeStateAcceptable(observedRouteState)
       + "A disabled Preview refuses unauthenticated delivery with 503 and a staging-scoped one with 401; both look safe, and only one can transact. "
       + "Deployment metadata is fixed at deploy time, so this Preview cannot be promoted — it needs a staging-scoped deployment.");
 
-const deployedProject = meta.rcapAcceptanceProjectRef ?? meta.acceptanceProjectRef ?? null;
-if (deployedProject) {
-  deployedProject === PROJECT_REF
-    ? ok("bound_to_the_acceptance_project", deployedProject)
-    : bad("bound_to_the_acceptance_project", `deployment records ${deployedProject}, authorized ${PROJECT_REF}`);
-} else {
-  ok("bound_to_the_acceptance_project", `not recorded in deployment metadata; asserted downstream against ${PROJECT_REF}`);
-}
+const deployedProject = meta.rcapAcceptanceProjectRef ?? null;
+deployedProject === PROJECT_REF
+  ? ok("bound_to_the_acceptance_project", deployedProject)
+  : bad("bound_to_the_acceptance_project", `deployment records ${deployedProject ?? "(none)"}, authorized ${PROJECT_REF}`);
 
 // No Production alias may be attached to a deployment the matrix will drive.
 try {

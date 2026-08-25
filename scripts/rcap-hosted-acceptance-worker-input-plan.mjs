@@ -123,6 +123,7 @@ export function createWorkerInputPlan({
 
   const changedPaths = changedCanonicalPaths(resolvedRoot, acceptedSourceSha, candidateSha);
   const rebuildRequired = changedPaths.length > 0;
+  const imageSourceSha = rebuildRequired ? candidateSha : acceptedSourceSha;
 
   return {
     schemaVersion: "rcap-worker-input-plan/v1",
@@ -136,11 +137,12 @@ export function createWorkerInputPlan({
     rebuildRequired,
     decision: rebuildRequired ? "rebuild-required" : "reuse-accepted-digest",
     image: {
+      sourceSha: imageSourceSha,
       tags: rebuildRequired ? [candidateSha] : [],
       tagPolicy: "full-40-character-candidate-sha-only",
       digest: rebuildRequired ? "pending" : acceptedDigest,
       ociAnnotations: {
-        "org.opencontainers.image.revision": candidateSha
+        "org.opencontainers.image.revision": imageSourceSha
       }
     }
   };

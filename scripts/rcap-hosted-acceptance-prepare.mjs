@@ -5,6 +5,10 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  HOSTED_VERCEL_PROJECT_NAME,
+  HOSTED_VERCEL_TEAM_SLUG
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 export const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
@@ -53,7 +57,7 @@ function hasValue(environment, name) {
 export function detectHostedAcceptanceCapabilities(environment = process.env) {
   const capabilityPresent = {
     github: hasValue(environment, "GH_TOKEN") || hasValue(environment, "GITHUB_TOKEN"),
-    vercel: ["VERCEL_TOKEN", "VERCEL_ORG_ID", "VERCEL_PROJECT_ID"].every((name) => hasValue(environment, name)),
+    vercel: hasValue(environment, "VERCEL_TOKEN"),
     supabase: hasValue(environment, "SUPABASE_ACCESS_TOKEN")
       && environment.ACCEPTANCE_SUPABASE_PROJECT_REF === ACCEPTANCE_PROJECT_REF,
     ghcr: ["GHCR_TOKEN", "CR_PAT", "GH_TOKEN", "GITHUB_TOKEN"].some((name) => hasValue(environment, name)),
@@ -83,6 +87,10 @@ export function buildEnvironmentPreparation({ applicationSha, evidenceFolders, e
   return {
     schemaVersion: "rcap-hosted-environment-preparation/v1",
     acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
+    vercelProject: {
+      teamSlug: HOSTED_VERCEL_TEAM_SLUG,
+      projectName: HOSTED_VERCEL_PROJECT_NAME
+    },
     applicationSha,
     identityRoles: [...HOSTED_ACCEPTANCE_IDENTITY_ROLES],
     sponsorshipStates: [...HOSTED_ACCEPTANCE_SPONSORSHIP_STATES],

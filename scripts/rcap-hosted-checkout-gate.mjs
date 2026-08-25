@@ -15,6 +15,10 @@ import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -28,8 +32,6 @@ const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
 const WORKER_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
@@ -104,11 +106,7 @@ function sqlText(value) {
   return String(value).split("'").join("''");
 }
 
-let vercelScopeName = null;
-function scopedVercelUrl(pathname, scopeName) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  return `https://api.vercel.com${pathname}${joiner}${scopeName}=${encodeURIComponent(VERCEL_ORG_ID)}`;
-}
+let VERCEL_IDENTITY = null;
 
 async function vercelFetch(url) {
   const response = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
@@ -119,17 +117,8 @@ async function vercelFetch(url) {
 }
 
 async function vercelApi(pathname) {
-  if (vercelScopeName) return vercelFetch(scopedVercelUrl(pathname, vercelScopeName));
-  const candidates = VERCEL_ORG_ID.startsWith("team_") ? ["teamId", "slug"] : ["slug", "teamId"];
-  let last = null;
-  for (const candidate of candidates) {
-    last = await vercelFetch(scopedVercelUrl(pathname, candidate));
-    if (last.status < 400) {
-      vercelScopeName = candidate;
-      return last;
-    }
-  }
-  return last;
+  if (!VERCEL_IDENTITY) throw new GateFailure("vercel_identity_resolved", "the pinned Vercel identity has not been resolved");
+  return vercelFetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY));
 }
 
 async function managementApi(pathname, { method = "GET", body = null } = {}) {
@@ -271,13 +260,12 @@ async function main() {
     ["HOSTED_PREVIEW_DEPLOYMENT_ID", DEPLOYMENT_ID],
     ["HOSTED_WORKER_DIGEST_REF", WORKER_REF],
     ["VERCEL_TOKEN", VERCEL_TOKEN],
-    ["VERCEL_ORG_ID", VERCEL_ORG_ID],
-    ["VERCEL_PROJECT_ID", VERCEL_PROJECT_ID],
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
     ["HOSTED_STRIPE_TEST_SECRET", STRIPE_KEY],
     ["VERCEL_AUTOMATION_BYPASS_SECRET", BYPASS]
   ].filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) throw new GateFailure("required_inputs_present", `missing ${missing.join(", ")}`);
+  VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 
   // Report the MISMATCH, not just the observed values. Printing only what
   // arrived made a stale pin in this file read as though the workflow had sent
@@ -300,14 +288,15 @@ async function main() {
 
   // Exact existing deployment only. There is intentionally no list-and-pick or
   // create fallback in this gate.
-  const projectResponse = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
+  const projectResponse = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
   const canonicalProjectId = projectResponse.json?.id ?? null;
   record(
     "vercel_project_identity_resolved",
     projectResponse.status === 200
       && Boolean(canonicalProjectId)
-      && (projectResponse.json?.id === VERCEL_PROJECT_ID || projectResponse.json?.name === VERCEL_PROJECT_ID),
-    `project lookup=${projectResponse.status}; canonical id present=${Boolean(canonicalProjectId)}; scope parameter=${vercelScopeName ?? "(unresolved)"}`
+      && projectResponse.json?.id === VERCEL_IDENTITY.projectId
+      && projectResponse.json?.name === VERCEL_IDENTITY.projectName,
+    `project lookup=${projectResponse.status}; canonical id present=${Boolean(canonicalProjectId)}; scope parameter=teamId`
   );
 
   const deploymentResponse = await vercelApi(`/v13/deployments/${encodeURIComponent(DEPLOYMENT_ID)}`);

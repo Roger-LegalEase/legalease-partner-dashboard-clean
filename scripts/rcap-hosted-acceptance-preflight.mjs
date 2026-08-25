@@ -18,29 +18,33 @@
 //     production LegalEase database necessarily has, and for row counts in
 //     them. A production database has partner records and screening sessions.
 //     An acceptance database has neither. Any nonzero count is fatal.
-//   * DISJOINTNESS — the Vercel project's PRODUCTION-target Supabase URL is
-//     read and hashed, and the acceptance URL is hashed, and the two hashes
-//     must differ. The production value itself is never printed, never
-//     written to the evidence bundle, and never leaves the comparison.
+//   * CONFIGURATION SHAPE — production-target keys, targets and timestamps are
+//     snapshotted without requesting or reading stored values. The Preview
+//     receives its acceptance binding per deployment; it never inherits or
+//     rewrites the project's Production environment.
 //
 // Nothing here writes. Every call is a GET or a read-only query, so a
 // preflight that fails has changed nothing anywhere.
 
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  HOSTED_VERCEL_PROJECT_NAME,
+  HOSTED_VERCEL_TEAM_SLUG,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const ACCEPTANCE_PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 const verdicts = new Map();
 function record(caseId, passed, observed) {
@@ -77,8 +81,6 @@ const VERCEL_GATE = [
 const SCOPE = process.env.PREFLIGHT_SCOPE === "supabase_only" ? "supabase_only" : "full";
 const REQUIRED_CASES = SCOPE === "supabase_only" ? SUPABASE_GATE : [...SUPABASE_GATE, ...VERCEL_GATE];
 
-const sha256 = (value) => crypto.createHash("sha256").update(String(value)).digest("hex");
-
 async function supabaseApi(pathname, { method = "GET", body = null } = {}) {
   const res = await fetch(`https://api.supabase.com${pathname}`, {
     method,
@@ -94,19 +96,7 @@ async function supabaseApi(pathname, { method = "GET", body = null } = {}) {
   return { status: res.status, json, text: text.slice(0, 400) };
 }
 
-/**
- * Team scoping is passed as `teamId` when VERCEL_ORG_ID is a team id
- * (`team_…`) and as `slug` otherwise, because Vercel rejects a slug supplied
- * as teamId with the same 403 it uses for a genuinely unauthorized token. A
- * scoping mistake and a bad credential must not be indistinguishable, so on a
- * 403 the other spelling is tried once and whichever succeeds is remembered.
- */
-let teamParam = null;
-function scopedUrl(pathname, param) {
-  if (!param) return `https://api.vercel.com${pathname}`;
-  const joiner = pathname.includes("?") ? "&" : "?";
-  return `https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`;
-}
+let VERCEL_IDENTITY = null;
 async function vercelFetch(url) {
   const res = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
   let json = null;
@@ -115,14 +105,8 @@ async function vercelFetch(url) {
   return { status: res.status, json, text: text.slice(0, 400) };
 }
 async function vercelApi(pathname) {
-  if (teamParam !== null) return vercelFetch(scopedUrl(pathname, teamParam));
-  const candidates = VERCEL_ORG_ID.startsWith("team_") ? ["teamId", "slug"] : ["slug", "teamId"];
-  let last = null;
-  for (const candidate of candidates) {
-    last = await vercelFetch(scopedUrl(pathname, candidate));
-    if (last.status < 400) { teamParam = candidate; return last; }
-  }
-  return last;
+  if (!VERCEL_IDENTITY) throw new Error("the pinned Vercel identity has not been resolved");
+  return vercelFetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY));
 }
 
 /** Read-only SQL through the Management API. No database password is needed or held. */
@@ -138,8 +122,6 @@ async function query(sql) {
   const missing = [
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
     ["VERCEL_TOKEN", VERCEL_TOKEN],
-    ["VERCEL_ORG_ID", VERCEL_ORG_ID],
-    ["VERCEL_PROJECT_ID", VERCEL_PROJECT_ID],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", ACCEPTANCE_PROJECT_REF]
   ].filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) {
@@ -150,6 +132,16 @@ async function query(sql) {
     console.error(`PREFLIGHT: acceptance project ref is not a Supabase project ref shape`);
     process.exit(1);
   }
+  if (ACCEPTANCE_PROJECT_REF !== EXPECTED_PROJECT_REF) {
+    console.error("PREFLIGHT: ACCEPTANCE_SUPABASE_PROJECT_REF is not the pinned acceptance project");
+    process.exit(1);
+  }
+}
+try {
+  VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+} catch (error) {
+  console.error(`PREFLIGHT: ${error.message}`);
+  process.exit(1);
 }
 
 const evidence = {
@@ -338,66 +330,26 @@ const evidence = {
 // --- 3. Vercel credential and project identity -------------------------------
 let vercelProject = null;
 {
-  // Probed against the endpoint this mission actually uses. An earlier version
-  // probed /v2/user and failed 403 on a correct token: a team-scoped Vercel
-  // token is not authorized for the personal-user endpoint at all, so that
-  // check tested something the mission never needs and would have reported a
-  // working credential as broken.
   const listing = await vercelApi("/v9/projects?limit=1");
   const usable = listing.status === 200;
-
-  // A bare 403 is not an actionable report. When the scoped listing is refused,
-  // three unscoped probes separate "the token is bad" from "the token is fine
-  // but the org identifier is wrong" from "the token is fine and scoped to a
-  // different team". Shapes are reported; values never are.
-  let diagnosis = "";
-  if (!usable) {
-    const shape = (name, value) => `${name}=<${value.length} chars, prefix "${value.slice(0, 5)}…">`;
-    const unscopedProjects = await vercelFetch("https://api.vercel.com/v9/projects?limit=1");
-    const teams = await vercelFetch("https://api.vercel.com/v2/teams?limit=20");
-    const teamList = Array.isArray(teams.json?.teams) ? teams.json.teams : [];
-    const orgMatches = teamList.some((team) => team.id === VERCEL_ORG_ID || team.slug === VERCEL_ORG_ID);
-
-    if (teams.status === 403 && unscopedProjects.status === 403) {
-      diagnosis = "the token is refused on every endpoint including unscoped ones, so the credential itself is not valid for this account — it is expired, revoked, or was pasted incompletely. Reissue a Vercel access token and update the VERCEL_TOKEN secret.";
-    } else if (teamList.length > 0 && !orgMatches) {
-      diagnosis = `the token is valid and can see ${teamList.length} team(s), but VERCEL_ORG_ID matches none of their ids or slugs. Update VERCEL_ORG_ID to the team the project lives under.`;
-    } else if (unscopedProjects.status === 200) {
-      diagnosis = "the token is valid for personal-scope projects but is refused under the supplied org, so it is scoped to a different account or team than VERCEL_ORG_ID names.";
-    } else {
-      diagnosis = `unscoped project listing returned ${unscopedProjects.status} and team listing returned ${teams.status}; the token is authenticated but authorized for neither, which usually means an access token limited to a specific scope that excludes this project.`;
-    }
-    diagnosis += ` Supplied identifier shapes (values never printed): ${shape("VERCEL_ORG_ID", VERCEL_ORG_ID)}, ${shape("VERCEL_PROJECT_ID", VERCEL_PROJECT_ID)}.`;
-    evidence.cases.vercelDiagnosis = {
-      scopedListingStatus: listing.status,
-      unscopedListingStatus: unscopedProjects.status,
-      teamListingStatus: teams.status,
-      visibleTeamCount: teamList.length,
-      orgIdMatchesAVisibleTeam: orgMatches,
-      orgIdLooksLikeTeamId: VERCEL_ORG_ID.startsWith("team_"),
-      projectIdLooksLikeProjectId: VERCEL_PROJECT_ID.startsWith("prj_")
-    };
-  }
-
   record(
     "vercel_token_usable",
     usable,
     usable
-      ? `the token lists projects under the supplied org scope (scoped by ${teamParam}); this is the access the deployment step needs`
-      : `project listing returned ${listing.status} — ${diagnosis}`
+      ? `the token lists projects under pinned team ${HOSTED_VERCEL_TEAM_SLUG} using its resolved team_ id`
+      : `project listing under pinned team ${HOSTED_VERCEL_TEAM_SLUG} returned ${listing.status}`
   );
 
-  // The endpoint accepts an id or a name, so the supplied value is accepted as
-  // either and the resolved id is what everything downstream uses.
-  const project = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
+  const project = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}`);
   const resolved = project.status === 200
-    && (project.json?.id === VERCEL_PROJECT_ID || project.json?.name === VERCEL_PROJECT_ID);
+    && project.json?.id === VERCEL_IDENTITY.projectId
+    && project.json?.name === HOSTED_VERCEL_PROJECT_NAME;
   vercelProject = resolved ? project.json : null;
   record(
     "vercel_project_resolves",
     resolved,
     resolved
-      ? `the supplied project identifier resolves to name="${project.json.name}", framework=${project.json.framework}, ssoProtection=${project.json.ssoProtection ? "on" : "off"}, passwordProtection=${project.json.passwordProtection ? "on" : "off"}`
+      ? `the pinned project ${HOSTED_VERCEL_TEAM_SLUG}/${HOSTED_VERCEL_PROJECT_NAME} resolves to its canonical prj_ id; framework=${project.json.framework}, ssoProtection=${project.json.ssoProtection ? "on" : "off"}, passwordProtection=${project.json.passwordProtection ? "on" : "off"}`
       : `project lookup returned ${project.status}: ${project.text}`
   );
   if (resolved) {
@@ -405,7 +357,8 @@ let vercelProject = null;
       resolvedId: project.json.id,
       name: project.json.name,
       framework: project.json.framework,
-      teamScopeParam: teamParam,
+      teamSlug: HOSTED_VERCEL_TEAM_SLUG,
+      teamScopeParam: "teamId",
       ssoProtectionEnabled: Boolean(project.json.ssoProtection),
       passwordProtectionEnabled: Boolean(project.json.passwordProtection),
       // Recorded so the deployment step can prove afterwards that it added no
@@ -417,21 +370,17 @@ let vercelProject = null;
   }
 }
 
-// --- 4. Disjointness from the Vercel production environment ------------------
+// --- 4. Production shape only; value-disjointness remains fail-closed --------
 {
-  // Decrypted production values are read into memory for exactly two
-  // comparisons and are never printed, hashed into evidence, or written out.
-  const env = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}/env?decrypt=true`);
+  // Stored values are outside this run's authority. Without decrypting them the
+  // historical value-disjointness cases cannot honestly pass, so they remain
+  // red. The shape is still recorded for an unchanged-set comparison.
+  const env = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_IDENTITY.projectId)}/env`);
   const entries = Array.isArray(env.json?.envs) ? env.json.envs : [];
   const productionEntries = entries.filter((entry) => Array.isArray(entry.target) && entry.target.includes("production"));
-
-  const prodSupabaseUrl = productionEntries.find((entry) => entry.key === "NEXT_PUBLIC_SUPABASE_URL")?.value
-    ?? productionEntries.find((entry) => entry.key === "SUPABASE_URL")?.value
-    ?? null;
-
-  const acceptanceUrl = `https://${ACCEPTANCE_PROJECT_REF}.supabase.co`;
-  const acceptanceHash = sha256(acceptanceUrl);
-  const prodHash = prodSupabaseUrl ? sha256(prodSupabaseUrl.trim()) : null;
+  const productionShape = productionEntries
+    .map((entry) => ({ key: entry.key, target: [...entry.target].sort(), updatedAt: entry.updatedAt ?? null }))
+    .sort((a, b) => a.key.localeCompare(b.key));
 
   // Disjointness can be established two ways, and the second is strictly the
   // more general one.
@@ -450,48 +399,30 @@ let vercelProject = null;
   // values and found the acceptance ref in none of them. Demanding a specific
   // variable name when the general proof has already succeeded is a gate
   // failing on its own shape rather than on the question it exists to answer.
-  const contaminatedNow = (Array.isArray(env.json?.envs) ? env.json.envs : [])
-    .filter((entry) => Array.isArray(entry.target) && entry.target.includes("production"))
-    .filter((entry) => typeof entry.value === "string" && entry.value.includes(ACCEPTANCE_PROJECT_REF));
-  const exhaustiveAbsence = env.status === 200
-    && productionEntries.length > 0
-    && contaminatedNow.length === 0;
-  const disjoint = env.status === 200
-    && ((prodHash !== null && prodHash !== acceptanceHash) || (prodHash === null && exhaustiveAbsence));
   record(
     "acceptance_ref_disjoint_from_vercel_production",
-    disjoint,
+    false,
     env.status !== 200
-      ? `could not read the project's environment variables: ${env.status} ${env.text}`
-      : prodHash === null
-        ? `no production-target Supabase URL is configured on this Vercel project, so disjointness cannot be proven by comparison`
-        : prodHash === acceptanceHash
-          ? `REFUSING: the production-target Supabase URL hashes to the acceptance URL's hash ${acceptanceHash.slice(0, 16)}… — the named acceptance project IS the production project`
-          : `production Supabase URL sha256 ${prodHash.slice(0, 16)}… differs from acceptance URL sha256 ${acceptanceHash.slice(0, 16)}… — the two are different projects (neither value printed)`
+      ? `could not read the project's environment-variable shape: ${env.status} ${env.text}`
+      : `BLOCKED: ${productionShape.length} production-target entries were read without values; value disjointness was not evaluated because decrypt=false`
   );
 
   // Second, wider pass: the acceptance ref must not appear anywhere inside any
   // production-target value. That catches a pooler host, a connection string or
   // a service-role key issued by the same project under a different key name.
-  const contaminated = productionEntries
-    .filter((entry) => typeof entry.value === "string" && entry.value.includes(ACCEPTANCE_PROJECT_REF))
-    .map((entry) => entry.key);
-  const absent = env.status === 200 && contaminated.length === 0;
   record(
     "acceptance_ref_absent_from_every_production_value",
-    absent,
+    false,
     env.status !== 200
       ? `not evaluated: the environment listing returned ${env.status}`
-      : absent
-        ? `the acceptance ref appears in none of the ${productionEntries.length} production-target values (values compared in memory, never printed)`
-        : `REFUSING: the acceptance ref appears inside production-target value(s) for key(s): ${contaminated.join(", ")}`
+      : "BLOCKED: stored Production values were not requested or read, so exhaustive value absence is unproven"
   );
 
   evidence.cases.disjointness = {
-    productionTargetVariableCount: productionEntries.length,
-    acceptanceUrlSha256: acceptanceHash,
-    productionSupabaseUrlSha256: prodHash,
-    productionValueNeverPrinted: true
+    productionEnvironmentShape: productionShape,
+    requestedDecryption: false,
+    storedValuesRead: false,
+    valueDisjointnessProven: false
   };
 }
 

@@ -14,14 +14,15 @@ import { register } from "node:module";
 import { spawnSync } from "node:child_process";
 import { PDFDocument } from "pdf-lib";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { computeNormalizedFingerprint } = await import("../src/lib/rcap/render/job-contract.ts");
 
 const ROOT = process.cwd();
-const EVIDENCE_DIR = path.join(ROOT, "hosted-acceptance-evidence");
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: ROOT });
 const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "github-post-payment-acceptance.json");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const TOOLS_SHA = process.env.HOSTED_TOOLS_SHA ?? "";
