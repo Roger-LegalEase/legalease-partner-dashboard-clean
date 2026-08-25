@@ -48,6 +48,25 @@ const {
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 
 const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
+
+/**
+ * Jurisdictions whose compiled profile a governance control currently pins.
+ *
+ * Maryland carries the settled screening-parity delta
+ * `md-pardon-signed-date-2026-08-11`. That record's settled branch requires
+ * MD-maryland.json to be byte-identical to the `main` baseline, so ANY edit to
+ * the file — including one that leaves all 36 questions untouched — drops it
+ * out of the settled branch and into a projection whose before-count no longer
+ * exists. The approval is Roger's, and re-pinning it to bytes he did not
+ * approve is not this script's call to make.
+ *
+ * So the Maryland contract stays in the registry, unapplied and visible, until
+ * the delta is retired now that its content is in main. Skipping loudly is the
+ * point: a silent skip would read as "Maryland has no approved decision".
+ */
+const BLOCKED_JURISDICTIONS = {
+  MD: "settled screening-parity delta md-pardon-signed-date-2026-08-11 pins MD-maryland.json to the main baseline"
+};
 const checkOnly = process.argv.includes("--check");
 
 const profilePaths = new Map();
@@ -231,6 +250,7 @@ function applyToRule(rule, contract, requiredPublicIds) {
 const summary = { profiles: 0, pathways: 0, created: 0, rules: 0, waitRules: 0, packetPlans: 0, downgraded: 0 };
 const stale = [];
 const unmatched = [];
+const blocked = [];
 
 const byJurisdiction = new Map();
 for (const contract of LEGAL_AUTHORITY.routes) {
@@ -239,6 +259,10 @@ for (const contract of LEGAL_AUTHORITY.routes) {
 }
 
 for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeCompare(b))) {
+  if (BLOCKED_JURISDICTIONS[code]) {
+    blocked.push(`${code} (${contracts.length} contracts): ${BLOCKED_JURISDICTIONS[code]}`);
+    continue;
+  }
   const filePath = profilePaths.get(code);
   if (!filePath) { unmatched.push(`${code}: no compiled profile`); continue; }
   const original = readFileSync(filePath, "utf8");
@@ -376,6 +400,7 @@ for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeC
   }
 }
 
+for (const entry of blocked) console.warn(`SKIPPED, governance-blocked: ${entry}`);
 if (unmatched.length) {
   console.error("Contracts with no compiled target:");
   for (const entry of unmatched) console.error(`  - ${entry}`);

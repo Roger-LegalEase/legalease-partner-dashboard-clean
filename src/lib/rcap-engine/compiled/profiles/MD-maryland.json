@@ -993,11 +993,27 @@
       ],
       "automatic": false,
       "filingRequired": true,
-      "routeType": "administrative",
+      "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "a written request to the police agency, which must be made within eight years of the incident; the eight years is a filing deadline that bars a late request, not a waiting period before filing",
-        "60-day agency processing period — agency processing after the request; never displayed as a participant wait."
+        "PBJ Expungement route unless excluded; waiting period applies",
+        "Stet Expungement route; waiting period applies",
+        "Acquittal, nolle prosequi, dismissal 3 years after disposition, unless the person files a General Waiver and Release of tort claims arising from the charge",
+        "PBJ Later of discharge from probation or 3 years after PBJ was granted",
+        "PBJ for DUI/DWI under Transportation 21-902(a) or (b) 15 years after discharge from probation",
+        "Stet / compromise 3 years after stet or compromise",
+        "Nuisance/transit-type convictions listed in 10-105(a)(9) 3 years after sentence completion",
+        "Not criminally responsible route under 10-105(a)(9) or (10) 3 years after NCR finding",
+        "Maryland\u0019s automatic expungement applies to certain all-favorable cases after 3 years. It covers records relating to a qualifying civil cannabis offense or non-must-appear criminal charge when no charge in the case resulted in anything other than acquittal, dismissal, not guilty, or nolle prosequi, except treatment-related nolle prosequi is excluded. (\"https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=10-105.1\")",
+        "Maryland Courts also states that for cases where all charges have acquittal, not guilty, dismissal, or nolle prosequi entered on or after October 1, 2021, the court will automatically expunge the case after 3 years; a person can request expungement earlier using CC-DC-CR-072C with no fee. (\"https://www.mdcourts.gov/legalhelp/expungement\")",
+        "Wilma rule: If the case qualifies for automatic expungement but the person wants faster relief before 3 years, route to CC-DC-CR-072C, not the ordinary 072A packet.",
+        "Most listed misdemeanors 5 years after completion of sentence",
+        "Second-degree assault / common law battery 7 years after completion of sentence",
+        "Most eligible felonies 7 years after completion of sentence",
+        "Possession with intent to distribute cannabis 3 years after completion of sentence",
+        "First-degree burglary, second-degree burglary, felony theft 10 years after completion of sentence",
+        "Domestically related crime 15 years after completion of sentence",
+        "These waiting periods are set out in 10-110(c), and Maryland Courts\u0019 CC-DC-CR-072G2 list groups the eligible charges by 5-, 7-, 10-, and 15-year categories. ("
       ],
       "exclusionRules": [
         "The unit rule. If one conviction arising from a single incident/charging document is NOT eligible, then NO conviction from that incident may be expunged. This is the most important Maryland-specific trap.",
@@ -1026,50 +1042,6 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
-      },
-      "legalAuthority": {
-        "decisionId": "LD-MD-03",
-        "ruleId": "MD-10-103-10-103.1-PREPOST-2007-POLICE-RECORD-MAP",
-        "mechanism": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests",
-        "statute": "Md. Code, Crim. Proc. § 10-103",
-        "stage": "single_stage",
-        "outcomeMode": "agency_application",
-        "paymentAuthority": "packet_checkout",
-        "timing": {
-          "kind": "filing_deadline",
-          "value": 8,
-          "unit": "years",
-          "anchorFactId": "arrest_date",
-          "anchorText": "a written request to the police agency, which must be made within eight years of the incident; the eight years is a filing deadline that bars a late request, not a waiting period before filing"
-        },
-        "processingDeadlines": [
-          {
-            "label": "60-day agency processing period",
-            "note": "agency processing after the request; never displayed as a participant wait"
-          }
-        ],
-        "requiredFacts": [
-          "Arrest/detention date?",
-          "Agency?",
-          "Confirmation no charge was ever filed?",
-          "Whether record remains?",
-          "Date discovered?",
-          "Deadline calculation for pre-2007 records?"
-        ],
-        "screeningFactIds": [
-          "case_outcome"
-        ],
-        "exclusions": [
-          "No charging document was filed",
-          "Police-record relief only",
-          "Incident date determines request versus automatic process"
-        ],
-        "packetFamily": "Maryland § 10-103 Written Request to the Police Agency",
-        "packetComponents": [
-          "Written request to the law-enforcement agency",
-          "Arrest or detention record"
-        ],
-        "notes": "For an arrest or detention on or after October 1, 2007 with no charge filed, § 10-103.1 requires automatic expungement within the statutory agency period; if the automatic action did not occur, give agency correction and escalation guidance rather than a court packet unless the statute's review mechanism is invoked."
       }
     },
     {
@@ -3818,10 +3790,22 @@
       "when": {
         "backendPathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
         "requiredFields": [
-          "case_outcome"
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date",
+          "prior_relief",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
         ],
         "fieldsReferenced": [
-          "case_outcome"
+          "case_outcome",
+          "offense_category",
+          "sentence_completion_date",
+          "prior_relief",
+          "age_at_offense",
+          "pardon_status",
+          "record_type"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -3831,8 +3815,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "a written request to the police agency, which must be made within eight years of the incident; the eight years is a filing deadline that bars a late request, not a waiting period before filing",
-        "timingAnchorFactId": "arrest_date"
+        "sourceConditionText": "Police-record expungement when no charge was filed under § 10-103"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3842,13 +3825,7 @@
       "sourceRef": "section:181-196; section:9-28; section:39-52; overview:9-28; corpus-unit:9; corpus-unit:29; corpus-unit:66; corpus-unit:4",
       "candidatePathwayIds": [
         "police-record-expungement-when-no-charge-was-filed-under-10-103"
-      ],
-      "legalAuthority": {
-        "decisionId": "LD-MD-03",
-        "ruleId": "MD-10-103-10-103.1-PREPOST-2007-POLICE-RECORD-MAP",
-        "statute": "Md. Code, Crim. Proc. § 10-103",
-        "mechanism": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests"
-      }
+      ]
     },
     {
       "id": "route-eligible-conviction-expungement-under-crim-proc-10-110",
