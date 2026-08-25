@@ -1,0 +1,121 @@
+name: RCAP controlled Production canary
+
+# Release-captain-only control. The preflight is GET-only and records the
+# current READY Production deployment as the rollback target before any later
+# release phase may exist. A Production mutation phase is intentionally absent
+# until this discovery succeeds and its exact identities are reviewed.
+on:
+  workflow_call:
+    inputs:
+      application_sha:
+        required: true
+        type: string
+      worker_source_sha:
+        required: true
+        type: string
+      worker_digest:
+        required: true
+        type: string
+      tools_sha:
+        description: "Tools-only execution commit descended from the accepted hosted tools SHA"
+        required: true
+        type: string
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  APPLICATION_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  ACCEPTED_TOOLS_SHA: d075ff0fd5627ec55c9d27c3018b1fb77f1fa08b
+  WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  CANONICAL_INTEGRATION_BRANCH: sprint/20260825-full-product-captain
+
+jobs:
+  preflight:
+    name: Record exact Production identity and rollback without mutation
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Refuse any release identity outside the frozen authorization
+        env:
+          INPUT_APPLICATION_SHA: ${{ inputs.application_sha }}
+          INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          INPUT_TOOLS_SHA: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
+          [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
+          [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
+          [ "$INPUT_TOOLS_SHA" = "$WORKFLOW_SHA" ] || { echo "::error::tools SHA must equal the workflow source SHA"; exit 1; }
+          printf '%s' "$INPUT_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools SHA must be full"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify the exact frozen identity and image-input equivalence
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "$APPLICATION_SHA" "$ACCEPTED_TOOLS_SHA" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside canonical history"; exit 1; }
+          done
+          git merge-base --is-ancestor "$APPLICATION_SHA" "$ACCEPTED_TOOLS_SHA" || { echo "::error::accepted tools do not descend from the application"; exit 1; }
+          git merge-base --is-ancestor "$ACCEPTED_TOOLS_SHA" "${{ inputs.tools_sha }}" || { echo "::error::execution tools do not descend from accepted hosted tools"; exit 1; }
+          git diff --quiet "$APPLICATION_SHA" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::execution tools differ from the frozen application"; exit 1; }
+          git diff --quiet "$WORKER_SOURCE_SHA" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::execution tools differ from immutable worker inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify the Production control contract
+        run: node scripts/verify-rcap-production-canary.mjs
+
+      - name: Pull and identify the accepted worker by immutable digest
+        run: |
+          set -euo pipefail
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin >/dev/null
+          REF="$IMAGE_REPOSITORY@$WORKER_DIGEST"
+          docker pull "$REF" >/dev/null
+          ACTUAL="$(docker inspect --format='{{index .RepoDigests 0}}' "$REF" | sed 's/.*@//')"
+          REVISION="$(docker inspect --format='{{index .Config.Labels "org.opencontainers.image.revision"}}' "$REF")"
+          [ "$ACTUAL" = "$WORKER_DIGEST" ] || { echo "::error::worker digest readback mismatch"; exit 1; }
+          [ "$REVISION" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker OCI revision mismatch"; exit 1; }
+          echo "Accepted worker pulled by digest; OCI revision matches the frozen worker source."
+
+      - name: Discover and record Production identity and rollback
+        env:
+          RCAP_PRODUCTION_PHASE: "preflight"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_ACCEPTED_TOOLS_SHA: ${{ env.ACCEPTED_TOOLS_SHA }}
+          RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-canary.mjs
+
+      - name: Upload the immutable Production preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-preflight-${{ github.run_id }}
+          path: production-canary-evidence/
+          if-no-files-found: error
