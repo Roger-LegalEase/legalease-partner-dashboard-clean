@@ -794,15 +794,14 @@
         "convicted_felony",
         "convicted_other"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Five-year clean period Five years must have passed since completion of sentence terms.",
-        "1 the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms, including financial obligations and court-ordered treatment; or",
-        "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system. DOJ says to allow about 30 days for processing. (\"https://dojmt.gov/dci-home/conviction-expungement-process/\")",
-        "Topic Montana Rule Main misdemeanor law MCA Title 46, Chapter 18, Part 11 Main misdemeanor petition statute 46-18-1104 Venue District Court where at least one misdemeanor conviction occurred Waiting period Generally 5 years after completing sentence terms Pending charges No current detention, charges, or pending new offense Once in lifetime Yes Fingerprints Required for identity validation Not-presumed offenses Assault, PFMA, stalking, sexual assault, protective order, DUI, DUI-enhanced Court standard Preponderance of the evidence Prosecutor notice Serve every prosecution office involved Victim notice Prosecutor attempts notice within 14 days Court can grant All, some, or none of the requested misdemeanors DOJ follow-up Send order, fingerprint card, and DOJ form to CRISS Non-convictions CRISS removal/sealing under 44-5-202 process Deferred sentence Dismissal can make records confidential Marijuana Separate MMRTA forms and process Felony, non-marijuana Generally not covered by misdemeanor expungement Tribal/out-of-state/federal Not covered by Montana misdemeanor packet This Montana reference is ready for Wilma training, intake triage, eligibility screening, document routing, and escalation logic."
+        "no elapsed waiting period; removal or confidentiality is required on a qualifying no-charge or nonconviction disposition, or on invalidation of a conviction",
+        "This rule governs filings on or after 2017-07-01.",
+        "Statutory court-to-CRISS reporting period — processing, not an applicant wait."
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -812,6 +811,44 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MT-03",
+        "ruleId": "MT-44-5-202-NONCONVICTION-AUTOMATIC-CORRECTION",
+        "mechanism": "Nonconviction criminal-history removal through CRISS",
+        "statute": "Mont. Code Ann. § 44-5-202",
+        "stage": "automatic",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no elapsed waiting period; removal or confidentiality is required on a qualifying no-charge or nonconviction disposition, or on invalidation of a conviction"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Statutory court-to-CRISS reporting period",
+            "note": "processing, not an applicant wait"
+          }
+        ],
+        "requiredFacts": [
+          "Arrest date?",
+          "Charge filing?",
+          "Final disposition?",
+          "Invalidation order?",
+          "CRISS record status?",
+          "Agency/court reporting?",
+          "Pre/post-July 1, 2017 record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Montana criminal-history information within § 44-5-202 and eligible for removal/confidentiality",
+          "Operational branch depends on record date and whether automatic action occurred"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2017-07-01",
+        "notes": "For qualifying records arising after the July 1, 2017 operational change, CRISS should process removal automatically; if the record remains, give a correction request and escalation path. Do not sell a court-expungement packet unless a separate court order is actually required."
       }
     },
     {
@@ -887,17 +924,11 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Five-year clean period Five years must have passed since completion of sentence terms.",
-        "1 the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms, including financial obligations and court-ordered treatment; or",
-        "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system. DOJ says to allow about 30 days for processing. (\"https://dojmt.gov/dci-home/conviction-expungement-process/\")",
-        "[Five years met / not met / not applicable / unknown]",
-        "Waiting period Generally 5 years after completing sentence terms",
-        "Topic Montana Rule Main misdemeanor law MCA Title 46, Chapter 18, Part 11 Main misdemeanor petition statute 46-18-1104 Venue District Court where at least one misdemeanor conviction occurred Waiting period Generally 5 years after completing sentence terms Pending charges No current detention, charges, or pending new offense Once in lifetime Yes Fingerprints Required for identity validation Not-presumed offenses Assault, PFMA, stalking, sexual assault, protective order, DUI, DUI-enhanced Court standard Preponderance of the evidence Prosecutor notice Serve every prosecution office involved Victim notice Prosecutor attempts notice within 14 days Court can grant All, some, or none of the requested misdemeanors DOJ follow-up Send order, fingerprint card, and DOJ form to CRISS Non-convictions CRISS removal/sealing under 44-5-202 process Deferred sentence Dismissal can make records confidential Marijuana Separate MMRTA forms and process Felony, non-marijuana Generally not covered by misdemeanor expungement Tribal/out-of-state/federal Not covered by Montana misdemeanor packet This Montana reference is ready for Wilma training, intake triage, eligibility screening, document routing, and escalation logic.",
-        "10 Has the user had any new convictions in Montana, another state, or federal court in the five years after completing the sentence?"
+        "termination of the deferred sentence with the qualifying dismissal or confidentiality order; there is no additional elapsed eligibility period"
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -914,6 +945,39 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Montana deferred-sentence dismissal/confidentiality provisions",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MT-01",
+        "ruleId": "MT-46-18-204-DEFERRED-COMPLETION-DISMISSAL-EVENT",
+        "mechanism": "Deferred-sentence dismissal and confidentiality",
+        "statute": "Mont. Code Ann. § 46-18-204",
+        "stage": "post_completion",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "termination of the deferred sentence with the qualifying dismissal or confidentiality order; there is no additional elapsed eligibility period"
+        },
+        "requiredFacts": [
+          "Deferred-sentence order?",
+          "Exact offense?",
+          "Completion/termination date?",
+          "Plea withdrawal/dismissal?",
+          "Restitution/financial completion?",
+          "CRISS/court status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Valid Montana deferred sentence successfully completed",
+          "Statutory dismissal/confidentiality conditions satisfied"
+        ],
+        "packetFamily": null,
+        "notes": "Do not add a general expungement clock after the deferred sentence terminates. The product verifies the deferred-sentence order, successful completion, dismissal, and whether CRISS or court confidentiality already occurred, and offers a limited court or agency packet only where one is actually required."
       }
     },
     {
@@ -991,10 +1055,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "1 the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms, including financial obligations and court-ordered treatment; or",
-        "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system. DOJ says to allow about 30 days for processing. (\"https://dojmt.gov/dci-home/conviction-expungement-process/\")",
-        "Topic Montana Rule Main misdemeanor law MCA Title 46, Chapter 18, Part 11 Main misdemeanor petition statute 46-18-1104 Venue District Court where at least one misdemeanor conviction occurred Waiting period Generally 5 years after completing sentence terms Pending charges No current detention, charges, or pending new offense Once in lifetime Yes Fingerprints Required for identity validation Not-presumed offenses Assault, PFMA, stalking, sexual assault, protective order, DUI, DUI-enhanced Court standard Preponderance of the evidence Prosecutor notice Serve every prosecution office involved Victim notice Prosecutor attempts notice within 14 days Court can grant All, some, or none of the requested misdemeanors DOJ follow-up Send order, fingerprint card, and DOJ form to CRISS Non-convictions CRISS removal/sealing under 44-5-202 process Deferred sentence Dismissal can make records confidential Marijuana Separate MMRTA forms and process Felony, non-marijuana Generally not covered by misdemeanor expungement Tribal/out-of-state/federal Not covered by Montana misdemeanor packet This Montana reference is ready for Wilma training, intake triage, eligibility screening, document routing, and escalation logic.",
-        "The petition must be served on the county attorney for the county where the petition is filed. Under the Judicial Branch instructions, the county attorney has 21 days to oppose the petition, and the court then considers the petition or sets a hearing if one was requested. (\"https://mca.legmt.gov/bills/mca/title_0160/chapter_0120/part_0010/section_0130/0160-0120-0010-0130.html?utm_source=chatgpt.com\")"
+        "a person currently serving a sentence for conduct made lawful may petition for resentencing or expungement; a person who completed the sentence may petition for expungement or redesignation on the current statutory category. Neither branch uses an unrelated general waiting period"
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -1011,6 +1072,42 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Montana marijuana-related redesignation/expungement provisions",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MT-02",
+        "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+        "mechanism": "Marijuana redesignation, resentencing, or expungement under the MMRTA",
+        "statute": "Mont. Code Ann. § 16-12-113",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "a person currently serving a sentence for conduct made lawful may petition for resentencing or expungement; a person who completed the sentence may petition for expungement or redesignation on the current statutory category. Neither branch uses an unrelated general waiting period"
+        },
+        "requiredFacts": [
+          "Record source and error?",
+          "Disposition/order?",
+          "Agency response?",
+          "Marijuana statute/conduct/quantity?",
+          "Sentence status?",
+          "Completion?",
+          "Requested expungement versus redesignation?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Separate DOJ/CRISS correction facts from a qualifying marijuana conviction under current MMRTA conduct/classification rules"
+        ],
+        "packetFamily": "Montana MMRTA Redesignation or Expungement Petition under § 16-12-113",
+        "packetComponents": [
+          "Petition under § 16-12-113",
+          "Offense record",
+          "Sentence-status evidence"
+        ],
+        "notes": "Branch on whether the person is currently serving the sentence or has completed it."
       }
     },
     {
@@ -1088,10 +1185,7 @@
       "routeType": "administrative",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the court grants expungement, the petitioner must complete the Montana DOJ follow-up process. DOJ says the petitioner must submit the court order, expungement form, and fingerprint card to CRISS, and CRISS verifies the person has not previously used the law and confirms identity before removing arrest/conviction data from the Computerized Criminal History system. DOJ says to allow about 30 days for processing. (\"https://dojmt.gov/dci-home/conviction-expungement-process/\")",
-        "1 the person has had no convictions in Montana, another state, or federal court for five years after completing the sentence terms, including financial obligations and court-ordered treatment; or",
-        "Topic Montana Rule Main misdemeanor law MCA Title 46, Chapter 18, Part 11 Main misdemeanor petition statute 46-18-1104 Venue District Court where at least one misdemeanor conviction occurred Waiting period Generally 5 years after completing sentence terms Pending charges No current detention, charges, or pending new offense Once in lifetime Yes Fingerprints Required for identity validation Not-presumed offenses Assault, PFMA, stalking, sexual assault, protective order, DUI, DUI-enhanced Court standard Preponderance of the evidence Prosecutor notice Serve every prosecution office involved Victim notice Prosecutor attempts notice within 14 days Court can grant All, some, or none of the requested misdemeanors DOJ follow-up Send order, fingerprint card, and DOJ form to CRISS Non-convictions CRISS removal/sealing under 44-5-202 process Deferred sentence Dismissal can make records confidential Marijuana Separate MMRTA forms and process Felony, non-marijuana Generally not covered by misdemeanor expungement Tribal/out-of-state/federal Not covered by Montana misdemeanor packet This Montana reference is ready for Wilma training, intake triage, eligibility screening, document routing, and escalation logic.",
-        "The petition must be served on the county attorney for the county where the petition is filed. Under the Judicial Branch instructions, the county attorney has 21 days to oppose the petition, and the court then considers the petition or sets a hearing if one was requested. (\"https://mca.legmt.gov/bills/mca/title_0160/chapter_0120/part_0010/section_0130/0160-0120-0010-0130.html?utm_source=chatgpt.com\")"
+        "triggered by an inaccurate, incomplete or legally removable record; there is no elapsed waiting period"
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -1101,6 +1195,40 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MT-02",
+        "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+        "mechanism": "Administrative criminal-history record correction request",
+        "statute": "Mont. Code Ann. § 44-5-215",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "triggered by an inaccurate, incomplete or legally removable record; there is no elapsed waiting period"
+        },
+        "requiredFacts": [
+          "Record source and error?",
+          "Disposition/order?",
+          "Agency response?",
+          "Marijuana statute/conduct/quantity?",
+          "Sentence status?",
+          "Completion?",
+          "Requested expungement versus redesignation?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Separate DOJ/CRISS correction facts from a qualifying marijuana conviction under current MMRTA conduct/classification rules"
+        ],
+        "packetFamily": "Montana DOJ Record Correction Request",
+        "packetComponents": [
+          "Correction or removal request",
+          "Evidence of the record error"
+        ],
+        "notes": "An administrative correction process. Do not send a record-correction user through the marijuana or general set-aside engine."
       }
     }
   ],
@@ -1372,8 +1500,8 @@
         "sourceConditionText": "If deferred sentence already dismissed"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "decision_tree:229-269",
       "candidatePathwayIds": [
@@ -1439,8 +1567,8 @@
         "sourceConditionText": "Expungement is not presumed. Collect rehabilitation evidence and recommend attorney or legal clinic review."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "decision_tree:229-269",
       "candidatePathwayIds": [
@@ -1741,8 +1869,8 @@
         "sourceConditionText": "Tribal court, federal court, or out-of-state conviction."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:270-318",
       "candidatePathwayIds": [
@@ -1806,8 +1934,8 @@
         "sourceConditionText": "A felony can be expunged in Montana"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:270-318",
       "candidatePathwayIds": [
@@ -1975,8 +2103,8 @@
         "sourceConditionText": "Deferred sentence Dismissal can make records confidential"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "summary:400-421",
       "candidatePathwayIds": [
@@ -2099,28 +2227,10 @@
       "when": {
         "backendPathwayId": "non-conviction-criminal-history-removal-through-criss",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "prior_relief",
-          "pardon_status",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "prior_relief",
-          "pardon_status",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2131,17 +2241,23 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Non-conviction criminal-history removal through CRISS"
+        "sourceConditionText": "no elapsed waiting period; removal or confidentiality is required on a qualifying no-charge or nonconviction disposition, or on invalidation of a conviction"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:229-269; section:319-361; decision_tree:229-269; packet_logic:319-361; corpus-unit:12; corpus-unit:109; corpus-unit:173; corpus-unit:175",
       "candidatePathwayIds": [
         "non-conviction-criminal-history-removal-through-criss"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MT-03",
+        "ruleId": "MT-44-5-202-NONCONVICTION-AUTOMATIC-CORRECTION",
+        "statute": "Mont. Code Ann. § 44-5-202",
+        "mechanism": "Nonconviction criminal-history removal through CRISS"
+      }
     },
     {
       "id": "route-deferred-sentence-dismissal-or-confidentiality-route",
@@ -2151,23 +2267,11 @@
         "backendPathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "residency_or_location",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "criminal_history"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "residency_or_location",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "criminal_history"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2177,17 +2281,24 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Deferred-sentence dismissal or confidentiality route"
+        "sourceConditionText": "termination of the deferred sentence with the qualifying dismissal or confidentiality order; there is no additional elapsed eligibility period",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:389-399; section:185-203; section:204-228; section:229-269; section:400-421; section:270-318; section:362-367; summary:400-421",
       "candidatePathwayIds": [
         "deferred-sentence-dismissal-or-confidentiality-route"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MT-01",
+        "ruleId": "MT-46-18-204-DEFERRED-COMPLETION-DISMISSAL-EVENT",
+        "statute": "Mont. Code Ann. § 46-18-204",
+        "mechanism": "Deferred-sentence dismissal and confidentiality"
+      }
     },
     {
       "id": "route-marijuana-related-redesignation-expungement-under-mmrta",
@@ -2197,19 +2308,11 @@
         "backendPathwayId": "marijuana-related-redesignation-expungement-under-mmrta",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "sentence_completion_date",
-          "offense_level",
-          "residency_or_location",
-          "disposition_date"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "sentence_completion_date",
-          "offense_level",
-          "residency_or_location",
-          "disposition_date"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -2220,7 +2323,7 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Marijuana-related redesignation / expungement under MMRTA"
+        "sourceConditionText": "a person currently serving a sentence for conduct made lawful may petition for resentencing or expungement; a person who completed the sentence may petition for expungement or redesignation on the current statutory category. Neither branch uses an unrelated general waiting period"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2230,7 +2333,13 @@
       "sourceRef": "section:124-134; section:170-184; section:389-399; section:229-269; section:270-318; section:319-361; section:204-228; section:362-367",
       "candidatePathwayIds": [
         "marijuana-related-redesignation-expungement-under-mmrta"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MT-02",
+        "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+        "statute": "Mont. Code Ann. § 16-12-113",
+        "mechanism": "Marijuana redesignation, resentencing, or expungement under the MMRTA"
+      }
     },
     {
       "id": "route-doj-record-removal-update-request",
@@ -2239,22 +2348,10 @@
       "when": {
         "backendPathwayId": "doj-record-removal-update-request",
         "requiredFields": [
-          "case_outcome",
-          "criminal_history",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "criminal_history",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -2264,7 +2361,7 @@
           "diversion_or_deferred",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "DOJ record-removal / update request"
+        "sourceConditionText": "triggered by an inaccurate, incomplete or legally removable record; there is no elapsed waiting period"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2274,7 +2371,13 @@
       "sourceRef": "section:135-137; section:170-184; section:319-361; section:185-203; section:229-269; packet_logic:319-361; corpus-unit:11; corpus-unit:17",
       "candidatePathwayIds": [
         "doj-record-removal-update-request"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MT-02",
+        "ruleId": "MT-DOJ-CORRECTION-VS-16-12-113-MARIJUANA-SPLIT",
+        "statute": "Mont. Code Ann. § 44-5-215",
+        "mechanism": "Administrative criminal-history record correction request"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2438,7 +2541,7 @@
       {
         "pathwayId": "non-conviction-criminal-history-removal-through-criss",
         "pathwayLabel": "Non-conviction criminal-history removal through CRISS",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "form-b.docx",
@@ -2492,7 +2595,7 @@
       {
         "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
         "pathwayLabel": "Deferred-sentence dismissal or confidentiality route",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "form-a.docx",

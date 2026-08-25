@@ -562,15 +562,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "Current Missouri waiting periods under 610.140 are:",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date.",
-        "Pathway Main authority Best used for General arrest/charge/plea/trial/conviction expungement 610.140 Most eligible Missouri crimes, including many convictions False-information / no-probable-cause arrest expungement 610.122\u0013610.123 Arrest-only records based on false information or certain qualifying dismissed/not-guilty moving-violation arrests Closed-record outcome 610.105 Cases charged but later nolle prossed, dismissed, not guilty, or SIS after final termination First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years Marijuana expungement Missouri Constitution Art."
+        "one year for a misdemeanor, municipal offense or infraction and three years for a felony, measured from completion of the disposition or sentence and satisfaction of the statute; the arrest-only or no-charge branch uses the separate eighteen-month statutory anchor"
       ],
       "exclusionRules": [
         "Section 610.140 allows a person to apply in the Missouri court where they were charged or found guilty for expungement of records of arrest, plea, trial, or conviction, so long as the crime occurred in Missouri, was prosecuted under Missouri court jurisdiction, is listed in the petition, and is not excluded by statute. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.140\")",
@@ -606,6 +598,50 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-01",
+        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+        "mechanism": "General expungement of an arrest, charge, plea, trial, or conviction",
+        "statute": "Mo. Rev. Stat. § 610.140",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorText": "one year for a misdemeanor, municipal offense or infraction and three years for a felony, measured from completion of the disposition or sentence and satisfaction of the statute; the arrest-only or no-charge branch uses the separate eighteen-month statutory anchor"
+        },
+        "requiredFacts": [
+          "Date of birth?",
+          "Date age 21?",
+          "Exact MIP offense?",
+          "Later alcohol offenses?",
+          "CDL/CMV facts?",
+          "Offense level?",
+          "Sentence completion?",
+          "Arrest-only/no-charge status?",
+          "Excluded offense?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Exact statute and offense level",
+          "Route-specific completion, clean-record, excluded-offense, and frequency conditions"
+        ],
+        "packetFamily": "Missouri § 610.140 Expungement Petition",
+        "packetComponents": [
+          "Petition under § 610.140",
+          "Completion proof",
+          "Service on the required parties"
+        ],
+        "notes": "One year, three years and eighteen months are three separate branches keyed to offense level and the arrest-only condition; the stored value is the misdemeanor branch and the exact branch is a mandatory intake fact."
       }
     },
     {
@@ -663,22 +699,12 @@
         "juvenile",
         "convicted_felony"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "Current Missouri waiting periods under 610.140 are:",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date.",
-        "610.140 arrest-only route A petition to expunge records related to an arrest for an eligible crime may be filed no earlier than 18 months from the date of arrest, if during that time the petitioner has not been charged and has not been found guilty of any misdemeanor or felony. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.140\") Wilma status labels:possible_610_140_arrest_only_18_monthsnot_eligible_yet_arrest_18_month_waitneeds_arrest_date_and_charge_status Important distinction: This is separate from 610.122 false-information arrest expungement and separate from 610.105 automatic closure of certain terminated cases.",
-        "Pathway Main authority Best used for General arrest/charge/plea/trial/conviction expungement 610.140 Most eligible Missouri crimes, including many convictions False-information / no-probable-cause arrest expungement 610.122\u0013610.123 Arrest-only records based on false information or certain qualifying dismissed/not-guilty moving-violation arrests Closed-record outcome 610.105 Cases charged but later nolle prossed, dismissed, not guilty, or SIS after final termination First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years Marijuana expungement Missouri Constitution Art.",
-        "8. 610.140 arrest-only route A petition to expunge records related to an arrest for an eligible crime may be filed no earlier than 18 months from the date of arrest, if during that time the petitioner has not been charged and has not been found guilty of any misdemeanor or felony. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.140\") Wilma status labels:possible_610_140_arrest_only_18_monthsnot_eligible_yet_arrest_18_month_waitneeds_arrest_date_and_charge_status Important distinction: This is separate from 610.122 false-information arrest expungement and separate from 610.105 automatic closure of certain terminated cases."
+        "records close upon the qualifying final nonconviction outcome; no participant waiting period is imposed"
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -713,6 +739,38 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "mechanism": "Closed-record outcome on a qualifying final nonconviction",
+        "statute": "Mo. Rev. Stat. § 610.105",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "records close upon the qualifying final nonconviction outcome; no participant waiting period is imposed"
+        },
+        "requiredFacts": [
+          "Disposition and finality?",
+          "Charging facts?",
+          "False-information evidence?",
+          "Agency record?",
+          "Identity-theft report?",
+          "Biometric/identifier mismatch?",
+          "Whether automatic closure appears?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact statutory correction/closure route",
+          "Required disposition or error elements",
+          "No borrowing from general conviction-expungement rules"
+        ],
+        "packetFamily": null,
+        "notes": "Missouri's additional automatic-closure legislation takes effect 2026-08-28 and must be separately effective-date gated; it is not active as of 2026-08-24 and must not be described as available."
       }
     },
     {
@@ -785,17 +843,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "Current Missouri waiting periods under 610.140 are:",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date.",
-        "The petition is filed in the civil division of the circuit court in the county of arrest. It must include identity details, offense charged, arrest date, county/municipality, arresting agency, case number/court, and a fingerprint card. The petition must name all agencies/entities believed to possess the records. The court sets a hearing no sooner than 30 days from filing and provides notice. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.123\")",
-        "610.130 first intoxication-related traffic/boating offense A person may apply after at least 10 years to expunge a first intoxication-related traffic or boating offense if it was a misdemeanor or county/city ordinance violation, was not a commercial-motor-vehicle DUI conviction, and the person has not had another intoxication-related traffic/boating conviction since. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.130\") The court must grant if, after hearing, the person has no later intoxication-related traffic/boating convictions, no other later alcohol-related enforcement contacts, and no pending intoxication-related traffic/boating offenses or alcohol-related enforcement actions. A person is entitled to only one expungement under this section, and the statute does not apply to CDL holders or people required to have a CDL.…",
-        "Missouri\u0019s regular 610.140 expungement excludes intoxication-related traffic and boating offenses, but Missouri has a separate first-offense DWI/BWI-type pathway under 610.130 after 10 years."
+        "unlocked by proof of the statutory elements; no general elapsed wait applies"
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -831,6 +879,42 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "mechanism": "Expungement of a false-information or qualifying arrest record",
+        "statute": "Mo. Rev. Stat. §§ 610.122-.123",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "unlocked by proof of the statutory elements; no general elapsed wait applies"
+        },
+        "requiredFacts": [
+          "Disposition and finality?",
+          "Charging facts?",
+          "False-information evidence?",
+          "Agency record?",
+          "Identity-theft report?",
+          "Biometric/identifier mismatch?",
+          "Whether automatic closure appears?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact statutory correction/closure route",
+          "Required disposition or error elements",
+          "No borrowing from general conviction-expungement rules"
+        ],
+        "packetFamily": "Missouri §§ 610.122-.123 Petition",
+        "packetComponents": [
+          "Petition under §§ 610.122-.123",
+          "Proof of the statutory elements"
+        ],
+        "notes": "No unrelated § 610.140 clock may be imported."
       }
     },
     {
@@ -983,18 +1067,12 @@
         "convicted_other",
         "juvenile"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date."
+        "the constitutional processing mandate applies; no ordinary elapsed waiting period is used"
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -1026,6 +1104,37 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-03",
+        "ruleId": "MO-CONST-ART-XIV-AUTOMATIC-VS-INCARCERATED-PETITION",
+        "mechanism": "Marijuana expungement — automatic constitutional processing for completed and nonincarcerated cases",
+        "statute": "Mo. Const. art. XIV, § 2",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the constitutional processing mandate applies; no ordinary elapsed waiting period is used"
+        },
+        "requiredFacts": [
+          "Exact marijuana offense?",
+          "Conduct date?",
+          "Quantity?",
+          "Sentence status?",
+          "Current incarceration/supervision?",
+          "Excluded conduct?",
+          "Automatic-expungement status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Qualifying marijuana conduct within Article XIV quantity/offense limits and not within constitutional exclusions"
+        ],
+        "packetFamily": null,
+        "notes": "Do not sell a routine § 610.140 packet for a constitutionally automatic marijuana record. Where the record remains, give status and correction or escalation guidance. A person currently incarcerated for conduct made lawful uses the Article XIV petition for vacatur, release and expungement; no general one- or three-year § 610.140 period applies to that branch either."
       }
     },
     {
@@ -1081,16 +1190,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "Current Missouri waiting periods under 610.140 are:",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date.",
-        "311.326 minor in possession of alcohol A person with a first-time violation of Missouri\u0019s minor-in-possession alcohol statute may apply after at least one year after reaching age 21, if they have not had any other alcohol-related offense. The statute excludes CDL/commercial-motor-vehicle situations, allows only one expungement under this section, and the effect is to restore the person to the status occupied before the arrest, plea, trial, or conviction. (\"https://revisor.mo.gov/main/OneSection.aspx?section=311.326\") Wilma status labels:possible_first_mip_alcohol_expungementnot_eligible_yet_mip_age_21_plus_1_yearexcluded_mip_cdl_or_commercial_vehicle",
-        "XIV, 2 Qualifying marijuana convictions/arrests, including automatic and petition-based relief Stolen/mistaken identity 610.145 Wrong person named because of identity theft or mistaken identity Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule"
+        "triggered by proof of the identity error, without an elapsed wait"
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -1126,6 +1226,42 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "mechanism": "Stolen or mistaken-identity expungement and correction",
+        "statute": "Mo. Rev. Stat. § 610.145",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "triggered by proof of the identity error, without an elapsed wait"
+        },
+        "requiredFacts": [
+          "Disposition and finality?",
+          "Charging facts?",
+          "False-information evidence?",
+          "Agency record?",
+          "Identity-theft report?",
+          "Biometric/identifier mismatch?",
+          "Whether automatic closure appears?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact statutory correction/closure route",
+          "Required disposition or error elements",
+          "No borrowing from general conviction-expungement rules"
+        ],
+        "packetFamily": "Missouri § 610.145 Identity-Error Expungement Packet",
+        "packetComponents": [
+          "Petition under § 610.145",
+          "Proof of stolen or mistaken identity"
+        ],
+        "notes": "A distinct correction process, separate from ordinary expungement."
       }
     },
     {
@@ -1177,17 +1313,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "First intoxication-related traffic/boating offense 610.130 First misdemeanor/ordinance DWI/BWI-type offense after 10 years",
-        "Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "Missouri\u0019s main expungement law is Section 610.140. It can cover arrests, charges, pleas, trials, and convictions, but the offense must be eligible, the waiting period must be complete, all obligations must be satisfied, there must be no pending charges, and the lifetime limits cannot be exceeded.",
-        "For people no longer incarcerated or under supervision, Missouri courts were directed to order expungement of misdemeanor marijuana offenses and qualifying felony marijuana offenses, with exclusions for distribution/delivery to a minor, violence, or marijuana-impaired operation of a motor vehicle. For Class A/B/C felonies and Class D possession of more than three pounds, expungement is ordered upon completion of incarceration, including supervised probation or parole. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "A marijuana expungement order is legally effective immediately; the person is treated as if never arrested, convicted, or sentenced for the offense; the conviction and sentence are vacated as legally invalid; and the court must issue a certificate of expungement. (\"https://revisor.mo.gov/main/OneSection.aspx?constit=y&section=XIV+++2\")",
-        "Current Missouri waiting periods under 610.140 are:",
-        "Wilma status labels:not_eligible_yet_waiting_periodwaiting_period_met_felony_3_yearswaiting_period_met_misdemeanor_1_yearneeds_sentence_completion_date",
-        "Current Missouri waiting periods under 610.140 are: Record type Waiting period Felony 3 years Misdemeanor 1 year Municipal violation 1 year Infraction 1 year The clock runs from completion of the authorized disposition imposed for each crime, not from the arrest date or conviction date.",
-        "311.326 minor in possession of alcohol A person with a first-time violation of Missouri\u0019s minor-in-possession alcohol statute may apply after at least one year after reaching age 21, if they have not had any other alcohol-related offense. The statute excludes CDL/commercial-motor-vehicle situations, allows only one expungement under this section, and the effect is to restore the person to the status occupied before the arrest, plea, trial, or conviction. (\"https://revisor.mo.gov/main/OneSection.aspx?section=311.326\") Wilma status labels:possible_first_mip_alcohol_expungementnot_eligible_yet_mip_age_21_plus_1_yearexcluded_mip_cdl_or_commercial_vehicle",
-        "XIV, 2 Qualifying marijuana convictions/arrests, including automatic and petition-based relief Stolen/mistaken identity 610.145 Wrong person named because of identity theft or mistaken identity Minor in possession of alcohol 311.326 First-time MIP alcohol offense after statutory waiting rule",
-        "14. 311.326 minor in possession of alcohol A person with a first-time violation of Missouri\u0019s minor-in-possession alcohol statute may apply after at least one year after reaching age 21, if they have not had any other alcohol-related offense. The statute excludes CDL/commercial-motor-vehicle situations, allows only one expungement under this section, and the effect is to restore the person to the status occupied before the arrest, plea, trial, or conviction. (\"https://revisor.mo.gov/main/OneSection.aspx?section=311.326\") Wilma status labels:possible_first_mip_alcohol_expungementnot_eligible_yet_mip_age_21_plus_1_yearexcluded_mip_cdl_or_commercial_vehicle"
+        "not less than one year after the person's twenty-first birthday"
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -1223,6 +1349,47 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MO-01",
+        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+        "mechanism": "First minor-in-possession alcohol expungement",
+        "statute": "Mo. Rev. Stat. § 311.326",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "twenty_first_birthday",
+          "anchorText": "not less than one year after the person's twenty-first birthday"
+        },
+        "requiredFacts": [
+          "Date of birth?",
+          "Date age 21?",
+          "Exact MIP offense?",
+          "Later alcohol offenses?",
+          "CDL/CMV facts?",
+          "Offense level?",
+          "Sentence completion?",
+          "Arrest-only/no-charge status?",
+          "Excluded offense?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact statute and offense level",
+          "Route-specific completion, clean-record, excluded-offense, and frequency conditions"
+        ],
+        "packetFamily": "Missouri § 311.326 Minor-in-Possession Expungement Petition",
+        "packetComponents": [
+          "Petition under § 311.326",
+          "Record of the alcohol offense"
+        ],
+        "notes": "The age-21 clock is its own rule object and must never share a rule with the § 610.140 completion clock. Subject to the first-offense, later-alcohol-record, commercial-driver and other statutory conditions."
       }
     }
   ],
@@ -1595,25 +1762,13 @@
         "backendPathwayId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
         "requiredFields": [
           "case_outcome",
-          "pending_cases",
-          "prior_relief",
-          "residency_or_location",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "record_type"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "pending_cases",
-          "prior_relief",
-          "residency_or_location",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "record_type"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -1622,7 +1777,13 @@
           "convicted_misdemeanor",
           "juvenile"
         ],
-        "sourceConditionText": "General arrest, charge, plea, trial, or conviction expungement under RSMo § 610.140"
+        "sourceConditionText": "one year for a misdemeanor, municipal offense or infraction and three years for a felony, measured from completion of the disposition or sentence and satisfaction of the statute; the arrest-only or no-charge branch uses the separate eighteen-month statutory anchor",
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1632,7 +1793,13 @@
       "sourceRef": "section:41-47; section:7-22; corpus-unit:15; corpus-unit:9; corpus-unit:13; corpus-unit:56",
       "candidatePathwayIds": [
         "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-01",
+        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+        "statute": "Mo. Rev. Stat. § 610.140",
+        "mechanism": "General expungement of an arrest, charge, plea, trial, or conviction"
+      }
     },
     {
       "id": "route-closed-record-outcome-under-rsmo-610-105",
@@ -1641,22 +1808,10 @@
       "when": {
         "backendPathwayId": "closed-record-outcome-under-rsmo-610-105",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "arrest_date",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "arrest_date",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1666,17 +1821,23 @@
           "juvenile",
           "convicted_felony"
         ],
-        "sourceConditionText": "Closed-record outcome under RSMo § 610.105"
+        "sourceConditionText": "records close upon the qualifying final nonconviction outcome; no participant waiting period is imposed"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:7-22; section:134-155; corpus-unit:9; corpus-unit:59; corpus-unit:58",
       "candidatePathwayIds": [
         "closed-record-outcome-under-rsmo-610-105"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "statute": "Mo. Rev. Stat. § 610.105",
+        "mechanism": "Closed-record outcome on a qualifying final nonconviction"
+      }
     },
     {
       "id": "route-false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
@@ -1685,26 +1846,10 @@
       "when": {
         "backendPathwayId": "false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "criminal_history",
-          "case_number",
-          "arrest_date",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error",
-          "criminal_history",
-          "case_number",
-          "arrest_date",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1713,7 +1858,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "False-information or qualifying arrest-record expungement under §§ 610.122–.123"
+        "sourceConditionText": "unlocked by proof of the statutory elements; no general elapsed wait applies"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1723,7 +1868,13 @@
       "sourceRef": "section:7-22; section:156-177; section:134-155; corpus-unit:9; corpus-unit:58; section:23-40; corpus-unit:62; corpus-unit:65",
       "candidatePathwayIds": [
         "false-information-or-qualifying-arrest-record-expungement-under-610-122-123"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "statute": "Mo. Rev. Stat. §§ 610.122-.123",
+        "mechanism": "Expungement of a false-information or qualifying arrest record"
+      }
     },
     {
       "id": "route-first-intoxication-related-traffic-or-boating-expungement-under-610-130",
@@ -1782,15 +1933,11 @@
         "backendPathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -1798,17 +1945,23 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Marijuana expungement under Missouri Constitution article XIV"
+        "sourceConditionText": "the constitutional processing mandate applies; no ordinary elapsed waiting period is used"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:178-189; corpus-unit:68",
       "candidatePathwayIds": [
         "marijuana-expungement-under-missouri-constitution-article-xiv"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-03",
+        "ruleId": "MO-CONST-ART-XIV-AUTOMATIC-VS-INCARCERATED-PETITION",
+        "statute": "Mo. Const. art. XIV, § 2",
+        "mechanism": "Marijuana expungement — automatic constitutional processing for completed and nonincarcerated cases"
+      }
     },
     {
       "id": "route-stolen-or-mistaken-identity-expungement-under-610-145",
@@ -1817,18 +1970,10 @@
       "when": {
         "backendPathwayId": "stolen-or-mistaken-identity-expungement-under-610-145",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1837,7 +1982,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Stolen- or mistaken-identity expungement under § 610.145"
+        "sourceConditionText": "triggered by proof of the identity error, without an elapsed wait"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1847,7 +1992,13 @@
       "sourceRef": "section:190-198; section:7-22; corpus-unit:71; corpus-unit:10; corpus-unit:72; corpus-unit:73",
       "candidatePathwayIds": [
         "stolen-or-mistaken-identity-expungement-under-610-145"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.105-610.122-610.145-THREE-CORRECTION-MECHANISMS",
+        "statute": "Mo. Rev. Stat. § 610.145",
+        "mechanism": "Stolen or mistaken-identity expungement and correction"
+      }
     },
     {
       "id": "route-first-minor-in-possession-alcohol-expungement-under-311-326",
@@ -1857,17 +2008,11 @@
         "backendPathwayId": "first-minor-in-possession-alcohol-expungement-under-311-326",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "identity_error"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -1876,7 +2021,13 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "First minor-in-possession alcohol expungement under § 311.326"
+        "sourceConditionText": "not less than one year after the person's twenty-first birthday",
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "twenty_first_birthday"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1886,7 +2037,13 @@
       "sourceRef": "section:7-22; section:190-198; corpus-unit:10; corpus-unit:74",
       "candidatePathwayIds": [
         "first-minor-in-possession-alcohol-expungement-under-311-326"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-01",
+        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+        "statute": "Mo. Rev. Stat. § 311.326",
+        "mechanism": "First minor-in-possession alcohol expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2007,6 +2164,36 @@
         "case_outcome",
         "offense_level",
         "arrest_date"
+      ]
+    },
+    {
+      "id": "authority-first-minor-in-possession-alcohol-expungement-under-311-326",
+      "ruleText": "Mo. Rev. Stat. § 311.326 — not less than one year after the person's twenty-first birthday",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "twenty_first_birthday",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
+      ]
+    },
+    {
+      "id": "authority-general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
+      "ruleText": "Mo. Rev. Stat. § 610.140 — one year for a misdemeanor, municipal offense or infraction and three years for a felony, measured from completion of the disposition or sentence and satisfaction of the statute; the arrest-only or no-charge branch uses the separate eighteen-month statutory anchor",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
       ]
     }
   ],
@@ -2281,7 +2468,7 @@
       {
         "pathwayId": "closed-record-outcome-under-rsmo-610-105",
         "pathwayLabel": "Closed-record outcome under RSMo § 610.105",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "petition-for-expungement-mistaken-identity.pdf",
@@ -2406,7 +2593,7 @@
       {
         "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
         "pathwayLabel": "Marijuana expungement under Missouri Constitution article XIV",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

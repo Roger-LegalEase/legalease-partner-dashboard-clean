@@ -879,24 +879,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Timing: the petition may be filed no sooner than 60 days after the court\u0019s order of acquittal or dismissal. (\"https://code.wvlegislature.gov/61-11-25/\")",
-        "West Virginia pretrial diversion agreements are written agreements with the prosecuting attorney and generally may not exceed 24 months. If the person successfully complies, they are not subject to prosecution for the covered offense unless the agreement includes a plea to a specific related offense. DUI under 17C-5-2 is excluded from pretrial diversion, and several violence, sex, child, strangulation, domestic battery, and household-member offenses are also excluded. (\"https://code.wvlegislature.gov/61-11-22/\")",
-        "Deferred adjudication under 61-11-22a can last up to three years for a felony and up to two years for a misdemeanor. If the person complies with court-imposed terms, they may withdraw the guilty plea and the case is dismissed, or, if agreed by the parties and court, enter a plea to a lesser offense. Several violence, sex, child, strangulation, domestic battery, and household-member offenses are excluded or heavily restricted. (\"https://code.wvlegislature.gov/61-11-22A/\")",
-        "A person is not eligible under 61-11-26 for convictions including: Felony offense of violence against the person. Misdemeanor involving intentional physical injury to a minor or law-enforcement officer. Felony offense where the victim was a minor. Sex offenses under 61-8B-1 et seq. Any offense where the petitioner used or exhibited a deadly weapon or dangerous instrument. Domestic battery/domestic assault-related offenses and certain assault/battery offenses involving a spouse, co-parent, or cohabitant. Strangulation. DUI. Driving while license revoked for DUI. Certain child, abuse, sexual, dwelling burglary, sexually motivated, CDL, attempt, or conspiracy offenses listed in the statute. (\"https://code.wvlegislature.gov/61-11-26/\") A DUI conviction does not automatically block expungement of an unrelated otherwise expungable felony if the DUI is at least five years old when the expungement petition is filed. (\"https://code.wvlegislature.gov/61-11-26/\")",
-        "Single misdemeanor After sentence/supervision completion and 90 days of approved treatment/recovery compliance or job-readiness completion",
-        "Multiple misdemeanors 1 year after last conviction, incarceration completion, or supervision completion, whichever is later",
-        "Eligible nonviolent felony 3 years after conviction, incarceration completion, or supervision completion, whichever is later",
-        "The petitioner must serve the petition and supporting documentation on the Superintendent of the State Police, the prosecutor, the arresting law-enforcement agency, any institution where the petitioner was confined, and the court that disposed of the criminal charge. The prosecutor serves the petition and proposed order on any identified victims. Opposing parties have 30 days to file opposition, and the petitioner may reply within 30 days after service of opposition. (\"https://code.wvlegislature.gov/61-11-26/\")",
-        "A person is not eligible until one year after being pardoned and five years after discharge of the sentence for the pardoned conviction. Pardon-based expungement is not available for first-degree murder, treason, kidnapping, or felony sex offenses under Article 8B. (\"https://code.wvlegislature.gov/5-1-16A/\")",
-        "West Virginia juvenile proceeding records are generally not public records. One year after the juvenile\u0019s 18th birthday, or one year after personal or juvenile jurisdiction ends, whichever is later, juvenile records may be kept in a separate secure confidential place and may not be inspected except by circuit court order. Marking juvenile records confidential has the legal effect of extinguishing the offense as if it never occurred. (\"https://code.wvlegislature.gov/49-5-104/\")",
-        "Conviction category Waiting period",
-        "Single misdemeanor 1 year after conviction, completion of incarceration, or completion of supervision, whichever is later",
-        "Multiple misdemeanors 2 years after last conviction, completion of incarceration, or completion of supervision for the last conviction, whichever is later",
-        "Nonviolent felony 5 years after conviction, completion of incarceration, or completion of supervision, whichever is later",
-        "These waiting periods are directly set by 61-11-26(b). (",
-        "not_eligible_yet_waiting_period",
-        "Conviction category Waiting period Single misdemeanor 1 year after conviction, completion of incarceration, or completion of supervision, whichever is later Multiple misdemeanors 2 years after last conviction, completion of incarceration, or completion of supervision for the last conviction, whichever is later Nonviolent felony 5 years after conviction, completion of incarceration, or completion of supervision, whichever is later These waiting periods are directly set by 61-11-26(b). ( \"https://code.wvlegislature.gov/61-11-26/\") Wilma status labels: likely_eligible_single_misdemeanor_1_year likely_eligible_multiple_misdemeanors_2_years likely_eligible_nonviolent_felony_5_years not_eligible_yet_waiting_period needs_sentence_completion_date needs_supervision_completion_date",
-        "4 Six-month waiting-period calculation."
+        "not less than six months after the conditional-discharge probationary period expires, following successful completion and dismissal"
       ],
       "exclusionRules": [
         "West Virginia pretrial diversion agreements are written agreements with the prosecuting attorney and generally may not exceed 24 months. If the person successfully complies, they are not subject to prosecution for the covered offense unless the agreement includes a plea to a specific related offense. DUI under 17C-5-2 is excluded from pretrial diversion, and several violence, sex, child, strangulation, domestic battery, and household-member offenses are also excluded. (\"https://code.wvlegislature.gov/61-11-22/\")",
@@ -911,6 +894,51 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-WV-02",
+        "ruleId": "WV-60A-4-407-SIX-MONTH-FROM-PROBATION-EXPIRATION",
+        "mechanism": "First-offense drug-possession conditional-discharge expungement",
+        "statute": "W. Va. Code § 60A-4-407",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 6,
+          "unit": "months",
+          "anchorFactId": "probation_parole_supervision_end_date",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "not less than six months after the conditional-discharge probationary period expires, following successful completion and dismissal"
+        },
+        "requiredFacts": [
+          "Exact § 60A-4-407 disposition?",
+          "Probation start/end?",
+          "Successful completion?",
+          "Dismissal order/date?",
+          "First-offense status?",
+          "Prior use?",
+          "Exact controlled-substance charge?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "probation_parole_supervision_end_date"
+        ],
+        "exclusions": [
+          "Qualifying first-offense possession disposition under § 60A-4-407",
+          "Successful probation completion and dismissal",
+          "Once-only and statutory conditions satisfied"
+        ],
+        "packetFamily": "West Virginia § 60A-4-407 Expungement Application",
+        "packetComponents": [
+          "Application under § 60A-4-407",
+          "Dismissal order",
+          "Probation expiration proof"
+        ],
+        "notes": "Subject to the statute's first-offense, once-only and offense conditions. The six-month duration belongs in the jurisdiction's structured waiting-period rules with the statutory source text."
       }
     },
     {
@@ -1050,20 +1078,7 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Timing: the petition may be filed no sooner than 60 days after the court\u0019s order of acquittal or dismissal. (\"https://code.wvlegislature.gov/61-11-25/\")",
-        "West Virginia pretrial diversion agreements are written agreements with the prosecuting attorney and generally may not exceed 24 months. If the person successfully complies, they are not subject to prosecution for the covered offense unless the agreement includes a plea to a specific related offense. DUI under 17C-5-2 is excluded from pretrial diversion, and several violence, sex, child, strangulation, domestic battery, and household-member offenses are also excluded. (\"https://code.wvlegislature.gov/61-11-22/\")",
-        "Deferred adjudication under 61-11-22a can last up to three years for a felony and up to two years for a misdemeanor. If the person complies with court-imposed terms, they may withdraw the guilty plea and the case is dismissed, or, if agreed by the parties and court, enter a plea to a lesser offense. Several violence, sex, child, strangulation, domestic battery, and household-member offenses are excluded or heavily restricted. (\"https://code.wvlegislature.gov/61-11-22A/\")",
-        "A person is not eligible under 61-11-26 for convictions including: Felony offense of violence against the person. Misdemeanor involving intentional physical injury to a minor or law-enforcement officer. Felony offense where the victim was a minor. Sex offenses under 61-8B-1 et seq. Any offense where the petitioner used or exhibited a deadly weapon or dangerous instrument. Domestic battery/domestic assault-related offenses and certain assault/battery offenses involving a spouse, co-parent, or cohabitant. Strangulation. DUI. Driving while license revoked for DUI. Certain child, abuse, sexual, dwelling burglary, sexually motivated, CDL, attempt, or conspiracy offenses listed in the statute. (\"https://code.wvlegislature.gov/61-11-26/\") A DUI conviction does not automatically block expungement of an unrelated otherwise expungable felony if the DUI is at least five years old when the expungement petition is filed. (\"https://code.wvlegislature.gov/61-11-26/\")",
-        "Single misdemeanor After sentence/supervision completion and 90 days of approved treatment/recovery compliance or job-readiness completion",
-        "Multiple misdemeanors 1 year after last conviction, incarceration completion, or supervision completion, whichever is later",
-        "Eligible nonviolent felony 3 years after conviction, incarceration completion, or supervision completion, whichever is later",
-        "The petitioner must serve the petition and supporting documentation on the Superintendent of the State Police, the prosecutor, the arresting law-enforcement agency, any institution where the petitioner was confined, and the court that disposed of the criminal charge. The prosecutor serves the petition and proposed order on any identified victims. Opposing parties have 30 days to file opposition, and the petitioner may reply within 30 days after service of opposition. (\"https://code.wvlegislature.gov/61-11-26/\")",
-        "A person is not eligible until one year after being pardoned and five years after discharge of the sentence for the pardoned conviction. Pardon-based expungement is not available for first-degree murder, treason, kidnapping, or felony sex offenses under Article 8B. (\"https://code.wvlegislature.gov/5-1-16A/\")",
-        "West Virginia juvenile proceeding records are generally not public records. One year after the juvenile\u0019s 18th birthday, or one year after personal or juvenile jurisdiction ends, whichever is later, juvenile records may be kept in a separate secure confidential place and may not be inspected except by circuit court order. Marking juvenile records confidential has the legal effect of extinguishing the offense as if it never occurred. (\"https://code.wvlegislature.gov/49-5-104/\")",
-        "Single misdemeanor 1 year after conviction, completion of incarceration, or completion of supervision, whichever is later",
-        "Multiple misdemeanors 2 years after last conviction, completion of incarceration, or completion of supervision for the last conviction, whichever is later",
-        "Nonviolent felony 5 years after conviction, completion of incarceration, or completion of supervision, whichever is later",
-        "Conviction category Waiting period Single misdemeanor 1 year after conviction, completion of incarceration, or completion of supervision, whichever is later Multiple misdemeanors 2 years after last conviction, completion of incarceration, or completion of supervision for the last conviction, whichever is later Nonviolent felony 5 years after conviction, completion of incarceration, or completion of supervision, whichever is later These waiting periods are directly set by 61-11-26(b). ( \"https://code.wvlegislature.gov/61-11-26/\") Wilma status labels: likely_eligible_single_misdemeanor_1_year likely_eligible_multiple_misdemeanors_2_years likely_eligible_nonviolent_felony_5_years not_eligible_yet_waiting_period needs_sentence_completion_date needs_supervision_completion_date"
+        "no fixed elapsed waiting period; the petition follows a covered conviction or adjudication plus facts establishing the direct-result trafficking nexus"
       ],
       "exclusionRules": [
         "West Virginia pretrial diversion agreements are written agreements with the prosecuting attorney and generally may not exceed 24 months. If the person successfully complies, they are not subject to prosecution for the covered offense unless the agreement includes a plea to a specific related offense. DUI under 17C-5-2 is excluded from pretrial diversion, and several violence, sex, child, strangulation, domestic battery, and household-member offenses are also excluded. (\"https://code.wvlegislature.gov/61-11-22/\")",
@@ -1080,6 +1095,43 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-WV-04",
+        "ruleId": "WV-61-14-9-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+        "mechanism": "Sex-trafficking-victim vacatur and expungement",
+        "statute": "W. Va. Code § 61-14-9",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no fixed elapsed waiting period; the petition follows a covered conviction or adjudication plus facts establishing the direct-result trafficking nexus"
+        },
+        "requiredFacts": [
+          "Exact offense/statute?",
+          "Conviction/adjudication?",
+          "Trafficking period?",
+          "Direct-result evidence?",
+          "Supporting records?",
+          "Other counts?",
+          "Requested vacatur and expungement?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Covered prostitution-related conviction or juvenile adjudication",
+          "Direct result of sex trafficking",
+          "Statutory proof conditions satisfied"
+        ],
+        "packetFamily": "West Virginia § 61-14-9 Vacatur and Expungement Petition",
+        "packetComponents": [
+          "Petition under § 61-14-9",
+          "Direct-result nexus evidence"
+        ],
+        "notes": "Limited to the statute's covered prostitution-related offense. Broader trafficking-related offenses require referral rather than an invented rule, and the route must not be labelled as covering every trafficking-related West Virginia conviction."
       }
     },
     {
@@ -2365,19 +2417,11 @@
         "backendPathwayId": "first-offense-drug-possession-conditional-discharge-relief",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "prior_relief",
-          "pardon_status"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "prior_relief",
-          "pardon_status"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2387,7 +2431,16 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "First-offense drug-possession conditional-discharge relief"
+        "sourceConditionText": "not less than six months after the conditional-discharge probationary period expires, following successful completion and dismissal",
+        "duration": {
+          "value": 6,
+          "unit": "months",
+          "raw": "6 months"
+        },
+        "timingAnchorFactId": "probation_parole_supervision_end_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2397,7 +2450,13 @@
       "sourceRef": "section:262-317; corpus-unit:3; corpus-unit:40; corpus-unit:135; corpus-unit:173",
       "candidatePathwayIds": [
         "first-offense-drug-possession-conditional-discharge-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WV-02",
+        "ruleId": "WV-60A-4-407-SIX-MONTH-FROM-PROBATION-EXPIRATION",
+        "statute": "W. Va. Code § 60A-4-407",
+        "mechanism": "First-offense drug-possession conditional-discharge expungement"
+      }
     },
     {
       "id": "route-pardon-based-expungement",
@@ -2452,23 +2511,11 @@
         "backendPathwayId": "sex-trafficking-victim-vacatur-and-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "trafficking_status",
-          "offense_level",
-          "disposition_date",
-          "pardon_status",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "trafficking_status",
-          "offense_level",
-          "disposition_date",
-          "pardon_status",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -2479,7 +2526,7 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Sex-trafficking-victim vacatur and expungement"
+        "sourceConditionText": "no fixed elapsed waiting period; the petition follows a covered conviction or adjudication plus facts establishing the direct-result trafficking nexus"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2489,7 +2536,13 @@
       "sourceRef": "section:178-187; section:11-24; pathways:11-24; corpus-unit:3; corpus-unit:10; corpus-unit:60",
       "candidatePathwayIds": [
         "sex-trafficking-victim-vacatur-and-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WV-04",
+        "ruleId": "WV-61-14-9-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+        "statute": "W. Va. Code § 61-14-9",
+        "mechanism": "Sex-trafficking-victim vacatur and expungement"
+      }
     },
     {
       "id": "route-juvenile-record-relief",
@@ -2796,6 +2849,21 @@
         "offense_level",
         "offense_category",
         "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "authority-first-offense-drug-possession-conditional-discharge-relief",
+      "ruleText": "W. Va. Code § 60A-4-407 — not less than six months after the conditional-discharge probationary period expires, following successful completion and dismissal",
+      "duration": {
+        "value": 6,
+        "unit": "months",
+        "raw": "6 months"
+      },
+      "anchor": "probation_parole_supervision_end_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court_requirements_completed",
+        "probation_parole_supervision_end_date"
       ]
     }
   ],

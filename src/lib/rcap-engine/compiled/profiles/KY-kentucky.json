@@ -677,7 +677,9 @@
       "automatic": true,
       "filingRequired": false,
       "suggestedResultCode": "guidance_only",
-      "waitingRules": [],
+      "waitingRules": [
+        "the court's statutory automatic mechanism applies on a dismissal or not-delinquent finding, without a participant waiting period"
+      ],
       "exclusionRules": [],
       "routeType": "automatic",
       "frontendBranch": {
@@ -690,7 +692,40 @@
       },
       "sourceEvidenceRefs": [
         "manual_source_conversion:KY"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KY-02",
+        "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+        "mechanism": "Automatic juvenile dismissal and expungement",
+        "statute": "KRS § 610.330",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the court's statutory automatic mechanism applies on a dismissal or not-delinquent finding, without a participant waiting period"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Jurisdiction-end date?",
+          "Unconditional-release date?",
+          "Offense category?",
+          "Pending matters?",
+          "Extraordinary-circumstances basis?",
+          "Whether automatic relief already occurred?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Kentucky juvenile record within KRS § 610.330",
+          "No excluded violent/sex offense",
+          "No disqualifying pending matter",
+          "Waiver only on extraordinary circumstances"
+        ],
+        "packetFamily": null,
+        "notes": "Never present the two-year petition period to a user in this branch."
+      }
     },
     {
       "id": "juvenile-petition-610330",
@@ -713,10 +748,12 @@
         "dismissed",
         "juvenile"
       ],
-      "automatic": true,
-      "filingRequired": false,
+      "automatic": false,
+      "filingRequired": true,
       "suggestedResultCode": "guidance_only",
-      "waitingRules": [],
+      "waitingRules": [
+        "two years after the termination of juvenile-court jurisdiction or the person's unconditional release from commitment, whichever applies, subject to the statutory waiver for extraordinary circumstances"
+      ],
       "exclusionRules": [],
       "routeType": "automatic",
       "frontendBranch": {
@@ -729,7 +766,53 @@
       },
       "sourceEvidenceRefs": [
         "manual_source_conversion:KY"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KY-02",
+        "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+        "mechanism": "Petition-based juvenile expungement",
+        "statute": "KRS § 610.330",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "release_date",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "two years after the termination of juvenile-court jurisdiction or the person's unconditional release from commitment, whichever applies, subject to the statutory waiver for extraordinary circumstances"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Jurisdiction-end date?",
+          "Unconditional-release date?",
+          "Offense category?",
+          "Pending matters?",
+          "Extraordinary-circumstances basis?",
+          "Whether automatic relief already occurred?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "release_date"
+        ],
+        "exclusions": [
+          "Kentucky juvenile record within KRS § 610.330",
+          "No excluded violent/sex offense",
+          "No disqualifying pending matter",
+          "Waiver only on extraordinary circumstances"
+        ],
+        "packetFamily": "Kentucky Juvenile Expungement Petition under KRS § 610.330",
+        "packetComponents": [
+          "Petition under § 610.330",
+          "Jurisdiction termination or release proof"
+        ],
+        "notes": "The statutory waiver for extraordinary circumstances is available; the no-pending-case and offense exclusions must be satisfied."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -1333,18 +1416,16 @@
       "when": {
         "backendPathwayId": "juvenile-automatic-dismissal",
         "requiredFields": [
-          "case_outcome",
-          "age_at_offense"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "age_at_offense"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile automatic expungement on qualifying dismissal"
+        "sourceConditionText": "the court's statutory automatic mechanism applies on a dismissal or not-delinquent finding, without a participant waiting period"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -1354,7 +1435,13 @@
       "sourceRef": "manual_source_conversion:KY",
       "candidatePathwayIds": [
         "juvenile-automatic-dismissal"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KY-02",
+        "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+        "statute": "KRS § 610.330",
+        "mechanism": "Automatic juvenile dismissal and expungement"
+      }
     },
     {
       "id": "route-juvenile-petition-610330",
@@ -1364,23 +1451,26 @@
         "backendPathwayId": "juvenile-petition-610330",
         "requiredFields": [
           "case_outcome",
-          "county",
-          "court",
-          "age_at_offense",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "county",
-          "court",
-          "age_at_offense",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile petition to vacate and expunge under KRS 610.330"
+        "sourceConditionText": "two years after the termination of juvenile-court jurisdiction or the person's unconditional release from commitment, whichever applies, subject to the statutory waiver for extraordinary circumstances",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "release_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -1390,7 +1480,13 @@
       "sourceRef": "manual_source_conversion:KY",
       "candidatePathwayIds": [
         "juvenile-petition-610330"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KY-02",
+        "ruleId": "KY-610.330-AUTOMATIC-VS-TWO-YEAR-PETITION",
+        "statute": "KRS § 610.330",
+        "mechanism": "Petition-based juvenile expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -1503,6 +1599,22 @@
       "fieldsReferenced": [
         "case_outcome",
         "offense_level"
+      ]
+    },
+    {
+      "id": "authority-juvenile-petition-610330",
+      "ruleText": "KRS § 610.330 — two years after the termination of juvenile-court jurisdiction or the person's unconditional release from commitment, whichever applies, subject to the statutory waiver for extraordinary circumstances",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "release_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "release_date"
       ]
     }
   ],

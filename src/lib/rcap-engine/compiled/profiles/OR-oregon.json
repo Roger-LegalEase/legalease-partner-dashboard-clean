@@ -490,24 +490,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The most accessible relief, with short or no waiting periods:",
-        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
-        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
-        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
-        "release (the Class C felony waiting period).",
-        "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
-        "makes it eligible immediately or after a much shorter wait.",
-        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
-        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
-        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
-        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
-        "Disposition / offense class Waiting period Measured from",
-        "Arrest, no charges filed 60 days DA's notice declining to prosecute",
-        "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
-        "Class A misdemeanor 3 years Conviction or release, later",
-        "Class C felony 5 years Conviction or release, later",
-        "Class B felony 7 years Conviction or release, later",
-        "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is"
+        "where no accusatory instrument was filed, the motion may be made sixty days after the prosecutor indicates that the state has elected not to proceed; after an acquittal or any other dismissal the motion may be made at any time after the disposition"
       ],
       "exclusionRules": [
         "Oregon excludes whole categories regardless of time elapsed or sentence completion (ORS 137.225(5), (6),",
@@ -543,6 +526,45 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "ORS 137.225(1)(c)",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OR-01",
+        "ruleId": "OR-137.225-1C-1D-NONCONVICTION-COMPLETE-MAP",
+        "mechanism": "Set-aside of arrests or charges without conviction",
+        "statute": "ORS 137.225(1)(c)-(d)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 60,
+          "unit": "days",
+          "anchorFactId": "disposition_date",
+          "anchorText": "where no accusatory instrument was filed, the motion may be made sixty days after the prosecutor indicates that the state has elected not to proceed; after an acquittal or any other dismissal the motion may be made at any time after the disposition"
+        },
+        "requiredFacts": [
+          "Accusatory instrument filed?",
+          "Prosecutor nonprosecution date?",
+          "Disposition type/date?",
+          "Exact charges?",
+          "Excluded charge?",
+          "Other counts?",
+          "Current supervision or related case?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Oregon arrest/citation/charge record within ORS 137.225",
+          "Correct no-instrument versus acquittal/dismissal branch",
+          "Statutory exclusions absent"
+        ],
+        "packetFamily": "Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
+        "packetComponents": [
+          "Motion to set aside",
+          "Disposition or nonprosecution record"
+        ],
+        "notes": "The sixty-day clock is limited to the no-accusatory-instrument branch. Ordinary dismissal and acquittal are available at any time after disposition. Statutory exclusions and multi-count effects must still be screened."
       }
     },
     {
@@ -719,24 +741,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "which makes many of them eligible far sooner (or immediately), and certain old municipal/justice-court",
-        "60 days after the DA declines; conviction → complete the sentence, then the class-based wait.",
-        "makes it eligible immediately or after a much shorter wait.",
-        "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
-        "release (the Class C felony waiting period).",
-        "Defendant has not been convicted of any other offense during the waiting period (any same-episode conviction does not count), and has no criminal charge pending.",
-        "Dismissed charge — may be set aside, generally with little or no waiting period (but see the drafting-quirk caution: some dismissed serious charges have at times been forced to wait the same period as a conviction).",
-        "Arrest with no charges filed — may be set aside 60 days after the prosecutor notifies the court that no charge will be pursued (SB 397 cut this from one year).",
-        "No requirement (post-SB 397) of being arrest-free for three years or conviction-free for ten before applying to set aside an uncharged arrest.",
-        "post-prison supervision, and restitution) may move to set aside the conviction after the applicable waiting",
-        "Disposition / offense class Waiting period Measured from",
-        "Arrest, no charges filed 60 days DA's notice declining to prosecute",
-        "Class B or C misdemeanor, 1 year Conviction/finding or release, later",
-        "Class A misdemeanor 3 years Conviction or release, later",
-        "Class C felony 5 years Conviction or release, later",
-        "Class B felony 7 years Conviction or release, later",
-        "A central SB 397 improvement is how MULTIPLE convictions are treated. The single waiting period is",
-        "“other conviction” during the waiting period. The old regime forced a flat 10-year wait whenever a person had"
+        "may be set aside at any time after judgment once the person has fully complied with and performed the sentence",
+        "Supersedes the ORS 137.225 one-, three-, five- and seven-year class waits, none of which applies to this special motion."
       ],
       "exclusionRules": [
         "current OSP policy. The agent must verify the current statutory text, the waiting-period tiers, the eligible/excluded offense lists,",
@@ -772,6 +778,48 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-OR-03",
+        "ruleId": "OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP",
+        "mechanism": "Marijuana-specific set-aside and redesignation",
+        "statute": "ORS 475C.397",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorText": "may be set aside at any time after judgment once the person has fully complied with and performed the sentence"
+        },
+        "requiredFacts": [
+          "Offense statute/date?",
+          "Conduct and quantity?",
+          "Conviction class?",
+          "Judgment date?",
+          "Release date?",
+          "Full sentence/financial compliance?",
+          "Special-route qualification?",
+          "General exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact marijuana statute, conduct, date, quantity, current classification, and whether the conviction meets the special § 475C.397 definition"
+        ],
+        "packetFamily": "Oregon Marijuana Set-Aside Motion under ORS 475C.397",
+        "packetComponents": [
+          "Motion under § 475C.397",
+          "Judgment",
+          "Sentence compliance proof"
+        ],
+        "supersedes": {
+          "note": "the ORS 137.225 one-, three-, five- and seven-year class waits, none of which applies to this special motion"
+        },
+        "notes": "Marijuana convictions outside § 475C.397 use the current § 137.225 class map: one year for Class B/C misdemeanors or violations, three years for Class A misdemeanors, five years for Class C felonies, seven years for Class B felonies. Offense class and date are mandatory intake facts for that fallback."
       }
     }
   ],
@@ -2407,20 +2455,10 @@
       "when": {
         "backendPathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "arrest_no_charge",
@@ -2429,7 +2467,13 @@
           "convicted_other",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)"
+        "sourceConditionText": "where no accusatory instrument was filed, the motion may be made sixty days after the prosecutor indicates that the state has elected not to proceed; after an acquittal or any other dismissal the motion may be made at any time after the disposition",
+        "duration": {
+          "value": 60,
+          "unit": "days",
+          "raw": "60 days"
+        },
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2439,7 +2483,13 @@
       "sourceRef": "pathways:72-107; section:72-107; corpus-unit:28",
       "candidatePathwayIds": [
         "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OR-01",
+        "ruleId": "OR-137.225-1C-1D-NONCONVICTION-COMPLETE-MAP",
+        "statute": "ORS 137.225(1)(c)-(d)",
+        "mechanism": "Set-aside of arrests or charges without conviction"
+      }
     },
     {
       "id": "route-set-aside-of-eligible-convictions-under-ors-137-225-1-a",
@@ -2490,19 +2540,13 @@
         "backendPathwayId": "marijuana-specific-set-aside-redesignation",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "disposition_date",
           "offense_level",
-          "criminal_history",
-          "identity_error"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "disposition_date",
           "offense_level",
-          "criminal_history",
-          "identity_error"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2510,7 +2554,8 @@
           "convicted_other",
           "convicted_felony"
         ],
-        "sourceConditionText": "Marijuana-specific set-aside / redesignation"
+        "sourceConditionText": "may be set aside at any time after judgment once the person has fully complied with and performed the sentence",
+        "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2520,7 +2565,13 @@
       "sourceRef": "pathways:72-107; section:405-423; section:280-305; section:72-107; corpus-unit:31; corpus-unit:81; corpus-unit:110",
       "candidatePathwayIds": [
         "marijuana-specific-set-aside-redesignation"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-OR-03",
+        "ruleId": "OR-475C.397-SPECIAL-MARIJUANA-VS-137.225-CLASS-MAP",
+        "statute": "ORS 475C.397",
+        "mechanism": "Marijuana-specific set-aside and redesignation"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2813,6 +2864,19 @@
       "fieldsReferenced": [
         "case_outcome",
         "offense_level"
+      ]
+    },
+    {
+      "id": "authority-set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "ruleText": "ORS 137.225(1)(c)-(d) — where no accusatory instrument was filed, the motion may be made sixty days after the prosecutor indicates that the state has elected not to proceed; after an acquittal or any other dismissal the motion may be made at any time after the disposition",
+      "duration": {
+        "value": 60,
+        "unit": "days",
+        "raw": "60 days"
+      },
+      "anchor": "disposition_date",
+      "fieldsReferenced": [
+        "case_outcome"
       ]
     }
   ],

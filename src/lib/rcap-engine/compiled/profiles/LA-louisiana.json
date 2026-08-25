@@ -676,14 +676,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Misdemeanor conviction A misdemeanor conviction may be expunged if either: 1 The conviction was set aside and prosecution dismissed under Article 894(B); or 2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge."
+        "event-triggered by entry of the Article 894(B) set-aside and dismissal after successful completion of the deferred sentence or probation",
+        "Supersedes 5 years: the separate Article 977 five-year clean-period route, which is not this route's waiting period."
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -703,6 +697,48 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-02",
+        "ruleId": "LA-CCRP-894B-977-SET-ASIDE-DISMISSAL-EVENT",
+        "mechanism": "Misdemeanor expungement after an Article 894(B) set-aside and dismissal",
+        "statute": "La. Code Crim. Proc. arts. 894(B) and 977",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "event-triggered by entry of the Article 894(B) set-aside and dismissal after successful completion of the deferred sentence or probation"
+        },
+        "requiredFacts": [
+          "Article 894(B) order?",
+          "Offense?",
+          "DWI status?",
+          "Completion and dismissal dates?",
+          "Prior expungements?",
+          "Pending matters?",
+          "Article 977 exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Misdemeanor disposed under Article 894(B), with all statutory Article 977 eligibility and exclusion rules satisfied"
+        ],
+        "packetFamily": "Louisiana Article 977 Misdemeanor Expungement Packet",
+        "packetComponents": [
+          "Motion for expungement under art. 977",
+          "Article 894(B) set-aside and dismissal order"
+        ],
+        "supersedes": {
+          "value": 5,
+          "unit": "years",
+          "note": "the separate Article 977 five-year clean-period route, which is not this route's waiting period"
+        },
+        "notes": "Do not attach the five-year alternative route or the DWI-diversion arrest-date clock unless independently applicable."
       }
     },
     {
@@ -948,13 +984,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")"
+        "event-triggered by successful completion, set-aside and dismissal under Article 893(E), followed by the Article 978 eligibility analysis",
+        "Supersedes 5 years: the five-year controlled-substance sentencing language and the Article 978 five- and ten-year clean-period pathways, none of which is this route's wait."
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_felony_893_set_asidelikely_eligible_felony_10_year_clean_periodlikely_eligible_felony_first_offender_pardonlegal_review_required_possible_978E_violent_exceptionlikely_ineligible_felony_excluded_offenseneeds_article_893_set_aside_first",
@@ -974,6 +1005,47 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-04",
+        "ruleId": "LA-CCRP-893E-978-SET-ASIDE-DISMISSAL-EVENT",
+        "mechanism": "Felony expungement after an Article 893(E) set-aside and dismissal",
+        "statute": "La. Code Crim. Proc. arts. 893(E) and 978",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "event-triggered by successful completion, set-aside and dismissal under Article 893(E), followed by the Article 978 eligibility analysis"
+        },
+        "requiredFacts": [
+          "Exact offense?",
+          "Article 893(E) order?",
+          "Completion and dismissal dates?",
+          "Controlled-substance facts?",
+          "Pending/later convictions?",
+          "Article 978 exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Felony disposed under Article 893(E) and otherwise eligible under Article 978, including all offense exclusions"
+        ],
+        "packetFamily": "Louisiana Article 978 Felony Expungement Packet",
+        "packetComponents": [
+          "Motion for expungement under art. 978",
+          "Article 893(E) set-aside and dismissal order"
+        ],
+        "supersedes": {
+          "value": 5,
+          "unit": "years",
+          "note": "the five-year controlled-substance sentencing language and the Article 978 five- and ten-year clean-period pathways, none of which is this route's wait"
+        },
+        "notes": "Do not reuse Article 978's alternative clean-period routes as a mandatory wait for an 893(E) dismissal."
       }
     },
     {
@@ -1108,13 +1180,7 @@
       "routeType": "pardon_then_court",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")"
+        "unlocked by the valid first-offender pardon, which arises on sentence completion and payment of court costs; the pardon itself is not a waiting-period rule"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_felony_893_set_asidelikely_eligible_felony_10_year_clean_periodlikely_eligible_felony_first_offender_pardonlegal_review_required_possible_978E_violent_exceptionlikely_ineligible_felony_excluded_offenseneeds_article_893_set_aside_first",
@@ -1134,6 +1200,43 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-03",
+        "ruleId": "LA-CCRP-978-FIRST-OFFENDER-PARDON-EVENT",
+        "mechanism": "Felony expungement on a first-offender pardon",
+        "statute": "La. Code Crim. Proc. art. 978",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "unlocked by the valid first-offender pardon, which arises on sentence completion and payment of court costs; the pardon itself is not a waiting-period rule"
+        },
+        "requiredFacts": [
+          "Exact conviction?",
+          "First-offender-pardon documentation?",
+          "Sentence completion?",
+          "Court-cost payment?",
+          "Pending/later convictions?",
+          "Article 978 exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "financial_obligations",
+          "special_preconditions_confirmed"
+        ],
+        "exclusions": [
+          "Valid Louisiana first-offender pardon and Article 978 eligibility",
+          "Excluded offenses and other statutory restrictions still apply"
+        ],
+        "packetFamily": "Louisiana Article 978 First-Offender-Pardon Expungement Packet",
+        "packetComponents": [
+          "Motion for expungement under art. 978",
+          "First-offender pardon documentation",
+          "Proof of cost payment"
+        ],
+        "notes": "The product must verify the pardon rather than infer it from a completion date. No additional five- or ten-year clean period unless the person is using one of those independent Article 978 routes."
       }
     },
     {
@@ -1173,14 +1276,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "There is no Article 977/978 waiting-period limit and no numerical cap on interim expungements. (\"https://www.legis.la.gov/legis/Law.aspx?d=919678\") Wilma status: possible_interim_expungement_felony_arrest_misdemeanor_conviction Wilma script: Louisiana has a separate interim expungement when a felony arrest ends as a misdemeanor conviction."
+        "not subject to the ordinary Articles 977 and 978 five- or ten-year limits"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -1200,6 +1296,40 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "mechanism": "Interim expungement of a felony arrest reduced to a misdemeanor conviction",
+        "statute": "La. Code Crim. Proc. art. 985.1",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "not subject to the ordinary Articles 977 and 978 five- or ten-year limits"
+        },
+        "requiredFacts": [
+          "Underlying eligibility basis?",
+          "Redaction need?",
+          "Funding/automation availability?",
+          "Prosecutor trafficking certification?",
+          "Program completion?",
+          "Original felony arrest and final misdemeanor disposition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+        ],
+        "packetFamily": "Louisiana Article 985.1 Interim Expungement Packet",
+        "packetComponents": [
+          "Motion for interim expungement",
+          "Disposition record showing the reduction"
+        ],
+        "notes": "Concerns the felony-arrest portion only, not final expungement of the misdemeanor conviction."
       }
     },
     {
@@ -1227,13 +1357,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")"
+        "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -1250,6 +1374,39 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "mechanism": "Expungement by redaction for a record naming more than one person",
+        "statute": "La. Code Crim. Proc. art. 985",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
+        },
+        "requiredFacts": [
+          "Underlying eligibility basis?",
+          "Redaction need?",
+          "Funding/automation availability?",
+          "Prosecutor trafficking certification?",
+          "Program completion?",
+          "Original felony arrest and final misdemeanor disposition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+        ],
+        "packetFamily": "Louisiana Article 985 Redaction Packet",
+        "packetComponents": [
+          "Motion for expungement by redaction",
+          "Underlying eligibility showing"
+        ],
+        "notes": "Eligibility follows whatever underlying route the applicant qualifies for."
       }
     },
     {
@@ -1291,13 +1448,7 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")"
+        "the Articles 977 and 978 delays and fees are waived once the trafficking nexus is established and the Article 997 prosecutor certification supports it"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -1318,6 +1469,41 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "mechanism": "Human-trafficking survivor expungement, fee exempt",
+        "statute": "La. Code Crim. Proc. arts. 983(H) and 997",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the Articles 977 and 978 delays and fees are waived once the trafficking nexus is established and the Article 997 prosecutor certification supports it"
+        },
+        "requiredFacts": [
+          "Underlying eligibility basis?",
+          "Redaction need?",
+          "Funding/automation availability?",
+          "Prosecutor trafficking certification?",
+          "Program completion?",
+          "Original felony arrest and final misdemeanor disposition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+        ],
+        "packetFamily": "Louisiana Trafficking-Survivor Expungement Packet under art. 983(H)",
+        "packetComponents": [
+          "Motion for expungement",
+          "Article 997 prosecutor certification",
+          "Trafficking nexus evidence"
+        ],
+        "notes": "Statutory delays and fees are waived; never import the ordinary Article 977/978 clean periods."
       }
     },
     {
@@ -1350,14 +1536,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Wilma should not promise that a user\u0019s record will be automatically expunged; treat it as a possible process to verify with LSP/BCII or the clerk. (\"https://www.legis.la.gov/legis/Law.aspx?d=1335802\") Wilma status: automation_possible_but_verify_availability Immediate expungement by court discretion Article 985.3 allows a court to order immediate expungement when a person is otherwise eligible and successfully completes a court-ordered probation or alternative sentencing program."
+        "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -1377,6 +1556,41 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "mechanism": "Immediate expungement after successful court-program completion",
+        "statute": "La. Code Crim. Proc. art. 985.3",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action"
+        },
+        "requiredFacts": [
+          "Underlying eligibility basis?",
+          "Redaction need?",
+          "Funding/automation availability?",
+          "Prosecutor trafficking certification?",
+          "Program completion?",
+          "Original felony arrest and final misdemeanor disposition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+        ],
+        "packetFamily": "Louisiana Article 985.3 Immediate Expungement Packet",
+        "packetComponents": [
+          "Motion under art. 985.3",
+          "Program completion proof"
+        ],
+        "notes": "Subject to court action; the person must still be otherwise eligible."
       }
     },
     {
@@ -1411,16 +1625,11 @@
       ],
       "automatic": true,
       "filingRequired": false,
-      "routeType": "automatic",
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")"
+        "a request and status process tied to the underlying Articles 976-978 eligibility; it carries no independent clock",
+        "Agency and court processing windows — processing after the request, not filing waits."
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -1440,6 +1649,41 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "mechanism": "Automated expungement status verification",
+        "statute": "La. Code Crim. Proc. art. 985.2",
+        "stage": "automatic",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "a request and status process tied to the underlying Articles 976-978 eligibility; it carries no independent clock"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Agency and court processing windows",
+            "note": "processing after the request, not filing waits"
+          }
+        ],
+        "requiredFacts": [
+          "Underlying eligibility basis?",
+          "Redaction need?",
+          "Funding/automation availability?",
+          "Prosecutor trafficking certification?",
+          "Program completion?",
+          "Original felony arrest and final misdemeanor disposition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+        ],
+        "packetFamily": null,
+        "notes": "Availability remains subject to statutory funding and implementation, so this route stays operationally gated and never opens checkout."
       }
     }
   ],
@@ -2029,23 +2273,11 @@
         "backendPathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2055,7 +2287,8 @@
           "convicted_other",
           "acquitted"
         ],
-        "sourceConditionText": "Misdemeanor Article 894(B) set-aside followed by expungement"
+        "sourceConditionText": "event-triggered by entry of the Article 894(B) set-aside and dismissal after successful completion of the deferred sentence or probation",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2065,7 +2298,13 @@
       "sourceRef": "section:49-56; corpus-unit:28; corpus-unit:56; corpus-unit:81; section:190-230; corpus-unit:9; corpus-unit:84; packet_logic:190-230",
       "candidatePathwayIds": [
         "misdemeanor-article-894-b-set-aside-followed-by-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-02",
+        "ruleId": "LA-CCRP-894B-977-SET-ASIDE-DISMISSAL-EVENT",
+        "statute": "La. Code Crim. Proc. arts. 894(B) and 977",
+        "mechanism": "Misdemeanor expungement after an Article 894(B) set-aside and dismissal"
+      }
     },
     {
       "id": "route-misdemeanor-five-year-clean-period-expungement",
@@ -2158,29 +2397,11 @@
         "backendPathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "pardon_status",
-          "disposition_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date"
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "pardon_status",
-          "disposition_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date"
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2191,7 +2412,8 @@
           "convicted_misdemeanor",
           "acquitted"
         ],
-        "sourceConditionText": "Felony Article 893(E) set-aside followed by expungement"
+        "sourceConditionText": "event-triggered by successful completion, set-aside and dismissal under Article 893(E), followed by the Article 978 eligibility analysis",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2201,7 +2423,13 @@
       "sourceRef": "section:57-67; corpus-unit:32; corpus-unit:56; corpus-unit:84; section:49-56; section:190-230; corpus-unit:36; packet_logic:190-230",
       "candidatePathwayIds": [
         "felony-article-893-e-set-aside-followed-by-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-04",
+        "ruleId": "LA-CCRP-893E-978-SET-ASIDE-DISMISSAL-EVENT",
+        "statute": "La. Code Crim. Proc. arts. 893(E) and 978",
+        "mechanism": "Felony expungement after an Article 893(E) set-aside and dismissal"
+      }
     },
     {
       "id": "route-felony-ten-year-clean-period-expungement",
@@ -2254,21 +2482,11 @@
         "backendPathwayId": "first-offender-pardon-felony-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "pardon_status"
+          "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "pardon_status"
+          "financial_obligations"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2278,7 +2496,7 @@
           "juvenile",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "First-offender-pardon felony expungement"
+        "sourceConditionText": "unlocked by the valid first-offender pardon, which arises on sentence completion and payment of court costs; the pardon itself is not a waiting-period rule"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2288,7 +2506,13 @@
       "sourceRef": "section:57-67; section:190-230; corpus-unit:35; corpus-unit:86; packet_logic:190-230",
       "candidatePathwayIds": [
         "first-offender-pardon-felony-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-03",
+        "ruleId": "LA-CCRP-978-FIRST-OFFENDER-PARDON-EVENT",
+        "statute": "La. Code Crim. Proc. art. 978",
+        "mechanism": "Felony expungement on a first-offender pardon"
+      }
     },
     {
       "id": "route-interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
@@ -2298,22 +2522,18 @@
         "backendPathwayId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Interim expungement of a felony arrest reduced to a misdemeanor conviction"
+        "sourceConditionText": "not subject to the ordinary Articles 977 and 978 five- or ten-year limits"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2323,7 +2543,13 @@
       "sourceRef": "corpus-unit:16; corpus-unit:37; corpus-unit:39; corpus-unit:89; corpus-unit:8; corpus-unit:17",
       "candidatePathwayIds": [
         "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "statute": "La. Code Crim. Proc. art. 985.1",
+        "mechanism": "Interim expungement of a felony arrest reduced to a misdemeanor conviction"
+      }
     },
     {
       "id": "route-expungement-by-redaction-for-multi-person-records",
@@ -2332,17 +2558,15 @@
       "when": {
         "backendPathwayId": "expungement-by-redaction-for-multi-person-records",
         "requiredFields": [
-          "case_outcome",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Expungement by redaction for multi-person records"
+        "sourceConditionText": "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2352,7 +2576,13 @@
       "sourceRef": "corpus-unit:41; decision_tree:31-38",
       "candidatePathwayIds": [
         "expungement-by-redaction-for-multi-person-records"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "statute": "La. Code Crim. Proc. art. 985",
+        "mechanism": "Expungement by redaction for a record naming more than one person"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-expungement-fee-exempt-route",
@@ -2362,27 +2592,11 @@
         "backendPathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date",
-          "trafficking_status",
-          "pardon_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "criminal_history",
-          "case_number",
-          "arrest_date",
-          "trafficking_status",
-          "pardon_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2391,7 +2605,7 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Human-trafficking-survivor expungement / fee-exempt route"
+        "sourceConditionText": "the Articles 977 and 978 delays and fees are waived once the trafficking nexus is established and the Article 997 prosecutor certification supports it"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2401,7 +2615,13 @@
       "sourceRef": "corpus-unit:49; corpus-unit:56; corpus-unit:74",
       "candidatePathwayIds": [
         "human-trafficking-survivor-expungement-fee-exempt-route"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "statute": "La. Code Crim. Proc. arts. 983(H) and 997",
+        "mechanism": "Human-trafficking survivor expungement, fee exempt"
+      }
     },
     {
       "id": "route-immediate-expungement-after-successful-court-program-completion-art-985-3",
@@ -2410,16 +2630,19 @@
       "when": {
         "backendPathwayId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
         "requiredFields": [
-          "case_outcome"
+          "case_outcome",
+          "court_requirements_completed"
         ],
         "fieldsReferenced": [
-          "case_outcome"
+          "case_outcome",
+          "court_requirements_completed"
         ],
         "caseOutcomes": [
           "dismissed",
           "convicted_other"
         ],
-        "sourceConditionText": "Immediate expungement after successful court-program completion (Art. 985.3)"
+        "sourceConditionText": "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2429,7 +2652,13 @@
       "sourceRef": "corpus-unit:44; packet_logic:190-230",
       "candidatePathwayIds": [
         "immediate-expungement-after-successful-court-program-completion-art-985-3"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "statute": "La. Code Crim. Proc. art. 985.3",
+        "mechanism": "Immediate expungement after successful court-program completion"
+      }
     },
     {
       "id": "route-automated-expungement-status-verification-art-985-2",
@@ -2438,18 +2667,16 @@
       "when": {
         "backendPathwayId": "automated-expungement-status-verification-art-985-2",
         "requiredFields": [
-          "case_outcome",
-          "offense_category"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "convicted_other"
         ],
-        "sourceConditionText": "Automated-expungement status verification (Art. 985.2)"
+        "sourceConditionText": "a request and status process tied to the underlying Articles 976-978 eligibility; it carries no independent clock"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2459,7 +2686,13 @@
       "sourceRef": "corpus-unit:43; corpus-unit:65; decision_tree:31-38; packet_logic:190-230",
       "candidatePathwayIds": [
         "automated-expungement-status-verification-art-985-2"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-LA-05",
+        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
+        "statute": "La. Code Crim. Proc. art. 985.2",
+        "mechanism": "Automated expungement status verification"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
