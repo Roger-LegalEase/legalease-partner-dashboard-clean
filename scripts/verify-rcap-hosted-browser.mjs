@@ -110,9 +110,17 @@ includesEvery(script, [
   "negative_control_cannot_read_participant_matter_or_follow_up",
   "End clinic session / Reset device",
   "end_session_reset_device_and_back_navigation_leave_no_participant_state",
+  "cleanPublicEntryBaselineKeys",
+  "sentinelKeyPresent === false",
+  "localKeysSubsetOfBaseline === true",
+  "identifierHashMatch === false",
+  "localStorageValueHashes",
+  "localStorageParticipantBearing === false",
+  "pageContainsParticipantMarker === false",
   "remainingCookies.length === 0",
   'resetRow.status === "reset"'
 ], "Clinic follow-up, isolation, and reset proof");
+check(!script.includes("resetProof.localStorage === 0"), "reset proof confuses anonymous analytics repopulation with participant-bearing state");
 
 includesEvery(script, [
   'chromium.launch({ channel: "chrome", headless: true })',

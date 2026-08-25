@@ -414,6 +414,12 @@ async function main() {
     const mobileDimensions = await mobilePage.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth }));
     record("mobile_public_clinic_entry_visible", response?.status() === 200 && await mobilePage.getByRole("heading", { name: FIXTURE.eventName }).isVisible() && assertNoHorizontalOverflow(mobileDimensions), `status=${response?.status()}; no overflow=${assertNoHorizontalOverflow(mobileDimensions)}`);
     await screenshot(mobilePage, "mobile-clinic-entry");
+    // Key names are non-sensitive. Capture the public-entry baseline before
+    // any injected participant sentinel so post-reset storage can be compared
+    // with the state a clean arrival legitimately creates.
+    const cleanPublicEntryBaselineKeys = await mobilePage.evaluate(() =>
+      Array.from({ length: localStorage.length }, (_, index) => localStorage.key(index) ?? "").sort()
+    );
 
     response = await mobilePage.goto(`${PREVIEW}/briefcase/${FIXTURE.matterId}`, { waitUntil: "networkidle" });
     const mobileGuidance = await mobilePage.locator("[data-briefcase-guidance-state]").count();
@@ -432,8 +438,10 @@ async function main() {
     await screenshot(mobileStaffPage, "mobile-clinic-follow-up");
     await mobileStaff.close();
 
-    await mobilePage.evaluate(async () => {
-      localStorage.setItem("clinic-participant", "synthetic-participant-a");
+    const resetSentinelKey = `clinic-participant-sentinel-${crypto.randomBytes(12).toString("hex")}`;
+    const resetSentinelValue = `synthetic-participant-${crypto.randomBytes(24).toString("base64url")}`;
+    await mobilePage.evaluate(async ({ sentinelKey, sentinelValue }) => {
+      localStorage.setItem(sentinelKey, sentinelValue);
       sessionStorage.setItem("clinic-form", "synthetic-sensitive-state");
       await caches.open("clinic-synthetic-cache").then((cache) => cache.put("/synthetic-private", new Response("synthetic")));
       await new Promise((resolve, reject) => {
@@ -441,37 +449,77 @@ async function main() {
         request.onsuccess = () => { request.result.close(); resolve(true); };
         request.onerror = () => reject(request.error);
       });
-      history.pushState({ participant: "synthetic-participant-a", matter: "synthetic-matter" }, "", "/clinic/sensitive-prior");
-    });
+      history.pushState({ participant: sentinelValue, matter: "synthetic-matter" }, "", "/clinic/sensitive-prior");
+    }, { sentinelKey: resetSentinelKey, sentinelValue: resetSentinelValue });
     await mobilePage.getByRole("button", { name: "End clinic session / Reset device" }).click();
     await mobilePage.waitForURL(`${PREVIEW}/clinic/${FIXTURE.eventSlug}`, { timeout: 30_000 });
     await mobilePage.goBack({ waitUntil: "networkidle" }).catch(() => null);
-    const resetProof = await mobilePage.evaluate(async () => ({
-      pathname: location.pathname,
-      localStorage: localStorage.length,
-      sessionStorage: sessionStorage.length,
-      caches: (await caches.keys()).length,
-      databases: typeof indexedDB.databases === "function" ? (await indexedDB.databases()).length : 0,
-      historyHasParticipant: Boolean(history.state?.participant)
-    }));
+    const resetProof = await mobilePage.evaluate(async ({ participantMarkers, baselineKeys, sentinelKey }) => {
+      const localEntries = Array.from({ length: localStorage.length }, (_, index) => {
+        const key = localStorage.key(index) ?? "";
+        return [key, localStorage.getItem(key) ?? ""];
+      });
+      const localStorageKeys = localEntries.map(([key]) => key).sort();
+      const hash = async (value) => Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value))))
+        .map((byte) => byte.toString(16).padStart(2, "0")).join("");
+      const identifierHashes = new Set(await Promise.all(participantMarkers.map(hash)));
+      const localStorageValueHashes = await Promise.all(localEntries.map(([, value]) => hash(value)));
+      const localStorageKeyHashes = await Promise.all(localEntries.map(([key]) => hash(key)));
+      const localStorageParticipantBearing = localEntries.some(([key, value]) =>
+        participantMarkers.some((marker) => `${key}\u0000${value}`.includes(marker))
+      );
+      const identifierHashMatch = [...localStorageKeyHashes, ...localStorageValueHashes]
+        .some((valueHash) => identifierHashes.has(valueHash));
+      const pageText = document.body?.innerText ?? "";
+      return {
+        pathname: location.pathname,
+        localStorageKeys,
+        localStorageValueHashes,
+        sentinelKeyPresent: localStorage.getItem(sentinelKey) !== null,
+        localKeysSubsetOfBaseline: localStorageKeys.every((key) => baselineKeys.includes(key)),
+        identifierHashMatch,
+        localStorageParticipantBearing,
+        sessionStorage: sessionStorage.length,
+        caches: (await caches.keys()).length,
+        databases: typeof indexedDB.databases === "function" ? (await indexedDB.databases()).length : 0,
+        historyHasParticipant: Boolean(history.state?.participant),
+        pageContainsParticipantMarker: participantMarkers.some((marker) => pageText.includes(marker))
+      };
+    }, {
+      participantMarkers: [
+        resetSentinelKey,
+        resetSentinelValue,
+        participant.id,
+        FIXTURE.sessionId,
+        FIXTURE.screeningId,
+        FIXTURE.matterId,
+        FIXTURE.caseId
+      ],
+      baselineKeys: cleanPublicEntryBaselineKeys,
+      sentinelKey: resetSentinelKey
+    });
     const remainingCookies = (await mobile.cookies()).filter((cookie) => cookie.name.startsWith("clinic_") || cookie.name.startsWith("sb-"));
     const resetRows = await managementQuery(`select status,ended_reason,ended_at is not null as ended from public.clinic_assisted_sessions where id='${FIXTURE.sessionId}'`);
     const resetRow = Array.isArray(resetRows) ? resetRows[0] ?? {} : {};
+    await screenshot(mobilePage, "mobile-after-reset");
     record(
       "end_session_reset_device_and_back_navigation_leave_no_participant_state",
       resetProof.pathname !== "/clinic/sensitive-prior"
-        && resetProof.localStorage === 0
+        && resetProof.sentinelKeyPresent === false
+        && resetProof.localKeysSubsetOfBaseline === true
+        && resetProof.identifierHashMatch === false
+        && resetProof.localStorageParticipantBearing === false
         && resetProof.sessionStorage === 0
         && resetProof.caches === 0
         && resetProof.databases === 0
         && resetProof.historyHasParticipant === false
+        && resetProof.pageContainsParticipantMarker === false
         && remainingCookies.length === 0
         && resetRow.status === "reset"
         && resetRow.ended_reason === "staff_reset"
         && resetRow.ended === true,
-      `path=${resetProof.pathname}; local=${resetProof.localStorage}; session=${resetProof.sessionStorage}; caches=${resetProof.caches}; IndexedDB=${resetProof.databases}; participant cookies=${remainingCookies.length}; DB status=${resetRow.status}/${resetRow.ended_reason}`
+      `path=${resetProof.pathname}; clean baseline keys=${JSON.stringify(cleanPublicEntryBaselineKeys)}; remaining keys=${JSON.stringify(resetProof.localStorageKeys)}; remaining value hashes=${JSON.stringify(resetProof.localStorageValueHashes)}; sentinel present=${resetProof.sentinelKeyPresent}; subset of baseline=${resetProof.localKeysSubsetOfBaseline}; identifier hash match=${resetProof.identifierHashMatch}; participant-bearing local=${resetProof.localStorageParticipantBearing}; participant marker in page=${resetProof.pageContainsParticipantMarker}; session=${resetProof.sessionStorage}; caches=${resetProof.caches}; IndexedDB=${resetProof.databases}; participant cookies=${remainingCookies.length}; DB status=${resetRow.status}/${resetRow.ended_reason}`
     );
-    await screenshot(mobilePage, "mobile-after-reset");
 
     const noPaymentRows = await managementQuery(`
       select b.result_code,b.payment_allowed,b.payment_status,b.packet_status,b.checkout_session_id,
