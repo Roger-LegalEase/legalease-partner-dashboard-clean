@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit, migrate, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
+        description: "preflight, vercel_audit, migrate, clinic_migrate, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -200,7 +200,7 @@ jobs:
         run: node scripts/verify-rcap-vercel-failure-audit.mjs
 
       - name: Prove acceptance Supabase credentials and project
-        if: inputs.phase == 'migrate'
+        if: inputs.phase == 'migrate' || inputs.phase == 'clinic_migrate'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -208,7 +208,7 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
       - name: Prove credentials and Preview-only deployment boundary
-        if: inputs.phase != 'migrate' && inputs.phase != 'vercel_audit'
+        if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'vercel_audit'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -242,6 +242,25 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
+      # Isolated from the Phase 49–55 packet/payment sequence above. This phase
+      # applies only the three exact Clinic migration blobs read from the frozen
+      # application commit, at the hashes and order explicitly authorized for
+      # the named nonproduction acceptance project. It has no Preview, Stripe,
+      # Checkout, payment, worker, browser, or generic migration path.
+      - name: Verify the exact frozen Clinic migration contract
+        id: verify_clinic_migrate
+        if: inputs.phase == 'clinic_migrate'
+        run: node scripts/verify-rcap-hosted-clinic-migrate.mjs
+
+      - name: Apply the exact frozen Clinic migrations to acceptance only
+        id: clinic_migrate
+        if: inputs.phase == 'clinic_migrate'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-clinic-migrate.mjs
+
       # Deploys the FROZEN application bytes. The equivalence check above has
       # already proven this checkout is byte-identical to application_sha on
       # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
@@ -262,6 +281,7 @@ jobs:
       #   stripe_retarget  no             no       no              yes
       #   checkout_gate    no             no       yes             no
       #   browser          no             no       no              no (isolated browser=true)
+      #   clinic_migrate   no             no       no              no (exact three-file Clinic sequence only)
       #   migrate          no             no       no              no
       #   preflight        no             no       no              no
       #   vercel_audit     no             no       no              no
@@ -280,7 +300,7 @@ jobs:
             stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false ;;
             checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false ;;
             browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true  ;;
-            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
+            clinic_migrate|migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -565,6 +585,8 @@ jobs:
           O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
           O_VERIFY_BROWSER: ${{ steps.verify_browser.outcome }}
           O_BROWSER: ${{ steps.hosted_browser.outcome }}
+          O_VERIFY_CLINIC_MIGRATE: ${{ steps.verify_clinic_migrate.outcome }}
+          O_CLINIC_MIGRATE: ${{ steps.clinic_migrate.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
           O_DEPLOY: ${{ steps.deploy_preview.outcome }}
@@ -649,6 +671,9 @@ jobs:
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "worker contract diagnosis"          "$O_DIAGNOSE"
+          elif [ "$PHASE" = "clinic_migrate" ]; then
+            require "exact Clinic migration contract verifier" "$O_VERIFY_CLINIC_MIGRATE"
+            require "exact frozen Clinic migrations"           "$O_CLINIC_MIGRATE"
           else
             echo "  phase does not claim the matrix; nothing to assert here."
           fi
