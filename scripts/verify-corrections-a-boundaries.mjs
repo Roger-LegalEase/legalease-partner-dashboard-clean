@@ -90,21 +90,21 @@ expect(msAdditional, "late", { ms_last_conviction_date_any_court: "2024-08-24" }
 const msDui = "MS:first-offense-dui-expungement";
 expect(msDui, "missing", { ms_successful_sentence_completion_date: null }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_successful_sentence_completion_date" });
 expect(msDui, "early", { ms_successful_sentence_completion_date: "2022-01-01" }, { resultCode: "not_yet", paymentAllowed: false });
-expect(msDui, "boundary", { ms_successful_sentence_completion_date: "2021-08-25" }, { resultCode: "needs_review", paymentAllowed: false });
-expect(msDui, "late", { ms_successful_sentence_completion_date: "2021-08-24" }, { resultCode: "needs_review", paymentAllowed: false });
+expect(msDui, "boundary", { ms_successful_sentence_completion_date: "2021-08-25" }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
+expect(msDui, "late", { ms_successful_sentence_completion_date: "2021-08-24" }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
 
 const msMip = "MS:minor-in-possession-underage-alcohol-expungement";
 expect(msMip, "dismissal missing", { case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", ms_mip_dismissal_or_discharge_date: null }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_mip_dismissal_or_discharge_date" });
 expect(msMip, "dismissal early", { case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", ms_mip_dismissal_or_discharge_date: "2025-09-01" }, { resultCode: "not_yet", paymentAllowed: false });
-expect(msMip, "dismissal boundary", { case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", ms_mip_dismissal_or_discharge_date: "2025-08-25" }, { resultCode: "needs_review", paymentAllowed: false });
+expect(msMip, "dismissal boundary", { case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", ms_mip_dismissal_or_discharge_date: "2025-08-25" }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
 expect(msMip, "conviction applicability missing", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: null, ms_mip_sentence_completion_date: "2025-08-25", ms_mip_fine_payment_date: "2025-08-25" }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_mip_fine_imposed" });
-expect(msMip, "conviction no fine boundary", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "No", ms_mip_sentence_completion_date: "2025-08-25", ms_mip_fine_payment_date: null }, { resultCode: "needs_review", paymentAllowed: false });
+expect(msMip, "conviction no fine boundary", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "No", ms_mip_sentence_completion_date: "2025-08-25", ms_mip_fine_payment_date: null }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
 expect(msMip, "conviction sentence missing", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: null, ms_mip_fine_payment_date: "2025-08-25" }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_mip_sentence_completion_date" });
 expect(msMip, "conviction fine missing", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2025-08-25", ms_mip_fine_payment_date: null }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_mip_fine_payment_date" });
 expect(msMip, "conviction both dates missing", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: null, ms_mip_fine_payment_date: null }, { resultCode: "needs_more_info", paymentAllowed: false, missingQuestionId: "ms_mip_sentence_completion_date" });
 expect(msMip, "conviction latest early", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2024-01-01", ms_mip_fine_payment_date: "2025-09-01" }, { resultCode: "not_yet", paymentAllowed: false });
-expect(msMip, "conviction boundary", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2025-08-24", ms_mip_fine_payment_date: "2025-08-25" }, { resultCode: "needs_review", paymentAllowed: false });
-expect(msMip, "conviction late", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2025-08-24", ms_mip_fine_payment_date: "2025-08-23" }, { resultCode: "needs_review", paymentAllowed: false });
+expect(msMip, "conviction boundary", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2025-08-24", ms_mip_fine_payment_date: "2025-08-25" }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
+expect(msMip, "conviction late", { case_outcome: "Misdemeanor conviction", ms_mip_fine_imposed: "Yes", ms_mip_sentence_completion_date: "2025-08-24", ms_mip_fine_payment_date: "2025-08-23" }, { resultCode: "packet_ready_with_caution", paymentAllowed: true });
 
 console.log("verify-corrections-a-boundaries: GREEN (integrated)");
 console.log(JSON.stringify({ paidBoundaryCases: 10, mississippiBoundaryCases: 19 }, null, 2));

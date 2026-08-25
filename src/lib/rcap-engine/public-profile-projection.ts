@@ -47,7 +47,16 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
   MO: new Set(["twenty_first_birthday"]),
-  MS: new Set(["disposition_date", "arrest_date"]),
+  MS: new Set([
+    "disposition_date",
+    "arrest_date",
+    "ms_last_conviction_date_any_court",
+    "ms_successful_sentence_completion_date",
+    "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_sentence_completion_date",
+    "ms_mip_fine_imposed",
+    "ms_mip_fine_payment_date"
+  ]),
   NY: new Set([
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
@@ -65,7 +74,14 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
 };
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
   MO: new Set(["twenty_first_birthday"]),
-  MS: new Set(["arrest_date"])
+  MS: new Set([
+    "arrest_date",
+    "ms_last_conviction_date_any_court",
+    "ms_successful_sentence_completion_date",
+    "ms_mip_dismissal_or_discharge_date",
+    "ms_mip_sentence_completion_date",
+    "ms_mip_fine_payment_date"
+  ])
 };
 const STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS: Record<string, Set<string>> = {
   MS: new Set(["resolved_timing_bucket"])
@@ -829,6 +845,75 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
   }
 ];
 
+const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "ms_last_conviction_date_any_court",
+    stage: "timing_and_completion",
+    prompt: "What is the date of your most recent conviction in any court?",
+    helperText: "Use the exact conviction date shown in the court record; this is the anchor for the additional justice- or municipal-court misdemeanor route.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_successful_sentence_completion_date",
+    stage: "timing_and_completion",
+    prompt: "What date did you successfully complete every term and condition of the DUI sentence?",
+    helperText: "Use the exact completion date shown in the court or supervision record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_dismissal_or_discharge_date",
+    stage: "timing_and_completion",
+    prompt: "What date was the underage-alcohol case dismissed or discharged?",
+    helperText: "Use the exact date shown in the court record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_sentence_completion_date",
+    stage: "timing_and_completion",
+    prompt: "What date did you complete the underage-alcohol sentence?",
+    helperText: "Use the exact completion date shown in the court record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_fine_imposed",
+    stage: "timing_and_completion",
+    prompt: "Did the court impose a fine in the underage-alcohol case?",
+    helperText: "Answer from the court record. If you are not sure, choose Not sure.",
+    type: "yes_no_unsure",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "ms_mip_fine_payment_date",
+    stage: "timing_and_completion",
+    prompt: "What date was the underage-alcohol fine paid in full?",
+    helperText: "Use the exact payment date shown in the court or clerk record.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  }
+];
+
 function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const authorityFactIds = new Set(routesForJurisdiction(profile.jurisdiction.code).flatMap((route) => route.screeningFactIds ?? []));
@@ -839,7 +924,10 @@ function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { 
     ...LEGAL_AUTHORITY_FACT_QUESTIONS.filter((question) => authorityFactIds.has(question.id) && !existingIds.has(question.id))
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"))
   ];
-  const additions = WILMA_FACT_QUESTIONS
+  const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
+    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
+    : WILMA_FACT_QUESTIONS;
+  const additions = availableWilmaFactQuestions
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
   const baseQuestions = withCompletePathwayContextOptions(

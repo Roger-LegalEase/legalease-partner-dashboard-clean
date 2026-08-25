@@ -166,8 +166,8 @@ const FIXTURES = [
   // fixture is the proof the three-year rule is the one in use.
   ["ms-felony-between-three-and-five", "MS", { ...MS_BASE, case_outcome: "Felony conviction", offense_level: "Felony", possible_pathway_context: "Eligible felony-conviction expungement (§ 99-19-71)", resolved_timing_bucket: "years_3_to_5" }, "eligible-felony-conviction-expungement-99-19-71", "packet"],
   // Mississippi first-offense DUI: the only route that keeps five years.
-  ["ms-dui-below-clock", "MS", { ...MS_BASE, case_outcome: "Misdemeanor conviction", offense_level: "Misdemeanor", possible_pathway_context: "First-offense DUI expungement", resolved_timing_bucket: "years_3_to_5" }, "first-offense-dui-expungement", "not_yet"],
-  ["ms-dui-above-clock", "MS", { ...MS_BASE, case_outcome: "Misdemeanor conviction", offense_level: "Misdemeanor", possible_pathway_context: "First-offense DUI expungement", resolved_timing_bucket: "years_7_to_10" }, "first-offense-dui-expungement", "packet"],
+  ["ms-dui-below-clock", "MS", { ...MS_BASE, case_outcome: "Misdemeanor conviction", offense_level: "Misdemeanor", possible_pathway_context: "First-offense DUI expungement", ms_successful_sentence_completion_date: "2022-01-01", resolved_timing_bucket: "years_3_to_5" }, "first-offense-dui-expungement", "not_yet"],
+  ["ms-dui-above-clock", "MS", { ...MS_BASE, case_outcome: "Misdemeanor conviction", offense_level: "Misdemeanor", possible_pathway_context: "First-offense DUI expungement", ms_successful_sentence_completion_date: "2020-01-01", resolved_timing_bucket: "years_7_to_10" }, "first-offense-dui-expungement", "packet"],
   // DUI nonadjudication is an active-case referral. The five-year expungement
   // rule must never reach it, and it must never open checkout.
   ["ms-dui-nonadjudication-closed", "MS", { ...MS_BASE, case_outcome: "Diversion, deferred disposition, supervision, or similar program", offense_level: "Misdemeanor", possible_pathway_context: "DUI nonadjudication", resolved_timing_bucket: "gt_10_years" }, "dui-nonadjudication", "closed"],

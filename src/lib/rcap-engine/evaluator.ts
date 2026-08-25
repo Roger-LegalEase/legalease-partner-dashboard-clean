@@ -6,7 +6,7 @@ import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, Screenin
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
-import { legalRouteContract, routeCheckoutIsClosed, routePaymentAuthority } from "@/lib/legal-authority/index";
+import { legalRouteContract, routeIsAutomaticOrNoFiling as legalRouteIsAutomaticOrNoFiling, routePaymentAuthority } from "@/lib/legal-authority/index";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
@@ -503,7 +503,7 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   // guidance even if its packet plan is missing or mislabeled. A matched
   // packet-ready rule (MI rule-11 before its correction) must not be able to
   // steer such a route toward checkout.
-  if (plan?.mode === "automatic_relief_verification_and_guidance" || routeIsAutomaticOrNoFiling(profile, pathway)) {
+  if (routeIsAutomaticOrNoFiling(profile, pathway)) {
     return result(profile, request, "guidance_only", [reason(jurisdiction, "automatic_or_no_filing_route", guidanceTextForPathway(profile, pathway), route.rule.sourceRef ?? pathway.sourceRef)], {
       pathwayId: pathway.id,
       ...(plan ? { packetPlan: plan } : {}),
@@ -545,6 +545,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
+  const legalContract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  if (legalContract?.outcomeMode === "referral") {
+    return result(profile, request, "needs_review", [reason(jurisdiction, "legal_authority_referral_required", "This route is limited to attorney-review referral after its source-defined timing facts are confirmed.", pathway.sourceRef)], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
+
   const postTimingPolicy = postTimingPolicyReason(profile, pathway);
   if (postTimingPolicy) {
     return result(profile, request, "needs_review", [postTimingPolicy], {
@@ -569,9 +578,8 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
-  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
-  const legallyAuthorizedPayment = contract
-    ? routePaymentAuthority(contract) === "packet_checkout"
+  const legallyAuthorizedPayment = legalContract
+    ? routePaymentAuthority(legalContract) === "packet_checkout"
     : pathway.legalAuthority?.paymentAuthority !== "closed" && pathway.legalAuthority?.paymentAuthority !== "attorney_review_required";
 
   return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
@@ -1043,6 +1051,42 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   if (key === "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based" }, "MS non-conviction expungement runs from the case ending in dismissal, no disposition, or acquittal.");
   }
+  if (key === "MS:additional-justice-or-municipal-court-misdemeanor-relief") {
+    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code Ann. § 99-19-71(5) requires two years from the participant's last conviction in any court.");
+  }
+  if (key === "MS:first-offense-dui-expungement") {
+    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_successful_sentence_completion_date", { value: 5, unit: "years", raw: "5 years" }, "Miss. Code Ann. § 63-11-30 requires five years from successful completion of every term and condition of the DUI sentence.");
+  }
+  if (key === "MS:minor-in-possession-underage-alcohol-expungement") {
+    const outcome = answerText(answers.case_outcome).toLowerCase();
+    if (outcome.includes("dismiss") || outcome.includes("acquit") || outcome.includes("discharge")) {
+      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_dismissal_or_discharge_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code Ann. § 67-3-70 requires one year from dismissal or discharge for this underage-alcohol route.");
+    }
+    const fineImposed = answerText(answers.ms_mip_fine_imposed).toLowerCase();
+    if (!fineImposed) {
+      return {
+        status: "missing_anchor",
+        reason: reason(profile.jurisdiction.code, "ms_mip_fine_status_missing", "We need to know whether the court imposed a fine before the exact underage-alcohol clock can be evaluated.", rule.sourceRef ?? pathway.sourceRef),
+        missingQuestionIds: ["ms_mip_fine_imposed"]
+      };
+    }
+    if (fineImposed.includes("unsure") || fineImposed.includes("unknown") || fineImposed.includes("not sure")) {
+      return {
+        status: "needs_review",
+        reason: reason(profile.jurisdiction.code, "ms_mip_fine_status_uncertain", "The court-record fine status must be confirmed before the exact underage-alcohol clock can be evaluated.", rule.sourceRef ?? pathway.sourceRef)
+      };
+    }
+    if (isNegative(answers.ms_mip_fine_imposed)) {
+      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_sentence_completion_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code Ann. § 67-3-70 requires one year from sentence completion when no fine was imposed.");
+    }
+    if (isAffirmative(answers.ms_mip_fine_imposed)) {
+      return latestExactAnchorTiming(profile, answers, rule, pathway, ["ms_mip_sentence_completion_date", "ms_mip_fine_payment_date"], { value: 1, unit: "years", raw: "1 year" }, "Miss. Code Ann. § 67-3-70 requires one year from the later of sentence completion or payment of the imposed fine.");
+    }
+    return {
+      status: "needs_review",
+      reason: reason(profile.jurisdiction.code, "ms_mip_fine_status_uncertain", "The court-record fine status must be confirmed before the exact underage-alcohol clock can be evaluated.", rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
   // ---- Missouri (corrected, awaiting Lawrence reconfirmation) ----
   // The compiled profile only exposes disposition_date as a date anchor; the true statutory clock is
   // completion of the authorized disposition. disposition_date is used as the available proxy anchor
@@ -1075,7 +1119,7 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 5, unit: "years", raw: "5 years" }, "Louisiana Art. 977 misdemeanor clean-period expungement requires five years from completion of sentence/probation/parole (disposition date used as the available anchor).");
   }
   if (key === "LA:first-offense-marijuana-expungement-after-90-days-art-998") {
-    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 90, unit: "days", raw: "90 days" }, "Louisiana Art. 998 first-offense marijuana expungement requires 90 days from conviction (disposition date used as the available anchor).");
+    return timingFromExactAnchor(profile, answers, rule, pathway, "conviction_date", { value: 90, unit: "days", raw: "90 days" }, "Louisiana Art. 998 first-offense marijuana expungement requires 90 days from conviction.");
   }
   if (key === "LA:felony-article-893-e-set-aside-followed-by-expungement") {
     return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 0, unit: "days", raw: "event-based after set-aside" }, "Louisiana Art. 893(E) felony set-aside-then-expungement is event-based once the set-aside is granted; the set-aside-granted precondition and Art. 978(B) exclusions are flagged for Lawrence.");
@@ -1115,7 +1159,7 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
   // public online index 60 days after the acquittal or dismissal. disposition_date is the acquittal/
   // dismissal date anchor.
   if (key === "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40") {
-    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
+    return timingFromExactAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
   }
   // ---- Delaware § 4374 discretionary court expungement (legal signoff 2026-07-01) ----
   // 11 Del. C. § 4374 discretionary waits from the compiled DE waiting-period rules: a single
@@ -1192,6 +1236,61 @@ function latestAnchorTiming(profile: EngineProfile, answers: Record<string, Scre
   const latest = dates.sort((a, b) => b.date.getTime() - a.date.getTime())[0];
   const syntheticAnswers = { ...answers, [latest.id]: latest.date.toISOString().slice(0, 10) };
   return timingFromAnchor(profile, syntheticAnswers, rule, pathway, latest.id, duration, text);
+}
+
+function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorIds: string[], duration: CompiledDuration, text: string): TimingResult {
+  const askable = answerableAnchorIds(profile, anchorIds);
+  const missing = askable.filter((id) => !parseDateAnswer(answers[id]));
+  if (missing.length > 0) {
+    return {
+      status: "missing_anchor",
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `The exact ${missing.join(", ")} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: missing
+    };
+  }
+  if (askable.length !== anchorIds.length) {
+    return {
+      status: "needs_review",
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_not_publicly_askable", `The source-specific waiting period runs from ${anchorIds.join(", ")}, and every exact anchor must be publicly askable.`, rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  const latest = anchorIds
+    .map((id) => ({ id, date: parseDateAnswer(answers[id]) as Date }))
+    .sort((a, b) => b.date.getTime() - a.date.getTime())[0];
+  return timingFromExactAnchor(profile, answers, rule, pathway, latest.id, duration, text);
+}
+
+function timingFromExactAnchor(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorId: string, duration: CompiledDuration, text: string): TimingResult {
+  const jurisdiction = profile.jurisdiction.code;
+  const askable = answerableAnchorIds(profile, [anchorId]);
+  if (askable.length === 0) {
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The source-specific waiting period runs from ${anchorId}, and this exact anchor is not publicly askable.`, rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  const anchor = parseDateAnswer(answers[anchorId]);
+  if (!anchor) {
+    return {
+      status: "missing_anchor",
+      reason: reason(jurisdiction, "waiting_anchor_missing", `The exact ${anchorId} value is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: [anchorId]
+    };
+  }
+  const earliest = addDuration(anchor, duration.value, duration.unit);
+  if (!earliest) {
+    return {
+      status: "needs_review",
+      reason: reason(jurisdiction, "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  if (earliest > evaluationToday()) {
+    return {
+      status: "not_yet",
+      reason: reason(jurisdiction, "waiting_period_not_satisfied", `${text} The source-specific waiting period runs until ${earliest.toISOString().slice(0, 10)}.`, rule.sourceRef ?? pathway.sourceRef)
+    };
+  }
+  return { status: "satisfied" };
 }
 
 function timingFromAnchor(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorId: string, duration: CompiledDuration, text: string): TimingResult {
@@ -1297,6 +1396,8 @@ function missingProductFactIds(profile: EngineProfile, answers: Record<string, S
 
 function productGuidanceReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
   const jurisdiction = profile.jurisdiction.code;
+  const legalContract = legalRouteContract(jurisdiction, pathway.id);
+  if (legalContract?.outcomeMode === "referral") return undefined;
   if (routeIsHeldGuidance(profile, pathway)) {
     return reason(jurisdiction, "lawrence_hold_guidance_only", "Lawrence marked this petition route guidance-only for this release; no paid court packet opens for this route yet.", pathway.sourceRef);
   }
@@ -1810,7 +1911,7 @@ function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
  */
 function routeIsAutomaticOrNoFiling(profile: EngineProfile, pathway: CompiledPathway): boolean {
   const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
-  if (contract && routeCheckoutIsClosed(contract)) return true;
+  if (contract) return legalRouteIsAutomaticOrNoFiling(contract);
   const routeType = (pathway as { routeType?: string }).routeType;
   if (routeType === "automatic") return true;
   if ((pathway as { filingRequired?: boolean }).filingRequired === false) return true;

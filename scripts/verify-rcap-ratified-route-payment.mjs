@@ -103,7 +103,7 @@ function answerFor(question, spec, date) {
   if (id === "case_outcome") return spec.caseOutcome;
   if (id === "offense_level") return spec.offenseLevel;
   if (id === "possible_pathway_context") return spec.pathway.label;
-  if (id === "disposition_date" || id === "arrest_date") return date;
+  if (id === "disposition_date" || id === "arrest_date" || id === "conviction_date") return date;
   if (id === "state_exclusion_categories") return ["None of these"];
   if (id === "sentence_completion_date" || id === "financial_obligations" || id === "special_preconditions_confirmed") return "Yes";
   if (id === "pending_cases" || id === "new_convictions_during_waiting_period" || id === "pardon_status" || id === "identity_error" || id === "trafficking_status") return "No";

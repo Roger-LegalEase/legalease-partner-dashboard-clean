@@ -25,8 +25,8 @@ const { getProfileByJurisdiction } = await import(
 const { projectPublicProfile } = await import(
   pathToFileURL(path.join(ROOT, "src/lib/rcap-engine/public-profile-projection.ts")).href
 );
-const checkoutState =
-  "fail_closed_pending_formal_legal_approval_and_hosted_acceptance";
+const attorneyReviewState = "attorney_review_referral";
+const packetCheckoutState = "approved_packet_checkout_when_exact_timing_satisfied";
 
 assert.deepStrictEqual(mississippiCorrectionClosures, {
   additionalJusticeOrMunicipalMisdemeanor: {
@@ -59,7 +59,7 @@ assert.deepStrictEqual(mississippiCorrectionClosures, {
       "justice_court_additional_misdemeanor_petition",
       "municipal_court_additional_misdemeanor_petition"
     ],
-    checkoutState
+    checkoutState: attorneyReviewState
   },
   firstOffenseDui: {
     routeId: "first-offense-dui-expungement",
@@ -87,7 +87,7 @@ assert.deepStrictEqual(mississippiCorrectionClosures, {
       "justification_for_relief"
     ],
     packetFamily: ["circuit_court_first_offense_dui_expungement_petition"],
-    checkoutState
+    checkoutState: packetCheckoutState
   },
   minorInPossessionUnderageAlcohol: {
     routeId: "minor-in-possession-underage-alcohol-expungement",
@@ -123,7 +123,7 @@ assert.deepStrictEqual(mississippiCorrectionClosures, {
       "related_charges_outside_67_3_70"
     ],
     packetFamily: ["section_67_3_70_6_expungement_petition"],
-    checkoutState
+    checkoutState: packetCheckoutState
   }
 });
 
@@ -169,15 +169,12 @@ for (const row of mississippiRuntimeRows) {
     row.pathwayId,
     `${row.routeKey}: actual evaluator selected another Mississippi route`
   );
-  assert.equal(
-    evaluation.paymentAllowed,
-    false,
-    `${row.routeKey}: actual evaluator must fail closed before formal approval and hosted acceptance`
-  );
+  const attorneyReview = row.pathwayId === "additional-justice-or-municipal-court-misdemeanor-relief";
+  assert.equal(evaluation.paymentAllowed, !attorneyReview, `${row.routeKey}: legal service behavior must control checkout`);
   assert.equal(
     evaluation.resultCode,
-    "needs_review",
-    `${row.routeKey}: actual evaluator must return review rather than a paid packet`
+    attorneyReview ? "needs_review" : "packet_ready_with_caution",
+    `${row.routeKey}: evaluator result must match the approved referral or packet service behavior`
   );
 }
 
@@ -185,5 +182,6 @@ console.log("verify-mississippi-corrections-a: GREEN");
 console.log(JSON.stringify({
   structuredClosures: Object.keys(mississippiCorrectionClosures).length,
   actualEvaluatorRoutesProven: mississippiRuntimeRows.length,
-  paymentAllowed: false
+  attorneyReviewRoutes: 1,
+  approvedPacketRoutes: 2
 }, null, 2));

@@ -1,5 +1,6 @@
 export type MississippiCorrectionCheckoutState =
-  "fail_closed_pending_formal_legal_approval_and_hosted_acceptance";
+  | "attorney_review_referral"
+  | "approved_packet_checkout_when_exact_timing_satisfied";
 
 export interface MississippiCorrectionTimingBranch {
   id: string;
@@ -23,8 +24,10 @@ export interface MississippiCorrectionClosure {
  *
  * These definitions intentionally do not reuse the generic felony, DUI,
  * lower-court, or uncharged-misdemeanor clocks. Shared resolver and product
- * metadata integration belongs to the release captain; until that integration,
- * legal approval, and hosted acceptance are complete, each route stays fail closed.
+ * metadata integration belongs to the release captain. The legal contract is
+ * authoritative for service behavior: the lower-court discretionary route is
+ * an attorney-review referral, while the DUI and underage-alcohol packet routes
+ * may open checkout only after their exact clocks and route facts are satisfied.
  */
 export const mississippiCorrectionClosures = {
   additionalJusticeOrMunicipalMisdemeanor: {
@@ -57,7 +60,7 @@ export const mississippiCorrectionClosures = {
       "justice_court_additional_misdemeanor_petition",
       "municipal_court_additional_misdemeanor_petition"
     ],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState: "attorney_review_referral"
   },
   firstOffenseDui: {
     routeId: "first-offense-dui-expungement",
@@ -85,7 +88,7 @@ export const mississippiCorrectionClosures = {
       "justification_for_relief"
     ],
     packetFamily: ["circuit_court_first_offense_dui_expungement_petition"],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState: "approved_packet_checkout_when_exact_timing_satisfied"
   },
   minorInPossessionUnderageAlcohol: {
     routeId: "minor-in-possession-underage-alcohol-expungement",
@@ -121,6 +124,6 @@ export const mississippiCorrectionClosures = {
       "related_charges_outside_67_3_70"
     ],
     packetFamily: ["section_67_3_70_6_expungement_petition"],
-    checkoutState: "fail_closed_pending_formal_legal_approval_and_hosted_acceptance"
+    checkoutState: "approved_packet_checkout_when_exact_timing_satisfied"
   }
 } as const satisfies Readonly<Record<string, MississippiCorrectionClosure>>;
