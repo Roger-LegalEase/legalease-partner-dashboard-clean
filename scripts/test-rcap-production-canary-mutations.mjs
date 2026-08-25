@@ -20,6 +20,8 @@ const mutations = [
   ["optional server URL match", "optional_server_supabase_url_matches_when_present", "optional_server_url_match_removed"],
   ["Vercel v10 bulk decrypt", "/v10/projects/", "/v1/projects/"],
   ["Vercel CLI pull source", "vercel-cli:pull", "unknown-source"],
+  ["Vercel configuration identity join", "candidate?.configurationId === entry.id", "candidate?.key === entry.key"],
+  ["unique cross-version join", "uniqueCandidateMatches", "ambiguousCandidateMatches"],
   ["rollback verdict", "rollback_target_recorded_before_mutation", "rollback_not_recorded"],
   ["GET-only transport", 'method: "GET"', 'method: "POST"']
 ];

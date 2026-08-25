@@ -175,6 +175,7 @@ try {
   evidence.controlPlaneReadback = {
     endpoint: "GET /v10/projects/{exactProjectId}/env?target=production&decrypt=true&source=vercel-cli:pull",
     response: safeResponseShape(decryptedResult),
+    joinTelemetry: [],
     valuesPersisted: false
   };
   if (decryptedResult.status !== 200 || !Array.isArray(decryptedResult.json?.envs)) {
@@ -182,16 +183,28 @@ try {
   }
   const decryptedEntries = decryptedResult.json.envs;
   const decryptProductionValue = (entry) => {
-    const matches = decryptedEntries.filter((candidate) =>
-      candidate?.id === entry.id
-      && candidate?.key === entry.key
+    const scoped = decryptedEntries.filter((candidate) =>
+      candidate?.key === entry.key
       && targetsProduction(candidate)
       && !candidate?.gitBranch
     );
-    if (matches.length !== 1 || typeof matches[0]?.value !== "string" || !matches[0].value) {
-      throw new Error(`Production environment key ${entry.key} could not be decrypted through its exact inventory id at the v10 bulk endpoint`);
+    const direct = scoped.filter((candidate) => candidate?.id === entry.id);
+    const configured = scoped.filter((candidate) => candidate?.configurationId === entry.id);
+    const unique = [...new Set([...direct, ...configured])];
+    const telemetry = {
+      key: entry.key,
+      directIdMatches: direct.length,
+      configurationIdMatches: configured.length,
+      uniqueCandidateMatches: unique.length,
+      selectedIdentityField: unique.length === 1
+        ? (direct.includes(unique[0]) ? "id" : "configurationId")
+        : null
+    };
+    evidence.controlPlaneReadback.joinTelemetry.push(telemetry);
+    if (unique.length !== 1 || typeof unique[0]?.value !== "string" || !unique[0].value) {
+      throw new Error(`Production environment key ${entry.key} could not be joined uniquely from v9 inventory to v10 decrypted data`);
     }
-    return matches[0].value;
+    return unique[0].value;
   };
 
   const publicRef = projectRefFromSupabaseUrl(decryptProductionValue(publicUrlEntry));

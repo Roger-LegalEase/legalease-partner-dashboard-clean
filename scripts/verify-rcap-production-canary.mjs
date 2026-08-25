@@ -39,6 +39,10 @@ check(script.includes("/v10/projects/"), "decryption uses the current Vercel pro
 check(script.includes('decrypt: "true"'), "bulk environment read explicitly requests decryption");
 check(script.includes('source: "vercel-cli:pull"'), "bulk environment read uses Vercel CLI's documented pull source");
 check(script.includes("safeResponseShape"), "failures retain only safe status and response-shape metadata");
+check(script.includes("candidate?.configurationId === entry.id"), "v9 identity may join only through the v10 configurationId field");
+check(script.includes("uniqueCandidateMatches"), "cross-version join requires exactly one identity-bound candidate");
+check(script.includes("directIdMatches"), "join evidence records direct-id count without persisting ids");
+check(script.includes("configurationIdMatches"), "join evidence records configuration-id count without persisting ids");
 check(!script.includes("/v1/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/"), "stale single-variable v1 endpoint is absent");
 check(script.includes("method: \"GET\""), "Vercel and Supabase discovery calls are explicitly GET-only");
 check(!/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/.test(script), "preflight contains no mutating HTTP method");
