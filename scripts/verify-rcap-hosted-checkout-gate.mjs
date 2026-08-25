@@ -57,7 +57,6 @@ includesEvery(gate, [
   'routeKind === "legacy_verified"',
   'rendererKind === "packet_document_v1"',
   'rendererVersion === "1.0.0"',
-  "briefcase_insert_returning_proves_row",
   "stored_row_matches_authoritative_resolver",
   "unpaid_render_returns_402",
   "checkoutSessionId",
@@ -74,6 +73,15 @@ check(
   gate.includes("routeIdentity.profileVersion === String(compiledProfile?.profileVersion)")
     && !/routeIdentity\.profileVersion\s*===\s*["'][^"']+["']/.test(gate),
   "Pennsylvania route gate must bind profileVersion to compiledProfile instead of a stale literal"
+);
+check(
+  gate.includes("seeded_item_carries_reviewed_packet_information")
+    && gate.includes("packetInformationReviewSafety")
+    && gate.includes("briefcase_insert_returning_proves_row")
+    && gate.includes("artifact_refs_json")
+    && gate.includes('stored.packet_information_stage === "ready_to_generate"')
+    && gate.includes("stored.packet_information_reviewed === true"),
+  "Checkout fixture must carry an authoritative reviewed packet-information flow before the unpaid render probe"
 );
 
 // A partial rebind is the dangerous shape: one constant moved, the other left

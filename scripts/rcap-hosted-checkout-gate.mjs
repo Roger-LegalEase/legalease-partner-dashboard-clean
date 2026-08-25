@@ -531,17 +531,200 @@ async function main() {
   record("pennsylvania_path_a_resolver_exact", routeExact, JSON.stringify(routeIdentity));
   evidence.pennsylvaniaRoute = routeIdentity;
 
+  // The application deliberately checks the completed accuracy review before
+  // it checks payment. A summary-only row therefore cannot prove the unpaid
+  // 402 boundary: it is correctly rejected as an unreviewed matter first.
+  // Build the fixture from the same authoritative evaluator, public profile,
+  // packet-information model and review-safety predicate used by the product.
+  const { packetInformationModelFor, packetInformationReviewSafety } =
+    await import("../src/lib/expungement-ai/packet-information.ts");
+  const { evaluateAuthoritativeScreeningResult } =
+    await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+  const { projectPublicProfile } =
+    await import("../src/lib/rcap-engine/public-profile-projection.ts");
+  const preferredAnswers = {
+    ownership_scope: "Yes",
+    jurisdiction_scope: "State or local",
+    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    offense_level: "Misdemeanor",
+    record_type: "Arrest or charge",
+    pending_cases: "No",
+    disposition_date: "2005-01-10",
+    age_at_offense: "30",
+    charge: "Shoplifting",
+    county: "Allegheny",
+    court: "Allegheny County Court of Common Pleas",
+    residency_or_location: "Pittsburgh",
+    criminal_history: "No other cases",
+    participant_full_legal_name: "Acceptance Test Participant",
+    contact_information: "hosted-acceptance@example.test"
+  };
+  const questionIndex = new Map();
+  (function indexQuestions(node) {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      node.forEach(indexQuestions);
+      return;
+    }
+    if (typeof node.id === "string" && typeof node.type === "string" && (node.prompt || node.label)) {
+      if (!questionIndex.has(node.id)) questionIndex.set(node.id, node);
+    }
+    Object.values(node).forEach(indexQuestions);
+  })(projectPublicProfile(compiledProfile));
+  function answerForQuestion(question, id) {
+    const preferred = preferredAnswers[id];
+    const preferredAllowed = !question || question.type !== "single_choice"
+      || !question.options?.length || question.options.includes(preferred);
+    if (preferred !== undefined && preferredAllowed) return preferred;
+    if (!question) return "No";
+    if (question.type === "date_or_unknown") return "2005-01-10";
+    if (question.type === "number_or_range") return "30";
+    if (question.type === "multi_select" && question.options?.length) {
+      return [question.options.find((option) => /^none/i.test(option)) ?? question.options[0]];
+    }
+    if (question.type === "single_choice" && question.options?.length) {
+      return question.options.find((option) => /^(no\b|none)/i.test(option)) ?? question.options[0];
+    }
+    if (question.type?.startsWith("yes_no")) return "No";
+    return "None";
+  }
+
+  let screeningAnswers = {
+    ownership_scope: preferredAnswers.ownership_scope,
+    jurisdiction_scope: preferredAnswers.jurisdiction_scope,
+    case_outcome: preferredAnswers.case_outcome,
+    offense_level: preferredAnswers.offense_level,
+    disposition_date: preferredAnswers.disposition_date
+  };
+  let screeningEvaluation = null;
+  let screeningFailure = null;
+  for (let round = 0; round < 16 && !screeningEvaluation && !screeningFailure; round += 1) {
+    let evaluated;
+    try {
+      evaluated = evaluateAuthoritativeScreeningResult({
+        jurisdiction: "PA",
+        profileVersion: compiledProfile.profileVersion,
+        matterId: itemId,
+        answers: screeningAnswers
+      }).evaluation;
+    } catch (error) {
+      if (!error?.invalidQuestionIds?.length) {
+        screeningFailure = String(error?.message ?? error).slice(0, 180);
+        break;
+      }
+      for (const id of error.invalidQuestionIds) delete screeningAnswers[id];
+      continue;
+    }
+    const sellable = (evaluated.resultCode === "packet_ready" || evaluated.resultCode === "packet_ready_with_caution")
+      && evaluated.paymentAllowed === true
+      && typeof evaluated.pathwayId === "string";
+    if (sellable) {
+      screeningEvaluation = evaluated;
+      break;
+    }
+    const missing = evaluated.missingQuestionIds ?? [];
+    if (!missing.length) {
+      screeningFailure = `${evaluated.resultCode} with no remaining questions`;
+      break;
+    }
+    for (const id of missing) screeningAnswers[id] = answerForQuestion(questionIndex.get(id), id);
+  }
+  if (!screeningEvaluation && !screeningFailure) screeningFailure = "authoritative screening did not settle in 16 rounds";
+
+  const packetPathway = compiledProfile.packetGenerator?.pathways?.find(
+    (candidate) => candidate.pathwayId === screeningEvaluation?.pathwayId
+      && candidate.pathwayLabel === PA_PATHWAY
+  ) ?? null;
+  const baseItem = {
+    id: itemId,
+    type: "result",
+    title: "RCAP hosted Checkout gate — synthetic Pennsylvania Path A",
+    state: "PA",
+    status: "packet_ready",
+    resultCode: "packet_ready",
+    createdAt: new Date().toISOString(),
+    summary: "RCAP hosted Checkout gate — synthetic Pennsylvania Path A",
+    nextSteps: [],
+    paymentAllowed: true,
+    packetReady: true,
+    pathwayLabel: PA_PATHWAY,
+    packetType: "custom_pleading",
+    artifactRefs: {}
+  };
+  const initialPacketModel = packetPathway ? packetInformationModelFor(baseItem) : null;
+  const packetAnswers = { ...screeningAnswers };
+  for (const question of initialPacketModel?.questions ?? []) {
+    if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
+  }
+  const reviewedAt = new Date().toISOString();
+  const commercialFlow = initialPacketModel && screeningEvaluation ? {
+    version: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet",
+    screening: {
+      profileVersion: compiledProfile.profileVersion,
+      pathwayId: initialPacketModel.pathwayId,
+      pathwayLabel: initialPacketModel.pathwayLabel,
+      resultCode: screeningEvaluation.resultCode,
+      paymentAllowed: true,
+      packetType: "custom_pleading",
+      packetPlan: initialPacketModel.packetPlan,
+      answers: screeningAnswers
+    },
+    packetInformation: {
+      stage: "ready_to_generate",
+      requiredInputIds: initialPacketModel.requiredInputIds,
+      serverFacts: { jurisdiction: "PA", pathway_id: initialPacketModel.pathwayId },
+      prefilledAnswers: {},
+      answers: packetAnswers,
+      missingInputIds: [],
+      updatedAt: reviewedAt,
+      reviewedAt
+    }
+  } : null;
+  const reviewedItem = commercialFlow
+    ? { ...baseItem, artifactRefs: { commercialFlow } }
+    : baseItem;
+  const reviewedModel = commercialFlow ? packetInformationModelFor(reviewedItem) : null;
+  const reviewSafety = commercialFlow
+    ? packetInformationReviewSafety(reviewedItem)
+    : { safe: false, reason: screeningFailure ?? "packet pathway unavailable" };
+  const reviewedFixtureExact = screeningEvaluation?.pathwayId === compiledPathway?.id
+    && screeningEvaluation?.resultCode === consumerResultCode
+    && packetPathway?.pathwayId === compiledPathway?.id
+    && reviewedModel?.stage === "ready_to_generate"
+    && reviewedModel?.missingInputIds.length === 0
+    && Boolean(reviewedModel?.reviewedAt)
+    && reviewSafety.safe;
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    reviewedFixtureExact,
+    reviewedFixtureExact
+      ? `profile=${compiledProfile.profileVersion}; pathway=${reviewedModel.pathwayId}; required inputs=${reviewedModel.requiredInputIds.length}; review=${reviewSafety.reason}`
+      : `screening=${screeningFailure ?? screeningEvaluation?.resultCode ?? "unavailable"}; evaluated pathway=${screeningEvaluation?.pathwayId ?? "unavailable"}; packet pathway=${packetPathway?.pathwayId ?? "unavailable"}; stage=${reviewedModel?.stage ?? "unavailable"}; missing=${reviewedModel?.missingInputIds.length ?? "unavailable"}; review=${reviewSafety.reason}`
+  );
+  evidence.reviewedPacketInformation = {
+    profileVersion: compiledProfile.profileVersion,
+    pathwayId: reviewedModel.pathwayId,
+    requiredInputCount: reviewedModel.requiredInputIds.length,
+    reviewSafety: reviewSafety.reason
+  };
+
   const summaryJson = sqlText(JSON.stringify({ text: "RCAP hosted Checkout gate — synthetic Pennsylvania Path A", gate: "human_checkout" }));
+  const artifactRefsJson = sqlText(JSON.stringify({ commercialFlow }));
   const insert = await sql(`
     insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-       status, summary_json, payment_status, payment_allowed)
+       status, summary_json, artifact_refs_json, payment_status, payment_allowed)
     values
       ('${itemId}', '${A.id}', 'result', 'PA', '${sqlText(PA_PATHWAY)}', 'packet_ready',
-       'custom_pleading', 'packet_ready', '${summaryJson}'::jsonb, 'unpaid', true)
+       'custom_pleading', 'packet_ready', '${summaryJson}'::jsonb,
+       '${artifactRefsJson}'::jsonb, 'unpaid', true)
     returning id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
               payment_status, payment_allowed, checkout_session_id, payment_provider,
-              amount_cents, packet_status
+              amount_cents, packet_status,
+              artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
+              (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
   `);
   const inserted = Array.isArray(insert.json) ? insert.json[0] : null;
   record("briefcase_insert_returning_proves_row", insert.ok && inserted?.id === itemId, `SQL=${insert.status}; returned id=${inserted?.id ?? "(none)"}`);
@@ -550,7 +733,9 @@ async function main() {
   const reread = await sql(`
     select id, user_id, jurisdiction, pathway_label, result_code, packet_type, status,
            payment_status, payment_allowed, checkout_session_id, payment_provider,
-           amount_cents, packet_status
+           amount_cents, packet_status,
+           artifact_refs_json #>> '{commercialFlow,packetInformation,stage}' as packet_information_stage,
+           (artifact_refs_json #>> '{commercialFlow,packetInformation,reviewedAt}') is not null as packet_information_reviewed
       from public.consumer_briefcase_items
      where id = '${itemId}' and user_id = '${A.id}'
   `);
@@ -564,7 +749,9 @@ async function main() {
     && stored.status === "packet_ready"
     && stored.payment_status === "unpaid"
     && stored.payment_allowed === true
-    && stored.checkout_session_id === null;
+    && stored.checkout_session_id === null
+    && stored.packet_information_stage === "ready_to_generate"
+    && stored.packet_information_reviewed === true;
   record("stored_row_matches_authoritative_resolver", storedExact, `rows=${storedRows.length}; stored=${JSON.stringify(stored)}`);
   evidence.seededItem = { id: itemId, userId: A.id, ...stored };
 
