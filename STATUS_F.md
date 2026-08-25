@@ -9,10 +9,10 @@
 
 ## Final-candidate release identity
 
-- Application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea` (Lane A's exact frozen candidate).
-- Accepted worker source: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
-- Accepted immutable worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
-- Lane G supplied and accepted this replacement full-SHA worker publication for the frozen candidate. The complete canonical worker-input diff from the accepted source to the application SHA is empty.
+- Application/source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5` (Lane A's exact frozen candidate).
+- Accepted worker source: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- Accepted immutable worker digest: `sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c`
+- Publish-only run `32856262198` and read-only image-acceptance run `32857155298` accepted this replacement full-SHA worker publication for the frozen candidate. The complete canonical worker-input diff from the accepted source to the application SHA is empty.
 - This Lane F release-control commit changes no canonical application or worker inputs relative to the frozen application SHA.
 
 ## Environment status
@@ -97,8 +97,8 @@ The workflows do not declare or pass `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`. Runt
 
 Bound release inputs:
 
-- application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea`
-- worker source SHA: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
-- worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
+- application/source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- worker source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- worker digest: `sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c`
 
 The exact Preview may begin after Lane A integrates this release-control-only commit on the canonical captain branch. Production remains untouched.

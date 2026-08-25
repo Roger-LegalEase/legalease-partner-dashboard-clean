@@ -35,7 +35,7 @@ const emitEvidence = process.argv.includes("--emit-evidence");
  * assert that this release's deployment closes over bytes it no longer
  * contains.
  */
-const APPLICATION_SHA = "784a58d2283abbbfe6b0c43ca54663ee4c59f3ea";
+const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
 
 /** Exactly the paths a Next.js build consumes. */
 const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];
