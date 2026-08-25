@@ -134,6 +134,41 @@ function equalLists(actual, expected) {
   return JSON.stringify(sorted(actual)) === JSON.stringify(sorted(expected));
 }
 
+// Supabase Management API may encode PostgreSQL arrays as text (`{a,b}`)
+// instead of JSON arrays. Parse that wire shape explicitly before comparing
+// catalog names; treating the string as an array counts characters, not rows.
+function postgresArray(value) {
+  if (Array.isArray(value)) return value.map(String);
+  if (value === null || value === undefined || value === "{}") return [];
+  if (typeof value !== "string" || !value.startsWith("{") || !value.endsWith("}")) return [];
+
+  const items = [];
+  let token = "";
+  let quoted = false;
+  let escaped = false;
+  for (const character of value.slice(1, -1)) {
+    if (escaped) {
+      token += character;
+      escaped = false;
+    } else if (character === "\\") {
+      escaped = true;
+    } else if (character === '"') {
+      quoted = !quoted;
+    } else if (character === "," && !quoted) {
+      items.push(token);
+      token = "";
+    } else {
+      token += character;
+    }
+  }
+  items.push(token);
+  return items;
+}
+
+function truthy(value) {
+  return value === true || value === "true" || value === "t";
+}
+
 async function managementQuery(query, caseId = "acceptance_database_query_succeeded") {
   const response = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/database/query`, {
     method: "POST",
@@ -296,15 +331,19 @@ async function main() {
       ) as ledger_immutable
   `, "clinic_schema_catalog_readback_succeeded");
   const readback = Array.isArray(readbackRows) ? readbackRows[0] ?? {} : {};
+  const tableNames = postgresArray(readback.tables);
+  const rlsTableNames = postgresArray(readback.rls_tables);
+  const functionNames = postgresArray(readback.functions);
+  const tablesAndRlsExact = equalLists(tableNames, REQUIRED_TABLES) && equalLists(rlsTableNames, REQUIRED_TABLES);
   record(
     "all_10_clinic_tables_exist_with_rls_enabled",
-    equalLists(readback.tables ?? [], REQUIRED_TABLES) && equalLists(readback.rls_tables ?? [], REQUIRED_TABLES),
-    `all 10 Clinic tables exist with RLS enabled=${equalLists(readback.tables ?? [], REQUIRED_TABLES) && equalLists(readback.rls_tables ?? [], REQUIRED_TABLES)}; tables=${(readback.tables ?? []).length}; RLS=${(readback.rls_tables ?? []).length}`
+    tablesAndRlsExact,
+    `all 10 Clinic tables exist with RLS enabled=${tablesAndRlsExact}; tables=${tableNames.length}; RLS=${rlsTableNames.length}`
   );
   record(
     "all_22_clinic_functions_exist",
-    equalLists(readback.functions ?? [], REQUIRED_FUNCTIONS),
-    `all 22 Clinic functions exist=${equalLists(readback.functions ?? [], REQUIRED_FUNCTIONS)}; functions=${(readback.functions ?? []).length}`
+    equalLists(functionNames, REQUIRED_FUNCTIONS),
+    `all 22 Clinic functions exist=${equalLists(functionNames, REQUIRED_FUNCTIONS)}; functions=${functionNames.length}`
   );
 
   const finalLedgerRows = await managementQuery(`
@@ -318,11 +357,11 @@ async function main() {
       && row.migration_path === MIGRATIONS[index].path
       && row.sha256 === MIGRATIONS[index].sha256
       && row.application_sha === APPLICATION_SHA)
-    && readback.ledger_immutable === true;
+    && truthy(readback.ledger_immutable);
   record(
     "ledger_records_all_3_exact_frozen_migrations",
     ledgerExact,
-    `ledger records all 3 exact frozen migrations=${ledgerExact}; immutable trigger=${readback.ledger_immutable === true}`
+    `ledger records all 3 exact frozen migrations=${ledgerExact}; immutable trigger=${truthy(readback.ledger_immutable)}`
   );
 }
 

@@ -77,6 +77,8 @@ includesEvery(migrationScript, [
   "clinic_end_assisted_session",
   "clinic_upsert_event_follow_up",
   "clinic_get_follow_ups",
+  "postgresArray",
+  "Supabase Management API may encode PostgreSQL arrays as text",
   "relrowsecurity",
   "all 10 Clinic tables exist with RLS enabled",
   "all 22 Clinic functions exist",
