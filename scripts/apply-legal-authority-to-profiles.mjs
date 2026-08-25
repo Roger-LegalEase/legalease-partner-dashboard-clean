@@ -51,22 +51,11 @@ const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
 
 /**
  * Jurisdictions whose compiled profile a governance control currently pins.
- *
- * Maryland carries the settled screening-parity delta
- * `md-pardon-signed-date-2026-08-11`. That record's settled branch requires
- * MD-maryland.json to be byte-identical to the `main` baseline, so ANY edit to
- * the file — including one that leaves all 36 questions untouched — drops it
- * out of the settled branch and into a projection whose before-count no longer
- * exists. The approval is Roger's, and re-pinning it to bytes he did not
- * approve is not this script's call to make.
- *
- * So the Maryland contract stays in the registry, unapplied and visible, until
- * the delta is retired now that its content is in main. Skipping loudly is the
- * point: a silent skip would read as "Maryland has no approved decision".
+ * Maryland's 2026-08-25 approval explicitly covers the final legal-contract
+ * profile bytes and retains before/after evidence, so LD-MD-03 is no longer
+ * exempt from runtime profile binding.
  */
-const BLOCKED_JURISDICTIONS = {
-  MD: "the settled Maryland profile remains byte-pinned; its authorized § 10-103 contract is consumed directly by evaluator runtime"
-};
+const BLOCKED_JURISDICTIONS = {};
 const checkOnly = process.argv.includes("--check");
 
 const profilePaths = new Map();

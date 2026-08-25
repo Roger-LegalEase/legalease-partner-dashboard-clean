@@ -9,7 +9,12 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
 // recovered by the next repository command even if this process is killed.
-registerTrackedMutation("test-expungement-parity-delta-mutations.mjs", ["data/expungement-ai/screening-parity-approved-deltas.json", "src/lib/rcap-engine/compiled/profiles/MD-maryland.json"]);
+registerTrackedMutation("test-expungement-parity-delta-mutations.mjs", [
+  "data/expungement-ai/screening-parity-approved-deltas.json",
+  "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+  "src/lib/rcap-engine/evaluator.ts",
+  "src/lib/rcap-engine/public-profile-projection.ts"
+]);
 
 
 /**
@@ -30,7 +35,8 @@ const root = process.cwd();
 const RECORD = "data/expungement-ai/screening-parity-approved-deltas.json";
 const MD_PROFILE = "src/lib/rcap-engine/compiled/profiles/MD-maryland.json";
 const EVALUATOR = "src/lib/rcap-engine/evaluator.ts";
-const TOUCHED = [RECORD, MD_PROFILE, EVALUATOR];
+const PUBLIC_PROJECTION = "src/lib/rcap-engine/public-profile-projection.ts";
+const TOUCHED = [RECORD, MD_PROFILE, EVALUATOR, PUBLIC_PROJECTION];
 
 const originals = new Map(TOUCHED.map((file) => [file, fs.readFileSync(path.join(root, file))]));
 
@@ -267,6 +273,15 @@ mutation(
   () => {
     const file = path.join(root, EVALUATOR);
     fs.writeFileSync(file, `${fs.readFileSync(file, "utf8")}\n// drift\n`);
+  },
+  "the approval does not cover these bytes"
+);
+
+mutation(
+  "the newly approved prepay projection bytes drift after approval",
+  () => {
+    const file = path.join(root, PUBLIC_PROJECTION);
+    fs.writeFileSync(file, `${fs.readFileSync(file, "utf8")}\n// projection drift\n`);
   },
   "the approval does not cover these bytes"
 );

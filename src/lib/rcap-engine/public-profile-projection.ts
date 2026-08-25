@@ -46,6 +46,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
+  MD: new Set(["arrest_date"]),
   MO: new Set(["twenty_first_birthday"]),
   MS: new Set([
     "disposition_date",
@@ -73,6 +74,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ])
 };
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
+  MD: new Set(["arrest_date"]),
   MO: new Set(["twenty_first_birthday"]),
   MS: new Set([
     "arrest_date",

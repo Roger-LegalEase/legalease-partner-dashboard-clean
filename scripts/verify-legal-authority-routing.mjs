@@ -65,10 +65,9 @@ function contractYears(contract) {
  * grow by accident: a second blocked state has to be added here, in the apply
  * script, and in STATUS_B.md before this file goes green again.
  */
-const GOVERNANCE_BLOCKED = new Set(["MD"]);
+const GOVERNANCE_BLOCKED = new Set();
 const blockedInRegistry = LEGAL_AUTHORITY.routes.filter((route) => GOVERNANCE_BLOCKED.has(route.jurisdiction));
-assert(blockedInRegistry.length === 1 && blockedInRegistry[0]?.routeKey === "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-  "only Maryland § 10-103 may remain profile-byte-pinned; evaluator runtime consumes that exact contract directly");
+assert(blockedInRegistry.length === 0, "no legal contract may be skipped from compiled profile binding");
 
 for (const contract of LEGAL_AUTHORITY.routes) {
   if (GOVERNANCE_BLOCKED.has(contract.jurisdiction)) continue;

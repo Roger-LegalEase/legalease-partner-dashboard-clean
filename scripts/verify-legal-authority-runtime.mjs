@@ -23,9 +23,7 @@ for (const contract of LEGAL_AUTHORITY.routes) {
   const profile = getProfileByJurisdiction(contract.jurisdiction);
   const pathway = profile?.pathways.find((candidate) => candidate.id === contract.pathwayId);
   assert(pathway, `${contract.routeKey}: contract has no runtime pathway`);
-  if (contract.routeKey !== "MD:police-record-expungement-when-no-charge-was-filed-under-10-103") {
-    assert(pathway?.legalAuthority?.decisionId === contract.decisionId, `${contract.routeKey}: runtime pathway does not consume its legal contract`);
-  }
+  assert(pathway?.legalAuthority?.decisionId === contract.decisionId, `${contract.routeKey}: runtime pathway does not consume its legal contract`);
   const publicIds = new Set(profile ? projectPublicProfile(profile).questions.map((question) => question.id) : []);
   for (const factId of contract.screeningFactIds ?? []) {
     assert(publicIds.has(factId), `${contract.routeKey}: approved screening fact ${factId} is not a public question`);
@@ -80,6 +78,8 @@ if (requestedDate === "2026-08-25") {
   assert(moPublic?.questions.some((question) => question.id === "twenty_first_birthday" && question.lifecyclePhase === "prepay_timing_gate"), "Missouri MIP route must publish its approved age-21 timing anchor");
   const msPublic = projectPublicProfile(getProfileByJurisdiction("MS"));
   assert(msPublic.questions.some((question) => question.id === "arrest_date" && question.lifecyclePhase === "prepay_timing_gate"), "Mississippi no-charge route must publish its approved arrest-date timing anchor");
+  const mdPublic = projectPublicProfile(getProfileByJurisdiction("MD"));
+  assert(mdPublic.questions.some((question) => question.id === "arrest_date" && question.lifecyclePhase === "prepay_timing_gate"), "Maryland § 10-103 route must publish its approved arrest-date filing-deadline anchor");
 }
 
 if (requestedDate === "2026-06-30") {

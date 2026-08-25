@@ -19,12 +19,13 @@
         "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
         "A pardon signed no more than ten years before evaluation may proceed to the approved participant packet when every other route fact is satisfied.",
         "A pardon signed more than ten years before evaluation receives the statute-specific ineligibility treatment.",
-        "Unknown facts unrelated to the selected Maryland pardon route do not create ambiguity; unknown facts relevant to that route remain fail closed."
+        "Unknown facts unrelated to the selected Maryland pardon route do not create ambiguity; unknown facts relevant to that route remain fail closed.",
+        "The LD-MD-03 police-record route collects arrest_date before checkout, treats eight years as a maximum filing deadline rather than a waiting period, permits the exact eight-year boundary, and bars a later request."
       ],
       "authorization": {
         "authorizedBy": "Roger Roman and the LegalEase legal team",
         "authorizedOn": "2026-08-25",
-        "statement": "Roger Roman and the LegalEase legal team approve the exact current Maryland pardon screening behavior and exact file bytes pinned by this record. Approval is limited to Maryland, pardon_signed_date, date_or_unknown, its timing_and_completion placement, and the pardoned-conviction pathway. It preserves route-relevant uncertainty, ignores only unrelated unknown facts, and does not authorize any other screening mutation. No existing question may be removed, renamed, reordered or substantively changed. This is not a generic parity bypass or wildcard allowlist, and it authorizes no migration, deployment, worker publication, staging change, production change or nationwide launch.",
+        "statement": "Roger Roman and the LegalEase legal team approve the exact current Maryland pardon screening behavior, the exact LD-MD-03 police-record eight-year arrest-date filing deadline, and the exact file bytes pinned by this record. Approval remains limited to Maryland: pardon_signed_date retains its date_or_unknown type, timing_and_completion placement and pardoned-conviction pathway, while arrest_date is collected as the prepay deadline anchor for the police-record route. It preserves route-relevant uncertainty, ignores only unrelated unknown facts, and does not authorize any other screening mutation. No existing question may be removed, renamed, reordered or substantively changed. This is not a generic parity bypass or wildcard allowlist, and it authorizes no migration, deployment, worker publication, staging change, production change or nationwide launch.",
         "doesNotAuthorize": [
           "a generic parity bypass",
           "a wildcard allowlist",
@@ -44,29 +45,33 @@
       },
       "beforeAfterEvidence": {
         "beforeRef": "md-pardon-signed-date-2026-08-11 (prior approved evaluator bytes)",
-        "afterRef": "79e9a69faf374b8e4615e6eb9b761a1f69ffb73b (captain after Corrections A/B and Maryland metadata regeneration)",
+        "afterRef": "79710939 plus the approved LD-MD-03 runtime-consumption correction (exact after-bytes pinned below)",
         "behaviorBefore": [
           "The Maryland pardon question, placement, pathway addition, missing-date behavior and ten-year filing deadline were approved.",
           "The shared evaluator bytes predated the final route-scoped ambiguity and Corrections A service classifications."
         ],
         "behaviorAfter": [
           "The Maryland pardon question, placement, pathway addition, missing-date behavior and ten-year filing deadline are unchanged and verifier-proven.",
-          "Route-relevant uncertainty remains fail closed while unrelated unknown facts are ignored, and Corrections B reports no captain patch pending."
+          "Route-relevant uncertainty remains fail closed while unrelated unknown facts are ignored, and Corrections B reports no captain patch pending.",
+          "LD-MD-03 is bound into the compiled profile; arrest_date is a prepay exact anchor; missing, within-window, exact-boundary and expired cases are behaviorally proven."
         ],
         "beforeSha256": {
           "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
           "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
           "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-          "src/lib/rcap-engine/evaluator.ts": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459"
+          "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d",
+          "src/lib/rcap-engine/public-profile-projection.ts": "32c15f182e6b45372971739be23a040183032302f3eb68db5738d6e94d35e109"
         },
         "afterSha256": {
-          "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+          "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "faf6c82d8600605a51360e0d70729dfc04c50613a0438ea2febd1244af542497",
           "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
           "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-          "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
+          "src/lib/rcap-engine/evaluator.ts": "11f876e764242d634317502d391f7d482deef1e337c8b35d54e1e2e66c8e78b8",
+          "src/lib/rcap-engine/public-profile-projection.ts": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9"
         },
         "behavioralProof": [
           "scripts/verify-rcap-md-pardon-pathway.mjs",
+          "scripts/verify-rcap-md-police-record-deadline.mjs",
           "scripts/verify-rcap-evaluator-public-ambiguity.mjs",
           "scripts/verify-expungement-corrections-b.mjs"
         ]
@@ -75,19 +80,22 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
         "src/lib/rcap-engine/compiled/all51.json",
         "data/expungement-ai/fixtures/public-profiles-all51.json",
-        "src/lib/rcap-engine/evaluator.ts"
+        "src/lib/rcap-engine/evaluator.ts",
+        "src/lib/rcap-engine/public-profile-projection.ts"
       ],
       "authorizedSha256": {
-        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+        "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "faf6c82d8600605a51360e0d70729dfc04c50613a0438ea2febd1244af542497",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
+        "src/lib/rcap-engine/evaluator.ts": "11f876e764242d634317502d391f7d482deef1e337c8b35d54e1e2e66c8e78b8",
+        "src/lib/rcap-engine/public-profile-projection.ts": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9"
       },
       "originallyApprovedSha256": {
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d"
+        "src/lib/rcap-engine/evaluator.ts": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d",
+        "src/lib/rcap-engine/public-profile-projection.ts": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9"
       },
       "supersededSha256": [
         {
@@ -117,6 +125,20 @@
           "supersededOn": "2026-08-25",
           "reason": "The final captain integrates route-scoped ambiguity for California, exact Corrections A anchors and Mississippi clocks, concrete service classifications for all thirty-six Corrections A routes, and legal-contract authority over stale packet-plan labels. Roger Roman and the LegalEase legal team expressly approve the Maryland pardon behavior over the final bytes. The Maryland question, placement, pathway, missing-date outcome and ten-year filing deadline remain unchanged and are independently verifier-proven.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "sha256": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
+          "supersededOn": "2026-08-25",
+          "reason": "The Maryland profile now consumes LD-MD-03 instead of remaining exempt from legal-contract binding. The change replaces the route's unrelated shared waiting statements with the approved § 10-103 eight-year filing-deadline statement, records the agency-application output, and binds arrest_date. The pardon question, pathway, placement, counts and ten-year pardon deadline remain unchanged.",
+          "behaviouralProof": "scripts/verify-rcap-md-police-record-deadline.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "d9f321afb8cc8be9208ed6a212eca46a6ed34fc4dbb5bc2ded1e2c98dbbd320d",
+          "supersededOn": "2026-08-25",
+          "reason": "The evaluator now consumes LD-MD-03 as an approved Maryland agency application, asks for the exact arrest_date anchor, permits filings through the exact eight-year boundary, and returns the statute-specific ineligibility result after the deadline. The Maryland pardon behavior and every unrelated route remain independently verifier-proven.",
+          "behaviouralProof": "scripts/verify-rcap-md-police-record-deadline.mjs"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",

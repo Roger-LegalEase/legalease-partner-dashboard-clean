@@ -33,6 +33,7 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "IL:criminal-identity-theft-mistaken-identity-relief",
   "KS:specialty-court-accelerated",
   "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
+  "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
   // MD pardoned-conviction expungement (Crim. Proc. § 10-105(a)(8)/(c)(4)): counsel approved
   // 2026-08-11; both-direction proof lives in scripts/verify-rcap-md-pardon-pathway.mjs (qualifying
   // in-deadline case opens payment, passed-deadline and missing-date cases stay shut).
@@ -180,13 +181,14 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
 ]);
 
 // Legally signed-off administrative-application packet routes. These are the ONLY non-court-petition
-// routes permitted to open payment (Hawaii HCJDC 159(b) application). Every other automatic / admin /
+// routes permitted to open payment (Hawaii HCJDC 159(b) and Maryland § 10-103 agency applications). Every other automatic / admin /
 // board / pardon / prosecutor / no-filing route stays guidance-only. Adding a route here requires the
 // same legal signoff and both-direction verifier proof as a court-petition route.
 const ADMINISTRATIVE_APPLICATION_PACKET_ROUTES = new Set([
   "HI:nonconviction-arrest-expungement",
   "HI:first-time-drug-conviction",
-  "HI:dui-under-21-conviction"
+  "HI:dui-under-21-conviction",
+  "MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
 ]);
 const HI_ADMIN_CONVICTION_ROUTES = new Set([
   "HI:first-time-drug-conviction",
@@ -788,6 +790,8 @@ function routeSpecificSafetyGate(profile: EngineProfile, answers: Record<string,
   if (akGate) return akGate;
   const mdPardonGate = mdPardonDeadlineSafetyGate(profile, answers, pathway);
   if (mdPardonGate) return mdPardonGate;
+  const mdPoliceRecordGate = mdPoliceRecordDeadlineSafetyGate(profile, answers, pathway);
+  if (mdPoliceRecordGate) return mdPoliceRecordGate;
   return undefined;
 }
 
@@ -801,6 +805,21 @@ function mdPardonDeadlineSafetyGate(profile: EngineProfile, answers: Record<stri
   const deadline = addDuration(pardonDate, 10, "years");
   if (deadline && deadline < evaluationToday()) {
     return reason(profile.jurisdiction.code, "md_pardon_deadline_not_eligible", "Md. Crim. Proc. \u00a7 10-105(c)(4) bars filing the pardon-based expungement petition more than 10 years after the Governor signed the pardon.", pathway.sourceRef);
+  }
+  return undefined;
+}
+
+// Maryland police-record request deadline under Crim. Proc. § 10-103 (LD-MD-03).
+// This is a maximum filing window, never a minimum wait: a request made more
+// than eight years after the arrest/incident is barred, while every date on or
+// before the exact eight-year boundary remains timely.
+function mdPoliceRecordDeadlineSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (routeKey(profile, pathway) !== "MD:police-record-expungement-when-no-charge-was-filed-under-10-103") return undefined;
+  const arrestDate = parseDateAnswer(answers.arrest_date);
+  if (!arrestDate) return undefined;
+  const deadline = addDuration(arrestDate, 8, "years");
+  if (deadline && deadline < evaluationToday()) {
+    return reason(profile.jurisdiction.code, "md_police_record_deadline_not_eligible", "Md. Crim. Proc. § 10-103 requires the written police-record expungement request within eight years of the arrest or incident; this filing deadline has passed.", pathway.sourceRef);
   }
   return undefined;
 }
@@ -1024,6 +1043,9 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
       };
     }
     return { status: "satisfied" };
+  }
+  if (key === "MD:police-record-expungement-when-no-charge-was-filed-under-10-103") {
+    return timingFromExactAnchor(profile, answers, rule, pathway, "arrest_date", { value: 0, unit: "days", raw: "filing deadline checked separately" }, "The § 10-103 arrest-date filing deadline is evaluated as a maximum window, not a minimum wait.");
   }
   if (key === "CA:tool-1-dismissal-set-aside" || key === "CA:tool-4-arrest-record-sealing") return { status: "satisfied" };
   if (key === "CA:prop-64-currently-serving-petition-11361-8" || key === "CA:prop-64-completed-sentence-application-11361-8") return { status: "satisfied" };
