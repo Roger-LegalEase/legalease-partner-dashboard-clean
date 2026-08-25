@@ -66,7 +66,7 @@
           "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "faf6c82d8600605a51360e0d70729dfc04c50613a0438ea2febd1244af542497",
           "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
           "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-          "src/lib/rcap-engine/evaluator.ts": "11f876e764242d634317502d391f7d482deef1e337c8b35d54e1e2e66c8e78b8",
+          "src/lib/rcap-engine/evaluator.ts": "7587229f0e99a7f160437e62e1da0260f21217431cc661437df04afc5c02784c",
           "src/lib/rcap-engine/public-profile-projection.ts": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9"
         },
         "behavioralProof": [
@@ -87,7 +87,7 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "faf6c82d8600605a51360e0d70729dfc04c50613a0438ea2febd1244af542497",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "11f876e764242d634317502d391f7d482deef1e337c8b35d54e1e2e66c8e78b8",
+        "src/lib/rcap-engine/evaluator.ts": "7587229f0e99a7f160437e62e1da0260f21217431cc661437df04afc5c02784c",
         "src/lib/rcap-engine/public-profile-projection.ts": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9"
       },
       "originallyApprovedSha256": {
@@ -139,6 +139,13 @@
           "supersededOn": "2026-08-25",
           "reason": "The evaluator now consumes LD-MD-03 as an approved Maryland agency application, asks for the exact arrest_date anchor, permits filings through the exact eight-year boundary, and returns the statute-specific ineligibility result after the deadline. The Maryland pardon behavior and every unrelated route remain independently verifier-proven.",
           "behaviouralProof": "scripts/verify-rcap-md-police-record-deadline.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "11f876e764242d634317502d391f7d482deef1e337c8b35d54e1e2e66c8e78b8",
+          "supersededOn": "2026-08-25",
+          "reason": "The final evaluator bytes move nine Pennsylvania routes from a stale hold set into the exact approved-release guidance set and add the route-specific approved guidance reason. Roger Roman and the LegalEase legal team approve those exact Pennsylvania bytes while expressly retaining the previously approved Maryland pardon and LD-MD-03 behavior. The Maryland question, pathway, placement, counts, missing-date result, ten-year pardon deadline, eight-year police-record maximum window, and unrelated-mutation detection remain unchanged and independently verifier-proven.",
+          "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",
