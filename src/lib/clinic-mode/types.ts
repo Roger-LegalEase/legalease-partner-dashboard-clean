@@ -83,3 +83,30 @@ export type CreateClinicAccessCodeInput = {
   startsAt: string | null;
   expiresAt: string | null;
 };
+
+export type PublicClinicEvent = Pick<ClinicEvent, "id" | "publicSlug" | "name" | "startsAt" | "endsAt" | "timezone" | "locationName" | "geography" | "status">;
+
+export type ClinicParticipantSession = {
+  id: string;
+  eventId: string;
+  eventSlug: string;
+  participantUserId: string;
+  screeningSessionId: string;
+  jurisdiction: string;
+  status: "active" | "handed_off";
+  expiresAt: string;
+};
+
+export type ClinicQueueCase = {
+  id: string;
+  eventId: string;
+  participantUserId: string;
+  queueStatus: "started" | "in_progress" | "needs_information" | "attorney_review" | "packet_ready" | "referred" | "closed";
+  routeDisposition: "pending" | "packet" | "automatic" | "no_filing" | "referral";
+  jurisdiction: string;
+  courtIdentityVerified: boolean;
+  countyName: string | null;
+  courtName: string | null;
+  followUpDueAt: string | null;
+  lastActivityAt: string;
+};

@@ -50,6 +50,7 @@ const ids = {
   eventA: "20000000-0000-4000-8000-000000000001",
   eventB: "20000000-0000-4000-8000-000000000002",
   eventStaffA: "30000000-0000-4000-8000-000000000001",
+  assistedA: "30000000-0000-4000-8000-000000000002",
   screeningA: "40000000-0000-4000-8000-000000000001",
   matterA: "50000000-0000-4000-8000-000000000001",
   renderA: "60000000-0000-4000-8000-000000000001",
@@ -119,6 +120,12 @@ async function verifyTenantAndParticipantIsolation(db) {
   assert.deepEqual(await idsVisibleAs(db, ids.internal, "select id from public.clinic_events order by id"), [ids.eventA, ids.eventB]);
   assert.equal((await asUser(db, ids.participantA, "select participant_user_id from public.clinic_cases"))[0]?.participant_user_id, ids.participantA);
   assert.equal((await asUser(db, ids.participantB, "select count(*)::int as count from public.clinic_cases"))[0]?.count, 0);
+  assert.equal((await asUser(db, ids.participantA, "select count(*)::int as count from public.clinic_assisted_sessions"))[0]?.count, 1);
+  assert.equal((await asUser(db, ids.participantB, "select count(*)::int as count from public.clinic_assisted_sessions"))[0]?.count, 0, "participant crossed assisted-session owner boundary");
+  assert.equal((await asUser(db, ids.staffA, "select count(*)::int as count from public.clinic_cases"))[0]?.count, 1, "approved event staff could not read own event queue");
+  assert.equal((await asUser(db, ids.staffA, "select count(*)::int as count from public.clinic_assisted_sessions"))[0]?.count, 1, "approved assisting staff could not read own active session");
+  assert.equal((await asUser(db, ids.adminB, "select count(*)::int as count from public.clinic_cases"))[0]?.count, 0, "tenant B admin crossed into tenant A queue");
+  assert.equal((await asUser(db, ids.adminB, "select count(*)::int as count from public.clinic_assisted_sessions"))[0]?.count, 0, "tenant B admin crossed into tenant A assistance");
   assert.equal((await asUser(db, ids.participantA, "select count(*)::int as count from public.clinic_event_access_codes"))[0]?.count, 0, "participant read code hashes");
 }
 
@@ -126,6 +133,8 @@ async function verifyMutationBoundary(db) {
   await assertDenied(db, ids.staffA, `update public.clinic_events set status='closed' where id='${ids.eventA}'`, "staff directly changed event state");
   await assertDenied(db, ids.staffA, `insert into public.clinic_packet_reservations (event_id, clinic_case_id, render_job_id, participant_user_id, status) values ('${ids.eventA}', (select id from public.clinic_cases limit 1), '${ids.renderA}', '${ids.participantA}', 'reserved')`, "staff wrote packet accounting");
   await assertDenied(db, ids.participantA, `update public.clinic_cases set participant_user_id='${ids.participantB}'`, "participant reassigned matter ownership");
+  await assertDenied(db, ids.participantA, `update public.clinic_cases set matter_id=null`, "participant changed matter binding");
+  await assertDenied(db, ids.staffA, `update public.clinic_cases set court_identity_verified=true, county_name='Forged', court_name='Forged'`, "staff overrode verified court identity");
 }
 
 async function verifyAccountingIdempotency(db) {
@@ -168,8 +177,10 @@ async function seed(db) {
       ('${ids.eventStaffA}','${ids.eventA}','90000000-0000-4000-8000-000000000003','${ids.adminA}','approved');
     insert into public.screening_sessions(session_id) values ('${ids.screeningA}');
     insert into public.consumer_briefcase_items(id,user_id) values ('${ids.matterA}','${ids.participantA}');
-    insert into public.clinic_cases(event_id, participant_user_id, screening_session_id, matter_id, queue_status, route_disposition, jurisdiction) values
-      ('${ids.eventA}','${ids.participantA}','${ids.screeningA}','${ids.matterA}','packet_ready','packet','CO');
+    insert into public.clinic_assisted_sessions(id,event_id,event_staff_id,participant_user_id,screening_session_id,handoff_token_hash,device_nonce_hash,consent_version,consented_at,expires_at) values
+      ('${ids.assistedA}','${ids.eventA}','${ids.eventStaffA}','${ids.participantA}','${ids.screeningA}',repeat('a',64),repeat('b',64),'synthetic-v1',now(),now()+interval '30 minutes');
+    insert into public.clinic_cases(event_id, participant_user_id, assisted_session_id, screening_session_id, matter_id, queue_status, route_disposition, jurisdiction) values
+      ('${ids.eventA}','${ids.participantA}','${ids.assistedA}','${ids.screeningA}','${ids.matterA}','packet_ready','packet','CO');
     insert into public.packet_credit_ledger(id) values ('${ids.ledgerA}');
     insert into public.packet_render_jobs(id, status, accounting_result) values ('${ids.renderA}','validating',null);
   `);
