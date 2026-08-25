@@ -4,8 +4,8 @@ import { createHash } from "node:crypto";
 import { cookies } from "next/headers";
 import { getServerAuthState } from "@/lib/supabase/auth-server";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
-import { resolveSessionPartner } from "@/lib/partners/session-partner";
-import { ClinicServiceError } from "@/lib/clinic-mode/service";
+import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
+import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import type { ClinicParticipantSession, ClinicQueueCase, PublicClinicEvent } from "@/lib/clinic-mode/types";
 
 export async function getPublicClinicEvent(eventSlug: string): Promise<PublicClinicEvent> {
@@ -63,12 +63,13 @@ export async function listApprovedClinicStaff(eventId: string) {
 }
 
 export async function listClinicQueue(eventId: string): Promise<ClinicQueueCase[]> {
-  await assertQueueAccess(eventId);
-  const result = await requireDatabase().from("clinic_cases")
-    .select("id,event_id,participant_user_id,queue_status,route_disposition,jurisdiction,court_identity_verified,county_name,court_name,follow_up_due_at,last_activity_at")
-    .eq("event_id", eventId).order("last_activity_at", { ascending: false });
+  const actor = await assertQueueAccess(eventId);
+  const result = await requireDatabase().rpc("clinic_get_event_queue", {
+    p_event_id: eventId,
+    p_actor_user_id: actor.authUserId
+  });
   if (result.error) throw new ClinicServiceError("unavailable", "Clinic queue is temporarily unavailable.");
-  return (result.data ?? []).map((row) => ({
+  return (result.data ?? []).map((row: Record<string, unknown>) => ({
     id: String(row.id), eventId: String(row.event_id), participantUserId: String(row.participant_user_id),
     queueStatus: row.queue_status as ClinicQueueCase["queueStatus"], routeDisposition: row.route_disposition as ClinicQueueCase["routeDisposition"],
     jurisdiction: String(row.jurisdiction), courtIdentityVerified: Boolean(row.court_identity_verified),
@@ -77,21 +78,31 @@ export async function listClinicQueue(eventId: string): Promise<ClinicQueueCase[
   }));
 }
 
+export async function getClinicQueueEvent(eventId: string) {
+  await assertQueueAccess(eventId);
+  const result = await requireDatabase().from("clinic_events").select("id,name,status").eq("id", eventId).maybeSingle();
+  if (result.error || !result.data) throw new ClinicServiceError("not_found", "Clinic event was not found.");
+  return { id: String(result.data.id), name: String(result.data.name), status: String(result.data.status) };
+}
+
 export async function transitionClinicQueueCase(eventId: string, caseId: string, queueStatus: ClinicQueueCase["queueStatus"]) {
   const actor = await assertQueueAccess(eventId);
   const db = requireDatabase();
-  const scope = await db.from("clinic_cases").select("id").eq("id", caseId).eq("event_id", eventId).maybeSingle();
-  if (scope.error || !scope.data) throw new ClinicServiceError("not_found", "Clinic case was not found in this event.");
-  const result = await db.rpc("clinic_transition_case", {
-    p_case_id: caseId, p_actor_user_id: actor.authUserId, p_queue_status: queueStatus,
-    p_follow_up_owner_staff_id: null, p_follow_up_due_at: null
+  const result = await db.rpc("clinic_transition_event_case", {
+    p_event_id: eventId, p_case_id: caseId, p_actor_user_id: actor.authUserId, p_queue_status: queueStatus
   });
   if (result.error || result.data !== "updated") throw new ClinicServiceError(result.data === "forbidden" ? "forbidden" : "conflict", "Clinic queue transition was denied.");
   return "updated";
 }
 
 async function assertQueueAccess(eventId: string) {
-  const actor = await resolveSessionPartner();
+  let actor: Awaited<ReturnType<typeof resolveSessionPartner>>;
+  try {
+    actor = await resolveSessionPartner();
+  } catch (error) {
+    if (error instanceof SessionPartnerError) throw new ClinicServiceError(error.code === "unauthenticated" ? "unauthenticated" : "forbidden", "Clinic queue access is denied.");
+    throw error;
+  }
   const db = requireDatabase();
   const event = await db.from("clinic_events").select("partner_slug").eq("id", eventId).maybeSingle();
   if (event.error || !event.data) throw new ClinicServiceError("not_found", "Clinic event was not found.");

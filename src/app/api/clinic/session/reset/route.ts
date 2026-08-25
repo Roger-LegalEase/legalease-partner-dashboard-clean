@@ -21,10 +21,20 @@ export async function POST(request: NextRequest) {
     if (session.data) await db.rpc("clinic_end_assisted_session", { p_session_id: session.data.id, p_actor_user_id: auth.userId, p_reason: reason });
   }
   const authClient = await createServerSupabaseAuthClient();
-  await authClient.auth.signOut({ scope: "local" }).catch(() => null);
-  const response = NextResponse.json({ success: true });
-  for (const name of ["clinic_session", "clinic_device", "clinic_event", "clinic_entry"]) response.cookies.set(name, "", { path: "/", expires: new Date(0), httpOnly: true, sameSite: "strict" });
+  let signOutConfirmed = false;
+  try {
+    const signOut = await authClient.auth.signOut({ scope: "local" });
+    signOutConfirmed = !signOut.error;
+  } catch {
+    signOutConfirmed = false;
+  }
+  const response = NextResponse.json({ success: true, signOutConfirmed });
+  const cookieNames = new Set([
+    "clinic_session", "clinic_device", "clinic_event", "clinic_entry",
+    ...cookieStore.getAll().map((cookie) => cookie.name).filter((name) => name.startsWith("sb-"))
+  ]);
+  for (const name of cookieNames) response.cookies.set(name, "", { path: "/", expires: new Date(0), httpOnly: true, sameSite: "strict" });
   response.headers.set("Cache-Control", "no-store, private, max-age=0, must-revalidate");
-  response.headers.set("Clear-Site-Data", '"cache", "storage"');
+  response.headers.set("Clear-Site-Data", '"cache", "cookies", "storage"');
   return response;
 }

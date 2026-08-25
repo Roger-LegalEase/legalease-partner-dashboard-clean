@@ -30,7 +30,7 @@ for (const marker of ["getServerAuthState", "claimRcapPartnerScreeningSession", 
   assert.ok(assistance.includes(marker), `assistance boundary missing ${marker}`);
 
 const resetRoute = read("src/app/api/clinic/session/reset/route.ts");
-for (const marker of ["clinic_end_assisted_session", ".auth.signOut", "clinic_session", "clinic_entry", "Cache-Control", "no-store"])
+for (const marker of ["clinic_end_assisted_session", ".auth.signOut", "clinic_session", "clinic_entry", "name.startsWith(\"sb-\")", "Clear-Site-Data", "\"cookies\"", "Cache-Control", "no-store"])
   assert.ok(resetRoute.includes(marker), `reset route missing ${marker}`);
 
 const privacy = read("src/components/clinic-mode/ClinicPrivacyBoundary.tsx");
