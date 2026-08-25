@@ -116,6 +116,7 @@ export const mississippiCorrectionClosures = {
       "dismissal_or_conviction_branch",
       "dismissal_or_discharge_date",
       "sentence_completion_date",
+      "fine_imposed_or_not_applicable",
       "fine_payment_date",
       "related_charges_outside_67_3_70"
     ],

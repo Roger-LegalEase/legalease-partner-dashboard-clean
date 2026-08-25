@@ -1,11 +1,30 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import { register } from "node:module";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const sourcePath = path.resolve(
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.env.RCAP_EVALUATOR_TODAY = "2026-08-25";
+register(
+  pathToFileURL(path.join(ROOT, "scripts/corrections-a/native-ts-loader.mjs")).href,
+  import.meta.url
+);
+
+const sourcePath = path.join(
+  ROOT,
   "src/lib/rcap/state-packs/mississippi/correction-closures.ts"
 );
 const { mississippiCorrectionClosures } = await import(pathToFileURL(sourcePath).href);
+const { evaluateScreening } = await import(
+  pathToFileURL(path.join(ROOT, "src/lib/rcap-engine/evaluator.ts")).href
+);
+const { getProfileByJurisdiction } = await import(
+  pathToFileURL(path.join(ROOT, "src/lib/rcap-engine/profile-registry.ts")).href
+);
+const { projectPublicProfile } = await import(
+  pathToFileURL(path.join(ROOT, "src/lib/rcap-engine/public-profile-projection.ts")).href
+);
 const checkoutState =
   "fail_closed_pending_formal_legal_approval_and_hosted_acceptance";
 
@@ -99,6 +118,7 @@ assert.deepStrictEqual(mississippiCorrectionClosures, {
       "dismissal_or_conviction_branch",
       "dismissal_or_discharge_date",
       "sentence_completion_date",
+      "fine_imposed_or_not_applicable",
       "fine_payment_date",
       "related_charges_outside_67_3_70"
     ],
@@ -107,4 +127,63 @@ assert.deepStrictEqual(mississippiCorrectionClosures, {
   }
 });
 
+const runtimeFixture = JSON.parse(fs.readFileSync(
+  path.join(ROOT, "data/expungement-ai/corrections-a/runtime-fixtures.json"),
+  "utf8"
+));
+const mississippiRuntimeRows = runtimeFixture.routes.filter(
+  (row) => row.jurisdiction === "MS"
+);
+assert.equal(mississippiRuntimeRows.length, 3, "all three assigned Mississippi routes need runtime fixtures");
+const exactIntegratedFacts = {
+  "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
+    ms_last_conviction_date_any_court: "2000-01-01"
+  },
+  "MS:first-offense-dui-expungement": {
+    ms_successful_sentence_completion_date: "2000-01-01"
+  },
+  "MS:minor-in-possession-underage-alcohol-expungement": {
+    ms_mip_sentence_completion_date: "2000-01-01",
+    ms_mip_fine_imposed: "Yes",
+    ms_mip_fine_payment_date: "2000-01-01"
+  }
+};
+for (const row of mississippiRuntimeRows) {
+  const profile = getProfileByJurisdiction(row.jurisdiction);
+  assert.ok(profile, `${row.routeKey}: Mississippi runtime profile missing`);
+  const publicQuestionIds = new Set(
+    projectPublicProfile(profile).questions.map((question) => question.id)
+  );
+  const supportedIntegratedFacts = Object.fromEntries(
+    Object.entries(exactIntegratedFacts[row.routeKey] ?? {})
+      .filter(([questionId]) => publicQuestionIds.has(questionId))
+  );
+  const evaluation = evaluateScreening({
+    jurisdiction: row.jurisdiction,
+    profileVersion: row.profileVersion,
+    matterId: `corrections-a-ms-${row.pathwayId}`,
+    answers: { ...row.answers, ...supportedIntegratedFacts }
+  });
+  assert.equal(
+    evaluation.pathwayId,
+    row.pathwayId,
+    `${row.routeKey}: actual evaluator selected another Mississippi route`
+  );
+  assert.equal(
+    evaluation.paymentAllowed,
+    false,
+    `${row.routeKey}: actual evaluator must fail closed before formal approval and hosted acceptance`
+  );
+  assert.equal(
+    evaluation.resultCode,
+    "needs_review",
+    `${row.routeKey}: actual evaluator must return review rather than a paid packet`
+  );
+}
+
 console.log("verify-mississippi-corrections-a: GREEN");
+console.log(JSON.stringify({
+  structuredClosures: Object.keys(mississippiCorrectionClosures).length,
+  actualEvaluatorRoutesProven: mississippiRuntimeRows.length,
+  paymentAllowed: false
+}, null, 2));

@@ -74,6 +74,49 @@ const preferredEvidenceQuotes = {
   "LA:first-offense-marijuana-expungement-after-90-days-art-998": [
     "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction."
   ],
+  "AR:situation-a-non-convictions": [
+    "These are the most accessible filings and generally carry no waiting period."
+  ],
+  "DC:dc_motion_seal_felony_conviction_8yr_16_806": [
+    "Felony conviction motion sealing under D.C. Code § 16-806: 8 years from completion of sentence; unavailable for Offense Severity Group 1, 2, or 3."
+  ],
+  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806": [
+    "Misdemeanor conviction motion sealing under D.C. Code § 16-806: 5 years from completion of sentence."
+  ],
+  "DC:dc_motion_seal_nonconviction_16_806": [
+    "No ordinary waiting period for the motion route; packet still requires the § 16-806 motion facts and no exclusion/review flag."
+  ],
+  "DC:dc_auto_expungement_16_802": [
+    "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
+  ],
+  "DC:dc_auto_sealing_16_805": [
+    "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option."
+  ],
+  "DC:dc_juvenile_sealing_16_2335": [
+    "Two years have passed since final discharge from custody/supervision, or since entry of another Division order not involving custody/supervision; and"
+  ],
+  "IL:adult-non-conviction-expungement": [
+    "Acquittal Eligible immediately unless excluded",
+    "Dismissal Eligible immediately unless excluded",
+    "Released without charging Eligible immediately unless excluded",
+    "Conviction reversed or vacated Eligible immediately unless excluded"
+  ],
+  "KY:misdemeanor-violation-traffic-conviction": [
+    "The petition is filed no sooner than five years after sentence completion or successful completion of probation, whichever is later, except the named voided first-possession routes."
+  ],
+  "LA:felony-ten-year-clean-period-expungement": [
+    "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required."
+  ],
+  "LA:misdemeanor-five-year-clean-period-expungement": [
+    "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")"
+  ],
+  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": [
+    "Misdemeanor 3 years Court appearance/disposition, including incarceration or custody, must be at least 3 years before request",
+    "Felony 7 years Court appearance/disposition, including incarceration or custody, must be at least 7 years before request"
+  ],
+  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130": [
+    "610.130 first intoxication-related traffic/boating offense A person may apply after at least 10 years to expunge a first intoxication-related traffic or boating offense if it was a misdemeanor or county/city ordinance violation, was not a commercial-motor-vehicle DUI conviction, and the person has not had another intoxication-related traffic/boating conviction since. (\"https://revisor.mo.gov/main/OneSection.aspx?section=610.130\")"
+  ],
   "MS:additional-justice-or-municipal-court-misdemeanor-relief": [
     "Two years of good conduct must run from the person's last conviction in any court."
   ],
@@ -119,7 +162,7 @@ const routeProductMetadata = {
     legalSignoffStatus: "needs_reconfirm",
     packetFulfillmentStatus: "needs_custom_packet",
     paidRouteBlocker: "legal_reconfirmation",
-    evaluatorTier: "HELD_GUIDANCE_ROUTES",
+    evaluatorTier: "CORRECTED_AWAITING_RECONFIRM_ROUTES",
     checkoutEligibility: "not_eligible",
     filingReadiness: "guidance_only"
   },
@@ -128,7 +171,7 @@ const routeProductMetadata = {
     legalSignoffStatus: "needs_reconfirm",
     packetFulfillmentStatus: "needs_custom_packet",
     paidRouteBlocker: "legal_reconfirmation",
-    evaluatorTier: "HELD_GUIDANCE_ROUTES",
+    evaluatorTier: "CORRECTED_AWAITING_RECONFIRM_ROUTES",
     checkoutEligibility: "not_eligible",
     filingReadiness: "guidance_only"
   },
@@ -137,7 +180,7 @@ const routeProductMetadata = {
     legalSignoffStatus: "needs_reconfirm",
     packetFulfillmentStatus: "needs_custom_packet",
     paidRouteBlocker: "legal_reconfirmation",
-    evaluatorTier: "HELD_GUIDANCE_ROUTES",
+    evaluatorTier: "CORRECTED_AWAITING_RECONFIRM_ROUTES",
     checkoutEligibility: "not_eligible",
     filingReadiness: "guidance_only"
   }
@@ -172,7 +215,14 @@ const removeFromRatifiedDeployable = [
   "MS:minor-in-possession-underage-alcohol-expungement",
   ...sharedWaitAnchorHolds
 ].sort();
-const addToHeldGuidance = Object.keys(routeProductMetadata).sort();
+const addToCorrectedAwaitingReconfirm = Object.entries(routeProductMetadata)
+  .filter(([, patch]) => patch.evaluatorTier === "CORRECTED_AWAITING_RECONFIRM_ROUTES")
+  .map(([routeKey]) => routeKey)
+  .sort();
+const addToHeldGuidance = Object.entries(routeProductMetadata)
+  .filter(([, patch]) => patch.evaluatorTier === "HELD_GUIDANCE_ROUTES")
+  .map(([routeKey]) => routeKey)
+  .sort();
 
 function getClosureCategory(routeKey) {
   if (paidRoutes.has(routeKey)) return "paid_packet";
@@ -223,10 +273,14 @@ function selectRouteSpecificQuote(pathwayId, pathway) {
     }))
     .sort((left, right) => right.score - left.score || left.index - right.index);
   const selected = ranked[0]?.candidate;
-  if (!selected || selected.length < 12) {
+  const score = ranked[0]?.score ?? 0;
+  if (!selected || selected.length < 12 || score === 0) {
     throw new Error(`Missing route-specific evidence for ${pathwayId}`);
   }
-  return selected.slice(0, 320);
+  if (selected.length <= 320) return selected;
+  const clipped = selected.slice(0, 320);
+  const lastWordBoundary = clipped.lastIndexOf(" ");
+  return clipped.slice(0, Math.max(lastWordBoundary, 12));
 }
 
 const routes = routeKeys.map((routeKey) => {
@@ -276,6 +330,7 @@ const closure = {
   },
   sharedHandoff: {
     removeFromRatifiedDeployable,
+    addToCorrectedAwaitingReconfirm,
     addToHeldGuidance,
     routeProductMetadata
   },

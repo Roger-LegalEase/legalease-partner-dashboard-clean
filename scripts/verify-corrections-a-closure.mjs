@@ -116,6 +116,7 @@ const nonPaymentCategories = new Set(["automatic_or_no_filing", "guidance_only",
 const counts = { paid_packet: 0, automatic_or_no_filing: 0, guidance_only: 0, legal_hold_guidance: 0 };
 const metadataHandoff = closure.sharedHandoff?.routeProductMetadata ?? {};
 const ratifiedRemovals = new Set(closure.sharedHandoff?.removeFromRatifiedDeployable ?? []);
+const correctedAdditions = new Set(closure.sharedHandoff?.addToCorrectedAwaitingReconfirm ?? []);
 const heldGuidanceAdditions = new Set(closure.sharedHandoff?.addToHeldGuidance ?? []);
 const isEffectivelyRatified = (routeKey) =>
   controlSets.ratified.has(routeKey) && (INTEGRATED_MODE || !ratifiedRemovals.has(routeKey));
@@ -123,7 +124,7 @@ const isEffectivelyHeld = (routeKey) =>
   controlSets.corrected.has(routeKey) ||
   controlSets.hardGate.has(routeKey) ||
   controlSets.heldGuidance.has(routeKey) ||
-  (!INTEGRATED_MODE && heldGuidanceAdditions.has(routeKey));
+  (!INTEGRATED_MODE && (correctedAdditions.has(routeKey) || heldGuidanceAdditions.has(routeKey)));
 
 check(
   [...ratifiedRemovals].every((routeKey) => EXPECTED_ROUTE_KEYS.includes(routeKey)),
@@ -134,8 +135,16 @@ check(
   "Product-metadata handoff includes a route outside Corrections A ownership."
 );
 check(
+  [...correctedAdditions].every((routeKey) => EXPECTED_ROUTE_KEYS.includes(routeKey)),
+  "Corrected-awaiting-reconfirm handoff includes a route outside Corrections A ownership."
+);
+check(
   [...heldGuidanceAdditions].every((routeKey) => EXPECTED_ROUTE_KEYS.includes(routeKey)),
   "Held-guidance handoff includes a route outside Corrections A ownership."
+);
+check(
+  [...correctedAdditions].every((routeKey) => !controlSets.ratified.has(routeKey) || ratifiedRemovals.has(routeKey)),
+  "Corrected-awaiting-reconfirm handoff leaves a route effectively ratified."
 );
 check(
   [...heldGuidanceAdditions].every((routeKey) => !controlSets.ratified.has(routeKey) || ratifiedRemovals.has(routeKey)),
@@ -145,6 +154,10 @@ if (INTEGRATED_MODE) {
   check(
     [...ratifiedRemovals].every((routeKey) => !controlSets.ratified.has(routeKey)),
     "Integrated evaluator still ratifies a route listed for removal."
+  );
+  check(
+    [...correctedAdditions].every((routeKey) => controlSets.corrected.has(routeKey)),
+    "Integrated evaluator is missing a required corrected-awaiting-reconfirm route."
   );
   check(
     [...heldGuidanceAdditions].every((routeKey) => controlSets.heldGuidance.has(routeKey)),
