@@ -25,6 +25,7 @@ import path from "node:path";
 const { LEGAL_AUTHORITY, routePaymentAuthority } = await import("@/lib/legal-authority/index");
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { evaluateScreening } = await import("@/lib/rcap-engine/evaluator");
+const { resolvePacketRoute } = await import("@/lib/rcap/documents/packet-route-resolver");
 
 const failures = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
@@ -108,6 +109,16 @@ for (const contract of LEGAL_AUTHORITY.routes) {
   const closed = routePaymentAuthority(contract) !== "packet_checkout";
   assert(pathway.filingRequired === !closed,
     `${contract.routeKey}: filingRequired must be ${!closed}`);
+  const packetRoute = resolvePacketRoute({
+    state: contract.jurisdiction,
+    pathway: contract.pathwayId
+  });
+  if (closed) {
+    assert(packetRoute.sellable === false,
+      `${contract.routeKey}: the shared packet resolver must keep this authority-closed route non-sellable`);
+    assert(packetRoute.creditConsumable === false,
+      `${contract.routeKey}: the shared packet resolver must keep this authority-closed route from consuming credit`);
+  }
   const plan = (profile.packetGenerator?.pathways ?? []).find((candidate) => candidate.pathwayId === contract.pathwayId);
   assert(plan, `${contract.routeKey}: no packet plan`);
   if (plan && closed) {

@@ -106,11 +106,11 @@
   "aggregates": {
     "windowId": "2026-08-12-w3",
     "registryTracks": 497,
-    "tracksTerminal": 496,
-    "tracksNonterminal": 1,
+    "tracksTerminal": 497,
+    "tracksNonterminal": 0,
     "tracksWithRuntimeCoverage": 285,
     "requiredTreatmentBreakdown": {
-      "production_packet": 1,
+      "production_packet": 0,
       "complete_guidance": 0,
       "complete_composed_route": 0,
       "deliberate_scope_exclusion": 0,
@@ -118,12 +118,12 @@
     },
     "nonterminalTracksByLane": {
       "B": 0,
-      "C": 1,
+      "C": 0,
       "D": 0,
       "E": 0,
       "F": 0
     },
-    "jobsRemainingToLaunch": 1,
+    "jobsRemainingToLaunch": 0,
     "tracksTerminalizedThisWindow": 106,
     "candidateTreatmentsPendingReview": 0,
     "candidateTreatmentBreakdown": {
@@ -149,29 +149,7 @@
     "unsupportedRoutesSellable": 0
   },
   "runtimeContradictedDeferrals": [],
-  "jobs": [
-    {
-      "jobId": "T-C-MS-production-packet",
-      "lane": "C",
-      "jurisdiction": "MS",
-      "implementationFamily": "controlled_pleading",
-      "outputStrategy": "custom_pleading",
-      "requiredTreatment": "production_packet",
-      "sourceDependency": "private/Nationwide Record Clearing/ (MS) + pinned registry 3b6f4c10",
-      "ownedPaths": [
-        "data/rcap-all50/pleadings/",
-        "data/rcap-all50/composed-routes/"
-      ],
-      "reviewArchetype": "F-visual-and-field-fidelity",
-      "terminalEffect": [
-        "MS:ms-nonadj -> terminal"
-      ],
-      "runtimeWiringRequired": false,
-      "trackIds": [
-        "ms-nonadj"
-      ]
-    }
-  ],
+  "jobs": [],
   "decisions": [
     {
       "id": "DEC-AR-ar-misdemeanor-dwi-seal",
@@ -4836,13 +4814,28 @@
       "jurisdiction": "MS",
       "trackId": "ms-nonadj",
       "declaredStrategy": "custom_pleading",
-      "coverageDisposition": "unresolved_ambiguous_candidates",
-      "mappedCompiledPathwayIds": [],
-      "terminal": false,
-      "holds": [
-        "missing_from_compiled_runtime"
+      "coverageDisposition": "represented_by_approved_stage_split",
+      "mappedCompiledPathwayIds": [
+        "nonadjudication-99-15-26-active-case-admission",
+        "nonadjudication-under-99-15-26"
       ],
-      "requiredTreatment": "production_packet",
+      "terminal": true,
+      "holds": [],
+      "requiredTreatment": null,
+      "promotionStatus": "promoted_by_legal_authority",
+      "promotionEvidence": {
+        "decisionId": "LD-MS-01",
+        "routeKeys": [
+          "MS:nonadjudication-99-15-26-active-case-admission",
+          "MS:nonadjudication-under-99-15-26"
+        ],
+        "pathwayIds": [
+          "nonadjudication-99-15-26-active-case-admission",
+          "nonadjudication-under-99-15-26"
+        ],
+        "activeRuntimeKind": "guidance_only",
+        "completedRuntimeKind": "legacy_verified"
+      },
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,

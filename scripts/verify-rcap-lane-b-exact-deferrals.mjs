@@ -240,7 +240,8 @@ async function runChecks() {
   const unexplained = moved.filter((key) => {
     if (laneBKeys.has(key)) return false;
     const row = terminalNowByKey.get(key);
-    return !String(row?.candidateStatus ?? "").startsWith("promoted_by_");
+    const promotion = row?.candidateStatus ?? row?.promotionStatus ?? "";
+    return !String(promotion).startsWith("promoted_by_");
   });
   check(
     unexplained.length === 0,
