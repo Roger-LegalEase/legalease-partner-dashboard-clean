@@ -1,28 +1,29 @@
 # STATUS F — Hosted Environment and Release Mechanics
 
-- State: **REJECTED CANDIDATE QUARANTINED — AWAITING LANE A REPLACEMENT**
+- State: **FINAL CANDIDATE BOUND — EXACT PREVIEW DISPATCH PENDING**
 - Worktree: `/Users/rogerroman/LegalEase/legalease-sprint-hosted`
 - Branch: `sprint/20260825-hosted`
 - Sprint base: `07675789a80e732d2b835c1e8ba2092b39201b79`
 - Acceptance Supabase project: `hyflxnlhpmiqxvvcoiia`
 - Production: **untouched and unauthorized**
 
-## Rejected release identity
+## Final-candidate release identity
 
-- Rejected application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea`.
-- Rejected run worker source: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
-- Rejected run worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
-- None of these identities is authorized for release acceptance or reuse. Lane F is waiting for Lane A's replacement application SHA, its exact accepted worker publication, and its exact migration set.
+- Application/source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5` (Lane A's exact frozen candidate).
+- Accepted worker source: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- Accepted immutable worker digest: `sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c`
+- Publish-only run `32856262198` and read-only image-acceptance run `32857155298` accepted this replacement full-SHA worker publication for the frozen candidate. The complete canonical worker-input diff from the accepted source to the application SHA is empty.
+- This Lane F release-control commit changes no canonical application or worker inputs relative to the frozen application SHA.
 
 ## Environment status
 
 - Vercel public identity contract: `roger947s-projects/legalease-partner-dashboard-clean`.
-- Vercel authentication and resolved `team_` / `prj_` identities were exercised only for rejected run `32854314983`; no credentials were emitted or persisted.
-- Rejected run `32854314983` created one nonproduction Preview before the rejection instruction arrived. That run completed **failure** and produced no acceptance verdict.
-- The rejected Preview identity is quarantined and must not be reused, accepted, aliased, or promoted. The exact-match resolver will reject it for every replacement application SHA.
-- Replacement exact Preview: **not created**.
+- Vercel authentication and resolved `team_` / `prj_` identities: **not yet exercised for the final candidate**. Nonproduction credentialed-session use is approved; no credentials have been emitted or persisted.
+- Rolling Preview: **not created**.
+- Exact final Preview: **not created**.
+- Preview deployment ID and URL: **absent**.
 - Stripe: test mode required; a real Stripe-delivered webhook has **not** been observed in this sprint.
-- Rejected-run GHCR pull succeeded by immutable digest; email capture, Playwright, Chromium, and a long-lived worker host remain **unverified or absent** and convey no replacement-candidate acceptance.
+- Email capture, Playwright, Chromium, GHCR pull, and long-lived worker host: **unverified or absent**.
 - External evidence layout: prepared under `/private/tmp/legalease-hosted-acceptance/07675789a80e732d2b835c1e8ba2092b39201b79/` with `screenshots`, `traces`, `console`, `network`, `database`, and `artifacts` folders.
 
 ## Migration truth
@@ -30,11 +31,11 @@
 - Repository sequence and on-disk hashes: phases `49 -> 50 -> 51 -> 52 -> 53 -> 54 -> 55` statically verified.
 - Isolated Phase 55 PostgreSQL proof: **passed**. Exact user/item/product/person/matter/Session/amount/currency authority, duplicate/retry/correction/refund convergence, security-definer refusal cases, and migration reruns were exercised with PGlite.
 - Sequence verifier: `7/7` passing. Mutation proof: `8/8` corruptions detected and sources restored.
-- Rejected run `32854314983` completed the hash-gated `49 -> 50 -> 51 -> 52 -> 53 -> 54 -> 55` acceptance-project apply/readback step before the candidate was rejected.
-- That database state is environment history only, not release acceptance. The replacement run must recompute hashes, read back the ledger/catalog, and apply only migrations missing from the replacement's exact authorized set.
+- Last repository-recorded authenticated acceptance-project proof: phase 54.
+- Acceptance-project Phase 55: **UNPROVEN**. The isolated behavioral proof does not substitute for authenticated acceptance-project ledger/catalog/readback, which waits for the final candidate run.
 - The hosted migrator now excludes every authorized migration from the best-effort baseline by deriving the exclusion set from `migrationsInApplyOrder`. It initializes phase 55 as `unproven` and may mark it confirmed only after mandatory matter/product/person binding readback passes.
 - Disposable-stack migration evidence now derives its complete `49 -> 50 -> 51 -> 52 -> 53 -> 54 -> 55` label and count directly from the authorized action instead of under-reporting the sequence as six migrations.
-- No Production migration was applied.
+- No migration was applied by this lane.
 
 ## Prepared nonproduction mechanics
 
@@ -71,8 +72,7 @@
 - F1 evidence-marker self-test: `12/12` passing.
 - Worker publication workflow verifier: publication mechanics pass; the captain-owned staging-action fingerprint remains stale.
 - Deployment-closure verifier: `5/7`; required runtime paths are absent from this checkout and `public` is absent at the accepted source, so a deployable archive is not proven.
-- Rejected run `32854314983`: Preview deploy, Auth setup, application build, and immutable GHCR pull passed; the real unpaid Checkout gate failed, every later matrix/payment step was skipped, and the overall run concluded failure. No acceptance verdict was issued.
-- Replacement dependency/browser and authenticated external acceptance wait for Lane A's replacement SHA and one matching exact Preview.
+- Full dependency/browser and authenticated external acceptance wait for Lane A's final SHA and the one exact Preview.
 
 ## Completed release-control corrections
 
@@ -95,10 +95,10 @@ The approved release-control files now share one candidate-driven application co
 
 The workflows do not declare or pass `VERCEL_ORG_ID` / `VERCEL_PROJECT_ID`. Runtime scripts resolve and validate the pinned public Vercel slug/name pair in memory from `VERCEL_TOKEN`.
 
-Rejected inputs — prohibited for acceptance:
+Bound release inputs:
 
-- application/source SHA: `784a58d2283abbbfe6b0c43ca54663ee4c59f3ea`
-- worker source SHA: `7cc8675d2835675d5bf40d18e6e09468bd84f790`
-- worker digest: `sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d`
+- application/source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- worker source SHA: `441ee3188ee52047a012232d8d11f890a09b4ac5`
+- worker digest: `sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c`
 
-Replacement inputs: **awaiting Lane A**. No further Preview, migration, Checkout, payment, worker, or browser action will begin until Lane A supplies the replacement exact application SHA, worker source/digest, and migration set. Production remains untouched.
+The exact Preview may begin after Lane A integrates this release-control-only commit on the canonical captain branch. Production remains untouched.

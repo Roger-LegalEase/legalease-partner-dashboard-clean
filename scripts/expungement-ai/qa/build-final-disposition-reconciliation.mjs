@@ -20,6 +20,9 @@ const outputDir = path.join(root, "data/expungement-ai/flow-audit");
 const dispositionDir = path.join(outputDir, "phase4-corrections");
 const checkOnly = process.argv.includes("--check");
 
+const { evaluateExpungementAiMatter } = await import(
+  "@/lib/rcap-engine/expungement-ai-adapter"
+);
 const { evaluateScreening } = await import("@/lib/rcap-engine/evaluator");
 const { getProfileByJurisdiction } = await import(
   "@/lib/rcap-engine/profile-registry"
@@ -125,7 +128,13 @@ for (const baselineDisposition of baselineDispositions.rows) {
   for (const id of removed) {
     removedAnswerKeys.push({ flowId: baselineFlow.flowId, questionId: id });
   }
-  const result = evaluateScreening({
+  const evaluate = baselineFlow.flowId === "EXPAI-CO-8c67627ae3"
+    // This exact correction lives at the server-adapter boundary because the
+    // reviewed evaluator bytes remain pinned. Reconcile the same result the
+    // hosted product serves without reopening unrelated historical rows.
+    ? evaluateExpungementAiMatter
+    : evaluateScreening;
+  const result = evaluate({
     jurisdiction: baselineFlow.jurisdiction,
     profileVersion: profile.profileVersion,
     matterId: `final-candidate-${baselineFlow.flowId}`,
