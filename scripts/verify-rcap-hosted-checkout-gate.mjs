@@ -22,21 +22,21 @@ function includesEvery(text, values, label) {
   for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
 }
 
-// The accepted release. This verifier previously asserted the superseded pair
-// (264d2a24 / sha256:1d30530b), so it did not merely fail to catch the gate
-// going stale — it REQUIRED the stale value. A pin asserted in two places drifts
-// as one fact, so both move together or neither does.
-const ACCEPTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
-const ACCEPTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+// Lane A supplies the exact final application SHA at dispatch time. The only
+// reusable publication pin is the accepted worker source/digest pair, and the
+// workflow's canonical-input diff decides whether that pair is still valid.
+const RELEASE_CONTROL_BASE_SHA = "646d8969576e33b9ed72d3bca64b33b7e352c452";
+const ACCEPTED_WORKER_SOURCE_SHA = "646d8969576e33b9ed72d3bca64b33b7e352c452";
+const ACCEPTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
 
 includesEvery(gate, [
-  ACCEPTED_APPLICATION_SHA,
+  "applicationShaExact",
   "hyflxnlhpmiqxvvcoiia",
   ACCEPTED_WORKER_DIGEST,
   "HOSTED_PREVIEW_DEPLOYMENT_ID",
   "vercel_project_identity_resolved",
   "/v13/deployments/",
-  'deployment?.target === null',
+  'deployment?.target === null || deployment?.target === "preview"',
   'deployment?.meta?.rcapStripeConfigured === "true"',
   'deployment?.meta?.rcapRouteState === "staging_scoped"',
   "worker_pulled_by_immutable_digest",
@@ -73,10 +73,14 @@ includesEvery(gate, [
 
 // A partial rebind is the dangerous shape: one constant moved, the other left
 // behind, and the gate then pins a pair that was never published together.
-for (const superseded of [
+check(![
   "264d2a240e5c857f55ee645f2683830e94f67c19",
-  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101"
-]) check(!gate.includes(superseded), `gate still pins the superseded identity ${superseded}`);
+  "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926"
+].some((superseded) => gate.includes(superseded)), "gate still pins a superseded application identity");
+check(![
+  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
+  "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530"
+].some((superseded) => gate.includes(superseded)), "gate still pins a superseded worker identity");
 
 for (const eventType of [
   "checkout.session.completed",
@@ -152,10 +156,25 @@ check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
 
 for (const [label, workflow] of [["entry", entry], ["hosted", hosted]]) {
   const inputGuard = workflow.match(/- name: Refuse any input that is not the authorized pinned value[\s\S]*?\n\s+- name:/)?.[0] ?? "";
-  check(Boolean(inputGuard), `${label} workflow input guard is missing`);
+  const releaseIdentityContract = workflow.includes(ACCEPTED_WORKER_SOURCE_SHA)
+    && workflow.includes(ACCEPTED_WORKER_DIGEST)
+    && !workflow.includes("AUTHORIZED_APPLICATION_SHA")
+    && !workflow.includes("VERCEL_ORG_ID")
+    && !workflow.includes("VERCEL_PROJECT_ID")
+    && workflow.includes('TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}')
+    && workflow.includes('WORKFLOW_SHA_INPUT: ${{ github.sha }}')
+    && workflow.includes('[ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ]')
+    && workflow.includes("git merge-base --is-ancestor")
+    && workflow.includes("postcss.config.mjs")
+    && workflow.includes("tailwind.config.ts")
+    && workflow.includes('"${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}"')
+    && workflow.includes('"${{ inputs.application_sha }}" "${{ inputs.tools_sha }}"');
+  check(Boolean(inputGuard) && releaseIdentityContract, `${label} workflow release identity contract is incomplete`);
   for (const field of ["application_sha", "worker_source_sha", "worker_digest", "tools_sha"]) {
-    check(!inputGuard.includes('"${{ inputs.' + field + ' }}"'),
-      `${label} workflow interpolates untrusted ${field} into shell source`);
+    const candidateDriven = field !== "application_sha"
+      || inputGuard.includes("application_sha must be a full commit SHA");
+    check(!inputGuard.includes('"${{ inputs.' + field + ' }}"') && candidateDriven,
+      `${label} workflow does not safely transport candidate-driven ${field}`);
   }
 }
 
@@ -172,7 +191,7 @@ check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the 
 function gitDiffQuiet(paths) {
   const run = spawnSync("git", [
     "diff", "--quiet",
-    ACCEPTED_APPLICATION_SHA,
+    RELEASE_CONTROL_BASE_SHA,
     "--",
     ...paths
   ], { cwd: root, encoding: "utf8" });
@@ -180,14 +199,15 @@ function gitDiffQuiet(paths) {
   // treating 128 as merely-differs would report a missing object as a content
   // change. Anything other than a clean 0 or a genuine 1 is a broken check.
   if (run.status !== 0 && run.status !== 1) {
-    failures.push(`git diff against ${ACCEPTED_APPLICATION_SHA} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
+    failures.push(`git diff against ${RELEASE_CONTROL_BASE_SHA} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
     return false;
   }
   return run.status === 0;
 }
 
 check(gitDiffQuiet([
-  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public",
+  "src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts",
+  "postcss.config.mjs", "tailwind.config.ts", "public",
   "docs/record-clearing/field-map-drafts"
 ]),
   "checkout-gate branch changes frozen application inputs");

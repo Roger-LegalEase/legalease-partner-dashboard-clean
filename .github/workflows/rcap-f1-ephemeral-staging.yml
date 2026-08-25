@@ -7,9 +7,9 @@ name: RCAP F1 ephemeral staging
 # environment, no production surface, and it deploys nothing that outlives
 # the run.
 #
-# Every input is pinned: the run refuses any application SHA, worker source
-# SHA or digest other than the authorized values, so this cannot be repointed
-# at other bytes without editing the workflow on the default branch.
+# Lane A supplies one exact full application SHA at dispatch. The reusable
+# worker publication remains pinned, and the canonical-input equivalence gate
+# below refuses that digest if the final candidate changes worker bytes.
 
 #
 # This workflow is also the DISPATCH ENTRY POINT for the persistent hosted
@@ -48,7 +48,7 @@ on:
         type: string
         default: ""
       application_sha:
-        description: "Pinned application SHA (must equal the authorized value)"
+        description: "Exact final application SHA supplied by Lane A"
         required: true
         type: string
       worker_source_sha:
@@ -73,11 +73,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_APPLICATION_SHA: f7ed0ad3a8f37a0c1446b62760b1a36fb163c926
-  AUTHORIZED_WORKER_SOURCE_SHA: 5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8
-  AUTHORIZED_WORKER_DIGEST: sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530
+  AUTHORIZED_WORKER_SOURCE_SHA: 646d8969576e33b9ed72d3bca64b33b7e352c452
+  AUTHORIZED_WORKER_DIGEST: sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: main
+  CANONICAL_INTEGRATION_BRANCH: sprint/20260825-full-product-captain
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
@@ -111,9 +110,7 @@ jobs:
       tools_sha: ${{ inputs.tools_sha }}
       supabase_project_ref: ${{ inputs.supabase_project_ref }}
     secrets:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ inputs.mode == 'hosted_migrate' && 'not-used-in-supabase-only' || secrets.VERCEL_TOKEN }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       # Optional. Absent until Roger adds them; the hosted workflow declares
       # them non-required so every phase still runs without Stripe configured,
@@ -134,12 +131,14 @@ jobs:
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
           TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
         run: |
           set -euo pipefail
-          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
           [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
           [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
 
       - name: Check out repository history
         uses: actions/checkout@v4
@@ -154,13 +153,19 @@ jobs:
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
             git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
           done
+          git merge-base --is-ancestor "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" \
+            || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }
+          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
           # The tools commit must carry the exact application and worker bytes:
           # if this diff is empty, building once at tools_sha builds the pinned
           # application SHA's bytes, and the worker fingerprint is unchanged.
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           git checkout --detach "${{ inputs.tools_sha }}"
 
       - name: Authenticate to GHCR and pull the worker by immutable digest
@@ -195,7 +200,9 @@ jobs:
           supabase status -o env > /tmp/supabase.env
           cat /tmp/supabase.env | sed 's/KEY=.*/KEY=***REDACTED***/' || true
 
-      - name: Apply the six-migration sequence and run the stack-integration matrix
+      - name: Apply the verified migration sequence and run the stack-integration matrix
+        env:
+          F1_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: |
           set -euo pipefail
           set -a; source /tmp/supabase.env; set +a

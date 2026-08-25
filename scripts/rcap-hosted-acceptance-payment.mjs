@@ -4,6 +4,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+import {
+  HOSTED_VERCEL_TEAM_SLUG,
+  hostedVercelCliEnvironment,
+  hostedVercelScopedUrl,
+  resolveHostedVercelIdentity
+} from "./rcap-hosted-acceptance-vercel-identity.mjs";
+
 // Hosted acceptance staging — the Stripe payment and packet-delivery journey.
 //
 // Runs against the DEPLOYED Preview instance and the hosted acceptance Supabase
@@ -30,19 +38,19 @@ const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rc
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
 const rootDir = process.cwd();
-const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir });
 
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const EXACT_DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const EXACT_PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
-const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
-const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
+const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
@@ -74,10 +82,16 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
  */
 const WORKER_PARTNER_DATA_FLAG = "true";
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN) {
-  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF and VERCEL_TOKEN are required");
+if (!SUPABASE_ACCESS_TOKEN
+  || PROJECT_REF !== EXPECTED_PROJECT_REF
+  || !VERCEL_TOKEN
+  || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)
+  || !/^dpl_[A-Za-z0-9]+$/.test(EXACT_DEPLOYMENT_ID)
+  || !/^[A-Za-z0-9.-]+\.vercel\.app$/.test(EXACT_PREVIEW_HOSTNAME)) {
+  console.error("PAYMENT: acceptance credentials, final application SHA, and one exact resolved Preview identity are required");
   process.exit(1);
 }
+const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
 if (!STRIPE_KEY.startsWith("sk_test_") || !WEBHOOK_SECRET.startsWith("whsec_")) {
   console.error("PAYMENT: a sandbox Stripe secret key (sk_test_) and signing secret (whsec_) are required; refusing to run a payment journey without them");
   process.exit(1);
@@ -146,9 +160,7 @@ const REQUIRED_CASES = [
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
 
 async function vercelApi(pathname) {
-  const joiner = pathname.includes("?") ? "&" : "?";
-  const param = VERCEL_ORG_ID.startsWith("team_") ? "teamId" : "slug";
-  const res = await fetch(`https://api.vercel.com${pathname}${joiner}${param}=${encodeURIComponent(VERCEL_ORG_ID)}`, {
+  const res = await fetch(hostedVercelScopedUrl(pathname, VERCEL_IDENTITY), {
     headers: { Authorization: `Bearer ${VERCEL_TOKEN}` }
   });
   let json = null;
@@ -291,26 +303,30 @@ function finish() {
   process.exit(evidence.passed ? 0 : 1);
 }
 
-// --- 1. The deployment that actually carries Stripe --------------------------
+// --- 1. The one resolved deployment that actually carries Stripe -------------
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
-  const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
-    (d) => (d.readyState ?? d.state) === "READY"
-      && d.target !== "production"
-      && d.meta?.rcapApplicationSha === APPLICATION_SHA
-      && d.meta?.rcapStripeConfigured === "true"
-      && d.meta?.rcapRouteState === "staging_scoped"
-  );
-  PREVIEW = match ? `https://${match.url}` : "";
+  const res = await vercelApi(`/v13/deployments/${encodeURIComponent(EXACT_DEPLOYMENT_ID)}`);
+  const match = res.json;
+  const exact = res.status === 200
+    && match?.id === EXACT_DEPLOYMENT_ID
+    && match?.url === EXACT_PREVIEW_HOSTNAME
+    && (match?.readyState ?? match?.state) === "READY"
+    && (match?.target === null || match?.target === "preview")
+    && match?.meta?.rcapApplicationSha === APPLICATION_SHA
+    && match?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
+    && match?.meta?.rcapStripeConfigured === "true"
+    && match?.meta?.rcapRouteState === "staging_scoped";
+  PREVIEW = exact ? `https://${EXACT_PREVIEW_HOSTNAME}` : "";
   record(
     "payment_preview_deployment_discovered",
     Boolean(PREVIEW),
     PREVIEW
       ? `${PREVIEW} — READY, non-production, built WITH Stripe configuration and the scoped delivery state`
-      : "no READY non-production deployment of this SHA carries rcapStripeConfigured=true and rcapRouteState=staging_scoped; the payment journey would otherwise have run against a deployment that cannot transact"
+      : `resolved deployment ${EXACT_DEPLOYMENT_ID} does not carry the exact READY Stripe/scoped candidate contract`
   );
   if (!PREVIEW) finish();
   evidence.previewUrl = PREVIEW;
+  evidence.previewDeploymentId = EXACT_DEPLOYMENT_ID;
 }
 
 // --- 1b. The bypass MUST reach the application -------------------------------
@@ -417,8 +433,13 @@ function finish() {
       "vercel@latest", "curl", "/api/health",
       "--deployment", PREVIEW,
       "--token", process.env.VERCEL_TOKEN ?? "",
-      "--scope", VERCEL_ORG_ID
-    ], { encoding: "utf8", timeout: 120000, stdio: ["ignore", "pipe", "pipe"] });
+      "--scope", HOSTED_VERCEL_TEAM_SLUG
+    ], {
+      encoding: "utf8",
+      timeout: 120000,
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, ...hostedVercelCliEnvironment(VERCEL_IDENTITY) }
+    });
     const token = process.env.VERCEL_TOKEN ?? "";
     let out = sanitize(`${run.stdout ?? ""}${run.stderr ?? ""}`);
     if (token) out = out.split(token).join("***TOKEN***");

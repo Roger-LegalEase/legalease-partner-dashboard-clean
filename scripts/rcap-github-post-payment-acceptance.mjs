@@ -14,14 +14,15 @@ import { register } from "node:module";
 import { spawnSync } from "node:child_process";
 import { PDFDocument } from "pdf-lib";
 
+import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
+
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { computeNormalizedFingerprint } = await import("../src/lib/rcap/render/job-contract.ts");
 
 const ROOT = process.cwd();
-const EVIDENCE_DIR = path.join(ROOT, "hosted-acceptance-evidence");
+const { root: EVIDENCE_DIR } = prepareHostedAcceptanceEvidenceLayout({ rootDir: ROOT });
 const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "github-post-payment-acceptance.json");
-fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const TOOLS_SHA = process.env.HOSTED_TOOLS_SHA ?? "";
@@ -34,16 +35,17 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_PROJECT_NAME = "legalease-rcap-acceptance";
-const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
+const EXPECTED_WORKER_DIGEST = "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_ROUTE_ID = "PA:Path A — Non-conviction expungement";
+const EXPECTED_PATHWAY_LABEL = "Path A — Non-conviction expungement";
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
-const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";
-const ACCEPTANCE_PACKET_SAFETY_DISCLAIMER = "Functional acceptance compatibility fixture only. This synthetic Pennsylvania packet is not legal advice, is not approved for filing, and is not production-launch evidence.";
-const ACCEPTANCE_PACKET_STATEMENT = "Pennsylvania Path A — Non-conviction expungement functional acceptance packet. Synthetic fixture only; review is required before filing.";
+const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
+const CONSUMER_PACKET_SAFETY_DISCLAIMER = "This personalized self-help packet is not legal advice and does not guarantee court approval. Review every answer and confirm current local filing requirements before filing.";
+const CONSUMER_PACKET_SUMMARY = "RCAP hosted Checkout gate — synthetic Pennsylvania Path A";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -254,7 +256,7 @@ async function main() {
   const hostedUrl = (() => { try { return new URL(PUBLIC_URL); } catch { return null; } })();
   record(
     "immutable_acceptance_inputs_exact",
-    APPLICATION_SHA === EXPECTED_APPLICATION_SHA
+    applicationShaExact
       && /^[0-9a-f]{40}$/.test(TOOLS_SHA)
       && PROJECT_REF === EXPECTED_PROJECT_REF
       && WORKER_REF === EXPECTED_WORKER_REF
@@ -425,6 +427,7 @@ async function main() {
            p.state as packet_state, p.jurisdiction as packet_jurisdiction,
            p.pathway as packet_pathway, p.briefcase_id as packet_briefcase_id,
            p.user_id as packet_user_id, p.partner_slug as packet_partner_slug,
+           p.document_type as packet_document_type, p.status as packet_status,
            p.generated_plain_text as packet_generated_plain_text,
            p.safety_disclaimer as packet_safety_disclaimer
       from public.packet_render_jobs j
@@ -435,7 +438,7 @@ async function main() {
   const jobBefore = jobsBefore[0] ?? null;
   const expectedPacketId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${BRIEFCASE_ITEM_ID}`);
   record(
-    "queued_job_is_exact_pennsylvania_path_a",
+    "application_packet_contract_exact",
     jobBeforeResponse.ok
       && jobsBefore.length === 1
       && jobBefore?.route_id === EXPECTED_ROUTE_ID
@@ -454,25 +457,25 @@ async function main() {
       && jobBefore?.packet_id === expectedPacketId
       && jobBefore?.packet_state === "PA"
       && jobBefore?.packet_jurisdiction === "PA"
-      && jobBefore?.packet_pathway === ACCEPTANCE_PACKET_PATHWAY
+      && jobBefore?.packet_pathway === CONSUMER_PACKET_STORAGE_PATHWAY
       && jobBefore?.packet_briefcase_id === BRIEFCASE_ITEM_ID
       && jobBefore?.packet_user_id === userId
       && jobBefore?.packet_partner_slug === "expungement-ai-consumer"
-      && jobBefore?.packet_generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
-      && jobBefore?.packet_safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER,
+      && jobBefore?.packet_document_type === "source_driven_packet"
+      && jobBefore?.packet_status === "ready_for_review"
+      && String(jobBefore?.packet_generated_plain_text ?? "").includes(CONSUMER_PACKET_SUMMARY)
+      && String(jobBefore?.packet_generated_plain_text ?? "").includes(`Matter pathway: ${EXPECTED_PATHWAY_LABEL}.`)
+      && jobBefore?.packet_safety_disclaimer === CONSUMER_PACKET_SAFETY_DISCLAIMER,
     `SQL=${jobBeforeResponse.status}; jobs=${jobsBefore.length}; id=${jobBefore?.id ?? "(none)"}; route=${jobBefore?.route_id ?? "(none)"}; renderer=${jobBefore?.renderer_kind ?? "(none)"}@${jobBefore?.renderer_version ?? "(none)"}; profile=${jobBefore?.profile_id ?? "(none)"}@${jobBefore?.profile_version ?? "(none)"}; status=${jobBefore?.status ?? "(none)"}; packet=${jobBefore?.packet_state ?? "(none)"}/${jobBefore?.packet_pathway ?? "(none)"}; deterministic packet id exact=${jobBefore?.packet_id === expectedPacketId}`
   );
-  evidence.functionalAcceptanceCompatibilityFixture = {
-    applied: true,
+  evidence.applicationOwnedPacket = {
     packetId: expectedPacketId,
-    storagePathway: ACCEPTANCE_PACKET_PATHWAY,
+    storagePathway: CONSUMER_PACKET_STORAGE_PATHWAY,
     authoritativeRouteId: EXPECTED_ROUTE_ID,
-    applicationBytesChanged: false,
-    schemaChanged: false,
-    syntheticOnly: true,
-    productionUseAuthorized: false,
-    finalLaunchBlocked: true,
-    blocker: "Reconcile the accepted consumer packet insert with the deployed rcap_document_packets constraints, then repeat production-shaped Vercel proof without this compatibility fixture."
+    createdByCanonicalApplication: true,
+    createdAfterRealPayment: true,
+    scriptPacketWritePerformed: false,
+    compatibilityFixtureUsed: false
   };
   const jobId = jobBefore.id;
 
@@ -621,6 +624,7 @@ async function main() {
            p.state as packet_state, p.jurisdiction as packet_jurisdiction,
            p.pathway as packet_pathway, p.briefcase_id as packet_briefcase_id,
            p.user_id as packet_user_id, p.partner_slug as packet_partner_slug,
+           p.document_type as packet_document_type, p.status as packet_status,
            p.generated_plain_text as packet_generated_plain_text,
            p.safety_disclaimer as packet_safety_disclaimer
       from public.packet_render_jobs j
@@ -655,12 +659,15 @@ async function main() {
       && finalJob?.packet_id === expectedPacketId
       && finalJob?.packet_state === "PA"
       && finalJob?.packet_jurisdiction === "PA"
-      && finalJob?.packet_pathway === ACCEPTANCE_PACKET_PATHWAY
+      && finalJob?.packet_pathway === CONSUMER_PACKET_STORAGE_PATHWAY
       && finalJob?.packet_briefcase_id === BRIEFCASE_ITEM_ID
       && finalJob?.packet_user_id === userId
       && finalJob?.packet_partner_slug === "expungement-ai-consumer"
-      && finalJob?.packet_generated_plain_text === ACCEPTANCE_PACKET_STATEMENT
-      && finalJob?.packet_safety_disclaimer === ACCEPTANCE_PACKET_SAFETY_DISCLAIMER
+      && finalJob?.packet_document_type === "source_driven_packet"
+      && finalJob?.packet_status === "ready_for_review"
+      && String(finalJob?.packet_generated_plain_text ?? "").includes(CONSUMER_PACKET_SUMMARY)
+      && String(finalJob?.packet_generated_plain_text ?? "").includes(`Matter pathway: ${EXPECTED_PATHWAY_LABEL}.`)
+      && finalJob?.packet_safety_disclaimer === CONSUMER_PACKET_SAFETY_DISCLAIMER
       && consumptionResponse.ok
       && consumptions.length === 1
       && consumption?.consumer_briefcase_item_id === BRIEFCASE_ITEM_ID
@@ -834,8 +841,7 @@ async function main() {
       `- PDF SHA-256: ${storedSha256}`,
       `- Owner download: ${new URL(downloadPath, PUBLIC_URL)}`,
       "- Consumer B: denied; anonymous: denied",
-      `- Functional-acceptance compatibility fixture: packet ${expectedPacketId}, schema pathway ${ACCEPTANCE_PACKET_PATHWAY}; authoritative job route ${EXPECTED_ROUTE_ID}`,
-      "- Final launch remains blocked until the frozen application/schema packet-insert mismatch is fixed and production-shaped Vercel proof is repeated without this fixture",
+      `- Application-owned packet: ${expectedPacketId}, storage pathway ${CONSUMER_PACKET_STORAGE_PATHWAY}; authoritative job route ${EXPECTED_ROUTE_ID}`,
       `- Manual Workbench evidence still required: record the original delivery HTTP status for ${eventId}; do not infer it from pending_webhooks or the database`,
       "- Acceptance fixture preserved",
       ""
