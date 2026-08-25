@@ -1,0 +1,484 @@
+--- a/src/lib/rcap-engine/evaluator.ts
++++ b/src/lib/rcap-engine/evaluator.ts
+@@ -22 +21,0 @@
+-  "AR:situation-a-non-convictions",
+@@ -29 +27,0 @@
+-  "IL:adult-non-conviction-expungement",
+@@ -34 +31,0 @@
+-  "IL:juvenile-automatic-or-petition-expungement",
+@@ -50 +46,0 @@
+-  "KY:misdemeanor-violation-traffic-conviction",
+@@ -55 +50,0 @@
+-  "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+@@ -61 +55,0 @@
+-  "MS:first-offense-dui-expungement",
+@@ -63 +56,0 @@
+-  "MS:minor-in-possession-underage-alcohol-expungement",
+@@ -70,3 +62,0 @@
+-  "DC:dc_motion_seal_nonconviction_16_806",
+-  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+-  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+@@ -83 +72,0 @@
+-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+@@ -89 +77,0 @@
+-  "LA:misdemeanor-five-year-clean-period-expungement",
+@@ -92 +79,0 @@
+-  "LA:felony-ten-year-clean-period-expungement",
+@@ -146 +132,0 @@
+-  "AL:eligible-conviction-expungement-under-the-redeemer-act",
+@@ -191 +176,0 @@
+-  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+@@ -222 +207,5 @@
+-  "WY:adult-non-conviction-expungement-w-s-7-13-1401"
++  "WY:adult-non-conviction-expungement-w-s-7-13-1401",
++  // Corrections A: exact Mississippi clocks run before the formal legal-reconfirmation hold.
++  "MS:additional-justice-or-municipal-court-misdemeanor-relief",
++  "MS:first-offense-dui-expungement",
++  "MS:minor-in-possession-underage-alcohol-expungement",
+@@ -330 +319,16 @@
+-  "GA:youthful-first-offender-restriction-route"
++  "GA:youthful-first-offender-restriction-route",
++  // Corrections A: withdrawn or non-product proposals stay guidance-only and fail closed.
++  "AK:juvenile-record-sealing-as-47-12-300",
++  "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
++  "AL:eligible-conviction-expungement-under-the-redeemer-act",
++  "AR:situation-a-non-convictions",
++  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
++  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
++  "DC:dc_motion_seal_nonconviction_16_806",
++  "IL:adult-non-conviction-expungement",
++  "IL:juvenile-automatic-or-petition-expungement",
++  "KY:misdemeanor-violation-traffic-conviction",
++  "LA:felony-ten-year-clean-period-expungement",
++  "LA:misdemeanor-five-year-clean-period-expungement",
++  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
++  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+@@ -999,0 +1004,31 @@
++  // ---- Corrections A: exact Mississippi route clocks; payment remains held for reconfirmation ----
++  if (key === "MS:additional-justice-or-municipal-court-misdemeanor-relief") {
++    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_last_conviction_date_any_court", { value: 2, unit: "years", raw: "2 years" }, "Miss. Code §§ 9-11-15(3) and 21-23-7(6) require two years of good conduct from the last conviction in any court.");
++  }
++  if (key === "MS:first-offense-dui-expungement") {
++    return timingFromExactAnchor(profile, answers, rule, pathway, "ms_successful_sentence_completion_date", { value: 5, unit: "years", raw: "5 years" }, "Miss. Code § 63-11-30(13) requires five years after successful completion of every sentence term and condition.");
++  }
++  if (key === "MS:minor-in-possession-underage-alcohol-expungement") {
++    const outcome = normalizeCaseOutcome(answers.case_outcome);
++    if (outcome === "dismissed" || outcome === "acquitted") {
++      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_dismissal_or_discharge_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code § 67-3-70(6) opens the dismissal branch one year after dismissal and discharge.");
++    }
++    const fineImposed = answers.ms_mip_fine_imposed;
++    if (!answerText(fineImposed).trim()) {
++      return {
++        status: "missing_anchor",
++        reason: reason(profile.jurisdiction.code, "ms_mip_fine_applicability_missing", "The conviction branch needs to know whether a fine was imposed before its latest applicable date can be computed.", rule.sourceRef ?? pathway.sourceRef),
++        missingQuestionIds: ["ms_mip_fine_imposed"]
++      };
++    }
++    if (isExplicitUnknownAnswer(fineImposed)) {
++      return {
++        status: "needs_review",
++        reason: reason(profile.jurisdiction.code, "ms_mip_fine_applicability_unknown", "Whether a fine was imposed is uncertain, so the latest applicable date cannot be computed.", rule.sourceRef ?? pathway.sourceRef)
++      };
++    }
++    if (isNegative(fineImposed)) {
++      return timingFromExactAnchor(profile, answers, rule, pathway, "ms_mip_sentence_completion_date", { value: 1, unit: "years", raw: "1 year" }, "Miss. Code § 67-3-70(6) opens the conviction branch one year after sentence completion when no fine was imposed.");
++    }
++    return latestExactAnchorTiming(profile, answers, rule, pathway, ["ms_mip_sentence_completion_date", "ms_mip_fine_payment_date"], { value: 1, unit: "years", raw: "1 year" }, "Miss. Code § 67-3-70(6) opens the conviction branch one year after the later sentence-completion or fine-payment date when a fine was imposed.");
++  }
+@@ -1035 +1070 @@
+-    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 90, unit: "days", raw: "90 days" }, "Louisiana Art. 998 first-offense marijuana expungement requires 90 days from conviction (disposition date used as the available anchor).");
++    return timingFromExactAnchor(profile, answers, rule, pathway, "conviction_date", { value: 90, unit: "days", raw: "90 days" }, "Louisiana Art. 998 first-offense marijuana expungement requires 90 days from the conviction date.");
+@@ -1075 +1110 @@
+-    return timingFromAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
++    return timingFromExactAnchor(profile, answers, rule, pathway, "disposition_date", { value: 60, unit: "days", raw: "60 days" }, "Alaska CourtView exclusion (Form TF-810 · AS 22.35.030 / Admin. R. 40) is available 60 days after the acquittal or dismissal.");
+@@ -1126,0 +1162,56 @@
++}
++
++function latestExactAnchorTiming(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorIds: string[], duration: CompiledDuration, text: string): TimingResult {
++  const missingAnchorIds = anchorIds.filter((id) => !parseDateAnswer(answers[id]));
++  if (missingAnchorIds.length > 0) {
++    const askable = answerableAnchorIds(profile, missingAnchorIds);
++    if (askable.length !== missingAnchorIds.length) {
++      return {
++        status: "needs_review",
++        reason: reason(profile.jurisdiction.code, "waiting_anchor_not_publicly_askable", `The exact source-specific waiting period requires ${missingAnchorIds.join(", ")}, and this profile does not publish every required question.`, rule.sourceRef ?? pathway.sourceRef)
++      };
++    }
++    return {
++      status: "missing_anchor",
++      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `${askable.join(", ")} must be supplied before the latest exact source-specific anchor can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
++      missingQuestionIds: askable
++    };
++  }
++  const dates = anchorIds
++    .map((id) => ({ id, date: parseDateAnswer(answers[id]) }))
++    .filter((candidate): candidate is { id: string; date: Date } => Boolean(candidate.date));
++  const latest = dates.sort((left, right) => right.date.getTime() - left.date.getTime())[0];
++  return timingFromExactAnchor(profile, answers, rule, pathway, latest.id, duration, text);
++}
++
++function timingFromExactAnchor(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>, rule: CompiledRule, pathway: CompiledPathway, anchorId: string, duration: CompiledDuration, text: string): TimingResult {
++  const jurisdiction = profile.jurisdiction.code;
++  const anchor = parseDateAnswer(answers[anchorId]);
++  if (!anchor) {
++    const askable = answerableAnchorIds(profile, [anchorId]);
++    if (askable.length === 0) {
++      return {
++        status: "needs_review",
++        reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The exact source-specific waiting period runs from ${anchorId}, and this profile publishes no public question for it.`, rule.sourceRef ?? pathway.sourceRef)
++      };
++    }
++    return {
++      status: "missing_anchor",
++      reason: reason(jurisdiction, "waiting_anchor_missing", `The ${anchorId} value is needed before the exact source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
++      missingQuestionIds: [anchorId]
++    };
++  }
++  const earliest = addDuration(anchor, duration.value, duration.unit);
++  if (!earliest) {
++    return {
++      status: "needs_review",
++      reason: reason(jurisdiction, "waiting_rule_not_executed", "The exact source-specific waiting period needs review before a packet decision.", rule.sourceRef ?? pathway.sourceRef)
++    };
++  }
++  if (earliest > evaluationToday()) {
++    return {
++      status: "not_yet",
++      reason: reason(jurisdiction, "waiting_period_not_satisfied", `${text} The source-specific waiting period runs until ${earliest.toISOString().slice(0, 10)}.`, rule.sourceRef ?? pathway.sourceRef)
++    };
++  }
++  return { status: "satisfied" };
+--- a/src/lib/rcap-engine/public-profile-projection.ts
++++ b/src/lib/rcap-engine/public-profile-projection.ts
+@@ -48 +48 @@
+-  MS: new Set(["disposition_date"]),
++  MS: new Set(["disposition_date", "ms_last_conviction_date_any_court", "ms_successful_sentence_completion_date", "ms_mip_dismissal_or_discharge_date", "ms_mip_sentence_completion_date", "ms_mip_fine_imposed", "ms_mip_fine_payment_date"]),
+@@ -781,0 +782,44 @@
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
++  }
++];
++
++const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
++  {
++    id: "ms_last_conviction_date_any_court",
++    stage: "timing_and_completion",
++    prompt: "What is the person's last conviction date in any court?",
++    helperText: "Use the complete conviction history, not only the target court's docket.",
++    type: "date_or_unknown",
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
++  },
++  {
++    id: "ms_successful_sentence_completion_date",
++    stage: "timing_and_completion",
++    prompt: "What date were every term and condition of the DUI sentence successfully completed?",
++    type: "date_or_unknown",
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
++  },
++  {
++    id: "ms_mip_dismissal_or_discharge_date",
++    stage: "timing_and_completion",
++    prompt: "What is the dismissal and discharge date for the underage-alcohol case?",
++    type: "date_or_unknown",
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
++  },
++  {
++    id: "ms_mip_sentence_completion_date",
++    stage: "timing_and_completion",
++    prompt: "What date was the underage-alcohol sentence completed?",
++    type: "date_or_unknown",
+@@ -785,0 +830,21 @@
++  },
++  {
++    id: "ms_mip_fine_imposed",
++    stage: "timing_and_completion",
++    prompt: "Was a fine imposed for the underage-alcohol case?",
++    helperText: "If yes, the exact payment date is required because the later applicable date controls.",
++    type: "yes_no_unsure",
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
++  },
++  {
++    id: "ms_mip_fine_payment_date",
++    stage: "timing_and_completion",
++    prompt: "What date was the underage-alcohol fine paid?",
++    type: "date_or_unknown",
++    required: false,
++    contextOnly: false,
++    doesNotSelectPathway: true,
++    options: null
+@@ -791 +856,4 @@
+-  const additions = WILMA_FACT_QUESTIONS
++  const availableWilmaFacts = profile.jurisdiction.code === "MS"
++    ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
++    : WILMA_FACT_QUESTIONS;
++  const additions = availableWilmaFacts
+--- a/data/expungement-ai/route-product-metadata.json
++++ b/data/expungement-ai/route-product-metadata.json
+@@ -53 +53 @@
+-      "legalSignoffStatus": "not_applicable",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -56 +56 @@
+-      "evaluatorTier": "other / unclassified",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -74 +74 @@
+-      "evaluatorTier": "other / unclassified",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -109 +109 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -111,4 +111,4 @@
+-      "legalSignoffStatus": "signed_off",
+-      "packetFulfillmentStatus": "ready",
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "legalSignoffStatus": "needs_reconfirm",
++      "packetFulfillmentStatus": "needs_custom_packet",
++      "paidRouteBlocker": "intake_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -118,2 +118,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -187 +187 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -189 +189 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -191,2 +191,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -196,2 +196,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -663 +663 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -665 +665 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -667,2 +667,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -672,2 +672,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -681 +681 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -683 +683 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -685,2 +685,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -690,2 +690,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -699 +699 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -701 +701 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -703,2 +703,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -708,2 +708,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1355 +1355 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1357 +1357 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -1359,2 +1359,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1364,2 +1364,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1483 +1483 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1485,4 +1485,4 @@
+-      "legalSignoffStatus": "signed_off",
+-      "packetFulfillmentStatus": "ready",
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "legalSignoffStatus": "needs_reconfirm",
++      "packetFulfillmentStatus": "needs_custom_packet",
++      "paidRouteBlocker": "intake_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1492,2 +1492,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1711 +1711 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1713 +1713 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -1715,2 +1715,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1720,2 +1720,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1805 +1805 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1807 +1807 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -1809,2 +1809,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1814,2 +1814,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1937 +1937 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1939 +1939 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -1941,2 +1941,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1946,2 +1946,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -1973 +1973 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -1975 +1975 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -1977,2 +1977,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -1982,2 +1982,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -2589 +2589 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -2591 +2591 @@
+-      "legalSignoffStatus": "signed_off",
++      "legalSignoffStatus": "needs_reconfirm",
+@@ -2593,2 +2593,2 @@
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "paidRouteBlocker": "wait_anchor_fix",
++      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+@@ -2598,2 +2598,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -2683 +2683 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -2685,4 +2685,4 @@
+-      "legalSignoffStatus": "signed_off",
+-      "packetFulfillmentStatus": "ready",
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "legalSignoffStatus": "needs_reconfirm",
++      "packetFulfillmentStatus": "needs_custom_packet",
++      "paidRouteBlocker": "legal_reconfirmation",
++      "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
+@@ -2692,2 +2692,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -2773 +2773 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -2775,4 +2775,4 @@
+-      "legalSignoffStatus": "signed_off",
+-      "packetFulfillmentStatus": "ready",
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "legalSignoffStatus": "needs_reconfirm",
++      "packetFulfillmentStatus": "needs_custom_packet",
++      "paidRouteBlocker": "legal_reconfirmation",
++      "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
+@@ -2782,2 +2782,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
+@@ -2827 +2827 @@
+-      "paymentProductEligible": true,
++      "paymentProductEligible": false,
+@@ -2829,4 +2829,4 @@
+-      "legalSignoffStatus": "signed_off",
+-      "packetFulfillmentStatus": "ready",
+-      "paidRouteBlocker": "none",
+-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
++      "legalSignoffStatus": "needs_reconfirm",
++      "packetFulfillmentStatus": "needs_custom_packet",
++      "paidRouteBlocker": "legal_reconfirmation",
++      "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
+@@ -2836,2 +2836,2 @@
+-      "checkoutEligibility": "eligible",
+-      "filingReadiness": "ready_to_file",
++      "checkoutEligibility": "not_eligible",
++      "filingReadiness": "guidance_only",
