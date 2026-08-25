@@ -18,6 +18,8 @@ const mutations = [
   ["acceptance negative control", "hyflxnlhpmiqxvvcoiia", "wrongacceptanceproject"],
   ["environment separation verdict", "production_environment_is_separate_from_acceptance", "environment_separation_removed"],
   ["optional server URL match", "optional_server_supabase_url_matches_when_present", "optional_server_url_match_removed"],
+  ["Vercel v10 bulk decrypt", "/v10/projects/", "/v1/projects/"],
+  ["Vercel CLI pull source", "vercel-cli:pull", "unknown-source"],
   ["rollback verdict", "rollback_target_recorded_before_mutation", "rollback_not_recorded"],
   ["GET-only transport", 'method: "GET"', 'method: "POST"']
 ];

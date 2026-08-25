@@ -83,6 +83,23 @@ function projectRefFromSupabaseUrl(value) {
   return match?.[1] ?? null;
 }
 
+function safeResponseShape(result) {
+  const document = result?.json;
+  const envs = Array.isArray(document?.envs) ? document.envs : [];
+  return {
+    status: result?.status ?? null,
+    topLevelKeys: document && typeof document === "object" && !Array.isArray(document)
+      ? Object.keys(document).sort()
+      : [],
+    envCount: envs.length,
+    entryShapes: envs.slice(0, 20).map((entry) => ({
+      keys: entry && typeof entry === "object" ? Object.keys(entry).filter((key) => key !== "value").sort() : [],
+      hasValueField: Boolean(entry && Object.prototype.hasOwnProperty.call(entry, "value")),
+      valueType: entry && Object.prototype.hasOwnProperty.call(entry, "value") ? typeof entry.value : "absent"
+    }))
+  };
+}
+
 async function getJson(url, token) {
   const response = await fetch(url, {
     method: "GET",
@@ -145,17 +162,41 @@ try {
   const anonEntry = exactProductionEntry("NEXT_PUBLIC_SUPABASE_ANON_KEY");
   const serviceEntry = exactProductionEntry("SUPABASE_SERVICE_ROLE_KEY");
 
-  const decryptProductionValue = async (entry) => {
-    const result = await vercel(`/v1/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/${encodeURIComponent(entry.id)}?decrypt=true`);
-    if (result.status !== 200 || typeof result.json?.value !== "string" || !result.json.value) {
-      throw new Error(`Production environment key ${entry.key} could not be resolved through its exact id`);
+  // Vercel's current CLI reads project environment values from the v10 bulk
+  // endpoint with these exact query parameters. The v9 inventory above remains
+  // the authority for entry identity. A value is accepted only when the v10
+  // response carries that same id/key/target; a name-only match is refused.
+  const decryptQuery = new URLSearchParams({
+    target: "production",
+    decrypt: "true",
+    source: "vercel-cli:pull"
+  });
+  const decryptedResult = await vercel(`/v10/projects/${encodeURIComponent(vercelIdentity.projectId)}/env?${decryptQuery}`);
+  evidence.controlPlaneReadback = {
+    endpoint: "GET /v10/projects/{exactProjectId}/env?target=production&decrypt=true&source=vercel-cli:pull",
+    response: safeResponseShape(decryptedResult),
+    valuesPersisted: false
+  };
+  if (decryptedResult.status !== 200 || !Array.isArray(decryptedResult.json?.envs)) {
+    throw new Error(`Vercel Production environment decrypt read failed at v10 bulk endpoint (status ${decryptedResult.status})`);
+  }
+  const decryptedEntries = decryptedResult.json.envs;
+  const decryptProductionValue = (entry) => {
+    const matches = decryptedEntries.filter((candidate) =>
+      candidate?.id === entry.id
+      && candidate?.key === entry.key
+      && targetsProduction(candidate)
+      && !candidate?.gitBranch
+    );
+    if (matches.length !== 1 || typeof matches[0]?.value !== "string" || !matches[0].value) {
+      throw new Error(`Production environment key ${entry.key} could not be decrypted through its exact inventory id at the v10 bulk endpoint`);
     }
-    return result.json.value;
+    return matches[0].value;
   };
 
-  const publicRef = projectRefFromSupabaseUrl(await decryptProductionValue(publicUrlEntry));
+  const publicRef = projectRefFromSupabaseUrl(decryptProductionValue(publicUrlEntry));
   const serverRef = serverUrlEntry
-    ? projectRefFromSupabaseUrl(await decryptProductionValue(serverUrlEntry))
+    ? projectRefFromSupabaseUrl(decryptProductionValue(serverUrlEntry))
     : null;
   const optionalServerMatches = !serverUrlEntry || (Boolean(publicRef) && serverRef === publicRef);
   if (!record("optional_server_supabase_url_matches_when_present", optionalServerMatches,

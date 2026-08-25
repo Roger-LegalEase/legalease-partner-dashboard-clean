@@ -35,6 +35,11 @@ check(script.includes('optionalProductionEntry("SUPABASE_URL")'), "SUPABASE_URL 
 check(script.includes('exactProductionEntry("NEXT_PUBLIC_SUPABASE_URL")'), "NEXT_PUBLIC_SUPABASE_URL remains the one authoritative Production URL");
 check(script.includes('exactProductionEntry("NEXT_PUBLIC_SUPABASE_ANON_KEY")'), "Production anon key entry remains exact");
 check(script.includes('exactProductionEntry("SUPABASE_SERVICE_ROLE_KEY")'), "Production service key entry remains exact");
+check(script.includes("/v10/projects/"), "decryption uses the current Vercel project environment API version");
+check(script.includes('decrypt: "true"'), "bulk environment read explicitly requests decryption");
+check(script.includes('source: "vercel-cli:pull"'), "bulk environment read uses Vercel CLI's documented pull source");
+check(script.includes("safeResponseShape"), "failures retain only safe status and response-shape metadata");
+check(!script.includes("/v1/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/"), "stale single-variable v1 endpoint is absent");
 check(script.includes("method: \"GET\""), "Vercel and Supabase discovery calls are explicitly GET-only");
 check(!/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/.test(script), "preflight contains no mutating HTTP method");
 check(!script.includes("database/query"), "preflight does not issue SQL, even read-only SQL through a POST endpoint");
