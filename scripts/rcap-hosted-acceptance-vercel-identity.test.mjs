@@ -38,6 +38,17 @@ test("identity resolver pins the public team slug and project name", async () =>
   assert.equal(identity.HOSTED_VERCEL_PROJECT_NAME, PROJECT_NAME);
 });
 
+test("hosted return origin is deterministic, SHA-scoped, and never Production", async () => {
+  const { expectedHostedReturnOrigin } = await import(`${new URL(`file://${MODULE_PATH}`).href}?${Date.now()}`);
+  const sha = "441ee3188ee52047a012232d8d11f890a09b4ac5";
+  assert.equal(
+    expectedHostedReturnOrigin(sha),
+    "https://legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app"
+  );
+  assert.doesNotMatch(expectedHostedReturnOrigin(sha), /expungement\.ai/);
+  assert.throws(() => expectedHostedReturnOrigin("441ee3188ee5"), /40-character/);
+});
+
 test("identity resolver lists the exact slug before resolving the exact project", async () => {
   assert.equal(fs.existsSync(MODULE_PATH), true, "the Vercel identity module must exist");
   const { resolveHostedVercelIdentity } = await import(`${new URL(`file://${MODULE_PATH}`).href}?${Date.now()}`);

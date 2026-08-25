@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, stripe_retarget, checkout_gate, payment, or full"
+        description: "preflight, vercel_audit, migrate, deploy, replace_preview, accept, stripe_retarget, checkout_gate, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -253,6 +253,7 @@ jobs:
       #   phase            deploy/reuse   matrix   checkout gate   Stripe retarget
       #   full             yes            yes      yes             no
       #   deploy           yes            no       no              no
+      #   replace_preview  yes            no       no              no
       #   accept           no             yes      no              no
       #   payment          yes            yes      no              no
       #   stripe_retarget  no             no       no              yes
@@ -269,6 +270,7 @@ jobs:
           case "$PHASE" in
             full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false ;;
             deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false ;;
+            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false ;;
             accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false ;;
             payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false ;;
             stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true  ;;
@@ -292,7 +294,7 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$PHASE" = "replace_preview" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
@@ -604,6 +606,13 @@ jobs:
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+          elif [ "$PHASE" = "replace_preview" ]; then
+            require "Preview resolution boundary"        "$O_RESOLVE"
+            if [ "$O_REUSED" != "true" ]; then
+              require "deploy one replacement Preview"    "$O_DEPLOY"
+            else
+              echo "  ok       exact replacement Preview already existed; no deployment command executed"
+            fi
           elif [ "$RUNS_DIAGNOSE" = "true" ]; then
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"

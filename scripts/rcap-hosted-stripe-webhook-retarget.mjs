@@ -13,6 +13,7 @@ import { pathToFileURL } from "node:url";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
+  expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -28,8 +29,6 @@ export const EXPECTED_EVENTS = Object.freeze([
 
 const EXPECTED_APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_DEPLOYMENT_ID = "dpl_3E2Ze7ZrZqXSwuqhpEEYUogRa3Rj";
-const EXPECTED_PREVIEW_HOSTNAME = "legalease-partner-dashboard-clean-826p9uk1v-roger947s-projects.vercel.app";
 const EXPECTED_ENDPOINT_ID = "we_1U4AKGRWROAHlAKyNFChAnWr";
 
 function sameStringSet(left, right) {
@@ -112,8 +111,10 @@ async function main() {
   try {
     if (applicationSha !== EXPECTED_APPLICATION_SHA) throw new Error("application SHA is not the frozen replacement candidate");
     if (projectRef !== EXPECTED_PROJECT_REF) throw new Error("project ref is not the acceptance project");
-    if (deploymentId !== EXPECTED_DEPLOYMENT_ID) throw new Error("deployment id is not the exact accepted Preview");
-    if (previewHostname !== EXPECTED_PREVIEW_HOSTNAME) throw new Error("hostname is not the exact accepted Preview");
+    if (!/^dpl_[A-Za-z0-9]+$/.test(deploymentId)) throw new Error("deployment id is not one exact Vercel deployment id");
+    const expectedReturnOrigin = expectedHostedReturnOrigin(applicationSha);
+    const expectedPreviewHostname = new URL(expectedReturnOrigin).host;
+    if (previewHostname !== expectedPreviewHostname) throw new Error("hostname is not the deterministic SHA-scoped acceptance Preview");
     if (!stripeKey || !vercelToken || !bypass) throw new Error("required nonproduction credentials are unavailable");
 
     const vercelIdentity = await resolveHostedVercelIdentity({ token: vercelToken });
@@ -122,18 +123,27 @@ async function main() {
       { headers: { Authorization: `Bearer ${vercelToken}` } }
     );
     const deployment = await deploymentResponse.json().catch(() => null);
+    const aliasResponse = await fetch(
+      hostedVercelScopedUrl(`/v13/deployments/${encodeURIComponent(expectedPreviewHostname)}`, vercelIdentity),
+      { headers: { Authorization: `Bearer ${vercelToken}` } }
+    );
+    const aliasDeployment = await aliasResponse.json().catch(() => null);
+    const aliasDeploymentId = aliasDeployment?.id ?? aliasDeployment?.uid ?? null;
     const deploymentReady = deploymentResponse.ok
       && deployment?.id === deploymentId
-      && deployment?.url === previewHostname
       && deployment?.readyState === "READY"
       && (deployment?.target === null || deployment?.target === "preview")
       && deployment?.meta?.rcapApplicationSha === applicationSha
       && deployment?.meta?.rcapAcceptanceProjectRef === projectRef
-      && deployment?.meta?.rcapRouteState === "staging_scoped";
+      && deployment?.meta?.rcapRouteState === "staging_scoped"
+      && deployment?.meta?.rcapReturnOrigin === expectedReturnOrigin
+      && aliasResponse.ok
+      && aliasDeploymentId === deploymentId;
     if (!deploymentReady) throw new Error("Vercel deployment identity is not the exact READY staging-scoped Preview");
     evidence.deployment = {
       id: deployment.id,
-      hostname: deployment.url,
+      hostname: previewHostname,
+      immutableHostname: deployment.url,
       readyState: deployment.readyState,
       target: deployment.target ?? null,
       applicationSha: deployment.meta.rcapApplicationSha,

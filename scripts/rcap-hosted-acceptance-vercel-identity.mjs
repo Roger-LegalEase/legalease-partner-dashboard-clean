@@ -3,6 +3,16 @@
 export const HOSTED_VERCEL_TEAM_SLUG = "roger947s-projects";
 export const HOSTED_VERCEL_PROJECT_NAME = "legalease-partner-dashboard-clean";
 
+export function expectedHostedReturnOrigin(applicationSha) {
+  if (!/^[0-9a-f]{40}$/.test(applicationSha ?? "")) {
+    throw new Error("one exact lowercase 40-character application SHA is required for the hosted return origin");
+  }
+  // A SHA-scoped Preview alias is known before `next build`, so Checkout
+  // return URLs can be baked into one exact deployment without naming
+  // Production or a mutable shared alias.
+  return `https://legalease-rcap-${applicationSha.slice(0, 12)}-${HOSTED_VERCEL_TEAM_SLUG}.vercel.app`;
+}
+
 const TEAM_ID = /^team_[A-Za-z0-9_]+$/;
 const PROJECT_ID = /^prj_[A-Za-z0-9_]+$/;
 

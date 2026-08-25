@@ -7,9 +7,13 @@ const root = process.cwd();
 const gatePath = path.join(root, "scripts/rcap-hosted-checkout-gate.mjs");
 const entryPath = path.join(root, ".github/workflows/rcap-f1-ephemeral-staging.yml");
 const hostedPath = path.join(root, ".github/workflows/rcap-hosted-acceptance-staging.yml");
+const deployPath = path.join(root, "scripts/rcap-hosted-acceptance-deploy.mjs");
+const resolverPath = path.join(root, "scripts/rcap-hosted-resolve-preview.mjs");
 const gate = fs.readFileSync(gatePath, "utf8");
 const entry = fs.readFileSync(entryPath, "utf8");
 const hosted = fs.readFileSync(hostedPath, "utf8");
+const deploy = fs.readFileSync(deployPath, "utf8");
+const resolver = fs.readFileSync(resolverPath, "utf8");
 
 let checks = 0;
 const failures = [];
@@ -135,13 +139,29 @@ includesEvery(entry, [
 
 includesEvery(hosted, [
   "checkout_gate",
-  "preview_deployment_id",
   // The resolver reads the CANDIDATE from the inputs; the gate reads the
   // RESOLVED identity from the one resolution boundary.
   "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
   "node scripts/rcap-hosted-checkout-gate.mjs",
   "node scripts/verify-rcap-hosted-checkout-gate.mjs"
 ], "hosted workflow");
+check(
+  hosted.includes("preview_deployment_id")
+    && entry.includes("hosted_replace_preview")
+    && hosted.includes("replace_preview)")
+    && deploy.includes("NEXT_PUBLIC_EXPUNGEMENT_AI_URL: RETURN_ORIGIN")
+    && deploy.includes("rcapReturnOrigin=${RETURN_ORIGIN}")
+    && deploy.includes("deterministic_nonproduction_return_alias_bound")
+    && resolver.includes("rcapReturnOrigin")
+    && resolver.includes("expectedHostedReturnOrigin")
+    && gate.includes("expectedHostedReturnOrigin")
+    && gate.includes("deployment?.meta?.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN")
+    && gate.includes('successUrl.searchParams.get("payment") === "return"')
+    && gate.includes('cancelUrl.searchParams.get("checkout") === "canceled"')
+    && gate.includes("successUrl.origin === previewUrl")
+    && gate.includes("cancelUrl.origin === previewUrl"),
+  "hosted deployment must build against and verify a deterministic SHA-scoped nonproduction return origin"
+);
 check(
   ["checkout_gate", "stripe_retarget"].every((phase) =>
     hosted.includes(`${phase} requires one exact Vercel deployment id`)

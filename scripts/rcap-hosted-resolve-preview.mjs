@@ -24,6 +24,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
+  expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -47,6 +48,8 @@ if (PROJECT_REF !== EXPECTED_PROJECT_REF) {
   process.exit(1);
 }
 const VERCEL_IDENTITY = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
+const EXPECTED_RETURN_ORIGIN = expectedHostedReturnOrigin(APPLICATION_SHA);
+const EXPECTED_RETURN_HOST = new URL(EXPECTED_RETURN_ORIGIN).host;
 
 // Phases that transact — Checkout, payment, worker, artifact, delivery — need
 // the delivery route OPEN and narrowed to the named synthetic identity. Phases
@@ -140,9 +143,17 @@ async function findExistingExactPreview() {
       && meta.rcapApplicationSha === APPLICATION_SHA
       && meta.rcapAcceptanceProjectRef === PROJECT_REF
       && meta.rcapStripeConfigured === "true"
+      && meta.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
       && routeStateAcceptable(state);
-    examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, matches });
-    if (matches) return { found: full, examined };
+    let aliasBound = false;
+    if (matches) {
+      try {
+        const aliased = await api(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+        aliasBound = (aliased.id ?? aliased.uid ?? null) === id;
+      } catch { /* absence is a mismatch */ }
+    }
+    examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, returnOrigin: meta.rcapReturnOrigin ?? null, aliasBound, matches: matches && aliasBound });
+    if (matches && aliasBound) return { found: full, examined };
   }
   return { found: null, examined };
 }
@@ -152,7 +163,7 @@ if (!HOSTNAME_INPUT && !DEPLOYMENT_ID_INPUT) {
   const { found, examined } = await findExistingExactPreview();
   if (found) {
     const id = found.id ?? found.uid ?? null;
-    const host = String(found.url ?? "").replace(/^https?:\/\//, "");
+    const host = EXPECTED_RETURN_HOST;
     ok("existing_exact_preview_found", `${host} (${id}); routeState=${routeStateOf(found)}`);
     emit("reused_exact_ready_preview", {
       hostname: host,
@@ -204,11 +215,11 @@ const deploymentId = deployment.id ?? deployment.uid ?? null;
 const readyState = deployment.readyState ?? deployment.status ?? null;
 const target = deployment.target ?? null;
 const meta = deployment.meta ?? {};
-const resolvedHost = deployment.url ? String(deployment.url).replace(/^https?:\/\//, "") : HOSTNAME_INPUT;
+const resolvedHost = EXPECTED_RETURN_HOST;
 
 deploymentId ? ok("deployment_id_resolved", deploymentId) : bad("deployment_id_resolved", "Vercel returned no deployment id");
 if (HOSTNAME_INPUT) {
-  resolvedHost === HOSTNAME_INPUT
+  HOSTNAME_INPUT === EXPECTED_RETURN_HOST
     ? ok("hostname_matches_the_authorized_preview", resolvedHost)
     : bad("hostname_matches_the_authorized_preview", `resolved ${resolvedHost}, authorized ${HOSTNAME_INPUT}`);
 }
@@ -220,6 +231,21 @@ const deployedSha = meta.rcapApplicationSha ?? null;
 deployedSha === APPLICATION_SHA
   ? ok("deployment_carries_the_authorized_application_sha", deployedSha)
   : bad("deployment_carries_the_authorized_application_sha", `deployment records ${deployedSha ?? "(none)"}, authorized ${APPLICATION_SHA}`);
+
+const deployedReturnOrigin = meta.rcapReturnOrigin ?? null;
+deployedReturnOrigin === EXPECTED_RETURN_ORIGIN
+  ? ok("deployment_carries_the_deterministic_return_origin", deployedReturnOrigin)
+  : bad("deployment_carries_the_deterministic_return_origin", `deployment records ${deployedReturnOrigin ?? "(none)"}, expected ${EXPECTED_RETURN_ORIGIN}`);
+
+try {
+  const aliased = await api(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+  const aliasDeploymentId = aliased.id ?? aliased.uid ?? null;
+  aliasDeploymentId === deploymentId
+    ? ok("deterministic_return_alias_resolves_to_exact_deployment", `${EXPECTED_RETURN_HOST} -> ${aliasDeploymentId}`)
+    : bad("deterministic_return_alias_resolves_to_exact_deployment", `${EXPECTED_RETURN_HOST} -> ${aliasDeploymentId ?? "(none)"}, expected ${deploymentId}`);
+} catch (error) {
+  bad("deterministic_return_alias_resolves_to_exact_deployment", String(error.message ?? error));
+}
 
 // The route state, stated outright. `disabled` is a legitimate gallery Preview
 // and an illegitimate payment one; only the phase decides which.

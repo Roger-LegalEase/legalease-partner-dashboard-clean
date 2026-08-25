@@ -16,6 +16,7 @@ import { register } from "node:module";
 
 import { prepareHostedAcceptanceEvidenceLayout } from "./rcap-hosted-acceptance-evidence-layout.mjs";
 import {
+  expectedHostedReturnOrigin,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -30,6 +31,7 @@ const EVIDENCE_PATH = path.join(EVIDENCE_DIR, "checkout-gate.json");
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const DEPLOYMENT_ID = process.env.HOSTED_PREVIEW_DEPLOYMENT_ID ?? "";
+const PREVIEW_HOSTNAME = (process.env.HOSTED_PREVIEW_HOSTNAME ?? "").trim().replace(/^https?:\/\//, "").replace(/\/+$/, "");
 const WORKER_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
@@ -45,6 +47,8 @@ const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 // sha256:1d30530b) to the accepted release. The old pins are not wrong about
 // history — they are simply no longer what this gate is gating.
 const applicationShaExact = /^[0-9a-f]{40}$/.test(APPLICATION_SHA);
+const EXPECTED_RETURN_ORIGIN = applicationShaExact ? expectedHostedReturnOrigin(APPLICATION_SHA) : "";
+const EXPECTED_RETURN_HOST = EXPECTED_RETURN_ORIGIN ? new URL(EXPECTED_RETURN_ORIGIN).host : "";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_WORKER_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
@@ -258,6 +262,7 @@ async function main() {
     ["HOSTED_APPLICATION_SHA", APPLICATION_SHA],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", PROJECT_REF],
     ["HOSTED_PREVIEW_DEPLOYMENT_ID", DEPLOYMENT_ID],
+    ["HOSTED_PREVIEW_HOSTNAME", PREVIEW_HOSTNAME],
     ["HOSTED_WORKER_DIGEST_REF", WORKER_REF],
     ["VERCEL_TOKEN", VERCEL_TOKEN],
     ["SUPABASE_ACCESS_TOKEN", SUPABASE_ACCESS_TOKEN],
@@ -301,6 +306,8 @@ async function main() {
 
   const deploymentResponse = await vercelApi(`/v13/deployments/${encodeURIComponent(DEPLOYMENT_ID)}`);
   const deployment = deploymentResponse.json;
+  const aliasResponse = await vercelApi(`/v13/deployments/${encodeURIComponent(EXPECTED_RETURN_HOST)}`);
+  const aliasDeploymentId = aliasResponse.json?.id ?? aliasResponse.json?.uid ?? null;
   const resolvedDeploymentId = deployment?.id ?? deployment?.uid ?? null;
   const deploymentProjectId = deployment?.projectId ?? deployment?.project?.id ?? null;
   const deploymentOk = deploymentResponse.status === 200
@@ -312,16 +319,21 @@ async function main() {
     && deployment?.meta?.rcapAcceptanceProjectRef === PROJECT_REF
     && deployment?.meta?.rcapStripeConfigured === "true"
     && deployment?.meta?.rcapRouteState === "staging_scoped"
+    && deployment?.meta?.rcapReturnOrigin === EXPECTED_RETURN_ORIGIN
+    && PREVIEW_HOSTNAME === EXPECTED_RETURN_HOST
+    && aliasResponse.status === 200
+    && aliasDeploymentId === DEPLOYMENT_ID
     && typeof deployment?.url === "string";
   record(
     "exact_ready_preview_reused",
     deploymentOk,
-    `GET deployment=${deploymentResponse.status}; id=${resolvedDeploymentId}; project matches=${deploymentProjectId === canonicalProjectId}; ready=${deployment?.readyState ?? deployment?.state}; target=${JSON.stringify(deployment?.target ?? null)}; app=${deployment?.meta?.rcapApplicationSha ?? "(absent)"}; ref=${deployment?.meta?.rcapAcceptanceProjectRef ?? "(absent)"}; stripe=${deployment?.meta?.rcapStripeConfigured ?? "(absent)"}; route=${deployment?.meta?.rcapRouteState ?? "(absent)"}`
+    `GET deployment=${deploymentResponse.status}; id=${resolvedDeploymentId}; project matches=${deploymentProjectId === canonicalProjectId}; ready=${deployment?.readyState ?? deployment?.state}; target=${JSON.stringify(deployment?.target ?? null)}; app=${deployment?.meta?.rcapApplicationSha ?? "(absent)"}; ref=${deployment?.meta?.rcapAcceptanceProjectRef ?? "(absent)"}; stripe=${deployment?.meta?.rcapStripeConfigured ?? "(absent)"}; route=${deployment?.meta?.rcapRouteState ?? "(absent)"}; deterministic alias resolves exact deployment=${aliasDeploymentId === DEPLOYMENT_ID}`
   );
-  const previewUrl = `https://${deployment.url}`;
+  const previewUrl = EXPECTED_RETURN_ORIGIN;
   evidence.deployment = {
     id: DEPLOYMENT_ID,
-    hostname: deployment.url,
+    hostname: PREVIEW_HOSTNAME,
+    immutableHostname: deployment.url,
     target: deployment.target ?? null,
     readyState: deployment.readyState ?? deployment.state,
     applicationSha: deployment.meta.rcapApplicationSha,
@@ -978,11 +990,13 @@ async function main() {
       ? "the Checkout Session returns to this exact Preview"
       : "the immutable application selected a different configured/default Expungement.ai origin; use the retained Preview Briefcase URL after Checkout"
   };
-  const returnShapeExact = successUrl.pathname === "/expungement-ai/packet-ready"
-    && successUrl.searchParams.get("briefcaseItemId") === itemId
+  const returnShapeExact = successUrl.pathname === `/briefcase/${encodeURIComponent(itemId)}`
+    && successUrl.searchParams.get("payment") === "return"
     && successUrl.searchParams.get("session_id") === "{CHECKOUT_SESSION_ID}"
-    && cancelUrl.pathname === "/expungement-ai/pay"
-    && cancelUrl.searchParams.get("briefcaseItemId") === itemId;
+    && cancelUrl.pathname === `/briefcase/${encodeURIComponent(itemId)}`
+    && cancelUrl.searchParams.get("checkout") === "canceled"
+    && successUrl.origin === previewUrl
+    && cancelUrl.origin === previewUrl;
   const afterItemResponse = await sql(`
     select id, user_id, payment_status, payment_provider, checkout_session_id,
            amount_cents, packet_status, provider_event_id

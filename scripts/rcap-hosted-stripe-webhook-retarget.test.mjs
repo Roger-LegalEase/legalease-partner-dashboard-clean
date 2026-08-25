@@ -24,7 +24,7 @@ const {
 const endpointId = "we_1U4AKGRWROAHlAKyNFChAnWr";
 const bypass = "test-bypass-value";
 const requiredUrl = buildRequiredWebhookUrl({
-  hostname: "legalease-partner-dashboard-clean-826p9uk1v-roger947s-projects.vercel.app",
+  hostname: "legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app",
   bypass
 });
 
@@ -41,7 +41,7 @@ function endpoint(overrides = {}) {
 
 test("builds the exact Preview webhook URL with one protection-bypass parameter", () => {
   const parsed = new URL(requiredUrl);
-  assert.equal(parsed.origin, "https://legalease-partner-dashboard-clean-826p9uk1v-roger947s-projects.vercel.app");
+  assert.equal(parsed.origin, "https://legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app");
   assert.equal(parsed.pathname, "/api/stripe/webhook");
   assert.deepEqual([...parsed.searchParams.keys()], ["x-vercel-protection-bypass"]);
   assert.equal(parsed.searchParams.get("x-vercel-protection-bypass"), bypass);
@@ -86,7 +86,7 @@ test("refuses live mode, endpoint substitution, disabled status, event drift, an
 
 test("safe evidence shapes retain no query values", () => {
   assert.deepEqual(endpointShape(requiredUrl), {
-    host: "legalease-partner-dashboard-clean-826p9uk1v-roger947s-projects.vercel.app",
+    host: "legalease-rcap-441ee3188ee5-roger947s-projects.vercel.app",
     pathname: "/api/stripe/webhook",
     queryParameterNames: ["x-vercel-protection-bypass"]
   });
