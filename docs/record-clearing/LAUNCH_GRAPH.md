@@ -21,11 +21,11 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 224 |
 | REGISTRY GAP + PATHWAY PACKET SET | 47 |
 | OWNER-APPROVED LEGAL | 97 |
-| FACTORY_V2 RESOLVED | 173 |
+| FACTORY_V2 RESOLVED | 172 |
 | PAYMENT ALLOWED | 31 |
 | DETERMINISTICALLY RENDERED (complete packet) | 41 |
-| — composed text proven deterministic | 173 |
-| — official forms named but not held here | 132 |
+| — composed text proven deterministic | 172 |
+| — official forms named but not held here | 131 |
 | OPERATIONALLY SELLABLE | 0 |
 
 Operationally sellable means all nine of: correct public witness; authoritative intended pathway;
@@ -40,7 +40,7 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 | `deterministicArtifactProven` | 230 |
 | `technicalApprovalCurrent` | 199 |
 | `ownerApprovedLegalDesign` | 174 |
-| `rendererSelected` | 58 |
+| `rendererSelected` | 68 |
 | `packetSpecificationComplete` | 47 |
 | `noProblematicPdfHold` | 19 |
 
