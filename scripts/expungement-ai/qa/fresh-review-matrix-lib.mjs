@@ -23,6 +23,40 @@ const BASE_PRIVACY_CONTROLS = Object.freeze([
   "clinic_shared_device_isolation"
 ]);
 
+const DISPOSITION_FIELDS = new Set([
+  "flowId",
+  "flowKey",
+  "jurisdiction",
+  "remedy",
+  "terminal",
+  "paymentMode",
+  "sponsorshipMode",
+  "waitingRuleResolution",
+  "bindingClassification",
+  "shardDisposition",
+  "purchasableBefore",
+  "purchasableAfter",
+  "countyCourtCatalog",
+  "disposition",
+  "reason",
+  "active"
+]);
+
+const DISPOSITIONS = new Set([
+  "HELD_FOR_CORRECTION",
+  "HELD_FOR_ENVIRONMENT",
+  "HELD_FOR_LEGAL_DECISION",
+  "READY_FOR_HOSTED_ACCEPTANCE"
+]);
+
+const SHARD_DISPOSITIONS = new Set([
+  "EXPLICIT_BINDING_PROPOSED",
+  "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+  "HELD_FOR_CORRECTION",
+  "LEGAL_OWNER_DECISION_REQUIRED",
+  null
+]);
+
 export function stableJson(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -41,6 +75,88 @@ function uniqueIndex(rows, label) {
     index.set(row.flowId, row);
   }
   return index;
+}
+
+function isRecord(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function validateDispositionAgainstManifest(flow, disposition) {
+  for (const field of DISPOSITION_FIELDS) {
+    if (!Object.hasOwn(disposition, field)) {
+      throw new Error(`missing disposition field ${field} for ${flow.flowId}`);
+    }
+  }
+  for (const field of Object.keys(disposition)) {
+    if (!DISPOSITION_FIELDS.has(field)) {
+      throw new Error(`unsupported disposition field ${field} for ${flow.flowId}`);
+    }
+  }
+
+  const canonicalFields = {
+    flowKey: flow.flowKey,
+    jurisdiction: flow.jurisdiction,
+    remedy: flow.remedy?.pathwayId,
+    terminal: flow.terminalOutcome?.effectiveTerminal,
+    paymentMode: flow.paymentMode,
+    sponsorshipMode: flow.sponsorshipMode
+  };
+  for (const [field, expected] of Object.entries(canonicalFields)) {
+    if (disposition[field] !== expected) {
+      throw new Error(
+        `canonical disposition ${field} mismatch for ${flow.flowId}: `
+          + `expected ${JSON.stringify(expected)}, found ${JSON.stringify(disposition[field])}`
+      );
+    }
+  }
+
+  if (!isRecord(flow.fixture)) {
+    throw new Error(`missing required fixture for ${flow.flowId}`);
+  }
+  if (!isRecord(flow.fixture.answers)) {
+    throw new Error(`missing required fixture answers for ${flow.flowId}`);
+  }
+  if (typeof flow.fixture.reproducesTerminal !== "boolean") {
+    throw new Error(`missing fixture reproducesTerminal for ${flow.flowId}`);
+  }
+  if (
+    typeof flow.fixture.replayResultCode !== "string"
+    || flow.fixture.replayResultCode.length === 0
+  ) {
+    throw new Error(`missing fixture replayResultCode for ${flow.flowId}`);
+  }
+
+  if (!DISPOSITIONS.has(disposition.disposition)) {
+    throw new Error(
+      `unsupported disposition ${disposition.disposition} for ${flow.flowId}`
+    );
+  }
+  if (!SHARD_DISPOSITIONS.has(disposition.shardDisposition ?? null)) {
+    throw new Error(
+      `unsupported shardDisposition ${disposition.shardDisposition} for ${flow.flowId}`
+    );
+  }
+  if (typeof disposition.reason !== "string" || disposition.reason.length === 0) {
+    throw new Error(`missing disposition reason for ${flow.flowId}`);
+  }
+  for (const field of ["purchasableBefore", "purchasableAfter", "active"]) {
+    if (Object.hasOwn(disposition, field) && typeof disposition[field] !== "boolean") {
+      throw new Error(`invalid disposition ${field} for ${flow.flowId}`);
+    }
+  }
+  for (const field of [
+    "waitingRuleResolution",
+    "bindingClassification",
+    "countyCourtCatalog"
+  ]) {
+    if (
+      Object.hasOwn(disposition, field)
+      && disposition[field] !== null
+      && typeof disposition[field] !== "string"
+    ) {
+      throw new Error(`invalid disposition ${field} for ${flow.flowId}`);
+    }
+  }
 }
 
 function validateShardGroups(rows, groups) {
@@ -167,12 +283,14 @@ export function buildFreshReviewArtifacts({
     .map((disposition) => {
       const flow = manifestById.get(disposition.flowId);
       if (!flow) throw new Error(`missing manifest flow ${disposition.flowId}`);
-      if (flow.flowKey !== disposition.flowKey) {
-        throw new Error(`flowKey mismatch for ${disposition.flowId}`);
-      }
+      validateDispositionAgainstManifest(flow, disposition);
+      const fixtureExecutionStatus = flow.fixture.reproducesTerminal
+        ? "READY_FOR_BROWSER_EXECUTION"
+        : "HELD_REPLAY_MISMATCH";
       const fixture = (device, viewport) => ({
         fixtureId: `${flow.flowId}::${device}`,
         device,
+        executionStatus: fixtureExecutionStatus,
         viewport: { ...viewport },
         entryRoute: flow.entryConditions?.publicRoute ?? null,
         answers: structuredClone(flow.fixture?.answers ?? {}),
@@ -231,6 +349,15 @@ export function buildFreshReviewArtifacts({
           terminalParityRequired: true,
           paymentAndSponsorshipParityRequired: true
         },
+        qaFixtureStatus: {
+          name: fixtureExecutionStatus,
+          browserExecutionAllowed:
+            fixtureExecutionStatus === "READY_FOR_BROWSER_EXECUTION",
+          reason: fixtureExecutionStatus === "HELD_REPLAY_MISMATCH"
+            ? `fixture replay ${flow.fixture.replayResultCode} does not reproduce `
+              + `expected terminal ${flow.terminalOutcome.effectiveTerminal}`
+            : null
+        },
         ownerLane: deriveOwner(disposition, owners),
         privacyControls,
         currentDisposition: {
@@ -253,6 +380,13 @@ export function buildFreshReviewArtifacts({
     })
     .sort((left, right) => left.flowId.localeCompare(right.flowId));
 
+  const executableRows = rows.filter(
+    (row) => row.qaFixtureStatus.name === "READY_FOR_BROWSER_EXECUTION"
+  );
+  const heldReplayMismatchRows = rows.filter(
+    (row) => row.qaFixtureStatus.name === "HELD_REPLAY_MISMATCH"
+  );
+
   const stateToShard = validateShardGroups(rows, browserShardStateGroups);
   const shards = browserShardStateGroups.map((states, shardIndex) => {
     const shardFlows = rows
@@ -262,14 +396,22 @@ export function buildFreshReviewArtifacts({
         state: row.state,
         remedyId: row.remedy.id,
         expectedTerminal: row.expectedTerminal.effective,
+        executionStatus: row.qaFixtureStatus.name,
         desktopFixtureId: row.desktopFixture.fixtureId,
         mobileFixtureId: row.mobileFixture.fixtureId
       }));
+    const executableFlowCount = shardFlows.filter(
+      (flow) => flow.executionStatus === "READY_FOR_BROWSER_EXECUTION"
+    ).length;
     return {
       shardId: `BROWSER-SHARD-${shardIndex + 1}`,
       stateList: [...states].sort(),
       flowCount: shardFlows.length,
-      deviceFixtureCount: shardFlows.length * 2,
+      executableFlowCount,
+      heldFlowCount: shardFlows.length - executableFlowCount,
+      totalDeviceFixtures: shardFlows.length * 2,
+      executableDeviceFixtures: executableFlowCount * 2,
+      heldDeviceFixtures: (shardFlows.length - executableFlowCount) * 2,
       flows: shardFlows
     };
   });
@@ -286,23 +428,31 @@ export function buildFreshReviewArtifacts({
   }
 
   const matrix = {
-    schemaVersion: "expai-fresh-review-matrix/v1",
+    schemaVersion: "expai-fresh-review-matrix/v2",
     candidateSha,
     sourcePaths: SOURCE_PATHS,
     totals: {
       realFlows: rows.length,
-      deviceFixtures: rows.length * 2,
+      executableFlows: executableRows.length,
+      heldReplayMismatchFlows: heldReplayMismatchRows.length,
+      totalDeviceFixtures: rows.length * 2,
+      executableDeviceFixtures: executableRows.length * 2,
+      heldDeviceFixtures: heldReplayMismatchRows.length * 2,
       states: new Set(rows.map((row) => row.state)).size
     },
     rows
   };
   const browserShards = {
-    schemaVersion: "expai-browser-shards/v1",
+    schemaVersion: "expai-browser-shards/v2",
     candidateSha,
     totals: {
       shards: shards.length,
       realFlows: shardFlowIds.length,
-      deviceFixtures: shardFlowIds.length * 2
+      executableFlows: executableRows.length,
+      heldReplayMismatchFlows: heldReplayMismatchRows.length,
+      totalDeviceFixtures: shardFlowIds.length * 2,
+      executableDeviceFixtures: executableRows.length * 2,
+      heldDeviceFixtures: heldReplayMismatchRows.length * 2
     },
     invariants: {
       overlapCount: shardFlowIds.length - shardFlowIdSet.size,
@@ -313,23 +463,45 @@ export function buildFreshReviewArtifacts({
 
   const stressStates = ["CO", "MS", "WI"].map((state, index) => {
     const stateRows = rows.filter((row) => row.state === state);
+    const executableStateRows = stateRows.filter(
+      (row) => row.qaFixtureStatus.name === "READY_FOR_BROWSER_EXECUTION"
+    );
+    const heldStateRows = stateRows.filter(
+      (row) => row.qaFixtureStatus.name === "HELD_REPLAY_MISMATCH"
+    );
     return {
       runOrder: index + 1,
       state,
       flowCount: stateRows.length,
+      executableFlowCount: executableStateRows.length,
+      heldFlowCount: heldStateRows.length,
       flowIds: stateRows.map((row) => row.flowId),
-      desktopFixtureIds: stateRows.map((row) => row.desktopFixture.fixtureId),
-      mobileFixtureIds: stateRows.map((row) => row.mobileFixture.fixtureId)
+      executableDesktopFixtureIds: executableStateRows.map(
+        (row) => row.desktopFixture.fixtureId
+      ),
+      executableMobileFixtureIds: executableStateRows.map(
+        (row) => row.mobileFixture.fixtureId
+      ),
+      heldDesktopFixtureIds: heldStateRows.map((row) => row.desktopFixture.fixtureId),
+      heldMobileFixtureIds: heldStateRows.map((row) => row.mobileFixture.fixtureId)
     };
   });
   const stressSet = {
-    schemaVersion: "expai-three-state-stress-set/v1",
+    schemaVersion: "expai-three-state-stress-set/v2",
     candidateSha,
     runOrder: ["CO", "MS", "WI"],
     totals: {
       realFlows: stressStates.reduce((sum, state) => sum + state.flowCount, 0),
-      deviceFixtures:
-        stressStates.reduce((sum, state) => sum + state.flowCount, 0) * 2
+      executableFlows:
+        stressStates.reduce((sum, state) => sum + state.executableFlowCount, 0),
+      heldReplayMismatchFlows:
+        stressStates.reduce((sum, state) => sum + state.heldFlowCount, 0),
+      totalDeviceFixtures:
+        stressStates.reduce((sum, state) => sum + state.flowCount, 0) * 2,
+      executableDeviceFixtures:
+        stressStates.reduce((sum, state) => sum + state.executableFlowCount, 0) * 2,
+      heldDeviceFixtures:
+        stressStates.reduce((sum, state) => sum + state.heldFlowCount, 0) * 2
     },
     states: stressStates
   };
@@ -342,10 +514,15 @@ export function buildFreshReviewArtifacts({
     browserShards,
     stressSet,
     summary: {
-      schemaVersion: "expai-fresh-review-build-summary/v1",
+      schemaVersion: "expai-fresh-review-build-summary/v2",
       candidateSha,
       realFlows: rows.length,
-      deviceFixtures: rows.length * 2,
+      executableFlows: executableRows.length,
+      replayMismatchFlows: heldReplayMismatchRows.length,
+      replayMismatchFlowIds: heldReplayMismatchRows.map((row) => row.flowId),
+      totalDeviceFixtures: rows.length * 2,
+      executableDeviceFixtures: executableRows.length * 2,
+      heldDeviceFixtures: heldReplayMismatchRows.length * 2,
       browserShards: shards.length,
       states: new Set(rows.map((row) => row.state)).size,
       dispositions: countsBy(rows, (row) => row.currentDisposition.name),
@@ -357,9 +534,11 @@ export function buildFreshReviewArtifacts({
       invariants: {
         expectedRealFlowCount,
         uniqueFlowIds: new Set(rows.map((row) => row.flowId)).size === rows.length,
-        everyFlowHasDesktopAndMobile: rows.every(
+        everyFlowHasRequiredFixtureData: rows.every(
           (row) => row.desktopFixture.fixtureId && row.mobileFixture.fixtureId
         ),
+        everyFlowHasExecutableDesktopAndMobile:
+          executableRows.length === rows.length,
         shardsDisjoint: shardFlowIdSet.size === shardFlowIds.length,
         shardUnionComplete: shardFlowIds.length === rows.length
       },

@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(scriptDir, "../../..");
 const libraryPath = path.join(scriptDir, "fresh-review-matrix-lib.mjs");
 
 assert.equal(
@@ -71,9 +72,15 @@ const disposition = {
   terminal: "guidance_only",
   paymentMode: "dtc_no_payment",
   sponsorshipMode: "none_direct_to_consumer",
+  waitingRuleResolution: "provisional_prose_fallback",
+  bindingClassification: null,
   disposition: "READY_FOR_HOSTED_ACCEPTANCE",
   reason: "ready",
-  shardDisposition: null
+  shardDisposition: null,
+  purchasableBefore: false,
+  purchasableAfter: false,
+  countyCourtCatalog: "served",
+  active: false
 };
 
 const built = buildFreshReviewArtifacts({
@@ -89,6 +96,31 @@ assert.equal(built.matrix.rows.length, 1);
 assert.equal(built.matrix.rows[0].expectedTerminal.effective, "guidance_only");
 assert.deepEqual(built.matrix.rows[0].desktopFixture.viewport, DESKTOP_VIEWPORT);
 assert.deepEqual(built.matrix.rows[0].mobileFixture.viewport, MOBILE_VIEWPORT);
+
+const replayMismatchFlow = structuredClone(flow);
+replayMismatchFlow.fixture.reproducesTerminal = false;
+replayMismatchFlow.fixture.replayResultCode = "needs_review";
+const replayMismatchArtifacts = buildFreshReviewArtifacts({
+  candidateSha: "e".repeat(40),
+  manifest: { flows: [replayMismatchFlow] },
+  dispositions: { rows: [disposition] },
+  waitingRuleAuthority: { proposals: { perProposal: {} } },
+  expectedRealFlowCount: 1,
+  browserShardStateGroups: [["CO"]]
+});
+const replayMismatchRow = replayMismatchArtifacts.matrix.rows[0];
+assert.equal(replayMismatchRow.qaFixtureStatus?.name, "HELD_REPLAY_MISMATCH");
+assert.equal(replayMismatchRow.desktopFixture.executionStatus, "HELD_REPLAY_MISMATCH");
+assert.equal(replayMismatchRow.mobileFixture.executionStatus, "HELD_REPLAY_MISMATCH");
+assert.equal(replayMismatchArtifacts.summary.totalDeviceFixtures, 2);
+assert.equal(replayMismatchArtifacts.summary.executableDeviceFixtures, 0);
+assert.equal(replayMismatchArtifacts.summary.heldDeviceFixtures, 2);
+assert.equal(replayMismatchArtifacts.summary.replayMismatchFlows, 1);
+assert.equal(
+  replayMismatchArtifacts.summary.invariants.everyFlowHasExecutableDesktopAndMobile,
+  false
+);
+assert.equal(Object.hasOwn(replayMismatchArtifacts.summary, "deviceFixtures"), false);
 
 function makeFlow({
   flowId,
@@ -139,6 +171,7 @@ function makeFlow({
 
 function makeDisposition(flowRecord, dispositionName, shardDisposition = null) {
   return {
+    ...structuredClone(disposition),
     flowId: flowRecord.flowId,
     flowKey: flowRecord.flowKey,
     jurisdiction: flowRecord.jurisdiction,
@@ -284,6 +317,47 @@ assert.throws(
   }),
   /missing manifest flow EXPAI-CO-missing/
 );
+const contradictoryCanonicalFields = [
+  ["flowKey", "CO::contradiction::guidance_only::dtc_no_payment"],
+  ["jurisdiction", "MS"],
+  ["remedy", "contradictory-remedy"],
+  ["terminal", "needs_review"],
+  ["paymentMode", "dtc_paid"],
+  ["sponsorshipMode", "partner_sponsored_no_charge"]
+];
+for (const [field, contradictoryValue] of contradictoryCanonicalFields) {
+  assert.throws(
+    () => buildOne({
+      dispositionRows: [{ ...disposition, [field]: contradictoryValue }]
+    }),
+    new RegExp(`canonical disposition ${field} mismatch for EXPAI-CO-test`),
+    `${field} contradiction must fail before ownership derivation`
+  );
+}
+const flowWithoutFixture = structuredClone(flow);
+delete flowWithoutFixture.fixture;
+assert.throws(
+  () => buildOne({ manifestFlows: [flowWithoutFixture] }),
+  /missing required fixture for EXPAI-CO-test/
+);
+assert.throws(
+  () => buildOne({
+    dispositionRows: [{ ...disposition, disposition: "UNVALIDATED_OWNER_INPUT" }]
+  }),
+  /unsupported disposition UNVALIDATED_OWNER_INPUT for EXPAI-CO-test/
+);
+assert.throws(
+  () => buildOne({
+    dispositionRows: [{ ...disposition, shardDisposition: "UNVALIDATED_SHARD" }]
+  }),
+  /unsupported shardDisposition UNVALIDATED_SHARD for EXPAI-CO-test/
+);
+const dispositionWithoutShard = structuredClone(disposition);
+delete dispositionWithoutShard.shardDisposition;
+assert.throws(
+  () => buildOne({ dispositionRows: [dispositionWithoutShard] }),
+  /missing disposition field shardDisposition for EXPAI-CO-test/
+);
 assert.throws(
   () => buildOne({ browserShardStateGroups: [["CO"], ["CO"]] }),
   /state CO appears in multiple browser shards/
@@ -350,7 +424,13 @@ assert.equal(
 );
 assert.equal(stableJson(shuffledArtifacts.stressSet), stableJson(stressArtifacts.stressSet));
 assert.equal(stressArtifacts.summary.realFlows, 3);
-assert.equal(stressArtifacts.summary.deviceFixtures, 6);
+assert.equal(stressArtifacts.summary.totalDeviceFixtures, 6);
+assert.equal(stressArtifacts.summary.executableDeviceFixtures, 6);
+assert.equal(stressArtifacts.summary.heldDeviceFixtures, 0);
+assert.equal(
+  stressArtifacts.summary.invariants.everyFlowHasExecutableDesktopAndMobile,
+  true
+);
 assert.equal(stressArtifacts.summary.browserShards, 3);
 assert.equal(stressArtifacts.summary.invariants.uniqueFlowIds, true);
 assert.equal(stressArtifacts.summary.invariants.shardsDisjoint, true);
@@ -364,7 +444,7 @@ assert.equal(
 );
 
 const runCli = (...args) => spawnSync(process.execPath, [cliPath, ...args], {
-  cwd: path.resolve(scriptDir, "../../.."),
+  cwd: rootDir,
   encoding: "utf8"
 });
 
@@ -377,6 +457,21 @@ assert.notEqual(invalidCandidate.status, 0);
 assert.match(invalidCandidate.stderr, /40-character lowercase SHA/);
 
 const exactAuthority = "714f4d51f93461855b24c8644b6ea6ddad6d15f2";
+assert.equal(
+  fs.existsSync(path.join(scriptDir, "vendor-fresh-review-authority.mjs")),
+  true,
+  "the authority snapshot must have a committed vendoring command"
+);
+const authorityDir = path.join(
+  rootDir,
+  "data/expungement-ai/qa/authority",
+  exactAuthority
+);
+assert.equal(
+  fs.existsSync(path.join(authorityDir, "AUTHORITY_PROVENANCE.json")),
+  true,
+  "the exact QA authority bundle must be committed with its provenance"
+);
 const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), "legalease-g-matrix-test-"));
 const generated = runCli(
   "--candidate-sha",
@@ -399,7 +494,24 @@ const generatedSummary = JSON.parse(
   fs.readFileSync(path.join(outputDir, "BUILD_SUMMARY.json"), "utf8")
 );
 assert.equal(generatedSummary.realFlows, 356);
-assert.equal(generatedSummary.deviceFixtures, 712);
+assert.equal(generatedSummary.totalDeviceFixtures, 712);
+assert.equal(generatedSummary.executableDeviceFixtures, 650);
+assert.equal(generatedSummary.heldDeviceFixtures, 62);
+assert.equal(generatedSummary.replayMismatchFlows, 31);
+assert.equal(
+  generatedSummary.invariants.everyFlowHasExecutableDesktopAndMobile,
+  false
+);
+for (const flowId of [
+  "EXPAI-DC-ce1b907b71",
+  "EXPAI-PA-4d793b6257",
+  "EXPAI-PA-b248648fdc"
+]) {
+  assert.ok(
+    generatedSummary.replayMismatchFlowIds.includes(flowId),
+    `${flowId} must remain held until its fixture reproduces its terminal`
+  );
+}
 assert.equal(generatedSummary.browserShards, 6);
 assert.deepEqual(generatedSummary.stressStateFlows, { CO: 5, MS: 14, WI: 6 });
 
@@ -412,6 +524,60 @@ const checked = runCli(
 );
 assert.equal(checked.status, 0, checked.stderr);
 
+const isolatedRoot = fs.mkdtempSync(
+  path.join(os.tmpdir(), "legalease-g-shallow-equivalent-")
+);
+const isolatedScriptDir = path.join(isolatedRoot, "scripts/expungement-ai/qa");
+const isolatedAuthorityDir = path.join(
+  isolatedRoot,
+  "data/expungement-ai/qa/authority",
+  exactAuthority
+);
+fs.mkdirSync(path.dirname(isolatedScriptDir), { recursive: true });
+fs.mkdirSync(path.dirname(isolatedAuthorityDir), { recursive: true });
+fs.cpSync(scriptDir, isolatedScriptDir, { recursive: true });
+fs.cpSync(authorityDir, isolatedAuthorityDir, { recursive: true });
+assert.equal(fs.existsSync(path.join(isolatedRoot, ".git")), false);
+
+const isolatedOutputDir = path.join(isolatedRoot, "out");
+const isolatedCli = path.join(isolatedScriptDir, "build-fresh-review-matrix.mjs");
+const isolatedGenerated = spawnSync(process.execPath, [
+  isolatedCli,
+  "--candidate-sha",
+  exactAuthority,
+  "--authority-dir",
+  isolatedAuthorityDir,
+  "--output-dir",
+  isolatedOutputDir
+], { cwd: isolatedRoot, encoding: "utf8" });
+assert.equal(isolatedGenerated.status, 0, isolatedGenerated.stderr);
+for (const fileName of [
+  "BROWSER_SHARDS.json",
+  "BUILD_SUMMARY.json",
+  "CURRENT_MATRIX.json",
+  "THREE_STATE_STRESS_SET.json"
+]) {
+  assert.equal(
+    fs.readFileSync(path.join(isolatedOutputDir, fileName), "utf8"),
+    fs.readFileSync(path.join(outputDir, fileName), "utf8"),
+    `${fileName} must be byte-identical without a Git object store`
+  );
+}
+
+fs.appendFileSync(path.join(isolatedAuthorityDir, "flow-manifest.json"), " ");
+const corruptedAuthority = spawnSync(process.execPath, [
+  isolatedCli,
+  "--candidate-sha",
+  exactAuthority,
+  "--authority-dir",
+  isolatedAuthorityDir,
+  "--output-dir",
+  isolatedOutputDir,
+  "--check"
+], { cwd: isolatedRoot, encoding: "utf8" });
+assert.notEqual(corruptedAuthority.status, 0);
+assert.match(corruptedAuthority.stderr, /authority digest mismatch for manifest/);
+
 fs.appendFileSync(path.join(outputDir, "CURRENT_MATRIX.json"), " ");
 const changed = runCli(
   "--candidate-sha",
@@ -422,6 +588,7 @@ const changed = runCli(
 );
 assert.notEqual(changed.status, 0);
 assert.match(changed.stderr, /CURRENT_MATRIX\.json does not match/);
+fs.rmSync(isolatedRoot, { recursive: true, force: true });
 fs.rmSync(outputDir, { recursive: true, force: true });
 
-console.log("fresh-review-matrix tests passed (71 assertions).");
+console.log("fresh-review-matrix tests passed (110 assertions).");

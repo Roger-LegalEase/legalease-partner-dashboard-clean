@@ -1,10 +1,14 @@
 {
-  "schemaVersion": "expai-browser-shards/v1",
+  "schemaVersion": "expai-browser-shards/v2",
   "candidateSha": "714f4d51f93461855b24c8644b6ea6ddad6d15f2",
   "totals": {
     "shards": 6,
     "realFlows": 356,
-    "deviceFixtures": 712
+    "executableFlows": 325,
+    "heldReplayMismatchFlows": 31,
+    "totalDeviceFixtures": 712,
+    "executableDeviceFixtures": 650,
+    "heldDeviceFixtures": 62
   },
   "invariants": {
     "overlapCount": 0,
@@ -25,13 +29,18 @@
         "WI"
       ],
       "flowCount": 49,
-      "deviceFixtureCount": 98,
+      "executableFlowCount": 47,
+      "heldFlowCount": 2,
+      "totalDeviceFixtures": 98,
+      "executableDeviceFixtures": 94,
+      "heldDeviceFixtures": 4,
       "flows": [
         {
           "flowId": "EXPAI-AZ-179337a1b2",
           "state": "AZ",
           "remedyId": "remedy-1-record-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-AZ-179337a1b2::desktop",
           "mobileFixtureId": "EXPAI-AZ-179337a1b2::mobile"
         },
@@ -40,6 +49,7 @@
           "state": "AZ",
           "remedyId": "remedy-2-set-aside-of-a-conviction",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AZ-19946d4993::desktop",
           "mobileFixtureId": "EXPAI-AZ-19946d4993::mobile"
         },
@@ -48,6 +58,7 @@
           "state": "AZ",
           "remedyId": "remedy-3-marijuana-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AZ-4e27d219cd::desktop",
           "mobileFixtureId": "EXPAI-AZ-4e27d219cd::mobile"
         },
@@ -56,6 +67,7 @@
           "state": "CA",
           "remedyId": "tool-4-arrest-record-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-09e5b02e34::desktop",
           "mobileFixtureId": "EXPAI-CA-09e5b02e34::mobile"
         },
@@ -64,6 +76,7 @@
           "state": "CA",
           "remedyId": "tool-4-arrest-record-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-38be3a849b::desktop",
           "mobileFixtureId": "EXPAI-CA-38be3a849b::mobile"
         },
@@ -72,6 +85,7 @@
           "state": "CA",
           "remedyId": "tool-1-dismissal-set-aside",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-4b928ba8db::desktop",
           "mobileFixtureId": "EXPAI-CA-4b928ba8db::mobile"
         },
@@ -80,6 +94,7 @@
           "state": "CA",
           "remedyId": "tool-3-petition-based-felony-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-751e637f56::desktop",
           "mobileFixtureId": "EXPAI-CA-751e637f56::mobile"
         },
@@ -88,6 +103,7 @@
           "state": "CA",
           "remedyId": "prop-64-completed-sentence-application-11361-8",
           "expectedTerminal": "likely_not_eligible",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-820d8cab8d::desktop",
           "mobileFixtureId": "EXPAI-CA-820d8cab8d::mobile"
         },
@@ -96,6 +112,7 @@
           "state": "CA",
           "remedyId": "tool-5-proposition-64-marijuana-relief",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-9c540ea67a::desktop",
           "mobileFixtureId": "EXPAI-CA-9c540ea67a::mobile"
         },
@@ -104,6 +121,7 @@
           "state": "CA",
           "remedyId": "tool-2-automatic-relief",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-c36b60d263::desktop",
           "mobileFixtureId": "EXPAI-CA-c36b60d263::mobile"
         },
@@ -112,6 +130,7 @@
           "state": "CA",
           "remedyId": "prop-64-currently-serving-petition-11361-8",
           "expectedTerminal": "likely_not_eligible",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-cdc6904f3f::desktop",
           "mobileFixtureId": "EXPAI-CA-cdc6904f3f::mobile"
         },
@@ -120,6 +139,7 @@
           "state": "CA",
           "remedyId": "tool-1-dismissal-set-aside",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CA-e7b9a19891::desktop",
           "mobileFixtureId": "EXPAI-CA-e7b9a19891::mobile"
         },
@@ -128,6 +148,7 @@
           "state": "MT",
           "remedyId": "marijuana-related-redesignation-expungement-under-mmrta",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MT-1e44961aa4::desktop",
           "mobileFixtureId": "EXPAI-MT-1e44961aa4::mobile"
         },
@@ -136,6 +157,7 @@
           "state": "MT",
           "remedyId": "non-conviction-criminal-history-removal-through-criss",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MT-3c4e2acbd1::desktop",
           "mobileFixtureId": "EXPAI-MT-3c4e2acbd1::mobile"
         },
@@ -144,6 +166,7 @@
           "state": "MT",
           "remedyId": "doj-record-removal-update-request",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MT-45c7b0186e::desktop",
           "mobileFixtureId": "EXPAI-MT-45c7b0186e::mobile"
         },
@@ -152,6 +175,7 @@
           "state": "MT",
           "remedyId": "deferred-sentence-dismissal-or-confidentiality-route",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MT-50958fd557::desktop",
           "mobileFixtureId": "EXPAI-MT-50958fd557::mobile"
         },
@@ -160,6 +184,7 @@
           "state": "MT",
           "remedyId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-MT-cd6a65f170::desktop",
           "mobileFixtureId": "EXPAI-MT-cd6a65f170::mobile"
         },
@@ -168,6 +193,7 @@
           "state": "NC",
           "remedyId": "nonviolent-conviction-expunction-under-g-s-15a-145-5",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NC-11b467a489::desktop",
           "mobileFixtureId": "EXPAI-NC-11b467a489::mobile"
         },
@@ -176,6 +202,7 @@
           "state": "NC",
           "remedyId": "youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NC-1f998166b1::desktop",
           "mobileFixtureId": "EXPAI-NC-1f998166b1::mobile"
         },
@@ -184,6 +211,7 @@
           "state": "NC",
           "remedyId": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NC-74d36fefc7::desktop",
           "mobileFixtureId": "EXPAI-NC-74d36fefc7::mobile"
         },
@@ -192,6 +220,7 @@
           "state": "NC",
           "remedyId": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NC-7b369cedac::desktop",
           "mobileFixtureId": "EXPAI-NC-7b369cedac::mobile"
         },
@@ -200,6 +229,7 @@
           "state": "NE",
           "remedyId": "automatic-nonconviction-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-111d7342bc::desktop",
           "mobileFixtureId": "EXPAI-NE-111d7342bc::mobile"
         },
@@ -208,6 +238,7 @@
           "state": "NE",
           "remedyId": "juvenile-automatic-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-1980f6697d::desktop",
           "mobileFixtureId": "EXPAI-NE-1980f6697d::mobile"
         },
@@ -216,6 +247,7 @@
           "state": "NE",
           "remedyId": "set-aside-probation-fine-community-service",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-210c8d3d54::desktop",
           "mobileFixtureId": "EXPAI-NE-210c8d3d54::mobile"
         },
@@ -224,6 +256,7 @@
           "state": "NE",
           "remedyId": "juvenile-petition-backstop",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-3141eb5e4c::desktop",
           "mobileFixtureId": "EXPAI-NE-3141eb5e4c::mobile"
         },
@@ -232,6 +265,7 @@
           "state": "NE",
           "remedyId": "trafficking-survivor-set-aside-and-seal",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-69d8fe4a03::desktop",
           "mobileFixtureId": "EXPAI-NE-69d8fe4a03::mobile"
         },
@@ -240,6 +274,7 @@
           "state": "NE",
           "remedyId": "law-enforcement-error-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-6c32082201::desktop",
           "mobileFixtureId": "EXPAI-NE-6c32082201::mobile"
         },
@@ -248,6 +283,7 @@
           "state": "NE",
           "remedyId": "set-aside-incarceration-one-year-or-less",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-9ce3fce7f7::desktop",
           "mobileFixtureId": "EXPAI-NE-9ce3fce7f7::mobile"
         },
@@ -256,6 +292,7 @@
           "state": "NE",
           "remedyId": "pardon-then-seal",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-9d99358fe2::desktop",
           "mobileFixtureId": "EXPAI-NE-9d99358fe2::mobile"
         },
@@ -264,6 +301,7 @@
           "state": "NE",
           "remedyId": "set-aside-incarceration-one-year-or-less",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-ac9e81c39a::desktop",
           "mobileFixtureId": "EXPAI-NE-ac9e81c39a::mobile"
         },
@@ -272,6 +310,7 @@
           "state": "NE",
           "remedyId": "set-aside-probation-fine-community-service",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NE-c08d438b66::desktop",
           "mobileFixtureId": "EXPAI-NE-c08d438b66::mobile"
         },
@@ -280,6 +319,7 @@
           "state": "NY",
           "remedyId": "conditional-treatment-sealing-under-cpl-160-58",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NY-1ffb6b402d::desktop",
           "mobileFixtureId": "EXPAI-NY-1ffb6b402d::mobile"
         },
@@ -288,6 +328,7 @@
           "state": "NY",
           "remedyId": "marijuana-record-destruction-under-the-mrta",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NY-84d5de4cb3::desktop",
           "mobileFixtureId": "EXPAI-NY-84d5de4cb3::mobile"
         },
@@ -296,6 +337,7 @@
           "state": "NY",
           "remedyId": "discretionary-conviction-sealing-by-petition-under-cpl-160-59",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NY-99f48e21a5::desktop",
           "mobileFixtureId": "EXPAI-NY-99f48e21a5::mobile"
         },
@@ -304,6 +346,7 @@
           "state": "NY",
           "remedyId": "automatic-clean-slate-sealing-under-cpl-160-57",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NY-c0d795b1a9::desktop",
           "mobileFixtureId": "EXPAI-NY-c0d795b1a9::mobile"
         },
@@ -312,6 +355,7 @@
           "state": "NY",
           "remedyId": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NY-e7167e081d::desktop",
           "mobileFixtureId": "EXPAI-NY-e7167e081d::mobile"
         },
@@ -320,6 +364,7 @@
           "state": "OR",
           "remedyId": "marijuana-specific-set-aside-redesignation",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OR-6bfdbff090::desktop",
           "mobileFixtureId": "EXPAI-OR-6bfdbff090::mobile"
         },
@@ -328,6 +373,7 @@
           "state": "OR",
           "remedyId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OR-7aa50b3e66::desktop",
           "mobileFixtureId": "EXPAI-OR-7aa50b3e66::mobile"
         },
@@ -336,6 +382,7 @@
           "state": "OR",
           "remedyId": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OR-c5431189d8::desktop",
           "mobileFixtureId": "EXPAI-OR-c5431189d8::mobile"
         },
@@ -344,6 +391,7 @@
           "state": "TN",
           "remedyId": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TN-12a3c10020::desktop",
           "mobileFixtureId": "EXPAI-TN-12a3c10020::mobile"
         },
@@ -352,6 +400,7 @@
           "state": "TN",
           "remedyId": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TN-15724d2022::desktop",
           "mobileFixtureId": "EXPAI-TN-15724d2022::mobile"
         },
@@ -360,6 +409,7 @@
           "state": "TN",
           "remedyId": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TN-6b484cc40a::desktop",
           "mobileFixtureId": "EXPAI-TN-6b484cc40a::mobile"
         },
@@ -368,6 +418,7 @@
           "state": "TN",
           "remedyId": "pathway-4-two-offense-expunction-under-40-32-101-k",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TN-bba288e847::desktop",
           "mobileFixtureId": "EXPAI-TN-bba288e847::mobile"
         },
@@ -376,6 +427,7 @@
           "state": "WI",
           "remedyId": "executive-pardon-guidance",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-0f326f6b70::desktop",
           "mobileFixtureId": "EXPAI-WI-0f326f6b70::mobile"
         },
@@ -384,6 +436,7 @@
           "state": "WI",
           "remedyId": "adult-conviction-expungement-under-wis-stat-973-015",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-2477a7d453::desktop",
           "mobileFixtureId": "EXPAI-WI-2477a7d453::mobile"
         },
@@ -392,6 +445,7 @@
           "state": "WI",
           "remedyId": "adult-conviction-expungement-under-wis-stat-973-015",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-2829fbd370::desktop",
           "mobileFixtureId": "EXPAI-WI-2829fbd370::mobile"
         },
@@ -400,6 +454,7 @@
           "state": "WI",
           "remedyId": "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-76c83a74d6::desktop",
           "mobileFixtureId": "EXPAI-WI-76c83a74d6::mobile"
         },
@@ -408,6 +463,7 @@
           "state": "WI",
           "remedyId": "human-trafficking-prostitution-relief-under-973-015-2m",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-aeaff34c63::desktop",
           "mobileFixtureId": "EXPAI-WI-aeaff34c63::mobile"
         },
@@ -416,6 +472,7 @@
           "state": "WI",
           "remedyId": "adult-non-conviction-arrest-only-record-correction-or-removal",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WI-bdf32f73ec::desktop",
           "mobileFixtureId": "EXPAI-WI-bdf32f73ec::mobile"
         }
@@ -435,13 +492,18 @@
         "TX"
       ],
       "flowCount": 59,
-      "deviceFixtureCount": 118,
+      "executableFlowCount": 56,
+      "heldFlowCount": 3,
+      "totalDeviceFixtures": 118,
+      "executableDeviceFixtures": 112,
+      "heldDeviceFixtures": 6,
       "flows": [
         {
           "flowId": "EXPAI-AL-527a237525",
           "state": "AL",
           "remedyId": "human-trafficking-victim-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AL-527a237525::desktop",
           "mobileFixtureId": "EXPAI-AL-527a237525::mobile"
         },
@@ -450,6 +512,7 @@
           "state": "AL",
           "remedyId": "eligible-conviction-expungement-under-the-redeemer-act",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AL-ad6fa0e63d::desktop",
           "mobileFixtureId": "EXPAI-AL-ad6fa0e63d::mobile"
         },
@@ -458,6 +521,7 @@
           "state": "AL",
           "remedyId": "pardoned-felony-expungement-under-ala-code-15-27-2-c",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AL-e3566e7b5b::desktop",
           "mobileFixtureId": "EXPAI-AL-e3566e7b5b::mobile"
         },
@@ -466,6 +530,7 @@
           "state": "AL",
           "remedyId": "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AL-eb04cbb3ea::desktop",
           "mobileFixtureId": "EXPAI-AL-eb04cbb3ea::mobile"
         },
@@ -474,6 +539,7 @@
           "state": "FL",
           "remedyId": "court-ordered-sealing-943-059",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-4533c64041::desktop",
           "mobileFixtureId": "EXPAI-FL-4533c64041::mobile"
         },
@@ -482,6 +548,7 @@
           "state": "FL",
           "remedyId": "administrative-expunction-mistaken-or-unlawful-arrest",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-477f91cab1::desktop",
           "mobileFixtureId": "EXPAI-FL-477f91cab1::mobile"
         },
@@ -490,6 +557,7 @@
           "state": "FL",
           "remedyId": "early-juvenile-expunction-943-0515",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-4b2c3bce11::desktop",
           "mobileFixtureId": "EXPAI-FL-4b2c3bce11::mobile"
         },
@@ -498,6 +566,7 @@
           "state": "FL",
           "remedyId": "juvenile-diversion-expunction-943-0582",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-4f717a198d::desktop",
           "mobileFixtureId": "EXPAI-FL-4f717a198d::mobile"
         },
@@ -506,6 +575,7 @@
           "state": "FL",
           "remedyId": "court-ordered-expunction-943-0585",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-FL-789b26a6ea::desktop",
           "mobileFixtureId": "EXPAI-FL-789b26a6ea::mobile"
         },
@@ -514,6 +584,7 @@
           "state": "FL",
           "remedyId": "human-trafficking-victim-expunction-943-0583",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-ae6d855717::desktop",
           "mobileFixtureId": "EXPAI-FL-ae6d855717::mobile"
         },
@@ -522,6 +593,7 @@
           "state": "FL",
           "remedyId": "automatic-sealing-943-0595",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-b27e86dac7::desktop",
           "mobileFixtureId": "EXPAI-FL-b27e86dac7::mobile"
         },
@@ -530,6 +602,7 @@
           "state": "FL",
           "remedyId": "lawful-self-defense-expunction-943-0578",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-FL-ffa21cc994::desktop",
           "mobileFixtureId": "EXPAI-FL-ffa21cc994::mobile"
         },
@@ -538,6 +611,7 @@
           "state": "HI",
           "remedyId": "deferred-acceptance-one-year",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-485c161246::desktop",
           "mobileFixtureId": "EXPAI-HI-485c161246::mobile"
         },
@@ -546,6 +620,7 @@
           "state": "HI",
           "remedyId": "dui-under-21-conviction",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-4ec05ba1c0::desktop",
           "mobileFixtureId": "EXPAI-HI-4ec05ba1c0::mobile"
         },
@@ -554,6 +629,7 @@
           "state": "HI",
           "remedyId": "first-time-drug-conviction",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-4f6b4b6d2b::desktop",
           "mobileFixtureId": "EXPAI-HI-4f6b4b6d2b::mobile"
         },
@@ -562,6 +638,7 @@
           "state": "HI",
           "remedyId": "deferred-prostitution-three-year",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-55cb522ff3::desktop",
           "mobileFixtureId": "EXPAI-HI-55cb522ff3::mobile"
         },
@@ -570,6 +647,7 @@
           "state": "HI",
           "remedyId": "nonconviction-arrest-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-7e247bb216::desktop",
           "mobileFixtureId": "EXPAI-HI-7e247bb216::mobile"
         },
@@ -578,6 +656,7 @@
           "state": "HI",
           "remedyId": "nonconviction-arrest-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-HI-8254aa0343::desktop",
           "mobileFixtureId": "EXPAI-HI-8254aa0343::mobile"
         },
@@ -586,6 +665,7 @@
           "state": "IA",
           "remedyId": "underage-alcohol-12347",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IA-30be9180cf::desktop",
           "mobileFixtureId": "EXPAI-IA-30be9180cf::mobile"
         },
@@ -594,6 +674,7 @@
           "state": "IA",
           "remedyId": "misdemeanor-901c3",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IA-3cecdd748c::desktop",
           "mobileFixtureId": "EXPAI-IA-3cecdd748c::mobile"
         },
@@ -602,6 +683,7 @@
           "state": "IA",
           "remedyId": "nonconviction-901c2",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-IA-460f24f75f::desktop",
           "mobileFixtureId": "EXPAI-IA-460f24f75f::mobile"
         },
@@ -610,6 +692,7 @@
           "state": "IA",
           "remedyId": "public-intoxication-12346",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IA-4799d9d30e::desktop",
           "mobileFixtureId": "EXPAI-IA-4799d9d30e::mobile"
         },
@@ -618,6 +701,7 @@
           "state": "IA",
           "remedyId": "minor-prostitution-7251",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IA-fce6d78f56::desktop",
           "mobileFixtureId": "EXPAI-IA-fce6d78f56::mobile"
         },
@@ -626,6 +710,7 @@
           "state": "MI",
           "remedyId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-MI-31050183b1::desktop",
           "mobileFixtureId": "EXPAI-MI-31050183b1::mobile"
         },
@@ -634,6 +719,7 @@
           "state": "MI",
           "remedyId": "set-aside-by-application-under-mcl-780-621",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MI-86c2e6f784::desktop",
           "mobileFixtureId": "EXPAI-MI-86c2e6f784::mobile"
         },
@@ -642,6 +728,7 @@
           "state": "MI",
           "remedyId": "first-offense-owi-set-aside-by-application",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MI-ac225049b5::desktop",
           "mobileFixtureId": "EXPAI-MI-ac225049b5::mobile"
         },
@@ -650,6 +737,7 @@
           "state": "MI",
           "remedyId": "human-trafficking-related-set-aside-application",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MI-acea4c2c2d::desktop",
           "mobileFixtureId": "EXPAI-MI-acea4c2c2d::mobile"
         },
@@ -658,6 +746,7 @@
           "state": "MI",
           "remedyId": "automatic-clean-slate-set-aside-under-mcl-780-621g",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MI-e2a5ee07be::desktop",
           "mobileFixtureId": "EXPAI-MI-e2a5ee07be::mobile"
         },
@@ -666,6 +755,7 @@
           "state": "ND",
           "remedyId": "first-offense-possession-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-1084bad037::desktop",
           "mobileFixtureId": "EXPAI-ND-1084bad037::mobile"
         },
@@ -674,6 +764,7 @@
           "state": "ND",
           "remedyId": "deferred-imposition-dismissal-and-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-34a00f0d20::desktop",
           "mobileFixtureId": "EXPAI-ND-34a00f0d20::mobile"
         },
@@ -682,6 +773,7 @@
           "state": "ND",
           "remedyId": "dui-record-sealing-under-the-separate-dui-statute",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-86e4047faf::desktop",
           "mobileFixtureId": "EXPAI-ND-86e4047faf::mobile"
         },
@@ -690,6 +782,7 @@
           "state": "ND",
           "remedyId": "deferred-imposition-dismissal-and-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-a3bfb554d3::desktop",
           "mobileFixtureId": "EXPAI-ND-a3bfb554d3::mobile"
         },
@@ -698,6 +791,7 @@
           "state": "ND",
           "remedyId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-d65593231f::desktop",
           "mobileFixtureId": "EXPAI-ND-d65593231f::mobile"
         },
@@ -706,6 +800,7 @@
           "state": "ND",
           "remedyId": "marijuana-specific-summary-pardon-or-sealing-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-ed3e95f327::desktop",
           "mobileFixtureId": "EXPAI-ND-ed3e95f327::mobile"
         },
@@ -714,6 +809,7 @@
           "state": "ND",
           "remedyId": "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ND-f675fafc52::desktop",
           "mobileFixtureId": "EXPAI-ND-f675fafc52::mobile"
         },
@@ -722,6 +818,7 @@
           "state": "NV",
           "remedyId": "general-conviction-record-sealing-under-nrs-179-245",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-0691a5dd95::desktop",
           "mobileFixtureId": "EXPAI-NV-0691a5dd95::mobile"
         },
@@ -730,6 +827,7 @@
           "state": "NV",
           "remedyId": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-10ce32bca3::desktop",
           "mobileFixtureId": "EXPAI-NV-10ce32bca3::mobile"
         },
@@ -738,6 +836,7 @@
           "state": "NV",
           "remedyId": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-136ab8187f::desktop",
           "mobileFixtureId": "EXPAI-NV-136ab8187f::mobile"
         },
@@ -746,6 +845,7 @@
           "state": "NV",
           "remedyId": "non-conviction-record-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-22e2e251a5::desktop",
           "mobileFixtureId": "EXPAI-NV-22e2e251a5::mobile"
         },
@@ -754,6 +854,7 @@
           "state": "NV",
           "remedyId": "reentry-program-sealing-under-nrs-179-259",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-6c5afab8c4::desktop",
           "mobileFixtureId": "EXPAI-NV-6c5afab8c4::mobile"
         },
@@ -762,6 +863,7 @@
           "state": "NV",
           "remedyId": "probation-or-specialty-court-dismissal-set-aside-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-ae4843a269::desktop",
           "mobileFixtureId": "EXPAI-NV-ae4843a269::mobile"
         },
@@ -770,6 +872,7 @@
           "state": "NV",
           "remedyId": "controlled-substance-possession-sealing-under-nrs-453-3365",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NV-e17caeead8::desktop",
           "mobileFixtureId": "EXPAI-NV-e17caeead8::mobile"
         },
@@ -778,6 +881,7 @@
           "state": "RI",
           "remedyId": "path-b-multiple-misdemeanor-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-0122f25b76::desktop",
           "mobileFixtureId": "EXPAI-RI-0122f25b76::mobile"
         },
@@ -786,6 +890,7 @@
           "state": "RI",
           "remedyId": "path-c-deferred-sentence-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-101519376c::desktop",
           "mobileFixtureId": "EXPAI-RI-101519376c::mobile"
         },
@@ -794,6 +899,7 @@
           "state": "RI",
           "remedyId": "path-e-filed-complaint-relief-under-12-10-12",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-79fb113809::desktop",
           "mobileFixtureId": "EXPAI-RI-79fb113809::mobile"
         },
@@ -802,6 +908,7 @@
           "state": "RI",
           "remedyId": "path-a-first-offender-conviction-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-7db4cf78a4::desktop",
           "mobileFixtureId": "EXPAI-RI-7db4cf78a4::mobile"
         },
@@ -810,6 +917,7 @@
           "state": "RI",
           "remedyId": "path-h-commercial-sexual-activity-related-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-952eb20b00::desktop",
           "mobileFixtureId": "EXPAI-RI-952eb20b00::mobile"
         },
@@ -818,6 +926,7 @@
           "state": "RI",
           "remedyId": "path-d-non-conviction-sealing-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-dfe473db6c::desktop",
           "mobileFixtureId": "EXPAI-RI-dfe473db6c::mobile"
         },
@@ -826,6 +935,7 @@
           "state": "RI",
           "remedyId": "path-g-decriminalized-offense-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-e80ebe440d::desktop",
           "mobileFixtureId": "EXPAI-RI-e80ebe440d::mobile"
         },
@@ -834,6 +944,7 @@
           "state": "RI",
           "remedyId": "path-f-marijuana-possession-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-RI-eb77be0885::desktop",
           "mobileFixtureId": "EXPAI-RI-eb77be0885::mobile"
         },
@@ -842,6 +953,7 @@
           "state": "TX",
           "remedyId": "expunction-after-qualifying-dismissal-or-quash",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-41f283d57a::desktop",
           "mobileFixtureId": "EXPAI-TX-41f283d57a::mobile"
         },
@@ -850,6 +962,7 @@
           "state": "TX",
           "remedyId": "expunction-after-pardon-or-actual-innocence-relief",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-6027678e1b::desktop",
           "mobileFixtureId": "EXPAI-TX-6027678e1b::mobile"
         },
@@ -858,6 +971,7 @@
           "state": "TX",
           "remedyId": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-6eed22c9f2::desktop",
           "mobileFixtureId": "EXPAI-TX-6eed22c9f2::mobile"
         },
@@ -866,6 +980,7 @@
           "state": "TX",
           "remedyId": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-7d8db74642::desktop",
           "mobileFixtureId": "EXPAI-TX-7d8db74642::mobile"
         },
@@ -874,6 +989,7 @@
           "state": "TX",
           "remedyId": "automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-7e7e6db808::desktop",
           "mobileFixtureId": "EXPAI-TX-7e7e6db808::mobile"
         },
@@ -882,6 +998,7 @@
           "state": "TX",
           "remedyId": "first-offense-dwi-nondisclosure",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-ab2118ec94::desktop",
           "mobileFixtureId": "EXPAI-TX-ab2118ec94::mobile"
         },
@@ -890,6 +1007,7 @@
           "state": "TX",
           "remedyId": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-adc17283a1::desktop",
           "mobileFixtureId": "EXPAI-TX-adc17283a1::mobile"
         },
@@ -898,6 +1016,7 @@
           "state": "TX",
           "remedyId": "expunction-after-qualifying-class-c-deferred-disposition",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-b8674b05d9::desktop",
           "mobileFixtureId": "EXPAI-TX-b8674b05d9::mobile"
         },
@@ -906,6 +1025,7 @@
           "state": "TX",
           "remedyId": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-TX-d0af1ca00d::desktop",
           "mobileFixtureId": "EXPAI-TX-d0af1ca00d::mobile"
         }
@@ -924,13 +1044,18 @@
         "VA"
       ],
       "flowCount": 72,
-      "deviceFixtureCount": 144,
+      "executableFlowCount": 70,
+      "heldFlowCount": 2,
+      "totalDeviceFixtures": 144,
+      "executableDeviceFixtures": 140,
+      "heldDeviceFixtures": 4,
       "flows": [
         {
           "flowId": "EXPAI-IN-0887386bf3",
           "state": "IN",
           "remedyId": "conviction-expungement-with-records-marked-expunged",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IN-0887386bf3::desktop",
           "mobileFixtureId": "EXPAI-IN-0887386bf3::mobile"
         },
@@ -939,6 +1064,7 @@
           "state": "IN",
           "remedyId": "conviction-expungement-with-sealed-confidential-access",
           "expectedTerminal": "needs_more_info",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IN-1732365a58::desktop",
           "mobileFixtureId": "EXPAI-IN-1732365a58::mobile"
         },
@@ -947,6 +1073,7 @@
           "state": "IN",
           "remedyId": "juvenile-allegation-expungement",
           "expectedTerminal": "needs_more_info",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IN-d30de2ac45::desktop",
           "mobileFixtureId": "EXPAI-IN-d30de2ac45::mobile"
         },
@@ -955,6 +1082,7 @@
           "state": "IN",
           "remedyId": "non-conviction-arrest-or-criminal-charge-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IN-d4d3b12364::desktop",
           "mobileFixtureId": "EXPAI-IN-d4d3b12364::mobile"
         },
@@ -963,6 +1091,7 @@
           "state": "MA",
           "remedyId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-1b8b8b38fd::desktop",
           "mobileFixtureId": "EXPAI-MA-1b8b8b38fd::mobile"
         },
@@ -971,6 +1100,7 @@
           "state": "MA",
           "remedyId": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-4951ebf12a::desktop",
           "mobileFixtureId": "EXPAI-MA-4951ebf12a::mobile"
         },
@@ -979,6 +1109,7 @@
           "state": "MA",
           "remedyId": "time-based-expungement-under-100f-100j",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-566c6ac1ba::desktop",
           "mobileFixtureId": "EXPAI-MA-566c6ac1ba::mobile"
         },
@@ -987,6 +1118,7 @@
           "state": "MA",
           "remedyId": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-a927ec5891::desktop",
           "mobileFixtureId": "EXPAI-MA-a927ec5891::mobile"
         },
@@ -995,6 +1127,7 @@
           "state": "MA",
           "remedyId": "marijuana-only-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-a9f420a46d::desktop",
           "mobileFixtureId": "EXPAI-MA-a9f420a46d::mobile"
         },
@@ -1003,6 +1136,7 @@
           "state": "MA",
           "remedyId": "juvenile-record-sealing-under-100b",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-ad90232220::desktop",
           "mobileFixtureId": "EXPAI-MA-ad90232220::mobile"
         },
@@ -1011,6 +1145,7 @@
           "state": "MA",
           "remedyId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-af55b8964e::desktop",
           "mobileFixtureId": "EXPAI-MA-af55b8964e::mobile"
         },
@@ -1019,6 +1154,7 @@
           "state": "MA",
           "remedyId": "automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MA-f235419311::desktop",
           "mobileFixtureId": "EXPAI-MA-f235419311::mobile"
         },
@@ -1027,6 +1163,7 @@
           "state": "MN",
           "remedyId": "arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-1ecfc803d9::desktop",
           "mobileFixtureId": "EXPAI-MN-1ecfc803d9::mobile"
         },
@@ -1035,6 +1172,7 @@
           "state": "MN",
           "remedyId": "automatic-mistaken-identity-expungement-under-609a-017",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-73b1d151bd::desktop",
           "mobileFixtureId": "EXPAI-MN-73b1d151bd::mobile"
         },
@@ -1043,6 +1181,7 @@
           "state": "MN",
           "remedyId": "automatic-clean-slate-expungement-under-609a-015",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-85af46bbd9::desktop",
           "mobileFixtureId": "EXPAI-MN-85af46bbd9::mobile"
         },
@@ -1051,6 +1190,7 @@
           "state": "MN",
           "remedyId": "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-a340c812e6::desktop",
           "mobileFixtureId": "EXPAI-MN-a340c812e6::mobile"
         },
@@ -1059,6 +1199,7 @@
           "state": "MN",
           "remedyId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-a992768cc4::desktop",
           "mobileFixtureId": "EXPAI-MN-a992768cc4::mobile"
         },
@@ -1067,6 +1208,7 @@
           "state": "MN",
           "remedyId": "petition-based-expungement-under-609a-02-03",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MN-c0469656a5::desktop",
           "mobileFixtureId": "EXPAI-MN-c0469656a5::mobile"
         },
@@ -1075,6 +1217,7 @@
           "state": "MO",
           "remedyId": "marijuana-expungement-under-missouri-constitution-article-xiv",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-1bfe3f224f::desktop",
           "mobileFixtureId": "EXPAI-MO-1bfe3f224f::mobile"
         },
@@ -1083,6 +1226,7 @@
           "state": "MO",
           "remedyId": "stolen-or-mistaken-identity-expungement-under-610-145",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-307bc8d9cd::desktop",
           "mobileFixtureId": "EXPAI-MO-307bc8d9cd::mobile"
         },
@@ -1091,6 +1235,7 @@
           "state": "MO",
           "remedyId": "false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-4d25b2c4f9::desktop",
           "mobileFixtureId": "EXPAI-MO-4d25b2c4f9::mobile"
         },
@@ -1099,6 +1244,7 @@
           "state": "MO",
           "remedyId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-8a812fcb6e::desktop",
           "mobileFixtureId": "EXPAI-MO-8a812fcb6e::mobile"
         },
@@ -1107,6 +1253,7 @@
           "state": "MO",
           "remedyId": "first-minor-in-possession-alcohol-expungement-under-311-326",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-9efe9f845c::desktop",
           "mobileFixtureId": "EXPAI-MO-9efe9f845c::mobile"
         },
@@ -1115,6 +1262,7 @@
           "state": "MO",
           "remedyId": "first-intoxication-related-traffic-or-boating-expungement-under-610-130",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-a06fdf0e6b::desktop",
           "mobileFixtureId": "EXPAI-MO-a06fdf0e6b::mobile"
         },
@@ -1123,6 +1271,7 @@
           "state": "MO",
           "remedyId": "closed-record-outcome-under-rsmo-610-105",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-ce5f2d8dd9::desktop",
           "mobileFixtureId": "EXPAI-MO-ce5f2d8dd9::mobile"
         },
@@ -1131,6 +1280,7 @@
           "state": "MO",
           "remedyId": "first-intoxication-related-traffic-or-boating-expungement-under-610-130",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-cf8e131df5::desktop",
           "mobileFixtureId": "EXPAI-MO-cf8e131df5::mobile"
         },
@@ -1139,6 +1289,7 @@
           "state": "MO",
           "remedyId": "stolen-or-mistaken-identity-expungement-under-610-145",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-dc70a9231c::desktop",
           "mobileFixtureId": "EXPAI-MO-dc70a9231c::mobile"
         },
@@ -1147,6 +1298,7 @@
           "state": "MO",
           "remedyId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MO-fd50a950a6::desktop",
           "mobileFixtureId": "EXPAI-MO-fd50a950a6::mobile"
         },
@@ -1155,6 +1307,7 @@
           "state": "MS",
           "remedyId": "additional-justice-or-municipal-court-misdemeanor-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-0804ce0ddd::desktop",
           "mobileFixtureId": "EXPAI-MS-0804ce0ddd::mobile"
         },
@@ -1163,6 +1316,7 @@
           "state": "MS",
           "remedyId": "first-offense-controlled-substance-conditional-discharge-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-167b6649e0::desktop",
           "mobileFixtureId": "EXPAI-MS-167b6649e0::mobile"
         },
@@ -1171,6 +1325,7 @@
           "state": "MS",
           "remedyId": "dui-nonadjudication",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-3ccc30e9e5::desktop",
           "mobileFixtureId": "EXPAI-MS-3ccc30e9e5::mobile"
         },
@@ -1179,6 +1334,7 @@
           "state": "MS",
           "remedyId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-4fd3a68b39::desktop",
           "mobileFixtureId": "EXPAI-MS-4fd3a68b39::mobile"
         },
@@ -1187,6 +1343,7 @@
           "state": "MS",
           "remedyId": "first-offense-dui-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-56a1ad8807::desktop",
           "mobileFixtureId": "EXPAI-MS-56a1ad8807::mobile"
         },
@@ -1195,6 +1352,7 @@
           "state": "MS",
           "remedyId": "pretrial-intervention-or-diversion-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-82b9254c9f::desktop",
           "mobileFixtureId": "EXPAI-MS-82b9254c9f::mobile"
         },
@@ -1203,6 +1361,7 @@
           "state": "MS",
           "remedyId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-9243c35cd3::desktop",
           "mobileFixtureId": "EXPAI-MS-9243c35cd3::mobile"
         },
@@ -1211,6 +1370,7 @@
           "state": "MS",
           "remedyId": "eligible-felony-conviction-expungement-99-19-71",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-9c7d692811::desktop",
           "mobileFixtureId": "EXPAI-MS-9c7d692811::mobile"
         },
@@ -1219,6 +1379,7 @@
           "state": "MS",
           "remedyId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-afcbfec402::desktop",
           "mobileFixtureId": "EXPAI-MS-afcbfec402::mobile"
         },
@@ -1227,6 +1388,7 @@
           "state": "MS",
           "remedyId": "nonadjudication-under-99-15-26",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-c80f911e03::desktop",
           "mobileFixtureId": "EXPAI-MS-c80f911e03::mobile"
         },
@@ -1235,6 +1397,7 @@
           "state": "MS",
           "remedyId": "minor-in-possession-underage-alcohol-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-c9d86d7fda::desktop",
           "mobileFixtureId": "EXPAI-MS-c9d86d7fda::mobile"
         },
@@ -1243,6 +1406,7 @@
           "state": "MS",
           "remedyId": "intervention-court-completion-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-e161ea667b::desktop",
           "mobileFixtureId": "EXPAI-MS-e161ea667b::mobile"
         },
@@ -1251,6 +1415,7 @@
           "state": "MS",
           "remedyId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-f1975b6281::desktop",
           "mobileFixtureId": "EXPAI-MS-f1975b6281::mobile"
         },
@@ -1259,6 +1424,7 @@
           "state": "MS",
           "remedyId": "human-trafficking-survivor-vacatur-and-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MS-fce61e3b69::desktop",
           "mobileFixtureId": "EXPAI-MS-fce61e3b69::mobile"
         },
@@ -1267,6 +1433,7 @@
           "state": "OK",
           "remedyId": "deferred-sentence-court-record-expungement-under-991-c",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-050cb0b1f7::desktop",
           "mobileFixtureId": "EXPAI-OK-050cb0b1f7::mobile"
         },
@@ -1275,6 +1442,7 @@
           "state": "OK",
           "remedyId": "acquittal-dismissal-or-other-no-conviction-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-OK-07af18288d::desktop",
           "mobileFixtureId": "EXPAI-OK-07af18288d::mobile"
         },
@@ -1283,6 +1451,7 @@
           "state": "OK",
           "remedyId": "other-eligible-misdemeanor-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-085d8ccd12::desktop",
           "mobileFixtureId": "EXPAI-OK-085d8ccd12::mobile"
         },
@@ -1291,6 +1460,7 @@
           "state": "OK",
           "remedyId": "misdemeanor-deferred-dismissal-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-1525cf6531::desktop",
           "mobileFixtureId": "EXPAI-OK-1525cf6531::mobile"
         },
@@ -1299,6 +1469,7 @@
           "state": "OK",
           "remedyId": "one-eligible-nonviolent-felony-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-194b56c5ed::desktop",
           "mobileFixtureId": "EXPAI-OK-194b56c5ed::mobile"
         },
@@ -1307,6 +1478,7 @@
           "state": "OK",
           "remedyId": "clean-slate-automatic-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-3a7ddf09ff::desktop",
           "mobileFixtureId": "EXPAI-OK-3a7ddf09ff::mobile"
         },
@@ -1315,6 +1487,7 @@
           "state": "OK",
           "remedyId": "not-more-than-two-eligible-felony-convictions-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-3de32a639c::desktop",
           "mobileFixtureId": "EXPAI-OK-3de32a639c::mobile"
         },
@@ -1323,6 +1496,7 @@
           "state": "OK",
           "remedyId": "arrest-with-no-charges-filed",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-48d06e7056::desktop",
           "mobileFixtureId": "EXPAI-OK-48d06e7056::mobile"
         },
@@ -1331,6 +1505,7 @@
           "state": "OK",
           "remedyId": "dna-factual-innocence-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-601d178f0e::desktop",
           "mobileFixtureId": "EXPAI-OK-601d178f0e::mobile"
         },
@@ -1339,6 +1514,7 @@
           "state": "OK",
           "remedyId": "felony-reclassified-as-a-misdemeanor",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-77f0e097ef::desktop",
           "mobileFixtureId": "EXPAI-OK-77f0e097ef::mobile"
         },
@@ -1347,6 +1523,7 @@
           "state": "OK",
           "remedyId": "up-to-two-felony-deferred-dismissal-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-81ed7d3182::desktop",
           "mobileFixtureId": "EXPAI-OK-81ed7d3182::mobile"
         },
@@ -1355,6 +1532,7 @@
           "state": "OK",
           "remedyId": "pardon-based-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-8d1e91b58e::desktop",
           "mobileFixtureId": "EXPAI-OK-8d1e91b58e::mobile"
         },
@@ -1363,6 +1541,7 @@
           "state": "OK",
           "remedyId": "nonviolent-felony-deferred-dismissal-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-914fffd2bf::desktop",
           "mobileFixtureId": "EXPAI-OK-914fffd2bf::mobile"
         },
@@ -1371,6 +1550,7 @@
           "state": "OK",
           "remedyId": "human-trafficking-survivor-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-b6d1cd892d::desktop",
           "mobileFixtureId": "EXPAI-OK-b6d1cd892d::mobile"
         },
@@ -1379,6 +1559,7 @@
           "state": "OK",
           "remedyId": "fine-only-misdemeanor-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-c78015774c::desktop",
           "mobileFixtureId": "EXPAI-OK-c78015774c::mobile"
         },
@@ -1387,6 +1568,7 @@
           "state": "OK",
           "remedyId": "juvenile-record-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-c92496030a::desktop",
           "mobileFixtureId": "EXPAI-OK-c92496030a::mobile"
         },
@@ -1395,6 +1577,7 @@
           "state": "OK",
           "remedyId": "victim-protective-order-record-relief",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-e40b43aeff::desktop",
           "mobileFixtureId": "EXPAI-OK-e40b43aeff::mobile"
         },
@@ -1403,6 +1586,7 @@
           "state": "OK",
           "remedyId": "conviction-reversed-and-case-dismissed",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OK-e6d6a37a8b::desktop",
           "mobileFixtureId": "EXPAI-OK-e6d6a37a8b::mobile"
         },
@@ -1411,6 +1595,7 @@
           "state": "SC",
           "remedyId": "diversion-or-program-completion-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-0ff3f4bcbb::desktop",
           "mobileFixtureId": "EXPAI-SC-0ff3f4bcbb::mobile"
         },
@@ -1419,6 +1604,7 @@
           "state": "SC",
           "remedyId": "general-sessions-non-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-460ee816db::desktop",
           "mobileFixtureId": "EXPAI-SC-460ee816db::mobile"
         },
@@ -1427,6 +1613,7 @@
           "state": "SC",
           "remedyId": "summary-court-non-conviction-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-SC-7160aa3b9c::desktop",
           "mobileFixtureId": "EXPAI-SC-7160aa3b9c::mobile"
         },
@@ -1435,6 +1622,7 @@
           "state": "SC",
           "remedyId": "pardon-guidance-for-otherwise-ineligible-convictions",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-8c7dce0a04::desktop",
           "mobileFixtureId": "EXPAI-SC-8c7dce0a04::mobile"
         },
@@ -1443,6 +1631,7 @@
           "state": "SC",
           "remedyId": "juvenile-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-9c7b152465::desktop",
           "mobileFixtureId": "EXPAI-SC-9c7b152465::mobile"
         },
@@ -1451,6 +1640,7 @@
           "state": "SC",
           "remedyId": "eligible-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-a7ec4d89bc::desktop",
           "mobileFixtureId": "EXPAI-SC-a7ec4d89bc::mobile"
         },
@@ -1459,6 +1649,7 @@
           "state": "SC",
           "remedyId": "human-trafficking-survivor-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SC-d2ed1d0590::desktop",
           "mobileFixtureId": "EXPAI-SC-d2ed1d0590::mobile"
         },
@@ -1467,6 +1658,7 @@
           "state": "VA",
           "remedyId": "regime-1-expungement-available-now",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VA-121670834f::desktop",
           "mobileFixtureId": "EXPAI-VA-121670834f::mobile"
         },
@@ -1475,6 +1667,7 @@
           "state": "VA",
           "remedyId": "automatic-sealing-no-filing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VA-744ed9a60d::desktop",
           "mobileFixtureId": "EXPAI-VA-744ed9a60d::mobile"
         },
@@ -1483,6 +1676,7 @@
           "state": "VA",
           "remedyId": "petition-based-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VA-8caa5ba790::desktop",
           "mobileFixtureId": "EXPAI-VA-8caa5ba790::mobile"
         },
@@ -1491,6 +1685,7 @@
           "state": "VA",
           "remedyId": "regime-1-expungement-available-now",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VA-a308023fb0::desktop",
           "mobileFixtureId": "EXPAI-VA-a308023fb0::mobile"
         },
@@ -1499,6 +1694,7 @@
           "state": "VA",
           "remedyId": "petition-based-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VA-b4f78b112b::desktop",
           "mobileFixtureId": "EXPAI-VA-b4f78b112b::mobile"
         }
@@ -1517,13 +1713,18 @@
         "WY"
       ],
       "flowCount": 52,
-      "deviceFixtureCount": 104,
+      "executableFlowCount": 49,
+      "heldFlowCount": 3,
+      "totalDeviceFixtures": 104,
+      "executableDeviceFixtures": 98,
+      "heldDeviceFixtures": 6,
       "flows": [
         {
           "flowId": "EXPAI-AK-36a558324a",
           "state": "AK",
           "remedyId": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-36a558324a::desktop",
           "mobileFixtureId": "EXPAI-AK-36a558324a::mobile"
         },
@@ -1532,6 +1733,7 @@
           "state": "AK",
           "remedyId": "executive-pardon-backstop",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-74ce059d8b::desktop",
           "mobileFixtureId": "EXPAI-AK-74ce059d8b::mobile"
         },
@@ -1540,6 +1742,7 @@
           "state": "AK",
           "remedyId": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-7cadb765da::desktop",
           "mobileFixtureId": "EXPAI-AK-7cadb765da::mobile"
         },
@@ -1548,6 +1751,7 @@
           "state": "AK",
           "remedyId": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-83c6833031::desktop",
           "mobileFixtureId": "EXPAI-AK-83c6833031::mobile"
         },
@@ -1556,6 +1760,7 @@
           "state": "AK",
           "remedyId": "juvenile-record-sealing-as-47-12-300",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-b6c5d4104b::desktop",
           "mobileFixtureId": "EXPAI-AK-b6c5d4104b::mobile"
         },
@@ -1564,6 +1769,7 @@
           "state": "AK",
           "remedyId": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AK-f06cf28ada::desktop",
           "mobileFixtureId": "EXPAI-AK-f06cf28ada::mobile"
         },
@@ -1572,6 +1778,7 @@
           "state": "DC",
           "remedyId": "dc_auto_expungement_16_802",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-0696faf417::desktop",
           "mobileFixtureId": "EXPAI-DC-0696faf417::mobile"
         },
@@ -1580,6 +1787,7 @@
           "state": "DC",
           "remedyId": "dc_motion_seal_nonconviction_16_806",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-3f8f02f2b3::desktop",
           "mobileFixtureId": "EXPAI-DC-3f8f02f2b3::mobile"
         },
@@ -1588,6 +1796,7 @@
           "state": "DC",
           "remedyId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-5fdb1c3758::desktop",
           "mobileFixtureId": "EXPAI-DC-5fdb1c3758::mobile"
         },
@@ -1596,6 +1805,7 @@
           "state": "DC",
           "remedyId": "dc_auto_sealing_16_805",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-b5624da747::desktop",
           "mobileFixtureId": "EXPAI-DC-b5624da747::mobile"
         },
@@ -1604,6 +1814,7 @@
           "state": "DC",
           "remedyId": "dc_juvenile_sealing_16_2335",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-ca9cc5a152::desktop",
           "mobileFixtureId": "EXPAI-DC-ca9cc5a152::mobile"
         },
@@ -1612,6 +1823,7 @@
           "state": "DC",
           "remedyId": "dc_actual_innocence_expungement_16_803",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-DC-ce1b907b71::desktop",
           "mobileFixtureId": "EXPAI-DC-ce1b907b71::mobile"
         },
@@ -1620,6 +1832,7 @@
           "state": "DC",
           "remedyId": "dc_motion_seal_felony_conviction_8yr_16_806",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DC-d39aa46c72::desktop",
           "mobileFixtureId": "EXPAI-DC-d39aa46c72::mobile"
         },
@@ -1628,6 +1841,7 @@
           "state": "MD",
           "remedyId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-2ec5a936b1::desktop",
           "mobileFixtureId": "EXPAI-MD-2ec5a936b1::mobile"
         },
@@ -1636,6 +1850,7 @@
           "state": "MD",
           "remedyId": "automatic-expungement-under-crim-proc-10-105-1",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-3f9fc04496::desktop",
           "mobileFixtureId": "EXPAI-MD-3f9fc04496::mobile"
         },
@@ -1644,6 +1859,7 @@
           "state": "MD",
           "remedyId": "cannabis-specific-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-6d437d6119::desktop",
           "mobileFixtureId": "EXPAI-MD-6d437d6119::mobile"
         },
@@ -1652,6 +1868,7 @@
           "state": "MD",
           "remedyId": "adult-non-conviction-expungement-under-crim-proc-10-105",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-a914286c73::desktop",
           "mobileFixtureId": "EXPAI-MD-a914286c73::mobile"
         },
@@ -1660,6 +1877,7 @@
           "state": "MD",
           "remedyId": "eligible-conviction-expungement-under-crim-proc-10-110",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-c167e32575::desktop",
           "mobileFixtureId": "EXPAI-MD-c167e32575::mobile"
         },
@@ -1668,6 +1886,7 @@
           "state": "MD",
           "remedyId": "second-chance-act-shielding",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-c1a120875e::desktop",
           "mobileFixtureId": "EXPAI-MD-c1a120875e::mobile"
         },
@@ -1676,6 +1895,7 @@
           "state": "MD",
           "remedyId": "pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
           "expectedTerminal": "likely_not_eligible",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-d3001d6a11::desktop",
           "mobileFixtureId": "EXPAI-MD-d3001d6a11::mobile"
         },
@@ -1684,6 +1904,7 @@
           "state": "MD",
           "remedyId": "juvenile-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-MD-f19c71ab11::desktop",
           "mobileFixtureId": "EXPAI-MD-f19c71ab11::mobile"
         },
@@ -1692,6 +1913,7 @@
           "state": "ME",
           "remedyId": "adult-non-conviction-record-relief",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-0bfd05f617::desktop",
           "mobileFixtureId": "EXPAI-ME-0bfd05f617::mobile"
         },
@@ -1700,6 +1922,7 @@
           "state": "ME",
           "remedyId": "sex-trafficking-sexual-exploitation-survivor-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-1d8d94ce3b::desktop",
           "mobileFixtureId": "EXPAI-ME-1d8d94ce3b::mobile"
         },
@@ -1708,6 +1931,7 @@
           "state": "ME",
           "remedyId": "adult-conviction-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-24e6dc20d7::desktop",
           "mobileFixtureId": "EXPAI-ME-24e6dc20d7::mobile"
         },
@@ -1716,6 +1940,7 @@
           "state": "ME",
           "remedyId": "pardon-route",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-7b4a09223b::desktop",
           "mobileFixtureId": "EXPAI-ME-7b4a09223b::mobile"
         },
@@ -1724,6 +1949,7 @@
           "state": "ME",
           "remedyId": "adult-conviction-sealing",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-93cebd7ed2::desktop",
           "mobileFixtureId": "EXPAI-ME-93cebd7ed2::mobile"
         },
@@ -1732,6 +1958,7 @@
           "state": "ME",
           "remedyId": "juvenile-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ME-eaeaf4e5a9::desktop",
           "mobileFixtureId": "EXPAI-ME-eaeaf4e5a9::mobile"
         },
@@ -1740,6 +1967,7 @@
           "state": "NM",
           "remedyId": "dna-sample-profile-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NM-09bfbf2e45::desktop",
           "mobileFixtureId": "EXPAI-NM-09bfbf2e45::mobile"
         },
@@ -1748,6 +1976,7 @@
           "state": "NM",
           "remedyId": "cannabis-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NM-7d2f384beb::desktop",
           "mobileFixtureId": "EXPAI-NM-7d2f384beb::mobile"
         },
@@ -1756,6 +1985,7 @@
           "state": "NM",
           "remedyId": "no-conviction-released-without-conviction",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-NM-99383f885c::desktop",
           "mobileFixtureId": "EXPAI-NM-99383f885c::mobile"
         },
@@ -1764,6 +1994,7 @@
           "state": "NM",
           "remedyId": "cannabis-sentence-dismissal-incarcerated-person-pathway",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NM-b25a55254e::desktop",
           "mobileFixtureId": "EXPAI-NM-b25a55254e::mobile"
         },
@@ -1772,6 +2003,7 @@
           "state": "NM",
           "remedyId": "conviction",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NM-c39c51ba48::desktop",
           "mobileFixtureId": "EXPAI-NM-c39c51ba48::mobile"
         },
@@ -1780,6 +2012,7 @@
           "state": "SD",
           "remedyId": "juvenile-trafficking-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-68460613db::desktop",
           "mobileFixtureId": "EXPAI-SD-68460613db::mobile"
         },
@@ -1788,6 +2021,7 @@
           "state": "SD",
           "remedyId": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-SD-6b42c8c2e3::desktop",
           "mobileFixtureId": "EXPAI-SD-6b42c8c2e3::mobile"
         },
@@ -1796,6 +2030,7 @@
           "state": "SD",
           "remedyId": "controlled-substance-deferred-disposition-route",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-791f44925b::desktop",
           "mobileFixtureId": "EXPAI-SD-791f44925b::mobile"
         },
@@ -1804,6 +2039,7 @@
           "state": "SD",
           "remedyId": "automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-9e40d90371::desktop",
           "mobileFixtureId": "EXPAI-SD-9e40d90371::mobile"
         },
@@ -1812,6 +2048,7 @@
           "state": "SD",
           "remedyId": "diversion-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-a02226d6c0::desktop",
           "mobileFixtureId": "EXPAI-SD-a02226d6c0::mobile"
         },
@@ -1820,6 +2057,7 @@
           "state": "SD",
           "remedyId": "juvenile-delinquency-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-b35179fd83::desktop",
           "mobileFixtureId": "EXPAI-SD-b35179fd83::mobile"
         },
@@ -1828,6 +2066,7 @@
           "state": "SD",
           "remedyId": "suspended-imposition-of-sentence-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-cfcdc30b88::desktop",
           "mobileFixtureId": "EXPAI-SD-cfcdc30b88::mobile"
         },
@@ -1836,6 +2075,7 @@
           "state": "SD",
           "remedyId": "pardon-based-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-SD-f6c9ac59bc::desktop",
           "mobileFixtureId": "EXPAI-SD-f6c9ac59bc::mobile"
         },
@@ -1844,6 +2084,7 @@
           "state": "WA",
           "remedyId": "adult-felony-vacation-under-rcw-9-94a-640",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-24a861f8e0::desktop",
           "mobileFixtureId": "EXPAI-WA-24a861f8e0::mobile"
         },
@@ -1852,6 +2093,7 @@
           "state": "WA",
           "remedyId": "juvenile-record-sealing-under-rcw-13-50-260",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-3103637391::desktop",
           "mobileFixtureId": "EXPAI-WA-3103637391::mobile"
         },
@@ -1860,6 +2102,7 @@
           "state": "WA",
           "remedyId": "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-3e6aac64cf::desktop",
           "mobileFixtureId": "EXPAI-WA-3e6aac64cf::mobile"
         },
@@ -1868,6 +2111,7 @@
           "state": "WA",
           "remedyId": "non-conviction-record-deletion-under-rcw-10-97-060",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-89a80457fc::desktop",
           "mobileFixtureId": "EXPAI-WA-89a80457fc::mobile"
         },
@@ -1876,6 +2120,7 @@
           "state": "WA",
           "remedyId": "blake-drug-possession-vacation-and-refund-route",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-9fc54b0d76::desktop",
           "mobileFixtureId": "EXPAI-WA-9fc54b0d76::mobile"
         },
@@ -1884,6 +2129,7 @@
           "state": "WA",
           "remedyId": "victim-survivor-conviction-vacation-route",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-e337d619f9::desktop",
           "mobileFixtureId": "EXPAI-WA-e337d619f9::mobile"
         },
@@ -1892,6 +2138,7 @@
           "state": "WA",
           "remedyId": "misdemeanor-cannabis-conviction-vacation",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WA-f4e33d52d7::desktop",
           "mobileFixtureId": "EXPAI-WA-f4e33d52d7::mobile"
         },
@@ -1900,6 +2147,7 @@
           "state": "WY",
           "remedyId": "juvenile-minor-expungement-w-s-14-6-241",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WY-0b3bd29460::desktop",
           "mobileFixtureId": "EXPAI-WY-0b3bd29460::mobile"
         },
@@ -1908,6 +2156,7 @@
           "state": "WY",
           "remedyId": "misdemeanor-conviction-expungement-w-s-7-13-1501",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WY-1cf19e457f::desktop",
           "mobileFixtureId": "EXPAI-WY-1cf19e457f::mobile"
         },
@@ -1916,6 +2165,7 @@
           "state": "WY",
           "remedyId": "human-trafficking-victim-vacatur-w-s-6-2-708",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WY-75fff82135::desktop",
           "mobileFixtureId": "EXPAI-WY-75fff82135::mobile"
         },
@@ -1924,6 +2174,7 @@
           "state": "WY",
           "remedyId": "adult-non-conviction-expungement-w-s-7-13-1401",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WY-84ae8460ab::desktop",
           "mobileFixtureId": "EXPAI-WY-84ae8460ab::mobile"
         },
@@ -1932,6 +2183,7 @@
           "state": "WY",
           "remedyId": "felony-conviction-expungement-w-s-7-13-1502",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WY-b6745c1457::desktop",
           "mobileFixtureId": "EXPAI-WY-b6745c1457::mobile"
         }
@@ -1950,13 +2202,18 @@
         "WV"
       ],
       "flowCount": 54,
-      "deviceFixtureCount": 108,
+      "executableFlowCount": 35,
+      "heldFlowCount": 19,
+      "totalDeviceFixtures": 108,
+      "executableDeviceFixtures": 70,
+      "heldDeviceFixtures": 38,
       "flows": [
         {
           "flowId": "EXPAI-AR-6dd3254b94",
           "state": "AR",
           "remedyId": "situation-c-felony-convictions",
           "expectedTerminal": "needs_more_info",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AR-6dd3254b94::desktop",
           "mobileFixtureId": "EXPAI-AR-6dd3254b94::mobile"
         },
@@ -1965,6 +2222,7 @@
           "state": "AR",
           "remedyId": "situation-b-misdemeanor-convictions",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AR-c2b97b17a8::desktop",
           "mobileFixtureId": "EXPAI-AR-c2b97b17a8::mobile"
         },
@@ -1973,6 +2231,7 @@
           "state": "AR",
           "remedyId": "situation-a-non-convictions",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-AR-dac222f72b::desktop",
           "mobileFixtureId": "EXPAI-AR-dac222f72b::mobile"
         },
@@ -1981,6 +2240,7 @@
           "state": "CO",
           "remedyId": "petition-based-conviction-sealing-jdf-612-24-72-706",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CO-424d367fcb::desktop",
           "mobileFixtureId": "EXPAI-CO-424d367fcb::mobile"
         },
@@ -1989,6 +2249,7 @@
           "state": "CO",
           "remedyId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CO-6c38236175::desktop",
           "mobileFixtureId": "EXPAI-CO-6c38236175::mobile"
         },
@@ -1997,6 +2258,7 @@
           "state": "CO",
           "remedyId": "petition-based-non-conviction-sealing-jdf-417-24-72-704",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CO-74448de51a::desktop",
           "mobileFixtureId": "EXPAI-CO-74448de51a::mobile"
         },
@@ -2005,6 +2267,7 @@
           "state": "CO",
           "remedyId": "juvenile-expungement-19-1-306",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CO-8c67627ae3::desktop",
           "mobileFixtureId": "EXPAI-CO-8c67627ae3::mobile"
         },
@@ -2013,6 +2276,7 @@
           "state": "CO",
           "remedyId": "automatic-clean-slate-sealing-13-3-117",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CO-df429ebcb6::desktop",
           "mobileFixtureId": "EXPAI-CO-df429ebcb6::mobile"
         },
@@ -2021,6 +2285,7 @@
           "state": "GA",
           "remedyId": "non-conviction-record-restriction-through-the-agency-prosecutor-process",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-GA-09bfe7bf08::desktop",
           "mobileFixtureId": "EXPAI-GA-09bfe7bf08::mobile"
         },
@@ -2029,6 +2294,7 @@
           "state": "GA",
           "remedyId": "automatic-restriction-of-qualifying-post-july-1-2013-non-convictions",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-GA-6711cdbae8::desktop",
           "mobileFixtureId": "EXPAI-GA-6711cdbae8::mobile"
         },
@@ -2037,6 +2303,7 @@
           "state": "GA",
           "remedyId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-GA-7be5c4a2fb::desktop",
           "mobileFixtureId": "EXPAI-GA-7be5c4a2fb::mobile"
         },
@@ -2045,6 +2312,7 @@
           "state": "GA",
           "remedyId": "restriction-and-sealing-of-a-pardoned-felony",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-GA-c2fda62fb2::desktop",
           "mobileFixtureId": "EXPAI-GA-c2fda62fb2::mobile"
         },
@@ -2053,6 +2321,7 @@
           "state": "GA",
           "remedyId": "youthful-first-offender-restriction-route",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-GA-fe10d36578::desktop",
           "mobileFixtureId": "EXPAI-GA-fe10d36578::mobile"
         },
@@ -2061,6 +2330,7 @@
           "state": "KS",
           "remedyId": "drug-registration-relief-coordination",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KS-06a7149b53::desktop",
           "mobileFixtureId": "EXPAI-KS-06a7149b53::mobile"
         },
@@ -2069,6 +2339,7 @@
           "state": "KS",
           "remedyId": "specialty-court-accelerated",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KS-1be051d7bc::desktop",
           "mobileFixtureId": "EXPAI-KS-1be051d7bc::mobile"
         },
@@ -2077,6 +2348,7 @@
           "state": "KS",
           "remedyId": "conviction-or-diversion-216614",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KS-2c904cd156::desktop",
           "mobileFixtureId": "EXPAI-KS-2c904cd156::mobile"
         },
@@ -2085,6 +2357,7 @@
           "state": "KS",
           "remedyId": "prostitution-coercion",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KS-9381be4ac6::desktop",
           "mobileFixtureId": "EXPAI-KS-9381be4ac6::mobile"
         },
@@ -2093,6 +2366,7 @@
           "state": "OH",
           "remedyId": "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-268c3ff28c::desktop",
           "mobileFixtureId": "EXPAI-OH-268c3ff28c::mobile"
         },
@@ -2101,6 +2375,7 @@
           "state": "OH",
           "remedyId": "marijuana-hashish-possession-expungement-under-2953-321",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-376b3e3bbf::desktop",
           "mobileFixtureId": "EXPAI-OH-376b3e3bbf::mobile"
         },
@@ -2109,6 +2384,7 @@
           "state": "OH",
           "remedyId": "human-trafficking-survivor-conviction-expungement-under-2953-36",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-3cac1fc240::desktop",
           "mobileFixtureId": "EXPAI-OH-3cac1fc240::mobile"
         },
@@ -2117,6 +2393,7 @@
           "state": "OH",
           "remedyId": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-3ee97b6225::desktop",
           "mobileFixtureId": "EXPAI-OH-3ee97b6225::mobile"
         },
@@ -2125,6 +2402,7 @@
           "state": "OH",
           "remedyId": "adult-non-conviction-sealing-or-expungement-under-2953-33",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-71706aee8e::desktop",
           "mobileFixtureId": "EXPAI-OH-71706aee8e::mobile"
         },
@@ -2133,6 +2411,7 @@
           "state": "OH",
           "remedyId": "adult-non-conviction-sealing-or-expungement-under-2953-33",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-74ba70327b::desktop",
           "mobileFixtureId": "EXPAI-OH-74ba70327b::mobile"
         },
@@ -2141,6 +2420,7 @@
           "state": "OH",
           "remedyId": "juvenile-sealing-and-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-8f346f384a::desktop",
           "mobileFixtureId": "EXPAI-OH-8f346f384a::mobile"
         },
@@ -2149,6 +2429,7 @@
           "state": "OH",
           "remedyId": "certain-firearm-carry-conviction-expungement-under-2953-35",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-OH-b33534bb99::desktop",
           "mobileFixtureId": "EXPAI-OH-b33534bb99::mobile"
         },
@@ -2157,6 +2438,7 @@
           "state": "PA",
           "remedyId": "path-e-age-70-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-28d0faee89::desktop",
           "mobileFixtureId": "EXPAI-PA-28d0faee89::mobile"
         },
@@ -2165,6 +2447,7 @@
           "state": "PA",
           "remedyId": "path-b-complete-acquittal-not-guilty-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-3ef757d16d::desktop",
           "mobileFixtureId": "EXPAI-PA-3ef757d16d::mobile"
         },
@@ -2173,6 +2456,7 @@
           "state": "PA",
           "remedyId": "path-a-non-conviction-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-43328528f5::desktop",
           "mobileFixtureId": "EXPAI-PA-43328528f5::mobile"
         },
@@ -2181,6 +2465,7 @@
           "state": "PA",
           "remedyId": "path-k-human-trafficking-vacatur-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-4390010741::desktop",
           "mobileFixtureId": "EXPAI-PA-4390010741::mobile"
         },
@@ -2189,6 +2474,7 @@
           "state": "PA",
           "remedyId": "path-f-deceased-person-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-4d793b6257::desktop",
           "mobileFixtureId": "EXPAI-PA-4d793b6257::mobile"
         },
@@ -2197,6 +2483,7 @@
           "state": "PA",
           "remedyId": "path-i-petition-for-limited-access",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-64154031c7::desktop",
           "mobileFixtureId": "EXPAI-PA-64154031c7::mobile"
         },
@@ -2205,6 +2492,7 @@
           "state": "PA",
           "remedyId": "path-h-pardon-based-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-a3a8b78d07::desktop",
           "mobileFixtureId": "EXPAI-PA-a3a8b78d07::mobile"
         },
@@ -2213,6 +2501,7 @@
           "state": "PA",
           "remedyId": "path-c-summary-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-b248648fdc::desktop",
           "mobileFixtureId": "EXPAI-PA-b248648fdc::mobile"
         },
@@ -2221,6 +2510,7 @@
           "state": "PA",
           "remedyId": "path-g-underage-drinking-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-ce27cf7c39::desktop",
           "mobileFixtureId": "EXPAI-PA-ce27cf7c39::mobile"
         },
@@ -2229,6 +2519,7 @@
           "state": "PA",
           "remedyId": "path-d-ard-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-PA-d8306a7fc5::desktop",
           "mobileFixtureId": "EXPAI-PA-d8306a7fc5::mobile"
         },
@@ -2237,6 +2528,7 @@
           "state": "PA",
           "remedyId": "path-j-clean-slate-automatic-limited-access",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-PA-e396109c5b::desktop",
           "mobileFixtureId": "EXPAI-PA-e396109c5b::mobile"
         },
@@ -2245,6 +2537,7 @@
           "state": "UT",
           "remedyId": "path-m-juvenile-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-124f0e6624::desktop",
           "mobileFixtureId": "EXPAI-UT-124f0e6624::mobile"
         },
@@ -2253,6 +2546,7 @@
           "state": "UT",
           "remedyId": "path-a-automatic-clean-slate-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-UT-1b160fd585::desktop",
           "mobileFixtureId": "EXPAI-UT-1b160fd585::mobile"
         },
@@ -2261,6 +2555,7 @@
           "state": "UT",
           "remedyId": "path-i-traffic-offense-expungement-or-deletion",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-25acc3785f::desktop",
           "mobileFixtureId": "EXPAI-UT-25acc3785f::mobile"
         },
@@ -2269,6 +2564,7 @@
           "state": "UT",
           "remedyId": "path-e-petition-based-non-conviction-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-32d0295d22::desktop",
           "mobileFixtureId": "EXPAI-UT-32d0295d22::mobile"
         },
@@ -2277,6 +2573,7 @@
           "state": "UT",
           "remedyId": "path-f-petition-based-conviction-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-41ac9bb02d::desktop",
           "mobileFixtureId": "EXPAI-UT-41ac9bb02d::mobile"
         },
@@ -2285,6 +2582,7 @@
           "state": "UT",
           "remedyId": "path-k-pardon-based-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-a842ec1734::desktop",
           "mobileFixtureId": "EXPAI-UT-a842ec1734::mobile"
         },
@@ -2293,6 +2591,7 @@
           "state": "UT",
           "remedyId": "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-bed33347ba::desktop",
           "mobileFixtureId": "EXPAI-UT-bed33347ba::mobile"
         },
@@ -2301,6 +2600,7 @@
           "state": "UT",
           "remedyId": "path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-UT-d38f685df3::desktop",
           "mobileFixtureId": "EXPAI-UT-d38f685df3::mobile"
         },
@@ -2309,6 +2609,7 @@
           "state": "UT",
           "remedyId": "path-l-vacatur-human-trafficking-related-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-e0dc7f3db5::desktop",
           "mobileFixtureId": "EXPAI-UT-e0dc7f3db5::mobile"
         },
@@ -2317,6 +2618,7 @@
           "state": "UT",
           "remedyId": "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-UT-e857756948::desktop",
           "mobileFixtureId": "EXPAI-UT-e857756948::mobile"
         },
@@ -2325,6 +2627,7 @@
           "state": "UT",
           "remedyId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-UT-ec96e27907::desktop",
           "mobileFixtureId": "EXPAI-UT-ec96e27907::mobile"
         },
@@ -2333,6 +2636,7 @@
           "state": "WV",
           "remedyId": "eligible-conviction-expungement-under-w-va-code-61-11-26",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-2b24856777::desktop",
           "mobileFixtureId": "EXPAI-WV-2b24856777::mobile"
         },
@@ -2341,6 +2645,7 @@
           "state": "WV",
           "remedyId": "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-7478cb6605::desktop",
           "mobileFixtureId": "EXPAI-WV-7478cb6605::mobile"
         },
@@ -2349,6 +2654,7 @@
           "state": "WV",
           "remedyId": "first-offense-drug-possession-conditional-discharge-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-7ba565db30::desktop",
           "mobileFixtureId": "EXPAI-WV-7ba565db30::mobile"
         },
@@ -2357,6 +2663,7 @@
           "state": "WV",
           "remedyId": "sex-trafficking-victim-vacatur-and-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-bf8b651430::desktop",
           "mobileFixtureId": "EXPAI-WV-bf8b651430::mobile"
         },
@@ -2365,6 +2672,7 @@
           "state": "WV",
           "remedyId": "pardon-based-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-c475dbba92::desktop",
           "mobileFixtureId": "EXPAI-WV-c475dbba92::mobile"
         },
@@ -2373,6 +2681,7 @@
           "state": "WV",
           "remedyId": "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-c9745beada::desktop",
           "mobileFixtureId": "EXPAI-WV-c9745beada::mobile"
         },
@@ -2381,6 +2690,7 @@
           "state": "WV",
           "remedyId": "juvenile-record-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-WV-faa70ad8ec::desktop",
           "mobileFixtureId": "EXPAI-WV-faa70ad8ec::mobile"
         }
@@ -2400,13 +2710,18 @@
         "VT"
       ],
       "flowCount": 70,
-      "deviceFixtureCount": 140,
+      "executableFlowCount": 68,
+      "heldFlowCount": 2,
+      "totalDeviceFixtures": 140,
+      "executableDeviceFixtures": 136,
+      "heldDeviceFixtures": 4,
       "flows": [
         {
           "flowId": "EXPAI-CT-1b1257abe6",
           "state": "CT",
           "remedyId": "cannabis-conviction-erasure",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CT-1b1257abe6::desktop",
           "mobileFixtureId": "EXPAI-CT-1b1257abe6::mobile"
         },
@@ -2415,6 +2730,7 @@
           "state": "CT",
           "remedyId": "absolute-pardon-resulting-in-erasure",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CT-28eaf662a0::desktop",
           "mobileFixtureId": "EXPAI-CT-28eaf662a0::mobile"
         },
@@ -2423,6 +2739,7 @@
           "state": "CT",
           "remedyId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
           "expectedTerminal": "needs_review",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-CT-30719c3bae::desktop",
           "mobileFixtureId": "EXPAI-CT-30719c3bae::mobile"
         },
@@ -2431,6 +2748,7 @@
           "state": "CT",
           "remedyId": "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CT-36a969ce81::desktop",
           "mobileFixtureId": "EXPAI-CT-36a969ce81::mobile"
         },
@@ -2439,6 +2757,7 @@
           "state": "CT",
           "remedyId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-CT-c0bb4ab038::desktop",
           "mobileFixtureId": "EXPAI-CT-c0bb4ab038::mobile"
         },
@@ -2447,6 +2766,7 @@
           "state": "DE",
           "remedyId": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DE-17e8aad244::desktop",
           "mobileFixtureId": "EXPAI-DE-17e8aad244::mobile"
         },
@@ -2455,6 +2775,7 @@
           "state": "DE",
           "remedyId": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DE-4776aaed9c::desktop",
           "mobileFixtureId": "EXPAI-DE-4776aaed9c::mobile"
         },
@@ -2463,6 +2784,7 @@
           "state": "DE",
           "remedyId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DE-57ba12ba57::desktop",
           "mobileFixtureId": "EXPAI-DE-57ba12ba57::mobile"
         },
@@ -2471,6 +2793,7 @@
           "state": "DE",
           "remedyId": "discretionary-court-expungement-under-11-del-c-4374",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DE-72bbc41cea::desktop",
           "mobileFixtureId": "EXPAI-DE-72bbc41cea::mobile"
         },
@@ -2479,6 +2802,7 @@
           "state": "DE",
           "remedyId": "discretionary-court-expungement-under-11-del-c-4374",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-DE-dbde23721f::desktop",
           "mobileFixtureId": "EXPAI-DE-dbde23721f::mobile"
         },
@@ -2487,6 +2811,7 @@
           "state": "ID",
           "remedyId": "juvenile-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ID-296a340aad::desktop",
           "mobileFixtureId": "EXPAI-ID-296a340aad::mobile"
         },
@@ -2495,6 +2820,7 @@
           "state": "ID",
           "remedyId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ID-4278801aed::desktop",
           "mobileFixtureId": "EXPAI-ID-4278801aed::mobile"
         },
@@ -2503,6 +2829,7 @@
           "state": "ID",
           "remedyId": "clean-slate-shielding-under-idaho-code-67-3004-11",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ID-514e009b5f::desktop",
           "mobileFixtureId": "EXPAI-ID-514e009b5f::mobile"
         },
@@ -2511,6 +2838,7 @@
           "state": "ID",
           "remedyId": "withheld-judgment-idaho-code-19-2604-review-branch",
           "expectedTerminal": "needs_more_info",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ID-bd424e69df::desktop",
           "mobileFixtureId": "EXPAI-ID-bd424e69df::mobile"
         },
@@ -2519,6 +2847,7 @@
           "state": "ID",
           "remedyId": "human-trafficking-survivor-vacatur-and-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-ID-c82832cd53::desktop",
           "mobileFixtureId": "EXPAI-ID-c82832cd53::mobile"
         },
@@ -2527,6 +2856,7 @@
           "state": "IL",
           "remedyId": "expungement-after-eligible-supervision-or-qualified-probation",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-0b9edff603::desktop",
           "mobileFixtureId": "EXPAI-IL-0b9edff603::mobile"
         },
@@ -2535,6 +2865,7 @@
           "state": "IL",
           "remedyId": "adult-conviction-sealing",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-0e77f4fd92::desktop",
           "mobileFixtureId": "EXPAI-IL-0e77f4fd92::mobile"
         },
@@ -2543,6 +2874,7 @@
           "state": "IL",
           "remedyId": "juvenile-automatic-or-petition-expungement",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-1ab383ffaa::desktop",
           "mobileFixtureId": "EXPAI-IL-1ab383ffaa::mobile"
         },
@@ -2551,6 +2883,7 @@
           "state": "IL",
           "remedyId": "adult-non-conviction-expungement",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-1fa6667a2a::desktop",
           "mobileFixtureId": "EXPAI-IL-1fa6667a2a::mobile"
         },
@@ -2559,6 +2892,7 @@
           "state": "IL",
           "remedyId": "felony-prostitution-relief",
           "expectedTerminal": "likely_not_eligible",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-35b2281e6d::desktop",
           "mobileFixtureId": "EXPAI-IL-35b2281e6d::mobile"
         },
@@ -2567,6 +2901,7 @@
           "state": "IL",
           "remedyId": "criminal-identity-theft-mistaken-identity-relief",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-5c488d7673::desktop",
           "mobileFixtureId": "EXPAI-IL-5c488d7673::mobile"
         },
@@ -2575,6 +2910,7 @@
           "state": "IL",
           "remedyId": "clean-slate-automatic-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-7e07ca1afa::desktop",
           "mobileFixtureId": "EXPAI-IL-7e07ca1afa::mobile"
         },
@@ -2583,6 +2919,7 @@
           "state": "IL",
           "remedyId": "adult-non-conviction-expungement",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-994c073b7a::desktop",
           "mobileFixtureId": "EXPAI-IL-994c073b7a::mobile"
         },
@@ -2591,6 +2928,7 @@
           "state": "IL",
           "remedyId": "cannabis-specific-automatic-or-petition-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-ba54c2b39b::desktop",
           "mobileFixtureId": "EXPAI-IL-ba54c2b39b::mobile"
         },
@@ -2599,6 +2937,7 @@
           "state": "IL",
           "remedyId": "adult-conviction-sealing",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-c8d9dbcffe::desktop",
           "mobileFixtureId": "EXPAI-IL-c8d9dbcffe::mobile"
         },
@@ -2607,6 +2946,7 @@
           "state": "IL",
           "remedyId": "human-trafficking-survivor-vacatur-and-expungement",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-e5a7058122::desktop",
           "mobileFixtureId": "EXPAI-IL-e5a7058122::mobile"
         },
@@ -2615,6 +2955,7 @@
           "state": "IL",
           "remedyId": "juvenile-automatic-or-petition-expungement",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-IL-f6528bd576::desktop",
           "mobileFixtureId": "EXPAI-IL-f6528bd576::mobile"
         },
@@ -2623,6 +2964,7 @@
           "state": "KY",
           "remedyId": "juvenile-petition-610330",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-0941060cba::desktop",
           "mobileFixtureId": "EXPAI-KY-0941060cba::mobile"
         },
@@ -2631,6 +2973,7 @@
           "state": "KY",
           "remedyId": "nonconviction-431076",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-3d564f3649::desktop",
           "mobileFixtureId": "EXPAI-KY-3d564f3649::mobile"
         },
@@ -2639,6 +2982,7 @@
           "state": "KY",
           "remedyId": "juvenile-automatic-dismissal",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-98f4aca54d::desktop",
           "mobileFixtureId": "EXPAI-KY-98f4aca54d::mobile"
         },
@@ -2647,6 +2991,7 @@
           "state": "KY",
           "remedyId": "misdemeanor-violation-traffic-conviction",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-cb8bd49135::desktop",
           "mobileFixtureId": "EXPAI-KY-cb8bd49135::mobile"
         },
@@ -2655,6 +3000,7 @@
           "state": "KY",
           "remedyId": "felony-conviction-431073",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-df375a3e1d::desktop",
           "mobileFixtureId": "EXPAI-KY-df375a3e1d::mobile"
         },
@@ -2663,6 +3009,7 @@
           "state": "KY",
           "remedyId": "misdemeanor-violation-traffic-conviction",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-KY-fe9bfaed9e::desktop",
           "mobileFixtureId": "EXPAI-KY-fe9bfaed9e::mobile"
         },
@@ -2671,6 +3018,7 @@
           "state": "LA",
           "remedyId": "felony-article-893-e-set-aside-followed-by-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-10da966e68::desktop",
           "mobileFixtureId": "EXPAI-LA-10da966e68::mobile"
         },
@@ -2679,6 +3027,7 @@
           "state": "LA",
           "remedyId": "automated-expungement-status-verification-art-985-2",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-33f66b2e01::desktop",
           "mobileFixtureId": "EXPAI-LA-33f66b2e01::mobile"
         },
@@ -2687,6 +3036,7 @@
           "state": "LA",
           "remedyId": "human-trafficking-survivor-expungement-fee-exempt-route",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-37a15fee4b::desktop",
           "mobileFixtureId": "EXPAI-LA-37a15fee4b::mobile"
         },
@@ -2695,6 +3045,7 @@
           "state": "LA",
           "remedyId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-43821840f5::desktop",
           "mobileFixtureId": "EXPAI-LA-43821840f5::mobile"
         },
@@ -2703,6 +3054,7 @@
           "state": "LA",
           "remedyId": "first-offense-marijuana-expungement-after-90-days-art-998",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-537b02436f::desktop",
           "mobileFixtureId": "EXPAI-LA-537b02436f::mobile"
         },
@@ -2711,6 +3063,7 @@
           "state": "LA",
           "remedyId": "expungement-by-redaction-for-multi-person-records",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-6f327b9a1c::desktop",
           "mobileFixtureId": "EXPAI-LA-6f327b9a1c::mobile"
         },
@@ -2719,6 +3072,7 @@
           "state": "LA",
           "remedyId": "felony-ten-year-clean-period-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-7363dceed9::desktop",
           "mobileFixtureId": "EXPAI-LA-7363dceed9::mobile"
         },
@@ -2727,6 +3081,7 @@
           "state": "LA",
           "remedyId": "misdemeanor-five-year-clean-period-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-84fe2ea5e3::desktop",
           "mobileFixtureId": "EXPAI-LA-84fe2ea5e3::mobile"
         },
@@ -2735,6 +3090,7 @@
           "state": "LA",
           "remedyId": "non-conviction-arrest-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-9142a1d4a2::desktop",
           "mobileFixtureId": "EXPAI-LA-9142a1d4a2::mobile"
         },
@@ -2743,6 +3099,7 @@
           "state": "LA",
           "remedyId": "misdemeanor-five-year-clean-period-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-95c281fa67::desktop",
           "mobileFixtureId": "EXPAI-LA-95c281fa67::mobile"
         },
@@ -2751,6 +3108,7 @@
           "state": "LA",
           "remedyId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-96b1e54edb::desktop",
           "mobileFixtureId": "EXPAI-LA-96b1e54edb::mobile"
         },
@@ -2759,6 +3117,7 @@
           "state": "LA",
           "remedyId": "felony-article-893-e-set-aside-followed-by-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-b7c0dca2fa::desktop",
           "mobileFixtureId": "EXPAI-LA-b7c0dca2fa::mobile"
         },
@@ -2767,6 +3126,7 @@
           "state": "LA",
           "remedyId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-ba7a29480d::desktop",
           "mobileFixtureId": "EXPAI-LA-ba7a29480d::mobile"
         },
@@ -2775,6 +3135,7 @@
           "state": "LA",
           "remedyId": "first-offense-marijuana-expungement-after-90-days-art-998",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-bc9178467e::desktop",
           "mobileFixtureId": "EXPAI-LA-bc9178467e::mobile"
         },
@@ -2783,6 +3144,7 @@
           "state": "LA",
           "remedyId": "first-offender-pardon-felony-expungement",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-c82c02de3c::desktop",
           "mobileFixtureId": "EXPAI-LA-c82c02de3c::mobile"
         },
@@ -2791,6 +3153,7 @@
           "state": "LA",
           "remedyId": "felony-ten-year-clean-period-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-c95346dd24::desktop",
           "mobileFixtureId": "EXPAI-LA-c95346dd24::mobile"
         },
@@ -2799,6 +3162,7 @@
           "state": "LA",
           "remedyId": "non-conviction-arrest-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-df5337b428::desktop",
           "mobileFixtureId": "EXPAI-LA-df5337b428::mobile"
         },
@@ -2807,6 +3171,7 @@
           "state": "LA",
           "remedyId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-LA-ed3f38bf32::desktop",
           "mobileFixtureId": "EXPAI-LA-ed3f38bf32::mobile"
         },
@@ -2815,6 +3180,7 @@
           "state": "NH",
           "remedyId": "dwi-dui-annulment",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-1703afdc6a::desktop",
           "mobileFixtureId": "EXPAI-NH-1703afdc6a::mobile"
         },
@@ -2823,6 +3189,7 @@
           "state": "NH",
           "remedyId": "annulment-of-a-vacated-conviction",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-2b7849d28d::desktop",
           "mobileFixtureId": "EXPAI-NH-2b7849d28d::mobile"
         },
@@ -2831,6 +3198,7 @@
           "state": "NH",
           "remedyId": "conviction-annulment-under-rsa-651-5",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-2d30a8ab53::desktop",
           "mobileFixtureId": "EXPAI-NH-2d30a8ab53::mobile"
         },
@@ -2839,6 +3207,7 @@
           "state": "NH",
           "remedyId": "out-of-state-federal-or-military-record-guidance",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-9bb9ca9a99::desktop",
           "mobileFixtureId": "EXPAI-NH-9bb9ca9a99::mobile"
         },
@@ -2847,6 +3216,7 @@
           "state": "NH",
           "remedyId": "annulment-after-dismissal-acquittal-or-nonprosecution",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-adffa48515::desktop",
           "mobileFixtureId": "EXPAI-NH-adffa48515::mobile"
         },
@@ -2855,6 +3225,7 @@
           "state": "NH",
           "remedyId": "annulment-after-dismissal-acquittal-or-nonprosecution",
           "expectedTerminal": "packet_not_deliverable",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-b2fabe930d::desktop",
           "mobileFixtureId": "EXPAI-NH-b2fabe930d::mobile"
         },
@@ -2863,6 +3234,7 @@
           "state": "NH",
           "remedyId": "marijuana-possession-annulment-under-rsa-651-5-b",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NH-cb9a0a5d58::desktop",
           "mobileFixtureId": "EXPAI-NH-cb9a0a5d58::mobile"
         },
@@ -2871,6 +3243,7 @@
           "state": "NJ",
           "remedyId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NJ-44fa3b7453::desktop",
           "mobileFixtureId": "EXPAI-NJ-44fa3b7453::mobile"
         },
@@ -2879,6 +3252,7 @@
           "state": "NJ",
           "remedyId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NJ-a7b2821722::desktop",
           "mobileFixtureId": "EXPAI-NJ-a7b2821722::mobile"
         },
@@ -2887,6 +3261,7 @@
           "state": "NJ",
           "remedyId": "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NJ-b95401deef::desktop",
           "mobileFixtureId": "EXPAI-NJ-b95401deef::mobile"
         },
@@ -2895,6 +3270,7 @@
           "state": "NJ",
           "remedyId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-NJ-f9ed0b8b95::desktop",
           "mobileFixtureId": "EXPAI-NJ-f9ed0b8b95::mobile"
         },
@@ -2903,6 +3279,7 @@
           "state": "VT",
           "remedyId": "adult-felony-conviction-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-20da1a8907::desktop",
           "mobileFixtureId": "EXPAI-VT-20da1a8907::mobile"
         },
@@ -2911,6 +3288,7 @@
           "state": "VT",
           "remedyId": "adult-misdemeanor-conviction-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-5b7fac66e7::desktop",
           "mobileFixtureId": "EXPAI-VT-5b7fac66e7::mobile"
         },
@@ -2919,6 +3297,7 @@
           "state": "VT",
           "remedyId": "juvenile-sealing",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "HELD_REPLAY_MISMATCH",
           "desktopFixtureId": "EXPAI-VT-5fb365e02f::desktop",
           "mobileFixtureId": "EXPAI-VT-5fb365e02f::mobile"
         },
@@ -2927,6 +3306,7 @@
           "state": "VT",
           "remedyId": "adult-conviction-expungement-narrow-statutory-route",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-844787ebc0::desktop",
           "mobileFixtureId": "EXPAI-VT-844787ebc0::mobile"
         },
@@ -2935,6 +3315,7 @@
           "state": "VT",
           "remedyId": "offense-before-age-25-sealing-under-33-v-s-a-5119-g",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-8ee40e9a36::desktop",
           "mobileFixtureId": "EXPAI-VT-8ee40e9a36::mobile"
         },
@@ -2943,6 +3324,7 @@
           "state": "VT",
           "remedyId": "dui-sealing",
           "expectedTerminal": "needs_review",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-915f431b1a::desktop",
           "mobileFixtureId": "EXPAI-VT-915f431b1a::mobile"
         },
@@ -2951,6 +3333,7 @@
           "state": "VT",
           "remedyId": "non-conviction-sealing",
           "expectedTerminal": "guidance_only",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-bdb42655a5::desktop",
           "mobileFixtureId": "EXPAI-VT-bdb42655a5::mobile"
         },
@@ -2959,6 +3342,7 @@
           "state": "VT",
           "remedyId": "young-adult-sealing-for-offenses-committed-at-ages-18-21",
           "expectedTerminal": "packet_ready_with_caution",
+          "executionStatus": "READY_FOR_BROWSER_EXECUTION",
           "desktopFixtureId": "EXPAI-VT-c362d4da9a::desktop",
           "mobileFixtureId": "EXPAI-VT-c362d4da9a::mobile"
         }
