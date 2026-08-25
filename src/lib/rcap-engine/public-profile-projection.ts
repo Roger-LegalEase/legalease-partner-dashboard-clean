@@ -3,6 +3,7 @@ import "server-only";
 import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile, PublicQuestion } from "@/lib/rcap-engine/contracts";
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
+import { routesForJurisdiction } from "@/lib/legal-authority/index";
 
 type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
 type TranslatedProfileQuestion = {
@@ -45,7 +46,8 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   ]),
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
-  MS: new Set(["disposition_date"]),
+  MO: new Set(["twenty_first_birthday"]),
+  MS: new Set(["disposition_date", "arrest_date"]),
   NY: new Set([
     "ny_16059_total_eligible_convictions",
     "ny_16059_felony_convictions",
@@ -60,6 +62,10 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "wi_expungement_ordered_at_sentencing",
     "wi_no_probation_jail_prison"
   ])
+};
+const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
+  MO: new Set(["twenty_first_birthday"]),
+  MS: new Set(["arrest_date"])
 };
 const STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS: Record<string, Set<string>> = {
   MS: new Set(["resolved_timing_bucket"])
@@ -202,6 +208,31 @@ function courtRequirementsQuestion(stage: string, lifecyclePhase: QuestionLifecy
   };
 }
 
+const LEGAL_AUTHORITY_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "arrest_date",
+    stage: "timing_and_completion",
+    prompt: "What arrest or citation date appears on the record?",
+    helperText: "Use the date shown on the arrest record, citation, or court docket.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  },
+  {
+    id: "twenty_first_birthday",
+    stage: "timing_and_completion",
+    prompt: "What was your twenty-first birthday?",
+    helperText: "Missouri's minor-in-possession route measures its waiting period from this date.",
+    type: "date_or_unknown",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: true,
+    options: null
+  }
+];
+
 /**
  * Normalize a question's `options` to the public contract: a non-empty array of strings, or `null`.
  *
@@ -278,6 +309,18 @@ function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: str
     : lifecyclePhaseForQuestion(question);
   const requiredFactIds = STATE_SPECIFIC_REQUIRED_PREPAY_FACT_IDS[jurisdictionCode];
   const requiredPrepayFact = requiredFactIds?.has(question.id) === true;
+  const exactPrepayTimingFact = STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS[jurisdictionCode]?.has(question.id) === true;
+  if (exactPrepayTimingFact) {
+    return {
+      ...question,
+      lifecyclePhase: "prepay_timing_gate",
+      stage: question.stage,
+      options: normalizeQuestionOptions(question.options),
+      required: question.required,
+      contextOnly: false,
+      doesNotSelectPathway: true
+    };
+  }
   if (lifecyclePhase === "prepay_timing_gate" && PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id) && question.type === "date_or_unknown") {
     return timingBucketQuestion(question, lifecyclePhase, requiredPrepayFact || requiredFactIds?.has("resolved_timing_bucket") === true || question.required);
   }
@@ -788,11 +831,19 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
 
 function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
+  const authorityFactIds = new Set(routesForJurisdiction(profile.jurisdiction.code).flatMap((route) => route.screeningFactIds ?? []));
+  const legalAuthorityAdditions = [
+    ...(authorityFactIds.has("court_requirements_completed") && !existingIds.has("court_requirements_completed")
+      ? [courtRequirementsQuestion("timing_and_completion", "prepay_timing_gate", false)]
+      : []),
+    ...LEGAL_AUTHORITY_FACT_QUESTIONS.filter((question) => authorityFactIds.has(question.id) && !existingIds.has(question.id))
+      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"))
+  ];
   const additions = WILMA_FACT_QUESTIONS
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
   const baseQuestions = withCompletePathwayContextOptions(
-    withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions)),
+    withBroadCourtRequirementsGate(dedupeQuestionsById([...profile.questions, ...legalAuthorityAdditions])),
     pathways
   );
   // The timing bucket is added last, after the court-requirements gate has run

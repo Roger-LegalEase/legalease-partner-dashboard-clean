@@ -67,12 +67,8 @@ function contractYears(contract) {
  */
 const GOVERNANCE_BLOCKED = new Set(["MD"]);
 const blockedInRegistry = LEGAL_AUTHORITY.routes.filter((route) => GOVERNANCE_BLOCKED.has(route.jurisdiction));
-assert(blockedInRegistry.length === 1,
-  `expected exactly one governance-blocked contract, found ${blockedInRegistry.length}`);
-for (const contract of blockedInRegistry) {
-  assert(contract.routeKey === "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-    `unexpected governance-blocked contract ${contract.routeKey}`);
-}
+assert(blockedInRegistry.length === 1 && blockedInRegistry[0]?.routeKey === "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+  "only Maryland § 10-103 may remain profile-byte-pinned; evaluator runtime consumes that exact contract directly");
 
 for (const contract of LEGAL_AUTHORITY.routes) {
   if (GOVERNANCE_BLOCKED.has(contract.jurisdiction)) continue;

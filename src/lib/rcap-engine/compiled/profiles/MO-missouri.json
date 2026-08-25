@@ -1378,7 +1378,8 @@
         ],
         "screeningFactIds": [
           "case_outcome",
-          "offense_level"
+          "offense_level",
+          "twenty_first_birthday"
         ],
         "exclusions": [
           "Exact statute and offense level",
@@ -1390,6 +1391,69 @@
           "Record of the alcohol offense"
         ],
         "notes": "The age-21 clock is its own rule object and must never share a rule with the § 610.140 completion clock. Subject to the first-offense, later-alcohol-record, commercial-driver and other statutory conditions."
+      }
+    },
+    {
+      "id": "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+      "label": "State-initiated automatic expungement of eligible drug offenses under § 610.141",
+      "summary": "Automatic record closure for the four qualifying Missouri drug-possession or paraphernalia statutes, effective 2026-08-28 and operational only when technically feasible for both state bodies; the participant files nothing.",
+      "sourceRef": "recovered-authority:data/record-clearing/legal-design-track-registry.json#mo-610-141-automatic-drug",
+      "sourceEvidenceRefs": [
+        "recovered-authority:data/record-clearing/legal-design-track-registry.json#mo-610-141-automatic-drug"
+      ],
+      "ruleClauses": [
+        "No participant filing; state implementation is required and has not been independently represented as operating."
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "possible_pathway_context"
+      ],
+      "caseOutcomes": [
+        "convicted_misdemeanor",
+        "convicted_felony",
+        "convicted_other"
+      ],
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "The section is effective 2026-08-28, but operates only when technically feasible for both state bodies and no later than 2027-01-01; no participant waiting period or filing applies."
+      ],
+      "exclusionRules": [
+        "Only the four statutes and conditions recorded in the recovered authority apply; do not infer eligibility from a generic drug-offense label."
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.141-AUTOMATIC-DRUG-2026",
+        "mechanism": "State-initiated automatic expungement of eligible drug offenses under § 610.141",
+        "statute": "Mo. Rev. Stat. § 610.141 (enacted 2026)",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "automatic only after the statute is in force and the state systems are technically operational"
+        },
+        "requiredFacts": [
+          "Exact statute of conviction",
+          "Offense level",
+          "Final disposition",
+          "Intervening convictions",
+          "Outstanding arrests or pending charges",
+          "Prior Missouri expungements",
+          "Electronic-record status",
+          "Operational status"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2026-08-28",
+        "notes": "Recovered authority requires guidance only, no checkout, and no claim that the state process is operating until independently verified."
       }
     }
   ],
@@ -1762,13 +1826,11 @@
         "backendPathwayId": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "court_requirements_completed"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "court_requirements_completed"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -2062,6 +2124,38 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "automatic § 610.141 guidance route; never a participant filing"
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout",
+        "paymentAllowed": false
+      },
+      "sourceRef": "recovered-authority:data/record-clearing/legal-design-track-registry.json#mo-610-141-automatic-drug",
+      "candidatePathwayIds": [
+        "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MO-02",
+        "ruleId": "MO-610.141-AUTOMATIC-DRUG-2026",
+        "statute": "Mo. Rev. Stat. § 610.141 (enacted 2026)",
+        "mechanism": "State-initiated automatic expungement of eligible drug offenses under § 610.141"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -2177,7 +2271,8 @@
       "anchor": "twenty_first_birthday",
       "fieldsReferenced": [
         "case_outcome",
-        "offense_level"
+        "offense_level",
+        "twenty_first_birthday"
       ]
     },
     {
@@ -2694,6 +2789,22 @@
           "likely_not_eligible",
           "hard_stop"
         ]
+      },
+      {
+        "pathwayId": "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+        "pathwayLabel": "State-initiated automatic expungement of eligible drug offenses under § 610.141",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "not_required",
+        "sourceRuleRefs": [
+          "recovered-authority:data/record-clearing/legal-design-track-registry.json#mo-610-141-automatic-drug"
+        ],
+        "requiredInputIds": [],
+        "noPacketWhen": [
+          "participant files nothing",
+          "state implementation is not verified"
+        ],
+        "packetReadyWhen": []
       }
     ],
     "requiredInputs": [

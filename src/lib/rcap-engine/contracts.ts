@@ -187,6 +187,22 @@ export type EngineProfile = {
     sourceRef: string;
     sourceEvidenceRefs?: string[];
     suggestedResultCode?: ScreeningResultCode;
+    legalAuthority?: {
+      decisionId: string;
+      ruleId: string;
+      mechanism: string;
+      statute: string;
+      stage: string;
+      outcomeMode: string;
+      paymentAuthority: "packet_checkout" | "attorney_review_required" | "closed";
+      timing: { kind: string; value?: number; unit?: string; anchorFactId?: string; anchorAlternates?: string[]; anchorText: string };
+      requiredFacts: string[];
+      screeningFactIds?: string[];
+      packetFamily: string | null;
+      effectiveFrom?: string;
+      supersedes?: { value?: number; unit?: string; note: string };
+      notes?: string;
+    };
     lawrenceRatification?: {
       status: "ratified_deployable" | "corrected_awaiting_reconfirmation" | "hard_gate_pending" | "hold_guidance";
       packet_capable: boolean;
@@ -206,6 +222,8 @@ export type EngineProfile = {
       caseOutcomes?: string[];
       sourceConditionText?: string;
       duration?: unknown;
+      timingAnchorFactId?: string;
+      timingAnchorAlternateFactIds?: string[];
     };
     then: {
       suggestedResultCode?: ScreeningResultCode;

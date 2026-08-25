@@ -65,7 +65,7 @@ const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
  * point: a silent skip would read as "Maryland has no approved decision".
  */
 const BLOCKED_JURISDICTIONS = {
-  MD: "settled screening-parity delta md-pardon-signed-date-2026-08-11 pins MD-maryland.json to the main baseline"
+  MD: "the settled Maryland profile remains byte-pinned; its authorized § 10-103 contract is consumed directly by evaluator runtime"
 };
 const checkOnly = process.argv.includes("--check");
 
@@ -177,6 +177,63 @@ function newRouteRule(contract) {
     sourceRef: `legal-authority:${contract.decisionId}`,
     candidatePathwayIds: [contract.pathwayId]
   };
+}
+
+function ensureRecoveredMissouriAutomaticRoute(profile) {
+  const pathwayId = "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141";
+  const label = "State-initiated automatic expungement of eligible drug offenses under § 610.141";
+  const sourceRef = "recovered-authority:data/record-clearing/legal-design-track-registry.json#mo-610-141-automatic-drug";
+  if (!profile.pathways.some((pathway) => pathway.id === pathwayId)) {
+    profile.pathways.push({
+      id: pathwayId,
+      label,
+      summary: "Automatic record closure for the four qualifying Missouri drug-possession or paraphernalia statutes, effective 2026-08-28 and operational only when technically feasible for both state bodies; the participant files nothing.",
+      sourceRef,
+      sourceEvidenceRefs: [sourceRef],
+      ruleClauses: ["No participant filing; state implementation is required and has not been independently represented as operating."],
+      triggerFields: ["case_outcome", "offense_level", "possible_pathway_context"],
+      caseOutcomes: ["convicted_misdemeanor", "convicted_felony", "convicted_other"],
+      automatic: true,
+      filingRequired: false,
+      routeType: "automatic",
+      suggestedResultCode: "guidance_only",
+      waitingRules: ["The section is effective 2026-08-28, but operates only when technically feasible for both state bodies and no later than 2027-01-01; no participant waiting period or filing applies."],
+      exclusionRules: ["Only the four statutes and conditions recorded in the recovered authority apply; do not infer eligibility from a generic drug-offense label."],
+      frontendBranch: "save_state_guidance_no_checkout",
+      legalAuthority: {
+        decisionId: "LD-MO-02",
+        ruleId: "MO-610.141-AUTOMATIC-DRUG-2026",
+        mechanism: label,
+        statute: "Mo. Rev. Stat. § 610.141 (enacted 2026)",
+        stage: "automatic",
+        outcomeMode: "automatic_relief",
+        paymentAuthority: "closed",
+        timing: { kind: "event_trigger", anchorText: "automatic only after the statute is in force and the state systems are technically operational" },
+        requiredFacts: ["Exact statute of conviction", "Offense level", "Final disposition", "Intervening convictions", "Outstanding arrests or pending charges", "Prior Missouri expungements", "Electronic-record status", "Operational status"],
+        screeningFactIds: ["case_outcome", "offense_level"],
+        packetFamily: null,
+        effectiveFrom: "2026-08-28",
+        notes: "Recovered authority requires guidance only, no checkout, and no claim that the state process is operating until independently verified."
+      }
+    });
+    summary.created += 1;
+  }
+  if (!profile.orderedDecisionRules.some((rule) => rule.when?.backendPathwayId === pathwayId)) {
+    profile.orderedDecisionRules.push({
+      id: `route-${pathwayId}`,
+      priority: 10,
+      stage: "pathway_routing",
+      when: { backendPathwayId: pathwayId, requiredFields: ["case_outcome", "offense_level"], fieldsReferenced: ["case_outcome", "offense_level"], sourceConditionText: "automatic § 610.141 guidance route; never a participant filing" },
+      then: { suggestedResultCode: "guidance_only", frontendAction: "save_state_guidance_no_checkout", paymentAllowed: false },
+      sourceRef,
+      candidatePathwayIds: [pathwayId],
+      legalAuthority: { decisionId: "LD-MO-02", ruleId: "MO-610.141-AUTOMATIC-DRUG-2026", statute: "Mo. Rev. Stat. § 610.141 (enacted 2026)", mechanism: label }
+    });
+  }
+  const plans = profile.packetGenerator?.pathways;
+  if (Array.isArray(plans) && !plans.some((plan) => plan.pathwayId === pathwayId)) {
+    plans.push({ pathwayId, pathwayLabel: label, mode: "automatic_relief_verification_and_guidance", formCandidates: [], formMappingStatus: "not_required", sourceRuleRefs: [sourceRef], requiredInputIds: [], noPacketWhen: ["participant files nothing", "state implementation is not verified"], packetReadyWhen: [] });
+  }
 }
 
 /**
@@ -364,6 +421,8 @@ for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeC
       }
     }
   }
+
+  if (code === "MO") ensureRecoveredMissouriAutomaticRoute(profile);
 
   // A rule whose candidate pathways are now ALL closed must not still declare a
   // packet or a checkout action. Closing a route by `filingRequired` alone would

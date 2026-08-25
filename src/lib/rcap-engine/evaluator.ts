@@ -6,6 +6,7 @@ import type { EngineProfile, PublicJurisdictionProfile, PublicQuestion, Screenin
 import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
+import { legalRouteContract, routeCheckoutIsClosed, routePaymentAuthority } from "@/lib/legal-authority/index";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -41,7 +42,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
   "ND:first-offense-possession-sealing",
   "ND:marijuana-specific-summary-pardon-or-sealing-relief",
-  "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
   "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
   "NM:no-conviction-released-without-conviction",
   "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
@@ -52,18 +52,13 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
   "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
   "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
-  "MS:additional-justice-or-municipal-court-misdemeanor-relief",
   "MS:eligible-felony-conviction-expungement-99-19-71",
   "MS:nonadjudication-under-99-15-26",
   "MS:pretrial-intervention-or-diversion-expungement",
   "MS:first-offense-controlled-substance-conditional-discharge-relief",
-  "MS:intervention-court-completion-expungement",
   "MS:first-offense-dui-expungement",
-  "MS:dui-nonadjudication",
   "MS:minor-in-possession-underage-alcohol-expungement",
-  "MS:human-trafficking-survivor-vacatur-and-expungement",
   "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
-  "MT:deferred-sentence-dismissal-or-confidentiality-route",
   "MT:marijuana-related-redesignation-expungement-under-mmrta",
   "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
   "DC:dc_actual_innocence_expungement_16_803",
@@ -155,7 +150,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // multi-wait that fails closed. Needs a clean NV route selection + source fix. See LEGAL_ACTION_REQUIRED.md.
   "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
   "OK:acquittal-dismissal-or-other-no-conviction-expungement",
-  "RI:path-f-marijuana-possession-expungement",
   "SC:diversion-or-program-completion-expungement",
   "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
   "UT:path-i-traffic-offense-expungement-or-deletion",
@@ -414,6 +408,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  const preAuthorityGate = preselectedPathway ? legalAuthorityGate(profile, preselectedPathway) : undefined;
+  if (preselectedPathway && preAuthorityGate) {
+    return result(profile, request, "needs_review", [preAuthorityGate], {
+      pathwayId: preselectedPathway.id,
+      paymentAllowed: false
+    });
+  }
   const preMissingProductFacts = preselectedPathway ? missingProductFactIds(profile, answers, preselectedPathway) : [];
   if (preselectedPathway && preMissingProductFacts.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "court_petition_preconditions_missing", "Required court-petition precondition facts are missing.")], {
@@ -468,6 +469,13 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   }
 
   const pathway = route.pathway;
+  const authorityGate = legalAuthorityGate(profile, pathway);
+  if (authorityGate) {
+    return result(profile, request, "needs_review", [authorityGate], {
+      pathwayId: pathway.id,
+      paymentAllowed: false
+    });
+  }
   const missingProductFacts = missingProductFactIds(profile, answers, pathway);
   if (missingProductFacts.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "court_petition_preconditions_missing", "Required court-petition precondition facts are missing.")], {
@@ -556,12 +564,34 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  const legallyAuthorizedPayment = contract
+    ? routePaymentAuthority(contract) === "packet_checkout"
+    : pathway.legalAuthority?.paymentAuthority !== "closed" && pathway.legalAuthority?.paymentAuthority !== "attorney_review_required";
 
   return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
     pathwayId: pathway.id,
     packetPlan: plan,
-    paymentAllowed
+    paymentAllowed: paymentAllowed && legallyAuthorizedPayment
   });
+}
+
+function legalAuthorityGate(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  const authority = pathway.legalAuthority;
+  const paymentAuthority = contract ? routePaymentAuthority(contract) : authority?.paymentAuthority;
+  if (paymentAuthority === "attorney_review_required") {
+    return reason(profile.jurisdiction.code, "legal_authority_attorney_review_required", "This route requires attorney review before any participant packet or checkout may proceed.", pathway.sourceRef);
+  }
+  const effectiveFrom = contract?.effectiveFrom ?? authority?.effectiveFrom;
+  const supersedes = contract?.supersedes ?? authority?.supersedes;
+  if (effectiveFrom && !supersedes) {
+    const effective = parseIsoDate(effectiveFrom);
+    if (!effective || evaluationToday().getTime() < effective.getTime()) {
+      return reason(profile.jurisdiction.code, "legal_authority_not_in_force", `This route is not in force before ${effectiveFrom}.`, pathway.sourceRef);
+    }
+  }
+  return undefined;
 }
 
 function hardStopReason(profile: EngineProfile, answers: Record<string, ScreeningAnswerValue>): ScreeningReason | undefined {
@@ -1589,7 +1619,16 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   const routeOverride = specialRouteTiming(profile, answers, rule, pathway);
   if (routeOverride) return routeOverride;
 
-  const compiledRuleWait = normalizeDuration(compiledRuleDuration(rule));
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  const authority = pathway.legalAuthority;
+  const effectiveFrom = contract?.effectiveFrom ?? authority?.effectiveFrom;
+  const supersedes = contract?.supersedes ?? authority?.supersedes;
+  const effective = effectiveFrom ? parseIsoDate(effectiveFrom) : undefined;
+  const beforeEffective = Boolean(effectiveFrom) && (!effective || evaluationToday().getTime() < effective.getTime());
+  const authorityDuration = beforeEffective && typeof supersedes?.value === "number" && supersedes.unit
+    ? { value: supersedes.value, unit: supersedes.unit, raw: `${supersedes.value} ${supersedes.unit}` }
+    : undefined;
+  const compiledRuleWait = normalizeDuration(authorityDuration ?? compiledRuleDuration(rule));
   const selectedWaitingRule = compiledRuleWait
     ? {
       text: rule.when?.sourceConditionText ?? "",
@@ -1757,6 +1796,8 @@ function packetLikePathway(profile: EngineProfile, pathway: CompiledPathway) {
  * misdemeanor set-aside toward checkout).
  */
 function routeIsAutomaticOrNoFiling(profile: EngineProfile, pathway: CompiledPathway): boolean {
+  const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
+  if (contract && routeCheckoutIsClosed(contract)) return true;
   const routeType = (pathway as { routeType?: string }).routeType;
   if (routeType === "automatic") return true;
   if ((pathway as { filingRequired?: boolean }).filingRequired === false) return true;
@@ -1976,6 +2017,18 @@ function durationDays(duration: CompiledDuration | undefined) {
 }
 
 function chooseTimingAnchor(rule: CompiledRule, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>, waitingRule?: SelectedWaitingRule) {
+  const configured = [rule.when?.timingAnchorFactId, ...(rule.when?.timingAnchorAlternateFactIds ?? [])]
+    .filter((field): field is string => typeof field === "string" && field.length > 0)
+    .filter((field) => answerText(answers[field]).trim() !== "");
+  if (configured.length > 0) {
+    const dated = configured
+      .map((field) => ({ field, date: parseDateAnswer(answers[field]) }))
+      .filter((candidate): candidate is { field: string; date: Date } => Boolean(candidate.date));
+    if (dated.length > 0) {
+      return dated.reduce((latest, candidate) => candidate.date.getTime() > latest.date.getTime() ? candidate : latest).field;
+    }
+    return configured[0];
+  }
   const text = `${waitingRule?.text ?? ""} ${waitingRule?.anchor ?? ""} ${rule.when?.sourceConditionText ?? ""} ${pathway.summary ?? ""}`.toLowerCase();
   const fields = rule.when?.fieldsReferenced ?? [];
   const preferred = [
@@ -2004,6 +2057,12 @@ function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
   const text = answerText(value);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return undefined;
   const date = new Date(`${text}T00:00:00.000Z`);
+  return Number.isNaN(date.getTime()) ? undefined : date;
+}
+
+function parseIsoDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return undefined;
+  const date = new Date(`${value}T00:00:00.000Z`);
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
