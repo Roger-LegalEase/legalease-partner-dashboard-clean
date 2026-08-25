@@ -411,7 +411,8 @@ const GATE_UNLOCK = {
   dc_offense_severity_group: "Not in offense severity group 1, 2, or 3",
   actual_innocence_basis: "The offense did not occur",
   dc_actual_innocence_basis: "The offense did not occur",
-  hi_court_order_confirmed: "Yes"
+  hi_court_order_confirmed: "Yes",
+  resolved_timing_bucket: "gt_10_years"
 };
 const OUTCOME_CANDIDATES = [
   "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -498,6 +499,14 @@ function buildAnswers(profile, pathway, outcome, offenseLevel, date, mutate) {
   // IL felony-prostitution needs a felony prostitution record.
   if (pathway.id === "felony-prostitution-relief") { answers.offense_level = "Felony"; if ("charge" in answers) answers.charge = "Felony prostitution conviction"; }
   for (const [k, v] of Object.entries(GATE_UNLOCK)) if (k in answers) answers[k] = v;
+  // These Maryland routes have maximum filing deadlines rather than minimum waits. A generic
+  // far-past anchor is correctly barred, so the both-direction harness supplies a timely date.
+  if (profile.jurisdiction.code === "MD" && pathway.id === "police-record-expungement-when-no-charge-was-filed-under-10-103") {
+    answers.arrest_date = "2026-01-01";
+  }
+  if (profile.jurisdiction.code === "MD" && pathway.id === "pardoned-conviction-expungement-under-crim-proc-10-105-a-8") {
+    answers.pardon_signed_date = "2026-01-01";
+  }
   // Name one specific source waiting rule so the engine does not fail closed on ambiguous waits.
   if ("waiting_rule_id" in answers) answers.waiting_rule_id = waitingRuleIdFor(profile, pathway) ?? "";
   if (mutate) mutate(answers);

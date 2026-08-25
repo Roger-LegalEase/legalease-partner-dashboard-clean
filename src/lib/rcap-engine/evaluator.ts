@@ -292,6 +292,11 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "NE:juvenile-petition-backstop",
   "MI:human-trafficking-related-set-aside-application",
   "WI:human-trafficking-prostitution-relief-under-973-015-2m",
+  "FL:juvenile-diversion-expunction-943-0582",
+  "GA:youthful-first-offender-restriction-route"
+]);
+
+const APPROVED_RELEASE_GUIDANCE_ROUTES = new Set([
   "PA:path-b-complete-acquittal-not-guilty-expungement",
   "PA:path-c-summary-conviction-expungement",
   "PA:path-d-ard-expungement",
@@ -300,9 +305,7 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "PA:path-g-underage-drinking-conviction-expungement",
   "PA:path-h-pardon-based-expungement",
   "PA:path-i-petition-for-limited-access",
-  "PA:path-k-human-trafficking-vacatur-expungement",
-  "FL:juvenile-diversion-expunction-943-0582",
-  "GA:youthful-first-offender-restriction-route"
+  "PA:path-k-human-trafficking-vacatur-expungement"
 ]);
 
 const INTENTIONAL_UNSUPPORTED_ROUTES = new Set([
@@ -758,6 +761,10 @@ function routeIsHardGatePending(profile: EngineProfile, pathway: CompiledPathway
 
 function routeIsHeldGuidance(profile: EngineProfile, pathway: CompiledPathway) {
   return HELD_GUIDANCE_ROUTES.has(routeKey(profile, pathway));
+}
+
+function routeIsApprovedReleaseGuidance(profile: EngineProfile, pathway: CompiledPathway) {
+  return APPROVED_RELEASE_GUIDANCE_ROUTES.has(routeKey(profile, pathway));
 }
 
 function routeIsIntentionalUnsupported(profile: EngineProfile, pathway: CompiledPathway) {
@@ -1445,6 +1452,14 @@ function productGuidanceReason(profile: EngineProfile, answers: Record<string, S
   const jurisdiction = profile.jurisdiction.code;
   const legalContract = legalRouteContract(jurisdiction, pathway.id);
   if (legalContract?.outcomeMode === "referral") return undefined;
+  if (routeIsApprovedReleaseGuidance(profile, pathway)) {
+    return reason(
+      jurisdiction,
+      "approved_release_guidance_only",
+      "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release. No paid court packet opens for this route.",
+      pathway.sourceRef
+    );
+  }
   if (routeIsHeldGuidance(profile, pathway)) {
     return reason(jurisdiction, "lawrence_hold_guidance_only", "Lawrence marked this petition route guidance-only for this release; no paid court packet opens for this route yet.", pathway.sourceRef);
   }

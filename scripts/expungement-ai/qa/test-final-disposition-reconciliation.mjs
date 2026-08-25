@@ -74,9 +74,8 @@ const formerMismatchCounts = summary.rows
   }, {});
 assert.deepEqual(formerMismatchCounts, {
   attorney_review_referral: 15,
-  guidance: 13,
-  packet: 2,
-  automatic_no_filing: 1
+  guidance: 14,
+  packet: 2
 });
 
 for (const flowId of [
