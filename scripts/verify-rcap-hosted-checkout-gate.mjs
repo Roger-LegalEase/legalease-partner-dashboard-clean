@@ -57,7 +57,6 @@ includesEvery(gate, [
   'routeKind === "legacy_verified"',
   'rendererKind === "packet_document_v1"',
   'rendererVersion === "1.0.0"',
-  'profileVersion === "1.3.0"',
   "briefcase_insert_returning_proves_row",
   "stored_row_matches_authoritative_resolver",
   "unpaid_render_returns_402",
@@ -70,6 +69,12 @@ includesEvery(gate, [
   "RCAP TEST CHECKOUT READY — ROGER ACTION REQUIRED",
   "fixtureRetainedForRoger = true"
 ], "gate");
+
+check(
+  gate.includes("routeIdentity.profileVersion === String(compiledProfile?.profileVersion)")
+    && !/routeIdentity\.profileVersion\s*===\s*["'][^"']+["']/.test(gate),
+  "Pennsylvania route gate must bind profileVersion to compiledProfile instead of a stale literal"
+);
 
 // A partial rebind is the dangerous shape: one constant moved, the other left
 // behind, and the gate then pins a pair that was never published together.

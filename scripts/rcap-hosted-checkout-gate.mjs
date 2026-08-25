@@ -524,7 +524,7 @@ async function main() {
     && routeIdentity.rendererKind === "packet_document_v1"
     && routeIdentity.rendererVersion === "1.0.0"
     && routeIdentity.profileId === "PA"
-    && routeIdentity.profileVersion === "1.3.0"
+    && routeIdentity.profileVersion === String(compiledProfile?.profileVersion)
     && routeIdentity.sourceSha256 === null
     && routeIdentity.sellable === true
     && routeIdentity.creditConsumable === true;
