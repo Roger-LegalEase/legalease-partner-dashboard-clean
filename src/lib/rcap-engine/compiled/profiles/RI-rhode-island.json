@@ -1021,24 +1021,12 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If a person received a deferred sentence in Rhode Island, they may file a motion for expungement after completion of the deferred sentence. Under 12-19-19, if the court finds after a hearing that the person complied with all terms of the deferral agreement, including payment of fines, fees, costs, assessments, and restitution, the person becomes immediately eligible for consideration for expungement. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-19/12-19-19.htm\")",
-        "For non-conviction outcomes, Rhode Island uses 12-1-12 and 12-1-12.1. Identification records such as fingerprints, photographs, physical measurements, and other arrest identification records must generally be destroyed within 60 days after acquittal, dismissal, no true bill, no information, or other exoneration, and court records are sealed consistent with 12-1-12.1. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1/12-1-12.htm\")",
-        "On or after January 1, 2023 Court automatically seals not less than 10 and not more than 20 days after dismissal",
-        "Before January 1, 2023 Court clerk administratively seals at defendant\u0019s request; order is sent electronically to BCI and carried out within 90 days of receipt",
-        "For other acquittals, dismissals, no true bill, no information, or exonerations, the person may file a motion to seal. Notice must be given to the Attorney General and the police department at least 10 days before hearing. (",
-        "Wilma should calculate the waiting period from completion of sentence, not from arrest or conviction date. (",
-        "Rhode Island has a separate pathway for a person with more than one but fewer than six misdemeanor convictions and no felony conviction. This route allows a motion to expunge any or all of those misdemeanors after 10 years from completion of the last sentence. The person must also have no felony or misdemeanor arrest or conviction in the 10 years before filing, no pending criminal proceedings, and good moral character. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://law.justia.com/codes/rhode-island/title-12/chapter-12-1-3/section-12-1-3-3/\")",
-        "Rhode Island has a special expungement provision for certain commercial sexual activity offenses. Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence, and the court may grant the motion regardless of first-offender status. (\"https://webserver.rilegislature.gov/Statutes/TITLE11/11-34.1/11-34.1-5.htm\")",
-        "[5 years / 10 years / immediate after deferred completion / 3 years for DV filing / automatic or request-based / not applicable / unknown]",
-        "Single misdemeanor wait 5 years after sentence completion",
-        "Single felony wait 10 years after sentence completion",
-        "Multiple misdemeanor wait 10 years after completion of last sentence",
-        "Notice AG and charging police department at least 10 days before hearing",
-        "Rule 48(a) dismissal after Jan. 1, 2023 Automatic sealing 10-20 days after dismissal",
-        "Laws Chapter 12-1.3 Non-conviction sealing 12-1-12 and 12-1-12.1 Filed complaints 12-10-12 Deferred sentence 12-19-19 and 12-1.3-2(e) Marijuana possession 12-1.3-5 Commercial sexual activity special relief 11-34.1-5 Single misdemeanor wait 5 years after sentence completion Single felony wait 10 years after sentence completion Multiple misdemeanor wait 10 years after completion of last sentence Multiple misdemeanor limit More than one but fewer than six misdemeanors, no felony Multiple misdemeanor exclusions Domestic violence under Title 12 Chapter 29, DUI, chemical-test refusal Crime of violence Barred from conviction expungement Notice AG and charging police department at least 10 days before hearing Financial obligations Must be paid, waived, or reduced by court order Non-conviction ID records Destruction/sealing possible after acquittal, dismissal, no true bill, no information, or exoneration Rule 48(a) dismissal after Jan.",
-        "1, 2023 Automatic sealing 10-20 days after dismissal Rule 48(a) dismissal before Jan.",
-        "Misdemeanor, single first-offender conviction 5 years from completion of sentence",
-        "Felony, single first-offender conviction 10 years from completion of sentence"
+        "no ordinary eligibility wait; the qualifying disposition and the pre- or post-January 1, 2023 process branch determine which of the four procedures applies",
+        "This rule governs filings on or after 2023-01-01.",
+        "60-day identification-record destruction under § 12-1-12 — agency processing after the disposition, not an eligibility wait.",
+        "10-to-20-day automatic sealing window for Rule 48(a) dismissals entered on or after 2023-01-01 — statutory processing window, not an eligibility wait.",
+        "Clerk's 5-day transmission and up-to-90-day completion on the pre-2023 administrative request — administrative processing, not an eligibility wait.",
+        "10-day notice on the motion process — notice period, not an eligibility wait."
       ],
       "exclusionRules": [
         "Excluded from Multiple-Misdemeanor Path Statute / Category",
@@ -1059,6 +1047,62 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-RI-03",
+        "ruleId": "RI-12-1-12-12.1-FOUR-NONCONVICTION-PROCEDURES",
+        "mechanism": "Nonconviction sealing and expungement — procedure map",
+        "statute": "R.I. Gen. Laws §§ 12-1-12 and 12-1-12.1",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "no ordinary eligibility wait; the qualifying disposition and the pre- or post-January 1, 2023 process branch determine which of the four procedures applies"
+        },
+        "processingDeadlines": [
+          {
+            "label": "60-day identification-record destruction under § 12-1-12",
+            "note": "agency processing after the disposition, not an eligibility wait"
+          },
+          {
+            "label": "10-to-20-day automatic sealing window for Rule 48(a) dismissals entered on or after 2023-01-01",
+            "note": "statutory processing window, not an eligibility wait"
+          },
+          {
+            "label": "Clerk's 5-day transmission and up-to-90-day completion on the pre-2023 administrative request",
+            "note": "administrative processing, not an eligibility wait"
+          },
+          {
+            "label": "10-day notice on the motion process",
+            "note": "notice period, not an eligibility wait"
+          }
+        ],
+        "requiredFacts": [
+          "Disposition type/date?",
+          "Rule 48(a)?",
+          "Pre/post-January 1, 2023?",
+          "Domestic-violence charge?",
+          "Filing date?",
+          "Destruction/sealing status?",
+          "Notice parties?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "disposition_date"
+        ],
+        "exclusions": [
+          "Exact favorable disposition, Rule 48(a) status/date, domestic-violence filing exception, and requested destruction versus sealing remedy"
+        ],
+        "packetFamily": "Rhode Island Nonconviction Sealing Packet under §§ 12-1-12 / 12-1-12.1",
+        "packetComponents": [
+          "Administrative request or motion, by branch",
+          "Disposition record",
+          "Notice to the required parties"
+        ],
+        "effectiveFrom": "2023-01-01",
+        "notes": "Four different procedures, not four eligibility waits. Every numeric period here is processing or notice, except the separate domestic-violence retention condition on § 12-1-12."
       }
     },
     {
@@ -1124,24 +1168,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If a person received a deferred sentence in Rhode Island, they may file a motion for expungement after completion of the deferred sentence. Under 12-19-19, if the court finds after a hearing that the person complied with all terms of the deferral agreement, including payment of fines, fees, costs, assessments, and restitution, the person becomes immediately eligible for consideration for expungement. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-19/12-19-19.htm\")",
-        "For non-conviction outcomes, Rhode Island uses 12-1-12 and 12-1-12.1. Identification records such as fingerprints, photographs, physical measurements, and other arrest identification records must generally be destroyed within 60 days after acquittal, dismissal, no true bill, no information, or other exoneration, and court records are sealed consistent with 12-1-12.1. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1/12-1-12.htm\")",
-        "On or after January 1, 2023 Court automatically seals not less than 10 and not more than 20 days after dismissal",
-        "Before January 1, 2023 Court clerk administratively seals at defendant\u0019s request; order is sent electronically to BCI and carried out within 90 days of receipt",
-        "For other acquittals, dismissals, no true bill, no information, or exonerations, the person may file a motion to seal. Notice must be given to the Attorney General and the police department at least 10 days before hearing. (",
-        "Wilma should calculate the waiting period from completion of sentence, not from arrest or conviction date. (",
-        "Rhode Island has a separate pathway for a person with more than one but fewer than six misdemeanor convictions and no felony conviction. This route allows a motion to expunge any or all of those misdemeanors after 10 years from completion of the last sentence. The person must also have no felony or misdemeanor arrest or conviction in the 10 years before filing, no pending criminal proceedings, and good moral character. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://law.justia.com/codes/rhode-island/title-12/chapter-12-1-3/section-12-1-3-3/\")",
-        "Rhode Island has a special expungement provision for certain commercial sexual activity offenses. Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence, and the court may grant the motion regardless of first-offender status. (\"https://webserver.rilegislature.gov/Statutes/TITLE11/11-34.1/11-34.1-5.htm\")",
-        "[5 years / 10 years / immediate after deferred completion / 3 years for DV filing / automatic or request-based / not applicable / unknown]",
-        "Single misdemeanor wait 5 years after sentence completion",
-        "Single felony wait 10 years after sentence completion",
-        "Multiple misdemeanor wait 10 years after completion of last sentence",
-        "Notice AG and charging police department at least 10 days before hearing",
-        "Rule 48(a) dismissal after Jan. 1, 2023 Automatic sealing 10-20 days after dismissal",
-        "Laws Chapter 12-1.3 Non-conviction sealing 12-1-12 and 12-1-12.1 Filed complaints 12-10-12 Deferred sentence 12-19-19 and 12-1.3-2(e) Marijuana possession 12-1.3-5 Commercial sexual activity special relief 11-34.1-5 Single misdemeanor wait 5 years after sentence completion Single felony wait 10 years after sentence completion Multiple misdemeanor wait 10 years after completion of last sentence Multiple misdemeanor limit More than one but fewer than six misdemeanors, no felony Multiple misdemeanor exclusions Domestic violence under Title 12 Chapter 29, DUI, chemical-test refusal Crime of violence Barred from conviction expungement Notice AG and charging police department at least 10 days before hearing Financial obligations Must be paid, waived, or reduced by court order Non-conviction ID records Destruction/sealing possible after acquittal, dismissal, no true bill, no information, or exoneration Rule 48(a) dismissal after Jan.",
-        "1, 2023 Automatic sealing 10-20 days after dismissal Rule 48(a) dismissal before Jan.",
-        "Misdemeanor, single first-offender conviction 5 years from completion of sentence",
-        "Felony, single first-offender conviction 10 years from completion of sentence"
+        "expunged after the court-set filing period is successfully completed; a domestic-violence complaint uses the distinct three-year statutory branch if no disqualifying domestic-violence charge occurs"
       ],
       "exclusionRules": [
         "Excluded from Multiple-Misdemeanor Path Statute / Category",
@@ -1162,6 +1189,44 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "mechanism": "Filed-complaint relief",
+        "statute": "R.I. Gen. Laws § 12-10-12",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "expunged after the court-set filing period is successfully completed; a domestic-violence complaint uses the distinct three-year statutory branch if no disqualifying domestic-violence charge occurs"
+        },
+        "requiredFacts": [
+          "Complaint type?",
+          "Filing order and end date?",
+          "DV designation and later charges?",
+          "Marijuana statute/amount?",
+          "Automatic-expungement status?",
+          "Other decriminalized statute?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact complaint/offense type",
+          "Successful filing completion",
+          "No disqualifying DV charge",
+          "Marijuana/decriminalized statutory category"
+        ],
+        "packetFamily": "Rhode Island Filed-Complaint Expungement Packet under § 12-10-12",
+        "packetComponents": [
+          "Application to expunge",
+          "Proof the filing period was completed"
+        ],
+        "notes": "Do not convert the court-set filing term into a generic fixed waiting-period rule; it is set case by case."
       }
     },
     {
@@ -1222,29 +1287,12 @@
         "acquitted",
         "diversion_or_deferred"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Wilma should calculate the waiting period from completion of sentence, not from arrest or conviction date. (",
-        "Rhode Island has a separate pathway for a person with more than one but fewer than six misdemeanor convictions and no felony conviction. This route allows a motion to expunge any or all of those misdemeanors after 10 years from completion of the last sentence. The person must also have no felony or misdemeanor arrest or conviction in the 10 years before filing, no pending criminal proceedings, and good moral character. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://law.justia.com/codes/rhode-island/title-12/chapter-12-1-3/section-12-1-3-3/\")",
-        "If a person received a deferred sentence in Rhode Island, they may file a motion for expungement after completion of the deferred sentence. Under 12-19-19, if the court finds after a hearing that the person complied with all terms of the deferral agreement, including payment of fines, fees, costs, assessments, and restitution, the person becomes immediately eligible for consideration for expungement. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-19/12-19-19.htm\")",
-        "For non-conviction outcomes, Rhode Island uses 12-1-12 and 12-1-12.1. Identification records such as fingerprints, photographs, physical measurements, and other arrest identification records must generally be destroyed within 60 days after acquittal, dismissal, no true bill, no information, or other exoneration, and court records are sealed consistent with 12-1-12.1. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1/12-1-12.htm\")",
-        "On or after January 1, 2023 Court automatically seals not less than 10 and not more than 20 days after dismissal",
-        "Before January 1, 2023 Court clerk administratively seals at defendant\u0019s request; order is sent electronically to BCI and carried out within 90 days of receipt",
-        "For other acquittals, dismissals, no true bill, no information, or exonerations, the person may file a motion to seal. Notice must be given to the Attorney General and the police department at least 10 days before hearing. (",
-        "Rhode Island has a special expungement provision for certain commercial sexual activity offenses. Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence, and the court may grant the motion regardless of first-offender status. (\"https://webserver.rilegislature.gov/Statutes/TITLE11/11-34.1/11-34.1-5.htm\")",
-        "[5 years / 10 years / immediate after deferred completion / 3 years for DV filing / automatic or request-based / not applicable / unknown]",
-        "Single misdemeanor wait 5 years after sentence completion",
-        "Single felony wait 10 years after sentence completion",
-        "Multiple misdemeanor wait 10 years after completion of last sentence",
-        "Notice AG and charging police department at least 10 days before hearing",
-        "Rule 48(a) dismissal after Jan. 1, 2023 Automatic sealing 10-20 days after dismissal",
-        "Laws Chapter 12-1.3 Non-conviction sealing 12-1-12 and 12-1-12.1 Filed complaints 12-10-12 Deferred sentence 12-19-19 and 12-1.3-2(e) Marijuana possession 12-1.3-5 Commercial sexual activity special relief 11-34.1-5 Single misdemeanor wait 5 years after sentence completion Single felony wait 10 years after sentence completion Multiple misdemeanor wait 10 years after completion of last sentence Multiple misdemeanor limit More than one but fewer than six misdemeanors, no felony Multiple misdemeanor exclusions Domestic violence under Title 12 Chapter 29, DUI, chemical-test refusal Crime of violence Barred from conviction expungement Notice AG and charging police department at least 10 days before hearing Financial obligations Must be paid, waived, or reduced by court order Non-conviction ID records Destruction/sealing possible after acquittal, dismissal, no true bill, no information, or exoneration Rule 48(a) dismissal after Jan.",
-        "1, 2023 Automatic sealing 10-20 days after dismissal Rule 48(a) dismissal before Jan.",
-        "Misdemeanor, single first-offender conviction 5 years from completion of sentence",
-        "Felony, single first-offender conviction 10 years from completion of sentence"
+        "the automatic and expedited statutory process applies; there is no participant waiting period"
       ],
       "exclusionRules": [
         "Excluded from Multiple-Misdemeanor Path Statute / Category",
@@ -1265,6 +1313,39 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "mechanism": "Decriminalized marijuana-possession expungement",
+        "statute": "R.I. Gen. Laws § 12-1.3-5",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the automatic and expedited statutory process applies; there is no participant waiting period"
+        },
+        "requiredFacts": [
+          "Complaint type?",
+          "Filing order and end date?",
+          "DV designation and later charges?",
+          "Marijuana statute/amount?",
+          "Automatic-expungement status?",
+          "Other decriminalized statute?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact complaint/offense type",
+          "Successful filing completion",
+          "No disqualifying DV charge",
+          "Marijuana/decriminalized statutory category"
+        ],
+        "packetFamily": null,
+        "notes": "No disqualification based solely on unpaid fees, prior records, or pending matters where the statute removes those barriers. Checkout stays closed."
       }
     },
     {
@@ -1326,28 +1407,11 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Wilma should calculate the waiting period from completion of sentence, not from arrest or conviction date. (",
-        "Rhode Island has a separate pathway for a person with more than one but fewer than six misdemeanor convictions and no felony conviction. This route allows a motion to expunge any or all of those misdemeanors after 10 years from completion of the last sentence. The person must also have no felony or misdemeanor arrest or conviction in the 10 years before filing, no pending criminal proceedings, and good moral character. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://law.justia.com/codes/rhode-island/title-12/chapter-12-1-3/section-12-1-3-3/\")",
-        "If a person received a deferred sentence in Rhode Island, they may file a motion for expungement after completion of the deferred sentence. Under 12-19-19, if the court finds after a hearing that the person complied with all terms of the deferral agreement, including payment of fines, fees, costs, assessments, and restitution, the person becomes immediately eligible for consideration for expungement. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1.3/12-1.3-2.htm\") (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-19/12-19-19.htm\")",
-        "For non-conviction outcomes, Rhode Island uses 12-1-12 and 12-1-12.1. Identification records such as fingerprints, photographs, physical measurements, and other arrest identification records must generally be destroyed within 60 days after acquittal, dismissal, no true bill, no information, or other exoneration, and court records are sealed consistent with 12-1-12.1. (\"https://webserver.rilegislature.gov/Statutes/TITLE12/12-1/12-1-12.htm\")",
-        "On or after January 1, 2023 Court automatically seals not less than 10 and not more than 20 days after dismissal",
-        "Before January 1, 2023 Court clerk administratively seals at defendant\u0019s request; order is sent electronically to BCI and carried out within 90 days of receipt",
-        "For other acquittals, dismissals, no true bill, no information, or exonerations, the person may file a motion to seal. Notice must be given to the Attorney General and the police department at least 10 days before hearing. (",
-        "Rhode Island has a special expungement provision for certain commercial sexual activity offenses. Records of a person convicted, placed on probation, or whose case was filed under 12-10-12 for violations of 11-34.1-2 or 11-34.1-4 may be expunged one year after completion of sentence, and the court may grant the motion regardless of first-offender status. (\"https://webserver.rilegislature.gov/Statutes/TITLE11/11-34.1/11-34.1-5.htm\")",
-        "[5 years / 10 years / immediate after deferred completion / 3 years for DV filing / automatic or request-based / not applicable / unknown]",
-        "Single misdemeanor wait 5 years after sentence completion",
-        "Single felony wait 10 years after sentence completion",
-        "Multiple misdemeanor wait 10 years after completion of last sentence",
-        "Notice AG and charging police department at least 10 days before hearing",
-        "Rule 48(a) dismissal after Jan. 1, 2023 Automatic sealing 10-20 days after dismissal",
-        "Laws Chapter 12-1.3 Non-conviction sealing 12-1-12 and 12-1-12.1 Filed complaints 12-10-12 Deferred sentence 12-19-19 and 12-1.3-2(e) Marijuana possession 12-1.3-5 Commercial sexual activity special relief 11-34.1-5 Single misdemeanor wait 5 years after sentence completion Single felony wait 10 years after sentence completion Multiple misdemeanor wait 10 years after completion of last sentence Multiple misdemeanor limit More than one but fewer than six misdemeanors, no felony Multiple misdemeanor exclusions Domestic violence under Title 12 Chapter 29, DUI, chemical-test refusal Crime of violence Barred from conviction expungement Notice AG and charging police department at least 10 days before hearing Financial obligations Must be paid, waived, or reduced by court order Non-conviction ID records Destruction/sealing possible after acquittal, dismissal, no true bill, no information, or exoneration Rule 48(a) dismissal after Jan.",
-        "1, 2023 Automatic sealing 10-20 days after dismissal Rule 48(a) dismissal before Jan.",
-        "Misdemeanor, single first-offender conviction 5 years from completion of sentence",
-        "Felony, single first-offender conviction 10 years from completion of sentence"
+        "routed under the offense's own statute and disposition; it has no shared clock"
       ],
       "exclusionRules": [
         "Excluded from Multiple-Misdemeanor Path Statute / Category",
@@ -1368,6 +1432,39 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "mechanism": "Decriminalized-offense expungement outside the marijuana statute",
+        "statute": "R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense",
+        "stage": "single_stage",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "routed under the offense's own statute and disposition; it has no shared clock"
+        },
+        "requiredFacts": [
+          "Complaint type?",
+          "Filing order and end date?",
+          "DV designation and later charges?",
+          "Marijuana statute/amount?",
+          "Automatic-expungement status?",
+          "Other decriminalized statute?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact complaint/offense type",
+          "Successful filing completion",
+          "No disqualifying DV charge",
+          "Marijuana/decriminalized statutory category"
+        ],
+        "packetFamily": null,
+        "notes": "Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells."
       }
     },
     {
@@ -2513,8 +2610,8 @@
         "sourceConditionText": "Path F - Marijuana possession expungement"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:16-92",
       "candidatePathwayIds": [
@@ -2534,8 +2631,8 @@
         "sourceConditionText": "Possession-only offense Potentially eligible"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:16-92",
       "candidatePathwayIds": [
@@ -3047,8 +3144,8 @@
         "sourceConditionText": "Whether offense is marijuana possession-only."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "packet_logic:297-327",
       "candidatePathwayIds": [
@@ -3161,8 +3258,8 @@
         "sourceConditionText": "Case includes both marijuana possession and non-marijuana counts."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:245-296",
       "candidatePathwayIds": [
@@ -3726,7 +3823,8 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Path D — Non-conviction sealing / expungement"
+        "sourceConditionText": "no ordinary eligibility wait; the qualifying disposition and the pre- or post-January 1, 2023 process branch determine which of the four procedures applies",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3736,7 +3834,13 @@
       "sourceRef": "pathways:16-92; section:16-92; section:194-244; corpus-unit:22; decision_tree:194-244; corpus-unit:94; corpus-unit:165",
       "candidatePathwayIds": [
         "path-d-non-conviction-sealing-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-RI-03",
+        "ruleId": "RI-12-1-12-12.1-FOUR-NONCONVICTION-PROCEDURES",
+        "statute": "R.I. Gen. Laws §§ 12-1-12 and 12-1-12.1",
+        "mechanism": "Nonconviction sealing and expungement — procedure map"
+      }
     },
     {
       "id": "route-path-e-filed-complaint-relief-under-12-10-12",
@@ -3772,7 +3876,8 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Path E — Filed-complaint relief under § 12-10-12"
+        "sourceConditionText": "expunged after the court-set filing period is successfully completed; a domestic-violence complaint uses the distinct three-year statutory branch if no disqualifying domestic-violence charge occurs",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3782,7 +3887,13 @@
       "sourceRef": "pathways:16-92; section:16-92; corpus-unit:25",
       "candidatePathwayIds": [
         "path-e-filed-complaint-relief-under-12-10-12"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "statute": "R.I. Gen. Laws § 12-10-12",
+        "mechanism": "Filed-complaint relief"
+      }
     },
     {
       "id": "route-path-f-marijuana-possession-expungement",
@@ -3818,17 +3929,23 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Path F — Marijuana-possession expungement"
+        "sourceConditionText": "the automatic and expedited statutory process applies; there is no participant waiting period"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:16-92; section:16-92; corpus-unit:28",
       "candidatePathwayIds": [
         "path-f-marijuana-possession-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "statute": "R.I. Gen. Laws § 12-1.3-5",
+        "mechanism": "Decriminalized marijuana-possession expungement"
+      }
     },
     {
       "id": "route-path-g-decriminalized-offense-expungement",
@@ -3864,17 +3981,23 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Path G — Decriminalized-offense expungement"
+        "sourceConditionText": "routed under the offense's own statute and disposition; it has no shared clock"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:16-92; section:16-92; corpus-unit:31",
       "candidatePathwayIds": [
         "path-g-decriminalized-offense-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-RI-06",
+        "ruleId": "RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT",
+        "statute": "R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense",
+        "mechanism": "Decriminalized-offense expungement outside the marijuana statute"
+      }
     },
     {
       "id": "route-path-h-commercial-sexual-activity-related-expungement",
@@ -4542,7 +4665,7 @@
       {
         "pathwayId": "path-f-marijuana-possession-expungement",
         "pathwayLabel": "Path F — Marijuana-possession expungement",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf",
@@ -4595,7 +4718,7 @@
       {
         "pathwayId": "path-g-decriminalized-offense-expungement",
         "pathwayLabel": "Path G — Decriminalized-offense expungement",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "Motion and Affidavit to Expunge or Seal Record - Misdemeanor-superior.pdf",

@@ -746,17 +746,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "New Hampshire has a special marijuana possession annulment statute, RSA 651:5-b. A person arrested or convicted before September 16, 2017 for knowingly or purposely possessing, obtaining, purchasing, or transporting 3/4 of an ounce of marijuana or less may petition the court where the arrest or conviction occurred at any time. The prosecutor has 10 days to object; if the prosecutor objects, they must prove beyond a reasonable doubt that the marijuana amount exceeded 3/4 ounce. (\"https://law.justia.com/codes/new-hampshire/2019/title-lxii/chapter-651/section-651-5-b/\")",
-        "DWI is a special category. New Hampshire\u0019s main statute carves out RSA 265-A:21 from the ordinary waiting-period structure. 603 Legal Aid explains that convictions for driving, attempting to drive, or operating a vehicle, OHRV, or boat while under the influence generally require a 10-year waiting period after conviction before asking for annulment. (\"https://www.603legalaid.org/how-to-remove-your-criminal-record\")",
-        "The basic New Hampshire conviction waiting periods are:",
-        "Class A misdemeanor or felony offense under RSA 318-B:26, II 2 years",
-        "RSA 651:5 lists violation, Class B misdemeanor, Class A misdemeanor, Class B felony, Class A felony, sexual assault, felony indecent exposure/lewdness, misdemeanor domestic violence, and certain controlled-drug-act waiting periods. (",
-        "The basic New Hampshire conviction waiting periods are: Offense Type Waiting Period Violation 1 year Class B misdemeanor 2 years Class A misdemeanor 3 years Class B felony 5 years Class A felony 10 years Sexual assault under RSA 632-A:4 10 years Felony indecent exposure or lewdness under RSA 645:1, II 10 years Misdemeanor domestic violence under RSA 631:2-b 10 years Class A misdemeanor or felony offense under RSA 318-B:26, II 2 years DWI / DUI-type offense Special 10-year rule; verify under RSA 265-A:21 RSA 651:5 lists violation, Class B misdemeanor, Class A misdemeanor, Class B felony, Class A felony, sexual assault, felony indecent exposure/lewdness, misdemeanor domestic violence, and certain controlled-drug-act waiting periods. ( \"https://law.justia.com/codes/new-hampshire/title-lxii/chapter-651/section-651-5/\") Wilma should calculate eligibility from: the date all terms and conditions of sentence were completed, unless a special statute calculates differently, such as certain DWI or motor-vehicle rules.",
-        "Favorable outcome post-2019 Generally annulled after 30 days if no appeal",
-        "Topic Rule Legal term Annulment Main statute RSA 651:5 Main form Petition to Annul Record, NHJB-2317-DSe Favorable outcome pre-2019 Petition at any time Favorable outcome post-2019 Generally annulled after 30 days if no appeal Conviction trigger Sentence fully completed Violation 1 year Class B misdemeanor 2 years Class A misdemeanor 3 years Class B felony 5 years Class A felony 10 years Domestic violence misdemeanor 10 years Sexual assault 10 years Felony indecent exposure/lewdness 10 years DWI Special 10-year review Marijuana possession RSA 651:5-b, 3/4 ounce or less, offense before Sept.",
-        "For offenses disposed of before January 1, 2019, a person whose arrest resulted in a finding of not guilty, dismissal, or non-prosecution may petition for annulment at any time. For offenses disposed of on or after January 1, 2019, RSA 651:5 says qualifying not-guilty, dismissed, or not-prosecuted records shall be annulled 30 days after the finding if no appeal is taken, or after final appeal determination if an appeal is taken. (\"https://law.justia.com/codes/new-hampshire/title-lxii/chapter-651/section-651-5/\")",
-        "2 Have no new disqualifying conviction during the waiting period;",
-        "3 Satisfy the waiting period for the offense level;"
+        "the controlling event is entry of the order vacating the conviction, not sentence completion; a conviction vacated on or after January 1, 2019 receives the statute's automatic annulment treatment, and an earlier vacatur uses the petition procedure",
+        "This rule governs filings on or after 2019-01-01."
       ],
       "exclusionRules": [
         "New Hampshire courts can only annul New Hampshire records. 603 Legal Aid explains that New Hampshire courts cannot remove federal or military convictions, and out-of-state records require relief in the state where they occurred. (\"https://www.603legalaid.org/how-to-remove-your-criminal-record\")"
@@ -768,6 +759,41 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NH-04",
+        "ruleId": "NH-RSA-651-5-VACATUR-PREPOST-2019-MAP",
+        "mechanism": "Annulment of a vacated conviction",
+        "statute": "N.H. Rev. Stat. § 651:5",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the controlling event is entry of the order vacating the conviction, not sentence completion; a conviction vacated on or after January 1, 2019 receives the statute's automatic annulment treatment, and an earlier vacatur uses the petition procedure"
+        },
+        "requiredFacts": [
+          "Vacatur order and reason?",
+          "Vacatur date?",
+          "Conviction and court?",
+          "Automatic-annulment status?",
+          "Remaining counts?",
+          "Agency record status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Conviction has actually been vacated",
+          "Use the special vacatur provision rather than ordinary offense-class annulment clocks"
+        ],
+        "packetFamily": "New Hampshire Annulment Petition under RSA 651:5",
+        "packetComponents": [
+          "Petition to annul",
+          "Order vacating the conviction"
+        ],
+        "effectiveFrom": "2019-01-01",
+        "notes": "Require the actual vacatur order; a claimed appeal or collateral challenge is not enough. Do not import the ordinary offense-class waiting periods into this branch. The on-or-after 2019-01-01 cohort is automatic and files nothing."
       }
     },
     {
@@ -2754,7 +2780,7 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "Annulment of a vacated conviction"
+        "sourceConditionText": "the controlling event is entry of the order vacating the conviction, not sentence completion; a conviction vacated on or after January 1, 2019 receives the statute's automatic annulment treatment, and an earlier vacatur uses the petition procedure"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2764,7 +2790,13 @@
       "sourceRef": "pathways:35-82; section:35-82; corpus-unit:20",
       "candidatePathwayIds": [
         "annulment-of-a-vacated-conviction"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NH-04",
+        "ruleId": "NH-RSA-651-5-VACATUR-PREPOST-2019-MAP",
+        "statute": "N.H. Rev. Stat. § 651:5",
+        "mechanism": "Annulment of a vacated conviction"
+      }
     },
     {
       "id": "route-conviction-annulment-under-rsa-651-5",

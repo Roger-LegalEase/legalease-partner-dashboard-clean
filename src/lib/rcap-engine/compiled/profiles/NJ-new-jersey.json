@@ -539,24 +539,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "ENTIRE record — any number of crimes and disorderly persons offenses — ten years after the most recent",
-        "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants.",
-        "Arrests not resulting in conviction (2C:52-6): expungeable at any time; the court may order an IMMEDIATE expungement if the case is dismissed or the person is acquitted/found not guilty on all counts (expedited).",
-        "Juvenile adjudications (2C:52-4.1): generally 3 years after final discharge with no further arrests/charges.",
-        "sealed and shouldn't be lumped into the regular waiting-period analysis.",
-        "Regular expungement (indictable 5 years Latest sentence event",
-        "Early pathway (compelling 4 years Latest sentence event",
-        "Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/",
-        "Disorderly persons (standalone) 5 years Latest sentence event",
-        "Ordinance offenses (2C:52-4) 2 years Conviction/completion",
-        "Juvenile adjudication (2C:52-4.1) 3 years Final discharge",
-        "Arrest / dismissal / acquittal None Any time / immediate",
-        "Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event",
-        "Two New Jersey features matter. First, the 2019 law cut the main indictable/DP wait from ten years to FIVE,",
-        "Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate,",
-        "Pathway / matter Waiting period Measured from Regular expungement (indictable 5 years Latest sentence event + up to 3 DP, or up to 4 DP) Early pathway (compelling 4 years Latest sentence event circumstances) Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/ payment/release, latest Disorderly persons (standalone) 5 years Latest sentence event Ordinance offenses (2C:52-4) 2 years Conviction/completion Juvenile adjudication (2C:52-4.1) 3 years Final discharge Arrest / dismissal / acquittal None Any time / immediate Marijuana — simple offenses None Payment/completion/release Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event Two New Jersey features matter.",
-        "First, the 2019 law cut the main indictable/DP wait from ten years to FIVE, with a discretionary FOUR-year early pathway on a showing of compelling circumstances (and all fines/fees paid).",
-        "AGENT GUIDANCE Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate, always measured from the LATEST sentence event including final payment."
+        "generally five years from the latest statutory anchor, which is the later of conviction, payment of the court-ordered financial assessment, satisfactory completion of probation or parole, and release, subject to the early-path and other statutory rules"
       ],
       "exclusionRules": [
         "New Jersey bars a defined set of serious crimes from expungement entirely (N.J.S.A. 2C:52-2 b. and c.), and",
@@ -592,6 +575,60 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
         "lawrence_review": "gate_required"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "mechanism": "Regular conviction expungement",
+        "statute": "N.J.S.A. 2C:52-2 and 2C:52-3",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 5,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "conviction_date",
+            "probation_parole_supervision_end_date",
+            "release_date"
+          ],
+          "anchorText": "generally five years from the latest statutory anchor, which is the later of conviction, payment of the court-ordered financial assessment, satisfactory completion of probation or parole, and release, subject to the early-path and other statutory rules"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Diversion?",
+          "All conviction counts?",
+          "Exact statutes?",
+          "Sentence/probation/parole/release dates?",
+          "Financial assessments?",
+          "Early-path basis?",
+          "Clean-slate exclusions?",
+          "Marijuana status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "financial_obligations",
+          "court_requirements_completed",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Exact New Jersey route",
+          "Conviction count and type",
+          "Completion/payment dates",
+          "Statutory exclusions",
+          "Automatic marijuana status"
+        ],
+        "packetFamily": "New Jersey Regular Expungement Petition under 2C:52-2 / 2C:52-3",
+        "packetComponents": [
+          "Verified petition",
+          "Judgment of conviction",
+          "Proof of financial-assessment payment",
+          "Service on the required agencies"
+        ],
+        "notes": "Use the current five-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law."
       }
     },
     {
@@ -654,24 +691,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "ENTIRE record — any number of crimes and disorderly persons offenses — ten years after the most recent",
-        "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants.",
-        "Arrests not resulting in conviction (2C:52-6): expungeable at any time; the court may order an IMMEDIATE expungement if the case is dismissed or the person is acquitted/found not guilty on all counts (expedited).",
-        "Juvenile adjudications (2C:52-4.1): generally 3 years after final discharge with no further arrests/charges.",
-        "sealed and shouldn't be lumped into the regular waiting-period analysis.",
-        "Regular expungement (indictable 5 years Latest sentence event",
-        "Early pathway (compelling 4 years Latest sentence event",
-        "Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/",
-        "Disorderly persons (standalone) 5 years Latest sentence event",
-        "Ordinance offenses (2C:52-4) 2 years Conviction/completion",
-        "Juvenile adjudication (2C:52-4.1) 3 years Final discharge",
-        "Arrest / dismissal / acquittal None Any time / immediate",
-        "Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event",
-        "Two New Jersey features matter. First, the 2019 law cut the main indictable/DP wait from ten years to FIVE,",
-        "Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate,",
-        "Pathway / matter Waiting period Measured from Regular expungement (indictable 5 years Latest sentence event + up to 3 DP, or up to 4 DP) Early pathway (compelling 4 years Latest sentence event circumstances) Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/ payment/release, latest Disorderly persons (standalone) 5 years Latest sentence event Ordinance offenses (2C:52-4) 2 years Conviction/completion Juvenile adjudication (2C:52-4.1) 3 years Final discharge Arrest / dismissal / acquittal None Any time / immediate Marijuana — simple offenses None Payment/completion/release Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event Two New Jersey features matter.",
-        "First, the 2019 law cut the main indictable/DP wait from ten years to FIVE, with a discretionary FOUR-year early pathway on a showing of compelling circumstances (and all fines/fees paid).",
-        "AGENT GUIDANCE Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate, always measured from the LATEST sentence event including final payment."
+        "ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
       ],
       "exclusionRules": [
         "even if the person would otherwise be barred by the prior-expungement rule (2C:52-14(e)). No applications",
@@ -707,6 +727,58 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "mechanism": "Clean-slate expungement",
+        "statute": "N.J.S.A. 2C:52-5.3",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 10,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "last_conviction_date",
+            "release_date",
+            "probation_parole_supervision_end_date"
+          ],
+          "anchorText": "ten years from the latest qualifying anchor, subject to the case-count and offense exclusions"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Diversion?",
+          "All conviction counts?",
+          "Exact statutes?",
+          "Sentence/probation/parole/release dates?",
+          "Financial assessments?",
+          "Early-path basis?",
+          "Clean-slate exclusions?",
+          "Marijuana status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "eligible_conviction_count",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Exact New Jersey route",
+          "Conviction count and type",
+          "Completion/payment dates",
+          "Statutory exclusions",
+          "Automatic marijuana status"
+        ],
+        "packetFamily": "New Jersey Clean Slate Petition under 2C:52-5.3",
+        "packetComponents": [
+          "Verified petition",
+          "Complete case history",
+          "Service on the required agencies"
+        ],
+        "notes": "Use the current ten-year statute as of 2026-08-24; do not implement pending 2026 bills as enacted law."
       }
     },
     {
@@ -764,29 +836,12 @@
         "convicted_other",
         "juvenile"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants.",
-        "ENTIRE record — any number of crimes and disorderly persons offenses — ten years after the most recent",
-        "Arrests not resulting in conviction (2C:52-6): expungeable at any time; the court may order an IMMEDIATE expungement if the case is dismissed or the person is acquitted/found not guilty on all counts (expedited).",
-        "Juvenile adjudications (2C:52-4.1): generally 3 years after final discharge with no further arrests/charges.",
-        "sealed and shouldn't be lumped into the regular waiting-period analysis.",
-        "Regular expungement (indictable 5 years Latest sentence event",
-        "Early pathway (compelling 4 years Latest sentence event",
-        "Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/",
-        "Disorderly persons (standalone) 5 years Latest sentence event",
-        "Ordinance offenses (2C:52-4) 2 years Conviction/completion",
-        "Juvenile adjudication (2C:52-4.1) 3 years Final discharge",
-        "Arrest / dismissal / acquittal None Any time / immediate",
-        "Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event",
-        "Two New Jersey features matter. First, the 2019 law cut the main indictable/DP wait from ten years to FIVE,",
-        "Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate,",
-        "Pathway / matter Waiting period Measured from Regular expungement (indictable 5 years Latest sentence event + up to 3 DP, or up to 4 DP) Early pathway (compelling 4 years Latest sentence event circumstances) Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/ payment/release, latest Disorderly persons (standalone) 5 years Latest sentence event Ordinance offenses (2C:52-4) 2 years Conviction/completion Juvenile adjudication (2C:52-4.1) 3 years Final discharge Arrest / dismissal / acquittal None Any time / immediate Marijuana — simple offenses None Payment/completion/release Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event Two New Jersey features matter.",
-        "First, the 2019 law cut the main indictable/DP wait from ten years to FIVE, with a discretionary FOUR-year early pathway on a showing of compelling circumstances (and all fines/fees paid).",
-        "AGENT GUIDANCE Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate, always measured from the LATEST sentence event including final payment."
+        "handled through the special automatic and summary statutory mechanisms; no participant elapsed wait applies"
       ],
       "exclusionRules": [
         "New Jersey bars a defined set of serious crimes from expungement entirely (N.J.S.A. 2C:52-2 b. and c.), and",
@@ -822,6 +877,43 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "N.J.S.A. 2C:52-5.1, 2C:52-5.2, 2C:52-6.1",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "mechanism": "Marijuana and hashish expungement",
+        "statute": "N.J.S.A. 2C:52-5.1, 2C:52-5.2 and 2C:52-6.1",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "handled through the special automatic and summary statutory mechanisms; no participant elapsed wait applies"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Diversion?",
+          "All conviction counts?",
+          "Exact statutes?",
+          "Sentence/probation/parole/release dates?",
+          "Financial assessments?",
+          "Early-path basis?",
+          "Clean-slate exclusions?",
+          "Marijuana status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact New Jersey route",
+          "Conviction count and type",
+          "Completion/payment dates",
+          "Statutory exclusions",
+          "Automatic marijuana status"
+        ],
+        "packetFamily": null,
+        "notes": "Provide status and correction guidance before any petition is generated; checkout stays closed on the automatic mechanism."
       }
     },
     {
@@ -884,24 +976,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Arrests not resulting in conviction (2C:52-6): expungeable at any time; the court may order an IMMEDIATE expungement if the case is dismissed or the person is acquitted/found not guilty on all counts (expedited).",
-        "Juvenile adjudications (2C:52-4.1): generally 3 years after final discharge with no further arrests/charges.",
-        "ENTIRE record — any number of crimes and disorderly persons offenses — ten years after the most recent",
-        "No waiting period (immediate after payment/completion/release) for simple possession, failure to make lawful disposition, being under the influence, paraphernalia, and distribution/PWID of less than one ounce of marijuana or less than five grams of hashish (2C:35-5b(12)), including school-zone/public-housing variants.",
-        "sealed and shouldn't be lumped into the regular waiting-period analysis.",
-        "Regular expungement (indictable 5 years Latest sentence event",
-        "Early pathway (compelling 4 years Latest sentence event",
-        "Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/",
-        "Disorderly persons (standalone) 5 years Latest sentence event",
-        "Ordinance offenses (2C:52-4) 2 years Conviction/completion",
-        "Juvenile adjudication (2C:52-4.1) 3 years Final discharge",
-        "Arrest / dismissal / acquittal None Any time / immediate",
-        "Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event",
-        "Two New Jersey features matter. First, the 2019 law cut the main indictable/DP wait from ten years to FIVE,",
-        "Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate,",
-        "Pathway / matter Waiting period Measured from Regular expungement (indictable 5 years Latest sentence event + up to 3 DP, or up to 4 DP) Early pathway (compelling 4 years Latest sentence event circumstances) Clean Slate petition (2C:52-5.3) 10 years Most recent conviction/ payment/release, latest Disorderly persons (standalone) 5 years Latest sentence event Ordinance offenses (2C:52-4) 2 years Conviction/completion Juvenile adjudication (2C:52-4.1) 3 years Final discharge Arrest / dismissal / acquittal None Any time / immediate Marijuana — simple offenses None Payment/completion/release Marijuana — 2C:35-5(11) distribution 3 years Latest sentence event Two New Jersey features matter.",
-        "First, the 2019 law cut the main indictable/DP wait from ten years to FIVE, with a discretionary FOUR-year early pathway on a showing of compelling circumstances (and all fines/fees paid).",
-        "AGENT GUIDANCE Use 5 years for regular expungement (4 with compelling circumstances) and 10 years for Clean Slate, always measured from the LATEST sentence event including final payment."
+        "available without a general elapsed wait on a qualifying arrest, dismissal, acquittal or other nonconviction, subject to the specific disposition rules; a diversionary dismissal uses its separate statutory period, commonly six months after dismissal"
       ],
       "exclusionRules": [
         "New Jersey bars a defined set of serious crimes from expungement entirely (N.J.S.A. 2C:52-2 b. and c.), and",
@@ -937,6 +1012,49 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "N.J.S.A. 2C:52-6",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "mechanism": "Arrest, dismissal and other nonconviction expungement",
+        "statute": "N.J.S.A. 2C:52-6",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "available without a general elapsed wait on a qualifying arrest, dismissal, acquittal or other nonconviction, subject to the specific disposition rules; a diversionary dismissal uses its separate statutory period, commonly six months after dismissal"
+        },
+        "requiredFacts": [
+          "Disposition?",
+          "Diversion?",
+          "All conviction counts?",
+          "Exact statutes?",
+          "Sentence/probation/parole/release dates?",
+          "Financial assessments?",
+          "Early-path basis?",
+          "Clean-slate exclusions?",
+          "Marijuana status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Exact New Jersey route",
+          "Conviction count and type",
+          "Completion/payment dates",
+          "Statutory exclusions",
+          "Automatic marijuana status"
+        ],
+        "packetFamily": "New Jersey Nonconviction Expungement Petition under 2C:52-6",
+        "packetComponents": [
+          "Verified petition",
+          "Disposition record",
+          "Service on the required agencies"
+        ],
+        "notes": "The six-month diversionary-dismissal branch is separate and must not be applied to an ordinary dismissal or acquittal."
       }
     }
   ],
@@ -1454,8 +1572,8 @@
         "sourceConditionText": "Path 3 — Marijuana / hashish relief (2C:52-5.1, 5.2, 6.1)"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:74-129",
       "candidatePathwayIds": [
@@ -1664,8 +1782,8 @@
         "sourceConditionText": "sealed and shouldn't be lumped into the regular waiting-period analysis."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:74-129",
       "candidatePathwayIds": [
@@ -2059,8 +2177,8 @@
         "sourceConditionText": "expungement without the waiting-period analysis."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "case_outcomes:217-261",
       "candidatePathwayIds": [
@@ -2787,7 +2905,18 @@
           "acquitted",
           "juvenile"
         ],
-        "sourceConditionText": "Regular expungement under N.J.S.A. 2C:52-2 / 2C:52-3"
+        "sourceConditionText": "generally five years from the latest statutory anchor, which is the later of conviction, payment of the court-ordered financial assessment, satisfactory completion of probation or parole, and release, subject to the early-path and other statutory rules",
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "conviction_date",
+          "probation_parole_supervision_end_date",
+          "release_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2797,7 +2926,13 @@
       "sourceRef": "pathways:74-129; section:74-129; corpus-unit:28",
       "candidatePathwayIds": [
         "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "statute": "N.J.S.A. 2C:52-2 and 2C:52-3",
+        "mechanism": "Regular conviction expungement"
+      }
     },
     {
       "id": "route-clean-slate-petition-under-n-j-s-a-2c-52-5-3",
@@ -2828,7 +2963,18 @@
           "convicted_felony",
           "juvenile"
         ],
-        "sourceConditionText": "Clean Slate petition under N.J.S.A. 2C:52-5.3"
+        "sourceConditionText": "ten years from the latest qualifying anchor, subject to the case-count and offense exclusions",
+        "duration": {
+          "value": 10,
+          "unit": "years",
+          "raw": "10 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "last_conviction_date",
+          "release_date",
+          "probation_parole_supervision_end_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2838,7 +2984,13 @@
       "sourceRef": "pathways:74-129; section:74-129; corpus-unit:30",
       "candidatePathwayIds": [
         "clean-slate-petition-under-n-j-s-a-2c-52-5-3"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "statute": "N.J.S.A. 2C:52-5.3",
+        "mechanism": "Clean-slate expungement"
+      }
     },
     {
       "id": "route-marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
@@ -2869,17 +3021,23 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1"
+        "sourceConditionText": "handled through the special automatic and summary statutory mechanisms; no participant elapsed wait applies"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:74-129; section:74-129; corpus-unit:31",
       "candidatePathwayIds": [
         "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "statute": "N.J.S.A. 2C:52-5.1, 2C:52-5.2 and 2C:52-6.1",
+        "mechanism": "Marijuana and hashish expungement"
+      }
     },
     {
       "id": "route-arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
@@ -2910,7 +3068,8 @@
           "juvenile",
           "convicted_felony"
         ],
-        "sourceConditionText": "Arrest, dismissal, and other non-conviction expungement under N.J.S.A. 2C:52-6"
+        "sourceConditionText": "available without a general elapsed wait on a qualifying arrest, dismissal, acquittal or other nonconviction, subject to the specific disposition rules; a diversionary dismissal uses its separate statutory period, commonly six months after dismissal",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2920,7 +3079,13 @@
       "sourceRef": "pathways:74-129; section:74-129; corpus-unit:32",
       "candidatePathwayIds": [
         "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NJ-01",
+        "ruleId": "NJ-2C52-NONCONVICTION-REGULAR-CLEANSLATE-MARIJUANA-MAP",
+        "statute": "N.J.S.A. 2C:52-6",
+        "mechanism": "Arrest, dismissal and other nonconviction expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -3179,6 +3344,39 @@
       },
       "anchor": "the LATEST sentence event including final payment",
       "fieldsReferenced": []
+    },
+    {
+      "id": "authority-clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "ruleText": "N.J.S.A. 2C:52-5.3 — ten years from the latest qualifying anchor, subject to the case-count and offense exclusions",
+      "duration": {
+        "value": 10,
+        "unit": "years",
+        "raw": "10 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "eligible_conviction_count",
+        "sentence_completion_actual_date"
+      ]
+    },
+    {
+      "id": "authority-regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+      "ruleText": "N.J.S.A. 2C:52-2 and 2C:52-3 — generally five years from the latest statutory anchor, which is the later of conviction, payment of the court-ordered financial assessment, satisfactory completion of probation or parole, and release, subject to the early-path and other statutory rules",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "financial_obligations",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
+      ]
     }
   ],
   "exclusionRules": [
@@ -3490,7 +3688,7 @@
       {
         "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
         "pathwayLabel": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
-        "mode": "official_form_overlay_or_source_form_set",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [
           {
             "fileName": "marijuana-expungement.html",
