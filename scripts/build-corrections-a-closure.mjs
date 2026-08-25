@@ -27,6 +27,8 @@ const profileFiles = fs.readdirSync(PROFILE_DIRECTORY).filter((file) => file.end
 const paidRoutes = new Set([
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
   "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+  "MS:first-offense-dui-expungement",
+  "MS:minor-in-possession-underage-alcohol-expungement"
 ]);
 const automaticRoutes = new Set([
   "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
@@ -39,6 +41,23 @@ const guidanceRoutes = new Set([
   "DC:dc_juvenile_sealing_16_2335",
   "DE:pardon-based-discretionary-expungement-under-11-del-c-4375"
 ]);
+const attorneyReviewRoutes = new Set([
+  "MS:additional-justice-or-municipal-court-misdemeanor-relief"
+]);
+const intentionalUnsupportedRoutes = new Set(routeKeys.filter((routeKey) =>
+  !paidRoutes.has(routeKey)
+  && !automaticRoutes.has(routeKey)
+  && !guidanceRoutes.has(routeKey)
+  && !attorneyReviewRoutes.has(routeKey)
+));
+
+function getServiceBehavior(routeKey) {
+  if (paidRoutes.has(routeKey)) return "packet";
+  if (automaticRoutes.has(routeKey)) return "automatic";
+  if (guidanceRoutes.has(routeKey)) return "guidance";
+  if (attorneyReviewRoutes.has(routeKey)) return "attorney_review";
+  return "intentional_unsupported";
+}
 
 const timingResolutions = {
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40":
@@ -225,10 +244,7 @@ const addToHeldGuidance = Object.entries(routeProductMetadata)
   .sort();
 
 function getClosureCategory(routeKey) {
-  if (paidRoutes.has(routeKey)) return "paid_packet";
-  if (automaticRoutes.has(routeKey)) return "automatic_or_no_filing";
-  if (guidanceRoutes.has(routeKey)) return "guidance_only";
-  return "legal_hold_guidance";
+  return getServiceBehavior(routeKey);
 }
 
 function getTimingResolution(routeKey, priorBlockers) {
@@ -239,10 +255,10 @@ function getTimingResolution(routeKey, priorBlockers) {
   if (guidanceRoutes.has(routeKey)) {
     return "guidance-only route; no paid court-filing packet and checkout remains closed";
   }
-  if (timingResolutions[routeKey]) {
-    return `operative timing is identified as ${timingResolutions[routeKey]}, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed`;
+  if (attorneyReviewRoutes.has(routeKey)) {
+    return `${timingResolutions[routeKey]}; after the clock is satisfied, the approved service is attorney-review referral and checkout remains closed`;
   }
-  return `defective proposal remains withdrawn and checkout stays fail closed: ${priorBlockers.join("; ")}`;
+  return `The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: ${priorBlockers.join("; ")}`;
 }
 
 function selectRouteSpecificQuote(pathwayId, pathway) {
@@ -300,6 +316,7 @@ const routes = routeKeys.map((routeKey) => {
     routeKey,
     priorDecision: "HELD",
     priorBlockers: prior.blockers,
+    serviceBehavior: getServiceBehavior(routeKey),
     closureCategory: getClosureCategory(routeKey),
     checkoutExpected: paidRoutes.has(routeKey),
     timingResolution: getTimingResolution(routeKey, prior.blockers),
@@ -313,7 +330,7 @@ const routes = routeKeys.map((routeKey) => {
 });
 
 const closure = {
-  schemaVersion: "expai-corrections-a-closure/v1",
+  schemaVersion: "expai-corrections-a-closure/v2",
   authority: {
     sourceCandidateSha: AUTHORITY_SHA,
     assignmentBaseSha: "07675789a80e732d2b835c1e8ba2092b39201b79",
@@ -325,14 +342,21 @@ const closure = {
       "Only already-ratified, signed-off, user-filed routes with exact operative timing remain checkout eligible.",
     automaticOrNoFiling: "Automatic relief never enters paid checkout.",
     guidanceOnly: "Board, pardon, and other non-product filing routes remain guidance only.",
-    legalHoldGuidance:
-      "A defective or branch-ambiguous waiting proposal is withdrawn; checkout remains fail closed until exact shared integration and any required legal reconfirmation."
+    attorneyReview: "The approved referral route evaluates its exact clock, then routes to attorney review without checkout.",
+    intentionalUnsupported: "The prior defective proposal is withdrawn and the route is explicitly unsupported, not held or awaiting reconfirmation."
   },
   sharedHandoff: {
-    removeFromRatifiedDeployable,
-    addToCorrectedAwaitingReconfirm,
-    addToHeldGuidance,
-    routeProductMetadata
+    removeFromRatifiedDeployable: [...intentionalUnsupportedRoutes].sort(),
+    addToIntentionalUnsupported: [...intentionalUnsupportedRoutes].sort(),
+    routeProductMetadata: Object.fromEntries(routeKeys.map((routeKey) => [routeKey, {
+      serviceBehavior: getServiceBehavior(routeKey),
+      paymentProductEligible: paidRoutes.has(routeKey),
+      checkoutEligibility: paidRoutes.has(routeKey) ? "eligible" : "not_eligible",
+      evaluatorTier: paidRoutes.has(routeKey) ? "RATIFIED_DEPLOYABLE_ROUTES"
+        : intentionalUnsupportedRoutes.has(routeKey) ? "INTENTIONAL_UNSUPPORTED_ROUTES"
+          : attorneyReviewRoutes.has(routeKey) ? "LEGAL_AUTHORITY_REFERRAL"
+            : "STRUCTURAL_NON_PACKET"
+    }]))
   },
   routes
 };

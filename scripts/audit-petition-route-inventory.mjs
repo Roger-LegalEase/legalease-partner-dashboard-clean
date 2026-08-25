@@ -35,6 +35,11 @@ const JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/petition-route-inv
 const LAR_JSON_OUT = path.join(ROOT, "data/expungement-ai/reports/legal-action-required.json");
 const MD_OUT = path.join(ROOT, "docs/expungement-ai/PETITION_ROUTE_INVENTORY.md");
 const LAR_MD_OUT = path.join(ROOT, "docs/expungement-ai/LEGAL_ACTION_REQUIRED.md");
+const CORRECTIONS_A_CLOSURE_PATH = path.join(ROOT, "data/expungement-ai/corrections-a/closure.json");
+const CORRECTIONS_A_SERVICE_BEHAVIOR = new Map(
+  JSON.parse(fs.readFileSync(CORRECTIONS_A_CLOSURE_PATH, "utf8")).routes
+    .map((route) => [route.routeKey, route.serviceBehavior])
+);
 
 // --------------------------------------------------------------------------- evaluator control sets
 const evalSrc = fs.readFileSync(EVALUATOR_PATH, "utf8");
@@ -47,6 +52,7 @@ const RATIFIED_DEPLOYABLE = parseRouteSet("RATIFIED_DEPLOYABLE_ROUTES");
 const CORRECTED_AWAITING_RECONFIRM = parseRouteSet("CORRECTED_AWAITING_RECONFIRM_ROUTES");
 const HARD_GATE_PENDING = parseRouteSet("HARD_GATE_PENDING_ROUTES");
 const HELD_GUIDANCE = parseRouteSet("HELD_GUIDANCE_ROUTES");
+const INTENTIONAL_UNSUPPORTED = parseRouteSet("INTENTIONAL_UNSUPPORTED_ROUTES");
 const ADMIN_APPLICATION_ROUTES = parseRouteSet("ADMINISTRATIVE_APPLICATION_PACKET_ROUTES");
 const SPECIAL_TIMING_KEYS = new Set([...evalSrc.matchAll(/key === "([A-Z]{2}:[^"]+)"/g)].map((m) => m[1]));
 
@@ -212,6 +218,7 @@ function waitAmbiguous(profile, pathway, key) {
 }
 function tierOf(key) {
   if (RATIFIED_DEPLOYABLE.has(key)) return "RATIFIED_DEPLOYABLE_ROUTES";
+  if (INTENTIONAL_UNSUPPORTED.has(key)) return "INTENTIONAL_UNSUPPORTED_ROUTES";
   if (CORRECTED_AWAITING_RECONFIRM.has(key)) return "CORRECTED_AWAITING_RECONFIRM_ROUTES";
   if (HARD_GATE_PENDING.has(key)) return "HARD_GATE_PENDING_ROUTES";
   if (HELD_GUIDANCE.has(key)) return "HELD_GUIDANCE_ROUTES";
@@ -267,6 +274,7 @@ function classify(profile, pathway) {
   let bucket, primaryBlocker;
   const secondaryBlockers = [];
   if (KNOWN_DUPLICATES[key]) { bucket = "discard_or_duplicate"; primaryBlocker = "duplicate"; }
+  else if (tier === "INTENTIONAL_UNSUPPORTED_ROUTES") { bucket = "permanent_guidance_not_a_paid_product"; primaryBlocker = "not_paid_product"; }
   else if (notOp) { bucket = "not_currently_operational"; primaryBlocker = "not_operational"; }
   else if (forceLar) { bucket = "legal_action_required"; primaryBlocker = "legal_action_required"; }
   else if (!paidCapable) { bucket = "permanent_guidance_not_a_paid_product"; primaryBlocker = autoMode ? "automatic_relief_mode" : "not_paid_product"; }
@@ -312,6 +320,10 @@ function classify(profile, pathway) {
     sourceRuleRefs: plan?.sourceRuleRefs ?? (pathway.sourceRef ? [pathway.sourceRef] : []),
     bucket, primaryBlocker, secondaryBlockers,
     productRouteType, paymentProductEligible: bucket === "paid_now",
+    serviceBehavior: CORRECTIONS_A_SERVICE_BEHAVIOR.get(key) ?? (INTENTIONAL_UNSUPPORTED.has(key) ? "intentional_unsupported"
+      : tier === "RATIFIED_DEPLOYABLE_ROUTES" ? "packet"
+        : autoMode ? "automatic"
+          : "guidance"),
     legalSignoffStatus, packetFulfillmentStatus, engineRecognizedAsCourtFiled: engineCourt,
     isAdministrativeApplication: isAdmin, packetFulfillmentReady: fulfillmentReady,
     missingEligibilityGates: [], missingIntakeQuestions: [], missingWaitAnchorEventLogic: [],
@@ -494,6 +506,7 @@ const metadata = {
     isAdministrativeApplication: r.isAdministrativeApplication, legalSignoffStatus: r.legalSignoffStatus,
     packetFulfillmentStatus: r.packetFulfillmentStatus, paidRouteBlocker: primaryBlockerToMetadata(r.primaryBlocker, r.bucket),
     evaluatorTier: r.evaluatorTier, openLegalActionRequiredItems: r.legalActionRequiredItemIds,
+    serviceBehavior: r.serviceBehavior,
     ...deriveProductStrategy(r, r.routeKey)
   }]))
 };

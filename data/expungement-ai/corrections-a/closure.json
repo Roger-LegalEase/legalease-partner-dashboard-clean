@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "expai-corrections-a-closure/v1",
+  "schemaVersion": "expai-corrections-a-closure/v2",
   "authority": {
     "sourceCandidateSha": "714f4d51f93461855b24c8644b6ea6ddad6d15f2",
     "assignmentBaseSha": "07675789a80e732d2b835c1e8ba2092b39201b79",
@@ -10,32 +10,11 @@
     "paidPacket": "Only already-ratified, signed-off, user-filed routes with exact operative timing remain checkout eligible.",
     "automaticOrNoFiling": "Automatic relief never enters paid checkout.",
     "guidanceOnly": "Board, pardon, and other non-product filing routes remain guidance only.",
-    "legalHoldGuidance": "A defective or branch-ambiguous waiting proposal is withdrawn; checkout remains fail closed until exact shared integration and any required legal reconfirmation."
+    "attorneyReview": "The approved referral route evaluates its exact clock, then routes to attorney review without checkout.",
+    "intentionalUnsupported": "The prior defective proposal is withdrawn and the route is explicitly unsupported, not held or awaiting reconfirmation."
   },
   "sharedHandoff": {
     "removeFromRatifiedDeployable": [
-      "AL:eligible-conviction-expungement-under-the-redeemer-act",
-      "AR:situation-a-non-convictions",
-      "DC:dc_motion_seal_felony_conviction_8yr_16_806",
-      "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
-      "DC:dc_motion_seal_nonconviction_16_806",
-      "IL:adult-non-conviction-expungement",
-      "IL:juvenile-automatic-or-petition-expungement",
-      "KY:misdemeanor-violation-traffic-conviction",
-      "LA:felony-ten-year-clean-period-expungement",
-      "LA:misdemeanor-five-year-clean-period-expungement",
-      "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
-      "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
-      "MS:additional-justice-or-municipal-court-misdemeanor-relief",
-      "MS:first-offense-dui-expungement",
-      "MS:minor-in-possession-underage-alcohol-expungement"
-    ],
-    "addToCorrectedAwaitingReconfirm": [
-      "MS:additional-justice-or-municipal-court-misdemeanor-relief",
-      "MS:first-offense-dui-expungement",
-      "MS:minor-in-possession-underage-alcohol-expungement"
-    ],
-    "addToHeldGuidance": [
       "AK:juvenile-record-sealing-as-47-12-300",
       "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
       "AL:eligible-conviction-expungement-under-the-redeemer-act",
@@ -43,146 +22,266 @@
       "DC:dc_motion_seal_felony_conviction_8yr_16_806",
       "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
       "DC:dc_motion_seal_nonconviction_16_806",
+      "FL:early-juvenile-expunction-943-0515",
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
       "IL:adult-non-conviction-expungement",
+      "IL:human-trafficking-survivor-vacatur-and-expungement",
       "IL:juvenile-automatic-or-petition-expungement",
+      "KY:felony-conviction-431073",
       "KY:misdemeanor-violation-traffic-conviction",
       "LA:felony-ten-year-clean-period-expungement",
       "LA:misdemeanor-five-year-clean-period-expungement",
       "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "MA:juvenile-record-sealing-under-100b",
+      "MA:time-based-expungement-under-100f-100j",
+      "MD:cannabis-specific-expungement",
+      "MD:juvenile-expungement",
+      "MD:second-chance-act-shielding",
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+    ],
+    "addToIntentionalUnsupported": [
+      "AK:juvenile-record-sealing-as-47-12-300",
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "AR:situation-a-non-convictions",
+      "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "DC:dc_motion_seal_nonconviction_16_806",
+      "FL:early-juvenile-expunction-943-0515",
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "IL:adult-non-conviction-expungement",
+      "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "IL:juvenile-automatic-or-petition-expungement",
+      "KY:felony-conviction-431073",
+      "KY:misdemeanor-violation-traffic-conviction",
+      "LA:felony-ten-year-clean-period-expungement",
+      "LA:misdemeanor-five-year-clean-period-expungement",
+      "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "MA:juvenile-record-sealing-under-100b",
+      "MA:time-based-expungement-under-100f-100j",
+      "MD:cannabis-specific-expungement",
+      "MD:juvenile-expungement",
+      "MD:second-chance-act-shielding",
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
       "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
     ],
     "routeProductMetadata": {
+      "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      },
       "AK:juvenile-record-sealing-as-47-12-300": {
-        "legalSignoffStatus": "needs_reconfirm",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES"
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": {
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES"
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "AL:eligible-conviction-expungement-under-the-redeemer-act": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "packetFulfillmentStatus": "needs_custom_packet",
-        "paidRouteBlocker": "intake_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
-      },
-      "IL:juvenile-automatic-or-petition-expungement": {
-        "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "packetFulfillmentStatus": "needs_custom_packet",
-        "paidRouteBlocker": "intake_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-        "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
-      },
-      "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
-        "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "packetFulfillmentStatus": "needs_custom_packet",
-        "paidRouteBlocker": "legal_reconfirmation",
-        "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
-        "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
-      },
-      "MS:first-offense-dui-expungement": {
-        "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "packetFulfillmentStatus": "needs_custom_packet",
-        "paidRouteBlocker": "legal_reconfirmation",
-        "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
-        "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
-      },
-      "MS:minor-in-possession-underage-alcohol-expungement": {
-        "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "packetFulfillmentStatus": "needs_custom_packet",
-        "paidRouteBlocker": "legal_reconfirmation",
-        "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
-        "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "AR:situation-a-non-convictions": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "CT:absolute-pardon-resulting-in-erasure": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_auto_expungement_16_802": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_auto_sealing_16_805": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "DC:dc_juvenile_sealing_16_2335": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
       },
       "DC:dc_motion_seal_felony_conviction_8yr_16_806": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "DC:dc_motion_seal_nonconviction_16_806": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "DE:pardon-based-discretionary-expungement-under-11-del-c-4375": {
+        "serviceBehavior": "guidance",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "FL:early-juvenile-expunction-943-0515": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "IL:adult-non-conviction-expungement": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "IL:human-trafficking-survivor-vacatur-and-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "IL:juvenile-automatic-or-petition-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "KY:felony-conviction-431073": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "KY:misdemeanor-violation-traffic-conviction": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "LA:felony-ten-year-clean-period-expungement": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "LA:first-offense-marijuana-expungement-after-90-days-art-998": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
       },
       "LA:misdemeanor-five-year-clean-period-expungement": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "MA:adult-conviction-sealing-under-m-g-l-c-276-100a": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MA:juvenile-record-sealing-under-100b": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MA:time-based-expungement-under-100f-100j": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:automatic-expungement-under-crim-proc-10-105-1": {
+        "serviceBehavior": "automatic",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "STRUCTURAL_NON_PACKET"
+      },
+      "MD:cannabis-specific-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:juvenile-expungement": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MD:second-chance-act-shielding": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "ME:sex-trafficking-sexual-exploitation-survivor-sealing": {
+        "serviceBehavior": "intentional_unsupported",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
       },
       "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130": {
+        "serviceBehavior": "intentional_unsupported",
         "paymentProductEligible": false,
-        "legalSignoffStatus": "needs_reconfirm",
-        "paidRouteBlocker": "wait_anchor_fix",
-        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
         "checkoutEligibility": "not_eligible",
-        "filingReadiness": "guidance_only"
+        "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES"
+      },
+      "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
+        "serviceBehavior": "attorney_review",
+        "paymentProductEligible": false,
+        "checkoutEligibility": "not_eligible",
+        "evaluatorTier": "LEGAL_AUTHORITY_REFERRAL"
+      },
+      "MS:first-offense-dui-expungement": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
+      },
+      "MS:minor-in-possession-underage-alcohol-expungement": {
+        "serviceBehavior": "packet",
+        "paymentProductEligible": true,
+        "checkoutEligibility": "eligible",
+        "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES"
       }
     }
   },
@@ -196,7 +295,8 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)"
       ],
-      "closureCategory": "paid_packet",
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
       "checkoutExpected": true,
       "timingResolution": "60 days after the qualifying acquittal or dismissal, anchored to disposition_date",
       "evidence": {
@@ -213,9 +313,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
         "pathwaySourceRef": "pathways:78-118; section:56-77; section:78-118; corpus-unit:26; corpus-unit:35; section:119-151; section:187-222; section:252-278",
@@ -230,9 +331,10 @@
       "priorBlockers": [
         "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
         "pathwaySourceRef": "pathways:78-118; section:388-393; section:56-77; section:78-118; section:152-186; section:252-278; exclusions:152-186; corpus-unit:11",
@@ -248,9 +350,10 @@
         "CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES",
         "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES; PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES; PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
         "pathwaySourceRef": "pathways:77-117; section:77-117; section:158-203; corpus-unit:30; corpus-unit:5; corpus-unit:89; corpus-unit:122; section:304-329",
@@ -265,9 +368,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as eligible immediately after a qualifying non-conviction disposition; no elapsed waiting period, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
         "pathwaySourceRef": "pathways:73-106",
@@ -282,7 +386,8 @@
       "priorBlockers": [
         "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
       ],
-      "closureCategory": "guidance_only",
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
       "checkoutExpected": false,
       "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
       "evidence": {
@@ -300,7 +405,8 @@
         "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
         "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
       ],
-      "closureCategory": "automatic_or_no_filing",
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
       "checkoutExpected": false,
       "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
       "evidence": {
@@ -317,7 +423,8 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
       ],
-      "closureCategory": "automatic_or_no_filing",
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
       "checkoutExpected": false,
       "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
       "evidence": {
@@ -334,7 +441,8 @@
       "priorBlockers": [
         "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
       ],
-      "closureCategory": "automatic_or_no_filing",
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
       "checkoutExpected": false,
       "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
       "evidence": {
@@ -351,7 +459,8 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
       ],
-      "closureCategory": "guidance_only",
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
       "checkoutExpected": false,
       "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
       "evidence": {
@@ -369,9 +478,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-felony-8yr (quote_states_no_duration)",
         "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_felony_conviction_8yr_16_806"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 8 years after sentence completion, with the Offense Severity Group exclusion gate, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-felony-8yr (quote_states_no_duration); RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_felony_conviction_8yr_16_806",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
         "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
@@ -387,9 +497,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-misdemeanor-5yr (quote_states_no_duration)",
         "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_misdemeanor_conviction_5yr_16_806"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 5 years after sentence completion, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-misdemeanor-5yr (quote_states_no_duration); RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_misdemeanor_conviction_5yr_16_806",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
         "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
@@ -404,9 +515,10 @@
       "priorBlockers": [
         "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as no ordinary elapsed waiting period after the qualifying non-conviction disposition, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
         "pathwaySourceRef": "section:84-89; pathways:15-26; section:15-26; corpus-unit:15; corpus-unit:40",
@@ -421,7 +533,8 @@
       "priorBlockers": [
         "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
       ],
-      "closureCategory": "guidance_only",
+      "serviceBehavior": "guidance",
+      "closureCategory": "guidance",
       "checkoutExpected": false,
       "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
       "evidence": {
@@ -438,9 +551,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
         "pathwaySourceRef": "section:170-172",
@@ -455,9 +569,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
         "pathwaySourceRef": "manual_source_conversion:ID; section:15-111; corpus-unit:9; corpus-unit:6; manual_source_conversion:ID:withheld-judgment-review",
@@ -475,9 +590,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as eligible immediately for a qualifying acquittal, dismissal, release-without-charge, or vacatur disposition, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
         "pathwaySourceRef": "section:55-88; section:396-442; pathways:396-442; corpus-unit:17",
@@ -495,9 +611,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
         "pathwaySourceRef": "section:157-163; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:48",
@@ -513,9 +630,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
         "pathwaySourceRef": "section:178-184; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:3; corpus-unit:57; section:271-325; corpus-unit:58",
@@ -531,9 +649,10 @@
         "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
         "pathwaySourceRef": "manual_source_conversion:KY",
@@ -549,9 +668,10 @@
         "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 5 years after the later of sentence completion or successful probation completion, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
         "pathwaySourceRef": "manual_source_conversion:KY",
@@ -566,9 +686,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 10 years after completion of sentence, probation, or parole, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
         "pathwaySourceRef": "section:57-67",
@@ -584,7 +705,8 @@
         "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)"
       ],
-      "closureCategory": "paid_packet",
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
       "checkoutExpected": true,
       "timingResolution": "90 days after conviction",
       "evidence": {
@@ -602,9 +724,10 @@
         "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 5 years after completion of sentence, probation, or parole, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
         "pathwaySourceRef": "section:49-56; section:39-48; corpus-unit:28",
@@ -620,9 +743,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-13 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-14 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 3 years for a misdemeanor or 7 years for a felony, measured from the later available disposition or custody/supervision release anchor, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-13 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-14 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
         "pathwaySourceRef": "section:43-68; overview:7-26; section:7-26; section:27-42; corpus-unit:7; corpus-unit:10; corpus-unit:27; corpus-unit:19",
@@ -638,9 +762,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
         "pathwaySourceRef": "section:84-96; section:7-26; overview:7-26; corpus-unit:10; corpus-unit:30; corpus-unit:31; corpus-unit:32; section:230-287",
@@ -656,9 +781,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
         "pathwaySourceRef": "section:97-137; overview:7-26; section:138-169; section:7-26; section:230-287; section:180-191; section:192-202; section:218-229",
@@ -675,7 +801,8 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-11 (quote_states_no_duration)"
       ],
-      "closureCategory": "automatic_or_no_filing",
+      "serviceBehavior": "automatic",
+      "closureCategory": "automatic",
       "checkoutExpected": false,
       "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
       "evidence": {
@@ -695,9 +822,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
         "pathwaySourceRef": "section:136-147; section:53-95; corpus-unit:37; corpus-unit:3; corpus-unit:21",
@@ -712,9 +840,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
         "pathwaySourceRef": "section:171-180; overview:9-28; section:9-28; section:39-52; section:197-208; section:308-351; summary:308-351; corpus-unit:3",
@@ -731,9 +860,10 @@
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration)",
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
         "pathwaySourceRef": "section:154-170; pathways:383-421; section:39-52; section:383-421; corpus-unit:19; corpus-unit:46",
@@ -748,9 +878,10 @@
       "priorBlockers": [
         "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
         "pathwaySourceRef": "section:109-133; section:9-21; overview:9-21; corpus-unit:9; corpus-unit:42",
@@ -765,9 +896,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "intentional_unsupported",
+      "closureCategory": "intentional_unsupported",
       "checkoutExpected": false,
-      "timingResolution": "operative timing is identified as 10 years from completion of the authorized disposition, but the exact shared runtime binding/anchor is not integrated; checkout stays fail closed",
+      "timingResolution": "The prior defective proposal is withdrawn. LegalEase intentionally does not support this participant route; checkout remains closed. Prior evidence: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
         "pathwaySourceRef": "section:7-22; section:156-177; corpus-unit:9; corpus-unit:66; section:77-108; corpus-unit:67; exclusions:77-108; corpus-unit:34",
@@ -782,9 +914,10 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-12 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
+      "serviceBehavior": "attorney_review",
+      "closureCategory": "attorney_review",
       "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-12 (quote_states_no_duration)",
+      "timingResolution": "undefined; after the clock is satisfied, the approved service is attorney-review referral and checkout remains closed",
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
         "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:20",
@@ -800,9 +933,9 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
-      "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)",
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
         "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:38",
@@ -818,9 +951,9 @@
       "priorBlockers": [
         "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)"
       ],
-      "closureCategory": "legal_hold_guidance",
-      "checkoutExpected": false,
-      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)",
+      "serviceBehavior": "packet",
+      "closureCategory": "packet",
+      "checkoutExpected": true,
       "evidence": {
         "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
         "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:44",

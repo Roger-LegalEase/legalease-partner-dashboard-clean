@@ -1,7 +1,7 @@
 {
   "generatedBy": "scripts/audit-petition-route-inventory.mjs",
   "note": "Explicit per-route product metadata. Derived from the STRUCTURED compiled routeType + EXPLICIT_OVERRIDES (Phase 4), never from summary regex. paymentProductEligible=true only for routes the evaluator currently opens payment for (ratified + court/admin + fulfillment-ready).",
-  "headCommit": "30ed9e3fba28a46cc24add9c436808179ba828ad",
+  "headCommit": "6388c53a81da6f912139f2e6f36a9c665f46e667",
   "routes": {
     "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": {
       "productRouteType": "court_application",
@@ -15,6 +15,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_required",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -37,6 +38,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -53,8 +55,9 @@
       "legalSignoffStatus": "not_applicable",
       "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
-      "evaluatorTier": "other / unclassified",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -70,11 +73,10 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
-      "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-002"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -95,6 +97,7 @@
       "openLegalActionRequiredItems": [
         "LAR-001"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -106,17 +109,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "AL:human-trafficking-victim-expungement": {
@@ -131,8 +135,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-005"
+        "LAR-004"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -151,8 +156,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-003"
+        "LAR-002"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -171,8 +177,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-004"
+        "LAR-003"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -184,17 +191,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_form_mapping",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "AR:situation-b-misdemeanor-convictions": {
@@ -209,6 +217,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -227,6 +236,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -245,6 +255,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -263,8 +274,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-006"
+        "LAR-005"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -283,8 +295,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-007"
+        "LAR-006"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -303,6 +316,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -321,6 +335,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -339,6 +354,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -357,6 +373,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -375,6 +392,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -393,6 +411,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -411,6 +430,7 @@
       "paidRouteBlocker": "duplicate",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -429,6 +449,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -447,8 +468,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-009"
+        "LAR-008"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -467,8 +489,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-008"
+        "LAR-007"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -487,6 +510,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -505,6 +529,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -523,6 +548,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -541,6 +567,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -559,6 +586,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -577,6 +605,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -595,6 +624,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -613,6 +643,7 @@
       "paidRouteBlocker": "not_operational",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -631,6 +662,7 @@
       "paidRouteBlocker": "not_operational",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -649,6 +681,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -660,17 +693,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806": {
@@ -678,17 +712,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "DC:dc_motion_seal_nonconviction_16_806": {
@@ -696,17 +731,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "DE:discretionary-court-expungement-under-11-del-c-4374": {
@@ -721,6 +757,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_required",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -743,8 +780,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-010"
+        "LAR-009"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -763,6 +801,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -781,6 +820,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -788,19 +828,18 @@
       "externalDocuments": []
     },
     "FL:administrative-expunction-mistaken-or-unlawful-arrest": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "prosecutor_or_agency",
+      "filingForum": "prosecutor",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "needs_reconfirm",
+      "legalSignoffStatus": "not_applicable",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-016"
-      ],
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -819,6 +858,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -837,6 +877,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -855,8 +896,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-011"
+        "LAR-010"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -870,13 +912,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-015"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -895,8 +936,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-012"
+        "LAR-011"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -904,19 +946,18 @@
       "externalDocuments": []
     },
     "FL:juvenile-diversion-expunction-943-0582": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "prosecutor_or_agency",
+      "filingForum": "prosecutor",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "blocked",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-014"
-      ],
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -924,19 +965,18 @@
       "externalDocuments": []
     },
     "FL:lawful-self-defense-expunction-943-0578": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "prosecutor_or_agency",
+      "filingForum": "prosecutor",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "blocked",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "gate_build",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-013"
-      ],
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -955,6 +995,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -973,8 +1014,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-017"
+        "LAR-012"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -993,8 +1035,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-018"
+        "LAR-013"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1013,6 +1056,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1031,8 +1075,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-019"
+        "LAR-014"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1051,8 +1096,9 @@
       "paidRouteBlocker": "legal_action_required",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-020"
+        "LAR-015"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1071,8 +1117,9 @@
       "paidRouteBlocker": "legal_action_required",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-021"
+        "LAR-016"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1091,6 +1138,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1109,6 +1157,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1127,6 +1176,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1145,8 +1195,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-025"
+        "LAR-020"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1165,8 +1216,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-022"
+        "LAR-017"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1185,6 +1237,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1203,8 +1256,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-023"
+        "LAR-018"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1223,8 +1277,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-024"
+        "LAR-019"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1243,8 +1298,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-027"
+        "LAR-021"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1263,8 +1319,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-029"
+        "LAR-023"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1283,8 +1340,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-028"
+        "LAR-022"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1298,13 +1356,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-026"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1323,6 +1380,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1341,6 +1399,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -1352,17 +1411,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_form_mapping",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "IL:cannabis-specific-automatic-or-petition-expungement": {
@@ -1377,6 +1437,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -1395,6 +1456,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -1413,6 +1475,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1431,6 +1494,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -1449,6 +1513,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -1462,13 +1527,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "gate_build",
-      "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-030"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1480,17 +1544,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_form_mapping",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "IN:conviction-expungement-with-records-marked-expunged": {
@@ -1505,8 +1570,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-033"
+        "LAR-026"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1525,6 +1591,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1543,8 +1610,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-032"
+        "LAR-025"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1563,8 +1631,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-031"
+        "LAR-024"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1583,8 +1652,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-034"
+        "LAR-027"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1603,6 +1673,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -1621,8 +1692,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-035"
+        "LAR-028"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -1641,6 +1713,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1654,13 +1727,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "gate_build",
-      "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-036"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1679,6 +1751,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -1697,6 +1770,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -1708,17 +1782,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "KY:nonconviction-431076": {
@@ -1733,8 +1808,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-037"
+        "LAR-029"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1753,6 +1829,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -1771,8 +1848,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-039"
+        "LAR-031"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1791,6 +1869,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1802,17 +1881,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "LA:first-offender-pardon-felony-expungement": {
@@ -1827,6 +1907,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1845,6 +1926,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1863,8 +1945,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-040"
+        "LAR-032"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1883,8 +1966,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-041"
+        "LAR-033"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1903,8 +1987,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-038"
+        "LAR-030"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -1923,6 +2008,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1934,17 +2020,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "LA:non-conviction-arrest-expungement": {
@@ -1959,6 +2046,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -1970,17 +2058,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_form_mapping",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MA:automatic-non-conviction-sealing-for-not-guilty-no-bill-or-no-probable-cause-outcomes-100c": {
@@ -1995,6 +2084,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -2013,8 +2103,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-042"
+        "LAR-034"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2028,13 +2119,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "legal_reconfirmation",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-043"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2053,8 +2143,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-046"
+        "LAR-036"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2073,8 +2164,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-045"
+        "LAR-035"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2088,13 +2180,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "legal_reconfirmation",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-044"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2113,6 +2204,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2131,6 +2223,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -2144,13 +2237,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "gate_build",
-      "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-049"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2169,8 +2261,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-048"
+        "LAR-038"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2184,17 +2277,35 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "legal_reconfirmation",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-051"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": true,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "signed_off",
+      "packetFulfillmentStatus": "ready",
+      "paidRouteBlocker": "none",
+      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
+      "formStrategy": "official_form_primary",
+      "packetDocumentType": "official_form_plus_addendum",
+      "checkoutEligibility": "eligible",
+      "filingReadiness": "ready_to_file",
       "externalDocuments": []
     },
     "MD:police-record-expungement-when-no-charge-was-filed-under-10-103": {
@@ -2209,8 +2320,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-047"
+        "LAR-037"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2224,13 +2336,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "gate_build",
-      "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-050"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2249,6 +2360,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -2267,8 +2379,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-053"
+        "LAR-039"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2287,8 +2400,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-054"
+        "LAR-040"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2307,6 +2421,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2320,13 +2435,12 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "blocked",
+      "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "intake_fix",
-      "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-052"
-      ],
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2345,6 +2459,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -2363,8 +2478,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-056"
+        "LAR-042"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2383,8 +2499,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-057"
+        "LAR-043"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2403,6 +2520,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -2421,8 +2539,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-055"
+        "LAR-041"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2441,6 +2560,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2459,6 +2579,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -2477,6 +2598,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -2490,15 +2612,14 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "needs_reconfirm",
-      "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "route_metadata",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-058"
-      ],
-      "formStrategy": "custom_pleading_allowed",
-      "packetDocumentType": "custom_pleading_packet",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -2515,6 +2636,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2533,8 +2655,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-059"
+        "LAR-044"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -2542,21 +2665,20 @@
       "externalDocuments": []
     },
     "MO:closed-record-outcome-under-rsmo-610-105": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "legal_reconfirmation",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-060"
-      ],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -2573,8 +2695,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-061"
+        "LAR-045"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2586,17 +2709,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_form_mapping",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "INTENTIONAL_UNSUPPORTED_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "intentional_unsupported",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MO:first-minor-in-possession-alcohol-expungement-under-311-326": {
@@ -2611,8 +2735,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-063"
+        "LAR-046"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2631,6 +2756,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -2638,21 +2764,39 @@
       "externalDocuments": []
     },
     "MO:marijuana-expungement-under-missouri-constitution-article-xiv": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "legal_reconfirmation",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-062"
-      ],
-      "formStrategy": "custom_pleading_allowed",
-      "packetDocumentType": "custom_pleading_packet",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MO:state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141": {
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -2669,10 +2813,32 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
       "filingReadiness": "ready_to_file",
+      "externalDocuments": []
+    },
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "route_metadata",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [
+        "LAR-048"
+      ],
+      "serviceBehavior": "guidance",
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
@@ -2680,17 +2846,58 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "attorney_review",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "route_metadata",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [
+        "LAR-049"
+      ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MS:controlled-substance-conditional-discharge-active-case-admission": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:dui-nonadjudication": {
@@ -2698,17 +2905,18 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "custom_pleading_allowed",
-      "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:eligible-felony-conviction-expungement-99-19-71": {
@@ -2723,6 +2931,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2741,6 +2950,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2759,6 +2969,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2777,10 +2988,49 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
       "filingReadiness": "ready_to_file",
+      "externalDocuments": []
+    },
+    "MS:human-trafficking-survivor-expungement-97-3-54-6-6": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MS:human-trafficking-survivor-vacatur-97-3-54-6-5": {
+      "productRouteType": "court_motion",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:human-trafficking-survivor-vacatur-and-expungement": {
@@ -2788,35 +3038,77 @@
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "custom_pleading_allowed",
-      "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:intervention-court-completion-expungement": {
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4": {
       "productRouteType": "court_petition",
       "filingForum": "court",
       "userFiled": true,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "openLegalActionRequiredItems": [],
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "route_metadata",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [
+        "LAR-047"
+      ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
+      "externalDocuments": []
+    },
+    "MS:intervention-court-statutory-result-enforcement-referral": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:minor-in-possession-underage-alcohol-expungement": {
@@ -2831,6 +3123,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2849,10 +3142,30 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
       "filingReadiness": "ready_to_file",
+      "externalDocuments": []
+    },
+    "MS:nonadjudication-99-15-26-active-case-admission": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:nonadjudication-under-99-15-26": {
@@ -2867,10 +3180,30 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
       "filingReadiness": "ready_to_file",
+      "externalDocuments": []
+    },
+    "MS:pretrial-intervention-active-case-admission": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:pretrial-intervention-or-diversion-expungement": {
@@ -2885,10 +3218,32 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
       "filingReadiness": "ready_to_file",
+      "externalDocuments": []
+    },
+    "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59": {
+      "productRouteType": "court_petition",
+      "filingForum": "court",
+      "userFiled": true,
+      "currentlyOperative": true,
+      "paymentProductEligible": false,
+      "isAdministrativeApplication": false,
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "paidRouteBlocker": "route_metadata",
+      "evaluatorTier": "other / unclassified",
+      "openLegalActionRequiredItems": [
+        "LAR-050"
+      ],
+      "serviceBehavior": "guidance",
+      "formStrategy": "custom_pleading_allowed",
+      "packetDocumentType": "custom_pleading_packet",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59": {
@@ -2903,6 +3258,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2910,21 +3266,22 @@
       "externalDocuments": []
     },
     "MT:deferred-sentence-dismissal-or-confidentiality-route": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "MT:doj-record-removal-update-request": {
@@ -2939,6 +3296,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -2957,6 +3315,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -2975,6 +3334,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -2982,21 +3342,20 @@
       "externalDocuments": []
     },
     "MT:non-conviction-criminal-history-removal-through-criss": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "needs_reconfirm",
-      "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-064"
-      ],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -3013,6 +3372,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3031,8 +3391,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-065"
+        "LAR-051"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3051,8 +3412,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-066"
+        "LAR-052"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3071,6 +3433,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3089,8 +3452,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-068"
+        "LAR-054"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3109,6 +3473,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3127,6 +3492,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3145,6 +3511,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3163,8 +3530,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-067"
+        "LAR-053"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3183,6 +3551,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3201,6 +3570,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3219,8 +3589,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-071"
+        "LAR-057"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3239,8 +3610,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-070"
+        "LAR-056"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3259,6 +3631,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3277,6 +3650,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3295,6 +3669,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3313,8 +3688,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-069"
+        "LAR-055"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3333,6 +3709,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3348,11 +3725,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-072"
+        "LAR-058"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3371,8 +3749,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-073"
+        "LAR-059"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3391,8 +3770,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-075"
+        "LAR-061"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3411,8 +3791,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-074"
+        "LAR-060"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3431,6 +3812,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3449,6 +3831,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3467,8 +3850,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-077"
+        "LAR-063"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3476,21 +3860,22 @@
       "externalDocuments": []
     },
     "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3": {
@@ -3505,8 +3890,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-076"
+        "LAR-062"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3525,6 +3911,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3543,6 +3930,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3561,8 +3949,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-078"
+        "LAR-064"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3570,19 +3959,18 @@
       "externalDocuments": []
     },
     "NM:dna-sample-profile-expungement": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "prosecutor_or_agency",
+      "filingForum": "prosecutor",
+      "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "blocked",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "legal_reconfirmation",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "openLegalActionRequiredItems": [
-        "LAR-079"
-      ],
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -3601,6 +3989,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3619,8 +4008,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-084"
+        "LAR-069"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3636,11 +4026,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-080"
+        "LAR-065"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3659,6 +4050,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3684,8 +4076,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-085"
+        "LAR-070"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3704,8 +4097,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-081"
+        "LAR-066"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3724,8 +4118,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-082"
+        "LAR-067"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3744,8 +4139,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-083"
+        "LAR-068"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3764,6 +4160,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3782,6 +4179,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3800,6 +4198,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3818,6 +4217,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -3836,6 +4236,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -3854,8 +4255,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-086"
+        "LAR-071"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3874,6 +4276,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -3892,8 +4295,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-090"
+        "LAR-075"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3912,8 +4316,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-088"
+        "LAR-073"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3932,8 +4337,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-089"
+        "LAR-074"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3952,8 +4358,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-091"
+        "LAR-076"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3972,8 +4379,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-087"
+        "LAR-072"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -3992,6 +4400,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -4010,8 +4419,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-092"
+        "LAR-077"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4030,6 +4440,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -4048,8 +4459,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-093"
+        "LAR-078"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4068,8 +4480,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-103"
+        "LAR-088"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4088,8 +4501,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-094"
+        "LAR-079"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4108,8 +4522,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-102"
+        "LAR-087"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4128,8 +4543,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-098"
+        "LAR-083"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4148,8 +4564,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-104"
+        "LAR-089"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4165,11 +4582,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_custom_packet",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-106"
+        "LAR-091"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4188,8 +4606,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-095"
+        "LAR-080"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4208,8 +4627,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-096"
+        "LAR-081"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4228,8 +4648,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-101"
+        "LAR-086"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4248,8 +4669,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-100"
+        "LAR-085"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4268,8 +4690,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-099"
+        "LAR-084"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4288,6 +4711,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4306,8 +4730,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-097"
+        "LAR-082"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4326,8 +4751,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-105"
+        "LAR-090"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4346,8 +4772,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-108"
+        "LAR-093"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4366,6 +4793,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -4384,8 +4812,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-107"
+        "LAR-092"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4404,6 +4833,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -4426,8 +4856,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-109"
+        "LAR-094"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4446,8 +4877,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-110"
+        "LAR-095"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4466,8 +4898,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-111"
+        "LAR-096"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4486,8 +4919,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-112"
+        "LAR-097"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4506,8 +4940,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-113"
+        "LAR-098"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4526,8 +4961,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-114"
+        "LAR-099"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4546,6 +4982,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4564,8 +5001,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-115"
+        "LAR-100"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4584,6 +5022,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -4602,8 +5041,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-116"
+        "LAR-101"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4622,8 +5062,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-117"
+        "LAR-102"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4642,8 +5083,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-118"
+        "LAR-103"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4662,8 +5104,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-119"
+        "LAR-104"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4679,11 +5122,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-120"
+        "LAR-105"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4699,11 +5143,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-121"
+        "LAR-106"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4711,21 +5156,22 @@
       "externalDocuments": []
     },
     "RI:path-f-marijuana-possession-expungement": {
-      "productRouteType": "court_petition",
-      "filingForum": "court",
-      "userFiled": true,
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
+      "userFiled": false,
       "currentlyOperative": true,
-      "paymentProductEligible": true,
+      "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "signed_off",
-      "packetFulfillmentStatus": "ready",
-      "paidRouteBlocker": "none",
-      "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
+      "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
-      "checkoutEligibility": "eligible",
-      "filingReadiness": "ready_to_file",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
+      "checkoutEligibility": "not_eligible",
+      "filingReadiness": "guidance_only",
       "externalDocuments": []
     },
     "RI:path-g-decriminalized-offense-expungement": {
@@ -4735,15 +5181,14 @@
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
-      "legalSignoffStatus": "needs_reconfirm",
-      "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "legalSignoffStatus": "not_applicable",
+      "packetFulfillmentStatus": "not_applicable",
+      "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
-      "openLegalActionRequiredItems": [
-        "LAR-122"
-      ],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
+      "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -4760,8 +5205,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-123"
+        "LAR-107"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4780,6 +5226,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -4798,8 +5245,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-126"
+        "LAR-110"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4818,8 +5266,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-124"
+        "LAR-108"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4838,8 +5287,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-127"
+        "LAR-111"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4855,11 +5305,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-128"
+        "LAR-112"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -4867,8 +5318,8 @@
       "externalDocuments": []
     },
     "SC:pardon-guidance-for-otherwise-ineligible-convictions": {
-      "productRouteType": "board_or_pardon",
-      "filingForum": "board",
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
       "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
@@ -4878,6 +5329,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -4896,8 +5348,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-125"
+        "LAR-109"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4916,6 +5369,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -4934,6 +5388,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -4952,8 +5407,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-131"
+        "LAR-115"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4972,8 +5428,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-129"
+        "LAR-113"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -4992,8 +5449,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-132"
+        "LAR-116"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5012,8 +5470,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-133"
+        "LAR-117"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5021,19 +5480,20 @@
       "externalDocuments": []
     },
     "SD:pardon-based-sealing": {
-      "productRouteType": "board_or_pardon",
-      "filingForum": "board",
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
       "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "not_applicable",
-      "packetFulfillmentStatus": "needs_custom_packet",
+      "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "custom_pleading_allowed",
-      "packetDocumentType": "custom_pleading_packet",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -5050,8 +5510,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-130"
+        "LAR-114"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5070,6 +5531,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -5088,8 +5550,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-134"
+        "LAR-118"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5108,8 +5571,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-135"
+        "LAR-119"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5128,8 +5592,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-136"
+        "LAR-120"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5148,6 +5613,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5166,6 +5632,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -5184,8 +5651,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-139"
+        "LAR-123"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5204,8 +5672,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-140"
+        "LAR-124"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5224,8 +5693,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-138"
+        "LAR-122"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5244,8 +5714,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-137"
+        "LAR-121"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5264,8 +5735,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-143"
+        "LAR-127"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5284,8 +5756,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-141"
+        "LAR-125"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5304,8 +5777,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-142"
+        "LAR-126"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5324,6 +5798,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5342,6 +5817,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5360,6 +5836,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5378,8 +5855,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-144"
+        "LAR-128"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5398,8 +5876,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-145"
+        "LAR-129"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5418,8 +5897,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-146"
+        "LAR-130"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5438,6 +5918,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -5456,8 +5937,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-147"
+        "LAR-131"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5465,19 +5947,20 @@
       "externalDocuments": []
     },
     "UT:path-k-pardon-based-expungement": {
-      "productRouteType": "board_or_pardon",
-      "filingForum": "board",
+      "productRouteType": "automatic_relief",
+      "filingForum": "automatic",
       "userFiled": false,
       "currentlyOperative": true,
       "paymentProductEligible": false,
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "not_applicable",
-      "packetFulfillmentStatus": "needs_form_mapping",
+      "packetFulfillmentStatus": "not_applicable",
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
-      "formStrategy": "official_form_primary",
-      "packetDocumentType": "official_form_plus_addendum",
+      "serviceBehavior": "automatic",
+      "formStrategy": "guidance_only",
+      "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
       "filingReadiness": "guidance_only",
       "externalDocuments": []
@@ -5494,8 +5977,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-148"
+        "LAR-132"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5514,8 +5998,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-149"
+        "LAR-133"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5534,6 +6019,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5552,6 +6038,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -5570,6 +6057,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -5588,8 +6076,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-150"
+        "LAR-134"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5608,8 +6097,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-152"
+        "LAR-136"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5628,8 +6118,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-151"
+        "LAR-135"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5648,6 +6139,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -5666,8 +6158,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-156"
+        "LAR-140"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5686,8 +6179,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-153"
+        "LAR-137"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5706,8 +6200,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-155"
+        "LAR-139"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5726,8 +6221,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-154"
+        "LAR-138"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5746,8 +6242,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-158"
+        "LAR-142"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5766,8 +6263,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-157"
+        "LAR-141"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5786,8 +6284,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-159"
+        "LAR-143"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5803,11 +6302,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-162"
+        "LAR-146"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5823,11 +6323,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-160"
+        "LAR-144"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5846,6 +6347,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -5864,8 +6366,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-161"
+        "LAR-145"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5884,6 +6387,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "eligible",
@@ -5902,8 +6406,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-163"
+        "LAR-147"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5922,6 +6427,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -5940,8 +6446,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-164"
+        "LAR-148"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -5960,8 +6467,9 @@
       "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-165"
+        "LAR-149"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -5980,6 +6488,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -5998,8 +6507,9 @@
       "paidRouteBlocker": "gate_build",
       "evaluatorTier": "HARD_GATE_PENDING_ROUTES",
       "openLegalActionRequiredItems": [
-        "LAR-167"
+        "LAR-151"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6015,11 +6525,12 @@
       "isAdministrativeApplication": false,
       "legalSignoffStatus": "needs_reconfirm",
       "packetFulfillmentStatus": "needs_form_mapping",
-      "paidRouteBlocker": "wait_anchor_fix",
+      "paidRouteBlocker": "legal_reconfirmation",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-168"
+        "LAR-152"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "official_form_primary",
       "packetDocumentType": "official_form_plus_addendum",
       "checkoutEligibility": "not_eligible",
@@ -6038,8 +6549,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-170"
+        "LAR-154"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6058,8 +6570,9 @@
       "paidRouteBlocker": "wait_anchor_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-166"
+        "LAR-150"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6078,6 +6591,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6096,8 +6610,9 @@
       "paidRouteBlocker": "intake_fix",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-169"
+        "LAR-153"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6116,6 +6631,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",
@@ -6134,6 +6650,7 @@
       "paidRouteBlocker": "none",
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "packet",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "eligible",
@@ -6152,8 +6669,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-171"
+        "LAR-155"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6172,8 +6690,9 @@
       "paidRouteBlocker": "route_metadata",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [
-        "LAR-172"
+        "LAR-156"
       ],
+      "serviceBehavior": "guidance",
       "formStrategy": "custom_pleading_allowed",
       "packetDocumentType": "custom_pleading_packet",
       "checkoutEligibility": "not_eligible",
@@ -6192,6 +6711,7 @@
       "paidRouteBlocker": "not_paid_product",
       "evaluatorTier": "other / unclassified",
       "openLegalActionRequiredItems": [],
+      "serviceBehavior": "automatic",
       "formStrategy": "guidance_only",
       "packetDocumentType": "guidance_only",
       "checkoutEligibility": "not_eligible",

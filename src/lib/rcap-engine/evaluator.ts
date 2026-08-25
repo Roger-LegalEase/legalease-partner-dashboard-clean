@@ -21,19 +21,16 @@ const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
 ];
 
 const RATIFIED_DEPLOYABLE_ROUTES = new Set([
-  "AR:situation-a-non-convictions",
   "AR:situation-b-misdemeanor-convictions",
   "AR:situation-c-felony-convictions",
   "CA:tool-1-dismissal-set-aside",
   "CA:tool-3-petition-based-felony-sealing",
   "CA:tool-4-arrest-record-sealing",
   "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
-  "IL:adult-non-conviction-expungement",
   "IL:expungement-after-eligible-supervision-or-qualified-probation",
   "IL:adult-conviction-sealing",
   "IL:cannabis-specific-automatic-or-petition-expungement",
   "IL:criminal-identity-theft-mistaken-identity-relief",
-  "IL:juvenile-automatic-or-petition-expungement",
   "KS:specialty-court-accelerated",
   "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
   // MD pardoned-conviction expungement (Crim. Proc. § 10-105(a)(8)/(c)(4)): counsel approved
@@ -48,7 +45,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
   "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
   "IA:nonconviction-901c2",
-  "KY:misdemeanor-violation-traffic-conviction",
   "MN:petition-based-expungement-under-609a-02-03",
   "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
   "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
@@ -63,9 +59,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   "MT:marijuana-related-redesignation-expungement-under-mmrta",
   "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
   "DC:dc_actual_innocence_expungement_16_803",
-  "DC:dc_motion_seal_nonconviction_16_806",
-  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
-  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
   "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
   "WI:adult-conviction-expungement-under-wis-stat-973-015",
   // ---- Lawrence ratification: 2026-07-01 ----
@@ -76,16 +69,13 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // source-listed special_preconditions_confirmed gate everywhere, per the engine's ratified model).
   // MO — RSMo ch. 610: 610.140 (felony 3yr / misd 1yr), 610.130 (10yr), 610.145 (event)
   "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
   "MO:stolen-or-mistaken-identity-expungement-under-610-145",
   // LA — La. C.Cr.P. arts. 894/893/977/978/998: 894(B)/893(E) set-aside (event) split from the
   // 5yr (misd) / 10yr (felony) clean-period routes; 998 marijuana 90-day
   "LA:non-conviction-arrest-expungement",
   "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
-  "LA:misdemeanor-five-year-clean-period-expungement",
   "LA:first-offense-marijuana-expungement-after-90-days-art-998",
   "LA:felony-article-893-e-set-aside-followed-by-expungement",
-  "LA:felony-ten-year-clean-period-expungement",
   // NE — Neb. Rev. Stat. § 29-2264 conviction SET-ASIDE (record stays visible), runs from completion
   "NE:set-aside-probation-fine-community-service",
   "NE:set-aside-incarceration-one-year-or-less",
@@ -139,7 +129,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // proven both-direction by verify-rcap-no-generic-fallbacks + all51-provability; any that did not
   // open payment when qualifying was reverted and held (see LEGAL_ACTION_REQUIRED.md). AK is excluded
   // (jurisdiction hard-coded non-court); MA/PA excluded (held-guidance / legacy-preserved).
-  "AL:eligible-conviction-expungement-under-the-redeemer-act",
   "AZ:remedy-1-record-sealing",
   // DE:discretionary-court-expungement-under-11-del-c-4374 held: a qualifying case did not open
   // payment in both-direction proof (needs an intake fact/anchor beyond metadata). See LEGAL_ACTION_REQUIRED.md.
@@ -183,7 +172,6 @@ const RATIFIED_DEPLOYABLE_ROUTES = new Set([
   // (misdemeanor) / 7yr (felony) wait is coded in the MA specialRouteTiming split, and the sex-offender
   // and offense exclusions come from the compiled § 100A rules. Moved out of HELD_GUIDANCE. Copy =
   // record sealing, not expungement.
-  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
   // PA — Pa.R.Crim.P. 790 court-case expungement (official AOPC Rule 790 petition + blank order).
   // The rule-driven engine owns route selection and payment; the legacy PA generator may only render
   // after this route ID is selected. Moved out of HELD_GUIDANCE. PATCH report is
@@ -232,14 +220,11 @@ const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set([
 
 const HARD_GATE_PENDING_ROUTES = new Set([
   "MD:eligible-conviction-expungement-under-crim-proc-10-110",
-  "MD:cannabis-specific-expungement",
-  "MD:second-chance-act-shielding",
   "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
   "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
   "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
   "TN:pathway-4-two-offense-expunction-under-40-32-101-k",
   "KS:conviction-or-diversion-216614",
-  "KY:felony-conviction-431073",
   "MI:set-aside-by-application-under-mcl-780-621",
   "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
   "NH:conviction-annulment-under-rsa-651-5",
@@ -271,19 +256,16 @@ const HARD_GATE_PENDING_ROUTES = new Set([
   "FL:court-ordered-sealing-943-059",
   "FL:lawful-self-defense-expunction-943-0578",
   "GA:restriction-and-sealing-of-a-pardoned-felony",
-  "IL:human-trafficking-survivor-vacatur-and-expungement"
 ]);
 
 const HELD_GUIDANCE_ROUTES = new Set([
   "CA:tool-5-proposition-64-marijuana-relief",
   "IN:conviction-expungement-with-records-marked-expunged",
   "KS:prostitution-coercion",
-  "MD:juvenile-expungement",
   "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
   "NM:dna-sample-profile-expungement",
   "OR:marijuana-specific-set-aside-redesignation",
   "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-  "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
   // Trafficking-survivor vacatur requires a "offense resulted from trafficking" nexus that cannot be
   // modeled from a single collected fact; held guidance-only (fail safe) until the nexus is modelable.
   "ID:human-trafficking-survivor-vacatur-and-expungement",
@@ -293,11 +275,8 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "LA:human-trafficking-survivor-expungement-fee-exempt-route",
   "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
   "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
-  "MA:juvenile-record-sealing-under-100b",
-  "MA:time-based-expungement-under-100f-100j",
   "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
   "MA:marijuana-only-expungement",
-  "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
   "ME:adult-non-conviction-record-relief",
   "ME:pardon-route",
   "ME:juvenile-sealing",
@@ -321,8 +300,34 @@ const HELD_GUIDANCE_ROUTES = new Set([
   "PA:path-i-petition-for-limited-access",
   "PA:path-k-human-trafficking-vacatur-expungement",
   "FL:juvenile-diversion-expunction-943-0582",
-  "FL:early-juvenile-expunction-943-0515",
   "GA:youthful-first-offender-restriction-route"
+]);
+
+const INTENTIONAL_UNSUPPORTED_ROUTES = new Set([
+  "AK:juvenile-record-sealing-as-47-12-300",
+  "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+  "AL:eligible-conviction-expungement-under-the-redeemer-act",
+  "AR:situation-a-non-convictions",
+  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+  "DC:dc_motion_seal_nonconviction_16_806",
+  "FL:early-juvenile-expunction-943-0515",
+  "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+  "IL:adult-non-conviction-expungement",
+  "IL:human-trafficking-survivor-vacatur-and-expungement",
+  "IL:juvenile-automatic-or-petition-expungement",
+  "KY:felony-conviction-431073",
+  "KY:misdemeanor-violation-traffic-conviction",
+  "LA:felony-ten-year-clean-period-expungement",
+  "LA:misdemeanor-five-year-clean-period-expungement",
+  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+  "MA:juvenile-record-sealing-under-100b",
+  "MA:time-based-expungement-under-100f-100j",
+  "MD:cannabis-specific-expungement",
+  "MD:juvenile-expungement",
+  "MD:second-chance-act-shielding",
+  "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
 ]);
 
 export class UnsupportedJurisdictionError extends Error {
@@ -420,6 +425,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  if (preselectedPathway && routeIsIntentionalUnsupported(profile, preselectedPathway)) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "not_covered_yet", [reason(jurisdiction, "intentional_unsupported_route", "LegalEase intentionally does not support this source-defined route as a participant service.", preselectedPathway.sourceRef)], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
   const preMissingProductFacts = preselectedPathway ? missingProductFactIds(profile, answers, preselectedPathway) : [];
   if (preselectedPathway && preMissingProductFacts.length > 0) {
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "court_petition_preconditions_missing", "Required court-petition precondition facts are missing.")], {
@@ -478,6 +491,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
   if (authorityGate) {
     return result(profile, request, "needs_review", [authorityGate], {
       pathwayId: pathway.id,
+      paymentAllowed: false
+    });
+  }
+  if (routeIsIntentionalUnsupported(profile, pathway)) {
+    const unsupportedPlan = packetPlanForPathway(profile, pathway.id);
+    return result(profile, request, "not_covered_yet", [reason(jurisdiction, "intentional_unsupported_route", "LegalEase intentionally does not support this source-defined route as a participant service.", pathway.sourceRef)], {
+      pathwayId: pathway.id,
+      ...(unsupportedPlan ? { packetPlan: unsupportedPlan } : {}),
       paymentAllowed: false
     });
   }
@@ -735,6 +756,10 @@ function routeIsHardGatePending(profile: EngineProfile, pathway: CompiledPathway
 
 function routeIsHeldGuidance(profile: EngineProfile, pathway: CompiledPathway) {
   return HELD_GUIDANCE_ROUTES.has(routeKey(profile, pathway));
+}
+
+function routeIsIntentionalUnsupported(profile: EngineProfile, pathway: CompiledPathway) {
+  return INTENTIONAL_UNSUPPORTED_ROUTES.has(routeKey(profile, pathway));
 }
 
 // A legally signed-off administrative-application packet route (currently only the Hawaii HCJDC 159(b)
