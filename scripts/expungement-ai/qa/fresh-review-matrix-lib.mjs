@@ -230,7 +230,7 @@ function derivePacketTreatment(flow, disposition) {
   const effective = flow.terminalOutcome?.effectiveTerminal
     ?? flow.terminalOutcome?.resultCode;
   const packetExpected = flow.remedy?.filingRequired === true
-    && effective === "packet_ready_with_caution";
+    && ["packet_ready", "packet_ready_with_caution"].includes(effective);
   return {
     kind: packetExpected ? "packet_expected" : "no_packet",
     checkoutAllowed: packetExpected && disposition.purchasableAfter === true,

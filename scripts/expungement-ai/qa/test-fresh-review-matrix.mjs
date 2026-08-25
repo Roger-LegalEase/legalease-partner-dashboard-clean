@@ -97,6 +97,38 @@ assert.equal(built.matrix.rows[0].expectedTerminal.effective, "guidance_only");
 assert.deepEqual(built.matrix.rows[0].desktopFixture.viewport, DESKTOP_VIEWPORT);
 assert.deepEqual(built.matrix.rows[0].mobileFixture.viewport, MOBILE_VIEWPORT);
 
+const packetReadyFlow = structuredClone(flow);
+packetReadyFlow.flowId = "EXPAI-CO-packet-ready";
+packetReadyFlow.flowKey = "CO::packet-ready::packet_ready::dtc_paid";
+packetReadyFlow.remedy.pathwayId = "packet-ready";
+packetReadyFlow.remedy.filingRequired = true;
+packetReadyFlow.terminalOutcome.resultCode = "packet_ready";
+packetReadyFlow.terminalOutcome.effectiveTerminal = "packet_ready";
+packetReadyFlow.paymentMode = "dtc_paid";
+packetReadyFlow.fixture.replayResultCode = "packet_ready";
+const packetReadyDisposition = {
+  ...structuredClone(disposition),
+  flowId: packetReadyFlow.flowId,
+  flowKey: packetReadyFlow.flowKey,
+  remedy: packetReadyFlow.remedy.pathwayId,
+  terminal: "packet_ready",
+  paymentMode: "dtc_paid",
+  purchasableAfter: true
+};
+const packetReadyArtifacts = buildFreshReviewArtifacts({
+  candidateSha: "b".repeat(40),
+  manifest: { flows: [packetReadyFlow] },
+  dispositions: { rows: [packetReadyDisposition] },
+  waitingRuleAuthority: { proposals: { perProposal: {} } },
+  expectedRealFlowCount: 1,
+  browserShardStateGroups: [["CO"]]
+});
+assert.equal(
+  packetReadyArtifacts.matrix.rows[0].packetTreatment.kind,
+  "packet_expected",
+  "packet_ready is a packet terminal, not a no-packet terminal"
+);
+
 const replayMismatchFlow = structuredClone(flow);
 replayMismatchFlow.fixture.reproducesTerminal = false;
 replayMismatchFlow.fixture.replayResultCode = "needs_review";
