@@ -45,6 +45,7 @@ const {
   routePaymentAuthority,
   routeIsAutomaticOrNoFiling
 } = await import("@/lib/legal-authority/index");
+const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 
 const PROFILE_DIR = "src/lib/rcap-engine/compiled/profiles";
 const checkOnly = process.argv.includes("--check");
@@ -159,9 +160,32 @@ function newRouteRule(contract) {
   };
 }
 
-function applyToRule(rule, contract) {
+/**
+ * The facts a rule may gate on.
+ *
+ * `fieldsPresentOrInternal` drops a rule whose public fields are unanswered, and
+ * a dropped route rule takes its approved clock with it: the evaluator then
+ * falls back to whichever prose rule matches, which is how a route ends up
+ * timed by another route's number. Mississippi's first-offense DUI route rule
+ * listed `sentence_completion_date` — a published but optional question — so in
+ * an ordinary flow the 5-year rule was never reachable at all.
+ *
+ * So a route rule gates only on facts the flow guarantees: the contract's own
+ * screening facts, narrowed to questions this profile publishes AS REQUIRED.
+ * The remaining approved facts are not discarded; they stay on the pathway's
+ * `legalAuthority.requiredFacts`, where they are visible without silently
+ * disabling the rule that carries the timing.
+ */
+function gatingFactsFor(contract, requiredPublicIds) {
+  return (contract.screeningFactIds ?? []).filter((id) => requiredPublicIds.has(id));
+}
+
+function applyToRule(rule, contract, requiredPublicIds) {
   const when = { ...rule.when };
   when.sourceConditionText = contract.timing.anchorText;
+  const gating = gatingFactsFor(contract, requiredPublicIds);
+  when.requiredFields = gating;
+  when.fieldsReferenced = gating;
   if (contract.timing.kind === "elapsed_eligibility_clock") {
     when.duration = {
       value: contract.timing.value,
@@ -222,6 +246,9 @@ for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeC
   profile.pathways ??= [];
   profile.orderedDecisionRules ??= [];
   profile.waitingPeriodRules ??= [];
+  const requiredPublicIds = new Set(
+    projectPublicProfile(profile).questions.filter((question) => question.required === true).map((question) => question.id)
+  );
 
   for (const contract of contracts) {
     let pathway = profile.pathways.find((candidate) => candidate.id === contract.pathwayId);
@@ -243,12 +270,12 @@ for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeC
       (rule) => rule.when?.backendPathwayId === contract.pathwayId || rule.id === `route-${contract.pathwayId}`
     );
     if (exact.length === 0) {
-      profile.orderedDecisionRules.push(applyToRule(newRouteRule(contract), contract));
+      profile.orderedDecisionRules.push(applyToRule(newRouteRule(contract), contract, requiredPublicIds));
       summary.rules += 1;
     } else {
       for (const rule of exact) {
         const index = profile.orderedDecisionRules.indexOf(rule);
-        profile.orderedDecisionRules[index] = applyToRule(rule, contract);
+        profile.orderedDecisionRules[index] = applyToRule(rule, contract, requiredPublicIds);
         summary.rules += 1;
       }
     }
