@@ -28,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, checkout_gate, payment, or full"
+        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, stripe_retarget, checkout_gate, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -91,8 +91,8 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_WORKER_SOURCE_SHA: 7cc8675d2835675d5bf40d18e6e09468bd84f790
-  AUTHORIZED_WORKER_DIGEST: sha256:6bc20972dfc53117861a5d69682ec1d42ca64b1f0d26c51685bbe93f195f0a7d
+  AUTHORIZED_WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  AUTHORIZED_WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: sprint/20260825-full-product-captain
@@ -140,9 +140,9 @@ jobs:
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
           [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
-          if [ "$PHASE_INPUT" = "checkout_gate" ]; then
+          if [ "$PHASE_INPUT" = "checkout_gate" ] || [ "$PHASE_INPUT" = "stripe_retarget" ]; then
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
-              || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
+              || { echo "::error::$PHASE_INPUT requires one exact Vercel deployment id"; exit 1; }
           elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
             # A reuse candidate is legitimate for any phase that resolves a
             # Preview. It is still shape-checked, so a typo refuses here rather
@@ -153,6 +153,10 @@ jobs:
           if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
             printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
               || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
+          fi
+          if [ "$PHASE_INPUT" = "stripe_retarget" ] && [ -z "$PREVIEW_HOSTNAME_INPUT" ]; then
+            echo "::error::stripe_retarget requires one exact Vercel Preview hostname"
+            exit 1
           fi
 
       - name: Check out repository history
@@ -243,28 +247,30 @@ jobs:
       # after it, and still concluded success. A green run that never attempted
       # the matrix is worse than a red one: it reads as acceptance.
       #
-      #   phase          deploy/reuse   matrix   checkout gate
-      #   full           yes            yes      yes
-      #   deploy         yes            no       no
-      #   accept         no             yes      no
-      #   payment        yes            yes      no
-      #   checkout_gate  no             no       yes
-      #   migrate        no             no       no
-      #   preflight      no             no       no
-      #   vercel_audit   no             no       no
-      #   anything else  FAIL CLOSED
+      #   phase            deploy/reuse   matrix   checkout gate   Stripe retarget
+      #   full             yes            yes      yes             no
+      #   deploy           yes            no       no              no
+      #   accept           no             yes      no              no
+      #   payment          yes            yes      no              no
+      #   stripe_retarget  no             no       no              yes
+      #   checkout_gate    no             no       yes             no
+      #   migrate          no             no       no              no
+      #   preflight        no             no       no              no
+      #   vercel_audit     no             no       no              no
+      #   anything else    FAIL CLOSED
       - name: Normalize the execution contract for this phase
         id: contract
         run: |
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
           case "$PHASE" in
-            full)          DEPLOY=true;  MATRIX=true;  GATE=true  ;;
-            deploy)        DEPLOY=true;  MATRIX=false; GATE=false ;;
-            accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
-            payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
-            checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
-            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false ;;
+            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false ;;
+            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false ;;
+            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false ;;
+            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false ;;
+            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true  ;;
+            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false ;;
+            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -275,6 +281,7 @@ jobs:
             echo "deploy=$DEPLOY"
             echo "matrix=$MATRIX"
             echo "gate=$GATE"
+            echo "retarget=$RETARGET"
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
@@ -288,7 +295,20 @@ jobs:
               echo "require_staging_scoped=false"
             fi
           } >> "$GITHUB_OUTPUT"
-          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET"
+
+      - name: Retarget the one existing Stripe sandbox webhook to the exact Preview
+        id: stripe_retarget
+        if: steps.contract.outputs.retarget == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
+        run: node scripts/rcap-hosted-stripe-webhook-retarget.mjs
 
       # Runs in every phase that runs the gate, not just the gate-only phase.
       # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
