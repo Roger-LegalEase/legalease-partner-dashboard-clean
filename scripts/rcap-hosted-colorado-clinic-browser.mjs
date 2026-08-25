@@ -523,7 +523,7 @@ async function main() {
 
     const noPaymentRows = await managementQuery(`
       select b.result_code,b.payment_allowed,b.payment_status,b.packet_status,b.checkout_session_id,
-        jsonb_object_length(b.artifact_refs_json) as artifact_refs,
+        (select count(*)::int from jsonb_object_keys(coalesce(b.artifact_refs_json,'{}'::jsonb))) as artifact_refs,
         (select count(*)::int from public.packet_render_jobs j where j.briefcase_item_id=b.id) as jobs,
         (select count(*)::int from public.consumer_packet_payment_consumption c where c.consumer_briefcase_item_id=b.id) as credits
       from public.consumer_briefcase_items b where b.id='${FIXTURE.matterId}' and b.user_id='${participant.id}'

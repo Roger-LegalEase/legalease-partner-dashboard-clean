@@ -85,10 +85,12 @@ includesEvery(script, [
   'result_code === "guidance_only"',
   "payment_allowed === false",
   "checkout_session_id === null",
+  "jsonb_object_keys(coalesce(b.artifact_refs_json,'{}'::jsonb))",
   "Number(noPayment.jobs) === 0",
   "Number(noPayment.credits) === 0",
   "Number(noPayment.artifact_refs) === 0"
 ], "Colorado juvenile no-payment boundary proof");
+check(!script.includes("jsonb_object_length"), "browser evidence query calls a PostgreSQL function that does not exist");
 check(!script.includes("/api/expungement-ai/checkout"), "browser harness can create Checkout");
 
 includesEvery(script, [
