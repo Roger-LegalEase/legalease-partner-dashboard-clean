@@ -119,9 +119,14 @@ includesEvery(hosted, [
   // RESOLVED identity from the one resolution boundary.
   "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
   "node scripts/rcap-hosted-checkout-gate.mjs",
-  "node scripts/verify-rcap-hosted-checkout-gate.mjs",
-  "checkout_gate requires one exact Vercel deployment id"
+  "node scripts/verify-rcap-hosted-checkout-gate.mjs"
 ], "hosted workflow");
+check(
+  ["checkout_gate", "stripe_retarget"].every((phase) =>
+    hosted.includes(`${phase} requires one exact Vercel deployment id`)
+  ),
+  "checkout_gate and stripe_retarget must each require one exact Vercel deployment id"
+);
 
 // The gate and its verifier are driven by the normalized contract, not by
 // hand-written phase lists. Eight independently-written `inputs.phase ==`

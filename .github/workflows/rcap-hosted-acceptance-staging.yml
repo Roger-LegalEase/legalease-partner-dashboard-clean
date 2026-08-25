@@ -140,9 +140,12 @@ jobs:
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
           [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
-          if [ "$PHASE_INPUT" = "checkout_gate" ] || [ "$PHASE_INPUT" = "stripe_retarget" ]; then
+          if [ "$PHASE_INPUT" = "checkout_gate" ]; then
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
-              || { echo "::error::$PHASE_INPUT requires one exact Vercel deployment id"; exit 1; }
+              || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
+          elif [ "$PHASE_INPUT" = "stripe_retarget" ]; then
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::stripe_retarget requires one exact Vercel deployment id"; exit 1; }
           elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
             # A reuse candidate is legitimate for any phase that resolves a
             # Preview. It is still shape-checked, so a typo refuses here rather
