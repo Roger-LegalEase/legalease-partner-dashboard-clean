@@ -18,6 +18,9 @@ const { evaluateExpungementAiMatter } = await import("../src/lib/rcap-engine/exp
 const { evaluateRcapMatter } = await import("../src/lib/rcap-engine/rcap-adapter.ts");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
+const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
+const { clinicReviewTreatmentFor } = await import("../src/lib/clinic-mode/result-follow-up.ts");
+const { unavailablePacketRouteFor, routeMustFailClosed } = await import("../src/lib/rcap-engine/unavailable-packet-routes.ts");
 const { ScreeningResult } = await import("../src/components/expungement-ai/screening/ScreeningResult.tsx");
 
 const failures = [];
@@ -29,6 +32,7 @@ const check = (condition, message) => {
 
 const unavailablePathway = "juvenile-expungement-19-1-306";
 const supportedPathway = "petition-based-non-conviction-sealing-jdf-417-24-72-704";
+const convictionPathway = "petition-based-conviction-sealing-jdf-612-24-72-706";
 
 const unavailable = fixtureFor(unavailablePathway);
 const unavailableRequest = requestFor(unavailable, "co-juvenile-no-packet");
@@ -37,6 +41,7 @@ check(
   rawUnavailable.resultCode === "packet_ready_with_caution",
   `control: raw evaluator changed unexpectedly (${rawUnavailable.resultCode})`
 );
+check(rawUnavailable.pathwayId === unavailablePathway, "the Colorado juvenile flow is not reachable");
 
 const consumerUnavailable = evaluateExpungementAiMatter(unavailableRequest);
 const partnerUnavailable = evaluateRcapMatter({ ...unavailableRequest, caseId: "co-juvenile-clinic" }).evaluation;
@@ -50,23 +55,57 @@ for (const [surface, evaluation] of [["consumer", consumerUnavailable], ["clinic
   );
 }
 
-const partnerHtml = renderToStaticMarkup(React.createElement(ScreeningResult, {
-  evaluation: partnerUnavailable,
-  stateName: "Colorado",
-  questionPromptById: {},
-  onEditAnswers: () => {},
-  onPacketAction: () => {},
-  hasScreeningSession: true
-}));
-check(partnerHtml.includes("View my next steps"), "clinic/partner: guidance CTA is absent");
-check(!partnerHtml.includes("Continue to packet builder"), "clinic/partner: packet-builder CTA remains visible");
-check(!/packet has started/i.test(partnerHtml), "clinic/partner: product copy still says a packet has started");
+for (const device of ["desktop", "mobile"]) {
+  const partnerHtml = renderToStaticMarkup(React.createElement(ScreeningResult, {
+    evaluation: partnerUnavailable,
+    stateName: "Colorado",
+    questionPromptById: {},
+    onEditAnswers: () => {},
+    onPacketAction: () => {},
+    hasScreeningSession: true
+  }));
+  check(partnerHtml.includes("View my next steps"), `${device}: clinic guidance CTA is absent`);
+  check(!partnerHtml.includes("Continue to packet builder"), `${device}: packet-builder CTA remains visible`);
+  check(!/packet has started/i.test(partnerHtml), `${device}: product copy still says a packet has started`);
+  check(/cannot.*safely generate|required.*packet mapping|JDF 302/i.test(partnerHtml), `${device}: safe packet-unavailable explanation is absent`);
+}
 
 const unavailableRoute = resolvePacketRoute({ state: "CO", pathway: unavailablePathway });
 check(unavailableRoute.routeKind === "guidance_only", `unavailable route resolved as ${unavailableRoute.routeKind}`);
 check(packetRouteCanRender(unavailableRoute) === false, "unavailable route can render");
 check(unavailableRoute.sellable === false, "unavailable route is sellable");
 check(unavailableRoute.creditConsumable === false, "unavailable route can consume packet credit");
+const renderAttempt = buildRenderJobSpec({
+  packetId: "00000000-0000-4000-8000-000000000302",
+  state: "CO",
+  pathway: unavailablePathway,
+  packetFields: {}
+});
+check(renderAttempt.spec === null, "unavailable route created a render job or artifact specification");
+
+const unavailableRecord = unavailablePacketRouteFor("CO", unavailablePathway);
+check(Boolean(unavailableRecord), "Colorado juvenile registry-gap runtime record is absent");
+check(routeMustFailClosed(unavailableRecord), "registryGap + renderer=none did not fail closed");
+check(routeMustFailClosed({ registryGap: true, renderer: "none" }), "generic registry-gap invariant is not enforced");
+
+const followUp = clinicReviewTreatmentFor(partnerUnavailable);
+check(followUp?.queueStatus === "attorney_review", "Clinic case is not routed to attorney review");
+check(followUp?.routeDisposition === "referral", "Clinic case is not routed to referral treatment");
+check(/matter is saved/i.test(followUp?.participantSafeMessage ?? ""), "Clinic follow-up does not preserve the participant matter");
+check(/no payment|no packet credit/i.test(followUp?.participantSafeMessage ?? ""), "Clinic follow-up does not disclose the zero-charge treatment");
+
+const claimRouteSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/screening/pending/claim/route.ts"), "utf8");
+const saveIndex = claimRouteSource.indexOf("saveAuthoritativeScreeningResultToBriefcase");
+const followUpIndex = claimRouteSource.lastIndexOf("createClinicReviewFollowUpForSavedMatter");
+const claimIndex = claimRouteSource.indexOf("claimed_at:");
+check(saveIndex >= 0 && followUpIndex > saveIndex, "Clinic follow-up runs before the participant matter is durable");
+check(claimIndex > followUpIndex, "pending claim can finalize before the required Clinic follow-up");
+check(claimRouteSource.includes('error: "clinic_follow_up_failed"'), "Clinic follow-up failure does not remain safely retryable");
+
+const followUpSource = fs.readFileSync(path.join(root, "src/lib/clinic-mode/result-follow-up.ts"), "utf8");
+for (const marker of ["clinic_upsert_case", 'p_queue_status: treatment.queueStatus', 'p_route_disposition: treatment.routeDisposition', '.from("clinic_follow_ups").upsert', "stableUuid"]) {
+  check(followUpSource.includes(marker), `Clinic follow-up implementation is missing ${marker}`);
+}
 
 const supported = fixtureFor(supportedPathway);
 const supportedEvaluation = evaluateExpungementAiMatter(requestFor(supported, "co-jdf-417-control"));
@@ -79,6 +118,27 @@ const supportedRoute = resolvePacketRoute({ state: "CO", pathway: supportedPathw
 check(supportedRoute.routeKind === "factory_v2", `nearest Colorado packet boundary resolved as ${supportedRoute.routeKind}`);
 check(packetRouteCanRender(supportedRoute) === true, "nearest Colorado packet boundary cannot render");
 
+const conviction = fixtureFor(convictionPathway);
+const convictionEvaluation = evaluateExpungementAiMatter(requestFor(conviction, "co-jdf-612-control"));
+check(convictionEvaluation.resultCode === "needs_review", `Colorado JDF 612 boundary regressed to ${convictionEvaluation.resultCode}`);
+const convictionRoute = resolvePacketRoute({ state: "CO", pathway: convictionPathway });
+check(convictionRoute.routeKind === "factory_v2", `Colorado JDF 612 boundary resolved as ${convictionRoute.routeKind}`);
+check(packetRouteCanRender(convictionRoute) === true, "Colorado JDF 612 boundary cannot render");
+
+const sourceRegistry = JSON.parse(fs.readFileSync(path.join(root, "data/record-clearing/source-artifact-registry.json"), "utf8"));
+const jdf302 = sourceRegistry.artifacts.find((artifact) => artifact.jurisdiction === "CO" && artifact.fileName === "JDF302.pdf");
+check(Boolean(jdf302?.inventorySha256), "JDF 302 inventory identity is absent");
+check(jdf302?.presence !== "present", "release correction unexpectedly found a current JDF 302 source");
+check(jdf302?.measuredSha256 == null, "release correction unexpectedly found a current measured JDF 302 hash");
+check(jdf302?.provenance == null, "release correction unexpectedly found approved JDF 302 provenance");
+
+const factoryRegistry = JSON.parse(fs.readFileSync(path.join(root, "data/record-clearing/factory-v2-route-registry.json"), "utf8"));
+const factoryRecord = factoryRegistry.routes.find((route) => route.pathwayKey === `CO:${unavailablePathway}`);
+check(factoryRecord?.factoryV2Resolves === false, "JDF 302 unexpectedly has a deterministic renderer");
+check(factoryRecord?.buildInputs?.exactPacketSet === false, "JDF 302 unexpectedly has an exact packet set");
+check(factoryRecord?.buildInputs?.packetSpecification === false, "JDF 302 unexpectedly has a packet specification");
+check(factoryRecord?.separateGates?.ownerApprovedLegalDesign === false, "JDF 302 unexpectedly has current independent approval");
+
 if (failures.length > 0) {
   console.error(`FAIL: Colorado juvenile packet boundary (${failures.length}/${checks})`);
   for (const failure of failures) console.error(`- ${failure}`);
@@ -86,6 +146,7 @@ if (failures.length > 0) {
 }
 
 console.log(`PASS: Colorado juvenile packet boundary (${checks}/${checks})`);
+console.log("JDF 302 existing approved chain: no (current source/hash, packet set, renderer, provenance, visual approval, and generation approval are incomplete)");
 console.log("EXPAI-CO-8c67627ae3: guidance_only; payment=false; packet plan absent; render=false; credit=false");
 console.log("nearest Colorado JDF 417 boundary: packet outcome preserved; deterministic factory renderer present");
 

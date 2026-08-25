@@ -7,6 +7,7 @@ import {
 } from "@/lib/expungement-ai/briefcase";
 import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { buildSaveInput } from "@/lib/expungement-ai/save-result-policy";
+import { createClinicReviewFollowUpForSavedMatter } from "@/lib/clinic-mode/result-follow-up";
 import { getSafeRequestId, logSecurityError } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue, ScreeningEvaluation } from "@/lib/rcap-engine/contracts";
@@ -126,6 +127,22 @@ export async function POST(request: Request) {
     // Never report an in-memory item when a configured database rejected the
     // server-authoritative route/payment insert.
     return NextResponse.json({ ok: false, error: "briefcase_persistence_failed" }, { status: 503 });
+  }
+
+  if (isPartnerSession && data.source_session_id) {
+    try {
+      await createClinicReviewFollowUpForSavedMatter({
+        participantUserId: auth.userId,
+        screeningSessionId: data.source_session_id,
+        matterId: item.id,
+        evaluation
+      });
+    } catch {
+      // The matter and collected facts are already durable. Leave the pending
+      // result unclaimed so a retry can idempotently finish the required Clinic
+      // attorney-review follow-up without creating a packet, credit, or job.
+      return NextResponse.json({ ok: false, error: "clinic_follow_up_failed" }, { status: 503 });
+    }
   }
 
   // The null-to-user transition is the stable idempotency gate for result

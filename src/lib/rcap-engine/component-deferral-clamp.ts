@@ -9,16 +9,7 @@ import {
   type ExactSupportedDeferral,
   type TerminalTreatment
 } from "@/lib/rcap/documents/guidance-packet-registry";
-
-// A source-defined court route is not a packet product until its authoritative
-// form mapping reaches a deterministic renderer. Colorado's juvenile remedy
-// names JDF 302 in source material, but the current packet registry has no
-// track, packet set, source-form mapping, or renderer for it. Keep this exact
-// route available as guidance while failing closed before either live adapter
-// can promise a packet or expose Clinic/partner packet-builder continuation.
-const UNAVAILABLE_PACKET_ROUTES = new Set([
-  "CO:juvenile-expungement-19-1-306"
-]);
+import { routeMustFailClosed, unavailablePacketRouteFor } from "@/lib/rcap-engine/unavailable-packet-routes";
 
 /**
  * The single component-deferral clamp on the screening engine.
@@ -73,10 +64,10 @@ export function applyComponentDeferralClamp(
 }
 
 function applyUnavailablePacketClamp(evaluation: ScreeningEvaluation): ScreeningEvaluation {
-  const routeKey = `${evaluation.jurisdiction}:${evaluation.pathwayId ?? ""}`;
   const packetOutcome = evaluation.resultCode === "packet_ready"
     || evaluation.resultCode === "packet_ready_with_caution";
-  if (!packetOutcome || !UNAVAILABLE_PACKET_ROUTES.has(routeKey)) return evaluation;
+  const unavailableRoute = unavailablePacketRouteFor(evaluation.jurisdiction, evaluation.pathwayId);
+  if (!packetOutcome || !routeMustFailClosed(unavailableRoute)) return evaluation;
 
   const { packetPlan: _discardedUnavailablePlan, ...withoutPlan } = evaluation;
   void _discardedUnavailablePlan;
