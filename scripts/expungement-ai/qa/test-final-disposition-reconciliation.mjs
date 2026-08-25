@@ -88,6 +88,20 @@ for (const flowId of [
   assert.equal(row.runtimeReplayPassed, true, `${flowId} must replay exactly`);
 }
 
+const coloradoJuvenile = summary.rows.find(
+  (row) => row.flowId === "EXPAI-CO-8c67627ae3"
+);
+assert.ok(coloradoJuvenile, "Colorado juvenile flow must be in the final reconciliation");
+assert.equal(coloradoJuvenile.runtimeResultCode, "guidance_only");
+assert.equal(coloradoJuvenile.serviceBehavior, "guidance");
+assert.equal(coloradoJuvenile.paymentAllowed, false);
+const coloradoJuvenileManifest = manifest.flows.find(
+  (flow) => flow.flowId === "EXPAI-CO-8c67627ae3"
+);
+assert.equal(coloradoJuvenileManifest.terminalOutcome.effectiveTerminal, "guidance_only");
+assert.equal(coloradoJuvenileManifest.packetFamily.routeKind, "guidance_only");
+assert.equal(coloradoJuvenileManifest.packetFamily.renderer, "none");
+
 console.log(
   "final-disposition-reconciliation: GREEN "
     + "(356 flows; 650/650 original variants; 62/62 former holds resolved)"

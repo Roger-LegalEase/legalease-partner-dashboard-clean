@@ -10,6 +10,16 @@ import {
   type TerminalTreatment
 } from "@/lib/rcap/documents/guidance-packet-registry";
 
+// A source-defined court route is not a packet product until its authoritative
+// form mapping reaches a deterministic renderer. Colorado's juvenile remedy
+// names JDF 302 in source material, but the current packet registry has no
+// track, packet set, source-form mapping, or renderer for it. Keep this exact
+// route available as guidance while failing closed before either live adapter
+// can promise a packet or expose Clinic/partner packet-builder continuation.
+const UNAVAILABLE_PACKET_ROUTES = new Set([
+  "CO:juvenile-expungement-19-1-306"
+]);
+
 /**
  * The single component-deferral clamp on the screening engine.
  *
@@ -43,7 +53,7 @@ export function applyComponentDeferralClamp(
     // outranks a pending candidate. A candidate still clamps the evaluation the
     // moment it is registered: suppression is not what review decides.
     const treatment = terminalTreatmentForTrack(request.selectedTrackId ?? null);
-    return treatment ? applyTerminalTreatmentClamp(treatment, evaluation) : evaluation;
+    return treatment ? applyTerminalTreatmentClamp(treatment, evaluation) : applyUnavailablePacketClamp(evaluation);
   }
 
   const { packetPlan: _discardedPaidPlan, ...withoutPlan } = evaluation;
@@ -59,6 +69,31 @@ export function applyComponentDeferralClamp(
     treatmentClassification: "component_deferral",
     selectedTrackId: deferral.trackId,
     deferralComponentIds: deferral.componentIds
+  };
+}
+
+function applyUnavailablePacketClamp(evaluation: ScreeningEvaluation): ScreeningEvaluation {
+  const routeKey = `${evaluation.jurisdiction}:${evaluation.pathwayId ?? ""}`;
+  const packetOutcome = evaluation.resultCode === "packet_ready"
+    || evaluation.resultCode === "packet_ready_with_caution";
+  if (!packetOutcome || !UNAVAILABLE_PACKET_ROUTES.has(routeKey)) return evaluation;
+
+  const { packetPlan: _discardedUnavailablePlan, ...withoutPlan } = evaluation;
+  void _discardedUnavailablePlan;
+
+  return {
+    ...withoutPlan,
+    resultCode: "guidance_only",
+    userLabel: "This route is guidance-only while its official packet mapping is unavailable.",
+    paymentAllowed: false,
+    cautions: [
+      ...evaluation.cautions,
+      "Colorado juvenile expungement uses JDF 302, but this release has no authoritative JDF 302 packet mapping or deterministic renderer. No packet is prepared and no packet credit is used."
+    ],
+    nextSteps: [
+      "Review the Colorado juvenile-expungement guidance and the official JDF 302 source before filing.",
+      "Your saved work stays available; no packet render job starts and no packet credit is used."
+    ]
   };
 }
 
