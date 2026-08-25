@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -354,4 +356,72 @@ assert.equal(stressArtifacts.summary.invariants.uniqueFlowIds, true);
 assert.equal(stressArtifacts.summary.invariants.shardsDisjoint, true);
 assert.equal(stressArtifacts.summary.invariants.shardUnionComplete, true);
 
-console.log("fresh-review-matrix tests passed (54 assertions).");
+const cliPath = path.join(scriptDir, "build-fresh-review-matrix.mjs");
+assert.equal(
+  fs.existsSync(cliPath),
+  true,
+  "build-fresh-review-matrix.mjs must exist before exact-SHA artifacts can be generated"
+);
+
+const runCli = (...args) => spawnSync(process.execPath, [cliPath, ...args], {
+  cwd: path.resolve(scriptDir, "../../.."),
+  encoding: "utf8"
+});
+
+const missingCandidate = runCli();
+assert.notEqual(missingCandidate.status, 0);
+assert.match(missingCandidate.stderr, /--candidate-sha/);
+
+const invalidCandidate = runCli("--candidate-sha", "not-a-sha");
+assert.notEqual(invalidCandidate.status, 0);
+assert.match(invalidCandidate.stderr, /40-character lowercase SHA/);
+
+const exactAuthority = "714f4d51f93461855b24c8644b6ea6ddad6d15f2";
+const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), "legalease-g-matrix-test-"));
+const generated = runCli(
+  "--candidate-sha",
+  exactAuthority,
+  "--output-dir",
+  outputDir
+);
+assert.equal(generated.status, 0, generated.stderr);
+assert.deepEqual(
+  fs.readdirSync(outputDir).sort(),
+  [
+    "BROWSER_SHARDS.json",
+    "BUILD_SUMMARY.json",
+    "CURRENT_MATRIX.json",
+    "THREE_STATE_STRESS_SET.json"
+  ]
+);
+
+const generatedSummary = JSON.parse(
+  fs.readFileSync(path.join(outputDir, "BUILD_SUMMARY.json"), "utf8")
+);
+assert.equal(generatedSummary.realFlows, 356);
+assert.equal(generatedSummary.deviceFixtures, 712);
+assert.equal(generatedSummary.browserShards, 6);
+assert.deepEqual(generatedSummary.stressStateFlows, { CO: 5, MS: 14, WI: 6 });
+
+const checked = runCli(
+  "--candidate-sha",
+  exactAuthority,
+  "--output-dir",
+  outputDir,
+  "--check"
+);
+assert.equal(checked.status, 0, checked.stderr);
+
+fs.appendFileSync(path.join(outputDir, "CURRENT_MATRIX.json"), " ");
+const changed = runCli(
+  "--candidate-sha",
+  exactAuthority,
+  "--output-dir",
+  outputDir,
+  "--check"
+);
+assert.notEqual(changed.status, 0);
+assert.match(changed.stderr, /CURRENT_MATRIX\.json does not match/);
+fs.rmSync(outputDir, { recursive: true, force: true });
+
+console.log("fresh-review-matrix tests passed (71 assertions).");
