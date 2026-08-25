@@ -22,6 +22,8 @@ const mutations = [
   ["Vercel CLI pull source", "vercel-cli:pull", "unknown-source"],
   ["Vercel configuration identity join", "candidate?.configurationId === entry.id", "candidate?.key === entry.key"],
   ["unique cross-version join", "uniqueCandidateMatches", "ambiguousCandidateMatches"],
+  ["safe matched-entry classification", "matchedEntryClassifications", "matchedEntryValues"],
+  ["numeric value length", "valueLength", "valueContents"],
   ["rollback verdict", "rollback_target_recorded_before_mutation", "rollback_not_recorded"],
   ["GET-only transport", 'method: "GET"', 'method: "POST"']
 ];

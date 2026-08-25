@@ -43,6 +43,12 @@ check(script.includes("candidate?.configurationId === entry.id"), "v9 identity m
 check(script.includes("uniqueCandidateMatches"), "cross-version join requires exactly one identity-bound candidate");
 check(script.includes("directIdMatches"), "join evidence records direct-id count without persisting ids");
 check(script.includes("configurationIdMatches"), "join evidence records configuration-id count without persisting ids");
+check(script.includes("matchedEntryClassifications"), "matched-entry evidence has a dedicated safe classification channel");
+for (const field of ["type", "decrypted", "valueType", "valueLength", "nonempty"]) {
+  check(script.includes(`${field}:`), `matched-entry classification records ${field}`);
+}
+check(script.includes("exact Production environment value is empty"), "empty value returns one exact owner-action blocker");
+check(script.includes("authorized Vercel token cannot decrypt"), "decrypt denial returns one exact owner-action blocker");
 check(!script.includes("/v1/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/"), "stale single-variable v1 endpoint is absent");
 check(script.includes("method: \"GET\""), "Vercel and Supabase discovery calls are explicitly GET-only");
 check(!/method:\s*["'](?:POST|PUT|PATCH|DELETE)["']/.test(script), "preflight contains no mutating HTTP method");

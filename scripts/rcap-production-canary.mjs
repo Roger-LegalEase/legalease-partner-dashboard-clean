@@ -176,6 +176,7 @@ try {
     endpoint: "GET /v10/projects/{exactProjectId}/env?target=production&decrypt=true&source=vercel-cli:pull",
     response: safeResponseShape(decryptedResult),
     joinTelemetry: [],
+    matchedEntryClassifications: [],
     valuesPersisted: false
   };
   if (decryptedResult.status !== 200 || !Array.isArray(decryptedResult.json?.envs)) {
@@ -201,10 +202,26 @@ try {
         : null
     };
     evidence.controlPlaneReadback.joinTelemetry.push(telemetry);
-    if (unique.length !== 1 || typeof unique[0]?.value !== "string" || !unique[0].value) {
+    if (unique.length !== 1) {
       throw new Error(`Production environment key ${entry.key} could not be joined uniquely from v9 inventory to v10 decrypted data`);
     }
-    return unique[0].value;
+    const matched = unique[0];
+    const classification = {
+      key: entry.key,
+      type: typeof matched?.type === "string" ? matched.type : "absent",
+      decrypted: matched?.decrypted === true,
+      valueType: Object.prototype.hasOwnProperty.call(matched ?? {}, "value") ? typeof matched.value : "absent",
+      valueLength: typeof matched?.value === "string" ? matched.value.length : null,
+      nonempty: typeof matched?.value === "string" && matched.value.length > 0
+    };
+    evidence.controlPlaneReadback.matchedEntryClassifications.push(classification);
+    if (classification.type === "sensitive" || !classification.decrypted || classification.valueType !== "string") {
+      throw new Error(`authorized Vercel token cannot decrypt exact Production environment key ${entry.key}; owner must grant decrypt-capable project access or replace this public URL entry with a readable non-sensitive Production value`);
+    }
+    if (!classification.nonempty) {
+      throw new Error(`exact Production environment value is empty for ${entry.key}; owner must configure one nonempty Production Supabase URL on this exact entry`);
+    }
+    return matched.value;
   };
 
   const publicRef = projectRefFromSupabaseUrl(decryptProductionValue(publicUrlEntry));
