@@ -82,6 +82,39 @@ check(
 const mdKey = "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8";
 check(Boolean(metadata.routes?.[mdKey]), "MD pardon route lacks explicit product metadata");
 
+const assignedRatifiedPaymentRoutes = new Set([
+  "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+  "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+  "SC:diversion-or-program-completion-expungement",
+  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+  "VA:petition-based-sealing",
+  "VA:regime-1-expungement-available-now",
+  "VT:dui-sealing",
+  "WY:felony-conviction-expungement-w-s-7-13-1502"
+]);
+const evaluatorSource = fs.readFileSync(
+  path.join(root, "src/lib/rcap-engine/evaluator.ts"),
+  "utf8"
+);
+const ratifiedBlock = evaluatorSource.match(
+  /RATIFIED_DEPLOYABLE_ROUTES = new Set\(\[([\s\S]*?)\]\);/
+)?.[1];
+check(Boolean(ratifiedBlock), "could not parse RATIFIED_DEPLOYABLE_ROUTES");
+for (const row of assignment.deterministic) {
+  const listedAsRatified = ratifiedBlock?.includes(`"${row.routeKey}"`) === true;
+  if (assignedRatifiedPaymentRoutes.has(row.routeKey)) {
+    check(
+      listedAsRatified,
+      `${row.correctionId} ${row.routeKey}: approved route lost ratified payment authority`
+    );
+  } else {
+    check(
+      !listedAsRatified,
+      `${row.correctionId} ${row.routeKey}: held route unexpectedly entered ratified payment authority`
+    );
+  }
+}
+
 const caFlow = assignment.flows.find((row) => row.routeKey === "CA:tool-1-dismissal-set-aside");
 if (!caFlow) {
   failures.push("CA tool-1 authority flow is missing from the assignment fixture");
