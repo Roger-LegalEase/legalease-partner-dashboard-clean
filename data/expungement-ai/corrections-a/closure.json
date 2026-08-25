@@ -1,0 +1,725 @@
+{
+  "schemaVersion": "expai-corrections-a-closure/v1",
+  "authority": {
+    "sourceCandidateSha": "714f4d51f93461855b24c8644b6ea6ddad6d15f2",
+    "assignmentBaseSha": "07675789a80e732d2b835c1e8ba2092b39201b79",
+    "ownershipSlice": "corrections-a:1-36",
+    "sourcePath": "data/expungement-ai/flow-audit/phase4-corrections/waiting-rule-authority.json"
+  },
+  "policy": {
+    "paidPacket": "Only already-ratified, signed-off, user-filed routes with exact operative timing remain checkout eligible.",
+    "automaticOrNoFiling": "Automatic relief never enters paid checkout.",
+    "guidanceOnly": "Board, pardon, and other non-product filing routes remain guidance only.",
+    "legalHoldGuidance": "A defective or branch-ambiguous waiting proposal is withdrawn; checkout remains fail closed until exact shared integration and any required legal reconfirmation."
+  },
+  "sharedHandoff": {
+    "removeFromRatifiedDeployable": [
+      "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "IL:juvenile-automatic-or-petition-expungement",
+      "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "MS:first-offense-dui-expungement",
+      "MS:minor-in-possession-underage-alcohol-expungement"
+    ],
+    "addToHeldGuidance": [
+      "AK:juvenile-record-sealing-as-47-12-300",
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "IL:juvenile-automatic-or-petition-expungement",
+      "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "MS:first-offense-dui-expungement",
+      "MS:minor-in-possession-underage-alcohol-expungement"
+    ],
+    "routeProductMetadata": {
+      "AK:juvenile-record-sealing-as-47-12-300": {
+        "legalSignoffStatus": "needs_reconfirm",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES"
+      },
+      "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180": {
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES"
+      },
+      "AL:eligible-conviction-expungement-under-the-redeemer-act": {
+        "paymentProductEligible": false,
+        "legalSignoffStatus": "needs_reconfirm",
+        "packetFulfillmentStatus": "needs_custom_packet",
+        "paidRouteBlocker": "intake_fix",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+        "checkoutEligibility": "not_eligible",
+        "filingReadiness": "guidance_only"
+      },
+      "IL:juvenile-automatic-or-petition-expungement": {
+        "paymentProductEligible": false,
+        "legalSignoffStatus": "needs_reconfirm",
+        "packetFulfillmentStatus": "needs_custom_packet",
+        "paidRouteBlocker": "intake_fix",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+        "checkoutEligibility": "not_eligible",
+        "filingReadiness": "guidance_only"
+      },
+      "MS:additional-justice-or-municipal-court-misdemeanor-relief": {
+        "paymentProductEligible": false,
+        "legalSignoffStatus": "needs_reconfirm",
+        "packetFulfillmentStatus": "needs_custom_packet",
+        "paidRouteBlocker": "legal_reconfirmation",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+        "checkoutEligibility": "not_eligible",
+        "filingReadiness": "guidance_only"
+      },
+      "MS:first-offense-dui-expungement": {
+        "paymentProductEligible": false,
+        "legalSignoffStatus": "needs_reconfirm",
+        "packetFulfillmentStatus": "needs_custom_packet",
+        "paidRouteBlocker": "legal_reconfirmation",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+        "checkoutEligibility": "not_eligible",
+        "filingReadiness": "guidance_only"
+      },
+      "MS:minor-in-possession-underage-alcohol-expungement": {
+        "paymentProductEligible": false,
+        "legalSignoffStatus": "needs_reconfirm",
+        "packetFulfillmentStatus": "needs_custom_packet",
+        "paidRouteBlocker": "legal_reconfirmation",
+        "evaluatorTier": "HELD_GUIDANCE_ROUTES",
+        "checkoutEligibility": "not_eligible",
+        "filingReadiness": "guidance_only"
+      }
+    }
+  },
+  "routes": [
+    {
+      "routeKey": "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-05 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "60 days after the qualifying acquittal or dismissal, anchored to disposition_date",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:78-118; corpus-unit:33; section:119-151; section:223-251; corpus-unit:1; corpus-unit:64; corpus-unit:98",
+        "sourceQuotes": [
+          "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a h"
+        ]
+      }
+    },
+    {
+      "routeKey": "AK:juvenile-record-sealing-as-47-12-300",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:56-77; section:78-118; corpus-unit:26; corpus-unit:35; section:119-151; section:187-222; section:252-278",
+        "sourceQuotes": [
+          "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally sea"
+        ]
+      }
+    },
+    {
+      "routeKey": "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+        "pathwaySourceRef": "pathways:78-118; section:388-393; section:56-77; section:78-118; section:152-186; section:252-278; exclusions:152-186; corpus-unit:11",
+        "sourceQuotes": [
+          "A person may ask the agency that maintains the record to SEAL information that, beyond a reasonable doubt, resulted from mistaken identity or false accusation. This is a h"
+        ]
+      }
+    },
+    {
+      "routeKey": "AL:eligible-conviction-expungement-under-the-redeemer-act",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES",
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: CONDITIONAL_PROPOSAL_NAMES_NO_BRANCHES; PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+        "pathwaySourceRef": "pathways:77-117; section:77-117; section:158-203; corpus-unit:30; corpus-unit:5; corpus-unit:89; corpus-unit:122; section:304-329",
+        "sourceQuotes": [
+          "Nonviolent MISDEMEANOR / violation / traffic / ordinance conviction (§ 15-27-1(b)): eligible 3 years after the date of conviction, with all probation/parole, fines, costs,"
+        ]
+      }
+    },
+    {
+      "routeKey": "AR:situation-a-non-convictions",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "eligible immediately after a qualifying non-conviction disposition; no elapsed waiting period",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+        "pathwaySourceRef": "pathways:73-106",
+        "sourceQuotes": [
+          "Acquittal (found not guilty on all charges) — may petition to seal at any time. • Nolle prosequi / dismissal — may petition to seal the records of the dismissed case. • Ar"
+        ]
+      }
+    },
+    {
+      "routeKey": "CT:absolute-pardon-resulting-in-erasure",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "closureCategory": "guidance_only",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "pathwaySourceRef": "section:359-371; source:overview; section:48-74; section:103-136; section:203-233; section:239-249; corpus-unit:29; corpus-unit:74",
+        "sourceQuotes": [
+          "For a conviction outside Clean Slate, apply online through the Board of Pardons and Paroles ePardon portal 3 years or 5 years (felony) after disposition. This is portal-as"
+        ]
+      }
+    },
+    {
+      "routeKey": "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "closureCategory": "automatic_or_no_filing",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+        "pathwaySourceRef": "source:overview; section:239-249; section:75-102; section:353-358; section:103-136; section:163-202; pathways:75-102; corpus-unit:9",
+        "sourceQuotes": [
+          "Three paths, routed by disposition and goal. Automatic non-conviction erasure (§ 54-142a). The broadest and fastest relief, by operation of law with no filing: a case dism"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_auto_expungement_16_802",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "closureCategory": "automatic_or_no_filing",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:35-47; section:15-26; pathways:15-26; corpus-unit:26",
+        "sourceQuotes": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option. DC automatic expungement covers"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_auto_sealing_16_805",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_NAMES_NO_APPLICABLE_RESOLUTION"
+      ],
+      "closureCategory": "automatic_or_no_filing",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:69-82; pathways:15-26; section:15-26; corpus-unit:37",
+        "sourceQuotes": [
+          "DC has an automatic sealing law, but the court says automatic sealing is not currently operating. You may still have a motion-based option. DC automatic sealing is written"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_juvenile_sealing_16_2335",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-06 (quote_states_no_duration)"
+      ],
+      "closureCategory": "guidance_only",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:148-161; corpus-unit:64",
+        "sourceQuotes": [
+          "Guidance-only in the adult flow. Family Court juvenile packet generation is a future build and is not part of the adult Criminal Division packet. DC juvenile records may b"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-felony-8yr (quote_states_no_duration)",
+        "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_felony_conviction_8yr_16_806"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "8 years after sentence completion, with the Offense Severity Group exclusion gate",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "Felony conviction motion sealing under D.C. Code § 16-806. Packet/payment is gated unless the offense is confirmed not to be in Offense Severity Group 1, 2, or 3. The cour"
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-dc-806-misdemeanor-5yr (quote_states_no_duration)",
+        "RULE_ID_NOT_IN_JURISDICTION: route-dc_motion_seal_misdemeanor_conviction_5yr_16_806"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "5 years after sentence completion",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; section:93-110; pathways:15-26; section:15-26; corpus-unit:41; corpus-unit:43; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the "
+        ]
+      }
+    },
+    {
+      "routeKey": "DC:dc_motion_seal_nonconviction_16_806",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "no ordinary elapsed waiting period after the qualifying non-conviction disposition",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DC-district-of-columbia.json",
+        "pathwaySourceRef": "section:84-89; pathways:15-26; section:15-26; corpus-unit:15; corpus-unit:40",
+        "sourceQuotes": [
+          "The court shall order sealing of citations, arrests, and charges when the case ended without conviction or acquittal, if the motion demonstrates by a preponderance of the "
+        ]
+      }
+    },
+    {
+      "routeKey": "DE:pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "closureCategory": "guidance_only",
+      "checkoutExpected": false,
+      "timingResolution": "guidance-only route; no paid court-filing packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+        "pathwaySourceRef": "section:77-104; section:361-364; pathways:77-104; corpus-unit:26; case_outcomes:165-206; corpus-unit:2; corpus-unit:8; section:105-142",
+        "sourceQuotes": [
+          "Three tiers, considered in order: mandatory (and automatic) first, then discretionary, then pardon-based. Tier 1 — Mandatory expungement (§ 4373), through the SBI / automa"
+        ]
+      }
+    },
+    {
+      "routeKey": "FL:early-juvenile-expunction-943-0515",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (age_threshold)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/FL-florida.json",
+        "pathwaySourceRef": "section:170-172",
+        "sourceQuotes": [
+          "Florida juvenile records often have their own retention/expunction rules. A person age 18 or older but under 21 may apply for early juvenile expunction if they have not be"
+        ]
+      }
+    },
+    {
+      "routeKey": "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/ID-idaho.json",
+        "pathwaySourceRef": "manual_source_conversion:ID; section:15-111; corpus-unit:9; corpus-unit:6; manual_source_conversion:ID:withheld-judgment-review",
+        "sourceQuotes": [
+          "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police. A "
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:adult-non-conviction-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "eligible immediately for a qualifying acquittal, dismissal, release-without-charge, or vacatur disposition",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:55-88; section:396-442; pathways:396-442; corpus-unit:17",
+        "sourceQuotes": [
+          "Under 20 ILCS 2630/5.2(b), a person may petition to expunge arrests or charges not initiated by arrest when each record resulted in: Acquittal Eligible immediately unless "
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:157-163; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:48",
+        "sourceQuotes": [
+          "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying of"
+        ]
+      }
+    },
+    {
+      "routeKey": "IL:juvenile-automatic-or-petition-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-31 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+        "pathwaySourceRef": "section:178-184; overview:7-28; section:7-28; corpus-unit:7; corpus-unit:3; corpus-unit:57; section:271-325; corpus-unit:58",
+        "sourceQuotes": [
+          "Juvenile records use 705 ILCS 405/5-915, not the adult 20 ILCS 2630/5.2 process. Illinois law provides automatic juvenile expungement for several categories, including juv"
+        ]
+      }
+    },
+    {
+      "routeKey": "KY:felony-conviction-431073",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL; PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "pathwaySourceRef": "manual_source_conversion:KY",
+        "sourceQuotes": [
+          "The offense must be on an eligible statutory list, be an eligible series from one incident, qualify under the additional subsection stated in the form, or have a full gube"
+        ]
+      }
+    },
+    {
+      "routeKey": "KY:misdemeanor-violation-traffic-conviction",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "5 years after the later of sentence completion or successful probation completion",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+        "pathwaySourceRef": "manual_source_conversion:KY",
+        "sourceQuotes": [
+          "The offense cannot be a sex offense or an offense committed against a child. The person must have no felony or misdemeanor conviction in the five years before filing and n"
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:felony-ten-year-clean-period-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-04 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "10 years after completion of sentence, probation, or parole",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:57-67",
+        "sourceQuotes": [
+          "A felony conviction may be expunged if the person is not blocked by Article 978(B) and one of these applies: 1 The conviction was set aside and prosecution dismissed under"
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-03 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "90 days after conviction",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:190-230; section:49-56; corpus-unit:84; corpus-unit:18; packet_logic:190-230; corpus-unit:30",
+        "sourceQuotes": [
+          "Motion for Expungement - Art. 989 3 Order of Expungement - Art. 992 4 Affidavit of Response / No Opposition route - Art. 990, if available 5 Fee Waiver Certification - Art"
+        ]
+      }
+    },
+    {
+      "routeKey": "LA:misdemeanor-five-year-clean-period-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSAL_LEAVES_QUESTIONS_OPEN_FOR_COUNSEL",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-02 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "5 years after completion of sentence, probation, or parole",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/LA-louisiana.json",
+        "pathwaySourceRef": "section:49-56; section:39-48; corpus-unit:28",
+        "sourceQuotes": [
+          "A misdemeanor conviction may be expunged if either: 1 The conviction was set aside and prosecution dismissed under Article 894(B); or 2 More than five years have passed si"
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-13 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-14 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "3 years for a misdemeanor or 7 years for a felony, measured from the later available disposition or custody/supervision release anchor",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:43-68; overview:7-26; section:7-26; section:27-42; corpus-unit:7; corpus-unit:10; corpus-unit:27; corpus-unit:19",
+        "sourceQuotes": [
+          "Adult conviction sealing is governed mainly by M.G.L. c. 276, 100A. Record type Waiting period Clock rule Misdemeanor 3 years Court appearance/disposition, including incar"
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:juvenile-record-sealing-under-100b",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-16 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:84-96; section:7-26; overview:7-26; corpus-unit:10; corpus-unit:30; corpus-unit:31; corpus-unit:32; section:230-287",
+        "sourceQuotes": [
+          "Juvenile sealing is primarily under M.G.L. c. 276, 100B. Eligible record Delinquency court appearance record on file with Commissioner of Probation Waiting period 3 years "
+        ]
+      }
+    },
+    {
+      "routeKey": "MA:time-based-expungement-under-100f-100j",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-17 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-18 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MA-massachusetts.json",
+        "pathwaySourceRef": "section:97-137; overview:7-26; section:138-169; section:7-26; section:230-287; section:180-191; section:192-202; section:218-229",
+        "sourceQuotes": [
+          "Time-based expungement is available only in limited cases. It runs through 100F, 100G, 100H, 100I, and 100J. Record type Statute Basic route Juvenile delinquent / youthful"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:automatic-expungement-under-crim-proc-10-105-1",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-10 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-11 (quote_states_no_duration)"
+      ],
+      "closureCategory": "automatic_or_no_filing",
+      "checkoutExpected": false,
+      "timingResolution": "automatic relief or erasure; no user-filed paid packet and checkout remains closed",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:96-99; section:9-28; overview:9-28; corpus-unit:10; corpus-unit:27",
+        "sourceQuotes": [
+          "s automatic expungement applies to certain all-favorable cases after 3 years. It covers records relating to a qualifying civil cannabis offense or non-must-appear criminal"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:cannabis-specific-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-15 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-21 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-22 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-33 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:136-147; section:53-95; corpus-unit:37; corpus-unit:3; corpus-unit:21",
+        "sourceQuotes": [
+          "Cannabis deserves its own Wilma branch. Cannabis possession under Criminal Law 5-601 Form CC-DC-CR-072D; petition after sentence completion Possession with intent to distr"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:juvenile-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-24 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:171-180; overview:9-28; section:9-28; section:39-52; section:197-208; section:308-351; summary:308-351; corpus-unit:3",
+        "sourceQuotes": [
+          "Maryland juvenile record expungement is separate from adult expungement. Maryland Courts says a person may be eligible if a CINS petition, juvenile delinquency petition, o"
+        ]
+      }
+    },
+    {
+      "routeKey": "MD:second-chance-act-shielding",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration)",
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-23 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-27 (quote_states_no_duration); PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-37 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+        "pathwaySourceRef": "section:154-170; pathways:383-421; section:39-52; section:383-421; corpus-unit:19; corpus-unit:46",
+        "sourceQuotes": [
+          "Shielding is a fallback for certain convictions when expungement is unavailable or not yet available. It removes the record from public view but does not destroy it. ("
+        ]
+      }
+    },
+    {
+      "routeKey": "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: NO_WAITING_PERIOD_PROPOSAL_CARRIES_NO_QUOTE",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/ME-maine.json",
+        "pathwaySourceRef": "section:109-133; section:9-21; overview:9-21; corpus-unit:9; corpus-unit:42",
+        "sourceQuotes": [
+          "Maine enacted Public Law 2025, Chapter 513, effective without the Governor"
+        ]
+      }
+    },
+    {
+      "routeKey": "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-01 (quote_states_no_duration)"
+      ],
+      "closureCategory": "paid_packet",
+      "checkoutExpected": true,
+      "timingResolution": "10 years from completion of the authorized disposition",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MO-missouri.json",
+        "pathwaySourceRef": "section:7-22; section:156-177; corpus-unit:9; corpus-unit:66; section:77-108; corpus-unit:67; exclusions:77-108; corpus-unit:34",
+        "sourceQuotes": [
+          "Missouri expungement generally closes/seals records from ordinary public access. Closed records are not destroyed under the general closure rule; they are inaccessible to "
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-12 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-12 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:20",
+        "sourceQuotes": [
+          "File in convicting court Justice, county, circuit, or municipal court Additional justice court or municipal court misdemeanors Mississippi also has a separate discretionar"
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:first-offense-dui-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-08 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:38",
+        "sourceQuotes": [
+          "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least"
+        ]
+      }
+    },
+    {
+      "routeKey": "MS:minor-in-possession-underage-alcohol-expungement",
+      "priorDecision": "HELD",
+      "priorBlockers": [
+        "PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)"
+      ],
+      "closureCategory": "legal_hold_guidance",
+      "checkoutExpected": false,
+      "timingResolution": "defective proposal remains withdrawn and checkout stays fail closed: PROPOSED_DURATION_IS_NOT_THE_OPERATIVE_WAIT: wait-09 (quote_states_no_duration)",
+      "evidence": {
+        "profilePath": "src/lib/rcap-engine/compiled/profiles/MS-mississippi.json",
+        "pathwaySourceRef": "pathways:15-155; section:15-155; corpus-unit:44",
+        "sourceQuotes": [
+          "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least"
+        ]
+      }
+    }
+  ]
+}
