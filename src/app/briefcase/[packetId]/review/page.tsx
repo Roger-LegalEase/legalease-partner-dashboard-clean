@@ -65,7 +65,7 @@ export default async function PacketAccuracyReviewPage({
               <AnswerSection title="Free record check answers" itemId={item.id} rows={summary.screeningAnswers} />
             ) : null}
             {summary.packetAnswers.length > 0 ? (
-              <AnswerSection title="Packet information" itemId={item.id} rows={summary.packetAnswers} />
+              <AnswerSection title="Packet and verified record information" itemId={item.id} rows={summary.packetAnswers} />
             ) : null}
           </div>
 
@@ -92,10 +92,10 @@ export default async function PacketAccuracyReviewPage({
 
           <ReviewCard title="Your packet" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
             <dl className="grid gap-3 text-sm">
-              {summary.context.map((entry) => <SummaryLine key={entry.id} label={entry.label} value={entry.value} />)}
+              {summary.context.map((entry) => <SummaryLine key={entry.key} label={entry.label} value={entry.value} />)}
               <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before final verification."} />
               <SummaryLine label="Coverage" value={sponsored ? "Covered by your partner program" : "This packet belongs to your private Briefcase matter."} />
-              <SummaryLine label="Cost" value={sponsored ? "No consumer payment" : item.paymentStatus === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} />
+              {!sponsored ? <SummaryLine label="Cost" value={item.paymentStatus === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} /> : null}
             </dl>
           </ReviewCard>
 
@@ -115,8 +115,9 @@ export default async function PacketAccuracyReviewPage({
 
           <PacketVerificationAction
             itemId={item.id}
+            verificationAnswers={model.initialAnswers}
             initiallyVerified={initiallyVerified}
-            canVerify={model.missingInputIds.length === 0 && reviewSafety.safe}
+            canVerify={summary.complete && model.missingInputIds.length === 0 && reviewSafety.safe}
             packetReady={item.packetStatus === "ready"}
             mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}
           />
@@ -146,7 +147,7 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
       <h2 className="text-lg font-extrabold text-[#0B1320]">{title}</h2>
       <dl className="mt-4 divide-y divide-[#ECEFF4]">
         {rows.map((entry) => (
-          <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.id}>
+          <div className="grid gap-2 py-4 sm:grid-cols-[1fr_1fr_auto] sm:items-center" key={entry.key}>
             <dt className="text-sm font-bold text-[#334155]">{entry.label}</dt>
             <dd className={entry.value === "Missing" ? "text-sm font-semibold text-[#B42318]" : "text-sm text-[#475A6E]"}>{entry.value}</dd>
             {entry.editId ? (

@@ -2,9 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-// Hosted browser proof for the sponsored RCAP lane only. This intentionally
-// stops at the packet-information builder: it never calls Stripe, creates a
-// consumer checkout, generates a packet, or runs a worker.
+// Hosted browser proof for the sponsored RCAP lane only. It crosses the
+// synchronous sponsored-generation boundary after explicit final verification;
+// it never calls Stripe, creates a consumer checkout, or runs a worker.
 //
 // Required fixture/runtime contract:
 // - an active `we-must-vote` partner_record (paid or demo_paid, qualified,
@@ -43,6 +43,7 @@ fs.mkdirSync(evidenceDir, { recursive: true });
 
 const failures = [];
 const browserErrors = [];
+const generationRequests = [];
 let browser;
 
 try {
@@ -64,6 +65,11 @@ try {
     const detail = request.failure()?.errorText ?? "request failed";
     if (!/ERR_ABORTED/i.test(detail)) {
       browserErrors.push(`requestfailed: ${request.method()} ${safeRequestPath(request.url())} (${detail})`);
+    }
+  });
+  page.on("request", (request) => {
+    if (request.method() === "POST" && new URL(request.url()).pathname === "/api/expungement-ai/packet/generate") {
+      generationRequests.push({ method: request.method(), path: new URL(request.url()).pathname });
     }
   });
 
@@ -149,9 +155,8 @@ try {
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner-covered Briefcase matter");
   await screenshotPair(page, "02-partner-covered-briefcase-matter");
 
-  // 5. The sponsored packet-information builder is available without a price
-  // or Stripe action. Stop here; generation and worker execution are outside
-  // this proof.
+  // 5. Complete the sponsored packet-information builder. Saving the final
+  // fact must reach review without starting generation.
   const builderLink = page.getByRole("link", { name: "Complete packet information", exact: true });
   check(await builderLink.isVisible(), "Partner-covered Mississippi matter did not expose Complete packet information.");
   const builderHref = await builderLink.getAttribute("href");
@@ -163,7 +168,50 @@ try {
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner packet-information builder");
   await screenshotPair(page, "03-partner-covered-packet-builder");
 
-  // 6. A separately seeded guidance-only matter proves that the completed
+  for (let step = 0; step < 80 && new URL(page.url()).pathname.endsWith("/packet-information"); step += 1) {
+    await answerCurrentBuilderQuestion(page);
+    const saveResponsePromise = packetInformationResponse(page, packetItemId);
+    const finalButton = page.getByRole("button", { name: "Review packet facts", exact: true });
+    if (await finalButton.isVisible().catch(() => false)) {
+      await finalButton.click();
+    } else {
+      await page.getByRole("button", { name: "Save and continue", exact: true }).click();
+    }
+    const saveResponse = await saveResponsePromise;
+    check(saveResponse.ok(), `Partner packet-information save returned ${saveResponse.status()}.`);
+    if (!saveResponse.ok()) break;
+  }
+  await page.waitForURL((url) => url.pathname === `/briefcase/${packetItemId}/review`, { timeout: 20_000 });
+  await expectText(page, "Final verification");
+  assertNoCommercialCopy(await page.locator("main").innerText(), "partner final verification");
+  check((await page.getByRole("button", { name: "Generate my packet", exact: true }).count()) === 0, "Sponsored generation was available before explicit verification.");
+  check(generationRequests.length === 0, "Sponsored generation was requested before explicit verification.");
+  await screenshotPair(page, "04-partner-facts-before-verification");
+
+  // 6. Verification uses the shared packet-information boundary. Only its
+  // ready response may reveal the sponsored generation action.
+  const verificationResponsePromise = packetInformationResponse(page, packetItemId);
+  await page.getByRole("button", { name: "I verified these packet facts", exact: true }).click();
+  const verificationResponse = await verificationResponsePromise;
+  check(verificationResponse.ok(), `Partner final verification returned ${verificationResponse.status()}.`);
+  const generateButton = page.getByRole("button", { name: "Generate my packet", exact: true });
+  check(await generateButton.isVisible(), "Verified partner review did not expose sponsored generation.");
+  check(generationRequests.length === 0, "Final verification itself started sponsored generation.");
+  assertNoCommercialCopy(await page.locator("main").innerText(), "verified partner final action");
+
+  const generationResponsePromise = page.waitForResponse(
+    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/packet/generate",
+    { timeout: 30_000 }
+  );
+  await generateButton.click();
+  const generationResponse = await generationResponsePromise;
+  check(generationResponse.ok(), `Sponsored packet generation returned ${generationResponse.status()}.`);
+  check(generationRequests.length === 1, `Expected one sponsored generation request after verification; saw ${generationRequests.length}.`);
+  await page.getByRole("link", { name: "Open my packet", exact: true }).waitFor({ state: "visible", timeout: 20_000 });
+  assertNoCommercialCopy(await page.locator("main").innerText(), "generated partner packet action");
+  await screenshotPair(page, "05-partner-packet-generated");
+
+  // 7. A separately seeded guidance-only matter proves that the completed
   // guidance value has no disabled packet stepper or consumer payment copy.
   await page.goto(new URL(`/briefcase/${guidanceItemId}`, baseUrl).href, { waitUntil: "networkidle" });
   await expectText(page, "Next steps saved");
@@ -172,7 +220,7 @@ try {
   check((await page.locator("main").getByText("Payment", { exact: true }).count()) === 0, "Guidance-only matter renders a Payment step.");
   check((await page.getByRole("link", { name: /checkout|pay \$50|continue to payment/i }).count()) === 0, "Guidance-only matter renders a payment action.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "guidance-only matter");
-  await screenshotPair(page, "04-guidance-only-matter");
+  await screenshotPair(page, "06-guidance-only-matter");
 
   if (browserErrors.length > 0) {
     failures.push(...browserErrors);
@@ -209,6 +257,93 @@ async function answerChoice(page, prompt, option, final = false) {
     const evaluationResponse = await evaluationResponsePromise;
     check(evaluationResponse.ok(), `Authoritative screening evaluation returned ${evaluationResponse.status()}.`);
   }
+}
+
+async function answerCurrentBuilderQuestion(page) {
+  const builder = page.locator("[data-packet-information-builder='active']");
+  await builder.waitFor({ state: "visible" });
+
+  const enabledText = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
+  if (await enabledText.count()) {
+    const id = (await enabledText.getAttribute("id"))?.replace(/^q-/, "") ?? "detail";
+    const prompt = await builder.locator("h1").innerText();
+    await enabledText.fill(valueForPacketField(id, prompt));
+    return;
+  }
+
+  const selects = builder.locator("select:visible:enabled");
+  if (await selects.count() === 3) {
+    await selects.nth(0).selectOption("01");
+    await selects.nth(1).selectOption("15");
+    const years = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
+    await selects.nth(2).selectOption(years.includes("2015") ? "2015" : years.at(-1) ?? "2000");
+    return;
+  }
+
+  const radios = builder.locator("input[type='radio']:visible:enabled");
+  if (await radios.count()) {
+    if (await builder.locator("input[type='radio']:visible:checked").count()) return;
+    const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
+    const preferred = ["pending_cases", "prior_relief", "trafficking_status"].includes(controlId) ? /^No(?:\s|$)/i : null;
+    for (let index = 0; index < await radios.count(); index += 1) {
+      const radio = radios.nth(index);
+      const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
+      if (preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label)) {
+        await radio.check();
+        return;
+      }
+    }
+    await radios.first().check();
+    return;
+  }
+
+  const checkboxes = builder.locator("input[type='checkbox']:visible:enabled");
+  if (await checkboxes.count() && !(await builder.locator("input[type='checkbox']:visible:checked").count())) {
+    for (let index = 0; index < await checkboxes.count(); index += 1) {
+      const checkbox = checkboxes.nth(index);
+      const label = await checkbox.locator("xpath=ancestor::label").innerText().catch(() => "");
+      if (!/not sure|prefer not|unknown|don't know/i.test(label)) {
+        await checkbox.check();
+        return;
+      }
+    }
+  }
+}
+
+function packetInformationResponse(page, itemId) {
+  return page.waitForResponse(
+    (response) => response.request().method() === "POST"
+      && new URL(response.url()).pathname === `/api/expungement-ai/briefcase/${itemId}/packet-information`,
+    { timeout: 20_000 }
+  );
+}
+
+function valueForPacketField(id, prompt) {
+  const values = {
+    participant_full_legal_name: "Acceptance Participant",
+    full_legal_name: "Acceptance Participant",
+    contact_information: "100 Acceptance Way, Jackson, MS 39201",
+    county: "Hinds County",
+    court: "Hinds County Circuit Court",
+    court_name: "Hinds County Circuit Court",
+    charge: "Acceptance test misdemeanor charge",
+    criminal_history: "Acceptance test non-conviction record",
+    offense_category: "Misdemeanor",
+    record_type: "Court case",
+    residency_or_location: "Jackson, Mississippi",
+    city: "Jackson",
+    cause_number: "25-CR-000123",
+    case_number: "25-CR-000123",
+    docket_number: "25-CR-000123",
+    age_at_offense: "30"
+  };
+  if (values[id]) return values[id];
+  if (/name/i.test(prompt)) return "Acceptance Participant";
+  if (/number|docket|case/i.test(prompt)) return "25-CR-000123";
+  if (/county/i.test(prompt)) return "Hinds County";
+  if (/court/i.test(prompt)) return "Hinds County Circuit Court";
+  if (/age|year/i.test(prompt)) return "30";
+  return "Acceptance test information";
 }
 
 async function expectText(page, text) {

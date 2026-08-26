@@ -76,3 +76,20 @@ export function sanitizeAnswersForQuestionIds(
     !previouslyRendered.has(questionId) || stillSelected.has(questionId)
   )));
 }
+
+/**
+ * A resume payload may contain an answer from a branch selected in an earlier
+ * visit. Treat every question the participant could have rendered as prior UI
+ * state, while preserving facts that are not participant-facing screens.
+ */
+export function sanitizeResumedAnswersForQuestionIds(
+  profile: JurisdictionProfile,
+  answers: Record<string, AnswerValue>,
+  selectedQuestionIds: readonly string[]
+): Record<string, AnswerValue> {
+  return sanitizeAnswersForQuestionIds(
+    answers,
+    deriveScreens(profile).map((question) => question.id),
+    selectedQuestionIds
+  );
+}

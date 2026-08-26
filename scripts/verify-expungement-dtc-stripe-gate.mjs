@@ -93,7 +93,13 @@ function stripeBoundaryViolations(input) {
   require(input.reviewPage.includes("Check each answer before final verification."), "Final review must tell the consumer to check answers before verification.");
   require(input.reviewPage.includes("<PacketVerificationAction") && input.verificationAction.includes("<ConsumerCheckoutButton"), "Only verified final review may expose the approved matter-bound payment action.");
   require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}'), "Final review must keep sponsored and already-paid paths outside a new consumer Checkout.");
-  require(input.verificationAction.includes("!verified") && input.verificationAction.includes('action: "verify"'), "Checkout must remain absent until explicit verification succeeds.");
+  require(
+    input.verificationAction.includes("!verified")
+      && input.verificationAction.includes("requestPacketVerification")
+      && input.verificationAction.includes("verificationAnswers")
+      && input.verificationAction.includes("readyToGenerate"),
+    "Checkout must remain absent until Lane B confirms explicit verification is ready."
+  );
 
   require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "Final-review payment action must invoke the checkout API.");
   require(input.checkoutButton.includes("window.location.assign(payload.checkoutUrl)"), "Checkout must navigate only to the server-returned Stripe URL.");

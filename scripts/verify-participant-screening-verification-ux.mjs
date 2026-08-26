@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import http from "node:http";
 import path from "node:path";
 import { register } from "node:module";
 
@@ -36,9 +37,8 @@ requireSource(
 );
 requireSource(
   screeningFlow.includes("selectionError && questionIds === null")
-    && screeningFlow.includes('role="alert"')
-    && screeningFlow.includes('aria-live="assertive"'),
-  "A failed dynamic-screen transition must retain the current answers and announce an in-place retry error."
+    && /function MalformedProfileState[\s\S]*?role="alert"[^>]*aria-live="assertive"/.test(screeningFlow),
+  "An initial progress-request failure must be announced by the fail-closed retry state."
 );
 requireSource(
   screensSource.includes("export function screensFromQuestionIds"),
@@ -110,8 +110,42 @@ if (typeof screensModule.screensFromQuestionIds === "function") {
       }),
       "Route A -> back -> Route B must drop only the pruned Route A answer while preserving current universal answers and hidden server facts."
     );
+
+    requireSource(
+      typeof screensModule.sanitizeResumedAnswersForQuestionIds === "function",
+      "Resume must sanitize stored answers against every renderable screening question before restoring client state."
+    );
+    if (typeof screensModule.sanitizeResumedAnswersForQuestionIds === "function") {
+      const resumedRouteB = screensModule.sanitizeResumedAnswersForQuestionIds(
+        {
+          ...profile,
+          questions: [
+            ...profile.questions,
+            { id: "route_splitter", stage: "scope", prompt: "Route?", type: "text", required: true, contextOnly: false },
+            { id: "universal_current", stage: "scope", prompt: "Universal?", type: "text", required: true, contextOnly: false },
+            { id: "route_a_detail", stage: "scope", prompt: "Route A?", type: "text", required: true, contextOnly: false },
+            { id: "route_b_detail", stage: "scope", prompt: "Route B?", type: "text", required: true, contextOnly: false }
+          ]
+        },
+        routeAAnswers,
+        ["route_splitter", "universal_current", "route_b_detail"]
+      );
+      requireSource(
+        JSON.stringify(resumedRouteB) === JSON.stringify({
+          route_splitter: "route-b",
+          universal_current: "keep this",
+          hidden_server_fact: "preserve this"
+        }),
+        "A Route B resume must immediately prune the stored Route A UI answer while retaining selected universal and never-rendered stable facts."
+      );
+    }
   }
 }
+requireSource(
+  screeningFlow.includes("sanitizeResumedAnswersForQuestionIds")
+    && /setAnswers\(sanitizedResumedAnswers\)/.test(screeningFlow),
+  "ScreeningFlow must restore the sanitized resume snapshot, never the raw stored answer payload."
+);
 
 requireSource(
   !packetBuilder.includes("save(index >= questions.length - 1)") && packetBuilder.includes("await save(false)"),
@@ -126,11 +160,14 @@ const verificationPath = "src/components/expungement-ai/PacketVerificationAction
 const verificationExists = fs.existsSync(path.join(root, verificationPath));
 requireSource(verificationExists, "PacketVerificationAction.tsx must provide the explicit final verification action.");
 const verificationAction = verificationExists ? read(verificationPath) : "";
+const verificationClientPath = "src/components/expungement-ai/packet-verification-client.ts";
+const verificationClientExists = fs.existsSync(path.join(root, verificationClientPath));
+requireSource(verificationClientExists, "Final verification must use a focused client for the Lane B request/response boundary.");
 requireSource(
-  verificationAction.includes('action: "verify"')
-    && verificationAction.includes("verified === true")
-    && verificationAction.includes("current === true"),
-  "Final verification must send an explicit verify action and require a current verified response."
+  verificationAction.includes("verificationAnswers")
+    && verificationAction.includes("requestPacketVerification")
+    && verificationAction.includes("readyToGenerate"),
+  "Final verification must submit the reviewed answers and require Lane B's readyToGenerate response."
 );
 requireSource(
   verificationAction.includes("initiallyVerified")
@@ -151,17 +188,63 @@ requireSource(
   "Sponsored review copy must change after verification without introducing consumer commerce language."
 );
 
+if (verificationClientExists) {
+  const { requestPacketVerification } = await import("../src/components/expungement-ai/packet-verification-client.ts");
+  const observed = { body: null, method: null, path: null };
+  const boundary = http.createServer(async (request, response) => {
+    observed.method = request.method;
+    observed.path = request.url;
+    const chunks = [];
+    for await (const chunk of request) chunks.push(chunk);
+    observed.body = JSON.parse(Buffer.concat(chunks).toString("utf8"));
+    const valid = request.method === "POST"
+      && request.url === "/api/expungement-ai/briefcase/matter%2F1/packet-information"
+      && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true });
+    response.writeHead(valid ? 200 : 400, { "content-type": "application/json" });
+    response.end(JSON.stringify(valid
+      ? { ok: true, readyToGenerate: true, reviewReason: "authoritative_route_confirmed", missingInputIds: [] }
+      : { ok: false, readyToGenerate: false, reviewReason: "invalid_request" }));
+  });
+  await listen(boundary);
+  try {
+    const address = boundary.address();
+    const endpoint = `http://127.0.0.1:${address.port}/api/expungement-ai/briefcase/matter%2F1/packet-information`;
+    const result = await requestPacketVerification({
+      itemId: "matter/1",
+      answers: { court: "Hinds County Circuit Court" },
+      endpoint
+    });
+    requireSource(
+      observed.method === "POST"
+        && JSON.stringify(observed.body) === JSON.stringify({ answers: { court: "Hinds County Circuit Court" }, verify: true })
+        && result.readyToGenerate === true,
+      "The verification client must cross an HTTP handler boundary with answers + verify:true and consume readyToGenerate."
+    );
+  } finally {
+    await close(boundary);
+  }
+}
+
 const summaryPath = "src/components/expungement-ai/verification-summary.ts";
 const summaryExists = fs.existsSync(path.join(root, summaryPath));
 requireSource(summaryExists, "The review must use a localized verificationSummary adapter instead of a hard-coded field subset.");
 if (summaryExists) {
   const summaryModule = await import("../src/components/expungement-ai/verification-summary.ts");
-  const summary = summaryModule.verificationSummary({
+  const canonicalFacts = [
+    { key: "screeningAnswers:hidden_screening_fact", id: "hidden_screening_fact", label: "Hidden screening fact", value: "Visible fact", source: "screeningAnswers", systemContext: false },
+    { key: "screeningAnswers:route_answer", id: "route_answer", label: "Route answer", value: "Route B", source: "screeningAnswers", systemContext: false },
+    { key: "screeningAnswers:shared_answer", id: "shared_answer", label: "Shared answer", value: "Screening value", source: "screeningAnswers", systemContext: false },
+    { key: "prefilledAnswers:read_only_packet_fact", id: "read_only_packet_fact", label: "Read-only packet fact", value: "Read only", source: "prefilledAnswers", systemContext: false },
+    { key: "packetAnswers:editable_packet_fact", id: "editable_packet_fact", label: "Editable packet fact", value: "Editable", source: "packetAnswers", systemContext: false },
+    { key: "packetAnswers:shared_answer", id: "shared_answer", label: "Shared packet answer", value: "Packet value", source: "packetAnswers", systemContext: false },
+    { key: "serverFacts:jurisdiction", id: "jurisdiction", label: "Jurisdiction", value: "MS", source: "serverFacts", systemContext: true },
+    { key: "serverFacts:pathway_id", id: "pathway_id", label: "Pathway", value: "server-path", source: "serverFacts", systemContext: true },
+    { key: "serverFacts:server_confirmed_balance", id: "server_confirmed_balance", label: "Server-confirmed balance", value: "Satisfied", source: "serverFacts", systemContext: false }
+  ];
+  const model = {
     stateName: "Mississippi",
     pathwayLabel: "Non-conviction expungement",
     screeningAnswers: {
-      jurisdiction: "MS",
-      pathway_id: "server-path",
       route_answer: "Route B",
       shared_answer: "Screening value",
       hidden_screening_fact: "Visible fact"
@@ -176,32 +259,46 @@ if (summaryExists) {
       { id: "editable_packet_fact", prompt: "Editable packet fact?" },
       { id: "read_only_packet_fact", prompt: "Read-only packet fact?" }
     ],
-    builderQuestions: [{ id: "editable_packet_fact" }]
-  });
+    builderQuestions: [{ id: "editable_packet_fact" }],
+    verificationSummary: canonicalFacts
+  };
+  const summary = summaryModule.verificationSummary(model);
+  requireSource(summary !== null, "A complete Lane B canonical verification summary must be accepted.");
+  if (summary) {
   const answerRows = [...summary.screeningAnswers, ...summary.packetAnswers];
   requireSource(
-    JSON.stringify(summary.context) === JSON.stringify([
-      { id: "jurisdiction", label: "State", value: "Mississippi" },
-      { id: "pathway_id", label: "Record-clearing option", value: "Non-conviction expungement" }
+    JSON.stringify(summary.context.map((row) => row.key)) === JSON.stringify([
+      "serverFacts:jurisdiction",
+      "serverFacts:pathway_id"
     ]),
-    "Verification summary must expose canonical state and pathway context."
+    "Verification summary must render Lane B's canonical state and pathway context."
   );
   requireSource(
-    JSON.stringify(answerRows.map((row) => row.id)) === JSON.stringify([
-      "route_answer",
-      "hidden_screening_fact",
-      "shared_answer",
-      "editable_packet_fact",
-      "read_only_packet_fact"
-    ]) && new Set(answerRows.map((row) => row.id)).size === answerRows.length,
-    "Verification summary must render every available screening/packet answer exactly once, with packet values winning duplicates."
+    JSON.stringify(answerRows.map((row) => row.key)) === JSON.stringify([
+      "screeningAnswers:hidden_screening_fact",
+      "screeningAnswers:route_answer",
+      "screeningAnswers:shared_answer",
+      "prefilledAnswers:read_only_packet_fact",
+      "packetAnswers:editable_packet_fact",
+      "packetAnswers:shared_answer",
+      "serverFacts:server_confirmed_balance"
+    ]) && new Set([...summary.context, ...answerRows].map((row) => row.key)).size === canonicalFacts.length,
+    "Verification review must render every canonical snapshot fact exactly once in server order."
   );
   requireSource(
-    answerRows.find((row) => row.id === "shared_answer")?.value === "Packet value"
-      && answerRows.find((row) => row.id === "editable_packet_fact")?.editId === "editable_packet_fact"
-      && answerRows.find((row) => row.id === "read_only_packet_fact")?.editId === null
+    answerRows.find((row) => row.key === "packetAnswers:editable_packet_fact")?.editId === "editable_packet_fact"
+      && answerRows.find((row) => row.key === "prefilledAnswers:read_only_packet_fact")?.editId === null
       && summary.screeningAnswers.every((row) => row.editId === null),
-    "Only builder-owned packet facts may expose edit links."
+    "Only builder-owned packet answer facts may expose edit links."
+  );
+  }
+  const missingCanonicalFact = summaryModule.verificationSummary({
+    ...model,
+    verificationSummary: canonicalFacts.filter((fact) => fact.key !== "screeningAnswers:hidden_screening_fact")
+  });
+  requireSource(
+    missingCanonicalFact === null && summaryModule.verificationSummary({ ...model, verificationSummary: undefined }) === null,
+    "Review must fail closed when Lane B's canonical verification summary is absent or incomplete for model-visible hashed facts."
   );
 }
 requireSource(
@@ -214,8 +311,10 @@ requireSource(
   reviewPage.includes("verificationSummary(model)")
     && reviewPage.includes("summary.screeningAnswers")
     && reviewPage.includes("summary.packetAnswers")
+    && reviewPage.includes("verificationAnswers={model.initialAnswers}")
+    && reviewPage.includes("canVerify={summary.complete")
     && reviewPage.indexOf("summary.screeningAnswers") < reviewPage.indexOf("<PacketVerificationAction"),
-  "The complete packet-fact summary must appear before the explicit verification action."
+  "The complete server-canonical summary must appear before, and gate, the explicit verification action."
 );
 requireSource(
   reviewPage.includes("entry.editId ?")
@@ -225,8 +324,9 @@ requireSource(
 );
 requireSource(
   reviewPage.includes('sponsored ? "Covered by your partner program"')
-    && reviewPage.includes('sponsored ? "No consumer payment"'),
-  "Sponsored review summary must use coverage copy and never show the consumer price."
+    && reviewPage.includes("{!sponsored ? <SummaryLine label=\"Cost\"")
+    && !reviewPage.includes('sponsored ? "No consumer payment"'),
+  "Sponsored review summary must use coverage copy without rendering a consumer cost row."
 );
 requireSource(
   matterPage.includes('"facts_complete"')
@@ -278,8 +378,11 @@ requireSource(
 );
 requireSource(
   partnerCommercialBrowser.includes('getByRole("button", { name: "Save to my Briefcase and continue"')
-    && partnerCommercialBrowser.includes("Your packet is covered by your partner program."),
-  "The sponsored browser proof must follow the current Briefcase CTA and coverage copy."
+    && partnerCommercialBrowser.includes("Your packet is covered by your partner program.")
+    && partnerCommercialBrowser.includes("generationRequests.length === 0")
+    && partnerCommercialBrowser.includes('getByRole("button", { name: "I verified these packet facts"')
+    && partnerCommercialBrowser.includes('getByRole("button", { name: "Generate my packet"'),
+  "The sponsored browser proof must cross review/verification/generation and prove generation is absent before verification."
 );
 requireSource(
   !screeningResult.includes("result.partner_no_pay")
@@ -297,3 +400,14 @@ if (failures.length > 0) {
 
 console.log("Participant screening/verification UX verifier passed.");
 console.log("Server-selected screens, facts-before-verification, gated DTC/sponsored actions, accessible progress, and Clinic privacy are preserved.");
+
+function listen(server) {
+  return new Promise((resolve, reject) => {
+    server.once("error", reject);
+    server.listen(0, "127.0.0.1", resolve);
+  });
+}
+
+function close(server) {
+  return new Promise((resolve) => server.close(resolve));
+}

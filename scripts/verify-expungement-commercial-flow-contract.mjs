@@ -305,7 +305,7 @@ helperReviewMatter.artifactRefs.commercialFlow.screening.answers.ownership_scope
 assert.equal(packetInformationModelFor(helperReviewMatter)?.questions.find((question) => question.id === "pending_cases")?.prompt, "Does this person currently have any pending criminal charges?");
 
 const reviewPageSource = fs.readFileSync(path.join(rootDir, "src/app/briefcase/[packetId]/review/page.tsx"), "utf8");
-for (const copy of ["Review and verify your packet facts", "Check each answer before final verification. Editable packet facts are marked below.", "Free record check answers", "Packet information", "Your packet"]) {
+for (const copy of ["Review and verify your packet facts", "Check each answer before final verification. Editable packet facts are marked below.", "Free record check answers", "Packet and verified record information", "Your packet"]) {
   assert.ok(reviewPageSource.includes(copy), `editable review is missing ${copy}`);
 }
 assert.ok(reviewPageSource.includes("packet-information?edit="), "every review row must route to its exact editable field");

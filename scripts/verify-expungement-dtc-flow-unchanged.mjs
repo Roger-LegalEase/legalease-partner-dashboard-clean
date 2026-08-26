@@ -130,7 +130,13 @@ function approvedCommercialFlowViolations(input) {
   require(input.reviewPage.includes("<PacketVerificationAction"), "The final verification page must own the explicit verification action.");
   require(input.verificationAction.includes("<ConsumerCheckoutButton") && input.verificationAction.includes('label="Pay $50 and generate my packet"'), "Verified consumer review must own the matter-bound Checkout action.");
   require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}'), "Final review must separate paid and partner-sponsored matters from consumer Checkout.");
-  require(input.verificationAction.includes("!verified") && input.verificationAction.includes('action: "verify"'), "Checkout and generation must remain absent until explicit final verification succeeds.");
+  require(
+    input.verificationAction.includes("!verified")
+      && input.verificationAction.includes("requestPacketVerification")
+      && input.verificationAction.includes("verificationAnswers")
+      && input.verificationAction.includes("readyToGenerate"),
+    "Checkout and generation must remain absent until Lane B confirms explicit final verification is ready."
+  );
 
   require(input.payPage.includes("Compatibility route") && input.payPage.includes("/review"), "Legacy pay URLs must redirect the exact matter to accuracy review.");
   require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "The final-review Checkout button must invoke the checkout API.");

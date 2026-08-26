@@ -34,6 +34,7 @@ import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 import {
   sanitizeAnswersForQuestionIds,
+  sanitizeResumedAnswersForQuestionIds,
   screensFromQuestionIds
 } from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
@@ -220,8 +221,13 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       }
       if (resumedFromStorage) window.sessionStorage.removeItem("expungement-ai:resume-session");
       const selectedScreens = screensFromQuestionIds(load.profile, selectedIds);
+      const sanitizedResumedAnswers = sanitizeResumedAnswersForQuestionIds(
+        load.profile,
+        resumedAnswers,
+        selectedIds
+      );
       setQuestionIds(selectedIds);
-      setAnswers(resumedAnswers);
+      setAnswers(sanitizedResumedAnswers);
       setSessionId(resumedSessionId ?? effectiveInitialSessionId);
       const target = resumedQuestionId
         ? selectedScreens.findIndex((screen) => screen.id === resumedQuestionId)
@@ -690,7 +696,7 @@ function MalformedProfileState({ onRetry, onPick }: { onRetry: () => void; onPic
   const { t: translate } = useLocalization();
   return (
     <FlowFrame>
-      <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
+      <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" role="alert" aria-live="assertive">
         <h1 className="text-[24px] font-extrabold text-[#0B1320]">{translate("screening.malformed_title", "Something went wrong loading these questions.")}</h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
           {translate("screening.malformed_body", "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.")}

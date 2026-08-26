@@ -6,6 +6,8 @@ import { useState } from "react";
 
 import { ConsumerCheckoutButton } from "@/app/expungement-ai/pay/ConsumerCheckoutButton";
 import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
+import { requestPacketVerification } from "@/components/expungement-ai/packet-verification-client";
+import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 type VerificationMode = "consumer" | "paid" | "sponsored";
 
@@ -23,22 +25,16 @@ function sponsoredReviewCopy(verified: boolean) {
       };
 }
 
-function verificationResponse(payload: unknown): Record<string, unknown> | null {
-  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
-  const record = payload as Record<string, unknown>;
-  return record.data && typeof record.data === "object" && !Array.isArray(record.data)
-    ? record.data as Record<string, unknown>
-    : record;
-}
-
 export function PacketVerificationAction({
   itemId,
+  verificationAnswers,
   initiallyVerified,
   canVerify,
   packetReady = false,
   mode
 }: {
   itemId: string;
+  verificationAnswers: Record<string, AnswerValue>;
   initiallyVerified: boolean;
   canVerify: boolean;
   packetReady?: boolean;
@@ -54,15 +50,9 @@ export function PacketVerificationAction({
     if (verifying || !canVerify) return;
     setVerifying(true);
     setError(null);
-    const response = await fetch(`/api/expungement-ai/briefcase/${encodeURIComponent(itemId)}/packet-information`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "verify" })
-    }).catch(() => null);
-    const result = verificationResponse(await response?.json().catch(() => null));
+    const result = await requestPacketVerification({ itemId, answers: verificationAnswers });
     setVerifying(false);
-    const verifiedCurrent = result?.verified === true && result.current === true;
-    if (!response?.ok || !verifiedCurrent) {
+    if (!result.ok || !result.readyToGenerate) {
       setError("We could not verify these packet facts. Review your answers and try again.");
       return;
     }
