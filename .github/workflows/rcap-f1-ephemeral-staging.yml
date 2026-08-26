@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight]
+        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_url_reclassify]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -80,6 +80,19 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
+  production_url_reclassify:
+    name: One-key Production public URL reclassification
+    if: inputs.mode == 'production_url_reclassify'
+    uses: ./.github/workflows/rcap-production-url-reclassify.yml
+    with:
+      application_sha: ${{ inputs.application_sha }}
+      worker_source_sha: ${{ inputs.worker_source_sha }}
+      worker_digest: ${{ inputs.worker_digest }}
+      tools_sha: ${{ inputs.tools_sha }}
+    secrets:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
   production_preflight:
     name: Read-only Production identity and rollback discovery
     if: inputs.mode == 'production_preflight'

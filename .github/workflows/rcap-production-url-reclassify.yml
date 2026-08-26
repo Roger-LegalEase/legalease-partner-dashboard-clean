@@ -1,0 +1,102 @@
+name: RCAP Production public URL one-key reclassification
+
+# One separately authorized Production configuration mutation. It does not
+# deploy, promote, alias, migrate, test commerce, or run application/worker
+# acceptance. The recovered public Supabase URL stays inside one Node process.
+on:
+  workflow_call:
+    inputs:
+      application_sha:
+        required: true
+        type: string
+      worker_source_sha:
+        required: true
+        type: string
+      worker_digest:
+        required: true
+        type: string
+      tools_sha:
+        required: true
+        type: string
+    secrets:
+      VERCEL_TOKEN:
+        required: true
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+
+env:
+  APPLICATION_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
+  BASE_PREFLIGHT_TOOLS_SHA: 5356f5985b71156f9722e93216f2ca408b0cb898
+
+jobs:
+  reclassify:
+    name: Replace only the public Production Supabase URL entry
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Refuse any identity outside the exact authorization
+        env:
+          INPUT_APPLICATION_SHA: ${{ inputs.application_sha }}
+          INPUT_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          INPUT_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          INPUT_TOOLS_SHA: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
+          [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
+          [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
+          [ "$INPUT_TOOLS_SHA" = "$WORKFLOW_SHA" ] || { echo "::error::tools SHA must equal workflow SHA"; exit 1; }
+          printf '%s' "$INPUT_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools SHA must be full"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove tools-only scope and the exact frozen bytes
+        run: |
+          set -euo pipefail
+          for SHA in "$APPLICATION_SHA" "$BASE_PREFLIGHT_TOOLS_SHA" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+          done
+          git merge-base --is-ancestor "$APPLICATION_SHA" "$BASE_PREFLIGHT_TOOLS_SHA" || { echo "::error::base preflight is outside frozen history"; exit 1; }
+          git merge-base --is-ancestor "$BASE_PREFLIGHT_TOOLS_SHA" "${{ inputs.tools_sha }}" || { echo "::error::mutation tools do not descend from exact GET-only preflight"; exit 1; }
+          git diff --quiet "$APPLICATION_SHA" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::tools differ from frozen application inputs"; exit 1; }
+          git diff --quiet "$WORKER_SOURCE_SHA" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools differ from immutable worker inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify the isolated one-key control
+        run: |
+          node scripts/verify-rcap-production-url-reclassify.mjs
+          node scripts/test-rcap-production-url-reclassify-mutations.mjs
+
+      - name: Recover from current Production and reclassify exactly one key
+        env:
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-url-reclassify.mjs
+
+      - name: Upload sanitized one-key evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-production-url-reclassify-${{ github.run_id }}
+          path: production-url-reclassify-evidence/
+          if-no-files-found: error
