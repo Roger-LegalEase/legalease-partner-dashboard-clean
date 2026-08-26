@@ -16,6 +16,7 @@ const check = (passed, message) => checks.push({ passed, message });
 check(dispatcher.includes("production_activate"), "dispatcher exposes one isolated Production activation phase");
 check(workflow.includes("inputs.phase == 'activate'"), "activation is isolated from preflight, migration, and smoke");
 check(workflow.includes("actions: read"), "workflow can read only the exact prior smoke artifact");
+check(dispatcher.includes("permissions:\n  contents: read\n  packages: read\n  actions: read"), "dispatcher grants the reusable workflow prior-artifact read access");
 check(workflow.includes("run-id: 32967717618"), "workflow pins the successful Production smoke run");
 check(workflow.includes("rcap-production-smoke-32967717618"), "workflow pins the exact successful smoke artifact");
 check(workflow.includes("node scripts/verify-rcap-production-activation.mjs"), "workflow self-verifies the activation contract");
