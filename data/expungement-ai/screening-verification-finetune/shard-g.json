@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "G",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": [
+    "NE",
+    "NV",
+    "NH",
+    "NJ",
+    "NM",
+    "NY",
+    "NC",
+    "ND"
+  ],
+  "before": {
+    "flows": 49,
+    "browserWitnessVariants": 96,
+    "freeQuestions": 93,
+    "completionOverlaps": 9,
+    "genericSpecialRouteAsks": 11,
+    "rawPacketFields": 36
+  },
+  "after": {
+    "flows": 49,
+    "browserWitnessVariants": 96,
+    "freeQuestions": 93,
+    "routeConsumerFacts": 8,
+    "routeConsumerEdges": 8,
+    "exactPacketFactIds": 41,
+    "completionAliasIds": 9
+  },
+  "semanticDuplicate": {
+    "genericFactId": "pending_cases",
+    "routeScopedFactId": "ny_16059_pending_charge",
+    "treatment": "preserve_both_route_scope_specific_only"
+  },
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "Seven CPL 160.59 facts and the CPL 160.58 treatment fact exactly mirror ROUTE_ESCALATION_FACT_IDS.",
+    "exactPacketFactIds": "Existing compiled questions whose stage is case_details or record_readiness, plus existing date_or_unknown facts.",
+    "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact.",
+    "pendingChargeDuplicate": "Keep pending_cases as the existing generic evaluator input and scope only ny_16059_pending_charge to CPL 160.59; do not delete, remap, or misuse completion aliases."
+  },
+  "unchanged": [
+    "questions",
+    "pathways",
+    "orderedDecisionRules",
+    "legalAuthority",
+    "packetGenerator",
+    "forms",
+    "terminal outcomes",
+    "payment outcomes"
+  ],
+  "blockers": [
+    "Lane B metadata validation must admit approved projection-added NY question IDs."
+  ]
+}
