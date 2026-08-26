@@ -40,6 +40,13 @@ check(script.includes("/v1/projects/${encodeURIComponent(PRODUCTION_PROJECT_REF)
 check(script.includes("custom-hostname") && script.includes("vanity-subdomain"), "custom and vanity hostnames require authenticated management proof");
 check(script.includes('sensitiveEnvironmentVariablePolicy === "on"'), "forced-sensitive team policy is checked before mutation");
 check(script.includes('currentEntry.type === "sensitive"'), "current exact Production entry must be sensitive");
+check(script.includes("const productionBearingEntries = keyEntries.filter"), "scope correction starts from exactly one Production-bearing entry");
+check(script.includes("preview_independent_entry_missing"), "shared Preview scope is refused without an independent Preview entry");
+check(script.includes("development_independent_entry_missing"), "shared Development scope is refused without an independent Development entry");
+check(script.includes("custom_environment_scope_requires_owner_action"), "unapproved custom-environment scope fails closed");
+check(script.includes("evidence.scopeCorrectionVerified = evidence.scopeCorrection.exactValueWritePreserved"), "Sensitive Production-only scope is verified before readable replacement");
+check(script.includes('type: "sensitive",\n      target: ["production"]'), "scope correction recreates the exact key as Sensitive and Production-only");
+check(script.includes("scope_correction_deployment_changed"), "scope correction proves deployment and alias identity did not change");
 check(script.includes('method: "DELETE"'), "only the exact existing entry is removed");
 check(script.includes('type: "encrypted"'), "replacement is created as readable non-sensitive encrypted-at-rest type");
 check(script.includes('type: "encrypted",\n    target: ["production"]'), "replacement is scoped only to Production");

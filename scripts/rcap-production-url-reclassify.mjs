@@ -36,7 +36,7 @@ const EVIDENCE_FILE = path.join(EVIDENCE_DIR, "production-url-reclassify.json");
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const evidence = {
-  schemaVersion: "rcap-production-url-reclassify/v1",
+  schemaVersion: "rcap-production-url-reclassify/v2",
   startedAt: new Date().toISOString(),
   passed: false,
   failureCode: null,
@@ -56,6 +56,16 @@ const evidence = {
   valuePrinted: false,
   mutationAttempted: false,
   rollbackAttempted: false,
+  scopeCorrectionVerified: false,
+  scopeCorrection: {
+    required: null,
+    initialTargets: [],
+    initialBranchScoped: null,
+    initialCustomEnvironmentCount: null,
+    previewIndependentEntryPresent: null,
+    developmentIndependentEntryPresent: null,
+    exactValueWritePreserved: false
+  },
   sourceInspection: { routesFetched: 0, staticChunksFetched: 0, candidateOriginCount: null },
   controlPlane: { supabaseMethods: ["GET"], deploymentMethods: ["GET"] }
 };
@@ -91,12 +101,36 @@ async function request(url, { token = "", method = "GET", body } = {}) {
   return { status: response.status, ok: response.ok, json: parseJson(text), text };
 }
 
+function targetList(entry) {
+  return (Array.isArray(entry?.target) ? entry.target : [entry?.target].filter(Boolean))
+    .filter((target) => typeof target === "string")
+    .sort();
+}
+
+function bearsTarget(entry, target) {
+  return targetList(entry).includes(target);
+}
+
 function isProductionOnly(entry) {
-  const targets = Array.isArray(entry?.target) ? entry.target : [entry?.target].filter(Boolean);
+  const targets = targetList(entry);
   return targets.length === 1
     && targets[0] === "production"
     && !entry?.gitBranch
     && (!Array.isArray(entry?.customEnvironmentIds) || entry.customEnvironmentIds.length === 0);
+}
+
+function createBodyForEntry(entry, value, type = entry?.type) {
+  const body = {
+    key: KEY,
+    value,
+    type,
+    target: targetList(entry)
+  };
+  if (entry?.gitBranch) body.gitBranch = entry.gitBranch;
+  if (Array.isArray(entry?.customEnvironmentIds) && entry.customEnvironmentIds.length > 0) {
+    body.customEnvironmentIds = [...entry.customEnvironmentIds];
+  }
+  return body;
 }
 
 function safeEntryMetadata(entry) {
@@ -286,6 +320,7 @@ let beforeDeployment = null;
 let beforeOtherEnvironment = null;
 let deletedEntry = false;
 let vercelRequest = null;
+let pendingRollbackBody = null;
 
 try {
   if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN) fail("credentialed_session_unavailable", "initialization", "Required authenticated control-plane sessions are unavailable");
@@ -336,18 +371,102 @@ try {
     fail("environment_inventory_unreadable", "vercel_preconditions", "Production environment inventory could not be read");
   }
   const envs = inventory.json.envs;
-  const productionMatches = envs.filter((entry) => entry?.key === KEY && isProductionOnly(entry));
-  if (productionMatches.length !== 1 || !productionMatches[0]?.id) {
-    fail("production_entry_count_mismatch", "vercel_preconditions", "Expected exactly one unbranched Production-only entry for the authorized key");
+  const keyEntries = envs.filter((entry) => entry?.key === KEY);
+  const productionBearingEntries = keyEntries.filter((entry) => bearsTarget(entry, "production"));
+  if (productionBearingEntries.length !== 1 || !productionBearingEntries[0]?.id) {
+    fail("production_bearing_entry_count_mismatch", "vercel_preconditions", "Expected exactly one entry bearing the Production target for the authorized key");
   }
-  const currentEntry = productionMatches[0];
+  let currentEntry = productionBearingEntries[0];
   if (!(currentEntry.type === "sensitive")) {
     fail("production_entry_type_mismatch", "vercel_preconditions", "Current authorized Production entry is not Sensitive");
   }
   beforeOtherEnvironment = stableOtherEnvironmentSnapshot(envs, currentEntry.id);
 
+  const initialTargets = targetList(currentEntry);
+  const sharesPreview = initialTargets.includes("preview");
+  const sharesDevelopment = initialTargets.includes("development");
+  const customEnvironmentCount = Array.isArray(currentEntry.customEnvironmentIds)
+    ? currentEntry.customEnvironmentIds.length
+    : 0;
+  const previewIndependentEntries = keyEntries.filter((entry) => entry?.id !== currentEntry.id
+    && bearsTarget(entry, "preview")
+    && !entry?.gitBranch);
+  const developmentIndependentEntries = keyEntries.filter((entry) => entry?.id !== currentEntry.id
+    && bearsTarget(entry, "development")
+    && !entry?.gitBranch);
+  evidence.scopeCorrection.initialTargets = initialTargets;
+  evidence.scopeCorrection.initialBranchScoped = Boolean(currentEntry.gitBranch);
+  evidence.scopeCorrection.initialCustomEnvironmentCount = customEnvironmentCount;
+  evidence.scopeCorrection.previewIndependentEntryPresent = !sharesPreview || previewIndependentEntries.length > 0;
+  evidence.scopeCorrection.developmentIndependentEntryPresent = !sharesDevelopment || developmentIndependentEntries.length > 0;
+  if (sharesPreview && previewIndependentEntries.length === 0) {
+    fail("preview_independent_entry_missing", "scope_correction_preconditions", "Removing Preview from the Production-bearing entry would leave Preview without an independent entry");
+  }
+  if (sharesDevelopment && developmentIndependentEntries.length === 0) {
+    fail("development_independent_entry_missing", "scope_correction_preconditions", "Removing Development from the Production-bearing entry would leave Development without an independent entry");
+  }
+  if (customEnvironmentCount > 0) {
+    fail("custom_environment_scope_requires_owner_action", "scope_correction_preconditions", "Production-bearing entry also targets a custom environment outside the authorized Preview/Development correction");
+  }
+
+  evidence.scopeCorrection.required = !isProductionOnly(currentEntry);
+  if (evidence.scopeCorrection.required) {
+    evidence.stage = "scope_correction";
+    evidence.mutationAttempted = true;
+    pendingRollbackBody = createBodyForEntry(currentEntry, capturedValue, "sensitive");
+    const scopeRemoved = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/${encodeURIComponent(currentEntry.id)}`, {
+      method: "DELETE"
+    });
+    if (!scopeRemoved.ok) fail("scope_correction_delete_failed", "scope_correction", "Production-bearing entry could not be removed for exact scope correction");
+    deletedEntry = true;
+    const scopedBody = {
+      key: KEY,
+      value: capturedValue,
+      type: "sensitive",
+      target: ["production"]
+    };
+    const scopedCreated = await vercel(`/v10/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`, {
+      method: "POST",
+      body: scopedBody
+    });
+    if (!scopedCreated.ok) fail("scope_correction_create_failed", "scope_correction", "Sensitive Production-only entry could not be recreated");
+    deletedEntry = false;
+    pendingRollbackBody = null;
+    evidence.scopeCorrection.exactValueWritePreserved = scopedBody.value === capturedValue;
+  } else {
+    evidence.scopeCorrection.exactValueWritePreserved = true;
+  }
+
+  evidence.stage = "scope_correction_verification";
+  const scopedInventory = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`);
+  if (scopedInventory.status !== 200 || !Array.isArray(scopedInventory.json?.envs)) {
+    fail("scope_correction_inventory_unreadable", "scope_correction_verification", "Scope-corrected inventory could not be read");
+  }
+  const scopedEnvs = scopedInventory.json.envs;
+  const scopedProductionBearing = scopedEnvs.filter((entry) => entry?.key === KEY && bearsTarget(entry, "production"));
+  if (scopedProductionBearing.length !== 1
+    || !scopedProductionBearing[0]?.id
+    || !isProductionOnly(scopedProductionBearing[0])
+    || scopedProductionBearing[0].type !== "sensitive") {
+    fail("scope_correction_shape_mismatch", "scope_correction_verification", "Scope correction did not yield exactly one Sensitive unbranched Production-only entry");
+  }
+  currentEntry = scopedProductionBearing[0];
+  const scopedOtherEnvironment = stableOtherEnvironmentSnapshot(scopedEnvs, currentEntry.id);
+  if (!equalJson(beforeOtherEnvironment, scopedOtherEnvironment)) {
+    fail("scope_correction_other_environment_drift", "scope_correction_verification", "Scope correction changed environment metadata outside the authorized entry");
+  }
+  const scopeDeployment = await resolveCurrentProduction(vercel);
+  if (!equalJson(beforeDeployment, scopeDeployment)) {
+    fail("scope_correction_deployment_changed", "scope_correction_verification", "Scope correction changed the Production deployment or alias identity");
+  }
+  evidence.scopeCorrectionVerified = evidence.scopeCorrection.exactValueWritePreserved;
+  if (!evidence.scopeCorrectionVerified) {
+    fail("scope_correction_value_not_preserved", "scope_correction_verification", "Scope correction did not reuse the exact captured value in memory");
+  }
+
   evidence.stage = "one_key_replacement";
   evidence.mutationAttempted = true;
+  pendingRollbackBody = createBodyForEntry(currentEntry, capturedValue, "sensitive");
   const removed = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/env/${encodeURIComponent(currentEntry.id)}`, {
     method: "DELETE"
   });
@@ -368,12 +487,13 @@ try {
     evidence.rollbackAttempted = true;
     const restored = await vercel(`/v10/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`, {
       method: "POST",
-      body: { ...replacementBody, type: "sensitive" }
+      body: pendingRollbackBody
     });
     if (restored.ok) deletedEntry = false;
     fail("production_entry_create_failed", "one_key_replacement", "Readable Production entry could not be recreated; prior Sensitive form was restored when possible");
   }
   deletedEntry = false;
+  pendingRollbackBody = null;
 
   evidence.stage = "post_write_verification";
   const afterInventory = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`);
@@ -428,7 +548,7 @@ try {
     try {
       const restored = await vercelRequest(`/v10/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`, {
         method: "POST",
-        body: { key: KEY, value: capturedValue, type: "sensitive", target: ["production"] }
+        body: pendingRollbackBody ?? { key: KEY, value: capturedValue, type: "sensitive", target: ["production"] }
       });
       if (restored.ok) deletedEntry = false;
     } catch { /* retain the original fail-closed verdict */ }
