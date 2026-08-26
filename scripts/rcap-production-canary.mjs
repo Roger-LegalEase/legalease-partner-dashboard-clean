@@ -1,17 +1,24 @@
 #!/usr/bin/env node
-// Secret-backed Production release control.
+// Bounded Production release preflight.
 //
-// The only currently enabled phase is `preflight`. It is deliberately GET-only:
-// it establishes the current Production deployment, rollback target, and
-// Production Supabase project from the deployed project's own Production
-// environment. Decrypted URL values exist only long enough to derive and compare
-// their public project refs. Values and credentials are never emitted or stored.
+// The Vercel environment entry remains untouched. The controlling identity
+// proof comes from the exact staged Production deployment's client runtime,
+// with the accepted Preview as an explicit negative control. A missing staged
+// candidate may be created with --prod --skip-domain; no alias is assigned.
+//
+// Supabase origins exist only in process memory. Evidence contains only
+// booleans, project refs, SHA-256 hashes, and deployment identities.
 
+import { createHash } from "node:crypto";
+import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   HOSTED_VERCEL_PROJECT_NAME,
+  HOSTED_VERCEL_TEAM_SLUG,
+  hostedVercelCliEnvironment,
   hostedVercelScopedUrl,
   resolveHostedVercelIdentity
 } from "./rcap-hosted-acceptance-vercel-identity.mjs";
@@ -20,16 +27,21 @@ const APPLICATION_SHA = "441ee3188ee52047a012232d8d11f890a09b4ac5";
 const TOOLS_SHA = "d075ff0fd5627ec55c9d27c3018b1fb77f1fa08b";
 const WORKER_SOURCE_SHA = APPLICATION_SHA;
 const WORKER_DIGEST = "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c";
+const PRODUCTION_PROJECT_REF = "wwtwtsmywnckfkdaqqeg";
 const ACCEPTANCE_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
+const ACCEPTANCE_DEPLOYMENT_ID = "dpl_9ygomDGFAXSLHENBfc6Undtyknjf";
+const PUBLIC_ROUTES = ["/", "/sign-in", "/expungement-ai/sign-in"];
 
 const PHASE = (process.env.RCAP_PRODUCTION_PHASE ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
+const VERCEL_AUTOMATION_BYPASS_SECRET = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
 const INPUT_APPLICATION_SHA = (process.env.RCAP_APPLICATION_SHA ?? "").trim();
 const INPUT_ACCEPTED_TOOLS_SHA = (process.env.RCAP_ACCEPTED_TOOLS_SHA ?? "").trim();
 const INPUT_TOOLS_SHA = (process.env.RCAP_TOOLS_SHA ?? "").trim();
 const INPUT_WORKER_SOURCE_SHA = (process.env.RCAP_WORKER_SOURCE_SHA ?? "").trim();
 const INPUT_WORKER_DIGEST = (process.env.RCAP_WORKER_DIGEST ?? "").trim();
+const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const EVIDENCE_DIR = path.resolve(process.env.RCAP_PRODUCTION_EVIDENCE_DIR ?? "production-canary-evidence");
 const EVIDENCE_FILE = path.join(EVIDENCE_DIR, "production-preflight.json");
 
@@ -37,9 +49,11 @@ fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const verdicts = [];
 const evidence = {
-  schemaVersion: "rcap-production-preflight/v1",
+  schemaVersion: "rcap-production-preflight/v2",
   phase: PHASE,
   startedAt: new Date().toISOString(),
+  valueReadbackRequirement: "superseded",
+  valueSource: "exact staged deployment runtime",
   requestedIdentity: {
     applicationSha: APPLICATION_SHA,
     acceptedToolsSha: TOOLS_SHA,
@@ -47,15 +61,28 @@ const evidence = {
     workerSourceSha: WORKER_SOURCE_SHA,
     workerDigest: WORKER_DIGEST
   },
-  secrets: { persisted: false, printed: false, decryptedProductionUrlValues: { redacted: true } },
-  mutationAttempted: false,
-  production: null,
+  projectRefs: {
+    production: PRODUCTION_PROJECT_REF,
+    acceptance: ACCEPTANCE_PROJECT_REF
+  },
+  productionConfigurationMutationAttempted: false,
+  environmentVariableChanged: false,
+  productionAliasChanged: false,
+  productionDatabaseMutated: false,
+  applicationChanged: false,
+  workerChanged: false,
+  originPersisted: false,
+  secretsPersisted: false,
+  stagedDeploymentCreated: false,
+  deployments: null,
+  controlHashes: null,
+  runtimeProof: null,
   verdicts
 };
 
 function record(caseId, passed, observed) {
   verdicts.push({ caseId, passed, observed });
-  console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
+  console.log("  " + (passed ? "ok  " : "FAIL") + " " + caseId + " — " + observed);
   return passed;
 }
 
@@ -63,274 +90,507 @@ function persist(passed, failure = null) {
   evidence.finishedAt = new Date().toISOString();
   evidence.passed = passed;
   evidence.failure = failure;
-  fs.writeFileSync(EVIDENCE_FILE, `${JSON.stringify(evidence, null, 2)}\n`);
+  fs.writeFileSync(EVIDENCE_FILE, JSON.stringify(evidence, null, 2) + "\n");
 }
 
-function targetsProduction(entry) {
-  const target = entry?.target;
-  return Array.isArray(target) ? target.includes("production") : target === "production";
+function sha256(value) {
+  return createHash("sha256").update(value, "utf8").digest("hex");
 }
 
-function projectRefFromSupabaseUrl(value) {
-  let url;
-  try {
-    url = new URL(value);
-  } catch {
-    return null;
-  }
-  if (url.protocol !== "https:") return null;
-  const match = /^([a-z0-9]{8,})\.supabase\.co$/i.exec(url.hostname);
-  return match?.[1] ?? null;
-}
-
-function safeResponseShape(result) {
-  const document = result?.json;
-  const envs = Array.isArray(document?.envs) ? document.envs : [];
-  return {
-    status: result?.status ?? null,
-    topLevelKeys: document && typeof document === "object" && !Array.isArray(document)
-      ? Object.keys(document).sort()
-      : [],
-    envCount: envs.length,
-    entryShapes: envs.slice(0, 20).map((entry) => ({
-      keys: entry && typeof entry === "object" ? Object.keys(entry).filter((key) => key !== "value").sort() : [],
-      hasValueField: Boolean(entry && Object.prototype.hasOwnProperty.call(entry, "value")),
-      valueType: entry && Object.prototype.hasOwnProperty.call(entry, "value") ? typeof entry.value : "absent"
-    }))
-  };
+function parseJson(text) {
+  try { return JSON.parse(text); }
+  catch { return null; }
 }
 
 async function getJson(url, token) {
   const response = await fetch(url, {
     method: "GET",
-    headers: { Authorization: `Bearer ${token}` }
+    headers: token ? { Authorization: "Bearer " + token } : {}
   });
   const text = await response.text();
-  let json = null;
-  try { json = JSON.parse(text); } catch { /* status is reported without response text */ }
-  return { status: response.status, json };
+  return { status: response.status, ok: response.ok, json: parseJson(text) };
+}
+
+function targetList(entry) {
+  return (Array.isArray(entry?.target) ? entry.target : [entry?.target].filter(Boolean))
+    .filter((target) => typeof target === "string")
+    .sort();
+}
+
+function safeEnvironmentMetadataHash(entries) {
+  const safe = entries.map((entry) => ({
+    id: entry?.id ?? null,
+    configurationId: entry?.configurationId ?? null,
+    key: entry?.key ?? null,
+    type: entry?.type ?? null,
+    target: targetList(entry),
+    gitBranch: entry?.gitBranch ?? null,
+    customEnvironmentIds: Array.isArray(entry?.customEnvironmentIds)
+      ? [...entry.customEnvironmentIds].sort()
+      : [],
+    updatedAt: entry?.updatedAt ?? null
+  })).sort((left, right) => JSON.stringify(left).localeCompare(JSON.stringify(right)));
+  return sha256(JSON.stringify(safe));
+}
+
+function normalizeEmbeddedText(value) {
+  return value
+    .replaceAll("\\u003a", ":")
+    .replaceAll("\\u003A", ":")
+    .replaceAll("\\u002f", "/")
+    .replaceAll("\\u002F", "/")
+    .replaceAll("\\/", "/");
+}
+
+function inspectForSupabaseOrigins(value, candidateOrigins) {
+  const normalized = normalizeEmbeddedText(value);
+  const patterns = [
+    /https:\/\/[a-z0-9.-]+(?::\d+)?\/(?:auth|rest|storage|functions)\/v1\/?/gi,
+    /https:\/\/[a-z0-9.-]+\.supabase\.co\/?/gi
+  ];
+  for (const pattern of patterns) {
+    for (const match of normalized.matchAll(pattern)) {
+      try { candidateOrigins.add(new URL(match[0]).origin); }
+      catch { /* malformed strings are not candidates */ }
+    }
+  }
+}
+
+function scriptSources(html) {
+  const sources = new Set();
+  for (const match of html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi)) {
+    try {
+      const parsed = new URL(match[1], "https://runtime.invalid");
+      if (parsed.pathname.startsWith("/_next/static/")) {
+        sources.add(parsed.pathname + parsed.search);
+      }
+    } catch { /* malformed script references are ignored */ }
+  }
+  return [...sources];
+}
+
+async function runtimeGet(baseOrigin, pathname) {
+  const headers = {
+    "x-vercel-protection-bypass": VERCEL_AUTOMATION_BYPASS_SECRET
+  };
+  const response = await fetch(new URL(pathname, baseOrigin), {
+    method: "GET",
+    headers,
+    redirect: "follow"
+  });
+  return {
+    status: response.status,
+    ok: response.ok,
+    sameHost: new URL(response.url).host === new URL(baseOrigin).host,
+    text: await response.text()
+  };
+}
+
+async function inspectRuntimeSupabaseOrigin(immutableHostname) {
+  const baseOrigin = "https://" + immutableHostname;
+  const candidateOrigins = new Set();
+  const fetchedChunks = new Set();
+  let successfulPages = 0;
+  let successfulChunks = 0;
+
+  for (const route of PUBLIC_ROUTES) {
+    const page = await runtimeGet(baseOrigin, route);
+    if (!page.ok || !page.sameHost) continue;
+    successfulPages += 1;
+    inspectForSupabaseOrigins(page.text, candidateOrigins);
+    for (const source of scriptSources(page.text)) {
+      if (fetchedChunks.has(source)) continue;
+      fetchedChunks.add(source);
+      const chunk = await runtimeGet(baseOrigin, source);
+      if (!chunk.ok || !chunk.sameHost) continue;
+      successfulChunks += 1;
+      inspectForSupabaseOrigins(chunk.text, candidateOrigins);
+    }
+  }
+
+  if (successfulPages === 0) {
+    throw new Error("runtime inspection could not fetch a public page from the exact deployment");
+  }
+  if (candidateOrigins.size !== 1) {
+    throw new Error("runtime inspection did not expose exactly one Supabase origin");
+  }
+
+  return {
+    origin: [...candidateOrigins][0],
+    successfulPages,
+    successfulChunks,
+    candidateOriginCount: candidateOrigins.size
+  };
+}
+
+async function originMapsToProject(origin, projectRef) {
+  const project = await getJson(
+    "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef),
+    SUPABASE_ACCESS_TOKEN
+  );
+  if (project.status !== 200 || (project.json?.ref ?? project.json?.id) !== projectRef) {
+    return false;
+  }
+
+  const hostname = new URL(origin).hostname.toLowerCase();
+  if (hostname === projectRef + ".supabase.co") return true;
+
+  const custom = await getJson(
+    "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/custom-hostname",
+    SUPABASE_ACCESS_TOKEN
+  );
+  const vanity = await getJson(
+    "https://api.supabase.com/v1/projects/" + encodeURIComponent(projectRef) + "/config/vanity-subdomain",
+    SUPABASE_ACCESS_TOKEN
+  );
+  const customHost = custom.json?.custom_hostname ?? custom.json?.hostname ?? null;
+  const vanityName = vanity.json?.vanity_subdomain ?? vanity.json?.vanitySubdomain ?? null;
+  const vanityHost = typeof vanityName === "string"
+    ? (vanityName.includes(".") ? vanityName : vanityName + ".supabase.co")
+    : null;
+  const customMatches = custom.status === 200
+    && custom.json?.status === "active"
+    && String(customHost ?? "").toLowerCase() === hostname;
+  const vanityMatches = vanity.status === 200
+    && vanity.json?.status === "active"
+    && String(vanityHost ?? "").toLowerCase() === hostname;
+  return customMatches || vanityMatches;
+}
+
+function deploymentId(deployment) {
+  return deployment?.id ?? deployment?.uid ?? null;
+}
+
+function deploymentReady(deployment) {
+  return (deployment?.readyState ?? deployment?.state) === "READY";
+}
+
+async function resolveCurrentProduction(vercel, projectId) {
+  const domainsResult = await vercel(
+    "/v9/projects/" + encodeURIComponent(projectId) + "/domains?limit=100"
+  );
+  if (domainsResult.status !== 200) {
+    throw new Error("Production domains could not be enumerated");
+  }
+  const domains = (Array.isArray(domainsResult.json?.domains) ? domainsResult.json.domains : [])
+    .map((entry) => entry?.name)
+    .filter((name) => typeof name === "string" && name.length > 0)
+    .sort();
+  const resolutions = [];
+  for (const domain of domains) {
+    const result = await vercel("/v13/deployments/" + encodeURIComponent(domain));
+    if (result.status === 200
+      && result.json?.target === "production"
+      && deploymentReady(result.json)) {
+      resolutions.push({ domain, deploymentId: deploymentId(result.json) });
+    }
+  }
+  const ids = [...new Set(resolutions.map((entry) => entry.deploymentId).filter(Boolean))];
+  if (ids.length !== 1 || resolutions.length === 0) {
+    throw new Error("Production domains do not resolve to one exact READY deployment");
+  }
+  return {
+    deploymentId: ids[0],
+    aliasMappingHash: sha256(JSON.stringify(resolutions)),
+    resolvedDomainCount: resolutions.length
+  };
+}
+
+async function listExactStagedCandidates(vercel, projectId, currentProductionId) {
+  const listed = await vercel(
+    "/v6/deployments?projectId=" + encodeURIComponent(projectId)
+      + "&target=production&state=READY&limit=100"
+  );
+  if (listed.status !== 200 || !Array.isArray(listed.json?.deployments)) {
+    throw new Error("READY Production-target deployment inventory could not be read");
+  }
+  return listed.json.deployments.filter((candidate) => {
+    const meta = candidate?.meta ?? {};
+    return deploymentReady(candidate)
+      && candidate?.target === "production"
+      && deploymentId(candidate) !== currentProductionId
+      && meta.rcapStagedProduction === "true"
+      && meta.rcapApplicationSha === APPLICATION_SHA
+      && meta.rcapWorkerSourceSha === WORKER_SOURCE_SHA
+      && meta.rcapWorkerDigest === WORKER_DIGEST;
+  });
+}
+
+async function runVercelCli(args, cliEnvironment) {
+  return new Promise((resolve) => {
+    const child = spawn("npx", args, {
+      cwd: ROOT_DIR,
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, ...cliEnvironment }
+    });
+    let combined = "";
+    child.stdout.on("data", (chunk) => { combined += String(chunk); });
+    child.stderr.on("data", (chunk) => { combined += String(chunk); });
+    child.on("error", (error) => resolve({ status: null, error, output: combined }));
+    child.on("close", (code) => resolve({ status: code, error: null, output: combined }));
+  });
+}
+
+async function createStagedProduction(vercelIdentity, vercel) {
+  const targetArgs = ["--prod", "--skip-domain"];
+  const args = [
+    "vercel@latest",
+    "deploy",
+    "--archive=tgz",
+    "--yes",
+    "--token",
+    VERCEL_TOKEN,
+    "--scope",
+    HOSTED_VERCEL_TEAM_SLUG,
+    ...targetArgs,
+    "--meta",
+    "rcapStagedProduction=true",
+    "--meta",
+    "rcapApplicationSha=" + APPLICATION_SHA,
+    "--meta",
+    "rcapWorkerSourceSha=" + WORKER_SOURCE_SHA,
+    "--meta",
+    "rcapWorkerDigest=" + WORKER_DIGEST,
+    "--meta",
+    "rcapToolsSha=" + INPUT_TOOLS_SHA
+  ];
+  const result = await runVercelCli(args, hostedVercelCliEnvironment(vercelIdentity));
+  if (result.error || result.status !== 0) {
+    throw new Error("staged Production deployment command failed before identity verification");
+  }
+
+  const urls = result.output.match(/https:\/\/[a-z0-9-]+\.vercel\.app/gi) ?? [];
+  const hostname = urls.length > 0 ? new URL(urls[urls.length - 1]).hostname : null;
+  if (!hostname) {
+    throw new Error("staged Production deployment command returned no immutable deployment identity");
+  }
+  const detail = await vercel("/v13/deployments/" + encodeURIComponent(hostname));
+  if (detail.status !== 200) {
+    throw new Error("new staged Production deployment could not be resolved by exact identity");
+  }
+  return detail.json;
+}
+
+async function exactDeploymentDetail(vercel, identifier) {
+  const result = await vercel("/v13/deployments/" + encodeURIComponent(identifier));
+  if (result.status !== 200) {
+    throw new Error("exact deployment identity could not be resolved");
+  }
+  return result.json;
 }
 
 try {
-  if (PHASE !== "preflight") throw new Error("only the read-only preflight phase is enabled");
-  if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN) throw new Error("required secret-backed read-only sessions are unavailable");
+  if (PHASE !== "preflight") {
+    throw new Error("only the bounded Production preflight phase is enabled");
+  }
+  if (!VERCEL_TOKEN || !SUPABASE_ACCESS_TOKEN || !VERCEL_AUTOMATION_BYPASS_SECRET) {
+    throw new Error("required secret-backed read-only sessions are unavailable");
+  }
 
   const identityExact = INPUT_APPLICATION_SHA === APPLICATION_SHA
     && INPUT_ACCEPTED_TOOLS_SHA === TOOLS_SHA
     && /^[0-9a-f]{40}$/.test(INPUT_TOOLS_SHA)
     && INPUT_WORKER_SOURCE_SHA === WORKER_SOURCE_SHA
     && INPUT_WORKER_DIGEST === WORKER_DIGEST;
-  if (!record("release_identity_is_exact", identityExact,
-    `application=${INPUT_APPLICATION_SHA || "missing"}; acceptedTools=${INPUT_ACCEPTED_TOOLS_SHA || "missing"}; executionTools=${INPUT_TOOLS_SHA || "missing"}; workerSource=${INPUT_WORKER_SOURCE_SHA || "missing"}; digest=${INPUT_WORKER_DIGEST || "missing"}`)) {
+  if (!record(
+    "release_identity_is_exact",
+    identityExact,
+    "application, tools, worker source, and immutable digest match the frozen authorization"
+  )) {
     throw new Error("release identity input mismatch");
   }
 
   const vercelIdentity = await resolveHostedVercelIdentity({ token: VERCEL_TOKEN });
-  const vercel = (pathname) => getJson(hostedVercelScopedUrl(pathname, vercelIdentity), VERCEL_TOKEN);
+  const vercel = (pathname) => getJson(
+    hostedVercelScopedUrl(pathname, vercelIdentity),
+    VERCEL_TOKEN
+  );
 
-  const projectResult = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}`);
+  const projectResult = await vercel(
+    "/v9/projects/" + encodeURIComponent(vercelIdentity.projectId)
+  );
   const projectExact = projectResult.status === 200
     && projectResult.json?.id === vercelIdentity.projectId
     && projectResult.json?.name === HOSTED_VERCEL_PROJECT_NAME;
-  if (!record("production_vercel_project_is_exact", projectExact,
-    `status=${projectResult.status}; project=${projectResult.json?.name ?? "unresolved"}; id=${projectResult.json?.id ?? "unresolved"}`)) {
+  if (!record(
+    "production_vercel_project_is_exact",
+    projectExact,
+    "team and project resolve to the pinned Production control plane"
+  )) {
     throw new Error("Vercel Production project identity could not be established");
   }
 
-  const envResult = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/env`);
-  const envs = Array.isArray(envResult.json?.envs) ? envResult.json.envs : [];
-  if (envResult.status !== 200) throw new Error("Vercel Production environment inventory could not be read");
-
-  const exactProductionEntry = (key) => {
-    const matches = envs.filter((entry) => entry?.key === key && targetsProduction(entry) && !entry?.gitBranch);
-    if (matches.length !== 1 || !matches[0]?.id) {
-      throw new Error(`Production environment key ${key} does not resolve to one exact unbranched entry`);
-    }
-    return matches[0];
-  };
-
-  const optionalProductionEntry = (key) => {
-    const matches = envs.filter((entry) => entry?.key === key && targetsProduction(entry) && !entry?.gitBranch);
-    if (matches.length > 1 || (matches.length === 1 && !matches[0]?.id)) {
-      throw new Error(`Optional Production environment key ${key} is ambiguous`);
-    }
-    return matches[0] ?? null;
-  };
-
-  const publicUrlEntry = exactProductionEntry("NEXT_PUBLIC_SUPABASE_URL");
-  const serverUrlEntry = optionalProductionEntry("SUPABASE_URL");
-  const anonEntry = exactProductionEntry("NEXT_PUBLIC_SUPABASE_ANON_KEY");
-  const serviceEntry = exactProductionEntry("SUPABASE_SERVICE_ROLE_KEY");
-
-  // Vercel's current CLI reads project environment values from the v10 bulk
-  // endpoint with these exact query parameters. The v9 inventory above remains
-  // the authority for entry identity. A value is accepted only when the v10
-  // response carries that same id/key/target; a name-only match is refused.
-  const decryptQuery = new URLSearchParams({
-    target: "production",
-    decrypt: "true",
-    source: "vercel-cli:pull"
-  });
-  const decryptedResult = await vercel(`/v10/projects/${encodeURIComponent(vercelIdentity.projectId)}/env?${decryptQuery}`);
-  evidence.controlPlaneReadback = {
-    endpoint: "GET /v10/projects/{exactProjectId}/env?target=production&decrypt=true&source=vercel-cli:pull",
-    response: safeResponseShape(decryptedResult),
-    joinTelemetry: [],
-    matchedEntryClassifications: [],
-    valuesPersisted: false
-  };
-  if (decryptedResult.status !== 200 || !Array.isArray(decryptedResult.json?.envs)) {
-    throw new Error(`Vercel Production environment decrypt read failed at v10 bulk endpoint (status ${decryptedResult.status})`);
+  const envBeforeResult = await vercel(
+    "/v9/projects/" + encodeURIComponent(vercelIdentity.projectId) + "/env"
+  );
+  if (envBeforeResult.status !== 200 || !Array.isArray(envBeforeResult.json?.envs)) {
+    throw new Error("Vercel environment metadata inventory could not be read");
   }
-  const decryptedEntries = decryptedResult.json.envs;
-  const decryptProductionValue = (entry) => {
-    const scoped = decryptedEntries.filter((candidate) =>
-      candidate?.key === entry.key
-      && targetsProduction(candidate)
-      && !candidate?.gitBranch
-    );
-    const direct = scoped.filter((candidate) => candidate?.id === entry.id);
-    const configured = scoped.filter((candidate) => candidate?.configurationId === entry.id);
-    const unique = [...new Set([...direct, ...configured])];
-    const telemetry = {
-      key: entry.key,
-      directIdMatches: direct.length,
-      configurationIdMatches: configured.length,
-      uniqueCandidateMatches: unique.length,
-      selectedIdentityField: unique.length === 1
-        ? (direct.includes(unique[0]) ? "id" : "configurationId")
-        : null
-    };
-    evidence.controlPlaneReadback.joinTelemetry.push(telemetry);
-    if (unique.length !== 1) {
-      throw new Error(`Production environment key ${entry.key} could not be joined uniquely from v9 inventory to v10 decrypted data`);
-    }
-    const matched = unique[0];
-    const classification = {
-      key: entry.key,
-      type: typeof matched?.type === "string" ? matched.type : "absent",
-      decrypted: matched?.decrypted === true,
-      valueType: Object.prototype.hasOwnProperty.call(matched ?? {}, "value") ? typeof matched.value : "absent",
-      valueLength: typeof matched?.value === "string" ? matched.value.length : null,
-      nonempty: typeof matched?.value === "string" && matched.value.length > 0
-    };
-    evidence.controlPlaneReadback.matchedEntryClassifications.push(classification);
-    if (classification.type === "sensitive" || !classification.decrypted || classification.valueType !== "string") {
-      throw new Error(`authorized Vercel token cannot decrypt exact Production environment key ${entry.key}; owner must grant decrypt-capable project access or replace this public URL entry with a readable non-sensitive Production value`);
-    }
-    if (!classification.nonempty) {
-      throw new Error(`exact Production environment value is empty for ${entry.key}; owner must configure one nonempty Production Supabase URL on this exact entry`);
-    }
-    return matched.value;
-  };
+  const environmentHashBefore = safeEnvironmentMetadataHash(envBeforeResult.json.envs);
 
-  const publicRef = projectRefFromSupabaseUrl(decryptProductionValue(publicUrlEntry));
-  const serverRef = serverUrlEntry
-    ? projectRefFromSupabaseUrl(decryptProductionValue(serverUrlEntry))
-    : null;
-  const optionalServerMatches = !serverUrlEntry || (Boolean(publicRef) && serverRef === publicRef);
-  if (!record("optional_server_supabase_url_matches_when_present", optionalServerMatches,
-    `present=${Boolean(serverUrlEntry)}; matchesAuthoritativePublicRef=${optionalServerMatches}`)) {
-    throw new Error("optional Production SUPABASE_URL disagrees with NEXT_PUBLIC_SUPABASE_URL");
-  }
-  const productionRef = publicRef;
-  if (!record("production_supabase_project_is_exact", Boolean(productionRef),
-    `authoritative public URL ref resolved=${Boolean(productionRef)}; optional server URL present=${Boolean(serverUrlEntry)}; anon entry=${anonEntry.id ? "present" : "missing"}; service entry=${serviceEntry.id ? "present" : "missing"}`)) {
-    throw new Error("authoritative Production Supabase URL identity could not be resolved");
-  }
-
-  if (!record("production_environment_is_separate_from_acceptance", productionRef !== ACCEPTANCE_PROJECT_REF,
-    `productionRef=${productionRef}; acceptanceRef=${ACCEPTANCE_PROJECT_REF}; distinct=${productionRef !== ACCEPTANCE_PROJECT_REF}`)) {
-    throw new Error("Production and acceptance Supabase identities overlap");
-  }
-
-  const supabaseProject = await getJson(`https://api.supabase.com/v1/projects/${encodeURIComponent(productionRef)}`, SUPABASE_ACCESS_TOKEN);
-  const supabaseExact = supabaseProject.status === 200
-    && (supabaseProject.json?.ref === productionRef || supabaseProject.json?.id === productionRef);
-  if (!record("production_supabase_management_identity_resolves", supabaseExact,
-    `status=${supabaseProject.status}; ref=${supabaseProject.json?.ref ?? supabaseProject.json?.id ?? "unresolved"}`)) {
-    throw new Error("Production Supabase project is not reachable through the authorized Management session");
-  }
-
-  const domainsResult = await vercel(`/v9/projects/${encodeURIComponent(vercelIdentity.projectId)}/domains?limit=100`);
-  const domains = (Array.isArray(domainsResult.json?.domains) ? domainsResult.json.domains : [])
-    .map((entry) => entry?.name)
-    .filter((name) => typeof name === "string" && name.length > 0);
-  if (domainsResult.status !== 200 || domains.length === 0) {
-    throw new Error("Production domains could not be enumerated");
-  }
-
-  const resolutions = [];
-  for (const domain of domains) {
-    const result = await vercel(`/v13/deployments/${encodeURIComponent(domain)}`);
-    const deployment = result.json ?? {};
-    if (result.status === 200 && deployment.target === "production" && (deployment.readyState ?? deployment.state) === "READY") {
-      resolutions.push({
-        domain,
-        deploymentId: deployment.id ?? deployment.uid ?? null,
-        immutableHostname: deployment.url ?? null,
-        target: deployment.target,
-        readyState: deployment.readyState ?? deployment.state
-      });
-    }
-  }
-
-  const currentIds = [...new Set(resolutions.map((entry) => entry.deploymentId).filter(Boolean))];
-  const currentId = currentIds.length === 1 ? currentIds[0] : null;
-  const currentDetailResult = currentId ? await vercel(`/v13/deployments/${encodeURIComponent(currentId)}`) : { status: 0, json: null };
-  const currentDetail = currentDetailResult.json ?? {};
-  const currentExact = currentDetailResult.status === 200
-    && (currentDetail.id ?? currentDetail.uid) === currentId
-    && currentDetail.target === "production"
-    && (currentDetail.readyState ?? currentDetail.state) === "READY"
-    && (currentDetail.projectId === vercelIdentity.projectId || currentDetail.name === HOSTED_VERCEL_PROJECT_NAME)
-    && resolutions.length > 0;
-  if (!record("current_ready_production_target_is_exact", currentExact,
-    `resolvedDomains=${resolutions.length}/${domains.length}; distinctReadyProductionDeployments=${currentIds.length}; deploymentId=${currentId ?? "unresolved"}`)) {
-    throw new Error("configured Production domains do not resolve to one exact READY Production deployment");
-  }
-
-  const productionDomains = resolutions.map((entry) => entry.domain).sort();
-  const immutableHostname = currentDetail.url ?? resolutions.find((entry) => entry.deploymentId === currentId)?.immutableHostname ?? null;
-  const rollbackRecorded = Boolean(currentId && immutableHostname && productionDomains.length > 0);
-  evidence.production = {
-    vercelProject: { id: vercelIdentity.projectId, name: HOSTED_VERCEL_PROJECT_NAME },
-    supabaseProjectRef: productionRef,
-    currentDeployment: {
-      id: currentId,
-      immutableHostname,
-      target: "production",
-      readyState: "READY",
-      productionDomains,
-      gitSha: currentDetail.meta?.githubCommitSha ?? currentDetail.meta?.gitCommitSha ?? null
-    },
-    rollbackTarget: {
-      deploymentId: currentId,
-      immutableHostname,
-      productionDomains,
-      capturedAt: new Date().toISOString(),
-      capturedBeforeMutation: true
-    },
-    environmentSeparation: {
-      acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
-      productionProjectRef: productionRef,
-      distinct: true,
-      optionalServerUrlPresent: Boolean(serverUrlEntry),
-      optionalServerUrlMatched: optionalServerMatches,
-      decryptedValuesPersisted: false
-    }
-  };
-  if (!record("rollback_target_recorded_before_mutation", rollbackRecorded,
-    `deploymentId=${currentId}; immutableHostname=${immutableHostname}; domains=${productionDomains.join(",")}`)) {
+  const productionBefore = await resolveCurrentProduction(vercel, vercelIdentity.projectId);
+  if (!record(
+    "rollback_target_recorded_before_mutation",
+    Boolean(productionBefore.deploymentId),
+    "current READY Production deployment identity recorded before staging"
+  )) {
     throw new Error("rollback target is incomplete");
   }
 
-  record("preflight_performed_no_mutation", true, "all external calls were GET; no SQL or deployment command ran");
+  let stagedCandidates = await listExactStagedCandidates(
+    vercel,
+    vercelIdentity.projectId,
+    productionBefore.deploymentId
+  );
+  let staged = null;
+  if (stagedCandidates.length === 1) {
+    staged = await exactDeploymentDetail(vercel, deploymentId(stagedCandidates[0]));
+  } else if (stagedCandidates.length === 0) {
+    staged = await createStagedProduction(vercelIdentity, vercel);
+    evidence.stagedDeploymentCreated = true;
+  } else {
+    throw new Error("more than one exact staged Production candidate exists");
+  }
+
+  const stagedId = deploymentId(staged);
+  const stagedMeta = staged?.meta ?? {};
+  const stagedExact = Boolean(stagedId)
+    && stagedId !== productionBefore.deploymentId
+    && staged?.target === "production"
+    && deploymentReady(staged)
+    && stagedMeta.rcapStagedProduction === "true"
+    && stagedMeta.rcapApplicationSha === APPLICATION_SHA
+    && stagedMeta.rcapWorkerSourceSha === WORKER_SOURCE_SHA
+    && stagedMeta.rcapWorkerDigest === WORKER_DIGEST;
+  if (!record(
+    "staged_production_deployment_is_exact",
+    stagedExact,
+    "READY Production-target staging identity is exact and is not the active Production deployment"
+  )) {
+    throw new Error("staged Production deployment identity mismatch");
+  }
+
+  const acceptance = await exactDeploymentDetail(vercel, ACCEPTANCE_DEPLOYMENT_ID);
+  const acceptanceMeta = acceptance?.meta ?? {};
+  const acceptanceExact = deploymentId(acceptance) === ACCEPTANCE_DEPLOYMENT_ID
+    && deploymentReady(acceptance)
+    && (acceptance?.target === null || acceptance?.target === "preview")
+    && acceptanceMeta.rcapApplicationSha === APPLICATION_SHA
+    && acceptanceMeta.rcapAcceptanceProjectRef === ACCEPTANCE_PROJECT_REF;
+  if (!record(
+    "accepted_preview_deployment_is_exact",
+    acceptanceExact,
+    "accepted READY Preview deployment and per-deployment acceptance identity are exact"
+  )) {
+    throw new Error("accepted Preview deployment identity mismatch");
+  }
+
+  const stagedHostname = staged?.url ?? null;
+  const acceptanceHostname = acceptance?.url ?? null;
+  if (!stagedHostname || !acceptanceHostname) {
+    throw new Error("immutable deployment hostnames are unavailable for bounded runtime inspection");
+  }
+
+  const productionRuntime = await inspectRuntimeSupabaseOrigin(stagedHostname);
+  const acceptanceRuntime = await inspectRuntimeSupabaseOrigin(acceptanceHostname);
+  const productionCanonical = await originMapsToProject(
+    productionRuntime.origin,
+    PRODUCTION_PROJECT_REF
+  );
+  const acceptanceCanonical = await originMapsToProject(
+    acceptanceRuntime.origin,
+    ACCEPTANCE_PROJECT_REF
+  );
+
+  if (!record(
+    "production_runtime_project_is_canonical",
+    productionCanonical,
+    "exact staged runtime maps to canonical Production project " + PRODUCTION_PROJECT_REF
+  )) {
+    throw new Error("staged Production runtime maps to the wrong Supabase project");
+  }
+  if (!record(
+    "acceptance_preview_project_is_exact",
+    acceptanceCanonical,
+    "exact accepted Preview runtime maps to acceptance project " + ACCEPTANCE_PROJECT_REF
+  )) {
+    throw new Error("accepted Preview runtime maps to the wrong Supabase project");
+  }
+  if (!record(
+    "production_environment_is_separate_from_acceptance",
+    productionRuntime.origin !== acceptanceRuntime.origin
+      && PRODUCTION_PROJECT_REF !== ACCEPTANCE_PROJECT_REF,
+    "Production and acceptance runtime project identities are distinct"
+  )) {
+    throw new Error("Production and acceptance Supabase identities overlap");
+  }
+
+  const envAfterResult = await vercel(
+    "/v9/projects/" + encodeURIComponent(vercelIdentity.projectId) + "/env"
+  );
+  if (envAfterResult.status !== 200 || !Array.isArray(envAfterResult.json?.envs)) {
+    throw new Error("post-staging environment metadata inventory could not be read");
+  }
+  const environmentHashAfter = safeEnvironmentMetadataHash(envAfterResult.json.envs);
+  const productionAfter = await resolveCurrentProduction(vercel, vercelIdentity.projectId);
+
+  const envUnchanged = environmentHashBefore === environmentHashAfter;
+  const aliasesUnchanged = productionBefore.deploymentId === productionAfter.deploymentId
+    && productionBefore.aliasMappingHash === productionAfter.aliasMappingHash;
+  evidence.environmentVariableChanged = !envUnchanged;
+  evidence.productionAliasChanged = !aliasesUnchanged;
+
+  if (!record(
+    "production_environment_metadata_unchanged",
+    envUnchanged,
+    "project environment metadata SHA-256 is unchanged"
+  )) {
+    throw new Error("Vercel project environment metadata changed during preflight");
+  }
+  if (!record(
+    "production_aliases_unchanged",
+    aliasesUnchanged,
+    "active Production deployment and domain mapping SHA-256 are unchanged"
+  )) {
+    throw new Error("Production alias mapping changed during preflight");
+  }
+
+  evidence.deployments = {
+    rollbackTarget: productionBefore.deploymentId,
+    stagedProduction: stagedId,
+    acceptedPreview: ACCEPTANCE_DEPLOYMENT_ID
+  };
+  evidence.controlHashes = {
+    environmentMetadataBeforeSha256: environmentHashBefore,
+    environmentMetadataAfterSha256: environmentHashAfter,
+    productionAliasMappingBeforeSha256: productionBefore.aliasMappingHash,
+    productionAliasMappingAfterSha256: productionAfter.aliasMappingHash
+  };
+  evidence.runtimeProof = {
+    productionProjectRef: PRODUCTION_PROJECT_REF,
+    acceptanceProjectRef: ACCEPTANCE_PROJECT_REF,
+    exactlyOneProductionOrigin: productionRuntime.candidateOriginCount === 1,
+    exactlyOneAcceptanceOrigin: acceptanceRuntime.candidateOriginCount === 1,
+    productionOriginSha256: sha256(productionRuntime.origin),
+    acceptanceOriginSha256: sha256(acceptanceRuntime.origin),
+    productionProjectMatch: productionCanonical,
+    acceptanceProjectMatch: acceptanceCanonical,
+    productionPagesInspected: productionRuntime.successfulPages,
+    productionChunksInspected: productionRuntime.successfulChunks,
+    acceptancePagesInspected: acceptanceRuntime.successfulPages,
+    acceptanceChunksInspected: acceptanceRuntime.successfulChunks
+  };
+
+  record(
+    "preflight_performed_no_production_mutation",
+    true,
+    "no environment, alias, database, application, or worker mutation occurred"
+  );
   persist(true);
-  console.log(`PRODUCTION PREFLIGHT PASSED — rollback ${currentId}; Production project ${productionRef}; no mutation attempted`);
+  console.log("PRODUCTION PREFLIGHT PASS — exact staged runtime identity proven; no Production alias or database mutation");
 } catch (error) {
   const failure = error instanceof Error ? error.message : String(error);
   persist(false, failure);
-  console.error(`PRODUCTION PREFLIGHT REFUSED — ${failure}`);
+  console.error("PRODUCTION PREFLIGHT REFUSED — " + failure);
   process.exit(1);
 }

@@ -1,9 +1,10 @@
 name: RCAP controlled Production canary
 
-# Release-captain-only control. The preflight is GET-only and records the
-# current READY Production deployment as the rollback target before any later
-# release phase may exist. A Production mutation phase is intentionally absent
-# until this discovery succeeds and its exact identities are reviewed.
+# Release-captain-only control. The preflight leaves the restored Vercel
+# environment entry untouched. It proves Supabase identity from one exact
+# Production-target staged deployment and the accepted Preview runtime. When
+# no exact staged candidate exists, --prod --skip-domain creates one without
+# moving a public alias.
 on:
   workflow_call:
     inputs:
@@ -25,6 +26,8 @@ on:
         required: true
       SUPABASE_ACCESS_TOKEN:
         required: true
+      VERCEL_AUTOMATION_BYPASS_SECRET:
+        required: true
 
 permissions:
   contents: read
@@ -42,7 +45,7 @@ jobs:
   preflight:
     name: Record exact Production identity and rollback without mutation
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     steps:
       - name: Refuse any release identity outside the frozen authorization
         env:
@@ -110,6 +113,7 @@ jobs:
           RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: node scripts/rcap-production-canary.mjs
 
       - name: Upload the immutable Production preflight evidence
