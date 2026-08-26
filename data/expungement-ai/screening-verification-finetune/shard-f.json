@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "F",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": [
+    "LA",
+    "ME",
+    "MD",
+    "MA",
+    "MI",
+    "MN",
+    "MS",
+    "MO",
+    "MT"
+  ],
+  "before": {
+    "flows": 80,
+    "browserWitnessVariants": 156,
+    "freeQuestions": 108,
+    "exactDateFreeCheckInputs": 9,
+    "completionOverlaps": 8,
+    "genericSpecialRouteAsks": 17,
+    "rawPacketFields": 45
+  },
+  "after": {
+    "flows": 80,
+    "browserWitnessVariants": 156,
+    "freeQuestions": 108,
+    "routeConsumerFacts": 3,
+    "routeConsumerEdges": 3,
+    "exactPacketFactIds": 60,
+    "completionAliasIds": 8
+  },
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "MD pardon_signed_date mirrors ROUTE_ESCALATION_FACT_IDS; MD arrest_date and MO twenty_first_birthday mirror existing legal-authority screeningFactIds.",
+    "exactPacketFactIds": "Existing structural/date questions plus the nine projection-added exact-date free-check facts and Mississippi's dependent fine-imposed fact.",
+    "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
+  },
+  "unchanged": [
+    "questions",
+    "pathways",
+    "orderedDecisionRules",
+    "legalAuthority",
+    "packetGenerator",
+    "forms",
+    "terminal outcomes",
+    "payment outcomes"
+  ],
+  "blockers": [
+    "No approved pathway mapping exists for the five Mississippi ms_* date facts or ms_mip_fine_imposed; they remain packet-only and no predicate was invented.",
+    "Lane B metadata validation must admit approved projection-added question IDs used by MD, MS, and MO lifecycle metadata."
+  ]
+}
