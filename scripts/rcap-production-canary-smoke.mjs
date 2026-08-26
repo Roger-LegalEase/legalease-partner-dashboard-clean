@@ -416,13 +416,11 @@ try {
       end if;
     end $$;
 
-    select set_config('request.jwt.claim.sub','${participantId}',true);
-    select set_config('request.jwt.claims','{"sub":"${participantId}","role":"authenticated"}',true);
+    reset role;
     do $$ declare outcome text; begin
       select public.clinic_end_assisted_session('${sessionId}'::uuid,'${participantId}'::uuid,'staff_reset') into outcome;
       if outcome <> 'ended' then raise exception 'clinic_reset_failed'; end if;
     end $$;
-    reset role;
 
     do $$ begin
       if not exists (select 1 from public.clinic_assisted_sessions

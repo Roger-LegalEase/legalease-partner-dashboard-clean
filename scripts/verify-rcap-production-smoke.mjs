@@ -27,6 +27,7 @@ check(script.includes("production_clinic_schema_direct_readback"), "Production C
 check(script.includes("colorado_juvenile_guidance_has_no_commerce"), "Colorado juvenile path must remain guidance-only with no commerce");
 check(script.includes("clinic_negative_control_isolated"), "negative-control isolation is required");
 check(script.includes("clinic_reset_boundary_passed"), "Clinic reset API, cookie, header, and DB boundary are required");
+check(script.includes("reset role;\n    do $$ declare outcome text"), "Clinic reset preserves the server-authority-only function grant");
 check(script.includes("transactional_synthetic_fixture_rolled_back"), "synthetic fixture must be transactionally rolled back");
 check(script.includes("realParticipantRecordsCreated: false"), "evidence fixes real participant creation to false");
 check(script.includes("realChargesCreated: false"), "evidence fixes real charges to false");
