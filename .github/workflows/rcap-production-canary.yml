@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, clinic_migrate, or smoke"
+        description: "preflight, clinic_migrate, smoke, or activate"
         required: true
         type: string
       application_sha:
@@ -36,6 +36,7 @@ on:
 permissions:
   contents: read
   packages: read
+  actions: read
 
 env:
   APPLICATION_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
@@ -61,7 +62,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate|smoke) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in preflight|clinic_migrate|smoke|activate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
@@ -113,6 +114,12 @@ jobs:
           node scripts/verify-rcap-production-smoke.mjs
           node scripts/test-rcap-production-smoke-mutations.mjs
 
+      - name: Verify the exact Production activation contract
+        if: inputs.phase == 'activate'
+        run: |
+          node scripts/verify-rcap-production-activation.mjs
+          node scripts/test-rcap-production-activation-mutations.mjs
+
       - name: Pull and identify the accepted worker by immutable digest
         run: |
           set -euo pipefail
@@ -159,6 +166,26 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: node scripts/rcap-production-canary-smoke.mjs
+
+      - name: Download the exact successful Production smoke evidence
+        if: inputs.phase == 'activate'
+        uses: actions/download-artifact@v4
+        with:
+          name: rcap-production-smoke-32967717618
+          path: prior-production-smoke-evidence
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 32967717618
+
+      - name: Activate the exact staged Production deployment with rollback protection
+        if: inputs.phase == 'activate'
+        env:
+          RCAP_PRODUCTION_PHASE: "activate"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: node scripts/rcap-production-activate.mjs
 
       - name: Upload the immutable Production preflight evidence
         if: always()
