@@ -139,8 +139,16 @@ async function managementQuery(query) {
     }
   );
   const text = await response.text();
-  if (!response.ok) throw new Error(`Production transactional smoke returned HTTP ${response.status}`);
-  return parseJson(text);
+  const json = parseJson(text);
+  if (!response.ok) {
+    const safeMessage = String(json?.message ?? "query refused")
+      .replace(/[0-9a-f]{8}-[0-9a-f-]{27,}/gi, "<uuid>")
+      .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+/gi, "<synthetic-email>")
+      .replace(/https?:\/\/[^\s'\"]+/gi, "<url>")
+      .slice(0, 240);
+    throw new Error(`Production transactional smoke returned HTTP ${response.status}; SQLSTATE=${json?.code ?? "unknown"}; ${safeMessage}`);
+  }
+  return json;
 }
 
 function deploymentId(value) {

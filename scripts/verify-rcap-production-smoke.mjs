@@ -33,6 +33,7 @@ check(script.includes("realChargesCreated: false"), "evidence fixes real charges
 check(!script.includes("stripe.com") && !script.includes("checkout/sessions"), "smoke cannot contact Stripe or create Checkout");
 check(!script.includes("vercel promote") && !script.includes("/aliases"), "smoke cannot activate or move aliases");
 check(!/\bdelete\s+from\b/i.test(script), "smoke contains no destructive cleanup statement");
+check(script.includes("SQLSTATE=") && script.includes("<synthetic-email>"), "transaction failures expose only safe SQL classification");
 
 const failed = checks.filter((entry) => !entry.passed);
 for (const entry of checks) console.log(`${entry.passed ? "ok  " : "FAIL"} ${entry.message}`);
