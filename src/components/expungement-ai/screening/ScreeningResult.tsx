@@ -300,7 +300,7 @@ export function ScreeningResult({
 
       {showPacketAction && hasScreeningSession ? (
         <p className="mt-3 rounded-xl bg-[#EEF2F7] px-3 py-2 text-[13px] leading-5 text-[#334155]">
-          {translate("result.partner_no_pay", "This screening started through a partner program. You will not be asked to pay here.")}
+          {translate("result.partner_covered", "Your packet is covered by your partner program.")}
         </p>
       ) : null}
 

@@ -9,7 +9,7 @@
  * TX 17, NE 20 — each matching that state's question count). So a "screen" here is a single
  * question, ordered by its stage's position then by its original order within the profile.
  */
-import type { JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import type { AnswerValue, JurisdictionProfile, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 
 const SOURCE_QUESTION_PREFIX = "source_question";
 const POSTPAY_STAGES = new Set([
@@ -58,4 +58,21 @@ export function screensFromQuestionIds(
   }
 
   return selected;
+}
+
+/**
+ * Remove answers only when a previously rendered branch question is no longer
+ * selected by the server. Answers that were never UI questions may be
+ * authoritative hidden facts, so they deliberately survive this projection.
+ */
+export function sanitizeAnswersForQuestionIds(
+  answers: Record<string, AnswerValue>,
+  previousQuestionIds: readonly string[],
+  nextQuestionIds: readonly string[]
+): Record<string, AnswerValue> {
+  const previouslyRendered = new Set(previousQuestionIds);
+  const stillSelected = new Set(nextQuestionIds);
+  return Object.fromEntries(Object.entries(answers).filter(([questionId]) => (
+    !previouslyRendered.has(questionId) || stillSelected.has(questionId)
+  )));
 }

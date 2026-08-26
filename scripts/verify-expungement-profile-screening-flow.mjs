@@ -35,7 +35,7 @@ assertIncludes(screeningFlow, "loadJurisdictionProfile", "ScreeningFlow profile 
 assertIncludes(screeningFlow, 'fetch("/api/expungement-ai/screening/progress"', "ScreeningFlow server-selected progress");
 assertIncludes(screeningFlow, "screensFromQuestionIds(load.profile, questionIds)", "ScreeningFlow ordered screen projection");
 assertIncludes(screeningFlow, "nextIndex < selectedScreens.length", "ScreeningFlow server-selected final-screen gate");
-assertIncludes(screeningFlow, "void runEvaluation();", "ScreeningFlow evaluate call");
+assertIncludes(screeningFlow, "void runEvaluation(sanitizedAnswers);", "ScreeningFlow sanitized evaluate call");
 assertIncludes(screens, "!question.id.startsWith(SOURCE_QUESTION_PREFIX)", "source-question screen filter");
 assertIncludes(screens, "export function screensFromQuestionIds", "ordered server question-ID projection");
 assertIncludes(screeningResult, "isPaymentAllowed(evaluation)", "profile result payment gate");

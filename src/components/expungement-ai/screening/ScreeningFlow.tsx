@@ -32,7 +32,10 @@ import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
-import { screensFromQuestionIds } from "@/components/expungement-ai/screening/screens";
+import {
+  sanitizeAnswersForQuestionIds,
+  screensFromQuestionIds
+} from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -117,6 +120,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [error, setError] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
+  const [evaluatedAnswers, setEvaluatedAnswers] = useState<Record<string, AnswerValue> | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
   const [questionIds, setQuestionIds] = useState<string[] | null>(null);
   const [selectingQuestions, setSelectingQuestions] = useState(false);
@@ -189,6 +193,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     let resumedAnswers: Record<string, AnswerValue> = {};
     let resumedSessionId: string | undefined;
     let resumedQuestionId: string | null | undefined;
+    let resumedFromStorage = false;
     try {
       const parsed = stored ? JSON.parse(stored) as {
         sessionId?: string;
@@ -200,10 +205,10 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
         resumedAnswers = parsed.answers;
         resumedSessionId = parsed.sessionId;
         resumedQuestionId = parsed.currentQuestionId;
-        window.sessionStorage.removeItem("expungement-ai:resume-session");
+        resumedFromStorage = true;
       }
     } catch {
-      window.sessionStorage.removeItem("expungement-ai:resume-session");
+      resumedFromStorage = Boolean(stored);
     }
 
     void requestScreeningProgress(load.profile, resumedAnswers).then((selectedIds) => {
@@ -213,6 +218,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
         setSelectionError(true);
         return;
       }
+      if (resumedFromStorage) window.sessionStorage.removeItem("expungement-ai:resume-session");
       const selectedScreens = screensFromQuestionIds(load.profile, selectedIds);
       setQuestionIds(selectedIds);
       setAnswers(resumedAnswers);
@@ -274,7 +280,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setError(null);
   }
 
-  async function runEvaluation() {
+  async function runEvaluation(answerSnapshot: Record<string, AnswerValue> = answers) {
     setPhase("evaluating");
     setEvalError(null);
     // The engine evaluates; we only send the collected answers (converted to the wire shape).
@@ -283,9 +289,10 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       jurisdiction: profile.jurisdiction.code,
       profileVersion: profile.profileVersion,
       matterId: matterIdRef.current,
-      answers: toScreeningAnswers(answers)
+      answers: toScreeningAnswers(answerSnapshot)
     });
     if (result.ok) {
+      setEvaluatedAnswers(answerSnapshot);
       void markScreeningSessionCompleted(sessionId);
       setEvaluation(result.data);
       setPhase("result");
@@ -308,7 +315,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       body: JSON.stringify({
         product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
         jurisdiction: profile.jurisdiction.code,
-        answers: toScreeningAnswers(answers),
+        answers: toScreeningAnswers(evaluatedAnswers ?? answers),
         profileVersion: profile.profileVersion,
         matterId: matterIdRef.current,
         sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
@@ -359,16 +366,18 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       return;
     }
     const selectedScreens = screensFromQuestionIds(profile, selectedIds);
+    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
     setQuestionIds(selectedIds);
+    setAnswers(sanitizedAnswers);
     const currentPosition = selectedScreens.findIndex((screen) => screen.id === question.id);
     const nextIndex = currentPosition >= 0
       ? currentPosition + 1
-      : selectedScreens.findIndex((screen) => answers[screen.id] === undefined);
+      : selectedScreens.findIndex((screen) => sanitizedAnswers[screen.id] === undefined);
     if (nextIndex >= 0 && nextIndex < selectedScreens.length) {
       setCurrentIndex(nextIndex);
       return;
     }
-    void runEvaluation();
+    void runEvaluation(sanitizedAnswers);
   }
 
   function handleBack() {
@@ -384,6 +393,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setEvalError(null);
     setPacketActionError(null);
     setEvaluation(null);
+    setEvaluatedAnswers(null);
     if (focusQuestionId) {
       const targetIndex = screens.findIndex((screen) => screen.id === focusQuestionId);
       if (targetIndex >= 0) setCurrentIndex(targetIndex);
@@ -393,16 +403,32 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   async function handleSaveProgress() {
     if (saveStatus === "saving") return;
-    const activeQuestion = screens[currentIndex];
     setSaveStatus("saving");
     try {
+      const selectedIds = await requestScreeningProgress(profile, answers);
+      if (!selectedIds) {
+        setSaveStatus("error");
+        return;
+      }
+      const selectedScreens = screensFromQuestionIds(profile, selectedIds);
+      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+      const matchingIndex = selectedScreens.findIndex((screen) => screen.id === screens[currentIndex]?.id);
+      const resumeIndex = matchingIndex >= 0 ? matchingIndex : Math.min(currentIndex, selectedScreens.length - 1);
+      const activeQuestion = selectedScreens[resumeIndex];
+      if (!activeQuestion) {
+        setSaveStatus("error");
+        return;
+      }
+      setQuestionIds(selectedIds);
+      setAnswers(sanitizedAnswers);
+      setCurrentIndex(resumeIndex);
       const response = await fetch("/api/expungement-ai/screening/save-resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId,
           jurisdiction: profile.jurisdiction.code,
-          answers,
+          answers: sanitizedAnswers,
           currentQuestionId: activeQuestion.id,
           furthestStage: activeQuestion.stage,
           lastDropQuestion: activeQuestion.id,
@@ -577,7 +603,7 @@ function SaveProgressDialog({
           </label>
         )}
         {status === "error" ? (
-          <p className="mt-3 text-sm font-semibold text-[#C2410C]">{translate("screening.save_progress_error", "We could not send that link right now. You can continue without saving or try again.")}</p>
+          <p className="mt-3 text-sm font-semibold text-[#C2410C]" role="alert" aria-live="assertive">{translate("screening.save_progress_error", "We could not send that link right now. You can continue without saving or try again.")}</p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row-reverse">
           {status === "sent" ? (

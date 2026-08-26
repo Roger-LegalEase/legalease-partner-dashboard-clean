@@ -141,7 +141,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Esto fue un problema de conexión, no una decisión sobre su antecedente. Intente de nuevo en un momento."
   },
   "result.back_to_answers": { en: "Back to my answers", es: "Volver a mis respuestas" },
-  "result.partner_no_pay": { en: "This screening started through a partner program. You will not be asked to pay here.", es: "Esta revisión comenzó por medio de un programa asociado. No se le pedirá pagar aquí." },
+  "result.partner_covered": { en: "Your packet is covered by your partner program.", es: "Su paquete está cubierto por su programa asociado." },
   "result.upl_disclaimer": {
     en: "Expungement.ai is not a law firm and this is not legal advice. We prepare self-help materials and information; the court or agency makes the final decision. Review everything before filing.",
     es: "Expungement.ai no es un bufete de abogados y esto no es asesoría legal. Preparamos materiales e información de autoayuda; el tribunal o la agencia toma la decisión final. Revise todo antes de presentar."

@@ -116,7 +116,7 @@ try {
   await answerChoice(page, "Have you completed everything the court ordered in this case?", "Yes", true);
 
   await page.getByRole("heading", { name: /A path may be available|You may be able to prepare an expungement packet/i }).waitFor({ state: "visible" });
-  await expectText(page, "This screening started through a partner program. You will not be asked to pay here.");
+  await expectText(page, "Your packet is covered by your partner program.");
   assertNoCommercialCopy(await page.locator("main").innerText(), "partner result");
   await screenshotPair(page, "01-partner-covered-result");
 
@@ -130,7 +130,7 @@ try {
     (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/expungement-ai/screening/pending/claim",
     { timeout: 20_000 }
   );
-  await page.getByRole("button", { name: "Continue to packet builder", exact: true }).click();
+  await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
   check(pendingResponse.ok(), `Partner pending-result write returned ${pendingResponse.status()}.`);
   const claimResponse = await claimResponsePromise;

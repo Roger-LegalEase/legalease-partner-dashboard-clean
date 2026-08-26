@@ -9,12 +9,18 @@ import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerate
 
 type VerificationMode = "consumer" | "paid" | "sponsored";
 
-function sponsoredReviewCopy() {
-  return {
-    eyebrow: "Covered by your partner program",
-    heading: "Complete final verification before covered generation.",
-    body: "Confirm that the saved packet facts match the participant’s records."
-  };
+function sponsoredReviewCopy(verified: boolean) {
+  return verified
+    ? {
+        eyebrow: "Covered by your partner program",
+        heading: "Packet facts verified and current.",
+        body: "Covered packet generation is now available."
+      }
+    : {
+        eyebrow: "Covered by your partner program",
+        heading: "Complete final verification before covered generation.",
+        body: "Confirm that the saved packet facts match the participant’s records."
+      };
 }
 
 function verificationResponse(payload: unknown): Record<string, unknown> | null {
@@ -42,7 +48,7 @@ export function PacketVerificationAction({
   const [verified, setVerified] = useState(initiallyVerified);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const sponsoredCopy = sponsoredReviewCopy();
+  const sponsoredCopy = sponsoredReviewCopy(verified);
 
   async function verify() {
     if (verifying || !canVerify) return;

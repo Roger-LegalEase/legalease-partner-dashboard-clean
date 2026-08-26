@@ -141,15 +141,16 @@ function Stepper({ done, current, className = "", sponsored = false }: { done: n
   const visibleCurrent = sponsored && current > 3 ? current - 1 : current;
   const progressIndex = visibleCurrent >= 0 ? visibleCurrent : Math.max(0, Math.min(visibleDone, stages.length - 1));
   return (
-    <div
-      className={className}
-      role="progressbar"
-      aria-label="Matter progress"
-      aria-valuemin={1}
-      aria-valuemax={stages.length}
-      aria-valuenow={progressIndex + 1}
-      aria-valuetext={stages[progressIndex]?.label}
-    >
+    <div className={className}>
+      <div
+        className="sr-only"
+        role="progressbar"
+        aria-label="Matter progress"
+        aria-valuemin={1}
+        aria-valuemax={stages.length}
+        aria-valuenow={progressIndex + 1}
+        aria-valuetext={stages[progressIndex]?.label}
+      ></div>
       <ol className="flex items-start" role="list">
         {stages.map(({ label, key }, i) => {
           const isDone = i < visibleDone;
