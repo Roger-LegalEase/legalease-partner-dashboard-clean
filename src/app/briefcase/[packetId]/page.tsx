@@ -28,6 +28,9 @@ export default async function BriefcasePacketPage({
   const artifact = item ? packetArtifactFor(item) : null;
   const packetMatter = item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution";
   const model = item && packetMatter ? packetInformationModelFor(item) : null;
+  const packetInformationStage = model?.stage as string | undefined;
+  const factsComplete = packetInformationStage === "facts_complete";
+  const factsVerified = packetInformationStage === "ready_to_generate";
 
   return (
     <BriefcaseShell
@@ -70,15 +73,17 @@ export default async function BriefcasePacketPage({
                 </ul>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  {!artifact && model?.stage !== "ready_to_generate" ? (
+                  {!artifact && !factsComplete && !factsVerified ? (
                     <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/packet-information`}>
                       {model?.stage === "in_progress" ? "Resume packet information" : "Complete packet information"}
                     </Link>
                   ) : null}
-                  {!artifact && model?.stage === "ready_to_generate" ? (
-                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>Review for accuracy</Link>
+                  {!artifact && (factsComplete || factsVerified) ? (
+                    <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}/review`}>
+                      {factsComplete ? "Final verification" : "Review verified facts"}
+                    </Link>
                   ) : null}
-                  {item.paymentStatus === "paid" && item.packetStatus === "failed" ? <PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" /> : null}
+                  {factsVerified && item.paymentStatus === "paid" && item.packetStatus === "failed" ? <PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" /> : null}
                   <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href={`/expungement-ai/support?briefcaseItemId=${encodeURIComponent(item.id)}`}>
                     <MessageCircle className="h-4 w-4" aria-hidden="true" /> Ask Wilma about next steps
                   </Link>

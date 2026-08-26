@@ -14,6 +14,7 @@ const sources = {
   screeningFlow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
   screeningResult: read("src/components/expungement-ai/screening/ScreeningResult.tsx"),
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  verificationAction: read("src/components/expungement-ai/PacketVerificationAction.tsx"),
   checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   paymentAdapter: read("src/lib/expungement-ai/payment-adapter.ts"),
@@ -65,9 +66,9 @@ function stripeBoundaryViolations(input) {
   const handoff = packetAction(input.screeningFlow);
 
   require(input.packageSource.includes('"expungement:verify-dtc-stripe-gate"'), "package.json must expose expungement:verify-dtc-stripe-gate.");
-  require(input.screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet-ready result must save the exact matter before payment.");
+  require(input.screeningResult.includes('fallback: "Save to my Briefcase and continue"'), "DTC packet-ready result must save the exact matter before payment.");
   require(input.screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC result must retain its one-matter $50 disclosure.");
-  require(input.screeningResult.includes('"result.lane_packet_builder"') && input.screeningResult.includes('"Continue to packet builder"'), "Partner packet-ready action must remain price-free.");
+  require(input.screeningResult.includes('"result.save_briefcase_continue"') && input.screeningResult.includes('"Save to my Briefcase and continue"'), "Partner packet-ready action must remain price-free.");
   require(input.screeningResult.includes("hasScreeningSession ?"), "Result actions must branch partner and DTC presentation explicitly.");
   require(input.screeningResult.includes('"A path may be available."') && !input.screeningResult.includes("A path may be available, with cautions"), "Packet-ready caution headline must remain conservative and not warning-led.");
 
@@ -87,11 +88,12 @@ function stripeBoundaryViolations(input) {
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claim must not bypass packet information and final review.");
   require(input.savePolicy.includes("return isPartnerSession ? false : evaluationPaymentAllowed;"), "Only validated partner context may suppress otherwise-allowed consumer payment.");
 
-  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Review for accuracy"), "An unpaid packet matter must expose its prepayment builder and accuracy review.");
-  require(input.briefcaseViews.includes("Complete packet information") && input.briefcaseViews.includes("Review for accuracy"), "Briefcase overview must preserve the prepayment builder and review sequence.");
-  require(input.reviewPage.includes("Check each answer before you pay."), "Final review must tell the consumer to check answers before payment.");
-  require(input.reviewPage.includes("<ConsumerCheckoutButton") && input.reviewPage.includes('label="Pay $50 and generate my packet"'), "Only final review may expose the approved matter-bound payment action.");
-  require(input.reviewPage.includes("sponsored ? (") && input.reviewPage.includes('item.paymentStatus === "paid"'), "Final review must keep sponsored and already-paid paths outside a new consumer Checkout.");
+  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Final verification"), "An unpaid packet matter must expose its prepayment builder and final verification.");
+  require(input.briefcaseViews.includes("Packet information") && input.briefcaseViews.includes("Final verification"), "Briefcase overview must preserve the prepayment builder and verification sequence.");
+  require(input.reviewPage.includes("Check each answer before final verification."), "Final review must tell the consumer to check answers before verification.");
+  require(input.reviewPage.includes("<PacketVerificationAction") && input.verificationAction.includes("<ConsumerCheckoutButton"), "Only verified final review may expose the approved matter-bound payment action.");
+  require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}'), "Final review must keep sponsored and already-paid paths outside a new consumer Checkout.");
+  require(input.verificationAction.includes("!verified") && input.verificationAction.includes('action: "verify"'), "Checkout must remain absent until explicit verification succeeds.");
 
   require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "Final-review payment action must invoke the checkout API.");
   require(input.checkoutButton.includes("window.location.assign(payload.checkoutUrl)"), "Checkout must navigate only to the server-returned Stripe URL.");

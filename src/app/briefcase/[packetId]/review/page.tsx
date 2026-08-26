@@ -2,10 +2,9 @@ import Link from "next/link";
 import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { ConsumerCheckoutButton } from "@/app/expungement-ai/pay/ConsumerCheckoutButton";
 import { BriefcaseShell } from "@/components/expungement-ai/BriefcaseShell";
 import { MatterStatusBadge } from "@/components/expungement-ai/BriefcaseViews";
-import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
+import { PacketVerificationAction } from "@/components/expungement-ai/PacketVerificationAction";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
@@ -29,6 +28,8 @@ export default async function PacketAccuracyReviewPage({
   const sponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
   const model = item ? packetInformationModelFor(item) : null;
   const reviewSafety = item ? packetInformationReviewSafety(item) : { safe: false, reason: "matter_missing" };
+  const packetInformationStage = model?.stage as string | undefined;
+  const initiallyVerified = packetInformationStage === "ready_to_generate" && reviewSafety.safe;
 
   return (
     <BriefcaseShell
@@ -36,15 +37,21 @@ export default async function PacketAccuracyReviewPage({
       caseState={item?.state}
       briefcaseItemId={item?.id}
       activeNav="matters"
-      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Accuracy review</b></> : <b>Accuracy review</b>}
+      breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Final verification</b></> : <b>Final verification</b>}
     >
       {item && model ? (
         <section data-accuracy-review="true">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">Packet review</p>
-              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Review your packet information</h1>
-              <p className="mt-2 text-sm leading-6 text-[#475A6E]">Check each answer before you pay. You can edit anything below.</p>
+              <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#00A99D]">Packet facts</p>
+              <h1 className="mt-2 text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1320]">Review and verify your packet facts</h1>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+                {sponsored
+                  ? "Check each answer before covered generation. You can edit anything below."
+                  : item.paymentStatus === "paid"
+                    ? "Check each answer before preparing the packet. You can edit anything below."
+                    : "Check each answer before final verification. You can edit anything below."}
+              </p>
               <p className="mt-2 text-sm font-semibold text-[#475A6E]">{model.stateName}: {model.pathwayLabel}</p>
             </div>
             <MatterStatusBadge item={item} />
@@ -103,8 +110,9 @@ export default async function PacketAccuracyReviewPage({
             <dl className="grid gap-3 text-sm">
               <SummaryLine label="State" value={model.stateName} />
               <SummaryLine label="Record-clearing option" value={model.pathwayLabel} />
-              <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before payment is available."} />
-              <SummaryLine label="Price" value="$50 one time for this matter." />
+              <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before final verification."} />
+              <SummaryLine label="Coverage" value={sponsored ? "Covered by your partner program" : "This packet belongs to your private Briefcase matter."} />
+              <SummaryLine label="Cost" value={sponsored ? "No consumer payment" : item.paymentStatus === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} />
             </dl>
           </ReviewCard>
 
@@ -122,46 +130,17 @@ export default async function PacketAccuracyReviewPage({
             </Link>
           </div>
 
-          <div className="mt-5 rounded-[16px] bg-[#0B1320] p-6 text-white">
-            {sponsored ? (
-              <>
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7FE9DE]">Covered by your partner program</p>
-                <h2 className="mt-2 text-xl font-extrabold">Generate this covered packet when the information is complete.</h2>
-                {model.missingInputIds.length === 0 && reviewSafety.safe ? (
-                  <div className="mt-5 [&_button]:bg-[#FF3B00]"><PacketGenerateButton briefcaseItemId={item.id} mode="sponsored_sync" /></div>
-                ) : (
-                  <p className="mt-3 text-sm leading-6 text-white/75">Complete the missing information before packet generation.</p>
-                )}
-              </>
-            ) : item.paymentStatus === "paid" ? (
-              <>
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7FE9DE]">Payment confirmed</p>
-                <h2 className="mt-2 text-xl font-extrabold">This matter is already paid.</h2>
-                <p className="mt-2 text-sm leading-6 text-white/75">You will not be charged again for a reasonable correction, retry, or download for this same matter.</p>
-                {model.missingInputIds.length === 0 && reviewSafety.safe ? (
-                  <div className="mt-5 [&_button]:bg-[#FF3B00]"><PacketGenerateButton briefcaseItemId={item.id} mode="paid_durable" label="Prepare updated packet" /></div>
-                ) : null}
-                {item.packetStatus === "ready" ? (
-                  <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${item.id}`}>Open my packet</Link>
-                ) : null}
-              </>
-            ) : (
-              <>
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7FE9DE]">$50 one time for this matter.</p>
-                <h2 className="mt-2 text-xl font-extrabold">Pay only when you are ready to generate this packet.</h2>
-                <p className="mt-2 text-sm leading-6 text-white/75">Your payment covers this packet for this case. Your Briefcase remains free.</p>
-                {model.missingInputIds.length === 0 && reviewSafety.safe ? (
-                  <div className="mt-5"><ConsumerCheckoutButton briefcaseItemId={item.id} label="Pay $50 and generate my packet" /></div>
-                ) : (
-                  <p className="mt-4 rounded-[10px] bg-white/10 px-4 py-3 text-sm font-semibold">Complete the missing information before payment.</p>
-                )}
-              </>
-            )}
-          </div>
+          <PacketVerificationAction
+            itemId={item.id}
+            initiallyVerified={initiallyVerified}
+            canVerify={model.missingInputIds.length === 0 && reviewSafety.safe}
+            packetReady={item.packetStatus === "ready"}
+            mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}
+          />
         </section>
       ) : (
         <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-          <h1 className="text-2xl font-extrabold text-[#0B1320]">Accuracy review is not available for this matter.</h1>
+          <h1 className="text-2xl font-extrabold text-[#0B1320]">Final verification is not available for this matter.</h1>
           <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
         </section>
       )}

@@ -23,6 +23,7 @@ const sources = {
   signInForm: read("src/components/expungement-ai/ConsumerSignInForm.tsx"),
   payPage: read("src/app/expungement-ai/pay/page.tsx"),
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  verificationAction: read("src/components/expungement-ai/PacketVerificationAction.tsx"),
   checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   packetReadyPage: read("src/app/expungement-ai/packet-ready/page.tsx"),
@@ -57,11 +58,11 @@ assert(
 
 const missingReviewCheckout = {
   ...sources,
-  reviewPage: sources.reviewPage.replace("<ConsumerCheckoutButton", "<RemovedCheckoutButton")
+  reviewPage: sources.reviewPage.replace("<PacketVerificationAction", "<RemovedVerificationAction")
 };
 assert(
-  approvedCommercialFlowViolations(missingReviewCheckout).some((message) => message.includes("final accuracy review")),
-  "Negative control failed: removing the final-review Checkout action was not detected."
+  approvedCommercialFlowViolations(missingReviewCheckout).some((message) => message.includes("final verification")),
+  "Negative control failed: removing the final-verification action was not detected."
 );
 
 const crossMatterClaimRedirect = {
@@ -123,11 +124,13 @@ function approvedCommercialFlowViolations(input) {
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claims must not skip the free Briefcase and packet review.");
 
   require(input.briefcaseDetail.includes("Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet."), "The exact matter must preserve the free-Briefcase boundary.");
-  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Review for accuracy"), "The exact matter must expose packet information before accuracy review.");
-  require(input.briefcaseViews.includes("Complete packet information") && input.briefcaseViews.includes("Review for accuracy"), "Briefcase overview must preserve the prepayment builder and review actions.");
-  require(input.reviewPage.includes("Check each answer before you pay."), "Final accuracy review must remain before payment.");
-  require(input.reviewPage.includes("<ConsumerCheckoutButton") && input.reviewPage.includes('label="Pay $50 and generate my packet"'), "The final accuracy review must own the matter-bound Checkout action.");
-  require(input.reviewPage.includes('item.paymentStatus === "paid"') && input.reviewPage.includes("sponsored ? ("), "Final review must separate already-paid and partner-sponsored matters from consumer Checkout.");
+  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Final verification"), "The exact matter must expose packet information before final verification.");
+  require(input.briefcaseViews.includes("Packet information") && input.briefcaseViews.includes("Final verification"), "Briefcase overview must preserve packet facts and final-verification stages.");
+  require(input.reviewPage.includes("Check each answer before final verification."), "Final verification must follow the complete packet-fact summary.");
+  require(input.reviewPage.includes("<PacketVerificationAction"), "The final verification page must own the explicit verification action.");
+  require(input.verificationAction.includes("<ConsumerCheckoutButton") && input.verificationAction.includes('label="Pay $50 and generate my packet"'), "Verified consumer review must own the matter-bound Checkout action.");
+  require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}'), "Final review must separate paid and partner-sponsored matters from consumer Checkout.");
+  require(input.verificationAction.includes("!verified") && input.verificationAction.includes('action: "verify"'), "Checkout and generation must remain absent until explicit final verification succeeds.");
 
   require(input.payPage.includes("Compatibility route") && input.payPage.includes("/review"), "Legacy pay URLs must redirect the exact matter to accuracy review.");
   require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "The final-review Checkout button must invoke the checkout API.");

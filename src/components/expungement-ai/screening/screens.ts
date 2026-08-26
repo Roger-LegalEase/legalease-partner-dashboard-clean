@@ -39,3 +39,23 @@ export function deriveScreens(profile: JurisdictionProfile): ProfileQuestion[] {
     })
     .map(({ question }) => question);
 }
+
+/** Project the server's ordered screening plan onto the trusted profile questions. */
+export function screensFromQuestionIds(
+  profile: JurisdictionProfile,
+  questionIds: readonly string[]
+): ProfileQuestion[] {
+  const questionsById = new Map(profile.questions.map((question) => [question.id, question]));
+  const seen = new Set<string>();
+  const selected: ProfileQuestion[] = [];
+
+  for (const questionId of questionIds) {
+    if (seen.has(questionId)) continue;
+    seen.add(questionId);
+    const question = questionsById.get(questionId);
+    if (!question || question.id.startsWith(SOURCE_QUESTION_PREFIX) || !isPrepayQuestion(question)) continue;
+    selected.push(question);
+  }
+
+  return selected;
+}

@@ -54,8 +54,8 @@ const RESULT_EYEBROW_KEYS: Record<ResultCode, string> = {
 // Partner-mode result lanes. Every lane routes forward into the Briefcase and
 // never shows consumer pricing.
 const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }> = {
-  packet_ready: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
-  packet_ready_with_caution: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
+  packet_ready: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
+  packet_ready_with_caution: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
   needs_more_info: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
   needs_review: { key: "result.lane_more_info", fallback: "Continue to my Briefcase" },
   guidance_only: { key: "result.lane_next_steps", fallback: "View my next steps" },
@@ -66,8 +66,8 @@ const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }
 };
 
 const DTC_RESULT_ACTIONS: Record<ResultCode, { key: string; fallback: string }> = {
-  packet_ready: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
-  packet_ready_with_caution: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  packet_ready: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
+  packet_ready_with_caution: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
   needs_more_info: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
   needs_review: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
   guidance_only: { key: "result.save_guidance", fallback: "Save this guidance" },
@@ -92,8 +92,9 @@ const PACKET_READY_RESULT_CODES: ReadonlySet<ResultCode> = new Set<ResultCode>([
 
 /** Plain, fixed next steps shown for any packet-ready outcome. */
 const PACKET_READY_NEXT_STEPS = [
-  "Review your answers.",
-  "Generate your packet.",
+  "Save this result to your free Briefcase.",
+  "Complete the packet information.",
+  "Verify the packet facts before payment or covered generation.",
   "Read the filing checklist before you file anything with the court."
 ];
 

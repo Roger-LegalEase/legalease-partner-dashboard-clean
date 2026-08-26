@@ -32,10 +32,12 @@ assertIncludes(screeningIndexPage, "StatePicker", "/screening page");
 assertIncludes(screeningStatePage, "<ScreeningFlow", "/screening/[state] page");
 assertIncludes(statePicker, 'href={`/expungement-ai/screening/${jurisdiction.code}`}', "StatePicker route");
 assertIncludes(screeningFlow, "loadJurisdictionProfile", "ScreeningFlow profile load");
-assertIncludes(screeningFlow, "deriveScreens(load.profile)", "ScreeningFlow screen derivation");
-assertIncludes(screeningFlow, "currentIndex < screens.length - 1", "ScreeningFlow final-screen gate");
+assertIncludes(screeningFlow, 'fetch("/api/expungement-ai/screening/progress"', "ScreeningFlow server-selected progress");
+assertIncludes(screeningFlow, "screensFromQuestionIds(load.profile, questionIds)", "ScreeningFlow ordered screen projection");
+assertIncludes(screeningFlow, "nextIndex < selectedScreens.length", "ScreeningFlow server-selected final-screen gate");
 assertIncludes(screeningFlow, "void runEvaluation();", "ScreeningFlow evaluate call");
 assertIncludes(screens, "!question.id.startsWith(SOURCE_QUESTION_PREFIX)", "source-question screen filter");
+assertIncludes(screens, "export function screensFromQuestionIds", "ordered server question-ID projection");
 assertIncludes(screeningResult, "isPaymentAllowed(evaluation)", "profile result payment gate");
 assertIncludes(resultPanel, 'result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution")', "legacy result payment gate");
 
@@ -71,4 +73,4 @@ console.log("First six Illinois questions:");
 for (const question of ilScreens.slice(0, 6)) {
   console.log(`- ${question.prompt}`);
 }
-console.log("Evaluation remains gated behind the final derived profile screen, and payment gates remain clamped.");
+console.log("Evaluation remains gated behind the final server-selected profile screen, and payment gates remain clamped.");

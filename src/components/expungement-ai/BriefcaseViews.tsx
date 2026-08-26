@@ -13,7 +13,7 @@ import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai
 const DTC_STAGES = [
   { label: "Record check", key: "briefcase.stage.free_screening" },
   { label: "Packet information", key: "briefcase.stage.packet_information" },
-  { label: "Accuracy review", key: "briefcase.stage.accuracy_review" },
+  { label: "Final verification", key: "briefcase.stage.accuracy_review" },
   { label: "Payment", key: "briefcase.stage.payment" },
   { label: "Preparing packet", key: "briefcase.stage.preparing_packet" },
   { label: "Packet ready", key: "briefcase.stage.packet_generated" },
@@ -56,12 +56,14 @@ export function matterStatus(item: ConsumerBriefcaseItem): MatterStatus {
 }
 
 function stepperForHumanState(label: ReturnType<typeof humanMatterState>) {
+  const stateLabel = label as string;
   if (label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
   if (label === "Record check saved") return { done: 1, current: -1 };
   if (label === "A self-help packet may be available") return { done: 1, current: 1 };
   if (label === "Packet details in progress") return { done: 1, current: 1 };
-  if (label === "Ready to generate") return { done: 2, current: 2 };
-  if (label === "Payment confirmed") return { done: 3, current: 3 };
+  if (stateLabel === "Packet facts complete") return { done: 2, current: 2 };
+  if (label === "Ready to generate") return { done: 3, current: 3 };
+  if (label === "Payment confirmed") return { done: 4, current: 4 };
   if (label === "Preparing packet") return { done: 4, current: 4 };
   if (label === "Packet ready") return { done: 6, current: 6 };
   return { done: DTC_STAGES.length, current: DTC_STAGES.length - 1 };
@@ -137,30 +139,42 @@ function Stepper({ done, current, className = "", sponsored = false }: { done: n
   const stages = sponsored ? SPONSORED_STAGES : DTC_STAGES;
   const visibleDone = sponsored && done > 3 ? done - 1 : done;
   const visibleCurrent = sponsored && current > 3 ? current - 1 : current;
+  const progressIndex = visibleCurrent >= 0 ? visibleCurrent : Math.max(0, Math.min(visibleDone, stages.length - 1));
   return (
-    <div className={`flex items-start ${className}`}>
-      {stages.map(({ label, key }, i) => {
-        const isDone = i < visibleDone;
-        const isCurrent = i === visibleCurrent;
-        const node = isDone
-          ? "border-[#3DD598] bg-[#3DD598] text-white"
-          : isCurrent
-            ? "border-[#FF3B00] bg-white text-[#FF3B00]"
-            : "border-[#D4DAE4] bg-white text-[#8A93A6]";
-        return (
-          <div key={label} className="relative flex flex-1 flex-col items-center">
-            {i < stages.length - 1 ? (
-              <span className={`absolute left-1/2 top-[9px] h-0.5 w-full ${isDone ? "bg-[#3DD598]" : "bg-[#ECEFF4]"}`} aria-hidden="true" />
-            ) : null}
-            <span className={`relative z-[1] grid h-[19px] w-[19px] place-items-center rounded-full border-2 text-[9px] font-bold ${node}`}>
-              {isDone ? <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" /> : i + 1}
-            </span>
-            <span className={`mt-1.5 text-center text-[9.5px] ${isDone || isCurrent ? "font-semibold text-[#1A1D26]" : "font-medium text-[#8A93A6]"}`}>
-              <LocalizedText k={key} fallback={label} />
-            </span>
-          </div>
-        );
-      })}
+    <div
+      className={className}
+      role="progressbar"
+      aria-label="Matter progress"
+      aria-valuemin={1}
+      aria-valuemax={stages.length}
+      aria-valuenow={progressIndex + 1}
+      aria-valuetext={stages[progressIndex]?.label}
+    >
+      <ol className="flex items-start" role="list">
+        {stages.map(({ label, key }, i) => {
+          const isDone = i < visibleDone;
+          const isCurrent = i === visibleCurrent;
+          const node = isDone
+            ? "border-[#3DD598] bg-[#3DD598] text-white"
+            : isCurrent
+              ? "border-[#FF3B00] bg-white text-[#FF3B00]"
+              : "border-[#D4DAE4] bg-white text-[#8A93A6]";
+          return (
+            <li key={label} className="relative flex flex-1 flex-col items-center">
+              {i < stages.length - 1 ? (
+                <span className={`absolute left-1/2 top-[9px] h-0.5 w-full ${isDone ? "bg-[#3DD598]" : "bg-[#ECEFF4]"}`} aria-hidden="true" />
+              ) : null}
+              <span aria-current={isCurrent ? "step" : undefined} className={`relative z-[1] grid h-[19px] w-[19px] place-items-center rounded-full border-2 text-[9px] font-bold ${node}`}>
+                {isDone ? <><Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" /><span className="sr-only">Completed</span></> : i + 1}
+              </span>
+              <span className={`mt-1.5 text-center text-[9.5px] ${isDone || isCurrent ? "font-semibold text-[#1A1D26]" : "font-medium text-[#8A93A6]"}`}>
+                <LocalizedText k={key} fallback={label} />
+                {isCurrent ? <span className="sr-only">, current step</span> : null}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
@@ -249,7 +263,7 @@ function pickNextStep(matters: ConsumerBriefcaseItem[], sponsoredItemIds: Set<st
           return { headline: humanMatterState(item), body: "Your payment applies to this matter only. Open it to see packet preparation progress.", ctaLabel: "Open matter", href };
         }
         if (humanMatterState(item) === "Ready to generate") {
-          return { headline: "Ready to generate", body: "$50 one time for this matter. Review it before you choose to generate the packet.", ctaLabel: "Review for accuracy", href: `/briefcase/${item.id}/review` };
+          return { headline: "Ready to generate", body: "$50 one time for this matter. Reopen the verified facts before you continue.", ctaLabel: "Review verified facts", href: `/briefcase/${item.id}/review` };
         }
         return { headline: humanMatterState(item), body: "Your Briefcase is free. Complete the packet information before deciding whether to generate it.", ctaLabel: "Complete packet information", href: `/briefcase/${item.id}/packet-information` };
       case "completed":
