@@ -121,11 +121,11 @@ export async function reconcileExpungementAiCheckoutEvent(
     // queue converges on the same packet/input job, so no duplicate entitlement
     // or duplicate artifact can result.
     if (item.packetStatus === "ready") return "duplicate";
-    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
+    await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
     return "recovered";
   }
 
-  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId);
+  await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
   return "processed";
 }
 
@@ -135,7 +135,8 @@ async function finalizePaidCheckoutSession(
   session: Stripe.Checkout.Session,
   providerEventId: string,
   personId: string,
-  matterId: string
+  matterId: string,
+  expectedVerificationHash: string
 ): Promise<void> {
   // The payment fact goes through the server-only writer, never through a
   // column update. Phase 52 revoked the application's privilege to set these
@@ -156,6 +157,7 @@ async function finalizePaidCheckoutSession(
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId,
     matterId,
+    expectedVerificationHash,
     authority: "server_webhook",
     recordedBy: "expungement_ai_stripe_webhook"
   });

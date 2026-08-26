@@ -211,6 +211,7 @@ export async function createConsumerPacketCheckout({
     });
 
     if (!(await persistCheckoutBinding(binding, session.id, "stripe"))) {
+      if (session.status === "open") await stripe.checkout.sessions.expire(session.id);
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
@@ -276,7 +277,8 @@ async function persistCheckoutBinding(
     paymentProvider,
     productId: binding.productId,
     personId: binding.personId,
-    matterId: binding.matterId
+    matterId: binding.matterId,
+    expectedVerificationHash: binding.verificationHash
   });
 }
 

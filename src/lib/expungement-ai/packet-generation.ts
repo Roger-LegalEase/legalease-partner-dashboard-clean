@@ -14,7 +14,10 @@ import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legale
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { partnerPacketInformationActionPath } from "@/lib/expungement-ai/partner-packet-links";
-import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import {
+  CurrentPacketVerificationRequiredError,
+  requireCurrentPacketVerification
+} from "@/lib/expungement-ai/packet-information";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
@@ -79,19 +82,31 @@ export async function generatePaidConsumerPacket({
   const item = webhookMode
     ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
     : await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
-
-  const existing = artifactRefsFor(item);
-  if (item.packetStatus === "ready" && existing) {
+  const partnerSponsored = await isPartnerSponsoredPacketItem(item);
+  const existing = readyPacketArtifactAccess(item, partnerSponsored);
+  if (existing) {
     return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
   }
+  const verification = assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !partnerSponsored });
 
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "pending" } });
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "generating" } });
+  if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+    packetStatus: "pending",
+    expectedVerificationHash: verification.hash
+  } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
+  if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+    packetStatus: "generating",
+    expectedVerificationHash: verification.hash
+  } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
 
   try {
     const artifactRefs = buildConsumerPacketArtifact(item);
-    await attachPacketToBriefcaseItem({ userId, item, artifactRefs, webhookMode });
+    await attachPacketToBriefcaseItem({
+      userId,
+      item,
+      artifactRefs,
+      webhookMode,
+      expectedVerificationHash: verification.hash
+    });
     await emitPacketGeneratedEvent(item, artifactRefs, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
@@ -99,12 +114,16 @@ export async function generatePaidConsumerPacket({
     });
     return { packetStatus: "ready", artifactRefs, canDownload: true };
   } catch (error) {
-    await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "failed" } });
+    await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+      packetStatus: "failed",
+      expectedVerificationHash: verification.hash
+    } });
     await emitPacketGenerationFailureHealthEvent(item, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
       now
     });
+    if (error instanceof CurrentPacketVerificationRequiredError) throw error;
     throw new ConsumerPacketGenerationError(error instanceof Error ? error.message : "Packet generation failed.");
   }
 }
@@ -117,7 +136,10 @@ export async function getConsumerPacketStatus({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
+  const partnerSponsored = await isPartnerSponsoredPacketItem(item);
+  const readyArtifact = readyPacketArtifactAccess(item, partnerSponsored);
+  if (readyArtifact) return { packetStatus: "ready", artifactRefs: readyArtifact, canDownload: true };
+  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !partnerSponsored });
   const artifactRefs = artifactRefsFor(item);
   return {
     packetStatus: item.packetStatus ?? "not_started",
@@ -134,8 +156,11 @@ export async function getConsumerPacketDownload({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketDownload> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
-  const artifactRefs = artifactRefsFor(item);
+  const partnerSponsored = await isPartnerSponsoredPacketItem(item);
+  const artifactRefs = readyPacketArtifactAccess(item, partnerSponsored);
+  if (!artifactRefs) {
+    assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !partnerSponsored });
+  }
   if (item.packetStatus !== "ready" || !artifactRefs || !("text" in artifactRefs)) {
     throw new ConsumerPacketNotReadyError();
   }
@@ -151,17 +176,39 @@ export async function attachPacketToBriefcaseItem({
   userId,
   item,
   artifactRefs,
-  webhookMode = false
+  webhookMode = false,
+  expectedVerificationHash
 }: {
   userId: string;
   item: ConsumerBriefcaseItem;
   artifactRefs: ConsumerPacketArtifactRefs;
   webhookMode?: boolean;
+  expectedVerificationHash: string;
 }) {
-  return updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+  const updated = await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
     packetStatus: "ready",
-    artifactRefs
+    artifactRefs: mergePacketArtifactEnvelope(item.artifactRefs, artifactRefs),
+    expectedVerificationHash
   } });
+  if (!updated) throw new CurrentPacketVerificationRequiredError("verification_changed_before_artifact_attach");
+  return updated;
+}
+
+export function mergePacketArtifactEnvelope(
+  current: Record<string, unknown> | undefined,
+  artifact: ConsumerPacketArtifactRefs
+): Record<string, unknown> {
+  return { ...(current ?? {}), ...artifact };
+}
+
+/** Existing immutable packet bytes stay accessible without retroactive verification. */
+export function readyPacketArtifactAccess(
+  item: ConsumerBriefcaseItem,
+  partnerSponsored = false
+): ConsumerPacketArtifactRefs | undefined {
+  if (item.packetStatus !== "ready") return undefined;
+  if (item.paymentStatus !== "paid" && item.paymentProvider !== "dry_run" && !partnerSponsored) return undefined;
+  return artifactRefsFor(item);
 }
 
 export async function attachMississippiPacketInformationRequest({
@@ -172,7 +219,7 @@ export async function attachMississippiPacketInformationRequest({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  await assertMississippiPartnerPacketReady(item);
+  const verification = await assertMississippiPartnerPacketReady(item);
 
   const existing = artifactRefsFor(item);
   if (item.packetStatus === "ready" && existing) {
@@ -191,10 +238,12 @@ export async function attachMississippiPacketInformationRequest({
     throw new ConsumerPacketGenerationError("A sponsoring partner slug is required to build the Mississippi packet information form.");
   }
   const artifactRefs = buildMississippiPacketInformationArtifact(item, partnerSlug);
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
+  const updated = await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
     packetStatus: "pending",
-    artifactRefs
+    artifactRefs,
+    expectedVerificationHash: verification.hash
   } });
+  if (!updated) throw new CurrentPacketVerificationRequiredError("verification_changed_before_packet_information_attach");
   return { packetStatus: "pending", artifactRefs, canDownload: false };
 }
 
@@ -208,7 +257,7 @@ export async function attachMississippiLegacyPacketArtifact({
   rcapPacketId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  await assertMississippiPartnerPacketReady(item);
+  const verification = await assertMississippiPartnerPacketReady(item);
 
   const existing = artifactRefsFor(item);
   if (item.packetStatus === "ready" && existing?.source === "mississippi_legacy_petition_packet" && existing.packetId === rcapPacketId) {
@@ -225,7 +274,12 @@ export async function attachMississippiLegacyPacketArtifact({
     downloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/full`,
     courtPacketDownloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/court`
   };
-  await attachPacketToBriefcaseItem({ userId, item, artifactRefs });
+  await attachPacketToBriefcaseItem({
+    userId,
+    item,
+    artifactRefs,
+    expectedVerificationHash: verification.hash
+  });
   return { packetStatus: "ready", artifactRefs, canDownload: true };
 }
 
@@ -246,7 +300,7 @@ export function assertPacketGenerationAllowed(
   dryRunMode = false,
   options: { paymentRequired?: boolean } = {}
 ) {
-  requireCurrentPacketVerification(item);
+  const verification = requireCurrentPacketVerification(item);
   const resultCode = item.resultCode ?? "guidance_only";
   const paymentRequired = options.paymentRequired ?? true;
   const packetReadyResult = resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
@@ -258,6 +312,7 @@ export function assertPacketGenerationAllowed(
   if (paymentRequired && item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) {
     throw new ConsumerPacketPaymentRequiredError();
   }
+  return verification;
 }
 
 function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs {
@@ -322,10 +377,11 @@ async function assertMississippiPartnerPacketReady(item: ConsumerBriefcaseItem) 
   if (state !== "ms" && state !== "mississippi") {
     throw new ConsumerPacketNotAllowedError(item.resultCode ?? "guidance_only");
   }
-  assertPacketGenerationAllowed(item, false, { paymentRequired: false });
+  const verification = assertPacketGenerationAllowed(item, false, { paymentRequired: false });
   if (!(await isPartnerSponsoredPacketItem(item))) {
     throw new ConsumerPacketPaymentRequiredError();
   }
+  return verification;
 }
 
 async function updatePacketMetadata({
@@ -339,6 +395,7 @@ async function updatePacketMetadata({
   metadata: {
     packetStatus: ConsumerBriefcaseItem["packetStatus"];
     artifactRefs?: Record<string, unknown>;
+    expectedVerificationHash?: string;
   };
   webhookMode: boolean;
 }) {

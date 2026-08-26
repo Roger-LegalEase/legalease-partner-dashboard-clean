@@ -1,5 +1,6 @@
 import "server-only";
 
+import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 /**
@@ -75,6 +76,8 @@ export type RecordConsumerPaymentInput = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
+  /** Exact protected verification hash the payment RPC must compare atomically. */
+  expectedVerificationHash: string;
   authority: ConsumerPaymentAuthority;
   /** Free-text provenance for the audit trail, e.g. the route that recorded it. */
   recordedBy: string;
@@ -90,6 +93,11 @@ export type RecordConsumerPaymentInput = {
  * back as an opaque refusal. Neither is a substitute for the other.
  */
 function rejectEvidence(input: RecordConsumerPaymentInput): string | null {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return "a canonical current verification hash is required";
+  }
   if (input.paymentStatus !== "paid") return null;
   if (input.amountCents !== CONSUMER_PACKET_PRICE_CENTS) {
     return `amount_cents must be ${CONSUMER_PACKET_PRICE_CENTS}`;
@@ -261,10 +269,20 @@ export async function persistConsumerCheckoutBinding(input: {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
+  /** Exact protected verification hash the checkout-binding RPC must compare atomically. */
+  expectedVerificationHash: string;
 }): Promise<boolean> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch {
+    return false;
+  }
   const supabase = getSupabaseAdminClient();
   if (!supabase) return false;
 
+  // The captain-owned bind_consumer_checkout_verification RPC will replace
+  // this transitional update and compare expectedVerificationHash against the
+  // protected verification row in the same transaction.
   const { data, error } = await supabase
     .from("consumer_briefcase_items")
     .update({

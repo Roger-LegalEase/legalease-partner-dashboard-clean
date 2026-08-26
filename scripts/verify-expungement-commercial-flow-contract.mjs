@@ -47,6 +47,7 @@ const {
   packetInformationReviewSafety
 } = await import("../src/lib/expungement-ai/packet-information.ts");
 const { humanMatterState } = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
+const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 
 const USER_ID = "commercial-flow-contract-user";
 const PRODUCT_ID = "expungement_packet";
@@ -229,12 +230,22 @@ assert.ok(packetMatter.packetStatus !== "ready" && packetMatter.packetStatus !==
 // Builder facts that can contradict the Mississippi route are re-evaluated at
 // final review. Dates are ISO dates, and the ordinary non-conviction fixture
 // uses neutral answers rather than exercising unrelated legal routes.
-const msRequired = [
-  "age_at_offense", "case_outcome", "charge", "contact_information", "county", "court",
-  "disposition_date", "financial_obligations", "jurisdiction", "offense_category", "offense_level",
-  "participant_full_legal_name", "pathway_id", "pending_cases", "prior_relief", "record_type",
-  "residency_or_location", "sentence_completion_date", "trafficking_status"
-];
+const reviewScreeningAnswers = {
+  ownership_scope: "Yes",
+  jurisdiction_scope: "State or local",
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  offense_level: "Misdemeanor",
+  possible_pathway_context: PACKET_PATHWAY_LABEL,
+  resolved_timing_bucket: "gt_10_years",
+  court_requirements_completed: "yes"
+};
+const authoritativeReview = evaluateAuthoritativeScreeningResult({
+  jurisdiction: "MS",
+  profileVersion: "2026-06-19-source-conversion-1",
+  matterId: "screening-review-ms",
+  answers: reviewScreeningAnswers
+});
+const msRequired = authoritativeReview.evaluation.packetPlan.requiredInputIds;
 const cleanPacketAnswers = {
   age_at_offense: { value: "30", unknown: false },
   case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -258,6 +269,12 @@ const reviewMatter = {
   ...packetMatter,
   state: "MS",
   pathwayLabel: PACKET_PATHWAY_LABEL,
+  resultCode: authoritativeReview.evaluation.resultCode,
+  paymentAllowed: authoritativeReview.evaluation.paymentAllowed,
+  packetType: authoritativeReview.packetType,
+  selectedTrackId: authoritativeReview.selectedTrackId,
+  treatmentClassification: authoritativeReview.evaluation.treatmentClassification ?? null,
+  deferralComponentIds: authoritativeReview.evaluation.deferralComponentIds ?? [],
   artifactRefs: {
     commercialFlow: {
       screening: {
@@ -265,20 +282,11 @@ const reviewMatter = {
         screeningMatterId: "screening-review-ms",
         pathwayId: PACKET_PATHWAY_ID,
         pathwayLabel: PACKET_PATHWAY_LABEL,
-        packetPlan: {
-          pathwayId: PACKET_PATHWAY_ID,
-          mode: "state_specific_custom_packet_from_source_rules",
-          formMappingStatus: "custom_or_manual_mapping_required",
-          sourceFormIds: [], requiredInputIds: msRequired, sourceRuleRefs: ["pathways:15-155"]
-        },
-        answers: {
-          ownership_scope: "Yes", jurisdiction_scope: "State or local",
-          case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-          offense_level: "Misdemeanor",
-          possible_pathway_context: PACKET_PATHWAY_LABEL,
-          resolved_timing_bucket: "gt_10_years",
-          court_requirements_completed: "yes"
-        }
+        resultCode: authoritativeReview.evaluation.resultCode,
+        paymentAllowed: authoritativeReview.evaluation.paymentAllowed,
+        packetType: authoritativeReview.packetType,
+        packetPlan: authoritativeReview.evaluation.packetPlan,
+        answers: reviewScreeningAnswers
       },
       packetInformation: {
         stage: "ready_to_generate", requiredInputIds: msRequired,

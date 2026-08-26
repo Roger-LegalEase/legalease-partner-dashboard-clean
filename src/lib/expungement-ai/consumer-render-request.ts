@@ -296,8 +296,9 @@ async function requestConsumerPacketRenderInternal(input: {
     : await getBriefcaseItem(authUserId, input.briefcaseItemId);
   if (!item) return { status: "item_not_found" };
 
+  let verification;
   try {
-    requireCurrentPacketVerification(item);
+    verification = requireCurrentPacketVerification(item);
   } catch {
     return { status: "route_not_renderable", reason: "current final verification is required" };
   }
@@ -377,6 +378,19 @@ async function requestConsumerPacketRenderInternal(input: {
   });
   if (!packetId) return { status: "identity_unresolved", reason: "could not resolve a consumer packet record" };
 
+  // Application-level compare immediately before enqueue. The captain-owned
+  // RPC migration closes the remaining read/write race inside the transaction.
+  const latestItem = lookup === "service"
+    ? await getBriefcaseItemForWebhook(authUserId, item.id)
+    : await getBriefcaseItem(authUserId, item.id);
+  try {
+    if (!latestItem || requireCurrentPacketVerification(latestItem).hash !== verification.hash) {
+      return { status: "route_not_renderable", reason: "final verification changed before render enqueue" };
+    }
+  } catch {
+    return { status: "route_not_renderable", reason: "final verification changed before render enqueue" };
+  }
+
   const job = await enqueueRenderJob(built.spec, {
     mode: "consumer",
     consumerBriefcaseItemId: item.id,
@@ -384,7 +398,8 @@ async function requestConsumerPacketRenderInternal(input: {
     // owner and refuses the insert unless the two agree.
     expectedConsumerAuthUserId: authUserId,
     personId: person.personId,
-    matterId
+    matterId,
+    expectedVerificationHash: verification.hash
   });
 
   if (!job) return { status: "enqueue_failed", reason: "the render queue refused or is unavailable" };

@@ -51,6 +51,9 @@ export function selectScreeningQuestionIds(
     ? profile.pathways.find((pathway) => pathway.label === selectedLabel)
     : undefined;
   const stageOrder = new Map(publicProfile.flowStages.map((stage) => [stage.id, stage.order]));
+  const pathwayRoutingOrder = publicProfile.flowStages.find((stage) => stage.id === "pathway_routing")?.order
+    ?? stageOrder.get(publicProfile.questions.find((question) => question.id === "possible_pathway_context")?.stage ?? "")
+    ?? Number.NEGATIVE_INFINITY;
   const seen = new Set<string>();
 
   return publicProfile.questions
@@ -59,6 +62,7 @@ export function selectScreeningQuestionIds(
       && !lifecycle?.completionAliasIds.includes(question.id))
     .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_")
       ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))
+    .filter(({ question }) => lifecycle || (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) <= pathwayRoutingOrder)
     .filter(({ question }) => {
       const consumers = lifecycle?.routeConsumers[question.id] ?? [];
       if (consumers.length === 0) return true;

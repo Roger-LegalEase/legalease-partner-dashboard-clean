@@ -118,6 +118,9 @@ function buildAuthoritativeBriefcasePersistence({ insertError = true } = {}) {
   };
   const persistence = loadTsWithMocks("src/lib/expungement-ai/briefcase.ts", {
     "server-only": {},
+    "@/lib/expungement-ai/verification-cas": {
+      storedPacketVerificationHash: () => null
+    },
     "@/lib/supabase/server": { getSupabaseAdminClient: () => admin },
     "@/lib/supabase/auth-server": { createServerSupabaseAuthClient: async () => null },
     "@/lib/expungement-ai/save-result-policy": { findItemForSession: () => null },
@@ -191,6 +194,7 @@ function buildPaymentAdapter({
   const createCalls = [];
   const retrieveCalls = [];
   const updateCalls = [];
+  const expireCalls = [];
   const persistCalls = [];
 
   const stripeClient = {
@@ -213,7 +217,10 @@ function buildPaymentAdapter({
           updateCalls.push({ id, params });
           return { ...retrievedSession, metadata: { ...retrievedSession.metadata, ...params.metadata } };
         },
-        expire: async (id) => ({ id, status: "expired" })
+        expire: async (id) => {
+          expireCalls.push(id);
+          return { id, status: "expired" };
+        }
       }
     }
   };
@@ -274,7 +281,7 @@ function buildPaymentAdapter({
     }
   });
 
-  return { adapter, createCalls, retrieveCalls, updateCalls, persistCalls };
+  return { adapter, createCalls, retrieveCalls, updateCalls, expireCalls, persistCalls };
 }
 
 async function checkoutBehavior() {
@@ -328,6 +335,7 @@ async function checkoutBehavior() {
     assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:initial`);
     assert.equal(h.persistCalls.length, 1);
     assert.equal(h.persistCalls[0].checkoutSessionId, "cs_test_new");
+    assert.equal(h.persistCalls[0].expectedVerificationHash, "a".repeat(64), "checkout binding carries the exact verified snapshot hash");
     assert.ok(!("paymentStatus" in h.persistCalls[0]), "beginning Checkout cannot assert paid");
   }
 
@@ -398,6 +406,7 @@ async function checkoutBehavior() {
     );
     assert.equal(h.createCalls.length, 1);
     assert.equal(h.persistCalls.length, 1, "a Session is never returned until its exact DB binding persists");
+    assert.deepEqual(h.expireCalls, ["cs_test_new"], "a Session created before failed verification CAS must be expired");
   }
 }
 
@@ -533,6 +542,7 @@ async function webhookBehavior() {
         currency: "usd"
       }
     );
+    assert.equal(h.paymentCalls[0].expectedVerificationHash, "a".repeat(64), "payment entitlement carries the Checkout-bound verification hash");
     assert.equal(h.renderCalls.length, 1, "signed payment must enqueue one durable render request");
     assert.equal(h.statusCalls[0].packetStatus, "pending");
   }
@@ -762,7 +772,8 @@ async function renderRequestBehavior() {
       consumerBriefcaseItemId: ITEM,
       expectedConsumerAuthUserId: USER,
       personId: PERSON,
-      matterId: MATTER
+      matterId: MATTER,
+      expectedVerificationHash: "a".repeat(64)
     });
   }
 

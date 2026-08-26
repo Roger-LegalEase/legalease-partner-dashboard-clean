@@ -100,6 +100,8 @@ export type RenderJobIdentity =
       expectedConsumerAuthUserId: string;
       personId: string;
       matterId: string;
+      /** Compared by the captain-owned enqueue RPC against protected verification. */
+      expectedVerificationHash: string;
     };
 
 /**
@@ -122,6 +124,8 @@ export async function enqueueRenderJob(
 
   const sponsored = identity.mode === "sponsored";
 
+  // The migration handoff adds p_expected_verification_hash to this RPC. It is
+  // intentionally not sent to the old production signature before that lands.
   const { data, error } = await supabase.rpc("enqueue_packet_render_job", {
     p_packet_id: spec.packetId,
     p_route_id: spec.routeId,

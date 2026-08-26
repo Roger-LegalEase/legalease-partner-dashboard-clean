@@ -139,7 +139,11 @@ function approvedCommercialFlowViolations(input) {
   require(input.packetReadyPage.includes("Compatibility return") && !input.packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
   require(input.packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation must use the payment-aware packet generator.");
   require(input.packetGeneration.includes("ConsumerPacketPaymentRequiredError"), "Unpaid DTC packet generation must fail closed.");
-  require(input.packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Only server-verified partner sponsorship may bypass consumer payment.");
+  require(
+    input.packetGeneration.includes("const partnerSponsored = await isPartnerSponsoredPacketItem(item);")
+      && input.packetGeneration.includes("paymentRequired: !partnerSponsored"),
+    "Only server-verified partner sponsorship may bypass consumer payment."
+  );
   require(input.briefcase.includes('.eq("flow_mode", "rcap")') && input.briefcase.includes('.eq("partner_benefit_active", true)'), "Partner sponsorship detection must require persisted RCAP mode and an active benefit.");
   require(input.savePolicy.includes("return isPartnerSession ? false : evaluationPaymentAllowed;"), "Only validated partner context may suppress otherwise-allowed consumer payment.");
 

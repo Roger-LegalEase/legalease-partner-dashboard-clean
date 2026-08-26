@@ -70,10 +70,14 @@ export async function POST(request: NextRequest) {
     // duplicate webhooks never double-count.
     if (packet.packetStatus === "ready" && isPartnerSponsored && partnerSessionId) {
       const latestItem = await getBriefcaseItem(auth.userId, briefcaseItemId);
-      if (!latestItem || requireCurrentPacketVerification(latestItem).hash !== verificationHash) {
+      if (!verificationHash || !latestItem || requireCurrentPacketVerification(latestItem).hash !== verificationHash) {
         throw new CurrentPacketVerificationRequiredError("verification_changed_before_sponsored_slot_consumption");
       }
-      await recordPartnerPacketGeneration(partnerSessionId);
+      await recordPartnerPacketGeneration({
+        sessionId: partnerSessionId,
+        briefcaseItemId,
+        expectedVerificationHash: verificationHash
+      });
     }
 
     return NextResponse.json({

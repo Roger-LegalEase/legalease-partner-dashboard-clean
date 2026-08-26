@@ -1,6 +1,7 @@
 import "server-only";
 
 import { emitPartnerUsageWindowEvent } from "@/lib/expungement-ai/nudge-os-events";
+import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 export type RcapSlotLifecycleResult = {
@@ -64,13 +65,30 @@ export type PartnerPacketRecordResult = {
 // (a slot is consumed only once), so duplicate webhook/generation retries never
 // double-count. Kept separate from the DTC generator so consumer packet
 // generation carries no partner cap logic.
-export async function recordPartnerPacketGeneration(sessionId: string): Promise<PartnerPacketRecordResult> {
+export async function recordPartnerPacketGeneration(input: {
+  sessionId: string;
+  briefcaseItemId: string;
+  expectedVerificationHash: string;
+}): Promise<PartnerPacketRecordResult> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch (error) {
+    return {
+      ok: false,
+      recorded: false,
+      countedAs: "not_counted",
+      error: error instanceof Error ? error.message : "invalid_verification_hash"
+    };
+  }
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, recorded: false, countedAs: "not_counted", error: "supabase_not_configured" };
 
   try {
+    // The captain-owned migration adds briefcase-item and expected-hash CAS
+    // parameters to this RPC; the existing production signature is preserved
+    // until that database change lands.
     const { data, error } = await supabase.rpc("record_partner_packet_generation", {
-      p_session_id: sessionId
+      p_session_id: input.sessionId
     });
     if (error) return { ok: false, recorded: false, countedAs: "not_counted", error: error.message };
     const row = (Array.isArray(data) ? data[0] : data) as

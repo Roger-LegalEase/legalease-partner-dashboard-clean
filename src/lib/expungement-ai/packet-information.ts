@@ -18,6 +18,16 @@ import { toScreeningAnswers } from "@/components/expungement-ai/screening/answer
 
 export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
+export type PacketVerificationSummaryFact = {
+  key: string;
+  id: string;
+  label: string;
+  value: unknown;
+  source: "screeningAnswers" | "prefilledAnswers" | "packetAnswers" | "serverFacts";
+  /** Jurisdiction and selected-pathway ids are display context, not participant answers. */
+  systemContext: boolean;
+};
+
 export type PacketInformationModel = {
   stateCode: string;
   stateName: string;
@@ -28,6 +38,8 @@ export type PacketInformationModel = {
   builderQuestions: ProfileQuestion[];
   initialAnswers: Record<string, AnswerValue>;
   screeningAnswers: Record<string, AnswerValue>;
+  /** Canonical review surface for every fact map covered by the verification hash. */
+  verificationSummary: PacketVerificationSummaryFact[];
   requiredInputIds: string[];
   missingInputIds: string[];
   stage: PacketInformationStage;
@@ -138,6 +150,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
     : questions;
   const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
+  const verificationSummary = verificationSummaryFor(flow, questionById);
 
   return {
     stateCode: profile.jurisdiction.code,
@@ -151,6 +164,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     builderQuestions,
     initialAnswers,
     screeningAnswers,
+    verificationSummary,
     requiredInputIds,
     missingInputIds,
     stage: packetInformationStage(progress.stage),
@@ -214,6 +228,22 @@ export function packetInformationPatch(input: {
   const savedAnswers = { ...answerRecord(progress.answers), ...acceptedAnswers };
   const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
   const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
+  const materialFactChange = Object.entries(acceptedAnswers)
+    .some(([id, answer]) => !canonicalEqual(current.initialAnswers[id], answer));
+  const currentVerification = packetVerificationState(input.existingItem);
+  if (input.verify !== true && !materialFactChange && currentVerification.status === "verified") {
+    return {
+      patch: {
+        commercialFlow: {
+          packetInformation: progress,
+          verification: currentVerification
+        }
+      },
+      missingInputIds,
+      readyToGenerate: true,
+      reviewReason: "current_verification_preserved"
+    };
+  }
   const review = input.verify === true && missingInputIds.length === 0
     ? packetInformationReviewSafety(input.existingItem, mergedAnswers)
     : {
@@ -242,7 +272,9 @@ export function packetInformationPatch(input: {
     }, now)
     : unverifiedOrInvalidatedPacketRecord(flow?.verification, now, input.verify === true
       ? review.reason
-      : "facts_saved_after_verification");
+      : !materialFactChange && currentVerification.status === "invalidated"
+        ? currentVerification.reason
+        : "facts_saved_after_verification");
 
   return {
     patch: {
@@ -340,26 +372,24 @@ function buildPacketVerificationSnapshot(
   flow: CommercialFlow,
   verifiedAt: string
 ): PacketVerificationSnapshot | null {
-  const profile = getProfileByJurisdiction(item.state);
-  const screening = isRecord(flow.screening) ? flow.screening : {};
-  const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
-  if (!profile || typeof screening.profileVersion !== "string") return null;
-  const packetPlan = readPacketPlan(screening.packetPlan);
-  const selectedTrackId = item.selectedTrackId
-    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  const authority = authoritativePacketContext(item, undefined, flow);
+  if (!authority.safe) return null;
+  const { profile, evaluation, packetType, selectedTrackId } = authority.authoritative;
+  const packetPlan = evaluation.packetPlan ?? null;
+  const factDependencies = verificationFactDependencies(flow);
   return canonicalize({
     schemaVersion: "expungement-ai/final-verification/v1",
     verifiedAt,
     jurisdiction: profile.jurisdiction.code,
-    profileVersion: screening.profileVersion,
+    profileVersion: profile.profileVersion,
     profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
     profileAuthorityFingerprint: profileAuthorityFingerprint(profile, packetPlan?.pathwayId ?? null),
-    pathwayId: typeof screening.pathwayId === "string" ? screening.pathwayId : packetPlan?.pathwayId ?? null,
-    resultCode: typeof screening.resultCode === "string" ? screening.resultCode : item.resultCode ?? null,
-    paymentAllowed: typeof screening.paymentAllowed === "boolean" ? screening.paymentAllowed : item.paymentAllowed,
-    packetType: typeof screening.packetType === "string" ? screening.packetType : item.packetType ?? null,
+    pathwayId: evaluation.pathwayId ?? null,
+    resultCode: evaluation.resultCode,
+    paymentAllowed: evaluation.paymentAllowed,
+    packetType: packetType ?? null,
     packetPlan: packetPlan ? { ...packetPlan } : null,
-    requiredInputIds: stringArray(packetInformation.requiredInputIds),
+    requiredInputIds: packetPlan?.requiredInputIds ?? [],
     packetFamilyIdentifiers: {
       mode: packetPlan?.mode ?? null,
       sourceFormIds: packetPlan?.sourceFormIds ?? []
@@ -367,10 +397,7 @@ function buildPacketVerificationSnapshot(
     selectedTrackId,
     treatmentClassification: item.treatmentClassification ?? null,
     deferralComponentIds: [...(item.deferralComponentIds ?? [])].sort(),
-    screeningAnswers: recordValue(screening.answers),
-    packetAnswers: recordValue(packetInformation.answers),
-    serverFacts: recordValue(packetInformation.serverFacts),
-    prefilledAnswers: recordValue(packetInformation.prefilledAnswers),
+    ...factDependencies,
     dependencies: {
       commercialFlowVersion: typeof flow.version === "number" ? flow.version : null,
       entitlementSource: typeof flow.entitlementSource === "string" ? flow.entitlementSource : null,
@@ -440,6 +467,38 @@ function recordValue(value: unknown): Record<string, unknown> {
   return isRecord(value) ? value : {};
 }
 
+function verificationFactDependencies(flow: CommercialFlow) {
+  const screening = isRecord(flow.screening) ? flow.screening : {};
+  const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
+  return {
+    screeningAnswers: recordValue(screening.answers),
+    prefilledAnswers: recordValue(packetInformation.prefilledAnswers),
+    packetAnswers: recordValue(packetInformation.answers),
+    serverFacts: recordValue(packetInformation.serverFacts)
+  };
+}
+
+function verificationSummaryFor(
+  flow: CommercialFlow,
+  questionById: Map<string, ProfileQuestion>
+): PacketVerificationSummaryFact[] {
+  const factDependencies = verificationFactDependencies(flow);
+  const sources: PacketVerificationSummaryFact["source"][] = [
+    "screeningAnswers",
+    "prefilledAnswers",
+    "packetAnswers",
+    "serverFacts"
+  ];
+  return sources.flatMap((source) => Object.keys(factDependencies[source]).sort().map((id) => ({
+    key: `${source}:${id}`,
+    id,
+    label: questionById.get(id)?.prompt ?? answerLabel(id),
+    value: factDependencies[source][id],
+    source,
+    systemContext: source === "serverFacts" && (id === "jurisdiction" || id === "pathway_id")
+  })));
+}
+
 /**
  * Re-check packet-builder facts before payment. Screening owns the route; the
  * builder may complete it, but it may not quietly contradict it and continue
@@ -449,17 +508,43 @@ export function packetInformationReviewSafety(
   item: ConsumerBriefcaseItem,
   answerOverride?: Record<string, AnswerValue>
 ): { safe: boolean; reason: string } {
+  const result = authoritativePacketContext(item, answerOverride);
+  return { safe: result.safe, reason: result.reason };
+}
+
+type AuthoritativePacketContext =
+  | { safe: false; reason: string }
+  | {
+    safe: true;
+    reason: string;
+    authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
+  };
+
+function authoritativePacketContext(
+  item: ConsumerBriefcaseItem,
+  answerOverride?: Record<string, AnswerValue>,
+  flowOverride?: CommercialFlow
+): AuthoritativePacketContext {
   const model = packetInformationModelFor(item);
-  const flow = readCommercialFlow(item.artifactRefs);
+  const flow = flowOverride ?? readCommercialFlow(item.artifactRefs);
   const screening = isRecord(flow?.screening) ? flow.screening : {};
-  if (!model || !flow || typeof screening.profileVersion !== "string") {
+  const packetInformation = isRecord(flow?.packetInformation) ? flow.packetInformation : {};
+  const currentProfile = getProfileByJurisdiction(item.state);
+  if (!model || !flow || !currentProfile || typeof screening.profileVersion !== "string") {
     return { safe: false, reason: "authoritative_screening_context_missing" };
   }
+  if (screening.profileVersion !== currentProfile.profileVersion) {
+    return { safe: false, reason: "authoritative_profile_changed" };
+  }
 
-  const answers = { ...model.initialAnswers, ...answerOverride };
+  const answers = {
+    ...model.initialAnswers,
+    ...answerRecord(packetInformation.answers),
+    ...answerOverride
+  };
   for (const question of model.questions) {
     const validation = validatePacketAnswer(question, answers[question.id]);
-    if (!validation.safe) return validation;
+    if (!validation.safe) return { safe: false, reason: validation.reason };
   }
 
   // These Mississippi facts are source-rule inputs. A contradictory answer
@@ -481,14 +566,14 @@ export function packetInformationReviewSafety(
 
   const screeningAnswers = answerRecord(screening.answers);
   const evaluationAnswers = toScreeningAnswers({ ...screeningAnswers, ...answers });
-  let evaluation;
+  let authoritative: ReturnType<typeof evaluateAuthoritativeScreeningResult>;
   try {
-    evaluation = evaluateAuthoritativeScreeningResult({
+    authoritative = evaluateAuthoritativeScreeningResult({
       jurisdiction: model.stateCode,
-      profileVersion: screening.profileVersion,
-      matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+      profileVersion: currentProfile.profileVersion,
+      matterId: item.id,
       answers: evaluationAnswers
-    }).evaluation;
+    });
   } catch (error) {
     // Some packet-only form fields intentionally are not evaluator questions.
     // Remove only the ids the authoritative evaluator explicitly identifies;
@@ -496,22 +581,62 @@ export function packetInformationReviewSafety(
     if (!(error instanceof InvalidAnswerError)) return { safe: false, reason: "authoritative_reevaluation_failed" };
     for (const id of error.invalidQuestionIds) delete evaluationAnswers[id];
     try {
-      evaluation = evaluateAuthoritativeScreeningResult({
+      authoritative = evaluateAuthoritativeScreeningResult({
         jurisdiction: model.stateCode,
-        profileVersion: screening.profileVersion,
-        matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+        profileVersion: currentProfile.profileVersion,
+        matterId: item.id,
         answers: evaluationAnswers
-      }).evaluation;
+      });
     } catch {
       return { safe: false, reason: "authoritative_reevaluation_failed" };
     }
   }
 
+  const { evaluation } = authoritative;
   const packetReady = evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution";
-  if (!packetReady || !evaluation.paymentAllowed || evaluation.pathwayId !== model.pathwayId) {
+  if (!packetReady || !evaluation.paymentAllowed) {
     return { safe: false, reason: "authoritative_route_changed" };
   }
-  return { safe: true, reason: "authoritative_route_confirmed" };
+  const storedPlan = readPacketPlan(screening.packetPlan);
+  const authoritativePlan = evaluation.packetPlan ?? null;
+  if (typeof screening.pathwayId !== "string" || screening.pathwayId !== evaluation.pathwayId) {
+    return { safe: false, reason: "stored_pathway_mismatch" };
+  }
+  const storedServerFacts = answerRecord(packetInformation.serverFacts);
+  if (answerTextRaw(storedServerFacts.jurisdiction) !== currentProfile.jurisdiction.code
+    || answerTextRaw(storedServerFacts.pathway_id) !== (evaluation.pathwayId ?? "")) {
+    return { safe: false, reason: "stored_server_fact_mismatch" };
+  }
+  if (screening.resultCode !== evaluation.resultCode || item.resultCode !== evaluation.resultCode) {
+    return { safe: false, reason: "stored_result_mismatch" };
+  }
+  const expectedMatterPaymentAllowed = flow.entitlementSource === "partner_sponsorship"
+    ? false
+    : evaluation.paymentAllowed;
+  if (screening.paymentAllowed !== evaluation.paymentAllowed || item.paymentAllowed !== expectedMatterPaymentAllowed) {
+    return { safe: false, reason: "stored_payment_authority_mismatch" };
+  }
+  if (screening.packetType !== (authoritative.packetType ?? null) || item.packetType !== authoritative.packetType) {
+    return { safe: false, reason: "stored_packet_type_mismatch" };
+  }
+  if (!canonicalEqual(storedPlan, authoritativePlan)) {
+    return { safe: false, reason: "stored_packet_plan_mismatch" };
+  }
+  if (!canonicalEqual(stringArray(packetInformation.requiredInputIds), authoritativePlan?.requiredInputIds ?? [])) {
+    return { safe: false, reason: "stored_required_inputs_mismatch" };
+  }
+  const storedTrackId = item.selectedTrackId
+    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  if (storedTrackId !== authoritative.selectedTrackId
+    || (item.treatmentClassification ?? null) !== (evaluation.treatmentClassification ?? null)
+    || !canonicalEqual(item.deferralComponentIds ?? [], evaluation.deferralComponentIds ?? [])) {
+    return { safe: false, reason: "stored_treatment_mismatch" };
+  }
+  return { safe: true, reason: "authoritative_route_confirmed", authoritative };
+}
+
+function canonicalEqual(left: unknown, right: unknown) {
+  return JSON.stringify(canonicalize(left)) === JSON.stringify(canonicalize(right));
 }
 
 function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
