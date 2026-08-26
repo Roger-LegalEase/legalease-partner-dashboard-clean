@@ -179,6 +179,11 @@ export type EngineProfile = {
   };
   flowStages: PublicJurisdictionProfile["flowStages"];
   questions: Array<PublicQuestion & { source?: unknown }>;
+  questionLifecycle?: {
+    routeConsumers: Record<string, string[]>;
+    exactPacketFactIds: string[];
+    completionAliasIds: string[];
+  };
   caseOutcomeOptions?: unknown[];
   pathways: Array<{
     id: string;

@@ -43,7 +43,7 @@ export async function POST(
   const update = packetInformationPatch({
     existingItem: item,
     answers: parsed.answers,
-    reviewed: parsed.reviewed
+    verify: parsed.verify
   });
   if (!update) {
     return NextResponse.json({ ok: false, error: "packet_plan_unavailable" }, { status: 409 });
@@ -65,7 +65,7 @@ export async function POST(
 }
 
 async function readBody(request: Request): Promise<
-  { ok: true; answers: Record<string, AnswerValue>; reviewed: boolean }
+  { ok: true; answers: Record<string, AnswerValue>; verify: boolean }
   | { ok: false }
 > {
   const contentLength = request.headers.get("content-length");
@@ -73,12 +73,12 @@ async function readBody(request: Request): Promise<
   const text = await request.text().catch(() => "");
   if (new TextEncoder().encode(text).length > maxPayloadBytes) return { ok: false };
   try {
-    const body = JSON.parse(text) as { answers?: unknown; reviewed?: unknown };
+    const body = JSON.parse(text) as { answers?: unknown; verify?: unknown };
     if (!body.answers || typeof body.answers !== "object" || Array.isArray(body.answers)) return { ok: false };
     return {
       ok: true,
       answers: body.answers as Record<string, AnswerValue>,
-      reviewed: body.reviewed === true
+      verify: body.verify === true
     };
   } catch {
     return { ok: false };

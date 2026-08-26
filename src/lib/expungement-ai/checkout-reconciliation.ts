@@ -17,7 +17,7 @@ import { scheduleConsumerCheckoutCompleted } from "@/lib/expungement-ai/checkout
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
-import { reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -86,6 +86,12 @@ export async function reconcileExpungementAiCheckoutEvent(
   }
 
   await assertConsumerItemIsNotSponsored(item);
+  let verification;
+  try {
+    verification = requireCurrentPacketVerification(item);
+  } catch {
+    throw new ConsumerCheckoutEvidenceError("current final verification is required");
+  }
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) {
@@ -97,8 +103,8 @@ export async function reconcileExpungementAiCheckoutEvent(
     || session.metadata.matter_id !== matterId) {
     throw new ConsumerCheckoutEvidenceError("product, person or matter metadata does not match the canonical Briefcase binding");
   }
-  if (!session.metadata.reviewed_input_hash || session.metadata.reviewed_input_hash !== reviewedPacketInputHash(item)) {
-    throw new ConsumerCheckoutEvidenceError("reviewed packet answers changed after Checkout creation");
+  if (!session.metadata.verification_hash || session.metadata.verification_hash !== verification.hash) {
+    throw new ConsumerCheckoutEvidenceError("final verification changed after Checkout creation");
   }
 
   if (item.checkoutSessionId !== session.id) {

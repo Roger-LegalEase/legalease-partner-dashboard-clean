@@ -143,3 +143,8 @@ export function relevantFactIds(profile: EngineProfile, selectedPathway: Compile
   }
   return union;
 }
+
+/** Explicit route consumers authored in the optional state lifecycle envelope. */
+export function routeConsumersForQuestion(profile: EngineProfile, questionId: string): readonly string[] {
+  return profile.questionLifecycle?.routeConsumers[questionId] ?? [];
+}

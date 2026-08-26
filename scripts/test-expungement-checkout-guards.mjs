@@ -78,7 +78,8 @@ function openSession(overrides = {}) {
       jurisdiction: "PA",
       pathway_label: "Path A — Non-conviction expungement",
       packet_type: "custom_pleading",
-      reviewed_input_hash: "a".repeat(64)
+      reviewed_input_hash: "a".repeat(64),
+      verification_hash: "a".repeat(64)
     },
     line_items: {
       data: [{
@@ -266,11 +267,10 @@ function buildPaymentAdapter({
       }
     },
     "@/lib/expungement-ai/packet-information": {
-      packetInformationModelFor: () => reviewReady
-        ? { stage: "ready_to_generate", missingInputIds: [], reviewedAt: "2026-08-15T00:00:00.000Z" }
-        : null,
-      packetInformationReviewSafety: () => ({ safe: reviewReady }),
-      reviewedPacketInputHash: () => "a".repeat(64)
+      requireCurrentPacketVerification: () => {
+        if (!reviewReady) throw new Error("current final verification is required");
+        return { hash: "a".repeat(64), snapshot: {} };
+      }
     }
   });
 
@@ -421,7 +421,8 @@ function completedEvent(overrides = {}) {
           product_id: PRODUCT,
           person_id: PERSON,
           matter_id: MATTER,
-          reviewed_input_hash: "a".repeat(64)
+          reviewed_input_hash: "a".repeat(64),
+          verification_hash: "a".repeat(64)
         }
       }
     }
@@ -504,7 +505,7 @@ function buildReconciliation({
       consumerPacketPriceCents: 5000
     },
     "@/lib/expungement-ai/packet-information": {
-      reviewedPacketInputHash: () => "a".repeat(64)
+      requireCurrentPacketVerification: () => ({ hash: "a".repeat(64), snapshot: {} })
     },
     "@/lib/supabase/server": {
       getSupabaseAdminClient: () => supabase
@@ -685,8 +686,10 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     },
     "@/lib/expungement-ai/packet-information": {
       packetInformationModelFor: () => model,
-      packetInformationReviewSafety: () => ({ safe: model.stage === "ready_to_generate" }),
-      reviewedPacketInputHash: () => "a".repeat(64)
+      requireCurrentPacketVerification: () => {
+        if (model?.stage !== "ready_to_generate") throw new Error("current final verification is required");
+        return { hash: "a".repeat(64), snapshot: {} };
+      }
     },
     "@/lib/rcap/render/job-contract": {
       buildRenderJobSpec: (input) => {

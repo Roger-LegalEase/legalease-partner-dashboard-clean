@@ -12,7 +12,11 @@ import {
   consumerPacketPaymentAuthority
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { getBriefcaseItem, getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
-import { packetInformationModelFor, type PacketInformationModel } from "@/lib/expungement-ai/packet-information";
+import {
+  packetInformationModelFor,
+  requireCurrentPacketVerification,
+  type PacketInformationModel
+} from "@/lib/expungement-ai/packet-information";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { buildRenderJobSpec, RenderContractError } from "@/lib/rcap/render/job-contract";
 import { enqueueRenderJob } from "@/lib/rcap/render/job-queue";
@@ -291,6 +295,12 @@ async function requestConsumerPacketRenderInternal(input: {
     ? await getBriefcaseItemForWebhook(authUserId, input.briefcaseItemId)
     : await getBriefcaseItem(authUserId, input.briefcaseItemId);
   if (!item) return { status: "item_not_found" };
+
+  try {
+    requireCurrentPacketVerification(item);
+  } catch {
+    return { status: "route_not_renderable", reason: "current final verification is required" };
+  }
 
   const packetInformation = packetInformationModelFor(item);
   if (!packetInformation

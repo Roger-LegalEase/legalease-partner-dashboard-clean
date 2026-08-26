@@ -210,18 +210,18 @@ assert.equal(humanMatterState(packetMatter), "Packet details in progress");
 const reviewed = packetInformationPatch({
   existingItem: packetMatter,
   answers: { case_number: "25-CR-000123" },
-  reviewed: true
+  verify: false
 });
 assert.ok(reviewed);
-assert.equal(reviewed.readyToGenerate, false, "a synthetic matter without authoritative screening context must fail closed at review");
+assert.equal(reviewed.readyToGenerate, false, "saving the last fact must not silently verify");
 assert.deepEqual(reviewed.missingInputIds, []);
 packetMatter = await mergeBriefcaseArtifactRefs(USER_ID, packetMatter.id, reviewed.patch);
 model = packetInformationModelFor(packetMatter);
-assert.equal(model.stage, "in_progress");
+assert.equal(model.stage, "facts_complete");
 assert.equal(model.initialAnswers.court, "Hinds County Circuit Court", "final save must retain earlier answers");
 assert.equal(model.initialAnswers.case_number, "25-CR-000123");
 assert.equal(model.reviewedAt, null);
-assert.equal(humanMatterState(packetMatter), "Packet details in progress");
+assert.equal(humanMatterState(packetMatter), "A self-help packet may be available");
 assert.equal(packetMatter.paymentStatus, "unpaid", "accuracy review must not mark the matter paid");
 assert.equal(packetMatter.checkoutSessionId, undefined, "accuracy review must not create a Checkout Session");
 assert.ok(packetMatter.packetStatus !== "ready" && packetMatter.packetStatus !== "downloaded");
@@ -410,7 +410,7 @@ async function exerciseBuilderRoute(item, sponsored) {
   const response = await route.POST(new Request(`https://local.test/api/expungement-ai/briefcase/${item.id}/packet-information`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ answers: { court: "Test court" }, reviewed: false })
+    body: JSON.stringify({ answers: { court: "Test court" }, verify: false })
   }), { params: Promise.resolve({ itemId: item.id }) });
   return { response, body: await response.json(), merges };
 }

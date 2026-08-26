@@ -143,7 +143,7 @@ const legacyWebhookRoute = await import("../src/app/api/method/expungement.api.p
 const renderRoute = await import("../src/app/api/expungement-ai/packet/render/route.ts");
 const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
-const { reviewedPacketInputHash } = await import("../src/lib/expungement-ai/packet-information.ts");
+const { packetInformationPatch, requireCurrentPacketVerification } = await import("../src/lib/expungement-ai/packet-information.ts");
 
 // --- fixtures -----------------------------------------------------------------
 
@@ -153,16 +153,78 @@ const { reviewedPacketInputHash } = await import("../src/lib/expungement-ai/pack
 // that always fails downstream.
 const MS_PATHWAY = "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal";
 
-function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" } = {}) {
+async function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" } = {}) {
   const id = fixtureUuid(`item/${label}`);
-  const packetPlan = JSON.stringify({
+  const requiredInputIds = [
+    "age_at_offense", "case_outcome", "charge", "contact_information", "county", "court",
+    "disposition_date", "financial_obligations", "jurisdiction", "offense_category", "offense_level",
+    "participant_full_legal_name", "pathway_id", "pending_cases", "prior_relief", "record_type",
+    "residency_or_location", "sentence_completion_date", "trafficking_status"
+  ];
+  const packetPlan = {
     pathwayId: MS_PATHWAY,
     mode: "state_specific_custom_packet_from_source_rules",
     formMappingStatus: "custom_or_manual_mapping_required",
     sourceFormIds: [],
-    requiredInputIds: [],
+    requiredInputIds,
     sourceRuleRefs: []
-  }).replaceAll("'", "''");
+  };
+  const screeningAnswers = {
+    ownership_scope: "Yes",
+    jurisdiction_scope: "State or local",
+    case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+    offense_level: "Misdemeanor",
+    possible_pathway_context: "Non-conviction expungement for dismissal, no disposition, or acquittal",
+    resolved_timing_bucket: "gt_10_years",
+    court_requirements_completed: "yes"
+  };
+  const packetAnswers = {
+    age_at_offense: { value: "30", unknown: false },
+    case_outcome: screeningAnswers.case_outcome,
+    charge: { value: "Synthetic misdemeanor charge", unknown: false },
+    contact_information: "100 Acceptance Way, Jackson, MS 39201",
+    county: { value: "Hinds County", unknown: false },
+    court: { value: "Hinds County Circuit Court", unknown: false },
+    disposition_date: { value: "2015-01-15", unknown: false },
+    financial_obligations: "Yes",
+    offense_category: { value: "Misdemeanor", unknown: false },
+    offense_level: "Misdemeanor",
+    participant_full_legal_name: "Acceptance Consumer",
+    pending_cases: "No",
+    prior_relief: "No",
+    record_type: "Arrest or charge",
+    residency_or_location: { value: "Jackson, Mississippi", unknown: false },
+    sentence_completion_date: "Yes",
+    trafficking_status: "No"
+  };
+  const commercialFlow = {
+    version: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet",
+    screening: {
+      profileVersion: "2026-06-19-source-conversion-1",
+      screeningMatterId: `screening-${id}`,
+      pathwayId: MS_PATHWAY,
+      pathwayLabel: "Non-conviction expungement for dismissal, no disposition, or acquittal",
+      resultCode: "packet_ready",
+      paymentAllowed: true,
+      packetType: "custom_pleading",
+      packetPlan,
+      answers: screeningAnswers
+    },
+    packetInformation: {
+      stage: "facts_complete",
+      requiredInputIds,
+      serverFacts: { jurisdiction, pathway_id: MS_PATHWAY },
+      prefilledAnswers: {},
+      answers: packetAnswers,
+      missingInputIds: [],
+      updatedAt: "2026-08-15T00:00:00.000Z",
+      reviewedAt: null
+    },
+    verification: { status: "unverified", reason: "final_verification_not_completed" }
+  };
+  const artifactRefs = JSON.stringify({ commercialFlow }).replaceAll("'", "''");
   db.sql(
     `insert into public.consumer_briefcase_items
       (id, user_id, item_type, jurisdiction, status, payment_allowed,
@@ -173,33 +235,20 @@ function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" 
        '${MS_PATHWAY}','packet_ready','custom_pleading','unpaid',5000,
        '{"text":"Synthetic reviewed packet matter."}'::jsonb,
        '["Confirm current local filing requirements."]'::jsonb,
-       jsonb_build_object('commercialFlow', jsonb_build_object(
-         'version', 1,
-         'entitlementSource', 'consumer_payment',
-         'productId', 'expungement_packet',
-         'screening', jsonb_build_object(
-           'profileVersion', '1.3.0',
-           'pathwayId', '${MS_PATHWAY}',
-           'pathwayLabel', '${MS_PATHWAY}',
-           'resultCode', 'packet_ready',
-           'paymentAllowed', true,
-           'packetType', 'custom_pleading',
-           'packetPlan', '${packetPlan}'::jsonb,
-           'answers', '{}'::jsonb
-         ),
-         'packetInformation', jsonb_build_object(
-           'stage', 'ready_to_generate',
-           'requiredInputIds', '[]'::jsonb,
-           'serverFacts', jsonb_build_object('jurisdiction', '${jurisdiction}', 'pathway_id', '${MS_PATHWAY}'),
-           'prefilledAnswers', '{}'::jsonb,
-           'answers', '{}'::jsonb,
-           'missingInputIds', '[]'::jsonb,
-           'updatedAt', '2026-08-15T00:00:00.000Z',
-           'reviewedAt', '2026-08-15T00:00:00.000Z'
-         )
-       ))
+       '${artifactRefs}'::jsonb
      )`
   );
+  const inserted = await getBriefcaseItemForWebhook(userId, id);
+  const verified = inserted ? packetInformationPatch({ existingItem: inserted, answers: {}, verify: true }) : null;
+  if (!inserted || !verified?.readyToGenerate) throw new Error(`fixture ${id} could not be explicitly verified`);
+  const verifiedRefs = JSON.stringify({
+    ...inserted.artifactRefs,
+    commercialFlow: {
+      ...inserted.artifactRefs?.commercialFlow,
+      ...verified.patch.commercialFlow
+    }
+  }).replaceAll("'", "''");
+  db.sql(`update public.consumer_briefcase_items set artifact_refs_json='${verifiedRefs}'::jsonb where id='${id}'`);
   return id;
 }
 
@@ -208,8 +257,8 @@ async function checkoutSession({ itemId, userId, sessionId, amount = 5000, curre
     `select user_id from public.consumer_briefcase_items where id='${itemId}'`
   ).trim();
   const item = await getBriefcaseItemForWebhook(canonicalOwner, itemId);
-  const reviewedInputHash = item ? reviewedPacketInputHash(item) : null;
-  if (!reviewedInputHash) throw new Error(`fixture ${itemId} has no reviewed packet-input hash`);
+  const verificationHash = item ? requireCurrentPacketVerification(item).hash : null;
+  if (!verificationHash) throw new Error(`fixture ${itemId} has no current final-verification hash`);
   const matchKey = `consumer:${createHash("sha256")
     .update(`rcap:consumer-person:v1:${canonicalOwner}`)
     .digest("hex")}`;
@@ -244,7 +293,8 @@ async function checkoutSession({ itemId, userId, sessionId, amount = 5000, curre
       product_id: "expungement_packet",
       person_id: personId,
       matter_id: matterId,
-      reviewed_input_hash: reviewedInputHash
+      verification_hash: verificationHash,
+      reviewed_input_hash: verificationHash
     }
   };
 }
@@ -334,7 +384,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P1 — a valid signed event records exactly one $50 USD payment.
-  const item = createItem(USER_A, "p1");
+  const item = await createItem(USER_A, "p1");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p1", session)));
   const row = paymentRow(item);
@@ -372,7 +422,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P2 — an invalid signature records nothing.
-  const item = createItem(USER_A, "p2");
+  const item = await createItem(USER_A, "p2");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
   const bad = stripe.webhooks.generateTestHeaderString({
     payload: JSON.stringify(stripeEvent("evt_p2", session)),
@@ -390,7 +440,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P3 — a missing signature records nothing.
-  const item = createItem(USER_A, "p3");
+  const item = await createItem(USER_A, "p3");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p3", session), { omitSignature: true }));
   const row = paymentRow(item);
@@ -404,7 +454,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P5 — the wrong amount records nothing, even correctly signed.
-  const item = createItem(USER_A, "p5");
+  const item = await createItem(USER_A, "p5");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p5", session)));
   const row = paymentRow(item);
@@ -422,7 +472,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P6 — the wrong currency records nothing.
-  const item = createItem(USER_A, "p6");
+  const item = await createItem(USER_A, "p6");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p6", session)));
   const row = paymentRow(item);
@@ -438,7 +488,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P19 — the Checkout metadata freezes the reviewed answers. A participant
   // edit after Session creation cannot be paid against the earlier review.
-  const item = createItem(USER_A, "p19");
+  const item = await createItem(USER_A, "p19");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p19" });
   db.sql(
     `update public.consumer_briefcase_items
@@ -467,8 +517,8 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P7 — a session naming another user's item records nothing.
-  const itemA = createItem(USER_A, "p7-a");
-  const itemB = createItem(USER_B, "p7-b");
+  const itemA = await createItem(USER_A, "p7-a");
+  const itemB = await createItem(USER_B, "p7-b");
   const crossed = await checkoutSession({ itemId: itemB, userId: USER_A, sessionId: "cs_p7" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p7", crossed)));
   const rowA = paymentRow(itemA);
@@ -483,7 +533,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P8 — the participant cannot call the server-only payment writer.
-  const item = createItem(USER_A, "p8");
+  const item = await createItem(USER_A, "p8");
   const denied = db.sqlExpectError(
     `set role authenticated; select outcome from public.record_consumer_packet_payment(
       '${item}','paid',5000,'usd','stripe','evt_p8','cs','pi','r',
@@ -501,7 +551,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P18 — the legacy endpoint is the same handler, so it cannot skip the check.
-  const item = createItem(USER_A, "p18");
+  const item = await createItem(USER_A, "p18");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
   const unsigned = new Request("http://localhost/api/method/expungement.api.payment.stripe_webhook", {
     method: "POST",
@@ -550,7 +600,7 @@ function renderRequest(body) {
 {
   // P15 — the control is closed by default.
   delete process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE;
-  const item = createItem(USER_A, "p15");
+  const item = await createItem(USER_A, "p15");
   setSession({ isAuthenticated: true, userId: USER_A });
   const res = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
   check("P15", "a disabled feature control refuses the route", res.status === 503, `status=${res.status}`);
@@ -560,7 +610,7 @@ function renderRequest(body) {
   // P16 — a scoped staging state admits only the named context.
   process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "staging_scoped";
   process.env.RCAP_CONSUMER_DELIVERY_STAGING_SCOPE = USER_A;
-  const itemB = createItem(USER_B, "p16-b");
+  const itemB = await createItem(USER_B, "p16-b");
   setSession({ isAuthenticated: true, userId: USER_B });
   const outside = await renderRoute.POST(renderRequest({ briefcaseItemId: itemB }));
   check(
@@ -575,7 +625,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 
 {
   // P11 — an unpaid item cannot enqueue.
-  const item = createItem(USER_A, "p11");
+  const item = await createItem(USER_A, "p11");
   setSession({ isAuthenticated: true, userId: USER_A });
   const res = await renderRoute.POST(renderRequest({ briefcaseItemId: item }));
   if (process.env.DEBUG_HTTP) {
@@ -594,7 +644,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P9 / P12 — a paid item creates exactly one Phase 53-bound job, and a repeat
   // request returns the same job rather than a second one.
-  const item = createItem(USER_A, "p9");
+  const item = await createItem(USER_A, "p9");
   const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
   await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p9", session)));
 

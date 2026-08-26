@@ -2,7 +2,11 @@ import "server-only";
 
 import { createHash } from "node:crypto";
 
-import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import type {
+  ConsumerBriefcaseItem,
+  PacketVerificationRecord,
+  PacketVerificationSnapshot
+} from "@/lib/expungement-ai/types";
 import type { AnswerValue, PacketPlan, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
@@ -12,7 +16,7 @@ import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/autho
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 
-export type PacketInformationStage = "not_started" | "in_progress" | "ready_to_generate";
+export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
 export type PacketInformationModel = {
   stateCode: string;
@@ -32,11 +36,17 @@ export type PacketInformationModel = {
 };
 
 type CommercialFlow = {
+  version?: unknown;
+  entitlementSource?: unknown;
+  productId?: unknown;
   screening?: {
     profileVersion?: unknown;
     screeningMatterId?: unknown;
     pathwayId?: unknown;
     pathwayLabel?: unknown;
+    resultCode?: unknown;
+    paymentAllowed?: unknown;
+    packetType?: unknown;
     packetPlan?: unknown;
     answers?: unknown;
   };
@@ -50,6 +60,7 @@ type CommercialFlow = {
     updatedAt?: unknown;
     reviewedAt?: unknown;
   };
+  verification?: unknown;
 };
 
 /** Build the exact state/pathway questionnaire from the server-saved packet plan. */
@@ -148,24 +159,9 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   };
 }
 
-const MATERIAL_REVIEW_FIELDS = [
-  "age_at_offense", "case_outcome", "charge", "disposition_date", "financial_obligations",
-  "offense_category", "offense_level", "pending_cases", "prior_relief", "record_type",
-  "residency_or_location", "sentence_completion_date", "trafficking_status", "court_requirements_completed"
-];
-
 export function reviewedPacketInputHash(item: ConsumerBriefcaseItem) {
-  const model = packetInformationModelFor(item);
-  if (!model) return null;
-  const materialAnswers = Object.fromEntries(MATERIAL_REVIEW_FIELDS
-    .filter((id) => id in model.initialAnswers)
-    .sort()
-    .map((id) => [id, model.initialAnswers[id]]));
-  return createHash("sha256").update(JSON.stringify({
-    state: model.stateCode,
-    pathwayId: model.pathwayId,
-    answers: materialAnswers
-  })).digest("hex");
+  const verification = packetVerificationState(item);
+  return verification.status === "verified" ? verification.hash : null;
 }
 
 export function missingRequiredInputs(
@@ -194,7 +190,9 @@ export function expectedPacketComponents(plan: PacketPlan | null): string[] {
 export function packetInformationPatch(input: {
   existingItem: ConsumerBriefcaseItem;
   answers: Record<string, AnswerValue>;
-  reviewed: boolean;
+  verify?: boolean;
+  /** Compatibility only. Saving the final fact is never verification. */
+  reviewed?: boolean;
 }) {
   const current = packetInformationModelFor(input.existingItem);
   if (!current) return null;
@@ -213,12 +211,38 @@ export function packetInformationPatch(input: {
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
+  const savedAnswers = { ...answerRecord(progress.answers), ...acceptedAnswers };
   const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
   const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
-  const review = input.reviewed && missingInputIds.length === 0
+  const review = input.verify === true && missingInputIds.length === 0
     ? packetInformationReviewSafety(input.existingItem, mergedAnswers)
-    : { safe: false, reason: "packet_information_incomplete" };
+    : {
+      safe: false,
+      reason: missingInputIds.length === 0 ? "final_verification_required" : "packet_information_incomplete"
+    };
   const now = new Date().toISOString();
+  const stage: PacketInformationStage = review.safe
+    ? "ready_to_generate"
+    : missingInputIds.length === 0 ? "facts_complete" : "in_progress";
+  const packetInformation = {
+    stage,
+    requiredInputIds: current.requiredInputIds,
+    serverFacts,
+    prefilledAnswers,
+    answers: savedAnswers,
+    missingInputIds,
+    updatedAt: now,
+    reviewedAt: review.safe ? now : null,
+    reviewSafety: review
+  };
+  const verification = review.safe && flow
+    ? verifiedPacketRecord(input.existingItem, {
+      ...flow,
+      packetInformation
+    }, now)
+    : unverifiedOrInvalidatedPacketRecord(flow?.verification, now, input.verify === true
+      ? review.reason
+      : "facts_saved_after_verification");
 
   return {
     patch: {
@@ -227,23 +251,193 @@ export function packetInformationPatch(input: {
         // exact server-stored pathway is reconciled once into the same shape;
         // subsequent saves use the ordinary nested merge path.
         ...(persistedFlow ? {} : flow),
-        packetInformation: {
-          stage: review.safe ? "ready_to_generate" : "in_progress",
-          requiredInputIds: current.requiredInputIds,
-          serverFacts,
-          prefilledAnswers,
-          answers: acceptedAnswers,
-          missingInputIds,
-          updatedAt: now,
-          reviewedAt: review.safe ? now : null,
-          reviewSafety: review
-        }
+        packetInformation,
+        verification
       }
     },
     missingInputIds,
     readyToGenerate: review.safe,
     reviewReason: review.reason
   };
+}
+
+export function packetVerificationState(item: ConsumerBriefcaseItem): PacketVerificationRecord {
+  const flow = readCommercialFlow(item.artifactRefs);
+  const stored = readVerificationRecord(flow?.verification);
+  if (!flow || !stored || stored.status !== "verified" || !stored.hash || !stored.snapshot) {
+    return stored ?? { status: "unverified", reason: "final_verification_missing" };
+  }
+  const model = packetInformationModelFor(item);
+  if (!model || model.stage !== "ready_to_generate" || model.missingInputIds.length > 0 || !model.reviewedAt) {
+    return { status: "invalidated", reason: "packet_information_not_ready" };
+  }
+  if (!packetInformationReviewSafety(item).safe) {
+    return { status: "invalidated", reason: "authoritative_verification_failed" };
+  }
+  const currentSnapshot = buildPacketVerificationSnapshot(item, flow, stored.snapshot.verifiedAt);
+  const currentHash = currentSnapshot ? packetVerificationHash(currentSnapshot) : null;
+  if (!currentSnapshot || currentHash !== stored.hash) {
+    return { status: "invalidated", reason: "verification_dependencies_changed" };
+  }
+  return stored;
+}
+
+export function requireCurrentPacketVerification(item: ConsumerBriefcaseItem): {
+  hash: string;
+  snapshot: PacketVerificationSnapshot;
+} {
+  const verification = packetVerificationState(item);
+  if (verification.status !== "verified" || !verification.hash || !verification.snapshot) {
+    throw new CurrentPacketVerificationRequiredError(verification.reason);
+  }
+  return { hash: verification.hash, snapshot: verification.snapshot };
+}
+
+export class CurrentPacketVerificationRequiredError extends Error {
+  constructor(readonly reason: string) {
+    super(`A current final verification is required: ${reason}`);
+    this.name = "CurrentPacketVerificationRequiredError";
+  }
+}
+
+function verifiedPacketRecord(
+  item: ConsumerBriefcaseItem,
+  flow: CommercialFlow,
+  verifiedAt: string
+): PacketVerificationRecord {
+  const snapshot = buildPacketVerificationSnapshot(item, flow, verifiedAt);
+  if (!snapshot) return { status: "invalidated", reason: "verification_snapshot_unavailable", invalidatedAt: verifiedAt };
+  return {
+    status: "verified",
+    reason: "explicit_final_verification",
+    snapshot,
+    hash: packetVerificationHash(snapshot)
+  };
+}
+
+function unverifiedOrInvalidatedPacketRecord(
+  existing: unknown,
+  now: string,
+  reason: string
+): PacketVerificationRecord {
+  const prior = readVerificationRecord(existing);
+  if (prior?.status === "verified" || prior?.status === "invalidated" || reason !== "facts_saved_after_verification") {
+    return invalidatedPacketRecord(now, reason);
+  }
+  return { status: "unverified", reason: "final_verification_not_completed" };
+}
+
+function invalidatedPacketRecord(now: string, reason: string): PacketVerificationRecord {
+  return {
+    status: "invalidated",
+    reason,
+    invalidatedAt: now
+  };
+}
+
+function buildPacketVerificationSnapshot(
+  item: ConsumerBriefcaseItem,
+  flow: CommercialFlow,
+  verifiedAt: string
+): PacketVerificationSnapshot | null {
+  const profile = getProfileByJurisdiction(item.state);
+  const screening = isRecord(flow.screening) ? flow.screening : {};
+  const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
+  if (!profile || typeof screening.profileVersion !== "string") return null;
+  const packetPlan = readPacketPlan(screening.packetPlan);
+  const selectedTrackId = item.selectedTrackId
+    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
+  return canonicalize({
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt,
+    jurisdiction: profile.jurisdiction.code,
+    profileVersion: screening.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, packetPlan?.pathwayId ?? null),
+    pathwayId: typeof screening.pathwayId === "string" ? screening.pathwayId : packetPlan?.pathwayId ?? null,
+    resultCode: typeof screening.resultCode === "string" ? screening.resultCode : item.resultCode ?? null,
+    paymentAllowed: typeof screening.paymentAllowed === "boolean" ? screening.paymentAllowed : item.paymentAllowed,
+    packetType: typeof screening.packetType === "string" ? screening.packetType : item.packetType ?? null,
+    packetPlan: packetPlan ? { ...packetPlan } : null,
+    requiredInputIds: stringArray(packetInformation.requiredInputIds),
+    packetFamilyIdentifiers: {
+      mode: packetPlan?.mode ?? null,
+      sourceFormIds: packetPlan?.sourceFormIds ?? []
+    },
+    selectedTrackId,
+    treatmentClassification: item.treatmentClassification ?? null,
+    deferralComponentIds: [...(item.deferralComponentIds ?? [])].sort(),
+    screeningAnswers: recordValue(screening.answers),
+    packetAnswers: recordValue(packetInformation.answers),
+    serverFacts: recordValue(packetInformation.serverFacts),
+    prefilledAnswers: recordValue(packetInformation.prefilledAnswers),
+    dependencies: {
+      commercialFlowVersion: typeof flow.version === "number" ? flow.version : null,
+      entitlementSource: typeof flow.entitlementSource === "string" ? flow.entitlementSource : null,
+      productId: typeof flow.productId === "string" ? flow.productId : null
+    }
+  }) as PacketVerificationSnapshot;
+}
+
+function packetVerificationHash(snapshot: PacketVerificationSnapshot) {
+  return createHash("sha256").update(JSON.stringify(snapshot)).digest("hex");
+}
+
+function profileAuthorityFingerprint(
+  profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
+  pathwayId: string | null
+) {
+  const selectedPathway = profile.pathways.find((pathway) => pathway.id === pathwayId) ?? null;
+  const selectedPacketPathway = profile.packetGenerator.pathways.find((pathway) => pathway.pathwayId === pathwayId) ?? null;
+  const applicableRules = profile.orderedDecisionRules.filter((rule) => {
+    if (rule.when.backendPathwayId && rule.when.backendPathwayId !== pathwayId) return false;
+    if (rule.candidatePathwayIds?.length && pathwayId && !rule.candidatePathwayIds.includes(pathwayId)) return false;
+    return true;
+  });
+  const authority = canonicalize({
+    schemaVersion: profile.schemaVersion,
+    jurisdiction: profile.jurisdiction.code,
+    flowStages: profile.flowStages,
+    questionLifecycle: profile.questionLifecycle ?? null,
+    questionMachineSurface: profile.questions.map((question) => ({
+      id: question.id,
+      stage: question.stage,
+      type: question.type,
+      required: question.required,
+      contextOnly: question.contextOnly ?? false,
+      lifecyclePhase: question.lifecyclePhase ?? null,
+      options: question.options ?? null
+    })),
+    selectedPathway,
+    applicableRules,
+    waitingPeriodRules: profile.waitingPeriodRules ?? [],
+    exclusionRules: profile.exclusionRules ?? [],
+    packetGenerator: {
+      architecture: profile.packetGenerator.architecture,
+      legacyGeneratorAllowed: profile.packetGenerator.legacyGeneratorAllowed,
+      genericLegalFallbackAllowed: profile.packetGenerator.genericLegalFallbackAllowed,
+      requiredInputs: profile.packetGenerator.requiredInputs,
+      selectedPathway: selectedPacketPathway
+    }
+  });
+  return createHash("sha256").update(JSON.stringify(authority)).digest("hex");
+}
+
+function readVerificationRecord(value: unknown): PacketVerificationRecord | null {
+  if (!isRecord(value)
+    || (value.status !== "unverified" && value.status !== "verified" && value.status !== "invalidated")
+    || typeof value.reason !== "string") return null;
+  return value as PacketVerificationRecord;
+}
+
+function canonicalize(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalize);
+  if (!isRecord(value)) return value;
+  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonicalize(value[key])]));
+}
+
+function recordValue(value: unknown): Record<string, unknown> {
+  return isRecord(value) ? value : {};
 }
 
 /**
@@ -487,7 +681,7 @@ function packetQuestion(
 }
 
 function packetInformationStage(value: unknown): PacketInformationStage {
-  if (value === "in_progress" || value === "ready_to_generate") return value;
+  if (value === "in_progress" || value === "facts_complete" || value === "ready_to_generate") return value;
   return "not_started";
 }
 

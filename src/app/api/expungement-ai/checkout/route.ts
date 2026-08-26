@@ -9,6 +9,7 @@ import {
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { CurrentPacketVerificationRequiredError, requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,6 +64,15 @@ export async function POST(request: NextRequest) {
 
   if (await isPartnerSponsoredPacketItem(item)) {
     return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
+  }
+
+  try {
+    requireCurrentPacketVerification(item);
+  } catch (error) {
+    if (error instanceof CurrentPacketVerificationRequiredError) {
+      return NextResponse.json({ error: "Complete the final packet-information verification before checkout.", outcome: "verification_required" }, { status: 409 });
+    }
+    throw error;
   }
 
   try {

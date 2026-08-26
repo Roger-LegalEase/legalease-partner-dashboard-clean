@@ -25,7 +25,9 @@ import {
   RESULT_CODES,
   type EvaluateRequest,
   type JurisdictionProfile,
-  type ScreeningEvaluation
+  type ScreeningEvaluation,
+  type ScreeningProgress,
+  type ScreeningProgressRequest
 } from "./contracts";
 
 /* ------------------------------------------------------------------ */
@@ -104,6 +106,13 @@ export const evaluateRequestSchema = z
   })
   .passthrough();
 
+export const screeningProgressRequestSchema = evaluateRequestSchema.omit({ matterId: true });
+export const screeningProgressSchema = z.object({
+  jurisdiction: z.string().min(1),
+  profileVersion: z.string().min(1),
+  questionIds: z.array(z.string())
+}).strict();
+
 export const evaluationReasonSchema = z
   .object({
     code: z.string().min(1),
@@ -177,4 +186,18 @@ export function parseEvaluateRequest(input: unknown): ParseResult<EvaluateReques
     return { ok: true, data: parsed.data as EvaluateRequest };
   }
   return { ok: false, error: formatError(parsed.error) };
+}
+
+export function parseScreeningProgressRequest(input: unknown): ParseResult<ScreeningProgressRequest> {
+  const parsed = screeningProgressRequestSchema.safeParse(input);
+  return parsed.success
+    ? { ok: true, data: parsed.data as ScreeningProgressRequest }
+    : { ok: false, error: formatError(parsed.error) };
+}
+
+export function parseScreeningProgress(input: unknown): ParseResult<ScreeningProgress> {
+  const parsed = screeningProgressSchema.safeParse(input);
+  return parsed.success
+    ? { ok: true, data: parsed.data as ScreeningProgress }
+    : { ok: false, error: formatError(parsed.error) };
 }

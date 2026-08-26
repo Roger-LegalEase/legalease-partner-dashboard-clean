@@ -51,6 +51,45 @@ export type ConsumerMatterStatus =
   | "not_eligible"
   | "hard_stop";
 
+export type PacketVerificationSnapshot = {
+  schemaVersion: "expungement-ai/final-verification/v1";
+  verifiedAt: string;
+  jurisdiction: string;
+  profileVersion: string;
+  profileSourceFingerprint: string | null;
+  profileAuthorityFingerprint: string;
+  pathwayId: string | null;
+  resultCode: ExpungementAiResultCode | null;
+  paymentAllowed: boolean;
+  packetType: ExpungementAiEligibilityResult["packetType"] | null;
+  packetPlan: Record<string, unknown> | null;
+  requiredInputIds: string[];
+  packetFamilyIdentifiers: {
+    mode: string | null;
+    sourceFormIds: string[];
+  };
+  selectedTrackId: string | null;
+  treatmentClassification: ConsumerBriefcaseItem["treatmentClassification"] | null;
+  deferralComponentIds: string[];
+  screeningAnswers: Record<string, unknown>;
+  packetAnswers: Record<string, unknown>;
+  serverFacts: Record<string, unknown>;
+  prefilledAnswers: Record<string, unknown>;
+  dependencies: {
+    commercialFlowVersion: number | null;
+    entitlementSource: string | null;
+    productId: string | null;
+  };
+};
+
+export type PacketVerificationRecord = {
+  status: "unverified" | "verified" | "invalidated";
+  reason: string;
+  hash?: string;
+  snapshot?: PacketVerificationSnapshot;
+  invalidatedAt?: string;
+};
+
 export type ConsumerBriefcaseItem = {
   id: string;
   type: "eligibility_check" | "result" | "packet" | "wilma_conversation";

@@ -14,6 +14,7 @@ import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legale
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { partnerPacketInformationActionPath } from "@/lib/expungement-ai/partner-packet-links";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
@@ -245,6 +246,7 @@ export function assertPacketGenerationAllowed(
   dryRunMode = false,
   options: { paymentRequired?: boolean } = {}
 ) {
+  requireCurrentPacketVerification(item);
   const resultCode = item.resultCode ?? "guidance_only";
   const paymentRequired = options.paymentRequired ?? true;
   const packetReadyResult = resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";

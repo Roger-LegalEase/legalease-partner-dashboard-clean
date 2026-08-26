@@ -8,7 +8,7 @@ import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTra
 import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
-import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
+import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
@@ -52,7 +52,7 @@ type ConsumerCheckoutBinding = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
-  reviewedInputHash: string;
+  verificationHash: string;
 };
 
 export type ConsumerCheckoutStatus = {
@@ -105,6 +105,7 @@ export async function createConsumerPacketCheckout({
   cancelUrl?: string;
 }): Promise<ConsumerCheckoutResult> {
   assertCheckoutAllowed(item);
+  const verification = requireCurrentPacketVerification(item);
 
   // P0 double-charge guard: an already-paid Briefcase item must never mint a new
   // Stripe Checkout Session or reset payment state. Send the user to their packet.
@@ -131,9 +132,8 @@ export async function createConsumerPacketCheckout({
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId: person.personId,
     matterId: consumerMatterIdForItem(item.id),
-    reviewedInputHash: reviewedPacketInputHash(item) ?? ""
+    verificationHash: verification.hash
   };
-  if (!binding.reviewedInputHash) throw new ConsumerCheckoutReviewRequiredError();
 
   const defaultSuccessUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?payment=return&session_id={CHECKOUT_SESSION_ID}`);
   const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
@@ -146,7 +146,7 @@ export async function createConsumerPacketCheckout({
       })
       : null;
 
-    if (existing && existing.status !== "expired" && existing.metadata?.reviewed_input_hash !== binding.reviewedInputHash) {
+    if (existing && existing.status !== "expired" && existing.metadata?.verification_hash !== binding.verificationHash) {
       if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
     } else if (existing && existing.status !== "expired") {
       const reusable = await reconcileReusableCheckoutSession({
@@ -259,7 +259,8 @@ function checkoutMetadata(binding: ConsumerCheckoutBinding, item: ConsumerBriefc
     jurisdiction: item.state,
     packet_type: item.packetType ?? "",
     pathway_label: item.pathwayLabel ?? "",
-    reviewed_input_hash: binding.reviewedInputHash
+    verification_hash: binding.verificationHash,
+    reviewed_input_hash: binding.verificationHash
   };
 }
 
@@ -299,7 +300,8 @@ async function reconcileReusableCheckoutSession({
     product_id: binding.productId,
     person_id: binding.personId,
     matter_id: binding.matterId,
-    reviewed_input_hash: binding.reviewedInputHash
+    verification_hash: binding.verificationHash,
+    reviewed_input_hash: binding.verificationHash
   };
   for (const [key, value] of Object.entries(desired)) {
     const existing = session.metadata?.[key];
@@ -332,7 +334,7 @@ function checkoutSessionBaseBindingMatches(
     && session.metadata?.channel === "expungement_ai_consumer"
     && session.metadata?.user_id === binding.userId
     && session.metadata?.briefcase_item_id === binding.briefcaseItemId
-    && session.metadata?.reviewed_input_hash === binding.reviewedInputHash
+    && session.metadata?.verification_hash === binding.verificationHash
     && session.amount_total === consumerPacketPriceCents
     && (session.currency ?? "").toLowerCase() === "usd"
     && lineItems.length === 1
@@ -528,19 +530,19 @@ export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
     || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
   }
+  try {
+    requireCurrentPacketVerification(item);
+  } catch {
+    throw new ConsumerCheckoutReviewRequiredError();
+  }
 }
 
 export function assertConsumerCheckoutReviewReady(item: ConsumerBriefcaseItem) {
-  const packetInformation = packetInformationModelFor(item);
-  if (packetInformation
-    && packetInformation.stage === "ready_to_generate"
-    && packetInformation.missingInputIds.length === 0
-    && packetInformation.reviewedAt
-    && packetInformationReviewSafety(item).safe) {
-    return;
+  try {
+    requireCurrentPacketVerification(item);
+  } catch {
+    throw new ConsumerCheckoutReviewRequiredError();
   }
-
-  throw new ConsumerCheckoutReviewRequiredError();
 }
 
 export function isConsumerCheckoutDryRunEnabled(): boolean {
@@ -570,7 +572,7 @@ export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
 
 export class ConsumerCheckoutReviewRequiredError extends Error {
   constructor() {
-    super("Complete the packet accuracy review before starting Checkout.");
+    super("Complete the current final verification before starting Checkout.");
     this.name = "ConsumerCheckoutReviewRequiredError";
   }
 }

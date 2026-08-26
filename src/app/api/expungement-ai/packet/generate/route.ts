@@ -12,6 +12,7 @@ import {
   ConsumerPacketPaymentRequiredError,
   generatePaidConsumerPacket
 } from "@/lib/expungement-ai/packet-generation";
+import { CurrentPacketVerificationRequiredError, requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -28,6 +29,15 @@ export async function POST(request: NextRequest) {
   // Partner cap accounting is isolated from the DTC path: it only runs for
   // items whose source screening session is partner-sponsored.
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
+  let verificationHash: string | null = null;
+  try {
+    if (item) verificationHash = requireCurrentPacketVerification(item).hash;
+  } catch (error) {
+    if (error instanceof CurrentPacketVerificationRequiredError) {
+      return NextResponse.json({ error: "Current final verification is required before packet generation." }, { status: 409 });
+    }
+    throw error;
+  }
   const partnerSessionId = item?.sourceSessionId ?? null;
   const isPartnerSponsored = Boolean(item) && (await isPartnerSponsoredPacketItem(item!));
 
@@ -59,6 +69,10 @@ export async function POST(request: NextRequest) {
     // successful sponsored generation. The RPC is idempotent, so retries and
     // duplicate webhooks never double-count.
     if (packet.packetStatus === "ready" && isPartnerSponsored && partnerSessionId) {
+      const latestItem = await getBriefcaseItem(auth.userId, briefcaseItemId);
+      if (!latestItem || requireCurrentPacketVerification(latestItem).hash !== verificationHash) {
+        throw new CurrentPacketVerificationRequiredError("verification_changed_before_sponsored_slot_consumption");
+      }
       await recordPartnerPacketGeneration(partnerSessionId);
     }
 
@@ -84,6 +98,9 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 }
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
+  if (error instanceof CurrentPacketVerificationRequiredError) {
+    return NextResponse.json({ error: "Current final verification is required before packet generation." }, { status: 409 });
+  }
   if (error instanceof ConsumerPacketNotFoundError) {
     return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }

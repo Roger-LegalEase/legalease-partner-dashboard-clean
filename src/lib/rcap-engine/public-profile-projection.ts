@@ -4,6 +4,7 @@ import type { EngineProfile, PublicCaseOutcomeOption, PublicJurisdictionProfile,
 import translatedProfiles from "@/lib/expungement-ai/frontend/profiles/all51.json";
 import { getDesignerPublicProfiles } from "@/lib/rcap-engine/profile-registry";
 import { routesForJurisdiction } from "@/lib/legal-authority/index";
+import { validateQuestionLifecycleMetadata } from "@/lib/rcap-engine/screening-question-selection";
 
 type QuestionLifecyclePhase = NonNullable<PublicQuestion["lifecyclePhase"]>;
 type TranslatedProfileQuestion = {
@@ -1101,7 +1102,23 @@ function toPublicJurisdictionProfile(draft: PublicJurisdictionProfile): PublicJu
  * mapper above then decides what is actually allowed out.
  */
 export function projectPublicProfile(profile: EngineProfile): PublicJurisdictionProfile {
-  return toPublicJurisdictionProfile(buildProfileDraft(profile));
+  const projected = toPublicJurisdictionProfile(buildProfileDraft(profile));
+  const completion = projected.postPaymentPacketCompletion;
+  const lifecycle = validateQuestionLifecycleMetadata(profile, [
+    ...projected.questions,
+    ...(completion?.requiredPacketCompletionFields ?? []),
+    ...(completion?.officialFormFields ?? []),
+    ...(completion?.customPleadingFields ?? []),
+    ...(completion?.externalDocumentChecklist ?? []),
+    ...(completion?.filingReadinessFields ?? []),
+    ...(completion?.serviceOrMailingFields ?? []),
+    ...(completion?.narrativeFields ?? []),
+    ...(completion?.optionalFields ?? [])
+  ]);
+  if (!lifecycle.ok) {
+    throw new Error(`Invalid question lifecycle metadata for ${profile.jurisdiction.code}`);
+  }
+  return projected;
 }
 
 function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
