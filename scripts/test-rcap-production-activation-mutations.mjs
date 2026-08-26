@@ -24,6 +24,8 @@ const mutations = [
   ["staged identity", "staged_deployment_identity_is_exact", "staged_identity_removed"],
   ["Clinic schema", "production_clinic_schema_is_exact", "clinic_schema_removed"],
   ["domain activation", "production_domains_resolve_to_staged_deployment", "domain_activation_removed"],
+  ["canonical runtime domain", "canonicalRuntimeDomain", "unboundedRuntimeDomain"],
+  ["bounded runtime retry", "fetchWithRetry", "fetchWithoutRetry"],
   ["health", "active_production_health_is_200", "health_removed"],
   ["runtime project", "active_runtime_project_is_canonical", "runtime_project_removed"],
   ["environment unchanged", "environment_metadata_is_unchanged", "environment_unchanged_removed"],

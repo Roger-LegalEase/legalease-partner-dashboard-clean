@@ -36,6 +36,8 @@ check(script.includes("production_clinic_schema_is_exact"), "Production Clinic s
 check(script.includes('"promote"'), "activation promotes the existing staged deployment");
 check(script.includes('"--timeout=5m"'), "promotion has a bounded control-plane wait");
 check(script.includes("production_domains_resolve_to_staged_deployment"), "all Production domains must resolve to the staged deployment");
+check(script.includes("canonicalRuntimeDomain"), "runtime smoke selects one exact canonical Vercel Production domain");
+check(script.includes("fetchWithRetry"), "post-promotion runtime reads use bounded retry for edge convergence");
 check(script.includes("active_production_health_is_200"), "active Production health must pass after promotion");
 check(script.includes("active_runtime_project_is_canonical"), "active runtime must map to canonical Production Supabase");
 check(script.includes("environment_metadata_is_unchanged"), "environment metadata must remain unchanged");

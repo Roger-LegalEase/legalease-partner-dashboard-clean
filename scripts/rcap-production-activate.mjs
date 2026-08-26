@@ -255,6 +255,23 @@ async function waitForExactProduction(vercel, projectId, expectedDeploymentId) {
   throw new Error(`Production domains did not converge to ${expectedDeploymentId}; resolved=${last?.deploymentIds.length ?? 0}`);
 }
 
+async function fetchWithRetry(url, options = {}, attempts = 6) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, options);
+      if (response.status < 500 || attempt === attempts) return response;
+      lastError = new Error(`runtime returned HTTP ${response.status}`);
+    } catch (error) {
+      lastError = error;
+    }
+    if (attempt < attempts) {
+      await new Promise((resolve) => setTimeout(resolve, 5_000));
+    }
+  }
+  throw new Error(`bounded active-runtime fetch failed after ${attempts} attempts: ${lastError instanceof Error ? lastError.name : "network error"}`);
+}
+
 function normalizeEmbeddedText(value) {
   return value.replaceAll("\\u003a", ":").replaceAll("\\u003A", ":")
     .replaceAll("\\u002f", "/").replaceAll("\\u002F", "/").replaceAll("\\/", "/");
@@ -284,7 +301,7 @@ function scriptSources(html) {
   return [...values];
 }
 
-async function inspectActiveRuntime(domains) {
+async function inspectActiveRuntime(domains, canonicalRuntimeDomain) {
   const allowedHosts = new Set(domains);
   const origins = new Set();
   const fetchedChunks = new Set();
@@ -292,27 +309,34 @@ async function inspectActiveRuntime(domains) {
   let pagesInspected = 0;
   let chunksInspected = 0;
 
-  for (const domain of domains) {
-    const health = await fetch(`https://${domain}/api/health`, { method: "GET", redirect: "follow" });
-    const healthBody = await health.json().catch(() => null);
-    if (health.status === 200 && healthBody && typeof healthBody.checks === "object") healthyDomains += 1;
+  const health = await fetchWithRetry(`https://${canonicalRuntimeDomain}/api/health`, {
+    method: "GET",
+    redirect: "follow"
+  });
+  const healthBody = await health.json().catch(() => null);
+  if (health.status === 200
+    && allowedHosts.has(new URL(health.url).hostname)
+    && healthBody
+    && typeof healthBody.checks === "object") healthyDomains = 1;
 
-    for (const route of ["/", "/sign-in", "/expungement-ai/sign-in"]) {
-      const page = await fetch(`https://${domain}${route}`, { method: "GET", redirect: "follow" });
-      if (!page.ok || !allowedHosts.has(new URL(page.url).hostname)) continue;
-      pagesInspected += 1;
-      const html = await page.text();
-      collectOrigins(html, origins);
-      const finalOrigin = new URL(page.url).origin;
-      for (const source of scriptSources(html)) {
-        const chunkUrl = new URL(source, finalOrigin).href;
-        if (fetchedChunks.has(chunkUrl)) continue;
-        fetchedChunks.add(chunkUrl);
-        const chunk = await fetch(chunkUrl, { method: "GET", redirect: "follow" });
-        if (!chunk.ok || !allowedHosts.has(new URL(chunk.url).hostname)) continue;
-        chunksInspected += 1;
-        collectOrigins(await chunk.text(), origins);
-      }
+  for (const route of ["/", "/sign-in", "/expungement-ai/sign-in"]) {
+    const page = await fetchWithRetry(`https://${canonicalRuntimeDomain}${route}`, {
+      method: "GET",
+      redirect: "follow"
+    });
+    if (!page.ok || !allowedHosts.has(new URL(page.url).hostname)) continue;
+    pagesInspected += 1;
+    const html = await page.text();
+    collectOrigins(html, origins);
+    const finalOrigin = new URL(page.url).origin;
+    for (const source of scriptSources(html)) {
+      const chunkUrl = new URL(source, finalOrigin).href;
+      if (fetchedChunks.has(chunkUrl)) continue;
+      fetchedChunks.add(chunkUrl);
+      const chunk = await fetchWithRetry(chunkUrl, { method: "GET", redirect: "follow" });
+      if (!chunk.ok || !allowedHosts.has(new URL(chunk.url).hostname)) continue;
+      chunksInspected += 1;
+      collectOrigins(await chunk.text(), origins);
     }
   }
   if (origins.size !== 1) throw new Error("active Production runtime did not expose exactly one Supabase origin");
@@ -506,11 +530,18 @@ try {
     `all ${activeDomains.domains.length} Production domains resolve to the exact staged deployment`
   );
 
-  const runtime = await inspectActiveRuntime(activeDomains.domains);
+  const canonicalRuntimeCandidates = activeDomains.domains.filter(
+    (domain) => domain === `${HOSTED_VERCEL_PROJECT_NAME}.vercel.app`
+  );
+  if (canonicalRuntimeCandidates.length !== 1) {
+    throw new Error("exactly one canonical Vercel Production runtime domain is required");
+  }
+  const canonicalRuntimeDomain = canonicalRuntimeCandidates[0];
+  const runtime = await inspectActiveRuntime(activeDomains.domains, canonicalRuntimeDomain);
   record(
     "active_production_health_is_200",
-    runtime.healthyDomains === activeDomains.domains.length,
-    `structured health is 200 on ${runtime.healthyDomains}/${activeDomains.domains.length} Production domains`
+    runtime.healthyDomains === 1,
+    "structured health is 200 on the exact canonical Vercel Production runtime domain"
   );
   const canonicalRuntime = await originMatchesProductionProject(runtime.origin);
   record(
