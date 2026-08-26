@@ -26,7 +26,7 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate]
+        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_clinic_migrate, hosted_deploy, hosted_replace_preview, hosted_accept, hosted_stripe_retarget, hosted_checkout_gate, hosted_browser, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance, production_preflight, production_clinic_migrate, production_smoke]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -82,10 +82,10 @@ env:
 jobs:
   production_preflight:
     name: Read-only Production identity and rollback discovery
-    if: inputs.mode == 'production_preflight' || inputs.mode == 'production_clinic_migrate'
+    if: inputs.mode == 'production_preflight' || inputs.mode == 'production_clinic_migrate' || inputs.mode == 'production_smoke'
     uses: ./.github/workflows/rcap-production-canary.yml
     with:
-      phase: ${{ inputs.mode == 'production_clinic_migrate' && 'clinic_migrate' || 'preflight' }}
+      phase: ${{ inputs.mode == 'production_clinic_migrate' && 'clinic_migrate' || (inputs.mode == 'production_smoke' && 'smoke' || 'preflight') }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}

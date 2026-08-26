@@ -9,7 +9,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight or clinic_migrate"
+        description: "preflight, clinic_migrate, or smoke"
         required: true
         type: string
       application_sha:
@@ -61,7 +61,7 @@ jobs:
           WORKFLOW_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
-          case "$INPUT_PHASE" in preflight|clinic_migrate) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
+          case "$INPUT_PHASE" in preflight|clinic_migrate|smoke) ;; *) echo "::error::unsupported Production phase"; exit 1 ;; esac
           [ "$INPUT_APPLICATION_SHA" = "$APPLICATION_SHA" ] || { echo "::error::application SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_SOURCE_SHA" = "$WORKER_SOURCE_SHA" ] || { echo "::error::worker source SHA mismatch"; exit 1; }
           [ "$INPUT_WORKER_DIGEST" = "$WORKER_DIGEST" ] || { echo "::error::worker digest mismatch"; exit 1; }
@@ -103,6 +103,16 @@ jobs:
           node scripts/verify-rcap-production-clinic-migrate.mjs
           node scripts/test-rcap-production-clinic-migrate-mutations.mjs
 
+      - name: Install frozen dependencies for the exact-SHA Colorado smoke
+        if: inputs.phase == 'smoke'
+        run: npm ci
+
+      - name: Verify the bounded Production canary smoke contract
+        if: inputs.phase == 'smoke'
+        run: |
+          node scripts/verify-rcap-production-smoke.mjs
+          node scripts/test-rcap-production-smoke-mutations.mjs
+
       - name: Pull and identify the accepted worker by immutable digest
         run: |
           set -euo pipefail
@@ -137,6 +147,18 @@ jobs:
           RCAP_PRODUCTION_PROJECT_REF: wwtwtsmywnckfkdaqqeg
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: node scripts/rcap-production-clinic-migrate.mjs
+
+      - name: Run the bounded no-alias Production canary smoke
+        if: inputs.phase == 'smoke'
+        env:
+          RCAP_PRODUCTION_PHASE: "smoke"
+          RCAP_APPLICATION_SHA: ${{ inputs.application_sha }}
+          RCAP_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          RCAP_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-production-canary-smoke.mjs
 
       - name: Upload the immutable Production preflight evidence
         if: always()
