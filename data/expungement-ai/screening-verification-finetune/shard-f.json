@@ -26,16 +26,47 @@
   "after": {
     "flows": 80,
     "browserWitnessVariants": 156,
-    "freeQuestions": 108,
+    "freeQuestions": {
+      "emptyContext": 90,
+      "maxExactRoute": 92
+    },
     "routeConsumerFacts": 3,
     "routeConsumerEdges": 3,
-    "exactPacketFactIds": 60,
+    "exactPacketFactIds": 57,
     "completionAliasIds": 8
+  },
+  "selectedQuestionCounts": {
+    "LA": { "emptyContext": 9, "maxExactRoute": 9 },
+    "ME": { "emptyContext": 11, "maxExactRoute": 11 },
+    "MD": { "emptyContext": 13, "maxExactRoute": 14 },
+    "MA": { "emptyContext": 9, "maxExactRoute": 9 },
+    "MI": { "emptyContext": 10, "maxExactRoute": 10 },
+    "MN": { "emptyContext": 9, "maxExactRoute": 9 },
+    "MS": { "emptyContext": 7, "maxExactRoute": 7 },
+    "MO": { "emptyContext": 11, "maxExactRoute": 12 },
+    "MT": { "emptyContext": 11, "maxExactRoute": 11 }
+  },
+  "representativeSelectedFlowIds": [
+    "EXPAI-MD-2ec5a936b1",
+    "EXPAI-MA-1b8b8b38fd",
+    "EXPAI-MI-31050183b1",
+    "EXPAI-MN-1ecfc803d9",
+    "EXPAI-MS-4fd3a68b39",
+    "EXPAI-MS-9c7d692811",
+    "EXPAI-MS-c9d86d7fda"
+  ],
+  "authorityLimitedNoncommercialFlowIds": [
+    "EXPAI-MS-c9d86d7fda"
+  ],
+  "retainedExactRouteFacts": {
+    "MD": ["pardon_signed_date", "arrest_date"],
+    "MO": ["twenty_first_birthday"]
   },
   "authority": {
     "policy": "No legal rule was added or inferred from prose.",
     "routeConsumers": "MD pardon_signed_date mirrors ROUTE_ESCALATION_FACT_IDS; MD arrest_date and MO twenty_first_birthday mirror existing legal-authority screeningFactIds.",
-    "exactPacketFactIds": "Existing structural/date questions plus the nine projection-added exact-date free-check facts and Mississippi's dependent fine-imposed fact.",
+    "exactPacketFactIds": "Existing structural/date questions plus Mississippi's unsupported projection-added exact dates and dependent fine-imposed fact.",
+    "retainedExactException": "MD pardon_signed_date, MD arrest_date, and MO twenty_first_birthday remain exact prepay predicates only on their approved routeConsumers pathways; they are intentionally excluded from exactPacketFactIds.",
     "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
   },
   "unchanged": [
