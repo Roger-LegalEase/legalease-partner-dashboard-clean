@@ -62,11 +62,32 @@ displaying an irrelevant question.
    period may not be met, automatic/no-filing, guidance-only, attorney
    review/referral, unsupported. Preliminary results cannot authorize payment or
    permanently select a packet.
-3. **Account.** Created *after* the result. The pre-auth result survives the
-   handoff, is claimed by that user, becomes a persistent matter, enters the free
-   Briefcase, and the participant lands on that exact matter.
-4. **Free Briefcase.** Available before payment. One matter, one $50 charge —
-   never an account-wide unlock.
+3. **Account.** Created *after* the result is displayed, via "Save my result and
+   continue". The governing rule is:
+
+   > **Screening may be anonymous. A Briefcase may not be anonymous.**
+
+   Before an account exists the participant may have an anonymous screening
+   session, a temporary result, a secure pending-result token, a preliminary
+   explanation, and a prompt to save. They may **not** have a persistent
+   Briefcase, a durable saved matter, access to packet documents, permanent
+   uploads, a payment entitlement, or a downloadable packet. The pending result
+   may live briefly on the server so it survives signup; that is not yet a
+   participant-owned Briefcase item.
+
+   On authentication the system binds the pending result to that user, creates a
+   persistent matter, adds it to the Briefcase, redirects to **that exact
+   matter**, preserves every screening answer and the route context, and enables
+   save, resume, completion, verification, payment and download. The participant
+   is never dropped on an empty Briefcase home.
+
+   Customer-facing language — before signup: *"Your preliminary result is ready.
+   Create a free account to save your result and continue."* After signup: *"Your
+   matter has been saved to your Briefcase. Complete the remaining information so
+   we can verify your case and prepare the correct packet."*
+4. **Free Briefcase.** Free to hold, and free to keep — payment is per matter, at
+   the point that matter is verified and ready to generate. One matter, one $50
+   charge, never an account-wide unlock.
 5. **Packet-information completion.** Exact facts, collected while unpaid. Screening
    answers prefill. Save, leave, resume on another device, mark unknown, see what
    is missing, edit. No final filing PDF and no delivery-authorized render job
@@ -110,6 +131,12 @@ Entry is co-branded: partner page, sponsored link, access code, campaign or
 referral link (Mode A), or an event link, QR, event code or preregistration page
 (Mode B). Partner, campaign, UTM, code, program and event attribution persists
 from entry through screening, matter, result, follow-up and reporting.
+
+The anonymity rule applies identically here. Screening may begin before an
+account exists and a shared device may hold a temporary assisted session, but no
+persistent participant packet or Briefcase is delivered until the matter is bound
+to the participant's own authenticated account. Clinic staff never own the
+participant's Briefcase.
 
 **Assisted intake** is optional and consented: explicit, timestamped, staff
 identity recorded. The participant remains the answer source and the owner of the
@@ -171,10 +198,31 @@ Clinic Mode is enabled through provisioning and partner/event controls — never
 inserting database rows, changing RLS, or editing environment variables. Staff
 accounts are named; shared credentials are prohibited.
 
-## Observation at the time of writing
+## Measured against the code, 2026-08-27
 
-The four stage names above appear in **zero** files in this repository. The
-separation may be implemented under other identifiers, or may be enforced only by
-verifiers rather than at runtime. `CONSUMER_PACKET_PRICE_CENTS = 5000` is real
+**The anonymity boundary is already built, and correctly.** Exactly one code path
+creates a Briefcase item — `POST /api/expungement-ai/screening/pending/claim` —
+and it returns `401 auth_required` without a session, then refuses a pending row
+whose `claimed_user_id` belongs to someone else. The pre-auth result lives in a
+separate table, `consumer_pending_screening_results`, carrying
+`pending_token_hash`, `claimed_at`, `claimed_user_id`, `expires_at` defaulting to
+24 hours, and `payment_allowed` defaulting to false. Row-level security is
+enabled on it with a single service-role policy and no anonymous or authenticated
+grant. That is the contract's shape: a temporary, tokenised, expiring,
+non-entitling pending result that is not a Briefcase.
+
+Every artifact-bearing route is session-gated and owner-scoped through
+`requireConsumerBriefcaseSession()` — packet download, generate, status, and
+checkout all resolve against `auth.userId` rather than a client-supplied
+identifier. Checkout additionally refuses partner-sponsored items with a 403,
+keeping the two funding paths apart at the route boundary.
+
+`CONSUMER_PACKET_PRICE_CENTS = 5000` is real
 (`src/lib/expungement-ai/consumer-payment-authority.ts:26`) and sponsorship
 branch points exist across eight modules under `src/lib/expungement-ai/`.
+
+One open question, not a defect: the four stage names above appear in **zero**
+files. The separation may be implemented under other identifiers or enforced only
+by verifiers rather than at runtime, and a verifier asserting that free screening
+excludes exact dates is not the same as the runtime refusing to ask for them. A
+contract audit is running to establish which.
