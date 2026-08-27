@@ -20,6 +20,12 @@ const packetBuilder = read("src/components/expungement-ai/PacketInformationBuild
 const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
 const matterPage = read("src/app/briefcase/[packetId]/page.tsx");
 const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
+const briefcasePresentation = read("src/lib/expungement-ai/frontend/briefcase-presentation.ts");
+const briefcaseHome = read("src/app/briefcase/page.tsx");
+const briefcaseMatters = read("src/app/briefcase/matters/page.tsx");
+const briefcaseDocuments = read("src/app/briefcase/documents/page.tsx");
+const briefcasePayments = read("src/app/briefcase/payments/page.tsx");
+const packetInformationPage = read("src/app/briefcase/[packetId]/packet-information/page.tsx");
 const checkoutButton = read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx");
 const generateButton = read("src/components/expungement-ai/PacketGenerateButton.tsx");
 const clinicScreening = read("src/app/clinic/[eventSlug]/screening/[state]/page.tsx");
@@ -278,12 +284,57 @@ if (summaryExists) {
     { key: "packetAnswers:editable_packet_fact", id: "editable_packet_fact", label: "Editable packet fact", value: "Editable", source: "packetAnswers", systemContext: false },
     { key: "packetAnswers:shared_answer", id: "shared_answer", label: "Shared packet answer", value: "Packet value", source: "packetAnswers", systemContext: false },
     { key: "serverFacts:jurisdiction", id: "jurisdiction", label: "Jurisdiction", value: "MS", source: "serverFacts", systemContext: true },
-    { key: "serverFacts:pathway_id", id: "pathway_id", label: "Pathway", value: "server-path", source: "serverFacts", systemContext: true },
-    { key: "serverFacts:server_confirmed_balance", id: "server_confirmed_balance", label: "Server-confirmed balance", value: "Satisfied", source: "serverFacts", systemContext: false }
+    { key: "serverFacts:pathway_id", id: "pathway_id", label: "Pathway", value: "server-path", source: "serverFacts", systemContext: true }
   ];
+  const canonicalContextKeys = [
+    "deferralComponentIds",
+    "dependencies",
+    "jurisdiction",
+    "packetFamilyIdentifiers",
+    "packetPlan",
+    "packetType",
+    "pathwayId",
+    "paymentAllowed",
+    "profileAuthorityFingerprint",
+    "profileSourceFingerprint",
+    "profileVersion",
+    "requiredInputIds",
+    "resultCode",
+    "schemaVersion",
+    "selectedTrackId",
+    "treatmentClassification",
+    "verifiedAt"
+  ];
+  const canonicalContext = canonicalContextKeys.map((key) => ({
+    key,
+    label: key.replaceAll(/([A-Z])/g, " $1").replace(/^./, (first) => first.toUpperCase()),
+    value: key === "jurisdiction"
+      ? "MS"
+      : key === "pathwayId"
+        ? "server-path"
+      : key === "paymentAllowed"
+        ? true
+        : key === "packetPlan"
+          ? { pathwayId: "server-path", requiredInputIds: ["editable_packet_fact"] }
+          : key === "requiredInputIds"
+            ? ["editable_packet_fact"]
+            : key === "schemaVersion"
+              ? "expungement-ai/final-verification/v1"
+              : `${key}-value`,
+    systemContext: true
+  }));
+  const canonicalManifest = {
+    schemaVersion: "expungement-ai/verification-review-manifest/v1",
+    factKeys: canonicalFacts.map((fact) => fact.key),
+    systemContextKeys: canonicalContextKeys
+  };
   const model = {
+    stateCode: "MS",
     stateName: "Mississippi",
+    pathwayId: "server-path",
     pathwayLabel: "Non-conviction expungement",
+    packetPlan: { pathwayId: "server-path", requiredInputIds: ["editable_packet_fact"] },
+    requiredInputIds: ["editable_packet_fact"],
     screeningAnswers: {
       route_answer: "Route B",
       shared_answer: "Screening value",
@@ -300,7 +351,10 @@ if (summaryExists) {
       { id: "read_only_packet_fact", prompt: "Read-only packet fact?" }
     ],
     builderQuestions: [{ id: "editable_packet_fact" }],
-    verificationSummary: canonicalFacts
+    serverFacts: { jurisdiction: "MS", pathway_id: "server-path" },
+    verificationSummary: canonicalFacts,
+    verificationContext: canonicalContext,
+    verificationManifest: canonicalManifest
   };
   const summary = summaryModule.verificationSummary(model);
   requireSource(summary !== null, "A complete Lane B canonical verification summary must be accepted.");
@@ -309,9 +363,10 @@ if (summaryExists) {
   requireSource(
     JSON.stringify(summary.context.map((row) => row.key)) === JSON.stringify([
       "serverFacts:jurisdiction",
-      "serverFacts:pathway_id"
+      "serverFacts:pathway_id",
+      ...canonicalContextKeys
     ]),
-    "Verification summary must render Lane B's canonical state and pathway context."
+    "Verification summary must render every Lane B system-context dependency in canonical order."
   );
   requireSource(
     JSON.stringify(answerRows.map((row) => row.key)) === JSON.stringify([
@@ -320,15 +375,17 @@ if (summaryExists) {
       "screeningAnswers:shared_answer",
       "prefilledAnswers:read_only_packet_fact",
       "packetAnswers:editable_packet_fact",
-      "packetAnswers:shared_answer",
-      "serverFacts:server_confirmed_balance"
-    ]) && new Set([...summary.context, ...answerRows].map((row) => row.key)).size === canonicalFacts.length,
-    "Verification review must render every canonical snapshot fact exactly once in server order."
+      "packetAnswers:shared_answer"
+    ])
+      && new Set([...summary.context, ...answerRows].map((row) => row.key)).size === canonicalFacts.length + canonicalContext.length
+      && [...summary.context, ...answerRows].length === canonicalFacts.length + canonicalContext.length,
+    "Verification review must render every manifested fact and context dependency exactly once."
   );
   requireSource(
     answerRows.find((row) => row.key === "packetAnswers:editable_packet_fact")?.editId === "editable_packet_fact"
       && answerRows.find((row) => row.key === "prefilledAnswers:read_only_packet_fact")?.editId === null
-      && summary.screeningAnswers.every((row) => row.editId === null),
+      && summary.screeningAnswers.every((row) => row.editId === null)
+      && summary.context.every((row) => !("editId" in row)),
     "Only builder-owned packet answer facts may expose edit links."
   );
   }
@@ -337,8 +394,125 @@ if (summaryExists) {
     verificationSummary: canonicalFacts.filter((fact) => fact.key !== "screeningAnswers:hidden_screening_fact")
   });
   requireSource(
-    missingCanonicalFact === null && summaryModule.verificationSummary({ ...model, verificationSummary: undefined }) === null,
-    "Review must fail closed when Lane B's canonical verification summary is absent or incomplete for model-visible hashed facts."
+    missingCanonicalFact === null
+      && summaryModule.verificationSummary({ ...model, verificationSummary: undefined }) === null
+      && summaryModule.verificationSummary({ ...model, verificationContext: undefined }) === null
+      && summaryModule.verificationSummary({ ...model, verificationManifest: undefined }) === null
+      && summaryModule.verificationSummary({ ...model, verificationContext: canonicalContext.slice(1) }) === null,
+    "Review must fail closed when any manifested fact or context dependency is absent."
+  );
+  requireSource(
+    summaryModule.verificationSummary({ ...model, verificationContext: [...canonicalContext, canonicalContext[0]] }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationManifest: { ...canonicalManifest, factKeys: [...canonicalManifest.factKeys, canonicalManifest.factKeys[0]] }
+      }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: [...canonicalContext, { ...canonicalContext[0], key: canonicalManifest.factKeys[0] }],
+        verificationManifest: {
+          ...canonicalManifest,
+          systemContextKeys: [...canonicalManifest.systemContextKeys, canonicalManifest.factKeys[0]]
+        }
+      }) === null,
+    "Review must reject duplicate fact/context manifest keys and cross-set key collisions."
+  );
+  const forgedContext = canonicalContext.map((entry) => entry.key === "jurisdiction"
+    ? { ...entry, key: "forgedJurisdictionAuthority" }
+    : entry);
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      verificationContext: forgedContext,
+      verificationManifest: {
+        ...canonicalManifest,
+        systemContextKeys: forgedContext.map((entry) => entry.key)
+      }
+    }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: canonicalContext.map((entry) => entry.key === "jurisdiction" ? { ...entry, systemContext: false } : entry)
+      }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationManifest: { ...canonicalManifest, schemaVersion: "forged/v2" }
+      }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationManifest: { ...canonicalManifest, systemContextKeys: [...canonicalManifest.systemContextKeys].reverse() }
+      }) === null,
+    "Review must reject forged context keys, flags, manifest schemas, and manifest order."
+  );
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      verificationContext: canonicalContext.map((entry) => entry.key === "jurisdiction" ? { ...entry, value: "CA" } : entry)
+    }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: canonicalContext.map((entry) => entry.key === "packetPlan" ? { ...entry, value: { pathwayId: "forged" } } : entry)
+      }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: canonicalContext.map((entry) => entry.key === "packetPlan"
+          ? { ...entry, value: { ...entry.value, forgedDependency: true } }
+          : entry)
+      }) === null,
+    "Review must reject forged context values that contradict the model's state, pathway, or packet plan."
+  );
+  requireSource(
+    summaryModule.verificationSummary({ ...model, verificationContext: "not-an-array" }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: canonicalContext.map((entry) => entry.key === "jurisdiction" ? { ...entry, label: "" } : entry)
+      }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationManifest: { ...canonicalManifest, factKeys: "not-an-array" }
+      }) === null,
+    "Review must fail closed on malformed context rows and manifest arrays."
+  );
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      verificationSummary: canonicalFacts.map((fact) => fact.key === "screeningAnswers:route_answer" ? { ...fact, value: "Forged route" } : fact)
+    }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationSummary: canonicalFacts.map((fact) => fact.key === "serverFacts:jurisdiction" ? { ...fact, value: "CA" } : fact)
+      }) === null,
+    "Review must validate manifested screening and protected server fact values against the model maps."
+  );
+  const draftContextKeys = [...canonicalContextKeys.filter((key) => key !== "verifiedAt"), "capturedAt"].sort();
+  const draftContext = draftContextKeys.map((key) => {
+    const verifiedEntry = canonicalContext.find((entry) => entry.key === key);
+    return verifiedEntry ?? {
+      key,
+      label: "Captured at",
+      value: "2026-08-26T00:00:00.000Z",
+      systemContext: true
+    };
+  }).map((entry) => entry.key === "schemaVersion"
+    ? { ...entry, value: "expungement-ai/protected-packet-draft/v1" }
+    : entry);
+  const draftManifest = {
+    ...canonicalManifest,
+    systemContextKeys: draftContextKeys
+  };
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      verificationContext: draftContext,
+      verificationManifest: draftManifest
+    }) !== null
+      && summaryModule.verificationSummary({
+        ...model,
+        verificationContext: draftContext.map((entry) => entry.key === "schemaVersion"
+          ? { ...entry, value: "expungement-ai/final-verification/v1" }
+          : entry),
+        verificationManifest: draftManifest
+      }) === null,
+    "Protected draft review must accept the exact capturedAt manifest and reject a forged final-verification schema."
   );
 }
 requireSource(
@@ -348,9 +522,12 @@ requireSource(
   "The review page must render the summary before delegating gated commerce/generation to PacketVerificationAction."
 );
 requireSource(
-  reviewPage.includes("verificationSummary(model)")
+  reviewPage.includes("verificationSummary({")
     && reviewPage.includes("summary.screeningAnswers")
     && reviewPage.includes("summary.packetAnswers")
+    && reviewPage.includes("summary.context")
+    && reviewPage.includes("Read-only matter and system details")
+    && reviewPage.includes("aria-describedby=\"verification-context-description\"")
     && reviewPage.includes("verificationAnswers={model.initialAnswers}")
     && reviewPage.includes("canVerify={summary.complete")
     && reviewPage.indexOf("summary.screeningAnswers") < reviewPage.indexOf("<PacketVerificationAction"),
@@ -369,10 +546,177 @@ requireSource(
   "Sponsored review summary must use coverage copy without rendering a consumer cost row."
 );
 requireSource(
-  matterPage.includes('"facts_complete"')
-    && matterPage.includes("factsComplete")
-    && matterPage.includes("Final verification"),
-  "The exact matter must route facts_complete matters to final verification."
+  !matterPage.includes("commercialFlow")
+    && !matterPage.includes("packetInformationModelFor")
+    && matterPage.includes('item?.verificationStatus === "verified"'),
+  "The exact matter must use protected verification status rather than the participant packet-information mirror."
+);
+requireSource(
+  matterPage.includes('item.packetProgress === "in_progress"')
+    && matterPage.includes('item.packetProgress === "facts_complete"')
+    && matterPage.includes("Resume packet information")
+    && matterPage.includes("Review packet facts")
+    && briefcaseViews.includes('item.packetProgress === "in_progress"')
+    && briefcaseViews.includes('item.packetProgress === "facts_complete"'),
+  "Protected packet progress must expose resume and review transitions without consulting writable commercial-flow stage fields."
+);
+
+const briefcaseSettings = read("src/app/briefcase/settings/page.tsx");
+const decoratedListPages = [briefcaseHome, briefcaseMatters, briefcaseDocuments, briefcasePayments, briefcaseSettings];
+requireSource(
+  decoratedListPages.every((source) => source.includes("decorateBriefcaseItemsForPresentation"))
+    && [matterPage, reviewPage, packetInformationPage].every((source) => source.includes("decorateBriefcaseItemForPresentation")),
+  "Every production Briefcase list and exact-matter surface must consume Lane B's server-decorated presentation authority."
+);
+requireSource(
+  !reviewPage.includes("packetInformationModelFor")
+    && !packetInformationPage.includes("packetInformationModelFor")
+    && reviewPage.includes("item.packetDraft")
+    && packetInformationPage.includes("item.packetDraft")
+    && packetInformationPage.includes("questions={displayedQuestions}")
+    && packetInformationPage.includes("initialAnswers={model.initialAnswers}")
+    && packetInformationPage.includes("initiallyMissing={model.missingInputIds}")
+    && reviewPage.includes("model?.reviewSafety")
+    && reviewPage.includes("verificationSummary({")
+    && reviewPage.includes("...model"),
+  "Packet builder and final review must consume only the protected packet draft; participant-writable packet-information mirrors cannot drive UI."
+);
+requireSource(
+  !briefcaseViews.includes("packetArtifactFor")
+    && !briefcaseViews.includes("packetCompletionActionFor")
+    && !briefcaseViews.includes("ConsumerBriefcaseItem")
+    && !/\b(?:item|m)\.(?:artifactRefs|packetStatus|packetReady|status|paymentStatus|paymentAllowed|receiptUrl|sourceSessionId)\b/.test(briefcaseViews),
+  "BriefcaseViews must render only the sanitized presentation model, never participant-writable legal, status, payment, copy, or artifact fields."
+);
+requireSource(
+  !briefcasePresentation.includes("ConsumerBriefcaseItem")
+    && !briefcasePresentation.includes("artifactRefs")
+    && !briefcasePresentation.includes("packetStatus")
+    && briefcasePresentation.includes("BriefcasePresentationItem"),
+  "Briefcase presentation mapping must accept only Lane B's sanitized authority model."
+);
+requireSource(
+  !/\b(?:item|storedItem)\.(?:artifactRefs|packetStatus|packetReady|status|paymentStatus|paymentAllowed|receiptUrl|sourceSessionId)\b/.test(matterPage)
+    && !matterPage.includes("packetArtifactFor"),
+  "The packet detail page must not infer legal copy, Ready, payment, or downloads from the participant row."
+);
+requireSource(
+  briefcaseViews.includes('role="status"')
+    && briefcaseViews.includes('aria-live="polite"')
+    && matterPage.includes('role="status"')
+    && matterPage.includes('aria-live="polite"'),
+  "Unavailable protected presentation authority must fail closed with a polite live status on list and detail surfaces."
+);
+requireSource(
+  matterPage.includes("packetDraftAvailable")
+    && matterPage.includes("Packet information is temporarily unavailable")
+    && briefcaseViews.includes("Some saved matter details could not be verified")
+    && briefcaseViews.includes("unavailableCount === 0"),
+  "Unavailable packet drafts and incomplete aggregate authority must be announced without false progress, document, or generation claims."
+);
+
+const protectedPresentation = {
+  id: "22222222-2222-4222-8222-222222222222",
+  createdAt: "2026-08-26T00:00:00.000Z",
+  authorityStatus: "protected_verified",
+  unavailableReason: null,
+  jurisdiction: "MS",
+  title: "Protected Mississippi packet",
+  resultCode: "packet_ready",
+  pathwayId: "protected-pathway",
+  pathwayLabel: "Protected pathway",
+  summary: "PROTECTED SUMMARY",
+  nextSteps: ["PROTECTED NEXT STEP"],
+  checklist: ["PROTECTED CHECKLIST"],
+  packetType: "custom_pleading",
+  selectedTrackId: "protected-track",
+  treatmentClassification: null,
+  verificationStatus: "verified",
+  packetProgress: "verified",
+  packetDraft: { status: "unavailable" },
+  paymentState: "paid",
+  artifact: {
+    status: "ready",
+    canDownload: true,
+    source: "source_driven_packet_plan",
+    packetId: "protected-packet",
+    packetPlanId: "protected-pathway",
+    generatedAt: "2026-08-26T01:00:00.000Z",
+    documents: [{ kind: "full", fileName: "protected-packet.pdf", downloadPath: "/api/protected-download" }]
+  }
+};
+const unavailablePresentation = {
+  id: "33333333-3333-4333-8333-333333333333",
+  createdAt: "2026-08-26T00:00:00.000Z",
+  authorityStatus: "unavailable",
+  unavailableReason: "protected_artifact_storage_unavailable",
+  jurisdiction: null,
+  title: "Briefcase matter unavailable",
+  resultCode: null,
+  pathwayId: null,
+  pathwayLabel: null,
+  summary: null,
+  nextSteps: [],
+  checklist: [],
+  packetType: null,
+  selectedTrackId: null,
+  treatmentClassification: null,
+  verificationStatus: "unavailable",
+  packetProgress: "unavailable",
+  packetDraft: { status: "unavailable" },
+  paymentState: "unavailable",
+  artifact: { status: "absent", canDownload: false, documents: [] }
+};
+const presentationModule = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
+requireSource(
+  presentationModule.humanMatterState(protectedPresentation) === "Packet ready"
+    && presentationModule.matterCareState(protectedPresentation) === "completed"
+    && briefcaseViews.includes("item.summary")
+    && briefcaseViews.includes("item.nextSteps.map")
+    && briefcaseViews.includes("artifact.documents.map")
+    && briefcaseViews.includes("document.downloadPath"),
+  "Briefcase cards must map only canonical protected copy and protected document links."
+);
+requireSource(
+  presentationModule.humanMatterState(unavailablePresentation) === "Matter details unavailable"
+    && presentationModule.matterCareState(unavailablePresentation) === "unavailable"
+    && briefcaseViews.includes("could not verify document availability")
+    && !/artifactRefs|packetStatus|paymentStatus|receiptUrl/.test(briefcaseViews),
+  "Unavailable authority must render a neutral live status and no legal, payment, Ready, or document assertion."
+);
+requireSource(
+  presentationModule.humanMatterState({
+    ...protectedPresentation,
+    artifact: { status: "absent", canDownload: false, documents: [] },
+    packetDraft: { status: "unavailable" },
+    packetProgress: "not_started"
+  }) === "Matter details unavailable"
+    && presentationModule.matterCareState({
+      ...protectedPresentation,
+      artifact: { status: "absent", canDownload: false, documents: [] },
+      packetDraft: { status: "unavailable" },
+      packetProgress: "not_started"
+    }) === "unavailable",
+  "A packet result with unavailable protected draft authority must not appear actionable or ready in aggregate Briefcase status."
+);
+requireSource(
+  presentationModule.humanMatterState({
+    ...protectedPresentation,
+    artifact: { status: "absent", canDownload: false, documents: [] },
+    packetDraft: { status: "available" },
+    paymentState: "unpaid",
+    verificationStatus: "unverified",
+    packetProgress: "in_progress"
+  }) === "Packet details in progress"
+    && presentationModule.humanMatterState({
+      ...protectedPresentation,
+      artifact: { status: "absent", canDownload: false, documents: [] },
+      packetDraft: { status: "available" },
+      paymentState: "unpaid",
+      verificationStatus: "unverified",
+      packetProgress: "facts_complete"
+    }) === "Packet facts complete",
+  "Protected packet progress must drive resume and final-review status without consulting the writable row mirror."
 );
 
 requireSource(

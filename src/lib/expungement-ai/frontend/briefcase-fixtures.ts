@@ -5,39 +5,67 @@
  * exist only to render the matter-state gallery behind a production-blocked route. The real
  * Briefcase is server data; this branch adds no persistence for sensitive screening answers.
  */
-import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
+import type { BriefcasePresentationItem } from "@/lib/expungement-ai/briefcase-presentation-authority";
 
-const BASE: ConsumerBriefcaseItem = {
+const BASE: BriefcasePresentationItem = {
   id: "fixture",
-  type: "result",
+  authorityStatus: "trusted_source",
+  unavailableReason: null,
   title: "Illinois record-clearing check",
-  state: "IL",
-  status: "check_saved",
+  jurisdiction: "IL",
   createdAt: "2026-06-01T12:00:00.000Z",
+  resultCode: null,
+  pathwayId: "illinois-expungement",
+  pathwayLabel: "Illinois expungement",
   summary: "Illustrative matter for visual QA.",
   nextSteps: ["Review the details.", "Open the matter for more."],
-  paymentAllowed: false,
-  packetReady: false,
-  pathwayLabel: "Illinois expungement"
+  checklist: [],
+  packetType: null,
+  selectedTrackId: null,
+  treatmentClassification: null,
+  verificationStatus: "trusted_source",
+  packetProgress: "unavailable",
+  packetDraft: { status: "unavailable" },
+  paymentState: "unpaid",
+  artifact: { status: "absent", canDownload: false, documents: [] }
 };
 
-export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
+const AVAILABLE_PACKET_DRAFT: Extract<BriefcasePresentationItem["packetDraft"], { status: "available" }> = {
+  status: "available",
+  capturedAt: "2026-06-01T12:00:00.000Z",
+  initialAnswers: {},
+  screeningAnswers: {},
+  serverFacts: { jurisdiction: "IL", pathway_id: "illinois-expungement" },
+  requiredInputIds: [],
+  missingInputIds: [],
+  questions: [],
+  builderQuestions: [],
+  verificationSummary: [],
+  verificationContext: [],
+  verificationManifest: {
+    schemaVersion: "expungement-ai/verification-review-manifest/v1",
+    factKeys: [],
+    systemContextKeys: []
+  },
+  packetPlan: null,
+  expectedComponents: [],
+  reviewSafety: { safe: false, reason: "visual_fixture_only" }
+};
+
+export const BRIEFCASE_CARE_FIXTURES: readonly BriefcasePresentationItem[] = [
   {
     ...BASE,
     id: "fixture-packet-ready",
-    status: "packet_ready",
     resultCode: "packet_ready",
     summary: "A packet-ready path was found.",
     nextSteps: ["Generate your self-help packet.", "Review every document before filing."],
-    paymentAllowed: true,
-    packetReady: true,
-    paymentStatus: "unpaid",
-    packetStatus: "not_started"
+    packetType: "custom_pleading",
+    packetProgress: "not_started",
+    packetDraft: AVAILABLE_PACKET_DRAFT
   },
   {
     ...BASE,
     id: "fixture-guidance-only",
-    status: "guidance_saved",
     resultCode: "guidance_only",
     packetType: "guidance_packet",
     summary: "Guidance saved for this path.",
@@ -46,7 +74,6 @@ export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
   {
     ...BASE,
     id: "fixture-waiting",
-    status: "waiting",
     resultCode: "not_yet",
     summary: "A waiting period may apply before filing.",
     nextSteps: ["Save this result.", "Come back when the waiting period may be complete."]
@@ -54,7 +81,6 @@ export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
   {
     ...BASE,
     id: "fixture-needs-attention",
-    status: "needs_info",
     resultCode: "needs_more_info",
     summary: "A few more details are needed.",
     nextSteps: ["Add the missing case details.", "Run the check again."]
@@ -62,7 +88,6 @@ export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
   {
     ...BASE,
     id: "fixture-denied",
-    status: "not_eligible",
     resultCode: "likely_not_eligible",
     summary: "This record may not match a self-help filing path.",
     nextSteps: ["Review the reasons.", "Consider a legal aid or attorney review."]
@@ -70,13 +95,21 @@ export const BRIEFCASE_CARE_FIXTURES: readonly ConsumerBriefcaseItem[] = [
   {
     ...BASE,
     id: "fixture-completed",
-    status: "packet_ready",
     resultCode: "packet_ready",
     summary: "Packet generated and downloaded.",
     nextSteps: ["File your packet with the correct court.", "Keep a copy for your records."],
-    paymentAllowed: true,
-    packetReady: true,
-    paymentStatus: "paid",
-    packetStatus: "downloaded"
+    packetType: "custom_pleading",
+    verificationStatus: "verified",
+    packetProgress: "verified",
+    paymentState: "paid",
+    artifact: {
+      status: "ready",
+      canDownload: true,
+      source: "source_driven_packet_plan",
+      packetId: "fixture-packet",
+      packetPlanId: "illinois-expungement",
+      generatedAt: "2026-06-01T12:30:00.000Z",
+      documents: [{ kind: "full", fileName: "fixture-packet.pdf", downloadPath: "/dev/fixture-packet.pdf" }]
+    }
   }
 ];

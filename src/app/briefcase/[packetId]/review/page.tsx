@@ -10,13 +10,8 @@ import {
   type VerificationSummaryRow
 } from "@/components/expungement-ai/verification-summary";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
-import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
-import {
-  answerLabel,
-  expectedPacketComponents,
-  packetInformationModelFor,
-  packetInformationReviewSafety
-} from "@/lib/expungement-ai/packet-information";
+import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { decorateBriefcaseItemForPresentation } from "@/lib/expungement-ai/briefcase-presentation-authority";
 
 export const dynamic = "force-dynamic";
 
@@ -27,18 +22,27 @@ export default async function PacketAccuracyReviewPage({
 }) {
   const { packetId } = await params;
   const auth = await requireConsumerBriefcaseSession(`/briefcase/${packetId}/review`);
-  const item = await getBriefcaseItem(auth.userId, packetId);
-  const sponsored = item ? await isPartnerSponsoredPacketItem(item) : false;
-  const model = item ? packetInformationModelFor(item) : null;
-  const reviewSafety = item ? packetInformationReviewSafety(item) : { safe: false, reason: "matter_missing" };
-  const packetInformationStage = model?.stage as string | undefined;
-  const initiallyVerified = packetInformationStage === "ready_to_generate" && reviewSafety.safe;
-  const summary = model ? verificationSummary(model) : null;
+  const storedItem = await getBriefcaseItem(auth.userId, packetId);
+  const item = storedItem ? await decorateBriefcaseItemForPresentation({
+    consumerAuthUserId: auth.userId,
+    item: storedItem
+  }) : null;
+  const authorityAvailable = item?.authorityStatus !== "unavailable";
+  const sponsored = item?.paymentState === "sponsored";
+  const packetMatter = authorityAvailable && (item?.resultCode === "packet_ready" || item?.resultCode === "packet_ready_with_caution");
+  const model = packetMatter && item?.packetDraft.status === "available" ? item.packetDraft : null;
+  const reviewSafety = model?.reviewSafety ?? { safe: false, reason: "matter_missing" };
+  const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;
+  const summary = item && model ? verificationSummary({
+    ...model,
+    stateCode: item.jurisdiction ?? "",
+    pathwayId: item.pathwayId
+  }) : null;
 
   return (
     <BriefcaseShell
       userEmail={auth.userEmail}
-      caseState={item?.state}
+      caseState={item?.jurisdiction ?? undefined}
       briefcaseItemId={item?.id}
       activeNav="matters"
       breadcrumb={item ? <><Link href="/briefcase/matters">My matters</Link> / <Link href={`/briefcase/${item.id}`}>{item.title}</Link> / <b>Final verification</b></> : <b>Final verification</b>}
@@ -52,7 +56,7 @@ export default async function PacketAccuracyReviewPage({
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
                 {sponsored
                   ? "Check each answer before covered generation. Editable packet facts are marked below."
-                  : item.paymentStatus === "paid"
+                  : item.paymentState === "paid"
                     ? "Check each answer before preparing the packet. Editable packet facts are marked below."
                     : "Check each answer before final verification. Editable packet facts are marked below."}
               </p>
@@ -69,10 +73,21 @@ export default async function PacketAccuracyReviewPage({
             ) : null}
           </div>
 
+          <div className="mt-6">
+            <ReviewCard title="Read-only matter and system details" icon={<ShieldCheck className="h-5 w-5" aria-hidden="true" />}>
+              <p className="text-sm leading-6 text-[#475A6E]" id="verification-context-description">
+                These saved details determine the packet route and verification record. They cannot be edited on this page.
+              </p>
+              <dl aria-describedby="verification-context-description" className="mt-4 grid gap-3 text-sm">
+                {summary.context.map((entry) => <SummaryLine key={entry.key} label={entry.label} value={entry.value} />)}
+              </dl>
+            </ReviewCard>
+          </div>
+
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
             <ReviewCard title="Expected packet components" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
               <ul className="space-y-2">
-                {expectedPacketComponents(model.packetPlan).map((component) => (
+                {model.expectedComponents.map((component) => (
                   <li className="flex gap-2 text-sm leading-6 text-[#475A6E]" key={component}>
                     <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-[#00A99D]" aria-hidden="true" /> {component}
                   </li>
@@ -92,10 +107,9 @@ export default async function PacketAccuracyReviewPage({
 
           <ReviewCard title="Your packet" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
             <dl className="grid gap-3 text-sm">
-              {summary.context.map((entry) => <SummaryLine key={entry.key} label={entry.label} value={entry.value} />)}
               <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before final verification."} />
               <SummaryLine label="Coverage" value={sponsored ? "Covered by your partner program" : "This packet belongs to your private Briefcase matter."} />
-              {!sponsored ? <SummaryLine label="Cost" value={item.paymentStatus === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} /> : null}
+              {!sponsored ? <SummaryLine label="Cost" value={item.paymentState === "paid" ? "Already paid for this matter" : "$50 one time after final verification"} /> : null}
             </dl>
           </ReviewCard>
 
@@ -103,7 +117,7 @@ export default async function PacketAccuracyReviewPage({
             <h2 className="text-base font-bold text-[#0B1320]">Details to check</h2>
             {model.missingInputIds.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">
-                {model.missingInputIds.map((id) => <li key={id}>{answerLabel(id)}</li>)}
+                {model.missingInputIds.map((id) => <li key={id}>{model.questions.find((question) => question.id === id)?.prompt ?? id}</li>)}
               </ul>
             ) : (
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">All required information is here. Review the saved answers one more time before continuing.</p>
@@ -118,12 +132,12 @@ export default async function PacketAccuracyReviewPage({
             verificationAnswers={model.initialAnswers}
             initiallyVerified={initiallyVerified}
             canVerify={summary.complete && model.missingInputIds.length === 0 && reviewSafety.safe}
-            packetReady={item.packetStatus === "ready"}
-            mode={sponsored ? "sponsored" : item.paymentStatus === "paid" ? "paid" : "consumer"}
+            packetReady={item.artifact.status === "ready"}
+            mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}
           />
         </section>
       ) : (
-        <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
+        <section className="rounded-[16px] border border-[#ECEFF4] bg-white p-6" role="status" aria-live="polite">
           <h1 className="text-2xl font-extrabold text-[#0B1320]">Final verification is not available for this matter.</h1>
           <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#0B1320] px-5 text-sm font-bold text-white" href={item ? `/briefcase/${item.id}` : "/briefcase"}>Open matter</Link>
         </section>
@@ -161,5 +175,5 @@ function AnswerSection({ title, itemId, rows }: { title: string; itemId: string;
 }
 
 function SummaryLine({ label, value }: { label: string; value: string }) {
-  return <div className="grid gap-1 sm:grid-cols-[8rem_1fr]"><dt className="font-bold text-[#334155]">{label}</dt><dd className="text-[#475A6E]">{value}</dd></div>;
+  return <div className="grid gap-1 sm:grid-cols-[12rem_1fr]"><dt className="font-bold text-[#334155]">{label}</dt><dd className="break-words text-[#475A6E]">{value}</dd></div>;
 }
