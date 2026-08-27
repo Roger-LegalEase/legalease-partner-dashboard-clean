@@ -399,6 +399,7 @@ if (fs.existsSync(path.join(rootDir, verificationClientPath))) {
 
 async function exerciseBuilderRoute(item, protectedVerification) {
   const transitions = [];
+  const checkoutCompensations = [];
   const route = loadTsWithMocks("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts", {
     "@/lib/rcap/briefcase/auth": {
       getRcapBriefcaseAuthState: async () => ({ isAuthenticated: true, userId: "route-owner" })
@@ -407,6 +408,12 @@ async function exerciseBuilderRoute(item, protectedVerification) {
       getBriefcaseItem: async (userId, itemId) => userId === "route-owner" && itemId === item.id ? item : null
     },
     "@/lib/expungement-ai/packet-information": { packetInformationPatch, protectedPacketInformationModelFor },
+    "@/lib/expungement-ai/payment-adapter": {
+      expireRetainedConsumerCheckoutIfUnbound: async (input) => {
+        checkoutCompensations.push(input);
+        return { ok: true, outcome: "not_applicable" };
+      }
+    },
     "@/lib/expungement-ai/verification-cas": {
       readProtectedPacketVerification: async () => ({
         ok: true,
@@ -423,12 +430,18 @@ async function exerciseBuilderRoute(item, protectedVerification) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ answers: { court: "Test court" }, verify: false })
   }), { params: Promise.resolve({ itemId: item.id }) });
-  return { response, body: await response.json(), transitions };
+  return { response, body: await response.json(), transitions, checkoutCompensations };
 }
 
 const unpaidRouteResult = await exerciseBuilderRoute({ ...savedByResult.get("packet_ready"), artifactRefs: {} }, initialProtected);
 assert.equal(unpaidRouteResult.response.status, 200, "unpaid owner must be able to save packet information");
 assert.equal(unpaidRouteResult.transitions.length, 1);
+assert.equal(unpaidRouteResult.checkoutCompensations.length, 1, "a successful CAS save reaches retained-Checkout compensation exactly once");
+assert.deepEqual(unpaidRouteResult.checkoutCompensations[0], {
+  item: { ...savedByResult.get("packet_ready"), artifactRefs: {} },
+  currentVerificationHash: null,
+  checkoutVerificationHash: null
+});
 assert.ok(unpaidRouteResult.body.reviewPath.endsWith("/review"));
 
 console.log("Expungement.ai commercial-flow contract verification passed.");
