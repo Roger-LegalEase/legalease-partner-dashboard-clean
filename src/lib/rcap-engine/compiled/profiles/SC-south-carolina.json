@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": ["criminal_history", "disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    "completionAliasIds": ["sentence_completion_date", "financial_obligations"]
+  },
   "jurisdiction": {
     "code": "SC",
     "name": "South Carolina",
@@ -615,17 +620,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
-        "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
-        "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
-        "Summary court internet public record removal Within 30 days of disposition",
-        "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
-        "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion"
+        "disposition-triggered; no elapsed wait applies"
       ],
       "exclusionRules": [
         "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
@@ -642,6 +637,47 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "mechanism": "General-sessions nonconviction expungement",
+        "statute": "S.C. Code § 17-1-40",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "disposition-triggered; no elapsed wait applies"
+        },
+        "requiredFacts": [
+          "Exact statute/offense?",
+          "Conviction and completion dates?",
+          "Later/pending record?",
+          "DV3?",
+          "Fraudulent check?",
+          "Blue-light injury/death?",
+          "YOA sentence?",
+          "Nonconviction disposition?",
+          "Juvenile age/completion?",
+          "Pardon?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact South Carolina offense/statute and route",
+          "First-offense/clean-record conditions",
+          "Exclusions",
+          "Juvenile requirements",
+          "Pardon is notation only"
+        ],
+        "packetFamily": "South Carolina § 17-1-40 Nonconviction Expungement Application",
+        "packetComponents": [
+          "Application under § 17-1-40",
+          "Disposition record"
+        ]
       }
     },
     {
@@ -858,21 +894,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
-        "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
-        "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
-        "First misdemeanor fraudulent check 1 year from conviction",
-        "First low-level 22-5-910 conviction 3 years from conviction",
-        "Third-degree domestic violence under 22-5-910 5 years from conviction",
-        "Youthful Offender Act 5 years after completing sentence/probation/parole",
-        "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
-        "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
-        "Conviction expungement routes First offense misdemeanor fraudulent check \u0014 34-11-90(e) A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period."
+        "the period differs by exact statute: one year from conviction for a first misdemeanor fraudulent-check conviction under § 34-11-90; three years for a qualifying first low-level offense under § 22-5-910; five years for third-degree domestic violence under that section; three years after sentence completion for a qualifying first-offense failure to stop for a blue light under § 56-5-750(F); and five years after sentence completion for an eligible Youthful Offender Act sentence under § 22-5-920"
       ],
       "exclusionRules": [
         "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
@@ -898,6 +920,57 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
         "lawrence_review": "gate_required"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "mechanism": "Eligible conviction expungement — offense-specific period map",
+        "statute": "S.C. Code §§ 34-11-90, 22-5-910, 56-5-750(F), 22-5-920",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "conviction_date",
+          "anchorAlternates": [
+            "sentence_completion_actual_date"
+          ],
+          "anchorText": "the period differs by exact statute: one year from conviction for a first misdemeanor fraudulent-check conviction under § 34-11-90; three years for a qualifying first low-level offense under § 22-5-910; five years for third-degree domestic violence under that section; three years after sentence completion for a qualifying first-offense failure to stop for a blue light under § 56-5-750(F); and five years after sentence completion for an eligible Youthful Offender Act sentence under § 22-5-920"
+        },
+        "requiredFacts": [
+          "Exact statute/offense?",
+          "Conviction and completion dates?",
+          "Later/pending record?",
+          "DV3?",
+          "Fraudulent check?",
+          "Blue-light injury/death?",
+          "YOA sentence?",
+          "Nonconviction disposition?",
+          "Juvenile age/completion?",
+          "Pardon?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "conviction_date",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Exact South Carolina offense/statute and route",
+          "First-offense/clean-record conditions",
+          "Exclusions",
+          "Juvenile requirements",
+          "Pardon is notation only"
+        ],
+        "packetFamily": "South Carolina Conviction Expungement Application",
+        "packetComponents": [
+          "Application to the solicitor's office",
+          "Conviction record",
+          "Completion proof where the branch requires it"
+        ],
+        "notes": "The exact statute is a mandatory intake fact; the stored value is the shortest branch and must never be applied to another."
       }
     },
     {
@@ -1032,22 +1105,7 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
-        "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
-        "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
-        "First misdemeanor fraudulent check 1 year from conviction",
-        "First low-level 22-5-910 conviction 3 years from conviction",
-        "Third-degree domestic violence under 22-5-910 5 years from conviction",
-        "Youthful Offender Act 5 years after completing sentence/probation/parole",
-        "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
-        "Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
-        "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
-        "Youthful offender sentence 22-5-920 5 years after sentence/probation/parole completion; exclusions apply"
+        "the juvenile-specific age, completion, clean-record and pending-case conditions govern; favorable-outcome relief is handled separately"
       ],
       "exclusionRules": [
         "Juvenile expungement is governed by 63-19-2050. A person taken into custody, charged, or adjudicated delinquent for a status offense or nonviolent crime may petition to expunge official records. Violent-crime adjudications cannot be expunged under this route. The court must not grant expungement unless the person is at least 18, completed the disposition, has no subsequent adjudication or conviction, and has no pending Family Court or General Sessions charges. If the juvenile was found not guilty in Family Court, the court must grant expungement regardless of age and without a fee. (\"https://www.scstatehouse.gov/code/t63c019.php?utm_source=chatgpt.com\")",
@@ -1064,6 +1122,49 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "mechanism": "Juvenile expungement",
+        "statute": "S.C. Code § 63-19-2050",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "the juvenile-specific age, completion, clean-record and pending-case conditions govern; favorable-outcome relief is handled separately"
+        },
+        "requiredFacts": [
+          "Exact statute/offense?",
+          "Conviction and completion dates?",
+          "Later/pending record?",
+          "DV3?",
+          "Fraudulent check?",
+          "Blue-light injury/death?",
+          "YOA sentence?",
+          "Nonconviction disposition?",
+          "Juvenile age/completion?",
+          "Pardon?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "pending_cases",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact South Carolina offense/statute and route",
+          "First-offense/clean-record conditions",
+          "Exclusions",
+          "Juvenile requirements",
+          "Pardon is notation only"
+        ],
+        "packetFamily": "South Carolina Juvenile Expungement Application under § 63-19-2050",
+        "packetComponents": [
+          "Application under § 63-19-2050",
+          "Completion proof"
+        ]
       }
     },
     {
@@ -1120,26 +1221,10 @@
       ],
       "automatic": false,
       "filingRequired": false,
-      "routeType": "pardon",
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
-        "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
-        "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
-        "First misdemeanor fraudulent check 1 year from conviction",
-        "First low-level 22-5-910 conviction 3 years from conviction",
-        "Third-degree domestic violence under 22-5-910 5 years from conviction",
-        "Youthful Offender Act 5 years after completing sentence/probation/parole",
-        "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
-        "Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
-        "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion",
-        "Youthful offender sentence 22-5-920 5 years after sentence/probation/parole completion; exclusions apply",
-        "User\u0019s case outcome First Wilma route South Carolina treatment Summary court charge dismissed / nolle prossed / not guilty 17-22-950 summary court expungement Usually handled by magistrate or municipal court, often no cost General Sessions charge dismissed / nolle prossed / not guilty / discharged / acquitted 17-1-40 non-conviction expungement Usually through Solicitor\u0019s Office Completed Pretrial Intervention 17-22-150 Noncriminal disposition; expungement route after completion Completed Alcohol Education Program 17-22-530 Noncriminal disposition; expungement route after completion Completed Traffic Education Program 17-22-330 Noncriminal disposition; expungement route after completion Conditional discharge for eligible drug possession 44-53-450 Dismissal/discharge after completion; one-time route First offense misdemeanor fraudulent check 34-11-90(e) 1-year wait from conviction; no…"
+        "guidance only; a pardon is not expungement and carries no expungement clock"
       ],
       "exclusionRules": [
         "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
@@ -1156,6 +1241,43 @@
         "exclusionOrAmbiguityResult": "needs_review",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "mechanism": "Pardon guidance for otherwise ineligible convictions",
+        "statute": "S.C. Department of Probation, Parole and Pardon Services pardon process",
+        "stage": "single_stage",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "guidance only; a pardon is not expungement and carries no expungement clock"
+        },
+        "requiredFacts": [
+          "Exact statute/offense?",
+          "Conviction and completion dates?",
+          "Later/pending record?",
+          "DV3?",
+          "Fraudulent check?",
+          "Blue-light injury/death?",
+          "YOA sentence?",
+          "Nonconviction disposition?",
+          "Juvenile age/completion?",
+          "Pardon?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact South Carolina offense/statute and route",
+          "First-offense/clean-record conditions",
+          "Exclusions",
+          "Juvenile requirements",
+          "Pardon is notation only"
+        ],
+        "packetFamily": null,
+        "notes": "Results copy must affirmatively disclose that a South Carolina pardon does not erase or seal the conviction: the conviction remains visible with a pardon notation. This route must never promise record deletion and must never open checkout."
       }
     }
   ],
@@ -1983,16 +2105,10 @@
       "when": {
         "backendPathwayId": "general-sessions-non-conviction-expungement",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date",
-          "pending_cases",
-          "criminal_history"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date",
-          "pending_cases",
-          "criminal_history"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2000,7 +2116,8 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "General Sessions non-conviction expungement"
+        "sourceConditionText": "disposition-triggered; no elapsed wait applies",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2010,7 +2127,13 @@
       "sourceRef": "section:55-67; section:68-72; corpus-unit:18; corpus-unit:66",
       "candidatePathwayIds": [
         "general-sessions-non-conviction-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "statute": "S.C. Code § 17-1-40",
+        "mechanism": "General-sessions nonconviction expungement"
+      }
     },
     {
       "id": "route-summary-court-non-conviction-expungement",
@@ -2104,26 +2227,27 @@
         "backendPathwayId": "eligible-conviction-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Eligible conviction expungement"
+        "sourceConditionText": "the period differs by exact statute: one year from conviction for a first misdemeanor fraudulent-check conviction under § 34-11-90; three years for a qualifying first low-level offense under § 22-5-910; five years for third-degree domestic violence under that section; three years after sentence completion for a qualifying first-offense failure to stop for a blue light under § 56-5-750(F); and five years after sentence completion for an eligible Youthful Offender Act sentence under § 22-5-920",
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "conviction_date",
+        "timingAnchorAlternateFactIds": [
+          "sentence_completion_actual_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2133,7 +2257,13 @@
       "sourceRef": "section:84-100; corpus-unit:36",
       "candidatePathwayIds": [
         "eligible-conviction-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "statute": "S.C. Code §§ 34-11-90, 22-5-910, 56-5-750(F), 22-5-920",
+        "mechanism": "Eligible conviction expungement — offense-specific period map"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-expungement",
@@ -2181,27 +2311,11 @@
         "backendPathwayId": "juvenile-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "offense_level",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "criminal_history",
-          "trafficking_status",
-          "pardon_status"
+          "pending_cases"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "offense_level",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "criminal_history",
-          "trafficking_status",
-          "pardon_status"
+          "pending_cases"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2212,7 +2326,8 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Juvenile expungement"
+        "sourceConditionText": "the juvenile-specific age, completion, clean-record and pending-case conditions govern; favorable-outcome relief is handled separately",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2222,7 +2337,13 @@
       "sourceRef": "section:109-111; section:10-31; section:42-54; overview:10-31; corpus-unit:9; corpus-unit:17; corpus-unit:58",
       "candidatePathwayIds": [
         "juvenile-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "statute": "S.C. Code § 63-19-2050",
+        "mechanism": "Juvenile expungement"
+      }
     },
     {
       "id": "route-pardon-guidance-for-otherwise-ineligible-convictions",
@@ -2231,26 +2352,10 @@
       "when": {
         "backendPathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "prior_relief",
-          "age_at_offense",
-          "trafficking_status",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -2261,7 +2366,7 @@
           "convicted_felony",
           "juvenile"
         ],
-        "sourceConditionText": "Pardon guidance for otherwise ineligible convictions"
+        "sourceConditionText": "guidance only; a pardon is not expungement and carries no expungement clock"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2271,7 +2376,13 @@
       "sourceRef": "overview:10-31; section:10-31; corpus-unit:9",
       "candidatePathwayIds": [
         "pardon-guidance-for-otherwise-ineligible-convictions"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-SC-01",
+        "ruleId": "SC-CONVICTION-OFFENSE-MAP-NONCONVICTION-JUVENILE-PARDON-SPLIT",
+        "statute": "S.C. Department of Probation, Parole and Pardon Services pardon process",
+        "mechanism": "Pardon guidance for otherwise ineligible convictions"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2527,6 +2638,22 @@
         "charge",
         "age_at_offense",
         "trafficking_status"
+      ]
+    },
+    {
+      "id": "authority-eligible-conviction-expungement",
+      "ruleText": "S.C. Code §§ 34-11-90, 22-5-910, 56-5-750(F), 22-5-920 — the period differs by exact statute: one year from conviction for a first misdemeanor fraudulent-check conviction under § 34-11-90; three years for a qualifying first low-level offense under § 22-5-910; five years for third-degree domestic violence under that section; three years after sentence completion for a qualifying first-offense failure to stop for a blue light under § 56-5-750(F); and five years after sentence completion for an eligible Youthful Offender Act sentence under § 22-5-920",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "conviction_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "conviction_date",
+        "sentence_completion_actual_date"
       ]
     }
   ],

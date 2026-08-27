@@ -7,6 +7,7 @@
 // petition. Unknown input fails closed.
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
+import { legalRouteContract, routeCheckoutIsClosed } from "@/lib/legal-authority/index";
 import { factoryV2RouteFor } from "@/lib/rcap/documents/factory-v2-registry";
 import {
   completeGuidanceForTrack,
@@ -209,6 +210,25 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
       creditConsumable: false,
       reason: `${guidance.trackId} is served by an accepted complete-guidance treatment; no packet is prepared or sold for this route.`,
       guidanceTrackIds: [guidance.trackId]
+    };
+  }
+
+  // Approved legal route contracts outrank jurisdiction-wide renderer support.
+  // Legacy verification means Mississippi can render a packet; it does not
+  // mean every Mississippi stage is a participant-filed product. Exact
+  // deferrals and complete treatments above retain their more specific route
+  // identity; otherwise active-case, automatic, enforcement, referral and
+  // attorney-review stages fail closed here before any legacy/factory route.
+  const legalContract = legalRouteContract(jurisdiction, pathwayId);
+  if (legalContract && routeCheckoutIsClosed(legalContract)) {
+    return {
+      routeKind: "guidance_only",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: false,
+      creditConsumable: false,
+      reason: `${legalContract.routeKey} is authority-closed at stage ${legalContract.stage}; no participant packet is sold and no packet credit is consumed.`
     };
   }
 

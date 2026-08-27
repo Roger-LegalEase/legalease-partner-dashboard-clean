@@ -4649,12 +4649,12 @@
       "jurisdiction": "MO",
       "trackId": "mo-610-141-automatic-drug",
       "declaredStrategy": "process_guidance",
-      "coverageDisposition": "missing_from_compiled_runtime",
-      "mappedCompiledPathwayIds": [],
-      "terminal": true,
-      "holds": [
-        "missing_from_compiled_runtime"
+      "coverageDisposition": "exact_current_pathway",
+      "mappedCompiledPathwayIds": [
+        "state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141"
       ],
+      "terminal": true,
+      "holds": [],
       "requiredTreatment": null,
       "candidateTreatment": "complete_guidance",
       "candidateEvidence": "data/rcap-all50/guidance-packets/mo.json",
@@ -4814,13 +4814,28 @@
       "jurisdiction": "MS",
       "trackId": "ms-nonadj",
       "declaredStrategy": "custom_pleading",
-      "coverageDisposition": "exact_current_pathway",
+      "coverageDisposition": "represented_by_approved_stage_split",
       "mappedCompiledPathwayIds": [
+        "nonadjudication-99-15-26-active-case-admission",
         "nonadjudication-under-99-15-26"
       ],
       "terminal": true,
       "holds": [],
       "requiredTreatment": null,
+      "promotionStatus": "promoted_by_legal_authority",
+      "promotionEvidence": {
+        "decisionId": "LD-MS-01",
+        "routeKeys": [
+          "MS:nonadjudication-99-15-26-active-case-admission",
+          "MS:nonadjudication-under-99-15-26"
+        ],
+        "pathwayIds": [
+          "nonadjudication-99-15-26-active-case-admission",
+          "nonadjudication-under-99-15-26"
+        ],
+        "activeRuntimeKind": "guidance_only",
+        "completedRuntimeKind": "legacy_verified"
+      },
       "counselItemIds": [],
       "decisionCondition": null,
       "e4TerminalClassification": false,

@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "PA",
     "name": "Pennsylvania",
@@ -837,11 +842,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
-        "packet_capable": false,
-        "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Roger Roman and the LegalEase legal team approved the packet-capable release behavior; unresolved fixture facts remain an attorney-review fallback with checkout closed.",
+        "lawrence_review": "approved_release_packet"
       }
     },
     {
@@ -945,11 +950,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1053,11 +1058,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1122,23 +1127,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute does not apply to partial acquittals. The Commonwealth has 60 days to object, and expungement must occur no later than 12 months from the date of acquittal if the statutory requirements are met. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Check whether five years have passed since the summary conviction and whether there has been any arrest or prosecution during that period.",
-        "Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is not the same as expungement. Clean Slate limited access for summary convictions applies after five years from judgment of conviction and payment of court-ordered restitution. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervision or confinement?",
-        "Pennsylvania permits expungement when the person has been dead for three years. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "is an offense under Pennsylvania\u0019s Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/solicitation, unless a sentence of at least 30 months minimum or 60 months maximum imprisonment was imposed. (",
-        "[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]",
-        "Summary conviction expungement 5 years free of arrest/prosecution",
-        "Clean Slate summary sealing 5 years after judgment + restitution",
-        "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release",
-        "320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years after judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee Clean Slate misdemeanor sealing 7 conviction-free years + restitution Qualifying offense / felony sealing 10 conviction-free years + restitution Complete acquittal Automatic expungement path; no partial acquittal Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release Pardon expungement Unconditional pardon can lead to expungement Conditional pardon Clean Slate limited access path Limited access meaning Sealed from public view, not erased Expungement meaning Stronger removal/destruction, with limited statutory retained data Key documents PSP report, docket, OTN, disposition, payment/restitution proof This Pennsylvania reference is ready for Wilma training, intake triage, eligibility screening, packet preparation, document routing, and escalation logic."
+        "unlocked by successful completion of ARD and the resulting dismissal or order; there is no additional generic elapsed wait"
       ],
       "exclusionRules": [
         "as defined by Pennsylvania law. First- and second-degree felonies are excluded from that felony petition list. (",
@@ -1161,11 +1150,52 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "mechanism": "ARD expungement",
+        "statute": "Pa.R.Crim.P. 320",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "unlocked by successful completion of ARD and the resulting dismissal or order; there is no additional generic elapsed wait"
+        },
+        "requiredFacts": [
+          "ARD order/completion/dismissal?",
+          "Exact offense and victim age?",
+          "Date of birth and age 21?",
+          "Sentence terms?",
+          "Trafficking nexus?",
+          "Prosecutor consent/certification?",
+          "Diversion completion?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact Pennsylvania route and statutory exclusions",
+          "ARD sexual-offense exclusions",
+          "§ 6308 only for underage branch",
+          "§ 3019 trafficking predicate"
+        ],
+        "packetFamily": "Pennsylvania ARD Expungement Petition under Pa.R.Crim.P. 320",
+        "packetComponents": [
+          "Petition to expunge",
+          "ARD completion record",
+          "Dismissal order"
+        ],
+        "notes": "ARD completion and the dismissal are distinct facts and both must be captured. Statutory ARD-expungement exclusions must be screened."
       }
     },
     {
@@ -1270,11 +1300,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1378,11 +1408,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1448,23 +1478,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute does not apply to partial acquittals. The Commonwealth has 60 days to object, and expungement must occur no later than 12 months from the date of acquittal if the statutory requirements are met. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Check whether five years have passed since the summary conviction and whether there has been any arrest or prosecution during that period.",
-        "Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is not the same as expungement. Clean Slate limited access for summary convictions applies after five years from judgment of conviction and payment of court-ordered restitution. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervision or confinement?",
-        "Pennsylvania permits expungement when the person has been dead for three years. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "is an offense under Pennsylvania\u0019s Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/solicitation, unless a sentence of at least 30 months minimum or 60 months maximum imprisonment was imposed. (",
-        "[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]",
-        "Summary conviction expungement 5 years free of arrest/prosecution",
-        "Clean Slate summary sealing 5 years after judgment + restitution",
-        "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release",
-        "320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years after judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee Clean Slate misdemeanor sealing 7 conviction-free years + restitution Qualifying offense / felony sealing 10 conviction-free years + restitution Complete acquittal Automatic expungement path; no partial acquittal Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release Pardon expungement Unconditional pardon can lead to expungement Conditional pardon Clean Slate limited access path Limited access meaning Sealed from public view, not erased Expungement meaning Stronger removal/destruction, with limited statutory retained data Key documents PSP report, docket, OTN, disposition, payment/restitution proof This Pennsylvania reference is ready for Wilma training, intake triage, eligibility screening, packet preparation, document routing, and escalation logic."
+        "available when the person is twenty-one or older and has satisfied all terms and conditions of the sentence; no extra period applies after those events"
       ],
       "exclusionRules": [
         "as defined by Pennsylvania law. First- and second-degree felonies are excluded from that felony petition list. (",
@@ -1487,11 +1501,53 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "mechanism": "Underage-drinking conviction expungement",
+        "statute": "18 Pa.C.S. § 9122",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "twenty_first_birthday",
+          "anchorAlternates": [
+            "sentence_completion_actual_date"
+          ],
+          "anchorText": "available when the person is twenty-one or older and has satisfied all terms and conditions of the sentence; no extra period applies after those events"
+        },
+        "requiredFacts": [
+          "ARD order/completion/dismissal?",
+          "Exact offense and victim age?",
+          "Date of birth and age 21?",
+          "Sentence terms?",
+          "Trafficking nexus?",
+          "Prosecutor consent/certification?",
+          "Diversion completion?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact Pennsylvania route and statutory exclusions",
+          "ARD sexual-offense exclusions",
+          "§ 6308 only for underage branch",
+          "§ 3019 trafficking predicate"
+        ],
+        "packetFamily": "Pennsylvania § 9122 Underage-Drinking Expungement Petition",
+        "packetComponents": [
+          "Petition under § 9122",
+          "Sentence completion proof"
+        ],
+        "notes": "Limited to a conviction under 18 Pa.C.S. § 6308."
       }
     },
     {
@@ -1595,11 +1651,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1702,11 +1758,11 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
       }
     },
     {
@@ -1809,11 +1865,11 @@
         "paymentAllowed": false
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved automatic limited access as the complete no-filing release behavior; no checkout or packet opens.",
+        "lawrence_review": "approved_automatic_no_filing"
       }
     },
     {
@@ -1878,23 +1934,7 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute does not apply to partial acquittals. The Commonwealth has 60 days to object, and expungement must occur no later than 12 months from the date of acquittal if the statutory requirements are met. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "A person may petition to expunge a summary offense conviction if they have been free of arrest or prosecution for five years following the conviction. Pennsylvania law states this summary-conviction expungement pathway is only for summary offenses. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Check whether five years have passed since the summary conviction and whether there has been any arrest or prosecution during that period.",
-        "Important: Clean Slate may also automatically seal some summary convictions after five years, but sealing is not the same as expungement. Clean Slate limited access for summary convictions applies after five years from judgment of conviction and payment of court-ordered restitution. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Pennsylvania permits expungement when the person is 70 years of age or older and has been free of arrest or prosecution for 10 years following final release from confinement or supervision. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Are you 70 or older, and have you had no arrest or prosecution for 10 years after final release from supervision or confinement?",
-        "Pennsylvania permits expungement when the person has been dead for three years. (\"https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/18/00.091..HTM\")",
-        "Qualifying misdemeanor or ungraded offense with max penalty no more than 5 years Person must be free from conviction for 7 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Qualifying felony Person must be free from conviction for 10 years for offenses punishable by 1+ years, complete restitution, and pay the limited-access fee",
-        "Eligible M2, M3, or misdemeanor punishable by no more than 2 years Limited access after 7 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "Qualifying offense Limited access after 10 conviction-free years for offenses punishable by 1+ years and payment of restitution",
-        "is an offense under Pennsylvania\u0019s Controlled Substance, Drug, Device and Cosmetic Act, or attempt/conspiracy/solicitation, unless a sentence of at least 30 months minimum or 60 months maximum imprisonment was imposed. (",
-        "[Immediate / 5 years / 7 years / 10 years / age 70 + 10 years / pardon-based / unknown]",
-        "Summary conviction expungement 5 years free of arrest/prosecution",
-        "Clean Slate summary sealing 5 years after judgment + restitution",
-        "Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release",
-        "320 Summary conviction expungement 5 years free of arrest/prosecution Clean Slate summary sealing 5 years after judgment + restitution Petition limited access misdemeanor 7 conviction-free years + restitution/fee Clean Slate misdemeanor sealing 7 conviction-free years + restitution Qualifying offense / felony sealing 10 conviction-free years + restitution Complete acquittal Automatic expungement path; no partial acquittal Age-based expungement Age 70 + 10 years arrest/prosecution-free after final release Pardon expungement Unconditional pardon can lead to expungement Conditional pardon Clean Slate limited access path Limited access meaning Sealed from public view, not erased Expungement meaning Stronger removal/destruction, with limited statutory retained data Key documents PSP report, docket, OTN, disposition, payment/restitution proof This Pennsylvania reference is ready for Wilma training, intake triage, eligibility screening, packet preparation, document routing, and escalation logic."
+        "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
       ],
       "exclusionRules": [
         "as defined by Pennsylvania law. First- and second-degree felonies are excluded from that felony petition list. (",
@@ -1917,11 +1957,49 @@
         "paymentAllowed": true
       },
       "lawrenceRatification": {
-        "status": "hold_guidance",
+        "status": "approved_release_behavior",
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
-        "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "legal_basis": "Roger Roman and the LegalEase legal team approved state-specific guidance as the complete service behavior for this release; no paid court packet opens for this route.",
+        "lawrence_review": "approved_release_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "mechanism": "Human-trafficking vacatur and expungement",
+        "statute": "18 Pa.C.S. § 3019",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
+        },
+        "requiredFacts": [
+          "ARD order/completion/dismissal?",
+          "Exact offense and victim age?",
+          "Date of birth and age 21?",
+          "Sentence terms?",
+          "Trafficking nexus?",
+          "Prosecutor consent/certification?",
+          "Diversion completion?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Pennsylvania route and statutory exclusions",
+          "ARD sexual-offense exclusions",
+          "§ 6308 only for underage branch",
+          "§ 3019 trafficking predicate"
+        ],
+        "packetFamily": "Pennsylvania § 3019 Trafficking Vacatur and Expungement Packet",
+        "packetComponents": [
+          "Petition to vacate or expunge",
+          "Trafficking nexus evidence",
+          "Diversion completion record where applicable"
+        ]
       }
     }
   ],
@@ -4261,24 +4339,10 @@
       "when": {
         "backendPathwayId": "path-d-ard-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "record_type",
-          "offense_level",
-          "disposition_date",
-          "financial_obligations",
-          "pardon_status"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "age_at_offense",
-          "record_type",
-          "offense_level",
-          "disposition_date",
-          "financial_obligations",
-          "pardon_status"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4287,7 +4351,8 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Path D — ARD expungement"
+        "sourceConditionText": "unlocked by successful completion of ARD and the resulting dismissal or order; there is no additional generic elapsed wait",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4297,7 +4362,13 @@
       "sourceRef": "pathways:15-128; section:15-128; corpus-unit:26",
       "candidatePathwayIds": [
         "path-d-ard-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "statute": "Pa.R.Crim.P. 320",
+        "mechanism": "ARD expungement"
+      }
     },
     {
       "id": "route-path-e-age-70-expungement",
@@ -4398,26 +4469,10 @@
       "when": {
         "backendPathwayId": "path-g-underage-drinking-conviction-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "age_at_offense",
-          "pardon_status",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "age_at_offense",
-          "pardon_status",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -4426,7 +4481,11 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Path G — Underage-drinking conviction expungement"
+        "sourceConditionText": "available when the person is twenty-one or older and has satisfied all terms and conditions of the sentence; no extra period applies after those events",
+        "timingAnchorFactId": "twenty_first_birthday",
+        "timingAnchorAlternateFactIds": [
+          "sentence_completion_actual_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4436,7 +4495,13 @@
       "sourceRef": "pathways:15-128; section:15-128; corpus-unit:33",
       "candidatePathwayIds": [
         "path-g-underage-drinking-conviction-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "statute": "18 Pa.C.S. § 9122",
+        "mechanism": "Underage-drinking conviction expungement"
+      }
     },
     {
       "id": "route-path-h-pardon-based-expungement",
@@ -4577,23 +4642,11 @@
         "backendPathwayId": "path-k-human-trafficking-vacatur-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "trafficking_status",
-          "offense_level",
-          "disposition_date",
-          "financial_obligations",
-          "age_at_offense",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "trafficking_status",
-          "offense_level",
-          "disposition_date",
-          "financial_obligations",
-          "age_at_offense",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -4602,7 +4655,7 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Path K — Human-trafficking vacatur / expungement"
+        "sourceConditionText": "no ordinary waiting period; relief follows completion of the statutory diversion route, or the offense and direct-result nexus showing for vacatur"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4612,7 +4665,13 @@
       "sourceRef": "pathways:15-128; section:15-128; corpus-unit:43",
       "candidatePathwayIds": [
         "path-k-human-trafficking-vacatur-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-PA-03",
+        "ruleId": "PA-ARD-9122-UNDERAGE-3019-TRAFFICKING-THREE-ROUTE-MAP",
+        "statute": "18 Pa.C.S. § 3019",
+        "mechanism": "Human-trafficking vacatur and expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

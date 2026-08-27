@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": ["disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    "completionAliasIds": ["sentence_completion_date", "financial_obligations"]
+  },
   "jurisdiction": {
     "code": "WY",
     "name": "Wyoming",
@@ -735,9 +740,11 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": null,
+      "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "available at any time after entry of the covered conviction"
+      ],
       "exclusionRules": [],
       "routeType": "court_filing",
       "frontendBranch": {
@@ -750,7 +757,45 @@
       },
       "sourceEvidenceRefs": [
         "section:120-126"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WY-03",
+        "ruleId": "WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING",
+        "mechanism": "Human-trafficking-victim vacatur",
+        "statute": "Wyo. Stat. § 6-2-708(c)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "conviction_date",
+          "anchorText": "available at any time after entry of the covered conviction"
+        },
+        "requiredFacts": [
+          "Exact conviction?",
+          "Conviction date?",
+          "Trafficking period?",
+          "Causal nexus?",
+          "Official documentation if available?",
+          "Alternative evidence?",
+          "Other counts?",
+          "Requested vacatur effect?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Participation in the offense resulted from trafficking victimization",
+          "Statutory evidentiary and offense requirements satisfied"
+        ],
+        "packetFamily": "Wyoming Trafficking-Victim Vacatur Petition under § 6-2-708",
+        "packetComponents": [
+          "Petition to vacate",
+          "Nexus evidence"
+        ],
+        "notes": "Statutory documentation creates the stated evidentiary effect but is not the only possible proof; the intake must permit alternative nexus evidence. No nonconviction, misdemeanor, felony or juvenile waiting table may be imported."
+      }
     },
     {
       "id": "juvenile-minor-expungement-w-s-14-6-241",
@@ -1437,22 +1482,17 @@
         "backendPathwayId": "human-trafficking-victim-vacatur-w-s-6-2-708",
         "requiredFields": [
           "case_outcome",
-          "offense_category",
-          "court",
-          "charge",
-          "trafficking_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category",
-          "court",
-          "charge",
-          "trafficking_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Human-trafficking victim vacatur - W.S. 6-2-708"
+        "sourceConditionText": "available at any time after entry of the covered conviction",
+        "timingAnchorFactId": "conviction_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1462,7 +1502,13 @@
       "sourceRef": "section:120-126",
       "candidatePathwayIds": [
         "human-trafficking-victim-vacatur-w-s-6-2-708"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WY-03",
+        "ruleId": "WY-6-2-708-ANY-TIME-AFTER-CONVICTION-TRAFFICKING",
+        "statute": "Wyo. Stat. § 6-2-708(c)",
+        "mechanism": "Human-trafficking-victim vacatur"
+      }
     },
     {
       "id": "route-juvenile-minor-expungement-w-s-14-6-241",

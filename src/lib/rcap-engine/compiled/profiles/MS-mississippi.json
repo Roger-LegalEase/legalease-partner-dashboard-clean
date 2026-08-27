@@ -1,6 +1,19 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "arrest_date",
+      "ms_last_conviction_date_any_court",
+      "ms_successful_sentence_completion_date",
+      "ms_mip_dismissal_or_discharge_date",
+      "ms_mip_sentence_completion_date",
+      "ms_mip_fine_imposed",
+      "ms_mip_fine_payment_date"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "MS",
     "name": "Mississippi",
@@ -701,24 +714,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "relief opens on the qualifying dismissal, dropped charge, closed no-disposition matter, or acquittal; the no-disposition branch needs reliable closure proof"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -741,6 +737,44 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for non conviction expungement for dismissal no disposition or acquittal",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Nonconviction expungement for dismissal, no disposition, or acquittal",
+        "statute": "Miss. Code Ann. § 99-19-71(4)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "relief opens on the qualifying dismissal, dropped charge, closed no-disposition matter, or acquittal; the no-disposition branch needs reliable closure proof"
+        },
+        "requiredFacts": [
+          "Was there an arrest and release?",
+          "What was the exact outcome and its date?",
+          "Is the matter closed?",
+          "Any pending charge, appeal, or related count?",
+          "Which court and case number?",
+          "Is proof of the disposition available?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Arrest and release required",
+          "Qualifying favorable outcome required",
+          "No active prosecution"
+        ],
+        "packetFamily": "Nonconviction Petition under current § 99-19-71(4)",
+        "packetComponents": [
+          "Petition under § 99-19-71(4)",
+          "Disposition proof",
+          "Proposed order"
+        ],
+        "notes": "Use subsection (4). Reject the stale subsection (2)/(3) packet labels."
       }
     },
     {
@@ -811,24 +845,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "twelve months after the arrest or citation date where no formal charge or prosecution has followed"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -851,6 +868,49 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for uncharged or unprosecuted misdemeanor after 12 months 99 15 59",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Uncharged or unprosecuted misdemeanor — no-charge branch",
+        "statute": "Miss. Code Ann. § 99-15-59",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 12,
+          "unit": "months",
+          "anchorFactId": "arrest_date",
+          "anchorText": "twelve months after the arrest or citation date where no formal charge or prosecution has followed"
+        },
+        "requiredFacts": [
+          "Is the matter a misdemeanor?",
+          "What is the arrest or citation date?",
+          "Was a charge filed?",
+          "Has there been any prosecution activity?",
+          "Is anything pending?",
+          "What venue or agency?",
+          "Are there related counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "arrest_date"
+        ],
+        "exclusions": [
+          "Misdemeanor only",
+          "No charge or prosecution during the twelve months",
+          "Nothing pending"
+        ],
+        "packetFamily": "Petition under § 99-15-59",
+        "packetComponents": [
+          "Petition under § 99-15-59",
+          "Arrest record",
+          "Proposed order"
+        ],
+        "notes": "The twelve-month clock applies to the no-charge branch only. Register route key alias: MS:uncharged-or-unprosecuted-misdemeanor-after-12-months."
       }
     },
     {
@@ -914,24 +974,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -954,6 +997,45 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for first offender nontraffic misdemeanor conviction expungement 99 19 71 1",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "First-offender nontraffic misdemeanor expungement",
+        "statute": "Miss. Code Ann. § 99-19-71(1), (5)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
+        },
+        "requiredFacts": [
+          "Exact offense?",
+          "Which court entered the conviction?",
+          "Is the offense a traffic violation or otherwise under Title 63?",
+          "Is the conviction final?",
+          "What is the complete conviction history?",
+          "Any prior expungements?",
+          "Any public-office nexus?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "First offender only",
+          "Misdemeanor only",
+          "Nontraffic only",
+          "Official-duty exclusion"
+        ],
+        "packetFamily": "First-Offender Nontraffic Misdemeanor Petition under § 99-19-71(1)",
+        "packetComponents": [
+          "Petition under § 99-19-71(1)",
+          "Conviction record",
+          "Proposed order"
+        ],
+        "notes": "Do not use § 99-19-72 as eligibility authority."
       }
     },
     {
@@ -1013,28 +1095,11 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "two years of good conduct measured from the date of the person's last conviction in any court"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1057,6 +1122,42 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for additional justice or municipal court misdemeanor relief",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Additional justice- or municipal-court misdemeanor relief — court selection between the two variants",
+        "statute": "Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6)",
+        "stage": "single_stage",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "last_conviction_date",
+          "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+        },
+        "requiredFacts": [
+          "Was the target case in justice court or municipal court?",
+          "Which cases are being targeted?",
+          "What is the full conviction history?",
+          "What is the date of the last conviction anywhere?",
+          "Has there been any later conviction?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "last_conviction_date"
+        ],
+        "exclusions": [
+          "Discretionary relief",
+          "Same-court target cases only",
+          "Clean conduct required",
+          "Best-interest finding required"
+        ],
+        "packetFamily": null,
+        "notes": "Retained as the selection route only; the justice-court and municipal-court variants are separate contracts under different statutes. Use the last-conviction clock, not sentence completion."
       }
     },
     {
@@ -1120,24 +1221,10 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "three years after court-certified successful completion of all terms, with every fine and cost paid; where records conflict, use the later reliable completion or payment date",
+        "This rule governs filings on or after 2026-07-01.",
+        "Supersedes 5 years: the stale five-year rule that governed filings before 2026-07-01.",
+        "10-day district attorney notice — a service step inside the petition, not a participant eligibility wait."
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1160,6 +1247,70 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for eligible felony conviction expungement 99 19 71",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Eligible felony conviction expungement",
+        "statute": "Miss. Code Ann. § 99-19-71(2), as amended by 2026 Miss. H.B. 1546",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "three years after court-certified successful completion of all terms, with every fine and cost paid; where records conflict, use the later reliable completion or payment date"
+        },
+        "processingDeadlines": [
+          {
+            "label": "10-day district attorney notice",
+            "note": "a service step inside the petition, not a participant eligibility wait"
+          }
+        ],
+        "requiredFacts": [
+          "Exact counts and statutes?",
+          "Do the counts arise from a common nucleus of operative facts?",
+          "Has the full sentence been completed?",
+          "Are all fines, costs and restitution paid?",
+          "Do any statutory exclusions apply?",
+          "Any prior felony expungement?",
+          "Was the person a public official and was the offense connected to that office?",
+          "What rehabilitation evidence exists?",
+          "How will the district attorney be served?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed",
+          "financial_obligations",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "One felony / common-nucleus rule",
+          "Statutory offense exclusions",
+          "No prior felony expungement",
+          "Public-official exclusion"
+        ],
+        "packetFamily": "Petition for Expungement of an Eligible Felony Conviction under § 99-19-71(2)",
+        "packetComponents": [
+          "Petition under § 99-19-71(2)",
+          "Proof of sentence completion and zero balance",
+          "Rehabilitation evidence",
+          "District attorney notice",
+          "Proposed order"
+        ],
+        "effectiveFrom": "2026-07-01",
+        "supersedes": {
+          "value": 5,
+          "unit": "years",
+          "note": "the stale five-year rule that governed filings before 2026-07-01"
+        },
+        "notes": "Use three years, not the stale five-year rule, for current filings on or after 2026-07-01."
       }
     },
     {
@@ -1230,23 +1381,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "relief opens on the later of court-certified completion and the dismissal or closure order"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1270,6 +1405,49 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for nonadjudication under 99 15 26",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Nonadjudication under § 99-15-26 — expungement after completion and closure",
+        "statute": "Miss. Code Ann. § 99-15-26(5)",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorAlternates": [
+            "discharge_date"
+          ],
+          "anchorText": "relief opens on the later of court-certified completion and the dismissal or closure order"
+        },
+        "requiredFacts": [
+          "Is this a completed matter?",
+          "What is the offense and does an exclusion apply?",
+          "What court level?",
+          "Any prior use of nonadjudication?",
+          "Any DUI, implied consent, or trafficking element?",
+          "Was every requirement completed?",
+          "Is there a dismissal or closure order?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "financial_obligations"
+        ],
+        "exclusions": [
+          "Court-level exclusions",
+          "Once only",
+          "No trafficking, implied-consent, or DUI misuse"
+        ],
+        "packetFamily": "Post-Nonadjudication Petition under § 99-15-26(5)",
+        "packetComponents": [
+          "Petition under § 99-15-26(5)",
+          "Completion and closure proof",
+          "Proposed order"
+        ],
+        "notes": "Separated from active admission. Checkout opens only after completion and closure."
       }
     },
     {
@@ -1335,24 +1513,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "2 Good conduct for 2 years since the last conviction in any court; and"
+        "relief opens on the later of program completion and the dismissal, dropped-charge, or no-disposition event"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1375,6 +1536,47 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for pretrial intervention or diversion expungement",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Pretrial intervention or diversion — expungement after completion and qualifying disposition",
+        "statute": "Miss. Code Ann. § 99-15-123(3)",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorAlternates": [
+            "disposition_date"
+          ],
+          "anchorText": "relief opens on the later of program completion and the dismissal, dropped-charge, or no-disposition event"
+        },
+        "requiredFacts": [
+          "Was the program completed?",
+          "What was the resulting disposition?",
+          "Which court and case number?",
+          "What is the charge and does an exclusion apply?",
+          "What is the prior record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Completion required",
+          "Qualifying noncriminal disposition required",
+          "Statutory exclusion map"
+        ],
+        "packetFamily": "Petition After Pretrial Intervention under § 99-15-123(3)",
+        "packetComponents": [
+          "Petition under § 99-15-123(3)",
+          "Program completion proof",
+          "Disposition proof",
+          "Proposed order"
+        ],
+        "notes": "Admission, completion and expungement are separate stages."
       }
     },
     {
@@ -1440,24 +1642,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "2 Good conduct for 2 years since the last conviction in any court; and"
+        "expungement opens on the discharge-and-dismissal order date, after successful probation"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1480,6 +1665,47 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for first offense controlled substance conditional discharge relief",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Controlled-substance conditional discharge — expungement after discharge and dismissal",
+        "statute": "Miss. Code Ann. § 41-29-150(d)(2)",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "expungement opens on the discharge-and-dismissal order date, after successful probation"
+        },
+        "requiredFacts": [
+          "Exact controlled-substance subsection?",
+          "Any prior drug conviction?",
+          "Any prior use of conditional discharge?",
+          "Was adjudication deferred?",
+          "What are the probation dates and was compliance complete?",
+          "Is there a discharge-and-dismissal order?",
+          "What is the court?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "No prior drug conviction",
+          "Qualifying subsection only",
+          "Successful probation required",
+          "Once only"
+        ],
+        "packetFamily": "Post-Conditional-Discharge Application under § 41-29-150(d)(2)",
+        "packetComponents": [
+          "Application under § 41-29-150(d)(2)",
+          "Discharge and dismissal order",
+          "Proposed order"
+        ],
+        "notes": "Checkout opens only after discharge and dismissal."
       }
     },
     {
@@ -1540,29 +1766,12 @@
         "convicted_misdemeanor",
         "convicted_felony"
       ],
-      "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "automatic": true,
+      "filingRequired": false,
+      "routeType": "automatic",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "2 Good conduct for 2 years since the last conviction in any court; and"
+        "the statutory result follows court-certified successful completion of every requirement, including nonwaived obligations"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1585,6 +1794,40 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for intervention court completion expungement",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Intervention-court completion — automatic statutory result for the sentenced-at-plea branch",
+        "statute": "Miss. Code Ann. § 9-23-23",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the statutory result follows court-certified successful completion of every requirement, including nonwaived obligations"
+        },
+        "requiredFacts": [
+          "Which intervention court?",
+          "What plea was entered?",
+          "Was a sentence imposed at the plea?",
+          "Was every requirement completed?",
+          "Were fees paid or waived?",
+          "Was the case dismissed?",
+          "Is implied consent involved?",
+          "Has the docket already been expunged?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "financial_obligations"
+        ],
+        "exclusions": [
+          "Successful completion required",
+          "No implied-consent expunction"
+        ],
+        "packetFamily": null,
+        "notes": "Checkout and packet credit stay closed on this branch: the statute clears the record, and the product verifies status and guides correction."
       }
     },
     {
@@ -1648,24 +1891,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances.…",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "five years after successful completion of every ordered condition"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1688,6 +1914,54 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for first offense dui expungement",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "First-offense DUI expungement",
+        "statute": "Miss. Code Ann. § 63-11-30(13)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 5,
+          "unit": "years",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorText": "five years after successful completion of every ordered condition"
+        },
+        "requiredFacts": [
+          "Which subsection and county?",
+          "Is this a first offense?",
+          "Was every condition completed?",
+          "Does the person hold a CDL or CLP?",
+          "Was there a refusal?",
+          "What was the BAC?",
+          "Any prior or pending DUI?",
+          "Any prior DUI relief?",
+          "What justification supports the petition?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "First offense only",
+          "No CDL or CLP holder",
+          "No refusal",
+          "BAC below .16 where available",
+          "No prior or pending DUI",
+          "No prior DUI relief"
+        ],
+        "packetFamily": "Circuit Court Petition under § 63-11-30(13)",
+        "packetComponents": [
+          "Circuit court petition under § 63-11-30(13)",
+          "Completion proof",
+          "Proposed order"
+        ],
+        "notes": "Keep the five-year rule only on this route; it never applies to DUI nonadjudication."
       }
     },
     {
@@ -1746,28 +2020,11 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "no elapsed wait; admission occurs while the case is active, and the final order follows court-certified completion"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1790,6 +2047,42 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for dui nonadjudication",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "DUI nonadjudication",
+        "statute": "Miss. Code Ann. § 63-11-30(14)",
+        "stage": "active_case_admission",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no elapsed wait; admission occurs while the case is active, and the final order follows court-certified completion"
+        },
+        "requiredFacts": [
+          "Is the case active or unadjudicated?",
+          "Which DUI subsection and court is the matter under?",
+          "Does the person hold a CDL or CLP?",
+          "Any prior or pending DUI?",
+          "Any prior DUI nonadjudication or expunction?",
+          "Alcohol or drug branch?",
+          "Have all court-ordered conditions been completed?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "One-time relief only",
+          "No CDL or CLP holder",
+          "No prior or pending DUI",
+          "No prior DUI nonadjudication or expunction",
+          "Court justification required"
+        ],
+        "packetFamily": null,
+        "notes": "Never apply the five-year first-offense-DUI expungement rule to this route. Attorney-assisted motion/order only where supported."
       }
     },
     {
@@ -1853,24 +2146,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances.…",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full completion and payment of the fine on the conviction branch"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1893,6 +2169,53 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for minor in possession underage alcohol expungement",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Minor-in-possession / underage-alcohol expungement",
+        "statute": "Miss. Code Ann. § 67-3-70(6)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 1,
+          "unit": "years",
+          "anchorFactId": "discharge_date",
+          "anchorAlternates": [
+            "sentence_completion_actual_date"
+          ],
+          "anchorText": "one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full completion and payment of the fine on the conviction branch"
+        },
+        "requiredFacts": [
+          "What was the person's age?",
+          "Which exact subsection?",
+          "Is this the dismissal branch or the conviction branch?",
+          "What was the dismissal date?",
+          "Was the sentence completed?",
+          "Was the fine paid?",
+          "Which court?",
+          "Are there other alcohol counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "financial_obligations",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Only § 67-3-70(1) or (2) conduct",
+          "Route-specific disposition branch"
+        ],
+        "packetFamily": "Petition under § 67-3-70(6)",
+        "packetComponents": [
+          "Petition under § 67-3-70(6)",
+          "Disposition proof",
+          "Fine payment proof",
+          "Proposed order"
+        ],
+        "notes": "Use the one-year route-specific rule only. The clock anchor depends on the disposition branch, which is why both anchors are named."
       }
     },
     {
@@ -1954,28 +2277,11 @@
         "convicted_felony"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "special",
+      "filingRequired": false,
+      "routeType": "review",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Path B - Misdemeanor arrest/citation not formally charged or prosecuted within 12 months",
-        "Under 99-15-59, a person arrested, cited, or held for a misdemeanor and not formally charged or prosecuted within 12 months of arrest, or whose charge was dismissed, may apply to the court with jurisdiction for expungement. (\"https://law.justia.com/codes/mississippi/title-99/chapter-15/in-general/section-99-15-59/?utm_source=chatgpt.com\")",
-        "Was this a misdemeanor arrest or ticket where no formal charge or prosecution happened within 12 months?",
-        "Mississippi allows expungement of one felony conviction from public records if the person has paid all criminal fines and court costs and has completed all terms and conditions of the sentence. Current law states the waiting period is 5 yearsafter successful completion of sentence terms; HB 1546 changes that to 3 years effective July 1, 2026. (\"https://law.justia.com/codes/mississippi/title-99/chapter-19/in-general/section-99-19-71/\") (\"https://legiscan.com/MS/text/HB1546/2026\")",
-        "Before July 1, 2026 5 years after successful completion of all sentence terms",
-        "On or after July 1, 2026 3 years after successful completion of all sentence terms",
-        "The court may grant the felony petition if it determines, on the record or in writing, that the applicant is rehabilitated. The petitioner must give 10 days\u0019 written notice to the district attorney before any hearing. (",
-        "Mississippi has a special first-offense DUI expungement rule. A person convicted of a first-offense DUI may petition the circuit court of the county of conviction at least 5 years after successful completion of all sentence terms, if strict conditions are met. The person must not have held a CDL or commercial learner\u0019s permit at the time of the offense, must not have refused the blood/breath test, must have had a BAC below .16 if test results are available, must have no other DUI conviction or pending DUI, must justify expungement, and must not have previously had a DUI nonadjudication or expungement. The Mississippi Attorney General has also stated that a municipal court judge is not authorized to expunge a DUI conviction, although municipal or justice courts may handle expungement of nonadjudicated first-offense DUI charges in certain circumstances. (\"https://attorneygenerallynnfitch.com/wp-content/uploads/2020/10/P.Booker_September-29-2020-Expungement-of-Drug-Related-DUIs.pdf?utm_source=chatgpt.com\")",
-        "Under 67-3-70, Mississippi has a special path for underage purchase or possession of light wine, light spirit product, or beer. External clearinghouse guidance summarizes that records relating to underage alcohol purchase/possession can be expunged by the court one year after sentence completion. (\"https://law.justia.com/codes/mississippi/title-67/chapter-3/section-67-3-70/?utm_source=chatgpt.com\") (\"https://nationalreentryresourcecenter.org/cleanslate/states/mississippi/policies/ms-c-7?utm_source=chatgpt.com\")",
-        "[None / 12 months / 2 years good conduct / 5 years / 3 years after July 1, 2026 / 1 year / unknown]",
-        "Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59",
-        "Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation",
-        "Felony waiting period now 5 years after sentence completion",
-        "Felony waiting period effective July 1, 2026 3 years after sentence completion",
-        "DA notice for felony 10 days\u0019 written notice before hearing",
-        "MIP alcohol Potential petition one year after sentence completion",
-        "Topic Mississippi Rule Main conviction statute 99-19-71 Dismissed/dropped/no disposition/not guilty Petition; court shall expunge Misdemeanor no charge/prosecution Petition after 12 months under 99-15-59 First-offender misdemeanor Non-traffic misdemeanor conviction may be expunged Additional justice/municipal misdemeanors Discretionary; 2 years good conduct + rehabilitation Felony conviction One felony conviction; sentence complete; fines/costs paid; court finds rehabilitation Felony waiting period now 5 years after sentence completion Felony waiting period effective July 1, 2026 3 years after sentence completion General felony exclusions Violence, first-degree arson, drug trafficking, 3rd+ DUI, felon firearm, sex registration failure, voyeurism, witness intimidation, vulnerable-person abuse, embezzlement New July 1, 2026 felony exclusions Felony procuring prostitution, promoting prostitution Public official bar No expungement for conviction related to official duties DA notice for felony 10 days\u0019 written notice before hearing Pretrial intervention Successful completion creates noncriminal disposition Intervention court Completion may result in dismissal and expungement First-offense DUI Special 5-year rule with strict conditions DUI nonadjudication Separate one-time program MIP alcohol Potential petition one year after sentence completion Filing fee $150 for 99-19-71 petitions Statewide form No single statewide official form identified; confirm with originating court clerk Legal aid resources ExpungeMississippi, Mississippi Center for Justice, MVLP This Mississippi reference is ready for Wilma training, eligibility triage, document routing, packet preparation, and escalation logic.",
-        "Misdemeanor arrest/citation not formally charged or prosecuted within 12 months"
+        "available at any time once the covered offense and the trafficking nexus are established; no elapsed clock"
       ],
       "exclusionRules": [
         "A person is not eligible for general felony conviction expungement if the felony is classified as:",
@@ -1999,6 +2305,707 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Miss. Code expungement provisions for human trafficking survivor vacatur and expungement",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Human-trafficking survivor relief — remedy selection between vacatur and expungement",
+        "statute": "Miss. Code Ann. § 97-3-54.6(5)-(6), as amended by 2026 Miss. H.B. 1546",
+        "stage": "single_stage",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available at any time once the covered offense and the trafficking nexus are established; no elapsed clock"
+        },
+        "requiredFacts": [
+          "Exact count and statute?",
+          "Conviction or adjudication?",
+          "Is the offense a violent offense?",
+          "Is the person seeking vacatur, expungement, or both?",
+          "What are the trafficking dates, nexus and evidence?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Covered offense required",
+          "Direct-result nexus required",
+          "Preponderance standard"
+        ],
+        "packetFamily": null,
+        "notes": "Retained as the selection route only. The two statutory remedies are separate contracts and each requires attorney review; this route never sells a packet on its own."
+      }
+    },
+    {
+      "id": "controlled-substance-conditional-discharge-active-case-admission",
+      "label": "Controlled-substance conditional discharge — admission to deferred adjudication",
+      "summary": "Controlled-substance conditional discharge — admission to deferred adjudication under Miss. Code Ann. § 41-29-150(d)(1). admission is active-case relief sought while the prosecution is live; no elapsed wait applies.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 41-29-150(d)(1)"
+      ],
+      "ruleClauses": [
+        "admission is active-case relief sought while the prosecution is live; no elapsed wait applies"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "review",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "admission is active-case relief sought while the prosecution is live; no elapsed wait applies"
+      ],
+      "exclusionRules": [
+        "No prior drug conviction",
+        "Qualifying subsection only",
+        "Once only"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Controlled-substance conditional discharge — admission to deferred adjudication",
+        "statute": "Miss. Code Ann. § 41-29-150(d)(1)",
+        "stage": "active_case_admission",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "admission is active-case relief sought while the prosecution is live; no elapsed wait applies"
+        },
+        "requiredFacts": [
+          "Exact controlled-substance subsection?",
+          "Any prior drug conviction?",
+          "Any prior use of conditional discharge?",
+          "Has adjudication been deferred?",
+          "What are the probation dates?",
+          "What is the court?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "No prior drug conviction",
+          "Qualifying subsection only",
+          "Once only"
+        ],
+        "packetFamily": null,
+        "notes": "Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active."
+      }
+    },
+    {
+      "id": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "label": "Human-trafficking survivor vacatur",
+      "summary": "Human-trafficking survivor vacatur under Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546. available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546"
+      ],
+      "ruleClauses": [
+        "available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "court_filing",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock"
+      ],
+      "exclusionRules": [
+        "Covered offense required",
+        "Direct-result nexus required",
+        "Preponderance standard"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Human-trafficking survivor vacatur",
+        "statute": "Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546",
+        "stage": "single_stage",
+        "outcomeMode": "attorney_review_packet",
+        "paymentAuthority": "attorney_review_required",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock"
+        },
+        "requiredFacts": [
+          "Exact count and statute?",
+          "Conviction or adjudication?",
+          "What are the trafficking dates, nexus and evidence?",
+          "Can the direct-result nexus be shown by a preponderance?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Covered offense required",
+          "Direct-result nexus required",
+          "Preponderance standard"
+        ],
+        "packetFamily": "Motion to Vacate under § 97-3-54.6(5)",
+        "packetComponents": [
+          "Motion to vacate under § 97-3-54.6(5)",
+          "Trafficking nexus evidence",
+          "Proposed order"
+        ],
+        "notes": "Mandatory attorney review before any packet is produced. Never import the ordinary felony wait."
+      }
+    },
+    {
+      "id": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "label": "Human-trafficking survivor expungement",
+      "summary": "Human-trafficking survivor expungement under Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546. available at any time on the covered offense plus the trafficking nexus; no elapsed clock.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546"
+      ],
+      "ruleClauses": [
+        "available at any time on the covered offense plus the trafficking nexus; no elapsed clock"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "court_filing",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "available at any time on the covered offense plus the trafficking nexus; no elapsed clock"
+      ],
+      "exclusionRules": [
+        "Covered offense required",
+        "Direct-result nexus required",
+        "Preponderance standard",
+        "Violent-offense exclusion applies to the expungement branch"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Human-trafficking survivor expungement",
+        "statute": "Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546",
+        "stage": "single_stage",
+        "outcomeMode": "attorney_review_packet",
+        "paymentAuthority": "attorney_review_required",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available at any time on the covered offense plus the trafficking nexus; no elapsed clock"
+        },
+        "requiredFacts": [
+          "Exact count and statute?",
+          "Conviction or adjudication?",
+          "Is the offense a violent offense?",
+          "What are the trafficking dates, nexus and evidence?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Covered offense required",
+          "Direct-result nexus required",
+          "Preponderance standard",
+          "Violent-offense exclusion applies to the expungement branch"
+        ],
+        "packetFamily": "Petition or Motion to Expunge under § 97-3-54.6(6)",
+        "packetComponents": [
+          "Petition or motion to expunge under § 97-3-54.6(6)",
+          "Trafficking nexus evidence",
+          "Proposed order"
+        ],
+        "notes": "Mandatory attorney review before any packet is produced. The violent-offense exclusion applies here but not to vacatur."
+      }
+    },
+    {
+      "id": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "label": "Intervention-court completion — dismissal-only branch where a record remains",
+      "summary": "Intervention-court completion — dismissal-only branch where a record remains under Miss. Code Ann. § 99-19-71(4). relief opens on the dismissal following court-certified completion, where a record remains.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 99-19-71(4)"
+      ],
+      "ruleClauses": [
+        "relief opens on the dismissal following court-certified completion, where a record remains"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "relief opens on the dismissal following court-certified completion, where a record remains"
+      ],
+      "exclusionRules": [
+        "Successful completion required",
+        "No implied-consent expunction",
+        "Sentenced-at-plea matters belong on the automatic branch"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Intervention-court completion — dismissal-only branch where a record remains",
+        "statute": "Miss. Code Ann. § 99-19-71(4)",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "relief opens on the dismissal following court-certified completion, where a record remains"
+        },
+        "requiredFacts": [
+          "Which intervention court?",
+          "Was a sentence imposed at the plea?",
+          "Was the case dismissed rather than sentenced?",
+          "Was every requirement completed?",
+          "Were fees paid or waived?",
+          "Does a record still remain?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Successful completion required",
+          "No implied-consent expunction",
+          "Sentenced-at-plea matters belong on the automatic branch"
+        ],
+        "packetFamily": "Nonconviction Petition under § 99-19-71(4)",
+        "packetComponents": [
+          "Petition under § 99-19-71(4)",
+          "Dismissal order",
+          "Proposed order"
+        ],
+        "notes": "The only intervention-court branch that may sell a packet."
+      }
+    },
+    {
+      "id": "intervention-court-statutory-result-enforcement-referral",
+      "label": "Intervention-court completion — enforcement of the statutory result",
+      "summary": "Intervention-court completion — enforcement of the statutory result under Miss. Code Ann. § 9-23-23. used once completion is certified but the court or agency has not carried out the statutory result.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 9-23-23"
+      ],
+      "ruleClauses": [
+        "used once completion is certified but the court or agency has not carried out the statutory result"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "review",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "used once completion is certified but the court or agency has not carried out the statutory result"
+      ],
+      "exclusionRules": [
+        "Successful completion required"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Intervention-court completion — enforcement of the statutory result",
+        "statute": "Miss. Code Ann. § 9-23-23",
+        "stage": "enforcement",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "used once completion is certified but the court or agency has not carried out the statutory result"
+        },
+        "requiredFacts": [
+          "Which intervention court?",
+          "Was every requirement completed?",
+          "What does the docket currently show?",
+          "Has the docket already been expunged?",
+          "What evidence of completion exists?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Successful completion required"
+        ],
+        "packetFamily": null,
+        "notes": "Enforcement of relief the statute already granted. Never sold as an expungement packet."
+      }
+    },
+    {
+      "id": "nonadjudication-99-15-26-active-case-admission",
+      "label": "Nonadjudication under § 99-15-26 — admission while the case is active",
+      "summary": "Nonadjudication under § 99-15-26 — admission while the case is active under Miss. Code Ann. § 99-15-26(1). admission is active-case and discretionary; no elapsed wait applies at this stage.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 99-15-26(1)"
+      ],
+      "ruleClauses": [
+        "admission is active-case and discretionary; no elapsed wait applies at this stage"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "review",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "admission is active-case and discretionary; no elapsed wait applies at this stage"
+      ],
+      "exclusionRules": [
+        "Court-level exclusions",
+        "Once only",
+        "No trafficking, implied-consent, or DUI misuse",
+        "Stage-specific limits"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Nonadjudication under § 99-15-26 — admission while the case is active",
+        "statute": "Miss. Code Ann. § 99-15-26(1)",
+        "stage": "active_case_admission",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "admission is active-case and discretionary; no elapsed wait applies at this stage"
+        },
+        "requiredFacts": [
+          "Is this the admission stage or a completed matter?",
+          "What is the offense and does an exclusion apply?",
+          "What court level?",
+          "Any prior use of nonadjudication?",
+          "Any DUI, implied consent, or trafficking element?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Court-level exclusions",
+          "Once only",
+          "No trafficking, implied-consent, or DUI misuse",
+          "Stage-specific limits"
+        ],
+        "packetFamily": null,
+        "notes": "No checkout before completion and closure."
+      }
+    },
+    {
+      "id": "pretrial-intervention-active-case-admission",
+      "label": "Pretrial intervention or diversion — admission while the case is active",
+      "summary": "Pretrial intervention or diversion — admission while the case is active under Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109. admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109"
+      ],
+      "ruleClauses": [
+        "admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": false,
+      "routeType": "review",
+      "suggestedResultCode": "guidance_only",
+      "waitingRules": [
+        "admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait"
+      ],
+      "exclusionRules": [
+        "Age, indictment, counsel and program-acceptance conditions",
+        "Statutory exclusion map"
+      ],
+      "frontendBranch": "save_state_guidance_no_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Pretrial intervention or diversion — admission while the case is active",
+        "statute": "Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109",
+        "stage": "active_case_admission",
+        "outcomeMode": "referral",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait"
+        },
+        "requiredFacts": [
+          "Is the person 18 or older?",
+          "Has the person been indicted?",
+          "Is the person represented by counsel?",
+          "Has the district attorney or program accepted the person?",
+          "What is the charge and does an exclusion apply?",
+          "What is the prior record?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Age, indictment, counsel and program-acceptance conditions",
+          "Statutory exclusion map"
+        ],
+        "packetFamily": null,
+        "notes": "Referral and guidance only. Checkout opens only after a qualifying disposition."
+      }
+    },
+    {
+      "id": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "label": "Additional justice-court misdemeanor relief",
+      "summary": "Additional justice-court misdemeanor relief under Miss. Code Ann. § 9-11-15(3). two years of good conduct measured from the date of the person's last conviction in any court.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 9-11-15(3)"
+      ],
+      "ruleClauses": [
+        "two years of good conduct measured from the date of the person's last conviction in any court"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "two years of good conduct measured from the date of the person's last conviction in any court"
+      ],
+      "exclusionRules": [
+        "Discretionary relief",
+        "Justice-court target cases only",
+        "Clean conduct required",
+        "Best-interest finding required"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Additional justice-court misdemeanor relief",
+        "statute": "Miss. Code Ann. § 9-11-15(3)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "last_conviction_date",
+          "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+        },
+        "requiredFacts": [
+          "Which justice-court cases are being targeted?",
+          "What is the full conviction history?",
+          "What is the date of the last conviction anywhere?",
+          "Has there been any later conviction?",
+          "What rehabilitation evidence exists?",
+          "How will the prosecutor be noticed?",
+          "What are the driving-record expectations?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "last_conviction_date"
+        ],
+        "exclusions": [
+          "Discretionary relief",
+          "Justice-court target cases only",
+          "Clean conduct required",
+          "Best-interest finding required"
+        ],
+        "packetFamily": "Petition under § 9-11-15(3)",
+        "packetComponents": [
+          "Petition under § 9-11-15(3)",
+          "Rehabilitation evidence",
+          "Prosecutor notice",
+          "Proposed order"
+        ],
+        "notes": "Use the last-conviction clock, not sentence completion."
+      }
+    },
+    {
+      "id": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "label": "Additional municipal-court misdemeanor relief",
+      "summary": "Additional municipal-court misdemeanor relief under Miss. Code Ann. § 21-23-7(6). two years of good conduct measured from the date of the person's last conviction in any court.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 21-23-7(6)"
+      ],
+      "ruleClauses": [
+        "two years of good conduct measured from the date of the person's last conviction in any court"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "two years of good conduct measured from the date of the person's last conviction in any court"
+      ],
+      "exclusionRules": [
+        "Discretionary relief",
+        "Municipal-court target cases only",
+        "Clean conduct required",
+        "Best-interest finding required"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Additional municipal-court misdemeanor relief",
+        "statute": "Miss. Code Ann. § 21-23-7(6)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "last_conviction_date",
+          "anchorText": "two years of good conduct measured from the date of the person's last conviction in any court"
+        },
+        "requiredFacts": [
+          "Which municipal-court cases are being targeted?",
+          "What is the full conviction history?",
+          "What is the date of the last conviction anywhere?",
+          "Has there been any later conviction?",
+          "What rehabilitation evidence exists?",
+          "How will the prosecutor be noticed?",
+          "What are the driving-record expectations?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "last_conviction_date"
+        ],
+        "exclusions": [
+          "Discretionary relief",
+          "Municipal-court target cases only",
+          "Clean conduct required",
+          "Best-interest finding required"
+        ],
+        "packetFamily": "Petition under § 21-23-7(6)",
+        "packetComponents": [
+          "Petition under § 21-23-7(6)",
+          "Rehabilitation evidence",
+          "Prosecutor notice",
+          "Proposed order"
+        ],
+        "notes": "Use the last-conviction clock, not sentence completion."
+      }
+    },
+    {
+      "id": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "label": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+      "summary": "Uncharged or unprosecuted misdemeanor — dismissal branch under Miss. Code Ann. § 99-15-59. relief opens immediately upon dismissal; no elapsed wait applies to this branch.",
+      "sourceRef": "legal-authority:LD-MS-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:LD-MS-01",
+        "statute:Miss. Code Ann. § 99-15-59"
+      ],
+      "ruleClauses": [
+        "relief opens immediately upon dismissal; no elapsed wait applies to this branch"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "relief opens immediately upon dismissal; no elapsed wait applies to this branch"
+      ],
+      "exclusionRules": [
+        "Misdemeanor only",
+        "Nothing pending"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "mechanism": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+        "statute": "Miss. Code Ann. § 99-15-59",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "relief opens immediately upon dismissal; no elapsed wait applies to this branch"
+        },
+        "requiredFacts": [
+          "Is the matter a misdemeanor?",
+          "Was the charge dismissed and on what date?",
+          "Is anything pending?",
+          "What venue or agency?",
+          "Are there related counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases"
+        ],
+        "exclusions": [
+          "Misdemeanor only",
+          "Nothing pending"
+        ],
+        "packetFamily": "Petition under § 99-15-59",
+        "packetComponents": [
+          "Petition under § 99-15-59",
+          "Dismissal order",
+          "Proposed order"
+        ],
+        "notes": "Dismissal is immediate. Never apply the twelve-month no-charge clock here."
       }
     }
   ],
@@ -2964,8 +3971,8 @@
         "sourceConditionText": "Trafficking in controlled substances"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:15-155",
       "candidatePathwayIds": [
@@ -3506,8 +4513,8 @@
         "sourceConditionText": "Path N - Human-trafficking-survivor expungement and vacatur"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "pathways:15-155",
       "candidatePathwayIds": [
@@ -4052,8 +5059,8 @@
         "sourceConditionText": "Human trafficking survivor relief."
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "referral_triggers:288-341",
       "candidatePathwayIds": [
@@ -4323,22 +5330,10 @@
       "when": {
         "backendPathwayId": "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "residency_or_location",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "residency_or_location",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4347,7 +5342,8 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Non-conviction expungement for dismissal, no disposition, or acquittal"
+        "sourceConditionText": "relief opens on the qualifying dismissal, dropped charge, closed no-disposition matter, or acquittal; the no-disposition branch needs reliable closure proof",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4357,7 +5353,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:12; corpus-unit:15",
       "candidatePathwayIds": [
         "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-19-71(4)",
+        "mechanism": "Nonconviction expungement for dismissal, no disposition, or acquittal"
+      }
     },
     {
       "id": "route-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
@@ -4367,21 +5369,11 @@
         "backendPathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "residency_or_location",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "disposition_date",
-          "residency_or_location",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4390,7 +5382,13 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Uncharged or unprosecuted misdemeanor after 12 months (§ 99-15-59)"
+        "sourceConditionText": "twelve months after the arrest or citation date where no formal charge or prosecution has followed",
+        "duration": {
+          "value": 12,
+          "unit": "months",
+          "raw": "12 months"
+        },
+        "timingAnchorFactId": "arrest_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4400,7 +5398,13 @@
       "sourceRef": "pathways:15-155; section:15-155; section:227-287; section:414-437; summary:414-437; corpus-unit:169; decision_tree:227-287; corpus-unit:17",
       "candidatePathwayIds": [
         "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-15-59",
+        "mechanism": "Uncharged or unprosecuted misdemeanor — no-charge branch"
+      }
     },
     {
       "id": "route-first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
@@ -4410,21 +5414,11 @@
         "backendPathwayId": "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -4433,7 +5427,7 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "First-offender nontraffic misdemeanor conviction expungement (§ 99-19-71(1))"
+        "sourceConditionText": "no numeric waiting period; relief unlocks on the final qualifying first-offender nontraffic misdemeanor conviction"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4443,7 +5437,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:18",
       "candidatePathwayIds": [
         "first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-19-71(1), (5)",
+        "mechanism": "First-offender nontraffic misdemeanor expungement"
+      }
     },
     {
       "id": "route-additional-justice-or-municipal-court-misdemeanor-relief",
@@ -4453,21 +5453,11 @@
         "backendPathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -4476,17 +5466,29 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "Additional justice- or municipal-court misdemeanor relief"
+        "sourceConditionText": "two years of good conduct measured from the date of the person's last conviction in any court",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "last_conviction_date"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:20",
       "candidatePathwayIds": [
         "additional-justice-or-municipal-court-misdemeanor-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6)",
+        "mechanism": "Additional justice- or municipal-court misdemeanor relief — court selection between the two variants"
+      }
     },
     {
       "id": "route-eligible-felony-conviction-expungement-99-19-71",
@@ -4496,21 +5498,11 @@
         "backendPathwayId": "eligible-felony-conviction-expungement-99-19-71",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "financial_obligations",
-          "offense_category",
-          "disposition_date",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "financial_obligations",
-          "offense_category",
-          "disposition_date",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_felony",
@@ -4519,7 +5511,16 @@
           "acquitted",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Eligible felony-conviction expungement (§ 99-19-71)"
+        "sourceConditionText": "three years after court-certified successful completion of all terms, with every fine and cost paid; where records conflict, use the later reliable completion or payment date",
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4529,7 +5530,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:22",
       "candidatePathwayIds": [
         "eligible-felony-conviction-expungement-99-19-71"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-19-71(2), as amended by 2026 Miss. H.B. 1546",
+        "mechanism": "Eligible felony conviction expungement"
+      }
     },
     {
       "id": "route-nonadjudication-under-99-15-26",
@@ -4538,20 +5545,10 @@
       "when": {
         "backendPathwayId": "nonadjudication-under-99-15-26",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4561,7 +5558,11 @@
           "diversion_or_deferred",
           "convicted_misdemeanor"
         ],
-        "sourceConditionText": "Nonadjudication under § 99-15-26"
+        "sourceConditionText": "relief opens on the later of court-certified completion and the dismissal or closure order",
+        "timingAnchorFactId": "court_requirements_completed",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4571,7 +5572,13 @@
       "sourceRef": "pathways:15-155; section:15-155; section:227-287; corpus-unit:28; decision_tree:227-287; corpus-unit:14; corpus-unit:30; corpus-unit:51",
       "candidatePathwayIds": [
         "nonadjudication-under-99-15-26"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-15-26(5)",
+        "mechanism": "Nonadjudication under § 99-15-26 — expungement after completion and closure"
+      }
     },
     {
       "id": "route-pretrial-intervention-or-diversion-expungement",
@@ -4580,24 +5587,10 @@
       "when": {
         "backendPathwayId": "pretrial-intervention-or-diversion-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4607,7 +5600,11 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Pretrial intervention or diversion expungement"
+        "sourceConditionText": "relief opens on the later of program completion and the dismissal, dropped-charge, or no-disposition event",
+        "timingAnchorFactId": "court_requirements_completed",
+        "timingAnchorAlternateFactIds": [
+          "disposition_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4617,7 +5614,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:32",
       "candidatePathwayIds": [
         "pretrial-intervention-or-diversion-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-15-123(3)",
+        "mechanism": "Pretrial intervention or diversion — expungement after completion and qualifying disposition"
+      }
     },
     {
       "id": "route-first-offense-controlled-substance-conditional-discharge-relief",
@@ -4626,24 +5629,10 @@
       "when": {
         "backendPathwayId": "first-offense-controlled-substance-conditional-discharge-relief",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4653,7 +5642,8 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "First-offense controlled-substance conditional-discharge relief"
+        "sourceConditionText": "expungement opens on the discharge-and-dismissal order date, after successful probation",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4663,7 +5653,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:33",
       "candidatePathwayIds": [
         "first-offense-controlled-substance-conditional-discharge-relief"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 41-29-150(d)(2)",
+        "mechanism": "Controlled-substance conditional discharge — expungement after discharge and dismissal"
+      }
     },
     {
       "id": "route-intervention-court-completion-expungement",
@@ -4672,24 +5668,10 @@
       "when": {
         "backendPathwayId": "intervention-court-completion-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "offense_level",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4699,17 +5681,23 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Intervention-court completion expungement"
+        "sourceConditionText": "the statutory result follows court-certified successful completion of every requirement, including nonwaived obligations"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:34",
       "candidatePathwayIds": [
         "intervention-court-completion-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 9-23-23",
+        "mechanism": "Intervention-court completion — automatic statutory result for the sentenced-at-plea branch"
+      }
     },
     {
       "id": "route-first-offense-dui-expungement",
@@ -4719,19 +5707,11 @@
         "backendPathwayId": "first-offense-dui-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "disposition_date",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "disposition_date",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -4741,7 +5721,13 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "First-offense DUI expungement"
+        "sourceConditionText": "five years after successful completion of every ordered condition",
+        "duration": {
+          "value": 5,
+          "unit": "years",
+          "raw": "5 years"
+        },
+        "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4751,7 +5737,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:38",
       "candidatePathwayIds": [
         "first-offense-dui-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 63-11-30(13)",
+        "mechanism": "First-offense DUI expungement"
+      }
     },
     {
       "id": "route-dui-nonadjudication",
@@ -4761,21 +5753,11 @@
         "backendPathwayId": "dui-nonadjudication",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -4784,17 +5766,23 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "DUI nonadjudication"
+        "sourceConditionText": "no elapsed wait; admission occurs while the case is active, and the final order follows court-certified completion"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:15-155; corpus-unit:43",
       "candidatePathwayIds": [
         "dui-nonadjudication"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 63-11-30(14)",
+        "mechanism": "DUI nonadjudication"
+      }
     },
     {
       "id": "route-minor-in-possession-underage-alcohol-expungement",
@@ -4803,20 +5791,10 @@
       "when": {
         "backendPathwayId": "minor-in-possession-underage-alcohol-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "disposition_date",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "disposition_date",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -4826,7 +5804,16 @@
           "acquitted",
           "convicted_felony"
         ],
-        "sourceConditionText": "Minor-in-possession / underage-alcohol expungement"
+        "sourceConditionText": "one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full completion and payment of the fine on the conviction branch",
+        "duration": {
+          "value": 1,
+          "unit": "years",
+          "raw": "1 years"
+        },
+        "timingAnchorFactId": "discharge_date",
+        "timingAnchorAlternateFactIds": [
+          "sentence_completion_actual_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -4836,7 +5823,13 @@
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:44",
       "candidatePathwayIds": [
         "minor-in-possession-underage-alcohol-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 67-3-70(6)",
+        "mechanism": "Minor-in-possession / underage-alcohol expungement"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-vacatur-and-expungement",
@@ -4846,23 +5839,11 @@
         "backendPathwayId": "human-trafficking-survivor-vacatur-and-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "disposition_date",
-          "sentence_completion_date",
-          "financial_obligations",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -4872,17 +5853,23 @@
           "convicted_misdemeanor",
           "convicted_felony"
         ],
-        "sourceConditionText": "Human-trafficking-survivor vacatur and expungement"
+        "sourceConditionText": "available at any time once the covered offense and the trafficking nexus are established; no elapsed clock"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "pathways:15-155; section:15-155; corpus-unit:45",
       "candidatePathwayIds": [
         "human-trafficking-survivor-vacatur-and-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 97-3-54.6(5)-(6), as amended by 2026 Miss. H.B. 1546",
+        "mechanism": "Human-trafficking survivor relief — remedy selection between vacatur and expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -4901,6 +5888,325 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-controlled-substance-conditional-discharge-active-case-admission",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "admission is active-case relief sought while the prosecution is live; no elapsed wait applies",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "controlled-substance-conditional-discharge-active-case-admission"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 41-29-150(d)(1)",
+        "mechanism": "Controlled-substance conditional discharge — admission to deferred adjudication"
+      }
+    },
+    {
+      "id": "route-human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "available at any time on the conviction or adjudication plus the trafficking nexus; no elapsed clock",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-vacatur-97-3-54-6-5"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 97-3-54.6(5), as amended by 2026 Miss. H.B. 1546",
+        "mechanism": "Human-trafficking survivor vacatur"
+      }
+    },
+    {
+      "id": "route-human-trafficking-survivor-expungement-97-3-54-6-6",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "available at any time on the covered offense plus the trafficking nexus; no elapsed clock",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "human-trafficking-survivor-expungement-97-3-54-6-6"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 97-3-54.6(6), as amended by 2026 Miss. H.B. 1546",
+        "mechanism": "Human-trafficking survivor expungement"
+      }
+    },
+    {
+      "id": "route-intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "sourceConditionText": "relief opens on the dismissal following court-certified completion, where a record remains",
+        "requiredFields": [
+          "case_outcome"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-19-71(4)",
+        "mechanism": "Intervention-court completion — dismissal-only branch where a record remains"
+      }
+    },
+    {
+      "id": "route-intervention-court-statutory-result-enforcement-referral",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "intervention-court-statutory-result-enforcement-referral",
+        "fieldsReferenced": [
+          "case_outcome"
+        ],
+        "sourceConditionText": "used once completion is certified but the court or agency has not carried out the statutory result",
+        "requiredFields": [
+          "case_outcome"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "intervention-court-statutory-result-enforcement-referral"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 9-23-23",
+        "mechanism": "Intervention-court completion — enforcement of the statutory result"
+      }
+    },
+    {
+      "id": "route-nonadjudication-99-15-26-active-case-admission",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "nonadjudication-99-15-26-active-case-admission",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "admission is active-case and discretionary; no elapsed wait applies at this stage",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "nonadjudication-99-15-26-active-case-admission"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-15-26(1)",
+        "mechanism": "Nonadjudication under § 99-15-26 — admission while the case is active"
+      }
+    },
+    {
+      "id": "route-pretrial-intervention-active-case-admission",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "pretrial-intervention-active-case-admission",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "pretrial-intervention-active-case-admission"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109",
+        "mechanism": "Pretrial intervention or diversion — admission while the case is active"
+      }
+    },
+    {
+      "id": "route-additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "two years of good conduct measured from the date of the person's last conviction in any court",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "last_conviction_date",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "additional-justice-court-misdemeanor-relief-9-11-15-3"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 9-11-15(3)",
+        "mechanism": "Additional justice-court misdemeanor relief"
+      }
+    },
+    {
+      "id": "route-additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "two years of good conduct measured from the date of the person's last conviction in any court",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "last_conviction_date",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 21-23-7(6)",
+        "mechanism": "Additional municipal-court misdemeanor relief"
+      }
+    },
+    {
+      "id": "route-uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "relief opens immediately upon dismissal; no elapsed wait applies to this branch",
+        "timingAnchorFactId": "disposition_date",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:LD-MS-01",
+      "candidatePathwayIds": [
+        "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MS-01",
+        "ruleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
+        "statute": "Miss. Code Ann. § 99-15-59",
+        "mechanism": "Uncharged or unprosecuted misdemeanor — dismissal branch"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -5146,6 +6452,116 @@
         "court",
         "charge"
       ]
+    },
+    {
+      "id": "authority-eligible-felony-conviction-expungement-99-19-71",
+      "ruleText": "Miss. Code Ann. § 99-19-71(2), as amended by 2026 Miss. H.B. 1546 — three years after court-certified successful completion of all terms, with every fine and cost paid; where records conflict, use the later reliable completion or payment date",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "financial_obligations",
+        "sentence_completion_actual_date"
+      ]
+    },
+    {
+      "id": "authority-additional-justice-or-municipal-court-misdemeanor-relief",
+      "ruleText": "Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6) — two years of good conduct measured from the date of the person's last conviction in any court",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "last_conviction_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ]
+    },
+    {
+      "id": "authority-additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "ruleText": "Miss. Code Ann. § 9-11-15(3) — two years of good conduct measured from the date of the person's last conviction in any court",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "last_conviction_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ]
+    },
+    {
+      "id": "authority-additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "ruleText": "Miss. Code Ann. § 21-23-7(6) — two years of good conduct measured from the date of the person's last conviction in any court",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "last_conviction_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "last_conviction_date"
+      ]
+    },
+    {
+      "id": "authority-first-offense-dui-expungement",
+      "ruleText": "Miss. Code Ann. § 63-11-30(13) — five years after successful completion of every ordered condition",
+      "duration": {
+        "value": 5,
+        "unit": "years",
+        "raw": "5 years"
+      },
+      "anchor": "sentence_completion_actual_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "court_requirements_completed",
+        "sentence_completion_actual_date"
+      ]
+    },
+    {
+      "id": "authority-minor-in-possession-underage-alcohol-expungement",
+      "ruleText": "Miss. Code Ann. § 67-3-70(6) — one year after the dismissal or discharge date on the dismissal branch, or one year after the later of full completion and payment of the fine on the conviction branch",
+      "duration": {
+        "value": 1,
+        "unit": "years",
+        "raw": "1 years"
+      },
+      "anchor": "discharge_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "court_requirements_completed",
+        "financial_obligations",
+        "discharge_date"
+      ]
+    },
+    {
+      "id": "authority-uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "ruleText": "Miss. Code Ann. § 99-15-59 — twelve months after the arrest or citation date where no formal charge or prosecution has followed",
+      "duration": {
+        "value": 12,
+        "unit": "months",
+        "raw": "12 months"
+      },
+      "anchor": "arrest_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "arrest_date"
+      ]
     }
   ],
   "exclusionRules": [
@@ -5323,7 +6739,7 @@
       {
         "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
         "pathwayLabel": "Additional justice- or municipal-court misdemeanor relief",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
@@ -5470,7 +6886,7 @@
       {
         "pathwayId": "intervention-court-completion-expungement",
         "pathwayLabel": "Intervention-court completion expungement",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
@@ -5526,7 +6942,7 @@
       {
         "pathwayId": "dui-nonadjudication",
         "pathwayLabel": "DUI nonadjudication",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
@@ -5581,13 +6997,273 @@
       {
         "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
         "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [
           "pathways:15-155",
           "section:15-155",
           "corpus-unit:45"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+        "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+        "pathwayLabel": "Human-trafficking survivor vacatur",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+        "pathwayLabel": "Human-trafficking survivor expungement",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "pathwayLabel": "Intervention-court completion — dismissal-only branch where a record remains",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "intervention-court-statutory-result-enforcement-referral",
+        "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+        "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "pretrial-intervention-active-case-admission",
+        "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
+        "mode": "automatic_relief_verification_and_guidance",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "pathwayLabel": "Additional justice-court misdemeanor relief",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "pathwayLabel": "Additional municipal-court misdemeanor relief",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "pathwayLabel": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:LD-MS-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

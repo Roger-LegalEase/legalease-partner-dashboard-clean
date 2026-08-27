@@ -1,6 +1,17 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "MI",
     "name": "Michigan",
@@ -958,24 +969,7 @@
       "routeType": "special",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "An eligible felony is set aside automatically 10 years after",
-        "7 years after sentencing. No application -- the MSP and courts",
-        "ONE BAD NIGHT (MCL 780.621b): Two felonies committed within 24 hours arising from the same transaction count as ONE conviction for set-aside -- unless one is assaultive, weapon-involved, or punishable by >10 years.",
-        "780.623; if denied, the Order states the reasons and the applicant generally may not refile for three years.",
-        "Limit: no more than ONE felony conviction for the SAME offense may be set aside if that offense is punishable by more than 10 years. The applicant must have completed all sentence terms (incarceration, probation, parole), have no pending charges, and not be convicted of a new offense during the waiting period.",
-        "Track / matter Waiting period Measured from",
-        "Application — misdemeanor(s) 3 years Latest sentence event",
-        "Application — one serious misd., 5 years Latest sentence event",
-        "Application — multiple felonies 7 years Latest sentence event",
-        "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
-        "Automatic — felony 10 years Sentencing or release, later",
-        "weapon, or carries a penalty of more than 10 years. Second, on the application track the applicant must have no",
-        "new conviction during the applicable waiting period and no pending charges; a denied petition generally",
-        "cannot be refiled for 3 years (MCL 780.621d(5)). The automatic track simply runs the clock from",
-        "Track / matter Waiting period Measured from Application — misdemeanor(s) 3 years Latest sentence event Application — one serious misd., 5 years Latest sentence event one OWI, or one felony Application — multiple felonies 7 years Latest sentence event Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence or ≤ 92 days) Automatic — felony 10 years Sentencing or release, later Marihuana (MCL 780.621e) None stated On application Human trafficking victim None Any time after conviction Two structural rules shape the count.",
-        "First, the One Bad Night rule (MCL 780.621b): multiple felonies or multiple misdemeanors are treated as a SINGLE conviction for set-aside purposes if they occurred within 24 hours and arose from the same transaction — UNLESS any of them is an assaultive crime, involves a dangerous weapon, or carries a penalty of more than 10 years.",
-        "Second, on the application track the applicant must have no new conviction during the applicable waiting period and no pending charges; a denied petition generally cannot be refiled for 3 years (MCL 780.621d(5)).",
-        "Up to two felony convictions, automatically set aside 10 years after sentencing or completion of any term of imprisonment, whichever is later."
+        "no fixed elapsed period; the application may be made at any time"
       ],
       "exclusionRules": [
         "Some offenses cannot be set aside at all (MCL 780.621c); others are eligible by application but excluded from",
@@ -1011,6 +1005,42 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-MI-02",
+        "ruleId": "MI-MCL-780.621D-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+        "mechanism": "Human-trafficking-related set-aside application",
+        "statute": "MCL 780.621d",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no fixed elapsed period; the application may be made at any time"
+        },
+        "requiredFacts": [
+          "Exact statute/ordinance?",
+          "Conviction court?",
+          "Trafficking period?",
+          "Direct-result evidence?",
+          "Other counts in the case?",
+          "Prior set-aside facts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Conviction under the covered prostitution statutes or corresponding ordinance",
+          "Direct-result trafficking nexus",
+          "Statutory proof requirements"
+        ],
+        "packetFamily": "Michigan Trafficking Set-Aside Application under MCL 780.621d",
+        "packetComponents": [
+          "Application to set aside",
+          "Direct-result nexus evidence"
+        ],
+        "notes": "Narrower than a general trafficking-based set-aside: limited to the covered prostitution statutes or corresponding ordinances. Contested or noncovered offenses are a referral, not a checkout. Do not broaden the route on pending 2025-2026 legislation that has not become law."
       }
     }
   ],
@@ -2718,28 +2748,18 @@
         "backendPathwayId": "human-trafficking-related-set-aside-application",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief",
-          "trafficking_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "pending_cases",
-          "prior_relief",
-          "trafficking_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Human-trafficking-related set-aside application"
+        "sourceConditionText": "no fixed elapsed period; the application may be made at any time"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2749,7 +2769,13 @@
       "sourceRef": "section:73-113; section:200-237; corpus-unit:36; pathways:73-113; case_outcomes:200-237; corpus-unit:63",
       "candidatePathwayIds": [
         "human-trafficking-related-set-aside-application"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-MI-02",
+        "ruleId": "MI-MCL-780.621D-TRAFFICKING-DIRECT-RESULT-NO-WAIT",
+        "statute": "MCL 780.621d",
+        "mechanism": "Human-trafficking-related set-aside application"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

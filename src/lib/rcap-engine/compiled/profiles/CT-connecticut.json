@@ -1,6 +1,17 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "CT",
     "name": "Connecticut",
@@ -850,19 +861,12 @@
         "convicted_misdemeanor",
         "convicted_other"
       ],
-      "automatic": true,
-      "filingRequired": false,
+      "automatic": false,
+      "filingRequired": true,
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "Disposition / path Remedy Waiting period",
-        "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
-        "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
-        "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
-        "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
-        "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
-        "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
-        "Disposition / path Remedy Waiting period Dismissal / acquittal Auto erasure (§ 54-142a) Immediate Nolle (charges dropped) Auto erasure 13 months (if not re-filed) Completed diversionary program Auto erasure on completion On completion Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction Eligible conviction entered pre-2000 Clean Slate by petition Same 7 / 10-year rule (JD-CR-202) Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition Felony — Absolute Pardon BOPP pardon 5 years from disposition The Clean Slate clock is measured from the person’s most recent conviction for ANY crime, not just the one being erased, and only after the entire sentence including parole, special parole, transitional supervision, and probation has been served."
+        "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category"
       ],
       "exclusionRules": [
         "Clean Slate erasure is offense-limited; the pardon route is broader but discretionary.",
@@ -885,6 +889,43 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "LD-CT-02",
+        "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
+        "mechanism": "Cannabis conviction erasure — petition branch outside the automatic date window",
+        "statute": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "conviction_date",
+          "anchorText": "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category"
+        },
+        "requiredFacts": [
+          "Statute?",
+          "Conviction date?",
+          "Marijuana quantity or plant count?",
+          "Paraphernalia/sale facts?",
+          "Whether the record was already erased?",
+          "Correction evidence?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "conviction_date"
+        ],
+        "exclusions": [
+          "Exact cannabis statute, conviction date, quantity/conduct, and automatic-versus-petition category"
+        ],
+        "packetFamily": "Connecticut Cannabis Erasure Petition",
+        "packetComponents": [
+          "Petition under the applicable cannabis-erasure provision",
+          "Conviction record",
+          "Quantity or conduct evidence"
+        ],
+        "notes": "Automatic erasure covers § 21a-279(c) convictions entered from 2000-01-01 through 2015-09-30; that cohort files nothing and must never share this checkout path. Ask whether the record should already have been erased before offering this petition."
       }
     },
     {
@@ -2709,19 +2750,11 @@
         "backendPathwayId": "cannabis-conviction-erasure",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "criminal_history",
-          "pardon_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "criminal_history",
-          "pardon_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2729,7 +2762,8 @@
           "convicted_misdemeanor",
           "convicted_other"
         ],
-        "sourceConditionText": "Cannabis-conviction erasure"
+        "sourceConditionText": "no general elapsed wait; eligibility is unlocked by the offense, conviction date, quantity, and statutory category",
+        "timingAnchorFactId": "conviction_date"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2739,7 +2773,13 @@
       "sourceRef": "section:48-74; section:259-281; corpus-unit:21; section:103-136; section:163-202; section:203-233; section:282-304; corpus-unit:2",
       "candidatePathwayIds": [
         "cannabis-conviction-erasure"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-CT-02",
+        "ruleId": "CT-CANNABIS-AUTOMATIC-VS-PETITION-MAP",
+        "statute": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+        "mechanism": "Cannabis conviction erasure — petition branch outside the automatic date window"
+      }
     },
     {
       "id": "route-absolute-pardon-resulting-in-erasure",

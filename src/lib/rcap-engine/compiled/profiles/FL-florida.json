@@ -1,6 +1,20 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "county",
+      "court",
+      "charge",
+      "record_documents"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date"
+    ]
+  },
   "jurisdiction": {
     "code": "FL",
     "name": "Florida",
@@ -714,10 +728,10 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": null,
+      "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The court cannot seal a record under 943.059 until the person first applies for and receives an FDLE certificate. Like expunction certificates, sealing certificates are valid for 12 months. ("
+        "no separate numeric wait; statutory eligibility plus completion of all supervision and the FDLE certificate where required"
       ],
       "exclusionRules": [
         "Barred offense check Must not be ineligible under 943.0584",
@@ -741,6 +755,46 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
         "lawrence_review": "gate_required"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Court-ordered sealing",
+        "statute": "Fla. Stat. § 943.059",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "no separate numeric wait; statutory eligibility plus completion of all supervision and the FDLE certificate where required"
+        },
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": "Florida Petition to Seal under § 943.059",
+        "packetComponents": [
+          "Petition to seal",
+          "FDLE certificate of eligibility",
+          "Supervision completion proof",
+          "Proposed order"
+        ],
+        "notes": "Requires an FDLE certificate where the statute calls for one; do not treat FDLE processing time as a prefiling wait."
       }
     },
     {
@@ -771,7 +825,9 @@
       "automatic": true,
       "filingRequired": false,
       "suggestedResultCode": "guidance_only",
-      "waitingRules": [],
+      "waitingRules": [
+        "automatic statutory processing; the participant files nothing"
+      ],
       "exclusionRules": [
         "No charging document filed Eligible if not excluded",
         "Charging document filed, all counts dismissed/nolle prossed/dismissed by court Eligible if not excluded"
@@ -787,7 +843,39 @@
       },
       "sourceEvidenceRefs": [
         "section:123-135"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Automatic sealing",
+        "statute": "Fla. Stat. § 943.0595",
+        "stage": "automatic",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "automatic statutory processing; the participant files nothing"
+        },
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": null,
+        "notes": "Not a participant-filed packet. Status and correction guidance only; checkout and packet credit stay closed."
+      }
     },
     {
       "id": "human-trafficking-victim-expunction-943-0583",
@@ -830,7 +918,9 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "no fixed period; the survivor must satisfy the trafficking nexus and the statutory due-diligence and safety provisions"
+      ],
       "exclusionRules": [
         "of the arrest or charges, meaning it can reach some convictions that normal sealing/expungement cannot. (\"https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0900-0999%2F0943%2FSections%2F0943.0583.html\")"
       ],
@@ -845,7 +935,45 @@
       },
       "sourceEvidenceRefs": [
         "section:136-158"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Human-trafficking victim expunction",
+        "statute": "Fla. Stat. § 943.0583",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no fixed period; the survivor must satisfy the trafficking nexus and the statutory due-diligence and safety provisions"
+        },
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": "Florida Trafficking-Victim Expunction Petition under § 943.0583",
+        "packetComponents": [
+          "Petition under § 943.0583",
+          "Trafficking nexus evidence",
+          "Due-diligence and safety showing"
+        ],
+        "notes": "Its own intake, proof requirements, output, and court destination."
+      }
     },
     {
       "id": "lawful-self-defense-expunction-943-0578",
@@ -872,9 +1000,11 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "unlocks upon the required State Attorney or court certification"
+      ],
       "exclusionRules": [],
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "frontendBranch": {
         "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
         "missingFactsResult": "needs_more_info",
@@ -892,6 +1022,42 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
         "lawrence_review": "gate_required"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Lawful self-defense expunction",
+        "statute": "Fla. Stat. § 943.0578",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "unlocks upon the required State Attorney or court certification"
+        },
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": "Florida Lawful Self-Defense Expunction Application under § 943.0578",
+        "packetComponents": [
+          "FDLE application",
+          "State Attorney or court certification"
+        ],
+        "notes": "Certification is the trigger; there is no elapsed wait."
       }
     },
     {
@@ -919,9 +1085,11 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "unlocks after successful diversion completion and the required prosecutor or state-attorney certification"
+      ],
       "exclusionRules": [],
-      "routeType": "juvenile",
+      "routeType": "administrative",
       "frontendBranch": {
         "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
         "missingFactsResult": "needs_more_info",
@@ -939,6 +1107,45 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Juvenile diversion expunction",
+        "statute": "Fla. Stat. § 943.0582",
+        "stage": "post_completion",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "unlocks after successful diversion completion and the required prosecutor or state-attorney certification"
+        },
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": "Florida Juvenile Diversion Expunction Application under § 943.0582",
+        "packetComponents": [
+          "FDLE application",
+          "Diversion completion proof",
+          "State Attorney certification"
+        ],
+        "notes": "Do not treat prosecutor processing deadlines as prefiling waits."
       }
     },
     {
@@ -1005,9 +1212,12 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "no elapsed wait; the route requires the arresting agency, State Attorney, or court determination and endorsement",
+        "FDLE processing — agency processing after submission, not a prefiling wait."
+      ],
       "exclusionRules": [],
-      "routeType": "court_filing",
+      "routeType": "administrative",
       "frontendBranch": {
         "entryCondition": "Backend matched this jurisdiction-specific route after evaluating the cited source rules.",
         "missingFactsResult": "needs_more_info",
@@ -1018,7 +1228,50 @@
       },
       "sourceEvidenceRefs": [
         "section:173-177"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "mechanism": "Administrative expunction for a mistaken or unlawful arrest",
+        "statute": "Fla. Stat. § 943.0581",
+        "stage": "single_stage",
+        "outcomeMode": "agency_application",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no elapsed wait; the route requires the arresting agency, State Attorney, or court determination and endorsement"
+        },
+        "processingDeadlines": [
+          {
+            "label": "FDLE processing",
+            "note": "agency processing after submission, not a prefiling wait"
+          }
+        ],
+        "requiredFacts": [
+          "Route?",
+          "Arrest/disposition?",
+          "Supervision completion?",
+          "Prior sealing/expunction?",
+          "Agency/State Attorney endorsement?",
+          "Diversion completion?",
+          "Self-defense certification?",
+          "Trafficking nexus?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Florida statutory mechanism and all route-specific eligibility/certification conditions"
+        ],
+        "packetFamily": "FDLE Administrative Expunction Application under § 943.0581",
+        "packetComponents": [
+          "FDLE application",
+          "Agency or State Attorney endorsement",
+          "Arrest record"
+        ],
+        "notes": "An FDLE administrative route, not a court filing."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -2943,24 +3196,17 @@
       "when": {
         "backendPathwayId": "court-ordered-sealing-943-059",
         "requiredFields": [
-          "case_outcome",
-          "sentence_completion_date",
-          "prior_relief",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "sentence_completion_date",
-          "prior_relief",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Court-ordered sealing - 943.059"
+        "sourceConditionText": "no separate numeric wait; statutory eligibility plus completion of all supervision and the FDLE certificate where required",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2970,7 +3216,13 @@
       "sourceRef": "section:70-84",
       "candidatePathwayIds": [
         "court-ordered-sealing-943-059"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.059",
+        "mechanism": "Court-ordered sealing"
+      }
     },
     {
       "id": "route-automatic-sealing-943-0595",
@@ -2979,20 +3231,16 @@
       "when": {
         "backendPathwayId": "automatic-sealing-943-0595",
         "requiredFields": [
-          "case_outcome",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "acquitted"
         ],
-        "sourceConditionText": "Automatic sealing - 943.0595"
+        "sourceConditionText": "automatic statutory processing; the participant files nothing"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -3002,7 +3250,13 @@
       "sourceRef": "section:123-135",
       "candidatePathwayIds": [
         "automatic-sealing-943-0595"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.0595",
+        "mechanism": "Automatic sealing"
+      }
     },
     {
       "id": "route-human-trafficking-victim-expunction-943-0583",
@@ -3012,30 +3266,16 @@
         "backendPathwayId": "human-trafficking-victim-expunction-943-0583",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history",
-          "county",
-          "court",
-          "charge",
-          "trafficking_status",
-          "residency_or_location"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history",
-          "county",
-          "court",
-          "charge",
-          "trafficking_status",
-          "residency_or_location"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Human trafficking victim expunction - 943.0583"
+        "sourceConditionText": "no fixed period; the survivor must satisfy the trafficking nexus and the statutory due-diligence and safety provisions"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3045,7 +3285,13 @@
       "sourceRef": "section:136-158",
       "candidatePathwayIds": [
         "human-trafficking-victim-expunction-943-0583"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.0583",
+        "mechanism": "Human-trafficking victim expunction"
+      }
     },
     {
       "id": "route-lawful-self-defense-expunction-943-0578",
@@ -3054,21 +3300,15 @@
       "when": {
         "backendPathwayId": "lawful-self-defense-expunction-943-0578",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed"
         ],
-        "sourceConditionText": "Lawful self-defense expunction - 943.0578"
+        "sourceConditionText": "unlocks upon the required State Attorney or court certification"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3078,7 +3318,13 @@
       "sourceRef": "section:159-166",
       "candidatePathwayIds": [
         "lawful-self-defense-expunction-943-0578"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.0578",
+        "mechanism": "Lawful self-defense expunction"
+      }
     },
     {
       "id": "route-juvenile-diversion-expunction-943-0582",
@@ -3087,28 +3333,17 @@
       "when": {
         "backendPathwayId": "juvenile-diversion-expunction-943-0582",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history",
-          "court",
-          "charge",
-          "age_at_offense"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "criminal_history",
-          "court",
-          "charge",
-          "age_at_offense"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "diversion_or_deferred",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile diversion expunction - 943.0582"
+        "sourceConditionText": "unlocks after successful diversion completion and the required prosecutor or state-attorney certification",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3118,7 +3353,13 @@
       "sourceRef": "section:167-169",
       "candidatePathwayIds": [
         "juvenile-diversion-expunction-943-0582"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.0582",
+        "mechanism": "Juvenile diversion expunction"
+      }
     },
     {
       "id": "route-early-juvenile-expunction-943-0515",
@@ -3162,15 +3403,13 @@
       "when": {
         "backendPathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
         "requiredFields": [
-          "charge",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "charge",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [],
-        "sourceConditionText": "Administrative expunction - mistaken or unlawful arrest"
+        "sourceConditionText": "no elapsed wait; the route requires the arresting agency, State Attorney, or court determination and endorsement"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3180,7 +3419,13 @@
       "sourceRef": "section:173-177",
       "candidatePathwayIds": [
         "administrative-expunction-mistaken-or-unlawful-arrest"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-FL-01",
+        "ruleId": "FL-943.0578-0581-0582-0583-059-0595-SIX-ROUTE-MAP",
+        "statute": "Fla. Stat. § 943.0581",
+        "mechanism": "Administrative expunction for a mistaken or unlawful arrest"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

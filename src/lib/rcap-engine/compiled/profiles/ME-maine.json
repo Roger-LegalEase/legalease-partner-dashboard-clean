@@ -1,6 +1,22 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "ME",
     "name": "Maine",
@@ -990,24 +1006,8 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Waiting period At least 3 years after discharge from the juvenile disposition",
-        "Waiting period At least 4 years since the person fully satisfied the sentence",
-        "\"https://legislature.maine.gov/statutes/15/title15sec2262.html\") CR-218 also asks the filer to certify that at least 4 years have passed since completing all sentencing components, including incarceration, probation, administrative release, license suspension, fines, restitution, and community service.",
-        "Maine\u0019s CR-218 adult sealing process is for specific convictions. Non-conviction records are governed differently through Maine\u0019s criminal-history confidentiality framework, not the same CR-218 conviction-sealing motion. Maine\u0019s definition of confidential criminal history record information includes several non-conviction outcomes: arrest/summons information older than one year with no active prosecution, law enforcement non-referral, prosecutor declined prosecution, grand jury no bill, dismissal with prejudice or final prosecutor dismissal not as part of a plea agreement, acquittal, mistrial with prejudice, jurisdictional termination, and full/free pardon. (\"https://legislature.maine.gov/statutes/16/title16sec703.html\")",
-        "Juvenile Class D/E/civil-type juvenile crime Juvenile automatic sealing may apply Sealed after discharge notice, generally within five business days",
-        "General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied",
-        "Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied",
-        "Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction",
-        "Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition",
-        "Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution",
-        "4 years since full sentence completion;",
-        "1 year since full sentence completion;",
-        "Route Waiting period Clock starts General adult Class E / qualifying marijuana conviction sealing 4 years After all sentence alternatives are fully satisfied Former Class E engaging in prostitution 1 year After all sentence alternatives are fully satisfied Sex trafficking / sexual exploitation survivor route No ordinary waiting period Motion may be filed any time after conviction Juvenile automatic sealing No fixed post-wait if qualifying After Notice of Discharge is filed; court seals within 5 business days Juvenile murder/Class A/B/C/OUI petition 3 years After discharge from juvenile disposition Non-conviction CHRI confidentiality Varies by disposition Many listed non-conviction outcomes become confidential by statute, but arrest/summons without disposition generally requires more than 1 year and no active prosecution 15.",
-        "Do not say eligible unless& rules Wilma should not say you are eligible unless the following are confirmed: For CR-218 exact conviction; offense class; not excluded under Title 17-A, Chapter 11; 4 years since full sentence completion; no later Maine conviction; no later deferred-disposition dismissal; no later other-jurisdiction conviction; no pending charges.",
-        "For CR-289 conviction was for former Class E engaging in prostitution under former 853-A; 1 year since full sentence completion; no disqualifying trafficking/prostitution-related later conviction.",
-        "Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories.",
-        "Maine\u0019s juvenile records page says some juvenile records are automatically sealed after completion of the court disposition, while others require a petition. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") Automatic juvenile sealing For a juvenile adjudicated of a Class D or Class E juvenile crime, or a juvenile crime that would be a civil offense if committed by an adult, the court automatically seals the juvenile court record within 5 business days after a Notice of Discharge is filed with the Juvenile Court. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") The statute similarly provides automatic sealing after discharge notice for juvenile crimes other than murder/Class A/B/C/OUI categories. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\") Juvenile petition to seal For juvenile adjudications that would be murder, Class A, Class B, Class…",
-        "Agent-facing summary For Maine, train Wilma with this core logic: Maine = sealing, not expungement.Default adult form = CR-218 Motion to Seal Criminal History.General adult eligibility = current/former Class E except Chapter 11, plus listed pre-2017 marijuana convictions, with a 4-year clean period after sentence completion.Special prostitution form = CR-289, 1-year wait.New 2026 survivor route = any current/former conviction may be sealed if substantially caused by sex trafficking or sexual exploitation.Non-convictions are not CR-218 cases; treat them as confidential-history / record-status verification issues.Juvenile sealing is separate, with automatic sealing for many lower-level juvenile cases and petition sealing for serious categories."
+        "three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions",
+        "Statutory court-processing period on the automatic branch — the court acts within this period after final discharge; it is not a prefiling wait."
       ],
       "exclusionRules": [
         "Sealing does not erase the juvenile record. Maine courts, criminal justice agencies, the juvenile, and the juvenile\u0019s designee can still access sealed juvenile records; the public generally cannot. (\"https://www.courts.maine.gov/courts/juvenile/records.html\") A person with sealed juvenile records may answer most non-court/non-criminal-justice inquiries as if the juvenile crime never occurred, but firearm prohibitions are not removed by sealing. (\"https://legislature.maine.gov/statutes/15/title15sec3308-C.html\")"
@@ -1026,6 +1026,54 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-ME-03",
+        "ruleId": "ME-15-MRS-3308C-AUTOMATIC-VS-THREE-YEAR-PETITION",
+        "mechanism": "Juvenile sealing — petition branch for serious and OUI matters",
+        "statute": "15 M.R.S. § 3308-C",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "discharge_date",
+          "anchorText": "three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Statutory court-processing period on the automatic branch",
+            "note": "the court acts within this period after final discharge; it is not a prefiling wait"
+          }
+        ],
+        "requiredFacts": [
+          "Juvenile crime class?",
+          "OUI status?",
+          "Final-discharge date?",
+          "Later adjudications/convictions?",
+          "Pending matters?",
+          "Restitution and other completion facts?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Class D/E or civil-type matter for automatic sealing",
+          "Murder/Class A-B-C/OUI for petition",
+          "Category-specific clean-record conditions"
+        ],
+        "packetFamily": "Maine Juvenile Sealing Petition under 15 M.R.S. § 3308-C",
+        "packetComponents": [
+          "Petition under § 3308-C",
+          "Final discharge proof"
+        ],
+        "notes": "Qualifying Class D, Class E and civil-type juvenile matters enter the automatic branch with no separate participant filing wait. The three-year petition branch is limited to murder, Class A, B or C juvenile crimes and OUI matters."
       }
     }
   ],
@@ -1897,26 +1945,12 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "record_type",
-          "sentence_completion_date",
-          "pending_cases",
-          "criminal_history",
-          "trafficking_status",
-          "residency_or_location"
+          "pending_cases"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "record_type",
-          "sentence_completion_date",
-          "pending_cases",
-          "criminal_history",
-          "trafficking_status",
-          "residency_or_location"
+          "pending_cases"
         ],
         "caseOutcomes": [
           "convicted_other",
@@ -1924,7 +1958,13 @@
           "dismissed",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Juvenile sealing"
+        "sourceConditionText": "three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions",
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1934,7 +1974,13 @@
       "sourceRef": "section:151-166; section:42-52; section:262-264; summary:262-264; corpus-unit:14; corpus-unit:58; corpus-unit:59; corpus-unit:61",
       "candidatePathwayIds": [
         "juvenile-sealing"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-ME-03",
+        "ruleId": "ME-15-MRS-3308C-AUTOMATIC-VS-THREE-YEAR-PETITION",
+        "statute": "15 M.R.S. § 3308-C",
+        "mechanism": "Juvenile sealing — petition branch for serious and OUI matters"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2177,6 +2223,22 @@
         "offense_level",
         "offense_category",
         "sentence_completion_date"
+      ]
+    },
+    {
+      "id": "authority-juvenile-sealing",
+      "ruleText": "15 M.R.S. § 3308-C — three years from final discharge from the juvenile disposition, subject to the statutory clean-record, no-pending-matter and other conditions",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "discharge_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "pending_cases",
+        "discharge_date"
       ]
     }
   ],

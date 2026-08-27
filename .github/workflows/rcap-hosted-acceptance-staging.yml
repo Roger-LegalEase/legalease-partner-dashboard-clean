@@ -7,8 +7,9 @@ name: RCAP hosted acceptance staging
 # disposable runner-local stack and outlives nothing.
 #
 # Guard rails, all enforced rather than documented:
-#   * Every pinned input is refused unless it equals the authorized value, so
-#     this cannot be repointed at other bytes without editing this file.
+#   * Lane A's candidate is accepted only as one exact full SHA. The reusable
+#     worker source/digest remain fixed and are admitted only while the
+#     canonical worker-input diff to the candidate-bearing tools SHA is empty.
 #   * The Supabase project ref is pinned the same way. A mistyped ref does not
 #     reach a migration; it fails the first step.
 #   * The preflight proves the acceptance project is not production three
@@ -27,7 +28,7 @@ on:
   workflow_call:
     inputs:
       phase:
-        description: "preflight, vercel_audit (read-only post-failure proof), migrate, deploy, accept, checkout_gate, payment, or full"
+        description: "preflight, vercel_audit, migrate, clinic_migrate, deploy, replace_preview, accept, stripe_retarget, checkout_gate, browser, payment, or full"
         required: true
         type: string
       preview_deployment_id:
@@ -46,7 +47,7 @@ on:
         type: string
         default: ""
       application_sha:
-        description: "Pinned application SHA (must equal the authorized value)"
+        description: "Exact final application SHA supplied by Lane A"
         required: true
         type: string
       worker_source_sha:
@@ -67,11 +68,7 @@ on:
         type: string
     secrets:
       VERCEL_TOKEN:
-        required: true
-      VERCEL_ORG_ID:
-        required: true
-      VERCEL_PROJECT_ID:
-        required: true
+        required: false
       SUPABASE_ACCESS_TOKEN:
         required: true
       # Not required: the acceptance environment must remain runnable before
@@ -94,12 +91,11 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_APPLICATION_SHA: f7ed0ad3a8f37a0c1446b62760b1a36fb163c926
-  AUTHORIZED_WORKER_SOURCE_SHA: 5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8
-  AUTHORIZED_WORKER_DIGEST: sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530
+  AUTHORIZED_WORKER_SOURCE_SHA: 441ee3188ee52047a012232d8d11f890a09b4ac5
+  AUTHORIZED_WORKER_DIGEST: sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
-  CANONICAL_INTEGRATION_BRANCH: main
+  CANONICAL_INTEGRATION_BRANCH: sprint/20260825-full-product-captain
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
   ROLLBACK_OWNER: Roger Roman
   # The host the Stripe sandbox webhook destination currently points at. Recorded
@@ -134,17 +130,25 @@ jobs:
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
           TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          WORKFLOW_SHA_INPUT: ${{ github.sha }}
           SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
         run: |
           set -euo pipefail
-          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          printf '%s' "$APPLICATION_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::application_sha must be a full commit SHA"; exit 1; }
           [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
           [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
           [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
           printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+          [ "$TOOLS_SHA_INPUT" = "$WORKFLOW_SHA_INPUT" ] || { echo "::error::tools_sha must equal the workflow source SHA"; exit 1; }
           if [ "$PHASE_INPUT" = "checkout_gate" ]; then
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
               || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
+          elif [ "$PHASE_INPUT" = "stripe_retarget" ]; then
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::stripe_retarget requires one exact Vercel deployment id"; exit 1; }
+          elif [ "$PHASE_INPUT" = "browser" ]; then
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::browser requires one exact Vercel deployment id"; exit 1; }
           elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
             # A reuse candidate is legitimate for any phase that resolves a
             # Preview. It is still shape-checked, so a typo refuses here rather
@@ -155,6 +159,10 @@ jobs:
           if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
             printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
               || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
+          fi
+          if [ "$PHASE_INPUT" = "stripe_retarget" ] && [ -z "$PREVIEW_HOSTNAME_INPUT" ]; then
+            echo "::error::stripe_retarget requires one exact Vercel Preview hostname"
+            exit 1
           fi
 
       - name: Check out repository history
@@ -170,10 +178,16 @@ jobs:
             git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
             git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
           done
-          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+          git merge-base --is-ancestor "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" \
+            || { echo "::error::the accepted worker source is not an ancestor of the final application candidate"; exit 1; }
+          git merge-base --is-ancestor "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" \
+            || { echo "::error::the final application candidate is not an ancestor of the workflow tools SHA"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs tailwind.config.ts public docs/record-clearing/field-map-drafts \
             || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
-          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
-            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.application_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::final application changes canonical worker inputs; build and pin one new full-SHA image"; exit 1; }
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::workflow tools differ from the final application on worker inputs"; exit 1; }
           git checkout --detach "${{ inputs.tools_sha }}"
 
       - name: Set up Node
@@ -185,19 +199,21 @@ jobs:
         if: inputs.phase == 'vercel_audit'
         run: node scripts/verify-rcap-vercel-failure-audit.mjs
 
-      - name: Prove the credentials and the acceptance project
-        if: inputs.phase != 'vercel_audit'
+      - name: Prove acceptance Supabase credentials and project
+        if: inputs.phase == 'migrate' || inputs.phase == 'clinic_migrate'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          PREFLIGHT_SCOPE: supabase_only
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
+
+      - name: Prove credentials and Preview-only deployment boundary
+        if: inputs.phase != 'migrate' && inputs.phase != 'clinic_migrate' && inputs.phase != 'vercel_audit'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          # `migrate` requires only the Supabase gate, because writing to the
-          # acceptance project and deploying the application are different
-          # actions guarded by different proofs. The scope is recorded in the
-          # evidence, so a Supabase-only pass can never read as a full one.
-          PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
+          PREFLIGHT_SCOPE: full
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
       # This is the final read after a failed or timed-out CLI deployment. It
@@ -207,8 +223,6 @@ jobs:
         if: inputs.phase == 'vercel_audit'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-vercel-failure-audit.mjs
@@ -228,6 +242,25 @@ jobs:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
+      # Isolated from the Phase 49–55 packet/payment sequence above. This phase
+      # applies only the three exact Clinic migration blobs read from the frozen
+      # application commit, at the hashes and order explicitly authorized for
+      # the named nonproduction acceptance project. It has no Preview, Stripe,
+      # Checkout, payment, worker, browser, or generic migration path.
+      - name: Verify the exact frozen Clinic migration contract
+        id: verify_clinic_migrate
+        if: inputs.phase == 'clinic_migrate'
+        run: node scripts/verify-rcap-hosted-clinic-migrate.mjs
+
+      - name: Apply the exact frozen Clinic migrations to acceptance only
+        id: clinic_migrate
+        if: inputs.phase == 'clinic_migrate'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-hosted-clinic-migrate.mjs
+
       # Deploys the FROZEN application bytes. The equivalence check above has
       # already proven this checkout is byte-identical to application_sha on
       # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
@@ -239,28 +272,35 @@ jobs:
       # after it, and still concluded success. A green run that never attempted
       # the matrix is worse than a red one: it reads as acceptance.
       #
-      #   phase          deploy/reuse   matrix   checkout gate
-      #   full           yes            yes      yes
-      #   deploy         yes            no       no
-      #   accept         no             yes      no
-      #   payment        yes            yes      no
-      #   checkout_gate  no             no       yes
-      #   migrate        no             no       no
-      #   preflight      no             no       no
-      #   vercel_audit   no             no       no
-      #   anything else  FAIL CLOSED
+      #   phase            deploy/reuse   matrix   checkout gate   Stripe retarget
+      #   full             yes            yes      yes             no
+      #   deploy           yes            no       no              no
+      #   replace_preview  yes            no       no              no
+      #   accept           no             yes      no              no
+      #   payment          yes            yes      no              no
+      #   stripe_retarget  no             no       no              yes
+      #   checkout_gate    no             no       yes             no
+      #   browser          no             no       no              no (isolated browser=true)
+      #   clinic_migrate   no             no       no              no (exact three-file Clinic sequence only)
+      #   migrate          no             no       no              no
+      #   preflight        no             no       no              no
+      #   vercel_audit     no             no       no              no
+      #   anything else    FAIL CLOSED
       - name: Normalize the execution contract for this phase
         id: contract
         run: |
           set -euo pipefail
           PHASE='${{ inputs.phase }}'
           case "$PHASE" in
-            full)          DEPLOY=true;  MATRIX=true;  GATE=true  ;;
-            deploy)        DEPLOY=true;  MATRIX=false; GATE=false ;;
-            accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
-            payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
-            checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
-            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false ;;
+            full)            DEPLOY=true;  MATRIX=true;  GATE=true;  RETARGET=false; BROWSER=false ;;
+            deploy)          DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
+            replace_preview) DEPLOY=true;  MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
+            accept)          DEPLOY=false; MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false ;;
+            payment)         DEPLOY=true;  MATRIX=true;  GATE=false; RETARGET=false; BROWSER=false ;;
+            stripe_retarget) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=true;  BROWSER=false ;;
+            checkout_gate)   DEPLOY=false; MATRIX=false; GATE=true;  RETARGET=false; BROWSER=false ;;
+            browser)         DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=true  ;;
+            clinic_migrate|migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false; RETARGET=false; BROWSER=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -271,6 +311,8 @@ jobs:
             echo "deploy=$DEPLOY"
             echo "matrix=$MATRIX"
             echo "gate=$GATE"
+            echo "retarget=$RETARGET"
+            echo "browser=$BROWSER"
             # A read-only diagnosis phase: no Preview, no Checkout, no payment,
             # but it does need the registry to probe inside the published image.
             if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
@@ -278,13 +320,26 @@ jobs:
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
             # drift away from which steps actually run.
-            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ] || [ "$BROWSER" = "true" ] || [ "$PHASE" = "replace_preview" ]; then
               echo "require_staging_scoped=true"
             else
               echo "require_staging_scoped=false"
             fi
           } >> "$GITHUB_OUTPUT"
-          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE stripeRetarget=$RETARGET browser=$BROWSER"
+
+      - name: Retarget the one existing Stripe sandbox webhook to the exact Preview
+        id: stripe_retarget
+        if: steps.contract.outputs.retarget == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
+        run: node scripts/rcap-hosted-stripe-webhook-retarget.mjs
 
       # Runs in every phase that runs the gate, not just the gate-only phase.
       # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
@@ -312,10 +367,9 @@ jobs:
       # operator's instruction to test one specific deployment.
       - name: Resolve the Preview this run will use
         id: resolve_preview
-        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.browser == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           # The resolver reads the CANDIDATE from the inputs. Everything
           # downstream reads the RESOLVED identity from this step's outputs.
@@ -323,7 +377,6 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
@@ -334,18 +387,16 @@ jobs:
         if: steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          # Only the payment phase opens the delivery route, and only to the one
-          # named synthetic identity the deploy resolves. Every other phase
-          # leaves the flag unset so the control's disabled default applies.
-          HOSTED_ROUTE_STATE: ${{ inputs.phase == 'payment' && 'staging_scoped' || '' }}
+          # Every phase whose normalized contract transacts opens the route only
+          # to the named synthetic identity the deploy resolves. Nontransacting
+          # phases leave the control at its disabled default.
+          HOSTED_ROUTE_STATE: ${{ steps.contract.outputs.require_staging_scoped == 'true' && 'staging_scoped' || '' }}
           HOSTED_PREVIOUS_WEBHOOK_HOST: ${{ env.PREVIOUS_STRIPE_WEBHOOK_HOST }}
         run: node scripts/rcap-hosted-acceptance-deploy.mjs
 
@@ -359,9 +410,9 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: node scripts/rcap-hosted-acceptance-auth-config.mjs
 
       # The golden-journey matrix needs a built application to serve the
@@ -392,7 +443,7 @@ jobs:
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true' || steps.contract.outputs.browser == 'true'
         run: npm ci
 
       # Placed AFTER the registry login and the dependency install, because it
@@ -412,6 +463,24 @@ jobs:
           CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
         run: node scripts/rcap-worker-contract-contradiction.mjs
 
+      - name: Verify the isolated hosted Colorado and Clinic browser harness
+        id: verify_browser
+        if: steps.contract.outputs.browser == 'true'
+        run: node scripts/verify-rcap-hosted-browser.mjs
+
+      - name: Run the bounded Colorado and Clinic desktop/mobile browser matrix
+        id: hosted_browser
+        if: steps.contract.outputs.browser == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: node scripts/rcap-hosted-colorado-clinic-browser.mjs
+
       # Bound to the contract's own GATE flag alone. This is the REUSE-ONLY human
       # Checkout gate: it prepares one real Sandbox Session for Roger and stops
       # unpaid. `payment` sets GATE=false because the automated payment journey
@@ -428,8 +497,6 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
           HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
         run: node scripts/rcap-hosted-checkout-gate.mjs
@@ -477,9 +544,9 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
           HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
@@ -490,9 +557,10 @@ jobs:
         if: always() && steps.contract.outputs.matrix == 'true'
         env:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: node scripts/rcap-hosted-acceptance-gallery.mjs
 
@@ -513,7 +581,12 @@ jobs:
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
           RUNS_GATE: ${{ steps.contract.outputs.gate }}
           RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
+          RUNS_BROWSER: ${{ steps.contract.outputs.browser }}
           O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
+          O_VERIFY_BROWSER: ${{ steps.verify_browser.outcome }}
+          O_BROWSER: ${{ steps.hosted_browser.outcome }}
+          O_VERIFY_CLINIC_MIGRATE: ${{ steps.verify_clinic_migrate.outcome }}
+          O_CLINIC_MIGRATE: ${{ steps.clinic_migrate.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
           O_DEPLOY: ${{ steps.deploy_preview.outcome }}
@@ -548,9 +621,9 @@ jobs:
             echo "::error::the phase contract did not run to success, so this gate cannot assert the matrix ran; this run is not acceptance evidence"
             exit 1
           fi
-          case "$RUNS_MATRIX/$RUNS_GATE" in
-            true/*|false/true|false/false) ;;
-            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE', which is not a decision this gate can read"; exit 1 ;;
+          case "$RUNS_MATRIX/$RUNS_GATE/$RUNS_BROWSER" in
+            true/*/false|false/true/false|false/false/true|false/false/false) ;;
+            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE' browser='$RUNS_BROWSER', which is not a decision this gate can read"; exit 1 ;;
           esac
           if [ "$RUNS_MATRIX" = "true" ]; then
             require "Preview resolution boundary"        "$O_RESOLVE"
@@ -582,10 +655,25 @@ jobs:
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+          elif [ "$RUNS_BROWSER" = "true" ]; then
+            require "Preview resolution boundary"         "$O_RESOLVE"
+            require "frozen dependencies"                 "$O_DEPS"
+            require "isolated browser harness verifier"   "$O_VERIFY_BROWSER"
+            require "Colorado and Clinic browser matrix"  "$O_BROWSER"
+          elif [ "$PHASE" = "replace_preview" ]; then
+            require "Preview resolution boundary"        "$O_RESOLVE"
+            if [ "$O_REUSED" != "true" ]; then
+              require "deploy one replacement Preview"    "$O_DEPLOY"
+            else
+              echo "  ok       exact replacement Preview already existed; no deployment command executed"
+            fi
           elif [ "$RUNS_DIAGNOSE" = "true" ]; then
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "worker contract diagnosis"          "$O_DIAGNOSE"
+          elif [ "$PHASE" = "clinic_migrate" ]; then
+            require "exact Clinic migration contract verifier" "$O_VERIFY_CLINIC_MIGRATE"
+            require "exact frozen Clinic migrations"           "$O_CLINIC_MIGRATE"
           else
             echo "  phase does not claim the matrix; nothing to assert here."
           fi

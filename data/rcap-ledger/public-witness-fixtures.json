@@ -4,9 +4,9 @@
   "purpose": "A deterministic, replayable fixture for every pathway the existing runtime can already reach correctly. Each carries the exact answer map and the terminal result it must produce, so a regression shows up as a fixture failure rather than as a lost route.",
   "changesNoRuntime": true,
   "evaluatorToday": "2026-07-01",
-  "canonicalGraphSha256": "25601ca0b07b0d1ea31abf607ccf95e8ea7cec83e75f0a73ba645c010124817f",
+  "canonicalGraphSha256": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149",
   "totals": {
-    "fixtures": 284,
+    "fixtures": 271,
     "correctedByFixtureAlone": 0
   },
   "fixtures": [
@@ -21,6 +21,7 @@
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
         "court_requirements_completed": "yes",
+        "disposition_date": "2012-06-01",
         "financial_obligations": "Yes",
         "identity_error": "Yes",
         "jurisdiction_scope": "State or local",
@@ -56,6 +57,15 @@
             "age_at_offense": "30",
             "identity_error": "Yes",
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "disposition_date"
+          ],
+          "supplied": {
+            "disposition_date": "2012-06-01"
           }
         }
       ],
@@ -171,7 +181,7 @@
       ],
       "expected": {
         "pathwayId": "juvenile-record-sealing-as-47-12-300",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -226,7 +236,7 @@
       ],
       "expected": {
         "pathwayId": "sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -325,7 +335,7 @@
       ],
       "expected": {
         "pathwayId": "eligible-conviction-expungement-under-the-redeemer-act",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -506,7 +516,7 @@
       ],
       "expected": {
         "pathwayId": "situation-a-non-convictions",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -604,7 +614,7 @@
       ],
       "expected": {
         "pathwayId": "situation-c-felony-convictions",
-        "resultCode": "needs_more_info",
+        "resultCode": "needs_review",
         "paymentAllowed": false
       }
     },
@@ -1015,7 +1025,7 @@
       ],
       "expected": {
         "pathwayId": "juvenile-expungement-19-1-306",
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -1325,7 +1335,7 @@
       ],
       "expected": {
         "pathwayId": "dc_motion_seal_felony_conviction_8yr_16_806",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -1377,7 +1387,7 @@
       ],
       "expected": {
         "pathwayId": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -1429,7 +1439,7 @@
       ],
       "expected": {
         "pathwayId": "dc_motion_seal_nonconviction_16_806",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -1562,64 +1572,6 @@
       ],
       "expected": {
         "pathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "FL:administrative-expunction-mistaken-or-unlawful-arrest",
-      "jurisdiction": "FL",
-      "pathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/florida",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Arrest or citation with no charge filed",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Administrative expunction - mistaken or unlawful arrest",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "identity_error",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "identity_error": "Yes",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "administrative-expunction-mistaken-or-unlawful-arrest",
         "resultCode": "guidance_only",
         "paymentAllowed": false
       }
@@ -1794,7 +1746,7 @@
       ],
       "expected": {
         "pathwayId": "early-juvenile-expunction-943-0515",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -1853,122 +1805,6 @@
       "expected": {
         "pathwayId": "human-trafficking-victim-expunction-943-0583",
         "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "FL:juvenile-diversion-expunction-943-0582",
-      "jurisdiction": "FL",
-      "pathwayId": "juvenile-diversion-expunction-943-0582",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/florida",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Arrest or citation with no charge filed",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Juvenile diversion expunction - 943.0582",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "identity_error",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "identity_error": "Yes",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "juvenile-diversion-expunction-943-0582",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "FL:lawful-self-defense-expunction-943-0578",
-      "jurisdiction": "FL",
-      "pathwayId": "lawful-self-defense-expunction-943-0578",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/florida",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Arrest or citation with no charge filed",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Lawful self-defense expunction - 943.0578",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "identity_error",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "identity_error": "Yes",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "lawful-self-defense-expunction-943-0578",
-        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -2190,6 +2026,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -2205,7 +2042,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -2237,6 +2073,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -2252,7 +2089,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -2284,6 +2120,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -2299,7 +2136,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -2331,6 +2167,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -2346,7 +2183,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -2378,6 +2214,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -2393,7 +2230,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -2901,7 +2737,7 @@
       ],
       "expected": {
         "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -3045,8 +2881,8 @@
       ],
       "expected": {
         "pathwayId": "adult-non-conviction-expungement",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -3280,7 +3116,7 @@
       ],
       "expected": {
         "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -3327,8 +3163,8 @@
       ],
       "expected": {
         "pathwayId": "juvenile-automatic-or-petition-expungement",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -3534,6 +3370,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -3550,7 +3387,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -3581,6 +3417,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -3596,7 +3433,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -3618,6 +3454,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Diversion, deferred disposition, supervision, or similar program",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -3634,7 +3471,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "state_exclusion_categories",
             "trafficking_status"
@@ -3722,7 +3558,6 @@
         "pending_cases": "No",
         "possible_pathway_context": "Misdemeanor, violation, or traffic-infraction conviction expungement under KRS 431.078",
         "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes"
       },
@@ -3743,21 +3578,12 @@
           "supplied": {
             "age_at_offense": "30"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
         }
       ],
       "expected": {
         "pathwayId": "misdemeanor-violation-traffic-conviction",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -3954,8 +3780,8 @@
       ],
       "expected": {
         "pathwayId": "felony-ten-year-clean-period-expungement",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -4014,6 +3840,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "conviction_date": "2012-06-01",
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
@@ -4043,6 +3870,15 @@
           ],
           "supplied": {
             "resolved_timing_bucket": "gt_10_years"
+          }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "conviction_date"
+          ],
+          "supplied": {
+            "conviction_date": "2012-06-01"
           }
         }
       ],
@@ -4283,8 +4119,8 @@
       ],
       "expected": {
         "pathwayId": "misdemeanor-five-year-clean-period-expungement",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -4344,8 +4180,6 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "conviction_date": "2012-06-01",
-        "disposition_date": "2012-06-01",
         "financial_obligations": "Yes",
         "identity_error": "Yes",
         "jurisdiction_scope": "State or local",
@@ -4355,8 +4189,6 @@
         "pending_cases": "No",
         "possible_pathway_context": "Adult conviction sealing under M.G.L. c. 276, § 100A",
         "record_documents": "Yes",
-        "release_date": "2012-06-01",
-        "sentence_completion_actual_date": "2012-06-01",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes"
       },
@@ -4380,27 +4212,12 @@
             "age_at_offense": "30",
             "identity_error": "Yes"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "conviction_date",
-            "disposition_date",
-            "release_date",
-            "sentence_completion_actual_date"
-          ],
-          "supplied": {
-            "conviction_date": "2012-06-01",
-            "disposition_date": "2012-06-01",
-            "release_date": "2012-06-01",
-            "sentence_completion_actual_date": "2012-06-01"
-          }
         }
       ],
       "expected": {
         "pathwayId": "adult-conviction-sealing-under-m-g-l-c-276-100a",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -4499,7 +4316,7 @@
       ],
       "expected": {
         "pathwayId": "juvenile-record-sealing-under-100b",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -4649,7 +4466,7 @@
       ],
       "expected": {
         "pathwayId": "time-based-expungement-under-100f-100j",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -4735,7 +4552,6 @@
         "possible_pathway_context": "Cannabis-specific expungement",
         "prior_relief": "Yes",
         "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
@@ -4760,20 +4576,11 @@
             "age_at_offense": "30",
             "prior_relief": "Yes"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
         }
       ],
       "expected": {
         "pathwayId": "cannabis-specific-expungement",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -4887,7 +4694,7 @@
       ],
       "expected": {
         "pathwayId": "juvenile-expungement",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -4962,6 +4769,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "age_at_offense": "30",
+        "arrest_date": "2012-06-01",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
@@ -4973,7 +4781,6 @@
         "possible_pathway_context": "Police-record expungement when no charge was filed under § 10-103",
         "prior_relief": "Yes",
         "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
@@ -5002,16 +4809,16 @@
         {
           "round": 2,
           "requested": [
-            "resolved_timing_bucket"
+            "arrest_date"
           ],
           "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
+            "arrest_date": "2012-06-01"
           }
         }
       ],
       "expected": {
         "pathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
-        "resultCode": "needs_review",
+        "resultCode": "likely_not_eligible",
         "paymentAllowed": false
       }
     },
@@ -5035,7 +4842,6 @@
         "possible_pathway_context": "Second Chance Act shielding",
         "prior_relief": "Yes",
         "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes",
         "state_exclusion_categories": [
@@ -5060,20 +4866,11 @@
             "age_at_offense": "30",
             "prior_relief": "Yes"
           }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
         }
       ],
       "expected": {
         "pathwayId": "second-chance-act-shielding",
-        "resultCode": "needs_review",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -5323,7 +5120,7 @@
       ],
       "expected": {
         "pathwayId": "sex-trafficking-sexual-exploitation-survivor-sealing",
-        "resultCode": "guidance_only",
+        "resultCode": "not_covered_yet",
         "paymentAllowed": false
       }
     },
@@ -5589,7 +5386,7 @@
       ],
       "expected": {
         "pathwayId": "cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "paymentAllowed": false
       }
     },
@@ -5639,8 +5436,8 @@
       ],
       "expected": {
         "pathwayId": "petition-based-expungement-under-609a-02-03",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -5689,61 +5486,6 @@
       ],
       "expected": {
         "pathwayId": "prosecutor-agreed-sealing-without-a-full-petition-under-609a-025",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "MO:closed-record-outcome-under-rsmo-610-105",
-      "jurisdiction": "MO",
-      "pathwayId": "closed-record-outcome-under-rsmo-610-105",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/missouri",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Closed-record outcome under RSMo § 610.105",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ]
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "identity_error",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "identity_error": "Yes",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "closed-record-outcome-under-rsmo-610-105",
         "resultCode": "guidance_only",
         "paymentAllowed": false
       }
@@ -5854,8 +5596,8 @@
       ],
       "expected": {
         "pathwayId": "first-intoxication-related-traffic-or-boating-expungement-under-610-130",
-        "resultCode": "packet_ready_with_caution",
-        "paymentAllowed": true
+        "resultCode": "not_covered_yet",
+        "paymentAllowed": false
       }
     },
     {
@@ -5969,61 +5711,6 @@
       }
     },
     {
-      "pathwayKey": "MO:marijuana-expungement-under-missouri-constitution-article-xiv",
-      "jurisdiction": "MO",
-      "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/missouri",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Marijuana expungement under Missouri Constitution article XIV",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ]
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "identity_error",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "identity_error": "Yes",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "marijuana-expungement-under-missouri-constitution-article-xiv",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
       "pathwayKey": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
       "jurisdiction": "MO",
       "pathwayId": "stolen-or-mistaken-identity-expungement-under-610-145",
@@ -6079,6 +5766,53 @@
       }
     },
     {
+      "pathwayKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Additional justice-court misdemeanor relief",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
       "pathwayKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
       "jurisdiction": "MS",
       "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
@@ -6090,6 +5824,7 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "ms_last_conviction_date_any_court": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -6117,10 +5852,113 @@
           "supplied": {
             "resolved_timing_bucket": "gt_10_years"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ms_last_conviction_date_any_court"
+          ],
+          "supplied": {
+            "ms_last_conviction_date_any_court": "2012-06-01"
+          }
         }
       ],
       "expected": {
         "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
+        "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "jurisdiction": "MS",
+      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Additional municipal-court misdemeanor relief",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Controlled-substance conditional discharge — admission to deferred adjudication",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -6215,8 +6053,8 @@
       ],
       "expected": {
         "pathwayId": "eligible-felony-conviction-expungement-99-19-71",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -6325,6 +6163,7 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "ms_successful_sentence_completion_date": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -6352,10 +6191,113 @@
           "supplied": {
             "resolved_timing_bucket": "gt_10_years"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ms_successful_sentence_completion_date"
+          ],
+          "supplied": {
+            "ms_successful_sentence_completion_date": "2012-06-01"
+          }
         }
       ],
       "expected": {
         "pathwayId": "first-offense-dui-expungement",
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
+      }
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Human-trafficking survivor expungement",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
+        "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "jurisdiction": "MS",
+      "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Human-trafficking survivor vacatur",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "human-trafficking-survivor-vacatur-97-3-54-6-5",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -6408,9 +6350,9 @@
       }
     },
     {
-      "pathwayKey": "MS:intervention-court-completion-expungement",
+      "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "jurisdiction": "MS",
-      "pathwayId": "intervention-court-completion-expungement",
+      "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "profileVersion": "2026-06-19-source-conversion-1",
       "publicRoute": "/expungement-ai/screening/mississippi",
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
@@ -6423,7 +6365,7 @@
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
         "pending_cases": "No",
-        "possible_pathway_context": "Intervention-court completion expungement",
+        "possible_pathway_context": "Intervention-court completion — dismissal-only branch where a record remains",
         "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes"
@@ -6449,7 +6391,54 @@
         }
       ],
       "expected": {
-        "pathwayId": "intervention-court-completion-expungement",
+        "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
+      "jurisdiction": "MS",
+      "pathwayId": "intervention-court-statutory-result-enforcement-referral",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Intervention-court completion — enforcement of the statutory result",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "intervention-court-statutory-result-enforcement-referral",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -6466,6 +6455,7 @@
         "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
+        "ms_mip_dismissal_or_discharge_date": "2012-06-01",
         "new_convictions_during_waiting_period": "No",
         "offense_level": "Misdemeanor",
         "ownership_scope": "Yes",
@@ -6493,12 +6483,21 @@
           "supplied": {
             "resolved_timing_bucket": "gt_10_years"
           }
+        },
+        {
+          "round": 2,
+          "requested": [
+            "ms_mip_dismissal_or_discharge_date"
+          ],
+          "supplied": {
+            "ms_mip_dismissal_or_discharge_date": "2012-06-01"
+          }
         }
       ],
       "expected": {
         "pathwayId": "minor-in-possession-underage-alcohol-expungement",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -6549,6 +6548,53 @@
       }
     },
     {
+      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Nonadjudication under § 99-15-26 — admission while the case is active",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "nonadjudication-99-15-26-active-case-admission",
+        "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
       "pathwayKey": "MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
       "pathwayId": "nonadjudication-under-99-15-26",
@@ -6591,6 +6637,53 @@
       ],
       "expected": {
         "pathwayId": "nonadjudication-under-99-15-26",
+        "resultCode": "needs_review",
+        "paymentAllowed": false
+      }
+    },
+    {
+      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
+      "jurisdiction": "MS",
+      "pathwayId": "pretrial-intervention-active-case-admission",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Pretrial intervention or diversion — admission while the case is active",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "pretrial-intervention-active-case-admission",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -6643,6 +6736,53 @@
       }
     },
     {
+      "pathwayKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdiction": "MS",
+      "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/mississippi",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "answers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pending_cases": "No",
+        "possible_pathway_context": "Uncharged or unprosecuted misdemeanor — dismissal branch",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes"
+      },
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "pardon_status",
+            "record_documents",
+            "state_exclusion_categories",
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "resolved_timing_bucket"
+          ],
+          "supplied": {
+            "resolved_timing_bucket": "gt_10_years"
+          }
+        }
+      ],
+      "expected": {
+        "pathwayId": "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+        "resultCode": "guidance_only",
+        "paymentAllowed": false
+      }
+    },
+    {
       "pathwayKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "jurisdiction": "MS",
       "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
@@ -6685,61 +6825,8 @@
       ],
       "expected": {
         "pathwayId": "uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "MT:deferred-sentence-dismissal-or-confidentiality-route",
-      "jurisdiction": "MT",
-      "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/montana",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Deferred-sentence dismissal or confidentiality route",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "deferred-sentence-dismissal-or-confidentiality-route",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -6844,59 +6931,6 @@
       ],
       "expected": {
         "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "MT:non-conviction-criminal-history-removal-through-criss",
-      "jurisdiction": "MT",
-      "pathwayId": "non-conviction-criminal-history-removal-through-criss",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/montana",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Non-conviction criminal-history removal through CRISS",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "non-conviction-criminal-history-removal-through-criss",
         "resultCode": "needs_review",
         "paymentAllowed": false
       }
@@ -7747,7 +7781,7 @@
       ],
       "expected": {
         "pathwayId": "annulment-of-a-vacated-conviction",
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_review",
         "paymentAllowed": false
       }
     },
@@ -7892,6 +7926,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -7913,12 +7948,6 @@
       "rounds": [
         {
           "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed"
-          ]
-        },
-        {
-          "round": 1,
           "requested": [
             "age_at_offense",
             "prior_relief"
@@ -7929,7 +7958,7 @@
           }
         },
         {
-          "round": 2,
+          "round": 1,
           "requested": [
             "resolved_timing_bucket"
           ],
@@ -7954,6 +7983,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -7974,12 +8004,6 @@
       "rounds": [
         {
           "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed"
-          ]
-        },
-        {
-          "round": 1,
           "requested": [
             "age_at_offense",
             "prior_relief"
@@ -7997,68 +8021,6 @@
       }
     },
     {
-      "pathwayKey": "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "jurisdiction": "NJ",
-      "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/new-jersey",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "prior_relief"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "prior_relief": "Yes"
-          }
-        },
-        {
-          "round": 2,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
       "pathwayKey": "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
       "jurisdiction": "NJ",
       "pathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
@@ -8068,6 +8030,7 @@
       "answers": {
         "age_at_offense": "30",
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -8089,12 +8052,6 @@
       "rounds": [
         {
           "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed"
-          ]
-        },
-        {
-          "round": 1,
           "requested": [
             "age_at_offense",
             "prior_relief"
@@ -8105,7 +8062,7 @@
           }
         },
         {
-          "round": 2,
+          "round": 1,
           "requested": [
             "resolved_timing_bucket"
           ],
@@ -8223,59 +8180,6 @@
       "expected": {
         "pathwayId": "conviction",
         "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "NM:dna-sample-profile-expungement",
-      "jurisdiction": "NM",
-      "pathwayId": "dna-sample-profile-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/new-mexico",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "identity_error": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "DNA sample/profile expungement",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "pardon_status",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "identity_error",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "identity_error": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "dna-sample-profile-expungement",
-        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -10092,8 +9996,8 @@
       ],
       "expected": {
         "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -10154,6 +10058,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10169,7 +10074,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10193,339 +10097,6 @@
       }
     },
     {
-      "pathwayKey": "PA:path-b-complete-acquittal-not-guilty-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-b-complete-acquittal-not-guilty-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path B — Complete-acquittal / not-guilty expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-b-complete-acquittal-not-guilty-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-c-summary-conviction-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-c-summary-conviction-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path C — Summary-conviction expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-c-summary-conviction-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-d-ard-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-d-ard-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path D — ARD expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-d-ard-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-e-age-70-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-e-age-70-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path E — Age-70 expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-e-age-70-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-f-deceased-person-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-f-deceased-person-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path F — Deceased-person expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-f-deceased-person-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-g-underage-drinking-conviction-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-g-underage-drinking-conviction-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path G — Underage-drinking conviction expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-g-underage-drinking-conviction-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-h-pardon-based-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-h-pardon-based-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path H — Pardon-based expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-h-pardon-based-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-i-petition-for-limited-access",
-      "jurisdiction": "PA",
-      "pathwayId": "path-i-petition-for-limited-access",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path I — Petition for limited access",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-i-petition-for-limited-access",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "PA:path-k-human-trafficking-vacatur-expungement",
-      "jurisdiction": "PA",
-      "pathwayId": "path-k-human-trafficking-vacatur-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/pennsylvania",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path K — Human-trafficking vacatur / expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-k-human-trafficking-vacatur-expungement",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
       "pathwayKey": "RI:path-a-first-offender-conviction-expungement",
       "jurisdiction": "RI",
       "pathwayId": "path-a-first-offender-conviction-expungement",
@@ -10534,6 +10105,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10549,7 +10121,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10581,6 +10152,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10596,7 +10168,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10628,6 +10199,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10643,7 +10215,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10675,6 +10246,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10690,7 +10262,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10722,6 +10293,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10737,7 +10309,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -10761,53 +10332,6 @@
       }
     },
     {
-      "pathwayKey": "RI:path-f-marijuana-possession-expungement",
-      "jurisdiction": "RI",
-      "pathwayId": "path-f-marijuana-possession-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/rhode-island",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path F — Marijuana-possession expungement",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-f-marijuana-possession-expungement",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
       "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
       "jurisdiction": "RI",
       "pathwayId": "path-g-decriminalized-offense-expungement",
@@ -10816,6 +10340,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10823,7 +10348,6 @@
         "ownership_scope": "Yes",
         "pending_cases": "No",
         "possible_pathway_context": "Path G — Decriminalized-offense expungement",
-        "resolved_timing_bucket": "gt_10_years",
         "sentence_completion_date": "Yes",
         "special_preconditions_confirmed": "Yes"
       },
@@ -10831,21 +10355,11 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
             "trafficking_status"
           ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "resolved_timing_bucket": "gt_10_years"
-          }
         }
       ],
       "expected": {
@@ -10863,6 +10377,7 @@
       "evaluationEndpoint": "POST /api/expungement-ai/screening",
       "answers": {
         "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
         "financial_obligations": "Yes",
         "jurisdiction_scope": "State or local",
         "new_convictions_during_waiting_period": "No",
@@ -10878,7 +10393,6 @@
         {
           "round": 0,
           "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
             "pardon_status",
             "record_documents",
             "state_exclusion_categories",
@@ -11163,59 +10677,6 @@
       "expected": {
         "pathwayId": "juvenile-expungement",
         "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
-      "jurisdiction": "SC",
-      "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/south-carolina",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Pardon guidance for otherwise ineligible convictions",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "prior_relief",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "prior_relief": "Yes",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "pardon-guidance-for-otherwise-ineligible-convictions",
-        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -11519,56 +10980,6 @@
       "expected": {
         "pathwayId": "juvenile-trafficking-expungement",
         "resultCode": "needs_review",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "SD:pardon-based-sealing",
-      "jurisdiction": "SD",
-      "pathwayId": "pardon-based-sealing",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/south-dakota",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Pardon-based sealing",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "resolved_timing_bucket"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "resolved_timing_bucket": "gt_10_years"
-          }
-        }
-      ],
-      "expected": {
-        "pathwayId": "pardon-based-sealing",
-        "resultCode": "guidance_only",
         "paymentAllowed": false
       }
     },
@@ -12420,8 +11831,8 @@
       ],
       "expected": {
         "pathwayId": "path-i-traffic-offense-expungement-or-deletion",
-        "resultCode": "needs_review",
-        "paymentAllowed": false
+        "resultCode": "packet_ready_with_caution",
+        "paymentAllowed": true
       }
     },
     {
@@ -12457,43 +11868,6 @@
       ],
       "expected": {
         "pathwayId": "path-j-cannabis-possession-petition-without-a-bci-certificate",
-        "resultCode": "guidance_only",
-        "paymentAllowed": false
-      }
-    },
-    {
-      "pathwayKey": "UT:path-k-pardon-based-expungement",
-      "jurisdiction": "UT",
-      "pathwayId": "path-k-pardon-based-expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/utah",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "answers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Path K — Pardon-based expungement",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        }
-      ],
-      "expected": {
-        "pathwayId": "path-k-pardon-based-expungement",
         "resultCode": "guidance_only",
         "paymentAllowed": false
       }
@@ -13304,7 +12678,7 @@
       ],
       "expected": {
         "pathwayId": "juvenile-record-sealing-under-rcw-13-50-260",
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "paymentAllowed": false
       }
     },
@@ -13897,7 +13271,7 @@
       ],
       "expected": {
         "pathwayId": "first-offense-drug-possession-conditional-discharge-relief",
-        "resultCode": "needs_review",
+        "resultCode": "packet_ready_with_caution",
         "paymentAllowed": false
       }
     },

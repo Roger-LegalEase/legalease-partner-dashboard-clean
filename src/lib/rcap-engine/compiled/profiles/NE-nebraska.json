@@ -1,6 +1,23 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "arrest_date",
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "NE",
     "name": "Nebraska",
@@ -574,7 +591,9 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "available after satisfactory fulfilment of probation, fine, community service and the other sentence conditions, and discharge; no additional time period applies"
+      ],
       "exclusionRules": [],
       "routeType": "court_filing",
       "frontendBranch": {
@@ -594,6 +613,45 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NE-05",
+        "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+        "mechanism": "Conviction set-aside after satisfactory sentence completion",
+        "statute": "Neb. Rev. Stat. § 29-2264",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "discharge_date",
+          "anchorText": "available after satisfactory fulfilment of probation, fine, community service and the other sentence conditions, and discharge; no additional time period applies"
+        },
+        "requiredFacts": [
+          "Error evidence and agency?",
+          "Arrest/disposition?",
+          "Exact conviction?",
+          "Probation/fine/community-service completion?",
+          "Discharge order?",
+          "Later conduct?",
+          "Requested legal effect?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Exact Nebraska correction or set-aside mechanism",
+          "Evidentiary and discretionary standards satisfied"
+        ],
+        "packetFamily": "Nebraska Set-Aside Application under § 29-2264",
+        "packetComponents": [
+          "Application to set aside",
+          "Discharge order",
+          "Completion proof"
+        ],
+        "notes": "Relief is discretionary, and results copy must say that a set-aside does not erase the Nebraska record: it adds the statutory set-aside effect and notation."
       }
     },
     {
@@ -765,7 +823,9 @@
       "automatic": false,
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
-      "waitingRules": [],
+      "waitingRules": [
+        "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
+      ],
       "exclusionRules": [],
       "routeType": "court_filing",
       "frontendBranch": {
@@ -785,6 +845,41 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NE-05",
+        "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+        "mechanism": "Expungement for a law-enforcement error",
+        "statute": "Neb. Rev. Stat. § 29-3523(6)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
+        },
+        "requiredFacts": [
+          "Error evidence and agency?",
+          "Arrest/disposition?",
+          "Exact conviction?",
+          "Probation/fine/community-service completion?",
+          "Discharge order?",
+          "Later conduct?",
+          "Requested legal effect?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "Exact Nebraska correction or set-aside mechanism",
+          "Evidentiary and discretionary standards satisfied"
+        ],
+        "packetFamily": "Nebraska § 29-3523(6) Error Petition",
+        "packetComponents": [
+          "Petition under § 29-3523(6)",
+          "Clear-and-convincing proof of the error"
+        ],
+        "notes": "The clear-and-convincing proof standard must be collected before the packet is offered."
       }
     },
     {
@@ -1881,21 +1976,16 @@
       "when": {
         "backendPathwayId": "set-aside-probation-fine-community-service",
         "requiredFields": [
-          "case_outcome",
-          "sentence_completion_date",
-          "financial_obligations",
-          "court"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "sentence_completion_date",
-          "financial_obligations",
-          "court"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)"
+        "sourceConditionText": "available after satisfactory fulfilment of probation, fine, community service and the other sentence conditions, and discharge; no additional time period applies",
+        "timingAnchorFactId": "discharge_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1905,7 +1995,13 @@
       "sourceRef": "manual_source_conversion:NE",
       "candidatePathwayIds": [
         "set-aside-probation-fine-community-service"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NE-05",
+        "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+        "statute": "Neb. Rev. Stat. § 29-2264",
+        "mechanism": "Conviction set-aside after satisfactory sentence completion"
+      }
     },
     {
       "id": "route-set-aside-incarceration-one-year-or-less",
@@ -2024,17 +2120,13 @@
       "when": {
         "backendPathwayId": "law-enforcement-error-expungement",
         "requiredFields": [
-          "county",
-          "court",
-          "identity_error"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "county",
-          "court",
-          "identity_error"
+          "case_outcome"
         ],
         "caseOutcomes": [],
-        "sourceConditionText": "True expungement for arrest caused by law-enforcement error under § 29-3523(6)"
+        "sourceConditionText": "no elapsed waiting period; relief is sought on proof that the arrest or record resulted from law-enforcement error"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2044,7 +2136,13 @@
       "sourceRef": "manual_source_conversion:NE",
       "candidatePathwayIds": [
         "law-enforcement-error-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NE-05",
+        "ruleId": "NE-29-3523-ERROR-VS-29-2264-SET-ASIDE",
+        "statute": "Neb. Rev. Stat. § 29-3523(6)",
+        "mechanism": "Expungement for a law-enforcement error"
+      }
     },
     {
       "id": "route-juvenile-automatic-sealing",

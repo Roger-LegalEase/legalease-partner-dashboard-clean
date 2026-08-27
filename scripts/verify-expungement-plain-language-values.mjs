@@ -153,15 +153,21 @@ function settledDelta(match, baseline, current, label) {
   const { delta, projection } = match;
   const baselineIds = (baseline?.questions ?? []).map((question) => question.id);
 
-  // Byte-equality of the WHOLE profile, not merely matching id lists. Anything
-  // weaker would let a tree edit ride in under the settled branch and skip the
-  // projection: an extra question, a reorder, a moved flow stage. Those all
-  // leave baseline and tree different, so they fall through and the projection
-  // reports them exactly as before.
+  // Compare the entire participant-facing parity topology: exact questions,
+  // exact flow stages, and exact pathway identity/order. Non-question legal
+  // contract fields may differ from main only because validateDelta has already
+  // pinned the whole file's exact approved bytes. This keeps additions,
+  // rewording, reordering and stage/pathway mutations red while allowing an
+  // expressly approved legalAuthority/waiting-rule binding to settle without
+  // pretending the already-landed question is a new 35 -> 36 transition again.
+  const baselinePathwayIds = (baseline?.pathways ?? []).map((pathway) => pathway.id);
+  const currentPathwayIds = (current?.pathways ?? []).map((pathway) => pathway.id);
   const settled =
     baselineIds.length === projection.afterQuestionCount &&
     baselineIds.includes(delta.questionId) &&
-    canonicalJson(baseline) === canonicalJson(current);
+    canonicalJson(baseline.questions) === canonicalJson(current.questions) &&
+    canonicalJson(baseline.flowStages) === canonicalJson(current.flowStages) &&
+    canonicalJson(baselinePathwayIds) === canonicalJson(currentPathwayIds);
   if (!settled) return null;
 
   const fail = (message) => assert(false, `${label} ${delta.id}: ${message}`);

@@ -1,6 +1,19 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "county",
+      "court",
+      "charge",
+      "record_documents",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "KS",
     "name": "Kansas",
@@ -475,7 +488,8 @@
       "filingRequired": true,
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The form provides a route for a person who successfully completed a specialty court program when the conviction would ordinarily be eligible after three years."
+        "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies",
+        "Supersedes 3 years: the ordinary three-year conviction period, which § 21-6614 expressly permits this branch to bypass."
       ],
       "exclusionRules": [],
       "routeType": "court_filing",
@@ -496,6 +510,46 @@
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "K.S.A. 21-6614 specialty-court completion route",
         "lawrence_review": "first_pass_ratified"
+      },
+      "legalAuthority": {
+        "decisionId": "LD-KS-02",
+        "ruleId": "KS-21-6614-SPECIALTY-COURT-COMPLETION-ACCELERATED",
+        "mechanism": "Specialty-court accelerated expungement",
+        "statute": "Kan. Stat. Ann. § 21-6614",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "court_requirements_completed",
+          "anchorText": "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies"
+        },
+        "requiredFacts": [
+          "Program name and court?",
+          "Completion order/date?",
+          "Exact conviction?",
+          "Sentence/financial completion?",
+          "Statutory exclusions?",
+          "Judicial approval facts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Participant successfully completed a qualifying specialty court and the conviction is otherwise within the statutory expungement scope"
+        ],
+        "packetFamily": "Kansas Specialty-Court Expungement Petition under § 21-6614",
+        "packetComponents": [
+          "Petition under § 21-6614",
+          "Specialty-court completion proof"
+        ],
+        "supersedes": {
+          "value": 3,
+          "unit": "years",
+          "note": "the ordinary three-year conviction period, which § 21-6614 expressly permits this branch to bypass"
+        },
+        "notes": "The ordinary three-year clock must not be applied here, and must still apply to every non-specialty-court branch."
       }
     },
     {
@@ -936,21 +990,16 @@
       "when": {
         "backendPathwayId": "specialty-court-accelerated",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "court",
-          "charge"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "Specialty-court completion route"
+        "sourceConditionText": "available immediately upon successful completion of the qualifying specialty-court program; no additional elapsed period applies",
+        "timingAnchorFactId": "court_requirements_completed"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -960,7 +1009,13 @@
       "sourceRef": "manual_source_conversion:KS",
       "candidatePathwayIds": [
         "specialty-court-accelerated"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-KS-02",
+        "ruleId": "KS-21-6614-SPECIALTY-COURT-COMPLETION-ACCELERATED",
+        "statute": "Kan. Stat. Ann. § 21-6614",
+        "mechanism": "Specialty-court accelerated expungement"
+      }
     },
     {
       "id": "route-prostitution-coercion",

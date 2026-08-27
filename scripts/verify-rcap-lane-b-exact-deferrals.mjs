@@ -240,7 +240,8 @@ async function runChecks() {
   const unexplained = moved.filter((key) => {
     if (laneBKeys.has(key)) return false;
     const row = terminalNowByKey.get(key);
-    return !String(row?.candidateStatus ?? "").startsWith("promoted_by_");
+    const promotion = row?.candidateStatus ?? row?.promotionStatus ?? "";
+    return !String(promotion).startsWith("promoted_by_");
   });
   check(
     unexplained.length === 0,
@@ -336,7 +337,16 @@ async function runChecks() {
       // the missing first one.
       let refusal = null;
       try {
-        assertCheckoutAllowed(corrupted);
+        assertCheckoutAllowed({
+          jurisdiction,
+          pathwayId,
+          selectedTrackId: trackId,
+          treatmentClassification: "exact_supported_deferral",
+          deferralComponentIds: [],
+          packetType: "official_pdf_overlay",
+          resultCode: "packet_ready",
+          paymentAllowed: true
+        });
       } catch (error) {
         refusal = error;
       }
@@ -357,7 +367,7 @@ async function runChecks() {
         nextSteps: [],
         emailCaptureRecommended: false,
         disclaimer: "",
-      });
+      }, pathwayId);
       check(placeholder.enabled === false, `${key} @ ${pathwayId}: a payment placeholder was offered`);
       check(placeholder.amountCents === undefined, `${key} @ ${pathwayId}: a price was shown`);
 

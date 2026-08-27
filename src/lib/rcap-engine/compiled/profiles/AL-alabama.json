@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "AL",
     "name": "Alabama",
@@ -937,24 +952,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Route by disposition first: non-conviction (90 days, or 1/5 years for without-prejudice) vs. conviction",
-        "(nonviolent misdemeanor at 3 years; pardoned felony at 180 days). Then pick § 15-27-1 (misdemeanor)",
-        "Dismissed WITH prejudice — eligible after more than 90 days.",
-        "No-billed by a grand jury — eligible after more than 90 days.",
-        "Found not guilty at trial — eligible after more than 90 days.",
-        "Nolle prossed / dismissed WITHOUT prejudice and not refiled — after more than 1 year (misdemeanor) or 5 years (felony), with no disqualifying conviction in the interim.",
-        "Successful completion of a court program — drug court, mental-health court, veterans court, or a court-approved deferred-prosecution / diversion program (petition generally 1 year after completion).",
-        "Nonviolent MISDEMEANOR / violation / traffic / ordinance conviction (§ 15-27-1(b)): eligible 3 years after the date of conviction, with all probation/parole, fines, costs, and restitution completed, and the offense not excluded (not violent, sex, moral-turpitude, or serious-traffic).",
-        "PARDONED felony conviction (§ 15-27-2(c)): eligible 180 days after the certificate of pardon issues, where the conviction is not a violent offense (with limited exceptions) and not otherwise excluded.",
-        "Reclassified felony (Act 2015-185): a crime that was a felony at conviction but reclassified as a misdemeanor may be reachable where the person has been arrest-free (excluding minor traffic) for 15 years.",
-        "Disposition Statute Waiting period Note",
-        "Dismissed with prejudice 15-27-1/2(a) 90 days Both misd. and felony",
-        "No-billed by grand jury 15-27-1/2(a) 90 days",
-        "Found not guilty 15-27-1/2(a) 90 days",
-        "Dismissed w/o prejudice — misdemeanor 15-27-1(a) 1 year Not refiled; clean interim",
-        "Dismissed w/o prejudice — felony 15-27-2(a) 5 years Not refiled; clean interim",
-        "Court-program completion 15-27-1/2(a) ~1 year after completion Drug/MH/veterans/deferred",
-        "Nonviolent misdemeanor CONVICTION 15-27-1(b) 3 years From date of conviction"
+        "no fixed elapsed period; relief unlocks on a qualifying record plus facts sufficient to establish the statutory trafficking nexus"
       ],
       "exclusionRules": [
         "A person may expunge a misdemeanor or felony offense (even some otherwise-excluded ones) on proving by a preponderance of the evidence that they were a victim of human trafficking, committed the offense during that period, and would not have committed it but for being trafficked. This pathway is not subject to the usual per-person caps.",
@@ -983,6 +981,43 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-AL-01",
+        "ruleId": "AL-15-27-1A8-15-27-2A8-TRAFFICKING-EVENT",
+        "mechanism": "Human-trafficking victim expungement",
+        "statute": "Ala. Code §§ 15-27-1(a)(8), 15-27-2(a)(8), 15-27-2(b)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "no fixed elapsed period; relief unlocks on a qualifying record plus facts sufficient to establish the statutory trafficking nexus"
+        },
+        "requiredFacts": [
+          "Exact statute/offense and disposition?",
+          "Conviction versus nonconviction?",
+          "Trafficking period?",
+          "But-for nexus?",
+          "Supporting declaration or certification?",
+          "Prior expungement facts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Covered Alabama charge, arrest, or conviction",
+          "Conduct occurred during trafficking and would not have occurred but for trafficking",
+          "Proof by preponderance"
+        ],
+        "packetFamily": "Alabama Trafficking-Victim Expungement Petition under §§ 15-27-1(a)(8) / 15-27-2(a)(8)",
+        "packetComponents": [
+          "Petition under the applicable subsection",
+          "Supporting declaration or certification",
+          "Trafficking nexus evidence"
+        ],
+        "notes": "Do not apply the general 90-day, one-year, three-year, five-year, or pardoned-felony Alabama periods to this branch. Contested nexus or excluded-offense analysis is a legal-aid or attorney referral, not a checkout."
       }
     }
   ],
@@ -2969,21 +3004,11 @@
         "backendPathwayId": "human-trafficking-victim-expungement",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "trafficking_status",
-          "pardon_status",
-          "disposition_date",
-          "record_type"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "trafficking_status",
-          "pardon_status",
-          "disposition_date",
-          "record_type"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -2993,7 +3018,7 @@
           "acquitted",
           "diversion_or_deferred"
         ],
-        "sourceConditionText": "Human-trafficking-victim expungement"
+        "sourceConditionText": "no fixed elapsed period; relief unlocks on a qualifying record plus facts sufficient to establish the statutory trafficking nexus"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -3003,7 +3028,13 @@
       "sourceRef": "pathways:77-117; section:427-449; corpus-unit:31; corpus-unit:119; section:77-117; corpus-unit:14; corpus-unit:47",
       "candidatePathwayIds": [
         "human-trafficking-victim-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-AL-01",
+        "ruleId": "AL-15-27-1A8-15-27-2A8-TRAFFICKING-EVENT",
+        "statute": "Ala. Code §§ 15-27-1(a)(8), 15-27-2(a)(8), 15-27-2(b)",
+        "mechanism": "Human-trafficking victim expungement"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

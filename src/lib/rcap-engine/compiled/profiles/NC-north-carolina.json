@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "NC",
     "name": "North Carolina",
@@ -805,24 +820,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Conviction → classify as nonviolent and use 15A-145.5 with the waiting tier. Old teen conviction → check",
-        "One nonviolent misdemeanor — after 3 years (reduced from 5 by the 2025 law, for petitions filed on/after 7/9/2025).",
-        "More than one nonviolent misdemeanor — after 7 years from the last conviction / completion of sentence.",
-        "One nonviolent felony — after 10 years from completion of the sentence.",
-        "Two or three nonviolent felonies — after 20 years; all nonviolent felonies disposed in the same session of court count as one.",
-        "One nonviolent misdemeanor 15A-145.5 3 years Reduced from 5 (2025)",
-        "More than one nonviolent 15A-145.5 7 years From last conviction/completion",
-        "One nonviolent felony 15A-145.5 10 years From completion of sentence",
-        "Two or three nonviolent 15A-145.5 20 years Same-session felonies count as one",
-        "Under-18 misdemeanor 15A-145 2 years Targeted statute",
-        "Larceny (anyone) 15A-145 15 years Targeted statute",
-        "or misdemeanor (other than a traffic offense) during the waiting period, AND — for the misdemeanor track",
-        "felony conviction for counting and waiting-period purposes. The 2025 reduction of the one-misdemeanor wait",
-        "to three years applies to petitions filed on or after July 9, 2025; the AOC form's findings-of-fact language",
-        "Disposition / offense Statute Waiting period Note Dismissal / not guilty 15A-146 None Often automatic (post-12/1/2021) One nonviolent misdemeanor 15A-145.5 3 years Reduced from 5 (2025) More than one nonviolent 15A-145.5 7 years From last conviction/completion misdemeanor One nonviolent felony 15A-145.5 10 years From completion of sentence Two or three nonviolent 15A-145.5 20 years Same-session felonies count as one felonies Youthful (16–17 pre-12/1/2019) 15A-145.8A On completion No outstanding restitution Under-18 misdemeanor 15A-145 2 years Targeted statute Larceny (anyone) 15A-145 15 years Targeted statute Two rules shape the count for conviction expunctions.",
-        "First, the person must have no conviction for any felony or misdemeanor (other than a traffic offense) during the waiting period, AND — for the misdemeanor track — no conviction at any time for any offense other than the one(s) being expunged (beyond traffic).",
-        "Second, the same-session rule: all nonviolent felonies disposed in a single session of court are treated as one nonviolent felony conviction for counting and waiting-period purposes.",
-        "The 2025 reduction of the one-misdemeanor wait to three years applies to petitions filed on or after July 9, 2025; the AOC form's findings-of-fact language reflects this."
+        "available after completion of the sentence, probation and any post-release supervision, plus payment of restitution; no additional elapsed waiting period applies"
       ],
       "exclusionRules": [
         "For conviction expunctions, eligibility turns on whether the offense is “nonviolent” as defined in G.S.",
@@ -851,6 +849,51 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-NC-02",
+        "ruleId": "NC-15A-145.8A-COMPLETION-EVENT-NO-EXTRA-WAIT",
+        "mechanism": "Youthful pre-raise-the-age expunction",
+        "statute": "N.C. Gen. Stat. § 15A-145.8A",
+        "stage": "post_completion",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorAlternates": [
+            "probation_parole_supervision_end_date"
+          ],
+          "anchorText": "available after completion of the sentence, probation and any post-release supervision, plus payment of restitution; no additional elapsed waiting period applies"
+        },
+        "requiredFacts": [
+          "Date of birth?",
+          "Age at offense?",
+          "Offense date?",
+          "Exact statute/class?",
+          "Sentence/probation/post-release completion?",
+          "Restitution?",
+          "Motor-vehicle/DWI/sex-offense exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "court_requirements_completed",
+          "financial_obligations",
+          "sentence_completion_actual_date"
+        ],
+        "exclusions": [
+          "Offense before December 1, 2019 at age 16 or 17",
+          "Covered misdemeanor/Class H or I felony",
+          "Statutory exclusions absent"
+        ],
+        "packetFamily": "North Carolina Petition for Expunction under G.S. 15A-145.8A",
+        "packetComponents": [
+          "Petition under § 15A-145.8A",
+          "Completion and supervision proof",
+          "Restitution payment proof"
+        ],
+        "notes": "Limited to offences committed before December 1, 2019 while the person was sixteen or seventeen, within the covered misdemeanor or Class H/I felony categories and outside the motor-vehicle, impaired-driving, registrable-sex and other exclusions. Do not borrow the waiting periods in §§ 15A-145 or 15A-145.5."
       }
     }
   ],
@@ -2458,17 +2501,11 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
           "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "disposition_date",
-          "sentence_completion_date",
           "financial_obligations"
         ],
         "caseOutcomes": [
@@ -2479,7 +2516,11 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Youthful / pre-Raise-the-Age expunction under G.S. 15A-145.8A and related statutes"
+        "sourceConditionText": "available after completion of the sentence, probation and any post-release supervision, plus payment of restitution; no additional elapsed waiting period applies",
+        "timingAnchorFactId": "sentence_completion_actual_date",
+        "timingAnchorAlternateFactIds": [
+          "probation_parole_supervision_end_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2489,7 +2530,13 @@
       "sourceRef": "pathways:73-116; section:440-461; section:73-116; corpus-unit:32; section:51-72; section:117-157; section:241-272; section:201-240",
       "candidatePathwayIds": [
         "youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-NC-02",
+        "ruleId": "NC-15A-145.8A-COMPLETION-EVENT-NO-EXTRA-WAIT",
+        "statute": "N.C. Gen. Stat. § 15A-145.8A",
+        "mechanism": "Youthful pre-raise-the-age expunction"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",

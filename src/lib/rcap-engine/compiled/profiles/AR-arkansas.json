@@ -1,6 +1,21 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
+  },
   "jurisdiction": {
     "code": "AR",
     "name": "Arkansas",
@@ -625,24 +640,6 @@
         "frontendAction": "show_reason_codes_and_no_checkout"
       },
       "sourceRef": "exclusions:149-178",
-      "candidatePathwayIds": [
-        "situation-c-felony-convictions"
-      ]
-    },
-    {
-      "id": "rule-45-and-2021-amendments-the-agent-must-confirm-the-current-",
-      "priority": 40,
-      "stage": "timing_and_completion",
-      "when": {
-        "fieldsReferenced": [],
-        "caseOutcomes": [],
-        "sourceConditionText": "and 2021 amendments. The agent must confirm the current § 16-90-1405 list and the § 5-4-501(d)(2) violence"
-      },
-      "then": {
-        "suggestedResultCode": "needs_more_info",
-        "frontendAction": "return_to_exact_missing_questions"
-      },
-      "sourceRef": "waiting_periods:107-148",
       "candidatePathwayIds": [
         "situation-c-felony-convictions"
       ]

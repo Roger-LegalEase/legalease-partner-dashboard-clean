@@ -9,6 +9,7 @@ const root = process.cwd();
 const failures = [];
 
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const readOptional = (file) => fs.existsSync(path.join(root, file)) ? read(file) : "";
 const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
@@ -22,7 +23,11 @@ const sources = {
   screeningResult: read("src/components/expungement-ai/screening/ScreeningResult.tsx"),
   signInForm: read("src/components/expungement-ai/ConsumerSignInForm.tsx"),
   payPage: read("src/app/expungement-ai/pay/page.tsx"),
+  packetInformationPage: readOptional("src/app/briefcase/[packetId]/packet-information/page.tsx"),
+  packetInformationBuilder: readOptional("src/components/expungement-ai/PacketInformationBuilder.tsx"),
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  verificationAction: readOptional("src/components/expungement-ai/PacketVerificationAction.tsx"),
+  verificationClient: readOptional("src/components/expungement-ai/packet-verification-client.ts"),
   checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   packetReadyPage: read("src/app/expungement-ai/packet-ready/page.tsx"),
@@ -31,6 +36,7 @@ const sources = {
   briefcase: read("src/lib/expungement-ai/briefcase.ts"),
   briefcaseDetail: read("src/app/briefcase/[packetId]/page.tsx"),
   briefcaseViews: read("src/components/expungement-ai/BriefcaseViews.tsx"),
+  presentationAuthority: read("src/lib/expungement-ai/briefcase-presentation-authority.ts"),
   savePolicy: read("src/lib/expungement-ai/save-result-policy.ts"),
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
   pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts")
@@ -57,12 +63,63 @@ assert(
 
 const missingReviewCheckout = {
   ...sources,
-  reviewPage: sources.reviewPage.replace("<ConsumerCheckoutButton", "<RemovedCheckoutButton")
+  ...(sources.verificationAction
+    ? { verificationAction: sources.verificationAction.replace("nextActions.checkout", "false") }
+    : { reviewPage: sources.reviewPage.replace("<ConsumerCheckoutButton", "<RemovedCheckoutButton") })
 };
 assert(
-  approvedCommercialFlowViolations(missingReviewCheckout).some((message) => message.includes("final accuracy review")),
-  "Negative control failed: removing the final-review Checkout action was not detected."
+  approvedCommercialFlowViolations(missingReviewCheckout).some((message) => message.includes(sources.verificationAction ? "verified consumer action" : "final accuracy review")),
+  "Negative control failed: removing the protected verified-consumer Checkout action was not detected."
 );
+
+const partialProtectedPresentation = {
+  ...sources,
+  briefcaseDetail: `${sources.briefcaseDetail}\ndecorateBriefcaseItemForPresentation`,
+  verificationAction: "",
+  verificationClient: ""
+};
+assert(
+  approvedCommercialFlowViolations(partialProtectedPresentation).some((message) => message.includes("complete protected presentation component set")),
+  "Negative control failed: a partial protected presentation integration selected the legacy UI contract."
+);
+
+if (sources.verificationAction && sources.verificationClient) {
+  const verificationPayloadWeakened = {
+    ...sources,
+    verificationClient: sources.verificationClient.replace("verify: true", "verify: false")
+  };
+  assert(
+    approvedCommercialFlowViolations(verificationPayloadWeakened).some((message) => message.includes("exact explicit-verification POST")),
+    "Negative control failed: verify:false was accepted at the protected verification client boundary."
+  );
+
+  const consumerModeForced = {
+    ...sources,
+    reviewPage: sources.reviewPage.replace('mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}', 'mode="consumer"')
+  };
+  assert(
+    approvedCommercialFlowViolations(consumerModeForced).some((message) => message.includes("protected payment state")),
+    "Negative control failed: forcing every protected matter into consumer mode was not detected."
+  );
+
+  const verificationStateForced = {
+    ...sources,
+    reviewPage: sources.reviewPage.replace("initiallyVerified={initiallyVerified}", "initiallyVerified={true}")
+  };
+  assert(
+    approvedCommercialFlowViolations(verificationStateForced).some((message) => message.includes("protected verification status")),
+    "Negative control failed: forcing the protected review action verified was not detected."
+  );
+
+  const packetReadyForced = {
+    ...sources,
+    reviewPage: sources.reviewPage.replace('packetReady={item.artifact.status === "ready"}', "packetReady={false}")
+  };
+  assert(
+    approvedCommercialFlowViolations(packetReadyForced).some((message) => message.includes("protected artifact readiness")),
+    "Negative control failed: disconnecting packet readiness from protected artifact authority was not detected."
+  );
+}
 
 const crossMatterClaimRedirect = {
   ...sources,
@@ -83,8 +140,8 @@ if (failures.length) {
 }
 
 console.log("Expungement.ai DTC approved-flow verifier passed.");
-console.log("DTC remains screening-first, saves every authoritative result to the free Briefcase, and creates matter-bound Checkout only after packet information and final review.");
-console.log("Negative controls detected premature payment, loss of the final-review Checkout action, and loss of exact-matter routing.");
+console.log("DTC remains screening-first, saves every authoritative result to the free Briefcase, and creates matter-bound Checkout only after protected packet facts and explicit verification.");
+console.log("Negative controls detected premature payment, loss of the protected verified-consumer Checkout action, and loss of exact-matter routing.");
 
 function approvedCommercialFlowViolations(input) {
   const issues = [];
@@ -92,6 +149,7 @@ function approvedCommercialFlowViolations(input) {
     if (!condition) issues.push(message);
   };
   const handoff = packetAction(input.screeningFlow);
+  const protectedPresentationUi = usesProtectedPresentation(input);
 
   require(input.screeningFlow.includes("const isPartnerSession = Boolean(effectiveInitialSessionId);"), "DTC must default to non-partner when no server-validated session is present.");
   require(!input.screeningFlow.includes('type Phase = "questions" | "review"'), "The shared screening flow must not add a payment or account phase.");
@@ -122,12 +180,31 @@ function approvedCommercialFlowViolations(input) {
   require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claims must not skip the free Briefcase and packet review.");
 
-  require(input.briefcaseDetail.includes("Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet."), "The exact matter must preserve the free-Briefcase boundary.");
-  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Review for accuracy"), "The exact matter must expose packet information before accuracy review.");
-  require(input.briefcaseViews.includes("Complete packet information") && input.briefcaseViews.includes("Review for accuracy"), "Briefcase overview must preserve the prepayment builder and review actions.");
-  require(input.reviewPage.includes("Check each answer before you pay."), "Final accuracy review must remain before payment.");
-  require(input.reviewPage.includes("<ConsumerCheckoutButton") && input.reviewPage.includes('label="Pay $50 and generate my packet"'), "The final accuracy review must own the matter-bound Checkout action.");
-  require(input.reviewPage.includes('item.paymentStatus === "paid"') && input.reviewPage.includes("sponsored ? ("), "Final review must separate already-paid and partner-sponsored matters from consumer Checkout.");
+  if (protectedPresentationUi) {
+    require(
+      Boolean(input.verificationAction)
+        && Boolean(input.verificationClient)
+        && input.packetInformationPage.includes("decorateBriefcaseItemForPresentation")
+        && input.reviewPage.includes("decorateBriefcaseItemForPresentation")
+        && input.briefcaseDetail.includes("decorateBriefcaseItemForPresentation")
+        && input.briefcaseViews.includes("BriefcasePresentationItem"),
+      "Protected UI must provide the complete protected presentation component set; partial integration cannot use the legacy contract."
+    );
+    require(input.briefcaseDetail.includes("decorateBriefcaseItemForPresentation") && input.briefcaseDetail.includes('item.packetProgress === "not_started"') && input.briefcaseDetail.includes('item.packetProgress === "facts_complete"'), "The exact matter must expose protected first-open/resume/review progress without raw-row fallback.");
+    require(input.packetInformationPage.includes("decorateBriefcaseItemForPresentation") && input.packetInformationPage.includes('item?.packetDraft.status === "available"'), "Packet information must consume the protected presentation draft.");
+    require(input.packetInformationBuilder.includes("Review packet facts") && input.packetInformationBuilder.includes("Save and leave"), "The protected packet builder must preserve save/resume/review actions.");
+    require(input.briefcaseViews.includes("BriefcasePresentationItem") && !input.briefcaseViews.includes("ConsumerBriefcaseItem"), "Briefcase overview must consume only the sanitized presentation type.");
+    require(input.reviewPage.includes("decorateBriefcaseItemForPresentation") && input.reviewPage.includes('item?.packetDraft.status === "available"'), "Final review must consume the protected packet draft.");
+    require(input.reviewPage.includes("<PacketVerificationAction") && !input.reviewPage.includes("packetInformationModelFor(storedItem)"), "Final review must delegate commerce actions to explicit protected verification.");
+    require(input.verificationClient.includes("body: JSON.stringify({ answers, verify: true })"), "The protected client must send the exact explicit-verification POST payload.");
+    require(input.reviewPage.includes("initiallyVerified={initiallyVerified}") && input.reviewPage.includes('const initiallyVerified = item?.verificationStatus === "verified" && reviewSafety.safe;'), "The review action must derive its initial state from protected verification status and current review safety.");
+    require(input.reviewPage.includes('packetReady={item.artifact.status === "ready"}'), "The review action must derive packet readiness from protected artifact readiness.");
+    require(input.reviewPage.includes('mode={sponsored ? "sponsored" : item.paymentState === "paid" ? "paid" : "consumer"}'), "The review action mode must derive from protected payment state.");
+    require(input.verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode })") && input.verificationAction.includes("nextActions.checkout"), "The verified consumer action must own matter-bound Checkout.");
+    require(input.verificationClient.includes("if (!verified)") && input.verificationClient.includes("checkout: !packetReady"), "No consumer Checkout may exist before explicit verification or after immutable Ready access.");
+  } else {
+    require(input.reviewPage.includes("<ConsumerCheckoutButton"), "The final accuracy review must own matter-bound Checkout until the protected presentation UI is integrated.");
+  }
 
   require(input.payPage.includes("Compatibility route") && input.payPage.includes("/review"), "Legacy pay URLs must redirect the exact matter to accuracy review.");
   require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "The final-review Checkout button must invoke the checkout API.");
@@ -139,11 +216,26 @@ function approvedCommercialFlowViolations(input) {
   require(input.packetReadyPage.includes("Compatibility return") && !input.packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
   require(input.packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation must use the payment-aware packet generator.");
   require(input.packetGeneration.includes("ConsumerPacketPaymentRequiredError"), "Unpaid DTC packet generation must fail closed.");
-  require(input.packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Only server-verified partner sponsorship may bypass consumer payment.");
+  require(
+    input.packetGeneration.includes("readTrustedBriefcasePresentationSource")
+      && input.packetGeneration.includes("requireCurrentPacketSponsorshipAuthority")
+      && input.packetGeneration.includes("paymentRequired: !partnerSponsored"),
+    "Only the current protected owner/item/source sponsorship token may bypass consumer payment."
+  );
+  require(input.presentationAuthority.includes("row.partner_benefit_active !== true") && input.presentationAuthority.includes("source_linkage_sha256"), "Current sponsorship must require active protected partner benefit and exact linkage digest.");
   require(input.briefcase.includes('.eq("flow_mode", "rcap")') && input.briefcase.includes('.eq("partner_benefit_active", true)'), "Partner sponsorship detection must require persisted RCAP mode and an active benefit.");
   require(input.savePolicy.includes("return isPartnerSession ? false : evaluationPaymentAllowed;"), "Only validated partner context may suppress otherwise-allowed consumer payment.");
 
   return issues;
+}
+
+function usesProtectedPresentation(input) {
+  return Boolean(input.verificationAction)
+    || Boolean(input.verificationClient)
+    || input.packetInformationPage.includes("decorateBriefcaseItemForPresentation")
+    || input.reviewPage.includes("decorateBriefcaseItemForPresentation")
+    || input.briefcaseDetail.includes("decorateBriefcaseItemForPresentation")
+    || input.briefcaseViews.includes("BriefcasePresentationItem");
 }
 
 function packetAction(source) {

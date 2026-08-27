@@ -1,6 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": ["court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "WA",
     "name": "Washington",
@@ -1164,24 +1169,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Waiting period - ordinary non-DV At least 3 years since the later of release from supervision/probation, release from confinement, or sentencing date",
-        "New convictions No new conviction in Washington, another state, federal court, or tribal court in the 3 years before application",
-        "RCW 9.96.060 lists the general bars: incomplete sentence, pending charges, violent offense, DUI/physical-control/prior-offense issues, sex/obscenity/child-exploitation categories, domestic-violence conditions, ordinary 3-year timing, new convictions in the prior 3 years, and qualifying protection/restraining-order issues. (",
-        "Domestic violence misdemeanors are not automatically barred, but they have stricter rules. Wilma must check: written notice to the prosecuting attorney, whether the person has two or more DV convictions from different incidents, whether they truthfully disclosed prior DV convictions, and whether at least 5 years have passed since completing original sentence conditions including treatment, excluding payment of financial obligations. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "cases where there has been a later alcohol/drug violation within 10 years or less than 10 years has passed since the prior-offense arrest. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "Class B felony 10-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 10 years",
-        "Class C felony 5-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 5 years",
-        "RCW 9.94A.640 bars vacation if there are pending charges, if the offense was a violent offense or crime against persons except narrow listed offenses, if the Class B/Class C waiting and clean-period requirements are not met, or if the offense was felony DUI/physical control. (",
-        "route is mainly for non-conviction data, not adult convictions. RCW 10.97.060 says non-conviction criminal-history record information is subject to deletion from generally searched criminal justice agency files when 2 years or more have passed since favorable disposition, or 3 years have passed from arrest/citation/warrant for an offense where no conviction was obtained, unless the person is a fugitive or the case remains under active prosecution. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=10.97.060\")",
-        "If a juvenile case ends in acquittal after fact-finding or dismissal with prejudice, the court must immediately seal the official juvenile court record, subject to any state appeal rights. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=13.50.260\")",
-        "Ordinary misdemeanor/gross misdemeanor vacation 3 years from later of release from supervision/probation, release from confinement, or sentencing date",
-        "DV misdemeanor/gross misdemeanor vacation 5 years after completing original sentence conditions, including treatment, excluding financial obligations",
-        "Misdemeanor/gross misdemeanor new-conviction lookback No new conviction in prior 3 years",
-        "Felony Class B vacation 10 years from latest release/sentencing trigger, and no new conviction in prior 10 years",
-        "Felony Class C vacation 5 years from latest release/sentencing trigger, and no new conviction in prior 5 years",
-        "Non-conviction deletion after favorable disposition 2 years after favorable disposition",
-        "Non-conviction deletion where no conviction obtained 3 years from arrest/citation/warrant, unless fugitive or active prosecution",
-        "Blake drug-possession vacatur Not a normal waiting-period route; eligibility is based on void conviction category"
+        "a person who was twenty-one or older at the time of the qualifying misdemeanor marijuana offense may apply without the ordinary three-year misdemeanor waiting period; the court shall vacate when the special statutory conditions are satisfied",
+        "Supersedes 3 years: the ordinary RCW 9.96.060 three-year misdemeanor rule, bypassed only for the express cannabis subsection."
       ],
       "exclusionRules": [
         "Offense not violent Violent misdemeanor/gross misdemeanor offenses and attempts are barred",
@@ -1195,6 +1184,48 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-WA-05",
+        "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+        "mechanism": "Misdemeanor cannabis conviction vacation",
+        "statute": "RCW 9.96.060(5)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "a person who was twenty-one or older at the time of the qualifying misdemeanor marijuana offense may apply without the ordinary three-year misdemeanor waiting period; the court shall vacate when the special statutory conditions are satisfied"
+        },
+        "requiredFacts": [
+          "Cannabis statute/date and age at offense?",
+          "Conviction court?",
+          "Victimization/trafficking nexus?",
+          "Affidavit evidence?",
+          "Sentence/restitution?",
+          "Later/pending crimes?",
+          "Excluded offense?",
+          "Other counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Exact Washington special route",
+          "Cannabis age/statute eligibility or covered victim-caused offense with statutory proof and exclusions"
+        ],
+        "packetFamily": "Washington Cannabis Vacation Application under RCW 9.96.060(5)",
+        "packetComponents": [
+          "Motion and application to vacate",
+          "Conviction record",
+          "Age-at-offense evidence"
+        ],
+        "supersedes": {
+          "value": 3,
+          "unit": "years",
+          "note": "the ordinary RCW 9.96.060 three-year misdemeanor rule, bypassed only for the express cannabis subsection"
+        }
       }
     },
     {
@@ -1234,23 +1265,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "New convictions No new conviction in Washington, another state, federal court, or tribal court in the 3 years before application",
-        "RCW 9.96.060 lists the general bars: incomplete sentence, pending charges, violent offense, DUI/physical-control/prior-offense issues, sex/obscenity/child-exploitation categories, domestic-violence conditions, ordinary 3-year timing, new convictions in the prior 3 years, and qualifying protection/restraining-order issues. (",
-        "Domestic violence misdemeanors are not automatically barred, but they have stricter rules. Wilma must check: written notice to the prosecuting attorney, whether the person has two or more DV convictions from different incidents, whether they truthfully disclosed prior DV convictions, and whether at least 5 years have passed since completing original sentence conditions including treatment, excluding payment of financial obligations. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "cases where there has been a later alcohol/drug violation within 10 years or less than 10 years has passed since the prior-offense arrest. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "Class B felony 10-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 10 years",
-        "Class C felony 5-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 5 years",
-        "RCW 9.94A.640 bars vacation if there are pending charges, if the offense was a violent offense or crime against persons except narrow listed offenses, if the Class B/Class C waiting and clean-period requirements are not met, or if the offense was felony DUI/physical control. (",
-        "route is mainly for non-conviction data, not adult convictions. RCW 10.97.060 says non-conviction criminal-history record information is subject to deletion from generally searched criminal justice agency files when 2 years or more have passed since favorable disposition, or 3 years have passed from arrest/citation/warrant for an offense where no conviction was obtained, unless the person is a fugitive or the case remains under active prosecution. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=10.97.060\")",
-        "If a juvenile case ends in acquittal after fact-finding or dismissal with prejudice, the court must immediately seal the official juvenile court record, subject to any state appeal rights. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=13.50.260\")",
-        "Ordinary misdemeanor/gross misdemeanor vacation 3 years from later of release from supervision/probation, release from confinement, or sentencing date",
-        "DV misdemeanor/gross misdemeanor vacation 5 years after completing original sentence conditions, including treatment, excluding financial obligations",
-        "Misdemeanor/gross misdemeanor new-conviction lookback No new conviction in prior 3 years",
-        "Felony Class B vacation 10 years from latest release/sentencing trigger, and no new conviction in prior 10 years",
-        "Felony Class C vacation 5 years from latest release/sentencing trigger, and no new conviction in prior 5 years",
-        "Route Waiting / timing Ordinary misdemeanor/gross misdemeanor vacation 3 years from later of release from supervision/probation, release from confinement, or sentencing date DV misdemeanor/gross misdemeanor vacation 5 years after completing original sentence conditions, including treatment, excluding financial obligations Misdemeanor/gross misdemeanor new-conviction lookback No new conviction in prior 3 years Felony Class B vacation 10 years from latest release/sentencing trigger, and no new conviction in prior 10 years Felony Class C vacation 5 years from latest release/sentencing trigger, and no new conviction in prior 5 years Non-conviction deletion after favorable disposition 2 years after favorable disposition Non-conviction deletion where no conviction obtained 3 years from arrest/citation/warrant, unless fugitive or active prosecution Misdemeanor cannabis vacation No ordinary wait stated in the cannabis subsection if qualifying Blake drug-possession vacatur Not a normal waiting-period route; eligibility is based on void conviction category Juvenile administrative sealing Scheduled after age 18 / end probation / release or parole completion, whichever is latest Juvenile Class A motion sealing 5 consecutive years in community, plus other requirements Juvenile Class B/C/gross misdemeanor/misdemeanor/diversion sealing 2 consecutive years in community, plus other requirements",
-        "not expunged.Vacation helps WSP/local dissemination and lets the person say they were not convicted of that offense, but court records and private/FBI records may still show information.Misdemeanors/gross misdemeanors route through RCW 9.96.060; ordinary wait is 3 years, DV wait is 5 years.Felonies route through RCW 9.94A.640; Class B is 10 years, Class C is 5 years, and Class A is not the normal route.Non-convictions route through RCW 10.97.060 deletion, not vacation.Blake drug-possession cases have their own vacate/refund workflow.Juvenile cases route through RCW 13.50.260 sealing.Never promise deletion, firearm-right restoration, immigration safety, licensing safety, or FBI/private-background-check removal from a Washington vacate order.",
-        "For Washington State, train Wilma with this core logic: Washington adult convictions are usually vacated, not expunged.Vacation helps WSP/local dissemination and lets the person say they were not convicted of that offense, but court records and private/FBI records may still show information.Misdemeanors/gross misdemeanors route through RCW 9.96.060; ordinary wait is 3 years, DV wait is 5 years.Felonies route through RCW 9.94A.640; Class B is 10 years, Class C is 5 years, and Class A is not the normal route.Non-convictions route through RCW 10.97.060 deletion, not vacation.Blake drug-possession cases have their own vacate/refund workflow.Juvenile cases route through RCW 13.50.260 sealing.Never promise deletion, firearm-right restoration, immigration safety, licensing safety, or FBI/private-background-check removal from a Washington vacate order."
+        "route-specific: the covered offense and victimization nexus, the affidavit and preponderance standard, the pending-case and sentence or restitution conditions, and any route-specific clean-period requirement"
       ],
       "exclusionRules": [
         "Offense not violent Violent misdemeanor/gross misdemeanor offenses and attempts are barred",
@@ -1266,6 +1281,48 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-WA-05",
+        "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+        "mechanism": "Victim-survivor conviction vacation",
+        "statute": "RCW 9.96.080",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "sentence_completion_actual_date",
+          "anchorText": "route-specific: the covered offense and victimization nexus, the affidavit and preponderance standard, the pending-case and sentence or restitution conditions, and any route-specific clean-period requirement"
+        },
+        "requiredFacts": [
+          "Cannabis statute/date and age at offense?",
+          "Conviction court?",
+          "Victimization/trafficking nexus?",
+          "Affidavit evidence?",
+          "Sentence/restitution?",
+          "Later/pending crimes?",
+          "Excluded offense?",
+          "Other counts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "pending_cases",
+          "financial_obligations"
+        ],
+        "exclusions": [
+          "Exact Washington special route",
+          "Cannabis age/statute eligibility or covered victim-caused offense with statutory proof and exclusions"
+        ],
+        "packetFamily": "Washington Victim-Survivor Vacation Packet under RCW 9.96.080",
+        "packetComponents": [
+          "Motion to vacate",
+          "Affidavit",
+          "Victimization nexus evidence",
+          "Completion and restitution proof"
+        ],
+        "notes": "Must not inherit the cannabis no-wait rule or the ordinary misdemeanor rule."
       }
     },
     {
@@ -1307,24 +1364,7 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "If a juvenile case ends in acquittal after fact-finding or dismissal with prejudice, the court must immediately seal the official juvenile court record, subject to any state appeal rights. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=13.50.260\")",
-        "Waiting period - ordinary non-DV At least 3 years since the later of release from supervision/probation, release from confinement, or sentencing date",
-        "New convictions No new conviction in Washington, another state, federal court, or tribal court in the 3 years before application",
-        "RCW 9.96.060 lists the general bars: incomplete sentence, pending charges, violent offense, DUI/physical-control/prior-offense issues, sex/obscenity/child-exploitation categories, domestic-violence conditions, ordinary 3-year timing, new convictions in the prior 3 years, and qualifying protection/restraining-order issues. (",
-        "Domestic violence misdemeanors are not automatically barred, but they have stricter rules. Wilma must check: written notice to the prosecuting attorney, whether the person has two or more DV convictions from different incidents, whether they truthfully disclosed prior DV convictions, and whether at least 5 years have passed since completing original sentence conditions including treatment, excluding payment of financial obligations. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "cases where there has been a later alcohol/drug violation within 10 years or less than 10 years has passed since the prior-offense arrest. (\"https://apps.leg.wa.gov/Rcw/default.aspx?cite=9.96.060\")",
-        "Class B felony 10-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 10 years",
-        "Class C felony 5-year wait from latest of release from community custody, release from confinement, or sentencing date; no new conviction in prior 5 years",
-        "RCW 9.94A.640 bars vacation if there are pending charges, if the offense was a violent offense or crime against persons except narrow listed offenses, if the Class B/Class C waiting and clean-period requirements are not met, or if the offense was felony DUI/physical control. (",
-        "route is mainly for non-conviction data, not adult convictions. RCW 10.97.060 says non-conviction criminal-history record information is subject to deletion from generally searched criminal justice agency files when 2 years or more have passed since favorable disposition, or 3 years have passed from arrest/citation/warrant for an offense where no conviction was obtained, unless the person is a fugitive or the case remains under active prosecution. (\"https://app.leg.wa.gov/rcw/default.aspx?cite=10.97.060\")",
-        "Ordinary misdemeanor/gross misdemeanor vacation 3 years from later of release from supervision/probation, release from confinement, or sentencing date",
-        "DV misdemeanor/gross misdemeanor vacation 5 years after completing original sentence conditions, including treatment, excluding financial obligations",
-        "Misdemeanor/gross misdemeanor new-conviction lookback No new conviction in prior 3 years",
-        "Felony Class B vacation 10 years from latest release/sentencing trigger, and no new conviction in prior 10 years",
-        "Felony Class C vacation 5 years from latest release/sentencing trigger, and no new conviction in prior 5 years",
-        "Non-conviction deletion after favorable disposition 2 years after favorable disposition",
-        "Non-conviction deletion where no conviction obtained 3 years from arrest/citation/warrant, unless fugitive or active prosecution",
-        "Blake drug-possession vacatur Not a normal waiting-period route; eligibility is based on void conviction category"
+        "five years for a Class A juvenile offense and two years for Class B, Class C, misdemeanor, gross-misdemeanor and diversion matters, measured from the applicable release or completion anchor"
       ],
       "exclusionRules": [
         "Offense not violent Violent misdemeanor/gross misdemeanor offenses and attempts are barred",
@@ -1338,6 +1378,56 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-WA-02",
+        "ruleId": "WA-RCW-13.50.260-AUTOMATIC-IMMEDIATE-TWO-FIVE-YEAR-MAP",
+        "mechanism": "Juvenile record sealing — participant motion branch",
+        "statute": "RCW 13.50.260",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 2,
+          "unit": "years",
+          "anchorFactId": "release_date",
+          "anchorAlternates": [
+            "discharge_date",
+            "probation_parole_supervision_end_date"
+          ],
+          "anchorText": "five years for a Class A juvenile offense and two years for Class B, Class C, misdemeanor, gross-misdemeanor and diversion matters, measured from the applicable release or completion anchor"
+        },
+        "requiredFacts": [
+          "Adjudication/diversion/acquittal/dismissal?",
+          "Offense class?",
+          "Age?",
+          "Release/probation/completion dates?",
+          "Restitution?",
+          "Later record?",
+          "Pending cases?",
+          "Sex/kidnapping/other exclusions?",
+          "Automatic-seal status?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "eligible_conviction_class",
+          "financial_obligations",
+          "release_date"
+        ],
+        "exclusions": [
+          "Exact juvenile disposition and offense class",
+          "Restitution and supervision complete",
+          "No disqualifying later record",
+          "Registration and statutory exclusions checked"
+        ],
+        "packetFamily": "Washington Juvenile Sealing Motion under RCW 13.50.260",
+        "packetComponents": [
+          "Motion to seal",
+          "Release or completion proof",
+          "Restitution proof"
+        ],
+        "notes": "A qualifying acquittal or dismissal with prejudice is sealed with no elapsed wait, and the statute's automatic administrative-hearing process runs at the later of the specified age, end of probation, or release event. A diversion and an adjudication must never share a generic juvenile waiting value without the exact branch facts."
       }
     }
   ],
@@ -2232,19 +2322,11 @@
         "backendPathwayId": "misdemeanor-cannabis-conviction-vacation",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "sentence_completion_date",
-          "financial_obligations"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "age_at_offense",
-          "sentence_completion_date",
-          "financial_obligations"
+          "offense_level"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -2253,7 +2335,7 @@
           "convicted_felony",
           "juvenile"
         ],
-        "sourceConditionText": "Misdemeanor cannabis-conviction vacation"
+        "sourceConditionText": "a person who was twenty-one or older at the time of the qualifying misdemeanor marijuana offense may apply without the ordinary three-year misdemeanor waiting period; the court shall vacate when the special statutory conditions are satisfied"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2263,7 +2345,13 @@
       "sourceRef": "section:135-137; section:150-164; corpus-unit:51; waiting_periods:150-164; corpus-unit:37",
       "candidatePathwayIds": [
         "misdemeanor-cannabis-conviction-vacation"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WA-05",
+        "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+        "statute": "RCW 9.96.060(5)",
+        "mechanism": "Misdemeanor cannabis conviction vacation"
+      }
     },
     {
       "id": "route-victim-survivor-conviction-vacation-route",
@@ -2274,18 +2362,14 @@
         "requiredFields": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "financial_obligations",
           "pending_cases",
-          "trafficking_status"
+          "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
           "offense_level",
-          "offense_category",
-          "financial_obligations",
           "pending_cases",
-          "trafficking_status"
+          "financial_obligations"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -2293,7 +2377,8 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Victim / survivor conviction-vacation route"
+        "sourceConditionText": "route-specific: the covered offense and victimization nexus, the affidavit and preponderance standard, the pending-case and sentence or restitution conditions, and any route-specific clean-period requirement",
+        "timingAnchorFactId": "sentence_completion_actual_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2303,7 +2388,13 @@
       "sourceRef": "section:138-144; corpus-unit:40",
       "candidatePathwayIds": [
         "victim-survivor-conviction-vacation-route"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WA-05",
+        "ruleId": "WA-RCW-9.96.0605-CANNABIS-AND-9.96.080-VICTIM-SPLIT",
+        "statute": "RCW 9.96.080",
+        "mechanism": "Victim-survivor conviction vacation"
+      }
     },
     {
       "id": "route-juvenile-record-sealing-under-rcw-13-50-260",
@@ -2313,23 +2404,11 @@
         "backendPathwayId": "juvenile-record-sealing-under-rcw-13-50-260",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "age_at_offense",
-          "record_type"
+          "financial_obligations"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "financial_obligations",
-          "pending_cases",
-          "age_at_offense",
-          "record_type"
+          "financial_obligations"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2339,7 +2418,17 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile-record sealing under RCW 13.50.260"
+        "sourceConditionText": "five years for a Class A juvenile offense and two years for Class B, Class C, misdemeanor, gross-misdemeanor and diversion matters, measured from the applicable release or completion anchor",
+        "duration": {
+          "value": 2,
+          "unit": "years",
+          "raw": "2 years"
+        },
+        "timingAnchorFactId": "release_date",
+        "timingAnchorAlternateFactIds": [
+          "discharge_date",
+          "probation_parole_supervision_end_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2349,7 +2438,13 @@
       "sourceRef": "section:145-149; corpus-unit:46",
       "candidatePathwayIds": [
         "juvenile-record-sealing-under-rcw-13-50-260"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-WA-02",
+        "ruleId": "WA-RCW-13.50.260-AUTOMATIC-IMMEDIATE-TWO-FIVE-YEAR-MAP",
+        "statute": "RCW 13.50.260",
+        "mechanism": "Juvenile record sealing — participant motion branch"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2677,6 +2772,22 @@
         "charge",
         "age_at_offense",
         "record_type"
+      ]
+    },
+    {
+      "id": "authority-juvenile-record-sealing-under-rcw-13-50-260",
+      "ruleText": "RCW 13.50.260 — five years for a Class A juvenile offense and two years for Class B, Class C, misdemeanor, gross-misdemeanor and diversion matters, measured from the applicable release or completion anchor",
+      "duration": {
+        "value": 2,
+        "unit": "years",
+        "raw": "2 years"
+      },
+      "anchor": "release_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "eligible_conviction_class",
+        "financial_obligations",
+        "release_date"
       ]
     }
   ],

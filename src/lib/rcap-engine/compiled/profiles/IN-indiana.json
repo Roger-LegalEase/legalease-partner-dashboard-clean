@@ -1,6 +1,22 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {
+      "in_prosecutor_consent_confirmed": [
+        "conviction-expungement-with-sealed-confidential-access"
+      ]
+    },
+    "exactPacketFactIds": [
+      "county",
+      "court",
+      "case_number",
+      "charge",
+      "record_documents",
+      "eligible_conviction_class"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "IN",
     "name": "Indiana",
@@ -1171,6 +1187,21 @@
         "sourceRuleRefs": [
           "manual_source_conversion:IN",
           "manual_source_conversion:IN:conviction-sealed-access-tier"
+        ],
+        "requiredInputIds": [
+          "age_at_offense",
+          "case_number",
+          "case_outcome",
+          "charge",
+          "contact_information",
+          "county",
+          "court",
+          "eligible_conviction_class",
+          "jurisdiction",
+          "participant_full_legal_name",
+          "pathway_id",
+          "pending_cases",
+          "residency_or_location"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

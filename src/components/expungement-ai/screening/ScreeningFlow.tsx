@@ -32,7 +32,11 @@ import { evaluateScreening } from "@/lib/expungement-ai/frontend/evaluate";
 import type { WilmaPageContext } from "@/lib/expungement-ai/wilma";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import { blocksContinue, toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
-import { deriveScreens } from "@/components/expungement-ai/screening/screens";
+import {
+  sanitizeAnswersForQuestionIds,
+  sanitizeResumedAnswersForQuestionIds,
+  screensFromQuestionIds
+} from "@/components/expungement-ai/screening/screens";
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
@@ -55,6 +59,33 @@ type LoadState =
 
 type Phase = "questions" | "evaluating" | "result" | "error";
 type EvalError = { kind: "api_error" | "malformed_response"; message: string };
+
+function progressQuestionIds(payload: unknown): string[] | null {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+  const record = payload as Record<string, unknown>;
+  const nested = record.data && typeof record.data === "object" && !Array.isArray(record.data)
+    ? record.data as Record<string, unknown>
+    : null;
+  const value = record.questionIds ?? nested?.questionIds;
+  return Array.isArray(value) && value.every((entry) => typeof entry === "string") ? value : null;
+}
+
+async function requestScreeningProgress(
+  profile: JurisdictionProfile,
+  answers: Record<string, AnswerValue>
+): Promise<string[] | null> {
+  const response = await fetch("/api/expungement-ai/screening/progress", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      jurisdiction: profile.jurisdiction.code,
+      profileVersion: profile.profileVersion,
+      answers: toScreeningAnswers(answers)
+    })
+  }).catch(() => null);
+  if (!response?.ok) return null;
+  return progressQuestionIds(await response.json().catch(() => null));
+}
 
 function createMatterId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -90,7 +121,11 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   const [error, setError] = useState<string | null>(null);
   const [phase, setPhase] = useState<Phase>("questions");
   const [evaluation, setEvaluation] = useState<ScreeningEvaluation | null>(null);
+  const [evaluatedAnswers, setEvaluatedAnswers] = useState<Record<string, AnswerValue> | null>(null);
   const [evalError, setEvalError] = useState<EvalError | null>(null);
+  const [questionIds, setQuestionIds] = useState<string[] | null>(null);
+  const [selectingQuestions, setSelectingQuestions] = useState(false);
+  const [selectionError, setSelectionError] = useState(false);
   const [packetActionError, setPacketActionError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string | undefined>(effectiveInitialSessionId);
   const [saveOpen, setSaveOpen] = useState(false);
@@ -120,6 +155,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       window.clearTimeout(guardId);
       if (!active || timedOut) return;
       if (result.ok) {
+        setQuestionIds(null);
+        setSelectionError(false);
         setLoad({ status: "ready", profile: result.data });
         return;
       }
@@ -140,8 +177,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   }, [state, loadNonce]);
 
   const screens = useMemo(
-    () => (load.status === "ready" ? deriveScreens(load.profile) : []),
-    [load]
+    () => (load.status === "ready" && questionIds ? screensFromQuestionIds(load.profile, questionIds) : []),
+    [load, questionIds]
   );
 
   const questionPromptById = useMemo(() => {
@@ -151,30 +188,54 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
   }, [screens]);
 
   useEffect(() => {
-    if (load.status !== "ready" || screens.length === 0) return;
+    if (load.status !== "ready") return;
+    let active = true;
     const stored = window.sessionStorage.getItem("expungement-ai:resume-session");
-    if (!stored) return;
+    let resumedAnswers: Record<string, AnswerValue> = {};
+    let resumedSessionId: string | undefined;
+    let resumedQuestionId: string | null | undefined;
+    let resumedFromStorage = false;
     try {
-      const parsed = JSON.parse(stored) as {
+      const parsed = stored ? JSON.parse(stored) as {
         sessionId?: string;
         jurisdiction?: string;
         answers?: Record<string, AnswerValue>;
         currentQuestionId?: string | null;
-      };
-      if (parsed.jurisdiction !== load.profile.jurisdiction.code || !parsed.answers) return;
-      window.sessionStorage.removeItem("expungement-ai:resume-session");
-      queueMicrotask(() => {
-        setSessionId(parsed.sessionId);
-        setAnswers(parsed.answers ?? {});
-        if (parsed.currentQuestionId) {
-          const target = screens.findIndex((screen) => screen.id === parsed.currentQuestionId);
-          if (target >= 0) setCurrentIndex(target);
-        }
-      });
+      } : null;
+      if (parsed?.jurisdiction === load.profile.jurisdiction.code && parsed.answers) {
+        resumedAnswers = parsed.answers;
+        resumedSessionId = parsed.sessionId;
+        resumedQuestionId = parsed.currentQuestionId;
+        resumedFromStorage = true;
+      }
     } catch {
-      window.sessionStorage.removeItem("expungement-ai:resume-session");
+      resumedFromStorage = Boolean(stored);
     }
-  }, [load, screens]);
+
+    void requestScreeningProgress(load.profile, resumedAnswers).then((selectedIds) => {
+      if (!active) return;
+      setSelectingQuestions(false);
+      if (!selectedIds) {
+        setSelectionError(true);
+        return;
+      }
+      if (resumedFromStorage) window.sessionStorage.removeItem("expungement-ai:resume-session");
+      const selectedScreens = screensFromQuestionIds(load.profile, selectedIds);
+      const sanitizedResumedAnswers = sanitizeResumedAnswersForQuestionIds(
+        load.profile,
+        resumedAnswers,
+        selectedIds
+      );
+      setQuestionIds(selectedIds);
+      setAnswers(sanitizedResumedAnswers);
+      setSessionId(resumedSessionId ?? effectiveInitialSessionId);
+      const target = resumedQuestionId
+        ? selectedScreens.findIndex((screen) => screen.id === resumedQuestionId)
+        : 0;
+      setCurrentIndex(target >= 0 ? target : 0);
+    });
+    return () => { active = false; };
+  }, [load, effectiveInitialSessionId]);
 
   // Move keyboard focus to the active region on each screen/phase change.
   useEffect(() => {
@@ -206,13 +267,13 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     });
   }, [phase, isPartnerSession, evaluation, load]);
 
-  if (load.status === "loading") return <LoadingState />;
+  if (load.status === "loading" || (load.status === "ready" && questionIds === null && !selectionError)) return <LoadingState />;
   if (load.status === "missing") return <MissingProfileState state={state} onPick={() => router.push(PICKER_PATH)} />;
   if (load.status === "malformed") return <MalformedProfileState onRetry={() => {
     setLoad({ status: "loading" });
     setLoadNonce((value) => value + 1);
   }} onPick={() => router.push(PICKER_PATH)} />;
-  if (screens.length === 0) return <MalformedProfileState onRetry={() => {
+  if ((selectionError && questionIds === null) || screens.length === 0) return <MalformedProfileState onRetry={() => {
     setLoad({ status: "loading" });
     setLoadNonce((value) => value + 1);
   }} onPick={() => router.push(PICKER_PATH)} />;
@@ -225,7 +286,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setError(null);
   }
 
-  async function runEvaluation() {
+  async function runEvaluation(answerSnapshot: Record<string, AnswerValue> = answers) {
     setPhase("evaluating");
     setEvalError(null);
     // The engine evaluates; we only send the collected answers (converted to the wire shape).
@@ -234,9 +295,10 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       jurisdiction: profile.jurisdiction.code,
       profileVersion: profile.profileVersion,
       matterId: matterIdRef.current,
-      answers: toScreeningAnswers(answers)
+      answers: toScreeningAnswers(answerSnapshot)
     });
     if (result.ok) {
+      setEvaluatedAnswers(answerSnapshot);
       void markScreeningSessionCompleted(sessionId);
       setEvaluation(result.data);
       setPhase("result");
@@ -259,7 +321,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       body: JSON.stringify({
         product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
         jurisdiction: profile.jurisdiction.code,
-        answers: toScreeningAnswers(answers),
+        answers: toScreeningAnswers(evaluatedAnswers ?? answers),
         profileVersion: profile.profileVersion,
         matterId: matterIdRef.current,
         sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
@@ -291,7 +353,8 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     router.push(`/expungement-ai/sign-in?${params.toString()}`);
   }
 
-  function handleContinue() {
+  async function handleContinue() {
+    if (selectingQuestions) return;
     const question = screens[currentIndex];
     if (blocksContinue(question, answers[question.id])) {
       setError(translate("screening.answer_required", "Please answer this question to continue."));
@@ -299,11 +362,28 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       return;
     }
     setError(null);
-    if (currentIndex < screens.length - 1) {
-      setCurrentIndex((index) => index + 1);
-    } else {
-      void runEvaluation();
+    setSelectingQuestions(true);
+    setSelectionError(false);
+    const selectedIds = await requestScreeningProgress(profile, answers);
+    setSelectingQuestions(false);
+    if (!selectedIds) {
+      setSelectionError(true);
+      focusRef.current?.focus();
+      return;
     }
+    const selectedScreens = screensFromQuestionIds(profile, selectedIds);
+    const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+    setQuestionIds(selectedIds);
+    setAnswers(sanitizedAnswers);
+    const currentPosition = selectedScreens.findIndex((screen) => screen.id === question.id);
+    const nextIndex = currentPosition >= 0
+      ? currentPosition + 1
+      : selectedScreens.findIndex((screen) => sanitizedAnswers[screen.id] === undefined);
+    if (nextIndex >= 0 && nextIndex < selectedScreens.length) {
+      setCurrentIndex(nextIndex);
+      return;
+    }
+    void runEvaluation(sanitizedAnswers);
   }
 
   function handleBack() {
@@ -319,6 +399,7 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     setEvalError(null);
     setPacketActionError(null);
     setEvaluation(null);
+    setEvaluatedAnswers(null);
     if (focusQuestionId) {
       const targetIndex = screens.findIndex((screen) => screen.id === focusQuestionId);
       if (targetIndex >= 0) setCurrentIndex(targetIndex);
@@ -328,16 +409,32 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
 
   async function handleSaveProgress() {
     if (saveStatus === "saving") return;
-    const activeQuestion = screens[currentIndex];
     setSaveStatus("saving");
     try {
+      const selectedIds = await requestScreeningProgress(profile, answers);
+      if (!selectedIds) {
+        setSaveStatus("error");
+        return;
+      }
+      const selectedScreens = screensFromQuestionIds(profile, selectedIds);
+      const sanitizedAnswers = sanitizeAnswersForQuestionIds(answers, screens.map((screen) => screen.id), selectedIds);
+      const matchingIndex = selectedScreens.findIndex((screen) => screen.id === screens[currentIndex]?.id);
+      const resumeIndex = matchingIndex >= 0 ? matchingIndex : Math.min(currentIndex, selectedScreens.length - 1);
+      const activeQuestion = selectedScreens[resumeIndex];
+      if (!activeQuestion) {
+        setSaveStatus("error");
+        return;
+      }
+      setQuestionIds(selectedIds);
+      setAnswers(sanitizedAnswers);
+      setCurrentIndex(resumeIndex);
       const response = await fetch("/api/expungement-ai/screening/save-resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sessionId,
           jurisdiction: profile.jurisdiction.code,
-          answers,
+          answers: sanitizedAnswers,
           currentQuestionId: activeQuestion.id,
           furthestStage: activeQuestion.stage,
           lastDropQuestion: activeQuestion.id,
@@ -425,13 +522,19 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
             error={error}
           />
         </div>
+        {selectionError ? (
+          <p className="mt-4 rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert" aria-live="assertive">
+            We could not load the next question. Your answers are still here; try continuing again.
+          </p>
+        ) : null}
         <div className="mt-7 flex flex-col gap-3 sm:flex-row-reverse">
           <button
             type="button"
-            onClick={handleContinue}
-            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
+            onClick={() => void handleContinue()}
+            disabled={selectingQuestions}
+            className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-60"
           >
-            {translate("common.continue", "Continue")} &rarr;
+            {selectingQuestions ? translate("screening.loading_next", "Loading next question...") : translate("common.continue", "Continue")} &rarr;
           </button>
           <button
             type="button"
@@ -506,7 +609,7 @@ function SaveProgressDialog({
           </label>
         )}
         {status === "error" ? (
-          <p className="mt-3 text-sm font-semibold text-[#C2410C]">{translate("screening.save_progress_error", "We could not send that link right now. You can continue without saving or try again.")}</p>
+          <p className="mt-3 text-sm font-semibold text-[#C2410C]" role="alert" aria-live="assertive">{translate("screening.save_progress_error", "We could not send that link right now. You can continue without saving or try again.")}</p>
         ) : null}
         <div className="mt-5 flex flex-col gap-3 sm:flex-row-reverse">
           {status === "sent" ? (
@@ -593,7 +696,7 @@ function MalformedProfileState({ onRetry, onPick }: { onRetry: () => void; onPic
   const { t: translate } = useLocalization();
   return (
     <FlowFrame>
-      <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm">
+      <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-8 shadow-sm" role="alert" aria-live="assertive">
         <h1 className="text-[24px] font-extrabold text-[#0B1320]">{translate("screening.malformed_title", "Something went wrong loading these questions.")}</h1>
         <p className="mt-3 text-sm leading-6 text-[#5A6275]">
           {translate("screening.malformed_body", "We could not load this state's screening questions correctly, so we stopped rather than show you something unreliable. Please try again in a moment.")}

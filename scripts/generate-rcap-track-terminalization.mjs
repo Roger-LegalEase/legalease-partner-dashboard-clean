@@ -115,6 +115,77 @@ const e4TerminalTracks = new Set(
     .map((i) => `${i.jurisdiction}:${i.subjectId}`)
 );
 
+// The 2026-08-24 legal authority replaces the pinned registry's unresolved
+// Mississippi routing note with an exact two-stage contract: active admission
+// is referral-only, while the completed and closed matter is the participant
+// packet route. The crosswalk cannot infer that one registry track intentionally
+// expands into both compiled pathways because its registry projection predates
+// the approved split. Promote only while every contract, compiled pathway and
+// shared runtime behavior below remains exact.
+const authorityStageSplitSpecs = [
+  {
+    trackKey: 'MS:ms-nonadj',
+    decisionId: 'LD-MS-01',
+    activeRouteKey: 'MS:nonadjudication-99-15-26-active-case-admission',
+    completedRouteKey: 'MS:nonadjudication-under-99-15-26',
+  },
+];
+const mississippiAuthority = JSON.parse(
+  fs.readFileSync(path.join(rootDir, 'src/lib/legal-authority/routes/mississippi.json'), 'utf8')
+);
+const authorityContractByKey = new Map(
+  (mississippiAuthority.routes || []).map((route) => [route.routeKey, route])
+);
+const compiledPathwayKeys = new Set(
+  (crosswalk.compiledPathways || []).map((pathway) => `${pathway.jurisdiction}:${pathway.compiledPathwayId}`)
+);
+const authorityStageSplitPromotions = new Map();
+for (const spec of authorityStageSplitSpecs) {
+  const [jurisdiction] = spec.trackKey.split(':');
+  const active = authorityContractByKey.get(spec.activeRouteKey);
+  const completed = authorityContractByKey.get(spec.completedRouteKey);
+  const exact = Boolean(
+    active
+    && completed
+    && active.decisionId === spec.decisionId
+    && completed.decisionId === spec.decisionId
+    && active.stage === 'active_case_admission'
+    && active.outcomeMode === 'referral'
+    && active.packetFamily === null
+    && completed.stage === 'post_completion'
+    && completed.outcomeMode === 'participant_packet'
+    && typeof completed.packetFamily === 'string'
+    && completed.packetFamily.trim().length > 0
+  );
+  if (!exact) {
+    fail(`${spec.trackKey}: approved authority stage-split contracts drifted`);
+    continue;
+  }
+  const pathwayIds = [active.pathwayId, completed.pathwayId];
+  const missingPathways = pathwayIds.filter((pathwayId) => !compiledPathwayKeys.has(`${jurisdiction}:${pathwayId}`));
+  if (missingPathways.length > 0) {
+    fail(`${spec.trackKey}: approved stage-split pathway(s) missing from compiled runtime: ${missingPathways.join(', ')}`);
+    continue;
+  }
+  const activeRuntime = resolvePacketRoute({ state: jurisdiction, pathway: active.pathwayId });
+  const completedRuntime = resolvePacketRoute({ state: jurisdiction, pathway: completed.pathwayId });
+  if (activeRuntime.sellable || activeRuntime.creditConsumable) {
+    fail(`${spec.trackKey}: active admission is still sellable or credit-consumable`);
+    continue;
+  }
+  if (!completedRuntime.sellable || !completedRuntime.creditConsumable) {
+    fail(`${spec.trackKey}: completed packet stage is not executable and credit-consumable`);
+    continue;
+  }
+  authorityStageSplitPromotions.set(spec.trackKey, {
+    decisionId: spec.decisionId,
+    routeKeys: [spec.activeRouteKey, spec.completedRouteKey],
+    pathwayIds,
+    activeRuntimeKind: activeRuntime.routeKind,
+    completedRuntimeKind: completedRuntime.routeKind,
+  });
+}
+
 // --- delivered treatments (window 2: first terminalization integration) -----
 //
 // A treatment is DELIVERED when its participant-facing artifact exists in the
@@ -427,16 +498,21 @@ for (const row of crosswalk.registryTracks) {
   }
 
   const trackKey = `${row.jurisdiction}:${row.registryTrackId}`;
+  const authorityStageSplitPromotion = authorityStageSplitPromotions.get(trackKey);
+  const mappedCompiledPathwayIds = authorityStageSplitPromotion?.pathwayIds
+    ?? row.mappedCompiledPathwayIds
+    ?? [];
   const counselIds = new Set(counselByTrack.get(trackKey) || []);
   let sourceGap = false;
-  for (const pid of row.mappedCompiledPathwayIds || []) {
+  for (const pid of mappedCompiledPathwayIds) {
     const pKey = `${row.jurisdiction}:${pid}`;
     for (const id of counselByPathway.get(pKey) || []) counselIds.add(id);
     if (sourceGapPathways.has(pKey)) sourceGap = true;
   }
   const decisionCondition = decisionConditionOf(reg);
   const superseded = row.compiledCoverageDisposition === 'represented_with_superseded_runtime_text';
-  const runtimeCovered = ['exact_current_pathway', 'represented_by_compiled_variants'].includes(row.compiledCoverageDisposition);
+  const runtimeCovered = Boolean(authorityStageSplitPromotion)
+    || ['exact_current_pathway', 'represented_by_compiled_variants'].includes(row.compiledCoverageDisposition);
   const stateBuilt = stateByCode.get(row.jurisdiction)?.buildStatus === 'state_built';
   const e4Terminal = e4TerminalTracks.has(trackKey);
 
@@ -571,8 +647,10 @@ for (const row of crosswalk.registryTracks) {
     jurisdiction: row.jurisdiction,
     trackId: row.registryTrackId,
     declaredStrategy: declared,
-    coverageDisposition: row.compiledCoverageDisposition,
-    mappedCompiledPathwayIds: row.mappedCompiledPathwayIds || [],
+    coverageDisposition: authorityStageSplitPromotion
+      ? 'represented_by_approved_stage_split'
+      : row.compiledCoverageDisposition,
+    mappedCompiledPathwayIds,
     terminal: terminalNow,
     holds,
     requiredTreatment,
@@ -585,6 +663,12 @@ for (const row of crosswalk.registryTracks) {
           : (terminalizationOutcomes.get(trackKey)?.outcome
             ?? reviewOutcomes.get(trackKey)?.outcome
             ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
+      }
+      : {}),
+    ...(authorityStageSplitPromotion
+      ? {
+        promotionStatus: 'promoted_by_legal_authority',
+        promotionEvidence: authorityStageSplitPromotion,
       }
       : {}),
     ...(treatmentSubstitution ? { treatmentSubstitution } : {}),

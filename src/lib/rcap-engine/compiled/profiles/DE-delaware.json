@@ -1,6 +1,17 @@
 {
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
+  "questionLifecycle": {
+    "routeConsumers": {},
+    "exactPacketFactIds": [
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": []
+  },
   "jurisdiction": {
     "code": "DE",
     "name": "Delaware",
@@ -768,9 +779,8 @@
       "routeType": "juvenile",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
-        "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
-        "and must attach the SBI criminal-history report. A copy is served on the Attorney General, who has 120 days to"
+        "three, five, or seven years from the statutory completion or discharge anchor, according to the discretionary category; favorable-termination and automatic branches carry no elapsed filing wait",
+        "Attorney General 120-day response window — post-filing procedure under § 1017; never a participant waiting period."
       ],
       "exclusionRules": [
         "Exclusions in § 4372(f) and § 4374 bar certain offenses; some are mandatory-ineligible but reachable by",
@@ -786,6 +796,57 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "LD-DE-01",
+        "ruleId": "DE-10-DEL-C-1017-1017A-1018-JUVENILE-BRANCH-MAP",
+        "mechanism": "Juvenile expungement — discretionary adjudication branch",
+        "statute": "10 Del. C. § 1018",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 3,
+          "unit": "years",
+          "anchorFactId": "discharge_date",
+          "anchorAlternates": [
+            "sentence_completion_actual_date"
+          ],
+          "anchorText": "three, five, or seven years from the statutory completion or discharge anchor, according to the discretionary category; favorable-termination and automatic branches carry no elapsed filing wait"
+        },
+        "processingDeadlines": [
+          {
+            "label": "Attorney General 120-day response window",
+            "note": "post-filing procedure under § 1017; never a participant waiting period"
+          }
+        ],
+        "requiredFacts": [
+          "Disposition?",
+          "Offense category?",
+          "Number of adjudications?",
+          "Completion/discharge date?",
+          "Age?",
+          "Automatic-expungement status?",
+          "Excluded offense facts?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level",
+          "eligible_conviction_count",
+          "discharge_date"
+        ],
+        "exclusions": [
+          "Juvenile record classified under §§ 1017, 1017A, or 1018",
+          "Category-specific offense and adjudication limits satisfied"
+        ],
+        "packetFamily": "Delaware Juvenile Expungement Petition under 10 Del. C. §§ 1017 / 1018",
+        "packetComponents": [
+          "Petition under the applicable section",
+          "Adjudication record",
+          "Completion or discharge proof"
+        ],
+        "notes": "§ 1017 favorable-termination matters are mandatory with no elapsed wait; § 1017A eligible records run through the automatic program with a petition or correction path only where the automatic process did not occur. The three-year value here is the lowest discretionary § 1018 branch; the five- and seven-year branches turn on the offense category, which the intake must collect."
       }
     }
   ],
@@ -2077,21 +2138,26 @@
       "when": {
         "backendPathwayId": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
         "requiredFields": [
-          "criminal_history",
-          "age_at_offense",
-          "pardon_status",
-          "record_type"
+          "case_outcome",
+          "offense_level"
         ],
         "fieldsReferenced": [
-          "criminal_history",
-          "age_at_offense",
-          "pardon_status",
-          "record_type"
+          "case_outcome",
+          "offense_level"
         ],
         "caseOutcomes": [
           "juvenile"
         ],
-        "sourceConditionText": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A"
+        "sourceConditionText": "three, five, or seven years from the statutory completion or discharge anchor, according to the discretionary category; favorable-termination and automatic branches carry no elapsed filing wait",
+        "duration": {
+          "value": 3,
+          "unit": "years",
+          "raw": "3 years"
+        },
+        "timingAnchorFactId": "discharge_date",
+        "timingAnchorAlternateFactIds": [
+          "sentence_completion_actual_date"
+        ]
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2101,7 +2167,13 @@
       "sourceRef": "section:207-236; corpus-unit:66",
       "candidatePathwayIds": [
         "juvenile-expungement-under-10-del-c-1017-1019-1017a"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "LD-DE-01",
+        "ruleId": "DE-10-DEL-C-1017-1017A-1018-JUVENILE-BRANCH-MAP",
+        "statute": "10 Del. C. § 1018",
+        "mechanism": "Juvenile expungement — discretionary adjudication branch"
+      }
     },
     {
       "id": "unmatched-state-fact-pattern",
@@ -2251,6 +2323,22 @@
         "offense_category",
         "court",
         "pardon_status"
+      ]
+    },
+    {
+      "id": "authority-juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "ruleText": "10 Del. C. § 1018 — three, five, or seven years from the statutory completion or discharge anchor, according to the discretionary category; favorable-termination and automatic branches carry no elapsed filing wait",
+      "duration": {
+        "value": 3,
+        "unit": "years",
+        "raw": "3 years"
+      },
+      "anchor": "discharge_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level",
+        "eligible_conviction_count",
+        "discharge_date"
       ]
     }
   ],
