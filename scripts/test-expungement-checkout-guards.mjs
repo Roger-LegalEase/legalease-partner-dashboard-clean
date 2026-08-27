@@ -319,6 +319,43 @@ function buildPaymentAdapter({
 
 async function checkoutBehavior() {
   {
+    const stale = openSession();
+    const h = buildPaymentAdapter({ retrievedSession: stale });
+    const first = await h.adapter.expireRetainedConsumerCheckoutIfUnbound({
+      item: eligibleItem({ checkoutSessionId: stale.id }),
+      currentVerificationHash: null,
+      checkoutVerificationHash: null
+    });
+    assert.deepEqual(first, { ok: true, outcome: "expired" });
+    assert.deepEqual(h.expireCalls, [stale.id], "a cleared protected binding expires the retained open Session");
+    assert.equal(h.createCalls.length, 0, "stale-session compensation never creates a replacement");
+    assert.equal(h.persistCalls.length, 0, "stale-session compensation never records entitlement");
+
+    // Packet-information invokes compensation after every successful CAS,
+    // including a semantic no-op retry after an earlier provider failure.
+    const retry = await h.adapter.expireRetainedConsumerCheckoutIfUnbound({
+      item: eligibleItem({ checkoutSessionId: stale.id }),
+      currentVerificationHash: null,
+      checkoutVerificationHash: null
+    });
+    assert.equal(retry.ok, true);
+    assert.deepEqual(h.expireCalls, [stale.id, stale.id], "a no-op save can retry the same retained provider identity");
+  }
+
+  {
+    const current = openSession();
+    const h = buildPaymentAdapter({ retrievedSession: current });
+    const result = await h.adapter.expireRetainedConsumerCheckoutIfUnbound({
+      item: eligibleItem({ checkoutSessionId: current.id }),
+      currentVerificationHash: "a".repeat(64),
+      checkoutVerificationHash: "a".repeat(64)
+    });
+    assert.deepEqual(result, { ok: true, outcome: "current" });
+    assert.equal(h.retrieveCalls.length, 0, "a current protected checkout binding needs no provider mutation");
+    assert.equal(h.expireCalls.length, 0);
+  }
+
+  {
     const h = buildPaymentAdapter({ reviewReady: false });
     const result = await h.adapter.createConsumerPacketCheckout({
       userId: USER,

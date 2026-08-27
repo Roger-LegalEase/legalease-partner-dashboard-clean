@@ -639,13 +639,20 @@ function sourceWiringViolations(input) {
   const postStart = input.claim.indexOf("export async function POST");
   const postSource = postStart >= 0 ? input.claim.slice(postStart) : input.claim;
   const persistenceIndex = postSource.indexOf("item = await saveAuthoritativeScreeningResultToBriefcase");
-  const claimGateIndex = postSource.indexOf("const claim = await supabase");
+  const clinicFollowUpIndex = postSource.indexOf("await createClinicReviewFollowUpForSavedMatter({");
+  const protectedClaimGateIndex = postSource.indexOf("initializeProtectedPacketVerification({");
+  const claimGateIndex = postSource.indexOf("const claim = isPacketResult");
   const analyticsIndex = postSource.indexOf("recordScreeningEligibilityResult(");
   const responseIndex = postSource.indexOf("return NextResponse.json({", Math.max(analyticsIndex, 0));
 
   require(analyticsIndex >= 0, "Authenticated claim must emit the server-authoritative result event.");
   require(
-    persistenceIndex >= 0 && claimGateIndex > persistenceIndex && analyticsIndex > claimGateIndex,
+    persistenceIndex >= 0
+      && clinicFollowUpIndex > persistenceIndex
+      && protectedClaimGateIndex > persistenceIndex
+      && protectedClaimGateIndex > clinicFollowUpIndex
+      && claimGateIndex > protectedClaimGateIndex
+      && analyticsIndex > claimGateIndex,
     "Eligibility analytics must run only after exact-case persistence and the first-claim transition."
   );
   require(responseIndex > analyticsIndex, "The successful exact-case response must remain after best-effort analytics.");
@@ -654,10 +661,12 @@ function sourceWiringViolations(input) {
     "Eligibility analytics must retain the validated partner-session guard."
   );
   require(
-    postSource.includes('.is("claimed_user_id", null)')
+    postSource.includes("protectedClaimInitialized = initialized.initialized === true")
+      && postSource.includes("? { data: protectedClaimInitialized ? { pending_id: pendingId } : null, error: null }")
+      && postSource.includes('.is("claimed_user_id", null)')
       && postSource.includes('.select("pending_id")')
       && postSource.includes("if (claim.data && isPartnerSession"),
-    "The null-to-user claim transition must remain the replay-idempotency gate."
+    "The atomic protected initializer and the nonpacket null-to-user transition must remain replay-idempotency gates."
   );
   require(
     postSource.includes("data.source_session_id,\n      evaluation.resultCode"),

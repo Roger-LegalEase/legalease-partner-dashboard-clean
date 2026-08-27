@@ -174,6 +174,8 @@ export type ProtectedPacketVerificationRecord = PacketVerificationRecord & {
   revision: number;
   draftHash: string;
   draftSnapshot: ProtectedPacketDraftSnapshot;
+  /** Protected checkout binding hash returned by the CAS RPC, never a display mirror. */
+  checkoutVerificationHash?: string | null;
 };
 
 type ProtectedLegacyArtifactEvidenceBase = {
@@ -224,6 +226,37 @@ export type ProtectedPacketVerificationTransition = {
   packetInformationMetadata: Record<string, unknown>;
   nextVerification: ProtectedPacketVerificationRecord;
 };
+
+export async function initializeProtectedPacketVerification(input: {
+  consumerAuthUserId: string;
+  briefcaseItemId: string;
+  pendingId: string;
+  sourceMatterId: string;
+  draftHash: string;
+  draftSnapshot: ProtectedPacketDraftSnapshot;
+}): Promise<ProtectedReadResult<ProtectedPacketVerificationRecord> & { initialized?: boolean }> {
+  try {
+    assertExpectedPacketVerificationHash(input.draftHash);
+  } catch {
+    return { ok: false, reason: "invalid_initial_draft_hash" };
+  }
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { ok: false, reason: "protected_verification_storage_unavailable" };
+  const { data, error } = await supabase.rpc("initialize_consumer_packet_verification", {
+    p_consumer_auth_user_id: input.consumerAuthUserId,
+    p_briefcase_item_id: input.briefcaseItemId,
+    p_pending_id: input.pendingId,
+    p_source_matter_id: input.sourceMatterId,
+    p_draft_hash: input.draftHash,
+    p_draft_snapshot: input.draftSnapshot
+  });
+  if (error) return { ok: false, reason: error.message };
+  const row = rowFor(data);
+  const value = protectedVerificationRecord(row);
+  return value
+    ? { ok: true, value, initialized: isRecord(row) && row.initialized === true }
+    : { ok: false, reason: "protected_verification_initialization_refused" };
+}
 
 export function assertExpectedPacketVerificationHash(value: string): string {
   if (!/^[a-f0-9]{64}$/.test(value)) {
@@ -356,7 +389,10 @@ function protectedVerificationRecord(value: unknown): ProtectedPacketVerificatio
   }
   const draftHash = value.draft_hash ?? value.draftHash;
   const draftSnapshot = protectedDraftSnapshot(value.draft_snapshot ?? value.draftSnapshot);
+  const checkoutVerificationHash = value.checkout_verification_hash ?? value.checkoutVerificationHash ?? null;
   if (typeof draftHash !== "string" || !/^[a-f0-9]{64}$/.test(draftHash) || !draftSnapshot) return null;
+  if (checkoutVerificationHash !== null
+    && (typeof checkoutVerificationHash !== "string" || !/^[a-f0-9]{64}$/.test(checkoutVerificationHash))) return null;
   return {
     status: value.status,
     reason: value.reason,
@@ -365,6 +401,7 @@ function protectedVerificationRecord(value: unknown): ProtectedPacketVerificatio
     ...(isRecord(value.snapshot) ? { snapshot: value.snapshot as PacketVerificationSnapshot } : {}),
     draftHash,
     draftSnapshot,
+    checkoutVerificationHash,
     ...(typeof value.invalidated_at === "string"
       ? { invalidatedAt: value.invalidated_at }
       : typeof value.invalidatedAt === "string" ? { invalidatedAt: value.invalidatedAt } : {})

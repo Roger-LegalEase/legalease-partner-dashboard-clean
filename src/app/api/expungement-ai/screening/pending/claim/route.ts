@@ -10,7 +10,13 @@ import { buildSaveInput } from "@/lib/expungement-ai/save-result-policy";
 import { createClinicReviewFollowUpForSavedMatter } from "@/lib/clinic-mode/result-follow-up";
 import { getSafeRequestId, logSecurityError } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { protectedPacketDraftSeedFromAuthoritative } from "@/lib/expungement-ai/packet-information";
+import {
+  initializeProtectedPacketVerification,
+  readProtectedPacketVerification
+} from "@/lib/expungement-ai/verification-cas";
 import type { ScreeningAnswerValue, ScreeningEvaluation } from "@/lib/rcap-engine/contracts";
+import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,6 +26,7 @@ const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}
 
 type PendingRow = {
   pending_id: string;
+  created_at: string;
   claimed_user_id: string | null;
   expires_at: string;
   product: "expungement_ai_dtc" | "rcap_partner";
@@ -50,7 +57,7 @@ export async function POST(request: Request) {
 
   const { data, error } = await supabase
     .from("consumer_pending_screening_results")
-    .select("pending_id, claimed_user_id, expires_at, product, jurisdiction, screening_answers, profile_version, matter_id, source_session_id")
+    .select("pending_id, created_at, claimed_user_id, expires_at, product, jurisdiction, screening_answers, profile_version, matter_id, source_session_id")
     .eq("pending_id", pendingId)
     .maybeSingle<PendingRow>();
 
@@ -60,7 +67,11 @@ export async function POST(request: Request) {
   if (data.claimed_user_id && data.claimed_user_id !== auth.userId) {
     return NextResponse.json({ ok: false, error: "pending_claimed" }, { status: 403 });
   }
-  if (new Date(data.expires_at).getTime() <= Date.now()) {
+  // A same-owner retry is allowed to finish a legacy claim whose Briefcase
+  // save succeeded before protected initialization existed. New anonymous
+  // claims still fail closed at expiry, and the initialization RPC rebinds
+  // the exact pending source under lock.
+  if (!data.claimed_user_id && new Date(data.expires_at).getTime() <= Date.now()) {
     return NextResponse.json({ ok: false, error: "pending_expired" }, { status: 410 });
   }
   if (!data.profile_version || !data.matter_id) {
@@ -145,16 +156,60 @@ export async function POST(request: Request) {
     }
   }
 
+  // Protected initialization is also the packet-result claim transition. It
+  // must happen after the required Clinic follow-up: a follow-up failure leaves
+  // the pending source unclaimed, and the same request can safely retry both
+  // the idempotent Briefcase save and the required follow-up before claiming.
+  let protectedClaimInitialized = false;
+  if (isPacketResult(evaluation.resultCode)) {
+    const currentProtected = await readProtectedPacketVerification({
+      consumerAuthUserId: auth.userId,
+      briefcaseItemId: item.id
+    });
+    if (!currentProtected.ok && currentProtected.reason !== "protected_verification_authority_missing") {
+      return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
+    }
+    if (!currentProtected.ok) {
+      const protectedSeed = protectedPacketDraftSeedFromAuthoritative({
+        authoritative,
+        screeningAnswers: (data.screening_answers ?? {}) as Record<string, AnswerValue>,
+        dependencies: {
+          commercialFlowVersion: 1,
+          entitlementSource: isPartnerSession ? "partner_sponsorship" : "consumer_payment",
+          productId: "expungement_packet"
+        },
+        capturedAt: data.created_at
+      });
+      if (!protectedSeed) {
+        return NextResponse.json({ ok: false, error: "protected_verification_seed_failed" }, { status: 409 });
+      }
+      const initialized = await initializeProtectedPacketVerification({
+        consumerAuthUserId: auth.userId,
+        briefcaseItemId: item.id,
+        pendingId: data.pending_id,
+        sourceMatterId: data.matter_id,
+        draftHash: protectedSeed.hash,
+        draftSnapshot: protectedSeed.snapshot
+      });
+      if (!initialized.ok) {
+        return NextResponse.json({ ok: false, error: "protected_verification_initialization_failed" }, { status: 503 });
+      }
+      protectedClaimInitialized = initialized.initialized === true;
+    }
+  }
+
   // The null-to-user transition is the stable idempotency gate for result
   // analytics. Persistence happens first. Exactly one successful claimant can
   // win this update, so retries and Briefcase refreshes cannot emit again.
-  const claim = await supabase
-    .from("consumer_pending_screening_results")
-    .update({ claimed_at: new Date().toISOString(), claimed_user_id: auth.userId })
-    .eq("pending_id", pendingId)
-    .is("claimed_user_id", null)
-    .select("pending_id")
-    .maybeSingle<{ pending_id: string }>();
+  const claim = isPacketResult(evaluation.resultCode)
+    ? { data: protectedClaimInitialized ? { pending_id: pendingId } : null, error: null }
+    : await supabase
+      .from("consumer_pending_screening_results")
+      .update({ claimed_at: new Date().toISOString(), claimed_user_id: auth.userId })
+      .eq("pending_id", pendingId)
+      .is("claimed_user_id", null)
+      .select("pending_id")
+      .maybeSingle<{ pending_id: string }>();
 
   if (claim.error) {
     // The case is already durable. Keep the successful participant response;

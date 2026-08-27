@@ -763,7 +763,7 @@ export class CurrentPacketVerificationRequiredError extends Error {
   }
 }
 
-function verifiedPacketRecordFromDraft(
+export function verifiedPacketRecordFromDraft(
   draft: ProtectedPacketDraftSnapshot,
   verifiedAt: string
 ): PacketVerificationRecord {
@@ -862,8 +862,8 @@ function buildPacketVerificationSnapshot(
   }) as PacketVerificationSnapshot;
 }
 
-function packetVerificationHash(snapshot: PacketVerificationSnapshot) {
-  return createHash("sha256").update(JSON.stringify(snapshot)).digest("hex");
+export function packetVerificationHash(snapshot: PacketVerificationSnapshot) {
+  return createHash("sha256").update(JSON.stringify(canonicalize(snapshot))).digest("hex");
 }
 
 function profileAuthorityFingerprint(

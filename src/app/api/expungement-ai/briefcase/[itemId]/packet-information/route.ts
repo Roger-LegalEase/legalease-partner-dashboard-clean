@@ -7,6 +7,7 @@ import {
   protectedPacketInformationModelFor
 } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import { expireRetainedConsumerCheckoutIfUnbound } from "@/lib/expungement-ai/payment-adapter";
 import {
   persistProtectedPacketVerification,
   readProtectedPacketVerification
@@ -66,6 +67,17 @@ export async function POST(
   });
   if (!saved.ok) {
     return NextResponse.json({ ok: false, error: "save_failed" }, { status: 503 });
+  }
+
+  const checkoutCompensation = await expireRetainedConsumerCheckoutIfUnbound({
+    item,
+    currentVerificationHash: saved.value.status === "verified" ? saved.value.hash ?? null : null,
+    checkoutVerificationHash: saved.value.checkoutVerificationHash ?? null
+  });
+  if (!checkoutCompensation.ok) {
+    // The protected CAS is durable and remains fail-closed. The retained
+    // Session id makes this exact compensation retryable on the next save.
+    return NextResponse.json({ ok: false, error: "stale_checkout_expiration_pending" }, { status: 503 });
   }
 
   return NextResponse.json({

@@ -69,6 +69,46 @@ export type ConsumerCheckoutStatus = {
   amountCents: 5000;
 };
 
+export type RetainedCheckoutExpirationResult =
+  | { ok: true; outcome: "not_applicable" | "current" | "expired" | "inactive" }
+  | { ok: false; outcome: "retry_required" };
+
+/**
+ * Compensation for a successful protected-fact CAS that cleared the checkout
+ * binding while retaining the provider Session id for reconciliation. This
+ * never creates a replacement Session and never records entitlement. A failed
+ * provider call remains retryable because the retained id stays on the item.
+ */
+export async function expireRetainedConsumerCheckoutIfUnbound(input: {
+  item: ConsumerBriefcaseItem;
+  currentVerificationHash: string | null;
+  checkoutVerificationHash: string | null;
+}): Promise<RetainedCheckoutExpirationResult> {
+  if (input.item.paymentStatus === "paid" || !input.item.checkoutSessionId) {
+    return { ok: true, outcome: "not_applicable" };
+  }
+  if (input.checkoutVerificationHash !== null
+    && input.checkoutVerificationHash === input.currentVerificationHash) {
+    return { ok: true, outcome: "current" };
+  }
+  if (!input.item.checkoutSessionId.startsWith("cs_")) {
+    return { ok: true, outcome: "inactive" };
+  }
+  try {
+    const stripe = getStripeServerClient();
+    const session = await stripe.checkout.sessions.retrieve(input.item.checkoutSessionId);
+    if (session.status === "open") {
+      await stripe.checkout.sessions.expire(session.id);
+      return { ok: true, outcome: "expired" };
+    }
+    // Complete Sessions are immutable provider evidence. The webhook can only
+    // consume them through the expected-current-hash payment CAS.
+    return { ok: true, outcome: "inactive" };
+  } catch {
+    return { ok: false, outcome: "retry_required" };
+  }
+}
+
 export function createConsumerPaymentPlaceholder(
   result: ExpungementAiEligibilityResult,
   pathwayId: string | null

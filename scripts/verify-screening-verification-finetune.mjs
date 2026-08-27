@@ -208,6 +208,13 @@ assert.ok(packetInformationSource.includes("protectedVerification: ProtectedPack
 assert.ok(!packetInformationSource.includes("protectedVerification?:"), "packet transition derivation cannot default missing protected authority");
 assert.ok(packetInformationRouteSource.includes("readProtectedPacketVerification("));
 assert.ok(packetInformationRouteSource.includes("persistProtectedPacketVerification("));
+assert.ok(packetInformationRouteSource.includes("expireRetainedConsumerCheckoutIfUnbound("), "a successful protected-fact CAS compensates the retained provider Session");
+assert.ok(
+  packetInformationRouteSource.indexOf("expireRetainedConsumerCheckoutIfUnbound({")
+    > packetInformationRouteSource.indexOf("const saved = await persistProtectedPacketVerification({"),
+  "provider expiration must follow a successful protected CAS so webhook/payment authority stays fail-closed"
+);
+assert.ok(packetInformationRouteSource.includes('error: "stale_checkout_expiration_pending"'), "provider expiration failure must remain visibly retryable");
 assert.ok(!packetInformationRouteSource.includes("mergeBriefcaseArtifactRefs("), "verification facts and protected transition must share one CAS RPC");
 const consumerPaymentAuthoritySource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-payment-authority.ts"), "utf8");
 assert.ok(consumerPaymentAuthoritySource.includes('rpc("bind_consumer_checkout_verification"'));

@@ -433,8 +433,8 @@ function verifySourceWiring() {
   // Packet route: partner cap accounting isolated behind partner-sponsorship,
   // idempotent consumption, and pause_at_cap honored.
   const packetRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
-  assert(packetRoute.includes("isPartnerSponsoredPacketItem"), "Cap accounting must be gated on partner sponsorship.");
-  assert(packetRoute.includes("recordPartnerPacketGeneration"), "Successful partner packets must record cap consumption.");
+  assert(packetRoute.includes("packet.protectedSponsorship"), "Cap accounting must be gated on protected partner sponsorship.");
+  assert(packetRoute.includes("finalizeSponsoredPacketGeneration"), "Successful partner packets must use verified atomic cap-and-artifact finalization.");
   assert(packetRoute.includes("pausedAtCap"), "pause_at_cap must be honored before generating a sponsored packet.");
 
   // Public validation route: rate-limited and minimal.
