@@ -9,7 +9,11 @@ It defines the optimized target state. It is **not** evidence that any hosted
 acceptance case has passed. The implementation still requires a repository-level
 traceability and acceptance audit against it.
 
-The governing rule:
+The governing rules:
+
+> **A partner owns its program workspace. A participant owns their Briefcase.
+> Sponsorship, attribution, consented assistance, and reporting do not transfer
+> participant ownership to the partner.**
 
 > **Screening may be anonymous. A Briefcase may not be anonymous. A pending
 > result becomes a matter only when it is securely and atomically claimed by the
@@ -19,6 +23,94 @@ That rule is not customer-facing language. It must be enforced in the vocabulary
 the database schema, the authentication handoff, the authorization policies, the
 payment logic, the sponsorship logic, the analytics, Clinic Mode, and the
 acceptance tests.
+
+---
+
+## 0. Three experiences, not two
+
+| | Experience | Owner |
+|---|---|---|
+| **A** | Expungement.ai participant — anonymous screening → preliminary result → authenticated claim → matter → Briefcase → packet information → verification → payment → packet | participant |
+| **B** | RCAP participant — partner or event entry → anonymous or assisted screening → preliminary result → authentication → matter and Briefcase → consented assistance → sponsorship → packet or guidance | participant |
+| **C** | RCAP partner organization — LegalEase provisioning → first-admin invitation → secure activation → Implementation Center → prepared-information review → eight configuration sections → review and authorization → LegalEase corrections and approval → private page and materials → launch readiness → go-live → operational dashboard | partner |
+
+Experience C is an existing product to **audit, simplify, integrate and harden** —
+not something to invent. It is merged into `main` and substantial.
+
+The partner owns its organization workspace, program configuration, branding,
+sponsorship allocation, access codes, staff memberships, reporting
+configuration, and its own aggregate program data.
+
+The partner does **not** own a participant account, matter, Briefcase,
+authentication credentials, packet documents, unrestricted participant answers,
+or any right to permanently access participant records.
+
+LegalEase governs implementation, legal logic, packet authority, security, and
+launch approval.
+
+### The partner surfaces that exist
+
+```text
+/partner/setup?token=...          first-administrator activation, single-use token
+/partner/first-admin/claim        exactly-once membership creation, replay-safe
+/partner/onboarding               RCAP Implementation Center
+/partner/onboarding/[sectionKey]  the eight governed sections, stable ?step= routes
+/partner/onboarding/review        submission gate and correction cycle
+/partner/onboarding/artifacts     implementation materials
+/partner/onboarding/resources     launch readiness
+/partner/dashboard                operational home
+/partner/team                     membership and invitations
+/partner/access-codes             access model and codes
+/partner/clinic/[eventId]         clinic operations, follow-up, reporting
+/internal/partners/onboarding/*   LegalEase provisioning and prefill
+/internal/partners/provisioning/* LegalEase partner creation
+```
+
+Seven implementation milestones: program terms · administrator access · program
+configuration · brand and participant page · team and training · launch
+readiness · go-live. Each carries a status, an owner, a date, a blocker, a next
+action, and a link to the applicable workspace.
+
+Eight governed sections: organization and contacts · program goals · geography,
+audience, language and accessibility · access, sponsorship and capacity plan ·
+brand and public-page content · staff and dashboard plan · support, legal
+referrals and reporting · review and authorization.
+
+### LegalEase prefill
+
+> **LegalEase should prepare every onboarding answer it can reliably derive from
+> approved partner records, agreements, order forms, and implementation
+> conversations. Prepared answers remain suggestions until reviewed by the
+> partner. LegalEase may not provide the partner's final authorization, accept
+> contractual acknowledgments on its behalf, or silently overwrite
+> partner-confirmed information.**
+
+The partner sees work in three categories — **Prepared by LegalEase** · **Needs
+your input** · **Optional** — and may keep, edit, or reject any prepared answer.
+Applied prefill lands at `partner_review_status = pending` and blocks final
+submission until reviewed. Partner staff may view prepared information but cannot
+give the organization's confirmation.
+
+LegalEase may prepare organization and contact information, program context,
+geography and access, brand and public-page drafts, and operations and reporting
+expectations.
+
+LegalEase may **not** prefill or self-authorize packet-credit allocation,
+screening allocation, sponsorship scope, overage behaviour or approval, payment
+state, agreement acceptance, authority to invite users or manage codes or export
+reports, contested-matter procedures, final legal acknowledgments, final program
+or brand authorization, approver name or title, authorization timestamp, or
+electronic-signature-equivalent fields. Commercial terms appear as authoritative
+read-only contract context, never as editable suggestions.
+
+Manual information from a kickoff, proposal, email or meeting is converted into
+one canonical field, one validated structured value, and one short internal
+source label. The portal is not a repository for raw email chains, transcripts,
+recordings, proposals, contracts, or internal notes.
+
+Once the partner confirms, modifies or rejects a prepared value, LegalEase cannot
+silently overwrite it. A new reviewed suggestion or a formal change request is
+required.
 
 ---
 
@@ -911,7 +1003,82 @@ plan, and the release checklist:
 
 ---
 
-## Appendix — measured against the code, 2026-08-27
+## Appendix B — partner portal defects, verified in code 2026-08-27
+
+Nine findings, each confirmed against `main` at `07675789`. These are defects
+against this contract, not proposals.
+
+**1. Two onboarding products behind one route.** `/partner/onboarding` branches
+between the legacy checklist and the Implementation Center on
+`RCAP_PARTNER_ONBOARDING_ENABLED`, which `.env.example:6` defaults to `false`.
+`RCAP_ONBOARDING_PREFILL_ENABLED` and `RCAP_ONBOARDING_LAUNCH_PREP_ENABLED` are
+empty. After acceptance and rollout: migrate active partners, prove data parity,
+remove the legacy checklist and the runtime fork, keep rollback in deployment
+rather than as a permanent duplicate product.
+
+**2. Navigation into guaranteed 404s.** `Phase1OnboardingHome.tsx:70-71` renders
+links to `/partner/onboarding/resources` and `/partner/onboarding/artifacts`
+unconditionally; both routes call `notFound()` at line 13-14 when launch-prep is
+disabled. Since the main flag can be on while launch-prep is off, an authorized
+partner reaches a not-found page from the portal's own navigation. Hide the links
+or serve an honest "LegalEase is preparing these materials" state.
+
+**3. Every partner has no implementation owner.** `page.tsx:292` passes
+`implementationOwner={null}`; `Phase1OnboardingHome.tsx:111` renders "Not
+assigned" for every organization. Needs an authoritative record: name, role,
+approved contact, backup owner, assignment timestamp, reassignment history —
+driving the portal, the internal queue, notifications and escalation.
+
+**4. The prelaunch dashboard tells partners to share a dead link.**
+`dashboard/page.tsx:254` shows "Launch not yet approved" while line 285 renders
+"Share your public intake link" with a copy control at 293-298, and line 91 puts
+"have launched a guided intake workflow" into the community message. The public
+route fails closed correctly, so the backend is safer than the UX: a prelaunch
+partner is invited to distribute a link that returns unavailable. Show a preview
+state; expose copy link, QR, public link, campaign copy and code distribution
+only after authoritative publication.
+
+**5. Mississippi is hard-coded into national partner UI**, at seven sites in
+`dashboard/page.tsx` — including the `serviceArea ?? "Mississippi"` default at
+line 68, the community message at 91, the intake description at 287, the funnel
+copy at 613, three resource links at 643-645, and a section title at 662. All
+jurisdiction language must come from the approved onboarding configuration, which
+must support one state, multiple states, county-limited service, nationwide
+campaigns, out-of-area referral, state-specific links, and separate event scopes.
+
+**6. Planned roles exceed grantable roles.** `session-partner.ts:133` accepts
+only `partner_admin` and `partner_staff`, and `add-partner-user.ts:6` fixes
+invitations to the same two — but the onboarding schema offers
+`reporting_viewer` (`schema.ts:146`, `types.ts:160`). A partner can therefore
+request a role the system cannot grant. Either implement the authorization model
+or stop offering unsupported roles. Recommended: `partner_admin`,
+`program_manager`, `clinic_supervisor`, `clinic_staff`, `follow_up_staff`,
+`reporting_viewer`, `referral_owner` — capability-based and tenant-scoped, where
+a role title alone authorizes nothing.
+
+**7. Access codes can be created active before launch.** Secure at the
+participant-benefit boundary, since the screening-session claim refuses partner
+benefit until activation, but operationally confusing. Use explicit lifecycle
+states — draft, scheduled, live, paused, expired, exhausted, revoked — and keep a
+code out of "live" until its program or event is authorized.
+
+**8. Navigation is a chain of back links** rather than a persistent role-aware
+shell. Unify around home, implementation, programs, team, access, reports,
+resources, support — showing only what the role permits, and collapsing to a
+compact menu on mobile.
+
+**9. `main` is unprotected.** Reported as `main protected: false`, required status
+checks off, despite 333 verifiers in the repository. Automated tests are not
+change control if they can be bypassed at merge. Before claiming SOC 2
+change-management readiness: protect `main`, require pull requests, required
+checks, review, conversation resolution; prevent force-push and deletion;
+restrict administrative bypass; connect deployment evidence to approved commits.
+*This one is reported rather than verified from inside the container — confirm
+against the GitHub API before citing it as evidence.*
+
+---
+
+## Appendix A — measured against the code, 2026-08-27
 
 Findings from reading the implementation, recorded here so the contract and the
 evidence stay together. These are observations, not exceptions to the contract.
