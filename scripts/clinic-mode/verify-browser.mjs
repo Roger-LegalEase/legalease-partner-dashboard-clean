@@ -168,9 +168,34 @@ try {
   ]);
   const forgedClinicPage = await forgedClinicContext.newPage();
   const forgedBriefcase = await forgedClinicPage.goto(`${appUrl}/briefcase/reminders`, { waitUntil: "networkidle" });
-  assert.equal(forgedBriefcase?.status(), 200, "forged Clinic-hint negative route did not load");
-  assert.equal(await forgedClinicPage.getByText("Shared-device privacy is active", { exact: true }).count(), 0, "an untrusted clinic_event hint mounted the Clinic boundary");
+  assert.equal(forgedBriefcase?.status(), 200, "valid Clinic session with forged event hint did not load");
+  await forgedClinicPage.getByText("Shared-device privacy is active", { exact: true }).waitFor();
+  await assertProtectedReset(forgedClinicPage, "forged clinic_event hint");
   await forgedClinicContext.close();
+
+  const missingHintContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  await missingHintContext.addCookies([
+    authCookie,
+    { name: "clinic_session", value: clinicSessionToken, domain: "localhost", path: "/", httpOnly: true, sameSite: "Strict" }
+  ]);
+  const missingHintPage = await missingHintContext.newPage();
+  const missingHintBriefcase = await missingHintPage.goto(`${appUrl}/briefcase/reminders`, { waitUntil: "networkidle" });
+  assert.equal(missingHintBriefcase?.status(), 200, "valid Clinic session without event hint did not load");
+  await missingHintPage.getByText("Shared-device privacy is active", { exact: true }).waitFor();
+  await assertProtectedReset(missingHintPage, "missing clinic_event hint");
+  await missingHintContext.close();
+
+  const forgedSessionContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
+  await forgedSessionContext.addCookies([
+    authCookie,
+    { name: "clinic_session", value: "forged-clinic-session", domain: "localhost", path: "/", httpOnly: true, sameSite: "Strict" },
+    { name: "clinic_event", value: event.public_slug, domain: "localhost", path: "/", httpOnly: true, sameSite: "Strict" }
+  ]);
+  const forgedSessionPage = await forgedSessionContext.newPage();
+  const forgedSessionBriefcase = await forgedSessionPage.goto(`${appUrl}/briefcase/reminders`, { waitUntil: "networkidle" });
+  assert.equal(forgedSessionBriefcase?.status(), 200, "forged Clinic session negative route did not load");
+  assert.equal(await forgedSessionPage.getByText("Shared-device privacy is active", { exact: true }).count(), 0, "a forged clinic_session mounted the Clinic boundary");
+  await forgedSessionContext.close();
 
   const clinicBriefcaseContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   await clinicBriefcaseContext.addCookies([
@@ -324,6 +349,23 @@ console.log("Browser Back/reset: prior identity, matter, form, upload, packet ca
 
 function listen(server, port) { return new Promise((resolve, reject) => { server.once("error", reject); server.listen(port, "127.0.0.1", resolve); }); }
 function close(server) { return new Promise((resolve) => server.close(() => resolve())); }
+async function assertProtectedReset(page, label) {
+  const resetButton = page.getByRole("button", { name: "End clinic session / Reset device", exact: true });
+  await page.waitForFunction(() => {
+    const button = [...document.querySelectorAll("button")]
+      .find((candidate) => candidate.textContent?.includes("End clinic session / Reset device"));
+    return Boolean(button && Object.keys(button).some((key) =>
+      key.startsWith("__reactProps$")
+        && typeof button[key]?.onClick === "function"
+    ));
+  });
+  const resetResponse = page.waitForResponse(
+    (response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/clinic/session/reset"
+  );
+  await resetButton.click();
+  assert.equal((await resetResponse).status(), 200, `${label} reset did not complete server-side`);
+  await page.waitForURL(`${appUrl}${clinicPath}`);
+}
 async function waitFor(url, timeout) {
   const started = Date.now();
   while (Date.now() - started < timeout) {

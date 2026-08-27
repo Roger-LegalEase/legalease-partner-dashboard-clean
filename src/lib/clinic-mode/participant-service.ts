@@ -48,18 +48,17 @@ export async function getClinicParticipantSession(eventSlug: string): Promise<Cl
 }
 
 /**
- * Resolve Clinic privacy state for routes outside /clinic. Cookie values are
- * lookup hints only: the authenticated owner, hashed handoff token, active
- * status, expiry, and canonical event must all agree before callers may trust
- * the returned context.
+ * Resolve Clinic privacy state for routes outside /clinic. The session cookie
+ * is only a hashed lookup handle: authenticated owner, active status, expiry,
+ * and the session's canonical event must all agree before callers may trust
+ * the returned context. A mutable event-slug hint never overrides that record.
  */
 export async function getActiveClinicParticipantContext(): Promise<ActiveClinicParticipantContext | null> {
   const auth = await getServerAuthState();
   if (!auth.isAuthenticated) return null;
   const cookieStore = await cookies();
   const rawToken = cookieStore.get("clinic_session")?.value;
-  const eventSlugHint = cookieStore.get("clinic_event")?.value;
-  if (!rawToken || !eventSlugHint) return null;
+  if (!rawToken) return null;
 
   const db = requireDatabase();
   const sessionResult = await db.from("clinic_assisted_sessions")
@@ -70,7 +69,7 @@ export async function getActiveClinicParticipantContext(): Promise<ActiveClinicP
   if (!sessionResult.data?.screening_session_id) return null;
 
   const eventResult = await db.from("clinic_events").select("public_slug")
-    .eq("id", sessionResult.data.event_id).eq("public_slug", normalizeSlug(eventSlugHint)).maybeSingle();
+    .eq("id", sessionResult.data.event_id).maybeSingle();
   if (eventResult.error) throw new ClinicServiceError("unavailable", "Clinic privacy validation failed.");
   if (!eventResult.data) return null;
 
