@@ -23,10 +23,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
+        description: "ephemeral | hosted_* — hosted_payment is the only Stripe-transacting phase; the two *_environment_probe phases are read-only"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance]
+        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_environment_probe, hosted_migrate, hosted_deploy, hosted_accept, hosted_full_nonpayment, hosted_checkout_pinning, hosted_worker_contract, hosted_payment_environment_probe, hosted_payment]
         default: ephemeral
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
@@ -81,27 +81,58 @@ env:
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
 
 jobs:
-  github_acceptance:
-    name: GitHub-hosted functional acceptance fallback
-    if: inputs.mode == 'github_acceptance'
-    uses: ./.github/workflows/rcap-github-hosted-acceptance.yml
-    with:
-      application_sha: ${{ inputs.application_sha }}
-      worker_source_sha: ${{ inputs.worker_source_sha }}
-      worker_digest: ${{ inputs.worker_digest }}
-      tools_sha: ${{ inputs.tools_sha }}
-      supabase_project_ref: ${{ inputs.supabase_project_ref }}
-    secrets:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+  # A `choice` input normally rejects an unlisted value, but a legacy caller,
+  # a stale bookmark or an API dispatch against an older workflow revision can
+  # still present one. This refuses it loudly, before any job that holds a
+  # secret is scheduled.
+  retired_path_refusal:
+    name: Retired path refusal
+    if: inputs.mode == 'github_acceptance' || inputs.mode == 'hosted_full' || inputs.mode == 'hosted_checkout_gate'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse the retired or renamed mode
+        env:
+          MODE: ${{ inputs.mode }}
+        run: |
+          set -euo pipefail
+          case "$MODE" in
+            github_acceptance)
+              echo "::error::GITHUB_ACCEPTANCE_RETIRED"
+              echo "GITHUB_ACCEPTANCE_RETIRED"
+              echo "Use hosted_payment for payment-producing acceptance."
+              ;;
+            hosted_full)
+              echo "::error::LEGACY_MODE_REFUSED: hosted_full implied a payment-exercising run. Use hosted_full_nonpayment, or hosted_payment when payment must actually be exercised."
+              ;;
+            hosted_checkout_gate)
+              echo "::error::LEGACY_MODE_REFUSED: hosted_checkout_gate read as a real Checkout Session test. Use hosted_checkout_pinning for the static verification, or hosted_payment to create a real Sandbox Session."
+              ;;
+          esac
+          exit 1
+
+  # RETIRED — github_acceptance.
+  #
+  # It ran the frozen application on the runner behind a cloudflared HTTPS
+  # tunnel and held that host open for a real, human-completed Stripe Sandbox
+  # payment. That IS a case hosted_payment does not reproduce: hosted_payment
+  # signs its own completion event rather than waiting for a person to pay.
+  #
+  # It is retired anyway, because it was a payment-producing journey outside the
+  # payment environment, and the owner decision is that only hosted_payment may
+  # transact. The unique case is not moved here: route it through hosted_payment,
+  # whose reuse-only Checkout step already prepares one real unpaid Sandbox
+  # Session against a stable Vercel Preview host that a person can pay.
+  #
+  # The job is removed rather than disabled so no caller exists. A legacy
+  # `github_acceptance` value reaching either protected job is refused by name
+  # with GITHUB_ACCEPTANCE_RETIRED before any secret is read.
 
   hosted:
     name: Persistent hosted acceptance staging
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight'))))))) }}
+      phase: ${{ inputs.mode == 'hosted_full_nonpayment' && 'full_nonpayment' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_payment_environment_probe' && 'payment_environment_probe' || (inputs.mode == 'hosted_environment_probe' && 'environment_probe' || (inputs.mode == 'hosted_checkout_pinning' && 'checkout_pinning' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight')))))))))) }}
       preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
       contradiction_job_id: ${{ inputs.contradiction_job_id }}
@@ -115,11 +146,10 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      # Optional. Absent until Roger adds them; the hosted workflow declares
-      # them non-required so every phase still runs without Stripe configured,
-      # and the deployment simply keeps the control's disabled default.
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      # The Stripe test secrets are NOT forwarded and the hosted workflow no
+      # longer declares them as workflow_call secrets. They are read from the
+      # rcap-acceptance-payment environment by the hosted_payment job alone, so
+      # this dispatch entry point — which has no environment — never holds them.
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
   f1:
