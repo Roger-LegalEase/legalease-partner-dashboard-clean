@@ -1,16 +1,22 @@
-// Ephemeral PostgreSQL 16 harness for RCAP verifiers.
+// Isolated PostgreSQL harness for RCAP verifiers.
 //
-// Boots a throwaway cluster as the postgres OS user on a private socket under
-// /tmp, applies whatever SQL the caller feeds it, and tears the cluster down.
-// Nothing here can reach a shared or remote database: the server listens on no
-// TCP address, only its own unix socket.
+// Native PostgreSQL boots a throwaway cluster on a private socket. Verifiers
+// whose SQL is known to run under PGlite may explicitly opt into the installed
+// in-process fallback. Neither backend can reach a shared or remote database.
 
 import { execFileSync, spawn } from "node:child_process";
+import { createRequire } from "node:module";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import {
+  MessageChannel,
+  Worker,
+  receiveMessageOnPort
+} from "node:worker_threads";
 
 const PG_BIN = "/usr/lib/postgresql/16/bin";
+const require = createRequire(import.meta.url);
 
 const isRoot = typeof process.getuid === "function" && process.getuid() === 0;
 
@@ -31,29 +37,130 @@ function findPgBin(name) {
   return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
 }
 
-export function ephemeralPgAvailable() {
-  if (!findPgBin("initdb") || !findPgBin("pg_ctl")) return false;
-  if (!isRoot) return true; // run the server as the current user
+export function resolveNativePgToolchain(find = findPgBin) {
+  const initdb = find("initdb");
+  const pgCtl = find("pg_ctl");
+  const psql = find("psql");
+  return initdb && pgCtl && psql ? { initdb, pgCtl, psql } : null;
+}
+
+function availableNativePgToolchain() {
+  const toolchain = resolveNativePgToolchain();
+  if (!toolchain) return null;
+  if (!isRoot) return toolchain; // run the server as the current user
   try {
     execFileSync("id", ["postgres"], { stdio: "ignore" });
-    return true; // root drops privileges to the postgres user
+    return toolchain; // root drops privileges to the postgres user
+  } catch {
+    return null;
+  }
+}
+
+function pgliteAvailable() {
+  try {
+    require.resolve("@electric-sql/pglite");
+    return true;
   } catch {
     return false;
   }
 }
 
-export function startEphemeralPg() {
+export function ephemeralPgAvailable({ allowPgliteFallback = false } = {}) {
+  return Boolean(availableNativePgToolchain()) || (allowPgliteFallback && pgliteAvailable());
+}
+
+function startPglitePg() {
+  const signal = new Int32Array(new SharedArrayBuffer(Int32Array.BYTES_PER_ELEMENT));
+  const { port1, port2 } = new MessageChannel();
+  const worker = new Worker(new URL("./rcap-pglite-sync-worker.mjs", import.meta.url), {
+    workerData: { port: port2, signalBuffer: signal.buffer },
+    transferList: [port2]
+  });
+  let nextId = 1;
+  let stopped = false;
+
+  function receive(id) {
+    const waited = Atomics.wait(signal, 0, 0, 120_000);
+    if (waited === "timed-out") throw new Error(`PGlite command ${id} timed out`);
+    Atomics.store(signal, 0, 0);
+    const packet = receiveMessageOnPort(port1)?.message;
+    if (!packet || packet.id !== id) {
+      throw new Error(`PGlite command ${id} returned an invalid response`);
+    }
+    if (!packet.ok) {
+      const error = new Error(packet.error);
+      error.stderr = packet.stderr ?? packet.error;
+      if (packet.stack) error.stack = packet.stack;
+      throw error;
+    }
+    return packet.output ?? "";
+  }
+
+  receive(0);
+
+  function call(kind, sql = "") {
+    if (stopped) throw new Error("PGlite harness is already stopped");
+    const id = nextId++;
+    Atomics.store(signal, 0, 0);
+    port1.postMessage({ id, kind, sql });
+    return receive(id);
+  }
+
+  return {
+    root: null,
+    port: null,
+    backend: "pglite",
+    sql(text) {
+      return call("exec", text);
+    },
+    sqlExpectError(text) {
+      try {
+        this.sql(text);
+      } catch (error) {
+        return String(error.stderr ?? error.message);
+      }
+      throw new Error(`SQL unexpectedly succeeded: ${text}`);
+    },
+    json(text) {
+      const out = this.sql(`select coalesce((${text})::text, 'null')`).trim();
+      return JSON.parse(out || "null");
+    },
+    scalar(text) {
+      return this.sql(text).trim();
+    },
+    applyFile(file) {
+      this.sql(fs.readFileSync(file, "utf8"));
+    },
+    sqlAsync() {
+      throw new Error("PGlite fallback does not provide independent concurrent psql sessions; use native PostgreSQL");
+    },
+    stop() {
+      if (stopped) return;
+      call("stop");
+      stopped = true;
+      port1.close();
+      void worker.terminate();
+    }
+  };
+}
+
+export function startEphemeralPg({ allowPgliteFallback = false } = {}) {
+  const native = availableNativePgToolchain();
+  if (!native) {
+    if (!allowPgliteFallback || !pgliteAvailable()) {
+      throw new Error("No isolated PostgreSQL runtime is available");
+    }
+    return startPglitePg();
+  }
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-epg-"));
   const port = 54000 + Math.floor(Math.random() * 2000);
-  const initdb = findPgBin("initdb");
-  const pgCtl = findPgBin("pg_ctl");
   if (isRoot) {
     // The server refuses to run as root; drop privileges to the postgres user.
     fs.chmodSync(root, 0o777);
     execFileSync("chown", ["postgres:postgres", root]);
   }
-  run(`${initdb} -D ${root}/data -U postgres -A trust`);
-  run(`${pgCtl} -D ${root}/data -o '-p ${port} -k ${root} -c listen_addresses=' -l ${root}/pg.log start -w -t 30`);
+  run(`${native.initdb} -D ${root}/data -U postgres -A trust`);
+  run(`${native.pgCtl} -D ${root}/data -o '-p ${port} -k ${root} -c listen_addresses=' -l ${root}/pg.log start -w -t 30`);
 
   const psqlBase = ["-h", root, "-p", String(port), "-U", "postgres", "-d", "postgres", "-X", "--no-psqlrc"];
 
@@ -70,14 +177,14 @@ export function startEphemeralPg() {
     port,
     /** Runs SQL, throws on error, returns raw stdout. */
     sql(text) {
-      return execFileSync("psql", [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text], {
+      return execFileSync(native.psql, [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text], {
         encoding: "utf8"
       });
     },
     /** Runs SQL expecting failure; returns the error text, throws if it succeeded. */
     sqlExpectError(text) {
       try {
-        execFileSync("psql", [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text], {
+        execFileSync(native.psql, [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text], {
           encoding: "utf8",
           stdio: ["ignore", "pipe", "pipe"]
         });
@@ -96,12 +203,12 @@ export function startEphemeralPg() {
       return this.sql(text).trim();
     },
     applyFile(file) {
-      execFileSync("psql", [...psqlBase, "-v", "ON_ERROR_STOP=1", "-q", "-f", file], { encoding: "utf8" });
+      execFileSync(native.psql, [...psqlBase, "-v", "ON_ERROR_STOP=1", "-q", "-f", file], { encoding: "utf8" });
     },
     /** Launches a concurrent statement; resolves with {ok, out}. */
     sqlAsync(text) {
       return new Promise((resolve) => {
-        const child = spawn("psql", [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text]);
+        const child = spawn(native.psql, [...psqlBase, "-v", "ON_ERROR_STOP=1", "-A", "-t", "-c", text]);
         let out = "";
         let err = "";
         child.stdout.on("data", (chunk) => (out += chunk));
@@ -111,7 +218,7 @@ export function startEphemeralPg() {
     },
     stop() {
       try {
-        run(`${pgCtl} -D ${root}/data stop -m immediate`);
+        run(`${native.pgCtl} -D ${root}/data stop -m immediate`);
       } catch {
         // Already gone.
       }

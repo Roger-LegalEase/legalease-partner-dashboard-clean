@@ -22,9 +22,9 @@ const MIGRATIONS = [
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
 ];
 
-if (!ephemeralPgAvailable()) {
-  console.log("verify-rcap-phase52-consumer-payment-authority SKIPPED: no ephemeral PostgreSQL available");
-  process.exit(0);
+if (!ephemeralPgAvailable({ allowPgliteFallback: true })) {
+  console.error("verify-rcap-phase52-consumer-payment-authority requires native PostgreSQL or the installed PGlite fallback.");
+  process.exit(1);
 }
 
 const results = [];
@@ -54,7 +54,7 @@ function duuid(label) {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
 }
 
-const db = startEphemeralPg();
+const db = startEphemeralPg({ allowPgliteFallback: true });
 try {
   // --- schema ---------------------------------------------------------------
   db.sql(`create role service_role nologin bypassrls`);
@@ -104,6 +104,10 @@ try {
   const asUser = (user, sql) =>
     attempt(`set request.jwt.claim.sub = '${user}'; set role authenticated; ${sql}`);
   const row = (sql) => db.json(`select row_to_json(t) from (${sql}) t`);
+  const rowAttempt = (sql) => {
+    try { return { value: row(sql), error: null }; }
+    catch (error) { return { value: null, error: String(error.stderr ?? error.message) }; }
+  };
 
   // ===== Requirement 1: anon/authenticated cannot write any payment fact =====
   const ITEM_A = newItem(USER_A);
@@ -142,31 +146,36 @@ try {
   check("R3-rpc-denied", "the payment RPC is not reachable by an authenticated participant",
     /permission denied/i.test(rpcAsUser || ""), rpcAsUser || "the call succeeded");
 
-  const wrongAmount = row(
+  const wrongAmountAttempt = rowAttempt(
     `select * from record_consumer_packet_payment('${ITEM_A}','paid',2500,'usd','stripe','evt_bad',null,null,null,'server_webhook','t')`);
+  const wrongAmount = wrongAmountAttempt.value;
   check("R10-amount", "a payment that is not 5000 cents is refused",
-    wrongAmount?.outcome === "invalid_payment_evidence", JSON.stringify(wrongAmount));
+    wrongAmount?.outcome === "invalid_payment_evidence", wrongAmountAttempt.error || JSON.stringify(wrongAmount));
 
-  const wrongCurrency = row(
+  const wrongCurrencyAttempt = rowAttempt(
     `select * from record_consumer_packet_payment('${ITEM_A}','paid',5000,'eur','stripe','evt_bad2',null,null,null,'server_webhook','t')`);
+  const wrongCurrency = wrongCurrencyAttempt.value;
   check("R10-currency", "a payment that is not USD is refused",
-    wrongCurrency?.outcome === "invalid_payment_evidence", JSON.stringify(wrongCurrency));
+    wrongCurrency?.outcome === "invalid_payment_evidence", wrongCurrencyAttempt.error || JSON.stringify(wrongCurrency));
 
-  const noEvidence = row(
+  const noEvidenceAttempt = rowAttempt(
     `select * from record_consumer_packet_payment('${ITEM_A}','paid',5000,'usd','stripe',null,null,null,null,'server_webhook','t')`);
+  const noEvidence = noEvidenceAttempt.value;
   check("R10-evidence", "a payment with no provider receipt is refused",
-    noEvidence?.outcome === "invalid_payment_evidence", JSON.stringify(noEvidence));
+    noEvidence?.outcome === "invalid_payment_evidence", noEvidenceAttempt.error || JSON.stringify(noEvidence));
 
-  const good = row(
+  const goodAttempt = rowAttempt(
     `select * from record_consumer_packet_payment('${ITEM_A}','paid',5000,'usd','stripe','evt_A',null,null,null,'server_webhook','t')`);
+  const good = goodAttempt.value;
   check("R3-record", "the server path records a valid payment",
-    good?.outcome === "recorded_paid", JSON.stringify(good));
+    good?.outcome === "recorded_paid", goodAttempt.error || JSON.stringify(good));
 
   const ITEM_B = newItem(USER_B);
-  const replay = row(
+  const replayAttempt = rowAttempt(
     `select * from record_consumer_packet_payment('${ITEM_B}','paid',5000,'usd','stripe','evt_A',null,null,null,'server_webhook','t')`);
+  const replay = replayAttempt.value;
   check("R10-receipt-unique", "a replayed provider receipt is a typed refusal, not a second authorization",
-    replay?.outcome === "duplicate_provider_event", JSON.stringify(replay));
+    replay?.outcome === "duplicate_provider_event", replayAttempt.error || JSON.stringify(replay));
 
   // ===== Requirement 4: immutable binding ===================================
   const MATTER_1 = "d0000000-0000-0000-0000-000000000001";
@@ -400,7 +409,7 @@ fs.mkdirSync(path.dirname(outPath), { recursive: true });
 function redactVolatile(text) {
   return String(text ?? "")
     .replace(/("credit_ledger_id":")[0-9a-f-]{36}(")/g, "$1<db-generated>$2")
-    .replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d+)?\+\d{2}/g, "<timestamp>");
+    .replace(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}(\.\d+)?[+-]\d{2}/g, "<timestamp>");
 }
 
 fs.writeFileSync(outPath, `${JSON.stringify({

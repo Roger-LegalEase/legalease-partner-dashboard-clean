@@ -34,9 +34,9 @@ const MIGRATIONS = [
   'supabase/phase-53-rcap-consumer-job-binding.sql',
 ];
 
-if (!ephemeralPgAvailable()) {
-  console.log('verify-rcap-phase53-consumer-job-binding SKIPPED: no ephemeral PostgreSQL available');
-  process.exit(0);
+if (!ephemeralPgAvailable({ allowPgliteFallback: true })) {
+  console.error('verify-rcap-phase53-consumer-job-binding requires native PostgreSQL or the installed PGlite fallback.');
+  process.exit(1);
 }
 
 const results = [];
@@ -48,7 +48,7 @@ function check(id, title, ok, observed) {
 }
 
 const SHA = (s) => crypto.createHash('sha256').update(String(s)).digest('hex');
-const db = startEphemeralPg();
+const db = startEphemeralPg({ allowPgliteFallback: true });
 
 try {
   db.sql('create role service_role nologin bypassrls');
@@ -100,6 +100,13 @@ try {
     const h = SHA(job); const n = SHA(`${job}-n`);
     return row(`select * from finalize_packet_render_job('${job}','${c.fencing_token}','a/${job}/${h}.pdf','${h}','${n}','${h}','${n}',10,1,'d')`);
   };
+  const drainUnexpectedQueuedJobs = () => {
+    while (true) {
+      const claimed = row("select id, fencing_token from claim_packet_render_job('w53-drain', null, 60)");
+      if (!claimed) return;
+      db.scalar(`select fail_packet_render_job('${claimed.id}','${claimed.fencing_token}','render_failed','drained after a failed enqueue assertion',false)`);
+    }
+  };
 
   // ===== R1: a paid item passes through the sanctioned enqueue path =========
   const ITEM_A = newItem(USER_A);
@@ -111,15 +118,15 @@ try {
     r1err === null && Boolean(job1), r1err || 'no job returned');
 
   // ===== R2: the created job carries all four bindings ======================
-  const bound = row(`select consumer_briefcase_item_id::text as item, consumer_auth_user_id::text as usr,
+  const bound = job1 ? row(`select consumer_briefcase_item_id::text as item, consumer_auth_user_id::text as usr,
                             person_id::text as per, matter_id::text as mat
-                       from packet_render_jobs where id='${job1}'`);
+                       from packet_render_jobs where id='${job1}'`) : null;
   check('R2', 'the created job carries item, consumer, person and matter',
     bound?.item === ITEM_A && bound?.usr === USER_A && bound?.per === PERSON && bound?.mat === M1,
     JSON.stringify(bound));
 
   // ===== R3: finalization reaches zero_charge / eligible ====================
-  const f1 = finalize(job1);
+  const f1 = job1 ? finalize(job1) : null;
   check('R3', 'finalization reaches zero_charge and eligible for the legitimate paid consumer',
     f1?.accounting_result === 'zero_charge' && f1?.delivery_eligibility === 'eligible', JSON.stringify(f1));
 
@@ -157,6 +164,7 @@ try {
   const nullMatter = enqueueExpectError({ consumerItem: ITEM_A, expectedUser: USER_A, person: PERSON });
   check('R7c', 'an unsponsored request with no matter is rejected',
     /requires a matter id/.test(nullMatter || ''), nullMatter || 'the enqueue succeeded');
+  drainUnexpectedQueuedJobs();
 
   // ===== R8: an unbound legacy consumer job stays blocked ===================
   // Created the way a pre-phase-53 row exists: briefcase_item_id set, consumer
@@ -199,16 +207,21 @@ try {
   check('R9b', 'a sponsored job carrying consumer bindings is rejected',
     /must not carry consumer binding fields/.test(sponsoredWithConsumer || ''),
     sponsoredWithConsumer || 'the enqueue succeeded');
+  drainUnexpectedQueuedJobs();
 
   // ===== R10: no role can mutate the binding after insert ==================
   for (const [role, label] of [['authenticated', 'participant'], ['service_role', 'service_role'], ['anon', 'anon']]) {
-    const mutate = attempt(`set role ${role}; update packet_render_jobs set consumer_auth_user_id='${USER_B}' where id='${job1}'`);
+    const mutate = job1
+      ? attempt(`set role ${role}; update packet_render_jobs set consumer_auth_user_id='${USER_B}' where id='${job1}'`)
+      : 'no legitimate job was enqueued';
     check(`R10-${label}`, `${label} cannot mutate the binding after insert`,
-      mutate !== null, 'the UPDATE succeeded');
+      Boolean(job1) && mutate !== null, job1 ? 'the UPDATE succeeded' : mutate);
   }
-  const ownerMutate = attempt(`update packet_render_jobs set consumer_auth_user_id='${USER_B}' where id='${job1}'`);
+  const ownerMutate = job1
+    ? attempt(`update packet_render_jobs set consumer_auth_user_id='${USER_B}' where id='${job1}'`)
+    : 'no legitimate job was enqueued';
   check('R10-owner', 'even the table owner cannot re-point the binding',
-    /immutable once set/.test(ownerMutate || ''), ownerMutate || 'the UPDATE succeeded');
+    Boolean(job1) && /immutable once set/.test(ownerMutate || ''), ownerMutate || 'the UPDATE succeeded');
 
   // ===== R11: the old unbound signature cannot create a job ================
   const oldSig = attempt(
@@ -225,24 +238,34 @@ try {
   const M12 = 'eeee0000-0000-4000-8000-00000000000d';
   const ITEM_R = newItem(USER_A);
   db.sql(`select record_consumer_packet_payment('${ITEM_R}','paid',5000,'usd','stripe','p53_evt_r',null,null,null,'server_webhook','t')`);
-  const jr1 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON, matter: M12 });
-  const fr1 = finalize(jr1);
-  const jr2 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON, matter: M12 });
-  const fr2 = finalize(jr2);
+  let fr1 = null; let fr2 = null; let retryError = null;
+  try {
+    const jr1 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON, matter: M12 });
+    fr1 = finalize(jr1);
+    const jr2 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON, matter: M12 });
+    fr2 = finalize(jr2);
+  } catch (error) {
+    retryError = String(error.stderr ?? error.message);
+  }
   const ledgerRows = db.scalar(`select count(*) from packet_credit_ledger l
                                  join packet_render_jobs j on j.id = l.render_job_id
                                  where j.consumer_briefcase_item_id='${ITEM_R}'`).trim();
   check('R12', 'same item, user, person and matter remains idempotent',
-    fr1?.accounting_result === 'zero_charge' && fr2?.accounting_result === 'zero_charge'
+    retryError === null && fr1?.accounting_result === 'zero_charge' && fr2?.accounting_result === 'zero_charge'
       && fr2?.delivery_eligibility === 'eligible' && ledgerRows === '1',
-    `${JSON.stringify(fr1)} ${JSON.stringify(fr2)} ledgerRows=${ledgerRows}`);
+    `${retryError || ''} ${JSON.stringify(fr1)} ${JSON.stringify(fr2)} ledgerRows=${ledgerRows}`);
 
   // ===== R13: same payment on a different matter stays blocked ============
-  const jr3 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON,
-    matter: 'eeee0000-0000-4000-8000-00000000000e' });
-  const fr3 = finalize(jr3);
+  let fr3 = null; let differentMatterError = null;
+  try {
+    const jr3 = enqueue({ consumerItem: ITEM_R, expectedUser: USER_A, person: PERSON,
+      matter: 'eeee0000-0000-4000-8000-00000000000e' });
+    fr3 = finalize(jr3);
+  } catch (error) {
+    differentMatterError = String(error.stderr ?? error.message);
+  }
   check('R13', 'the same payment on a different matter remains accounting_blocked',
-    fr3?.accounting_result === 'consumer_payment_matter_conflict'
+    differentMatterError === null && fr3?.accounting_result === 'consumer_payment_matter_conflict'
       && fr3?.delivery_eligibility === 'accounting_blocked', JSON.stringify(fr3));
 
   // ===== enqueue authority is unchanged ===================================

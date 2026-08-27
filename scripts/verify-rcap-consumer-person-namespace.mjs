@@ -26,7 +26,7 @@ import { ephemeralPgAvailable, startEphemeralPg } from "./lib/rcap-ephemeral-pg.
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-if (!ephemeralPgAvailable()) {
+if (!ephemeralPgAvailable({ allowPgliteFallback: true })) {
   console.error("verify-rcap-consumer-person-namespace requires a local PostgreSQL toolchain.");
   process.exit(1);
 }
@@ -71,8 +71,12 @@ function check(id, title, passed, observed) {
   if (!passed) console.log(`         observed: ${observed}`);
 }
 
-const db = startEphemeralPg();
+const db = startEphemeralPg({ allowPgliteFallback: true });
 try {
+  const attempt = (sql) => {
+    try { db.sql(sql); return null; }
+    catch (error) { return String(error.stderr ?? error.message); }
+  };
   db.sql(`create role anon nologin`);
   db.sql(`create role authenticated nologin`);
   db.sql(`create role service_role nologin bypassrls`);
@@ -312,36 +316,36 @@ try {
         where table_schema='public' and table_name='rcap_persons' and grantee in ('anon','authenticated')`
     )
     .trim();
-  const anonRead = db.sqlExpectError(`set role anon; select count(*) from public.rcap_persons`);
+  const anonRead = attempt(`set role anon; select count(*) from public.rcap_persons`);
   db.sql(`reset role`);
-  const authRead = db.sqlExpectError(`set role authenticated; select count(*) from public.rcap_persons`);
+  const authRead = attempt(`set role authenticated; select count(*) from public.rcap_persons`);
   db.sql(`reset role`);
   check(
     "R1",
     "no browser role can read or write rcap_persons",
     rlsOn === "t" &&
       browserGrants === "0" &&
-      /permission denied/i.test(anonRead) &&
-      /permission denied/i.test(authRead),
-    `rls=${rlsOn} browserGrants=${browserGrants} anon=${anonRead.split("\n")[0]}`
+      /permission denied/i.test(anonRead ?? "") &&
+      /permission denied/i.test(authRead ?? ""),
+    `rls=${rlsOn} browserGrants=${browserGrants} anon=${(anonRead ?? "read succeeded").split("\n")[0]}`
   );
 
   // --- R2 tenant -----------------------------------------------------------
   // The reserved slug cannot be registered as a partner. This is the collision
   // the application guard also checks; here the database refuses it outright,
   // so a direct INSERT or a slug rename cannot create it either.
-  const claimInsert = db.sqlExpectError(
+  const claimInsert = attempt(
     `insert into public.partner_records (partner_slug) values ('${NAMESPACE}')`
   );
-  const claimRename = db.sqlExpectError(
+  const claimRename = attempt(
     `update public.partner_records set partner_slug='${NAMESPACE}' where partner_slug='${PARTNER_SLUG}'`
   );
   check(
     "R2",
     "a real partner cannot claim the reserved namespace, by insert or by rename",
-    /reserved direct-to-consumer person namespace/.test(claimInsert) &&
-      /reserved direct-to-consumer person namespace/.test(claimRename),
-    `${claimInsert.split("\n")[0]} | ${claimRename.split("\n")[0]}`
+    /reserved direct-to-consumer person namespace/.test(claimInsert ?? "") &&
+      /reserved direct-to-consumer person namespace/.test(claimRename ?? ""),
+    `${(claimInsert ?? "insert succeeded").split("\n")[0]} | ${(claimRename ?? "rename succeeded").split("\n")[0]}`
   );
 
   // --- R3 reporting --------------------------------------------------------
@@ -386,18 +390,18 @@ try {
   // Attribution is unambiguous in both directions: a partner identity cannot
   // sit in the consumer namespace, and a consumer-shaped identity cannot sit
   // under a partner slug.
-  const partnerKeyInReserved = db.sqlExpectError(
+  const partnerKeyInReserved = attempt(
     `insert into public.rcap_persons (partner_slug, match_key) values ('${NAMESPACE}','email:client@partner.test')`
   );
-  const consumerKeyUnderPartner = db.sqlExpectError(
+  const consumerKeyUnderPartner = attempt(
     `insert into public.rcap_persons (partner_slug, match_key) values ('${PARTNER_SLUG}','${matchKeyFor(USER_A)}')`
   );
   check(
     "R5",
     "attribution cannot be blurred in either direction",
-    /rcap_persons_reserved_namespace_shape/.test(partnerKeyInReserved) &&
-      /rcap_persons_reserved_namespace_shape/.test(consumerKeyUnderPartner),
-    `partnerKeyInReserved=${partnerKeyInReserved.split("\n")[0]}`
+    /rcap_persons_reserved_namespace_shape/.test(partnerKeyInReserved ?? "") &&
+      /rcap_persons_reserved_namespace_shape/.test(consumerKeyUnderPartner ?? ""),
+    `partnerKeyInReserved=${(partnerKeyInReserved ?? "insert succeeded").split("\n")[0]}`
   );
 
   // --- R6 isolation --------------------------------------------------------

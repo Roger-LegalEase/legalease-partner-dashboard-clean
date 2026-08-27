@@ -10,10 +10,10 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { registerMutationRestore } from './lib/mutation-restore-guard.mjs';
 import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+import { verifierIsMeaningfullyRed } from './lib/rcap-verifier-outcome.mjs';
 
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
@@ -30,16 +30,16 @@ const original = fs.readFileSync(target, 'utf8');
 registerMutationRestore(() => fs.writeFileSync(target, original));
 
 function verifierIsRed() {
-  try {
-    execFileSync('node', [verifier], { cwd: rootDir, stdio: 'pipe' });
-    return false;
-  } catch {
-    return true;
-  }
+  return verifierIsMeaningfullyRed({
+    verifier,
+    cwd: rootDir,
+    passPattern: /verify-rcap-phase53-consumer-job-binding passed: \d+\/\d+ cases\./,
+    failPattern: /verify-rcap-phase53-consumer-job-binding FAILED: \d+ of \d+ cases/
+  });
 }
 
 const MUTATIONS = [
-  ['Phase 53 is omitted entirely', () => null],
+  ['Phase 53 is omitted entirely', () => 'begin;\ncommit;\n'],
 
   ['the consumer fields are removed from the enqueue INSERT', (s) =>
     s.replace(

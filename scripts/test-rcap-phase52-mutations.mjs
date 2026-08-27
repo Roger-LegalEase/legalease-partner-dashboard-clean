@@ -10,10 +10,10 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { registerMutationRestore } from "./lib/mutation-restore-guard.mjs";
 import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
+import { verifierIsMeaningfullyRed } from "./lib/rcap-verifier-outcome.mjs";
 
 // Signal-safe restoration. A `finally` block does not survive SIGTERM, and two
 // interrupted runs left tracked mutations behind. The journal this writes is
@@ -30,12 +30,12 @@ const original = fs.readFileSync(target, "utf8");
 registerMutationRestore(() => fs.writeFileSync(target, original));
 
 function verifierIsRed() {
-  try {
-    execFileSync("node", [verifier], { cwd: rootDir, stdio: "pipe" });
-    return false;
-  } catch {
-    return true;
-  }
+  return verifierIsMeaningfullyRed({
+    verifier,
+    cwd: rootDir,
+    passPattern: /verify-rcap-phase52-consumer-payment-authority passed: \d+\/\d+ cases\./,
+    failPattern: /verify-rcap-phase52-consumer-payment-authority FAILED: \d+ of \d+ cases/
+  });
 }
 
 // Each entry reverts one defence. `find` must appear verbatim in the migration,
@@ -49,8 +49,8 @@ const MUTATIONS = [
 
   ["G1 reopens: the server-evidence constraint is dropped", (s) =>
     s.replace(
-      "add constraint consumer_briefcase_items_paid_requires_server_evidence",
-      "add constraint consumer_briefcase_items_paid_requires_server_evidence_disabled")],
+      "          payment_status <> 'paid'\n          or (",
+      "          true\n          or (")],
 
   ["G1 reopens: the authority probe stops requiring server evidence", (s) =>
     s.replace(
