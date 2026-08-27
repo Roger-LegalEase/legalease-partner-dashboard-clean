@@ -14,6 +14,8 @@ export const PACKET_VERIFICATION_CAS_HANDOFF = {
       "p_expected_prior_revision",
       "p_answer_delta",
       "p_packet_information_metadata",
+      "p_next_draft_hash",
+      "p_next_draft_snapshot",
       "p_next_verification_status",
       "p_next_verification_reason",
       "p_next_verification_hash",
@@ -23,6 +25,10 @@ export const PACKET_VERIFICATION_CAS_HANDOFF = {
   },
   artifact_authority: {
     rpcName: "get_consumer_packet_artifact_authority",
+    atomicPayloadParameters: ["p_consumer_auth_user_id", "p_briefcase_item_id"]
+  },
+  presentation_source: {
+    rpcName: "get_consumer_briefcase_presentation_source",
     atomicPayloadParameters: ["p_consumer_auth_user_id", "p_briefcase_item_id"]
   },
   checkout_binding: {
@@ -123,6 +129,12 @@ export const PACKET_VERIFICATION_CAS_CALL_SITES = {
     requiredAtomicMutation: "return protected immutable artifact provenance/status/revision or protected absent state; never infer from artifact_refs_json or packet_status",
     legacyBackfill: "captain must backfill already-issued artifacts into protected provenance before they remain accessible"
   },
+  presentation_source: {
+    applicationFunction: "briefcase-presentation-authority.readTrustedPendingSource",
+    currentMutation: "read-only get_consumer_briefcase_presentation_source RPC (captain SQL pending)",
+    requiredAtomicMutation: "return one claimed server-owned screening source with exact owner/item/matter/source identity plus canonical answer and linkage digests; post-claim reads ignore the pre-claim replay expiry",
+    permissions: "service_role only; unclaimed, ambiguous, wrong-owner, or digest-mismatched sources return no row"
+  },
   checkout_binding: {
     applicationFunction: "payment-adapter.persistCheckoutBinding -> consumer-payment-authority.persistConsumerCheckoutBinding",
     currentMutation: "bind_consumer_checkout_verification RPC (captain SQL pending)",
@@ -153,7 +165,41 @@ export const PACKET_VERIFICATION_CAS_CALL_SITES = {
 
 export type ExpectedPacketVerification = { expectedVerificationHash: string };
 
-export type ProtectedPacketVerificationRecord = PacketVerificationRecord & { revision: number };
+export type ProtectedPacketDraftSnapshot = Omit<PacketVerificationSnapshot, "schemaVersion" | "verifiedAt"> & {
+  schemaVersion: "expungement-ai/protected-packet-draft/v1";
+  capturedAt: string;
+};
+
+export type ProtectedPacketVerificationRecord = PacketVerificationRecord & {
+  revision: number;
+  draftHash: string;
+  draftSnapshot: ProtectedPacketDraftSnapshot;
+};
+
+type ProtectedLegacyArtifactEvidenceBase = {
+  consumerAuthUserId: string;
+  briefcaseItemId: string;
+  matterId: string;
+  artifactSource: string;
+  packetPlanId: string;
+  artifactSha256: string;
+  outputId: string;
+  verificationHash: string | null;
+};
+
+export type ProtectedLegacyArtifactEvidence = ProtectedLegacyArtifactEvidenceBase & (
+  | {
+    kind: "consumer_payment_render_output";
+    paymentProviderEventId: string;
+    renderJobId: string;
+  }
+  | {
+    kind: "sponsored_generation_record";
+    sourceSessionId: string;
+    generationRecordId: string;
+    creditRecordId: string;
+  }
+);
 
 export type ProtectedPacketArtifactRecord = {
   status: "absent" | "ready";
@@ -161,6 +207,10 @@ export type ProtectedPacketArtifactRecord = {
   verificationHash: string | null;
   entitlementSource: "consumer_payment" | "partner_sponsorship" | "legacy_backfill" | null;
   artifact: Record<string, unknown> | null;
+  consumerAuthUserId?: string;
+  briefcaseItemId?: string;
+  matterId?: string;
+  legacyEvidence?: ProtectedLegacyArtifactEvidence;
 };
 
 export type ProtectedReadResult<T> =
@@ -219,6 +269,14 @@ export async function persistProtectedPacketVerification(input: {
       return { ok: false, reason: "invalid_next_verification_hash" };
     }
   }
+  if (!input.transition.nextVerification.draftHash || !input.transition.nextVerification.draftSnapshot) {
+    return { ok: false, reason: "next_draft_required" };
+  }
+  try {
+    assertExpectedPacketVerificationHash(input.transition.nextVerification.draftHash);
+  } catch {
+    return { ok: false, reason: "invalid_next_draft_hash" };
+  }
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { ok: false, reason: "protected_verification_storage_unavailable" };
 
@@ -231,6 +289,8 @@ export async function persistProtectedPacketVerification(input: {
     p_expected_prior_revision: input.transition.expectedPriorRevision,
     p_answer_delta: input.transition.answerDelta,
     p_packet_information_metadata: input.transition.packetInformationMetadata,
+    p_next_draft_hash: input.transition.nextVerification.draftHash ?? null,
+    p_next_draft_snapshot: input.transition.nextVerification.draftSnapshot ?? null,
     p_next_verification_status: input.transition.nextVerification.status,
     p_next_verification_reason: input.transition.nextVerification.reason,
     p_next_verification_hash: input.transition.nextVerification.hash ?? null,
@@ -253,7 +313,7 @@ export async function readProtectedPacketArtifact(input: {
     p_briefcase_item_id: input.briefcaseItemId
   });
   if (error) return { ok: false, reason: error.message };
-  const value = protectedArtifactRecord(rowFor(data));
+  const value = protectedArtifactRecord(rowFor(data), input);
   return value ? { ok: true, value } : { ok: false, reason: "protected_artifact_authority_missing" };
 }
 
@@ -279,7 +339,10 @@ export async function attachConsumerPacketArtifactIfVerified(input: {
     p_artifact: input.artifact
   });
   if (error) return { ok: false, reason: error.message };
-  const value = protectedArtifactRecord(rowFor(data));
+  const value = protectedArtifactRecord(rowFor(data), {
+    consumerAuthUserId: input.consumerAuthUserId,
+    briefcaseItemId: input.briefcaseItemId
+  });
   return value?.status === "ready" ? { ok: true, value } : { ok: false, reason: "protected_artifact_attach_refused" };
 }
 
@@ -291,19 +354,44 @@ function protectedVerificationRecord(value: unknown): ProtectedPacketVerificatio
     if (typeof value.hash !== "string" || !/^[a-f0-9]{64}$/.test(value.hash)) return null;
     if (!isRecord(value.snapshot) || value.snapshot.schemaVersion !== "expungement-ai/final-verification/v1") return null;
   }
+  const draftHash = value.draft_hash ?? value.draftHash;
+  const draftSnapshot = protectedDraftSnapshot(value.draft_snapshot ?? value.draftSnapshot);
+  if (typeof draftHash !== "string" || !/^[a-f0-9]{64}$/.test(draftHash) || !draftSnapshot) return null;
   return {
     status: value.status,
     reason: value.reason,
     revision: value.revision,
     ...(typeof value.hash === "string" ? { hash: value.hash } : {}),
     ...(isRecord(value.snapshot) ? { snapshot: value.snapshot as PacketVerificationSnapshot } : {}),
+    draftHash,
+    draftSnapshot,
     ...(typeof value.invalidated_at === "string"
       ? { invalidatedAt: value.invalidated_at }
       : typeof value.invalidatedAt === "string" ? { invalidatedAt: value.invalidatedAt } : {})
   };
 }
 
-function protectedArtifactRecord(value: unknown): ProtectedPacketArtifactRecord | null {
+function protectedDraftSnapshot(value: unknown): ProtectedPacketDraftSnapshot | null {
+  if (!isRecord(value)
+    || value.schemaVersion !== "expungement-ai/protected-packet-draft/v1"
+    || !nonEmpty(value.capturedAt)
+    || !nonEmpty(value.jurisdiction)
+    || !nonEmpty(value.profileVersion)
+    || !nonEmpty(value.profileAuthorityFingerprint)
+    || !Array.isArray(value.requiredInputIds)
+    || !isRecord(value.packetFamilyIdentifiers)
+    || !isRecord(value.screeningAnswers)
+    || !isRecord(value.packetAnswers)
+    || !isRecord(value.serverFacts)
+    || !isRecord(value.prefilledAnswers)
+    || !isRecord(value.dependencies)) return null;
+  return value as ProtectedPacketDraftSnapshot;
+}
+
+function protectedArtifactRecord(
+  value: unknown,
+  expected?: { consumerAuthUserId: string; briefcaseItemId: string }
+): ProtectedPacketArtifactRecord | null {
   if (!isRecord(value) || !validRevision(value.revision)) return null;
   if (value.status !== "absent" && value.status !== "ready") return null;
   const verificationHash = typeof value.verification_hash === "string"
@@ -320,13 +408,84 @@ function protectedArtifactRecord(value: unknown): ProtectedPacketArtifactRecord 
     if (!artifact || entitlementSource === null) return null;
     if (entitlementSource !== "legacy_backfill" && verificationHash === null) return null;
   }
-  return {
+  const record: ProtectedPacketArtifactRecord = {
     status: value.status,
     revision: value.revision,
     verificationHash,
     entitlementSource,
-    artifact
+    artifact,
+    ...(typeof value.consumer_auth_user_id === "string"
+      ? { consumerAuthUserId: value.consumer_auth_user_id }
+      : typeof value.consumerAuthUserId === "string" ? { consumerAuthUserId: value.consumerAuthUserId } : {}),
+    ...(typeof value.briefcase_item_id === "string"
+      ? { briefcaseItemId: value.briefcase_item_id }
+      : typeof value.briefcaseItemId === "string" ? { briefcaseItemId: value.briefcaseItemId } : {}),
+    ...(typeof value.matter_id === "string"
+      ? { matterId: value.matter_id }
+      : typeof value.matterId === "string" ? { matterId: value.matterId } : {}),
+    ...(protectedLegacyEvidence(value.legacy_evidence ?? value.legacyEvidence)
+      ? { legacyEvidence: protectedLegacyEvidence(value.legacy_evidence ?? value.legacyEvidence) ?? undefined }
+      : {})
   };
+  if (entitlementSource === "legacy_backfill" && !validProtectedLegacyArtifactEvidence(record, expected)) return null;
+  return record;
+}
+
+export function validProtectedLegacyArtifactEvidence(
+  record: ProtectedPacketArtifactRecord,
+  expected?: { consumerAuthUserId: string; briefcaseItemId: string }
+): boolean {
+  if (record.status !== "ready" || record.entitlementSource !== "legacy_backfill" || !record.artifact) return false;
+  const evidence = record.legacyEvidence;
+  if (!evidence
+    || !record.consumerAuthUserId
+    || !record.briefcaseItemId
+    || !record.matterId
+    || evidence.consumerAuthUserId !== record.consumerAuthUserId
+    || evidence.briefcaseItemId !== record.briefcaseItemId
+    || evidence.matterId !== record.matterId
+    || (expected && (evidence.consumerAuthUserId !== expected.consumerAuthUserId
+      || evidence.briefcaseItemId !== expected.briefcaseItemId))
+    || record.artifact.source !== evidence.artifactSource
+    || record.artifact.packetPlanId !== evidence.packetPlanId
+    || record.artifact.artifactSha256 !== evidence.artifactSha256
+    || record.verificationHash !== evidence.verificationHash) return false;
+  if (evidence.kind === "consumer_payment_render_output") {
+    return nonEmpty(evidence.paymentProviderEventId)
+      && nonEmpty(evidence.renderJobId)
+      && nonEmpty(evidence.outputId);
+  }
+  return nonEmpty(evidence.sourceSessionId)
+    && nonEmpty(evidence.generationRecordId)
+    && nonEmpty(evidence.creditRecordId)
+    && nonEmpty(evidence.outputId);
+}
+
+function protectedLegacyEvidence(value: unknown): ProtectedLegacyArtifactEvidence | null {
+  if (!isRecord(value)
+    || (value.kind !== "consumer_payment_render_output" && value.kind !== "sponsored_generation_record")
+    || !nonEmpty(value.consumerAuthUserId)
+    || !nonEmpty(value.briefcaseItemId)
+    || !nonEmpty(value.matterId)
+    || !nonEmpty(value.artifactSource)
+    || !nonEmpty(value.packetPlanId)
+    || typeof value.artifactSha256 !== "string"
+    || !/^[a-f0-9]{64}$/.test(value.artifactSha256)
+    || !nonEmpty(value.outputId)
+    || (value.verificationHash !== null
+      && (typeof value.verificationHash !== "string" || !/^[a-f0-9]{64}$/.test(value.verificationHash)))) return null;
+  if (value.kind === "consumer_payment_render_output") {
+    if (!nonEmpty(value.paymentProviderEventId) || !nonEmpty(value.renderJobId)) return null;
+    return value as ProtectedLegacyArtifactEvidence;
+  }
+  if (!nonEmpty(value.sourceSessionId)
+    || !nonEmpty(value.generationRecordId)
+    || !nonEmpty(value.creditRecordId)) return null;
+  return value as ProtectedLegacyArtifactEvidence;
+}
+
+function nonEmpty(value: unknown): value is string {
+  return typeof value === "string" && Boolean(value.trim());
 }
 
 function rowFor(data: unknown): unknown {

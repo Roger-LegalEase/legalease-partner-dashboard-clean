@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
+import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import {
-  getBriefcaseItem,
-  isPartnerSponsoredPacketItem
-} from "@/lib/expungement-ai/briefcase";
-import { packetInformationPatch } from "@/lib/expungement-ai/packet-information";
+  packetInformationPatch,
+  protectedPacketInformationModelFor
+} from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 import {
   persistProtectedPacketVerification,
@@ -32,12 +32,6 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "matter_not_found" }, { status: 404 });
   }
 
-  const packetResult = item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution";
-  const sponsored = await isPartnerSponsoredPacketItem(item);
-  if (!packetResult || (!item.paymentAllowed && !sponsored)) {
-    return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
-  }
-
   const parsed = await readBody(request);
   if (!parsed.ok) {
     return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
@@ -49,6 +43,10 @@ export async function POST(
   });
   if (!protectedRead.ok) {
     return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
+  }
+  const protectedModel = protectedPacketInformationModelFor(protectedRead.value);
+  if (!protectedModel?.packetPlan) {
+    return NextResponse.json({ ok: false, error: "packet_information_unavailable" }, { status: 403 });
   }
 
   const update = packetInformationPatch({

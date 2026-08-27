@@ -203,7 +203,10 @@ export async function createConsumerPacketCheckout({
         expectedSuccessUrl: successUrl ?? defaultSuccessUrl,
         expectedCancelUrl: cancelUrl ?? defaultCancelUrl
       });
-      if (!reusable) throw new ConsumerCheckoutTemporarilyUnavailableError();
+      if (!reusable) {
+        if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
+      }
       const bindingResult = await persistCheckoutBinding(binding, reusable.id, "stripe");
       if (bindingResult.outcome !== "bound") {
         if (bindingResult.outcome === "refused" && reusable.status === "open") {

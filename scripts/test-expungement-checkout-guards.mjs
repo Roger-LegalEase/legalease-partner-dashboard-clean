@@ -345,6 +345,7 @@ async function checkoutBehavior() {
       })
     });
     assert.equal(result.outcome, "checkout_created", "writable route/display fields cannot suppress protected checkout authority");
+    assert.ok(!("commercialFlow" in (eligibleItem().artifactRefs ?? {})), "checkout remains available after the writable commercialFlow mirror is deleted");
     assert.equal(h.routeInputs.at(-1)?.pathway, PATHWAY_ID);
   }
 
@@ -457,6 +458,7 @@ async function checkoutBehavior() {
     );
     assert.equal(h.createCalls.length, 0, "mismatched open Session must fail closed, not duplicate");
     assert.equal(h.updateCalls.length, 0, "mismatched metadata must not be overwritten");
+    assert.deepEqual(h.expireCalls, [mismatch.id], "an invalid reusable binding is expired so its old URL cannot remain payable");
   }
 
   {
@@ -470,6 +472,7 @@ async function checkoutBehavior() {
       (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
     );
     assert.equal(h.createCalls.length, 0, "an open Session returning to another origin must not be replaced silently");
+    assert.deepEqual(h.expireCalls, [stale.id], "an invalid reusable return origin is expired so its old URL cannot remain payable");
   }
 
   {
@@ -536,16 +539,38 @@ async function checkoutBehavior() {
 async function protectedCasBehavior() {
   const calls = [];
   let refusePersist = false;
+  let omitDraftOnRead = false;
   const snapshot = { schemaVersion: "expungement-ai/final-verification/v1", pathwayId: PATHWAY_ID };
+  const draftSnapshot = {
+    schemaVersion: "expungement-ai/protected-packet-draft/v1",
+    capturedAt: "2026-08-26T00:00:00.000Z",
+    jurisdiction: "PA",
+    profileVersion: "1.3.0",
+    profileAuthorityFingerprint: "c".repeat(64),
+    requiredInputIds: [],
+    packetFamilyIdentifiers: { mode: null, sourceFormIds: [] },
+    screeningAnswers: {},
+    packetAnswers: {},
+    serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID },
+    prefilledAnswers: {},
+    dependencies: { commercialFlowVersion: 1, entitlementSource: "consumer_payment", productId: PRODUCT }
+  };
   const admin = {
     async rpc(name, args) {
       calls.push({ name, args });
       if (name === "get_consumer_packet_verification_authority") {
-        return { data: { status: "verified", reason: "explicit_final_verification", hash: "a".repeat(64), snapshot, revision: 4 }, error: null };
+        return { data: {
+          status: "verified",
+          reason: "explicit_final_verification",
+          hash: "a".repeat(64),
+          snapshot,
+          revision: 4,
+          ...(omitDraftOnRead ? {} : { draft_hash: "d".repeat(64), draft_snapshot: draftSnapshot })
+        }, error: null };
       }
       if (name === "persist_consumer_packet_verification") {
         if (refusePersist) return { data: null, error: { message: "expected revision mismatch" } };
-        return { data: { status: "verified", reason: "explicit_final_verification", hash: "b".repeat(64), snapshot, revision: 5 }, error: null };
+        return { data: { status: "verified", reason: "explicit_final_verification", hash: "b".repeat(64), snapshot, draft_hash: "d".repeat(64), draft_snapshot: draftSnapshot, revision: 5 }, error: null };
       }
       if (name === "get_consumer_packet_artifact_authority") {
         return { data: { status: "absent", revision: 0, verification_hash: null, entitlement_source: null, artifact: null }, error: null };
@@ -584,6 +609,8 @@ async function protectedCasBehavior() {
       reason: "explicit_final_verification",
       hash: "b".repeat(64),
       snapshot,
+      draftHash: "d".repeat(64),
+      draftSnapshot,
       revision: 5
     }
   };
@@ -598,7 +625,33 @@ async function protectedCasBehavior() {
   assert.equal(persistCall.args.p_expected_prior_hash, "a".repeat(64));
   assert.deepEqual(persistCall.args.p_answer_delta, transition.answerDelta);
   assert.deepEqual(persistCall.args.p_next_verification_snapshot, snapshot);
+  assert.equal(persistCall.args.p_next_draft_hash, "d".repeat(64));
+  assert.deepEqual(persistCall.args.p_next_draft_snapshot, draftSnapshot);
   assert.ok(!("p_artifact_refs_patch" in persistCall.args), "stale full artifact patches cannot enter protected persistence");
+
+  const missingDraftPersist = await cas.persistProtectedPacketVerification({
+    consumerAuthUserId: USER,
+    briefcaseItemId: ITEM,
+    transition: {
+      ...transition,
+      nextVerification: {
+        status: "verified",
+        reason: "explicit_final_verification",
+        hash: "b".repeat(64),
+        snapshot,
+        revision: 5
+      }
+    }
+  });
+  assert.deepEqual(missingDraftPersist, { ok: false, reason: "next_draft_required" });
+
+  omitDraftOnRead = true;
+  const missingDraftRead = await cas.readProtectedPacketVerification({
+    consumerAuthUserId: USER,
+    briefcaseItemId: ITEM
+  });
+  assert.deepEqual(missingDraftRead, { ok: false, reason: "protected_verification_authority_missing" });
+  omitDraftOnRead = false;
 
   refusePersist = true;
   const beforeStale = calls.filter((call) => call.name === "persist_consumer_packet_verification").length;
@@ -930,6 +983,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
     },
     "@/lib/expungement-ai/packet-information": {
       packetInformationModelFor: () => model,
+      protectedPacketInformationModelFor: () => model,
       requireCurrentPacketVerification: () => {
         if (model?.stage !== "ready_to_generate") throw new Error("current final verification is required");
         return {
@@ -974,6 +1028,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
 
   return {
     renderRequest,
+    item,
     packetRows,
     packetUpdates,
     inputSnapshots,
@@ -990,6 +1045,8 @@ async function renderRequestBehavior() {
       briefcaseItemId: ITEM
     });
     assert.equal(outcome.status, "queued");
+    assert.equal(h.item.paymentStatus, "paid");
+    assert.ok(!("commercialFlow" in (h.item.artifactRefs ?? {})), "post-payment render does not require the writable commercialFlow mirror");
     assert.equal(h.buildCalls.length, 2, "provisional and immutable-version packet specs are both built from the exact pathway");
     assert.equal(h.buildCalls[0].pathway, PATHWAY_ID);
     assert.equal(h.buildCalls[1].pathway, PATHWAY_ID);
@@ -1052,7 +1109,6 @@ function sourceContracts() {
   assert.ok(renderRequest.includes("renderPacket,") && renderRequest.includes("renderInputPayload"));
 
   const packetGenerateButton = read("src/components/expungement-ai/PacketGenerateButton.tsx");
-  const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
   assert.ok(packetGenerateButton.includes('mode: "sponsored_sync" | "paid_durable"'));
   assert.ok(packetGenerateButton.includes('"/api/expungement-ai/packet/render"'));
   assert.ok(packetGenerateButton.includes("durable && response.status !== 202"));
@@ -1062,10 +1118,23 @@ function sourceContracts() {
   );
   assert.ok(durableAccepted.includes('setStatus("preparing")') && durableAccepted.includes("return;"));
   assert.ok(!durableAccepted.includes('trackFunnelEvent("packet_generated"'), "202 may mean preparing, never generated");
-  assert.ok(reviewPage.includes('mode="paid_durable"'), "paid correction/retry must use the durable render route");
-  assert.ok(reviewPage.includes('label="Prepare updated packet"'), "paid corrections must expose an explicit same-matter update action");
-  assert.ok(!reviewPage.includes('model.missingInputIds.length === 0 && item.packetStatus !== "ready"'), "a ready artifact must not block a paid correction render");
-  assert.ok(reviewPage.includes('mode="sponsored_sync"'), "sponsored generation must keep its existing endpoint");
+  const verificationClientPath = path.join(rootDir, "src/components/expungement-ai/packet-verification-client.ts");
+  const verificationActionPath = path.join(rootDir, "src/components/expungement-ai/PacketVerificationAction.tsx");
+  if (fs.existsSync(verificationClientPath) && fs.existsSync(verificationActionPath)) {
+    const verificationClient = fs.readFileSync(verificationClientPath, "utf8");
+    const verificationAction = fs.readFileSync(verificationActionPath, "utf8");
+    assert.ok(verificationClient.includes("if (!verified)"), "no packet action exists before protected verification");
+    assert.ok(verificationClient.includes('if (mode === "paid")'));
+    assert.ok(verificationClient.includes('mode: "paid_durable"') && verificationClient.includes('label: "Prepare updated packet"'));
+    assert.ok(verificationClient.includes("openPacket: packetReady"), "paid/sponsored Ready keeps immutable packet access");
+    assert.ok(verificationClient.includes('packetReady ? null : { mode: "sponsored_sync"'), "sponsored Ready cannot duplicate generation");
+    assert.ok(verificationAction.includes("const nextActions = packetVerificationActions({ verified, packetReady, mode })"));
+    assert.ok(verificationAction.includes("nextActions.openPacket") && verificationAction.includes("Open my packet"));
+    assert.ok(verificationAction.includes('nextActions.generation?.mode === "paid_durable"'));
+    assert.ok(verificationAction.includes('mode="paid_durable"') && verificationAction.includes("label={nextActions.generation.label}"));
+    assert.ok(verificationAction.includes('mode="sponsored_sync"'));
+    assert.ok(verificationAction.includes("nextActions.checkout"));
+  }
 
   const legacyPacketReturn = read("src/app/expungement-ai/packet-ready/page.tsx");
   assert.ok(legacyPacketReturn.includes("getBriefcaseItem") && legacyPacketReturn.includes("redirect("));

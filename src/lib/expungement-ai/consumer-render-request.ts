@@ -13,11 +13,10 @@ import {
 } from "@/lib/expungement-ai/consumer-payment-authority";
 import { getBriefcaseItem, getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import {
-  packetInformationModelFor,
+  protectedPacketInformationModelFor,
   requireCurrentPacketVerification,
-  type PacketInformationModel
+  type ProtectedPacketInformationModel
 } from "@/lib/expungement-ai/packet-information";
-import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { buildRenderJobSpec, RenderContractError } from "@/lib/rcap/render/job-contract";
 import { enqueueVerifiedConsumerRender } from "@/lib/rcap/render/job-queue";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
@@ -78,8 +77,7 @@ function consumerPacketRow(input: {
   personId: string;
   jurisdiction: string;
   pathwayLabel: string;
-  item: ConsumerBriefcaseItem;
-  packetInformation: PacketInformationModel;
+  packetInformation: ProtectedPacketInformationModel;
   packetFields: Record<string, unknown>;
   verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>;
 }) {
@@ -164,7 +162,7 @@ function splitFullName(value: string | null): { firstName: string | null; lastNa
   return { firstName: parts.slice(0, -1).join(" "), lastName: parts.at(-1) ?? null };
 }
 
-function canonicalPacketFields(model: PacketInformationModel) {
+function canonicalPacketFields(model: ProtectedPacketInformationModel) {
   return {
     ...model.initialAnswers,
     // Explicitly allowlisted protected facts are last. Arbitrary persisted
@@ -220,7 +218,11 @@ async function requestConsumerPacketRenderInternal(input: {
     return { status: "route_not_renderable", reason: "current final verification is required" };
   }
 
-  const packetInformation = packetInformationModelFor(item);
+  const packetInformation = protectedPacketInformationModelFor({
+    status: "verified",
+    reason: "current_protected_verification",
+    ...verification
+  });
   if (!packetInformation
     || packetInformation.stage !== "ready_to_generate"
     || packetInformation.missingInputIds.length > 0
@@ -252,7 +254,7 @@ async function requestConsumerPacketRenderInternal(input: {
   try {
     built = buildRenderJobSpec({
       packetId: provisionalPacketId,
-      state: item.state,
+      state: verification.snapshot.jurisdiction,
       pathway: verifiedPathwayId,
       briefcaseItemId: item.id,
       trackId: verification.snapshot.selectedTrackId,
@@ -290,7 +292,6 @@ async function requestConsumerPacketRenderInternal(input: {
     personId: person.personId,
     jurisdiction: built.route.jurisdiction,
     pathwayLabel: built.route.pathwayId,
-    item,
     packetInformation,
     packetFields,
     verification
@@ -333,7 +334,7 @@ async function requestConsumerPacketRenderInternal(input: {
   const packetId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}:${payloadVersionHash}`);
   const versioned = buildRenderJobSpec({
     packetId,
-    state: item.state,
+    state: verification.snapshot.jurisdiction,
     pathway: verifiedPathwayId,
     briefcaseItemId: item.id,
     trackId: verification.snapshot.selectedTrackId,

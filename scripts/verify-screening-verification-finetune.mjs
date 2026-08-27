@@ -20,9 +20,11 @@ const {
   packetInformationModelFor,
   packetInformationPatch: derivePacketInformationPatch,
   packetVerificationState,
+  protectedPacketDraftSeedFromAuthoritative,
+  protectedPacketInformationModelFor,
   requireCurrentPacketVerificationRecord
 } = await import("../src/lib/expungement-ai/packet-information.ts");
-const defaultProtectedVerification = {
+let defaultProtectedVerification = {
   status: "unverified",
   reason: "final_verification_not_completed",
   revision: 0
@@ -58,6 +60,7 @@ const { finalizeSponsoredPacketGeneration } = await import("../src/lib/expungeme
 assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_HANDOFF), [
   "verification_persistence",
   "artifact_authority",
+  "presentation_source",
   "checkout_binding",
   "payment_entitlement",
   "artifact_attach",
@@ -65,7 +68,7 @@ assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_HANDOFF), [
   "sponsored_slot_consumption"
 ]);
 for (const [name, point] of Object.entries(PACKET_VERIFICATION_CAS_HANDOFF)) {
-  if (name !== "verification_persistence" && name !== "artifact_authority") {
+  if (name !== "verification_persistence" && name !== "artifact_authority" && name !== "presentation_source") {
     assert.equal(point.expectedHashParameter, "p_expected_verification_hash");
   }
   assert.ok(point.rpcName, "every concurrency boundary names its captain-owned RPC");
@@ -78,6 +81,8 @@ assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.verification_persistence.atomic
   "p_expected_prior_revision",
   "p_answer_delta",
   "p_packet_information_metadata",
+  "p_next_draft_hash",
+  "p_next_draft_snapshot",
   "p_next_verification_status",
   "p_next_verification_reason",
   "p_next_verification_hash",
@@ -85,6 +90,10 @@ assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.verification_persistence.atomic
   "p_next_verification_invalidated_at"
 ]);
 assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.artifact_authority.rpcName, "get_consumer_packet_artifact_authority");
+assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.presentation_source.rpcName, "get_consumer_briefcase_presentation_source");
+const verificationCasSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/verification-cas.ts"), "utf8");
+assert.ok(verificationCasSource.includes("p_next_draft_hash: input.transition.nextVerification.draftHash"), "protected persistence sends the current draft hash");
+assert.ok(verificationCasSource.includes("p_next_draft_snapshot: input.transition.nextVerification.draftSnapshot"), "protected persistence sends the current draft snapshot");
 assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.rpcName, "enqueue_verified_consumer_packet_render");
 assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.atomicPayloadParameters, [
   "p_packet_id",
@@ -109,6 +118,16 @@ assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.sponsored_slot_consumption.rpcName,
 assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_CALL_SITES), Object.keys(PACKET_VERIFICATION_CAS_HANDOFF));
 assert.doesNotMatch(PACKET_VERIFICATION_CAS_CALL_SITES.payment_entitlement.currentMutation, /missing|does not yet send/i);
 const checkoutSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/payment-adapter.ts"), "utf8");
+const presentationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/briefcase-presentation-authority.ts"), "utf8");
+assert.ok(presentationSource.includes('rpc("get_consumer_briefcase_presentation_source"'), "presentation fallback uses the protected owner/item source RPC");
+assert.ok(presentationSource.includes("row.briefcase_item_id !== input.item.id"), "presentation source validates exact Briefcase linkage");
+assert.ok(presentationSource.includes("source_linkage_sha256"), "presentation source validates the protected linkage digest");
+assert.ok(presentationSource.includes("row.partner_benefit_active !== true") && presentationSource.includes("partnerBenefitActive: row.partner_benefit_active"), "current sponsorship requires the protected active-benefit field in the linkage digest");
+assert.doesNotMatch(presentationSource, /expires_at/, "a claimed presentation source is not expired by its pre-claim replay TTL");
+assert.ok(presentationSource.includes('verification.status === "verified" ? "protected_verified" : "protected_draft"'), "unverified/invalidated presentation comes from the protected draft");
+assert.ok(presentationSource.includes("error instanceof InvalidAnswerError") && presentationSource.includes("delete answers[id]"), "protected presentation filters packet-only answers before authoritative screening retry");
+assert.ok(presentationSource.includes('"payment_status_unpaid"'), "the protected payment authority's exact unpaid reason remains visibly unpaid");
+assert.ok(verificationCasSource.includes('return { ok: false, reason: "next_draft_required" }'), "protected persistence refuses every status without a current draft");
 assert.ok(
   checkoutSource.includes('if (session.status === "open") await stripe.checkout.sessions.expire(session.id);'),
   "a Checkout Session created before a refused binding CAS must be expired"
@@ -154,7 +173,6 @@ assert.ok(
   checkoutGuardSource.includes("exactDeferralForPathway(snapshot.jurisdiction, snapshot.pathwayId)"),
   "exact-deferral checkout suppression binds the protected jurisdiction/pathway pair"
 );
-const verificationCasSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/verification-cas.ts"), "utf8");
 for (const rpc of [
   "get_consumer_packet_verification_authority",
   "persist_consumer_packet_verification",
@@ -386,6 +404,25 @@ const baseItem = {
   }
 };
 
+const initialDraftSeed = protectedPacketDraftSeedFromAuthoritative({
+  authoritative: authoritativeFixture,
+  screeningAnswers,
+  dependencies: {
+    commercialFlowVersion: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet"
+  },
+  capturedAt: "2026-08-26T00:00:00.000Z"
+});
+assert.ok(initialDraftSeed, "trusted claim inputs seed protected packet draft authority");
+defaultProtectedVerification = {
+  status: "unverified",
+  reason: "final_verification_not_completed",
+  revision: 0,
+  draftHash: initialDraftSeed.hash,
+  draftSnapshot: initialDraftSeed.snapshot
+};
+
 const forgedRequiredServerFactItem = structuredClone(baseItem);
 const forgedRequiredServerFactAnswers = { ...completePacketAnswers };
 delete forgedRequiredServerFactAnswers.court;
@@ -420,7 +457,14 @@ assert.equal(verification.patch.commercialFlow.verification.status, "verified");
 assert.match(verification.patch.commercialFlow.verification.hash, /^[a-f0-9]{64}$/);
 assert.equal(verification.patch.commercialFlow.verification.snapshot.schemaVersion, "expungement-ai/final-verification/v1");
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.screeningAnswers), Object.keys(baseItem.artifactRefs.commercialFlow.screening.answers).sort());
-assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.packetAnswers), Object.keys(completePacketAnswers).sort());
+assert.deepEqual(
+  Object.keys(verification.patch.commercialFlow.verification.snapshot.packetAnswers),
+  Object.entries(completePacketAnswers)
+    .filter(([id, value]) => JSON.stringify(screeningAnswers[id]) !== JSON.stringify(value))
+    .map(([id]) => id)
+    .sort(),
+  "same-value screening facts are not duplicated into the protected packet-answer source"
+);
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.serverFacts), ["jurisdiction", "pathway_id"]);
 assert.ok(verification.patch.commercialFlow.verification.snapshot.packetPlan, "packet plan dependency must be snapshotted");
 assert.deepEqual(
@@ -452,12 +496,35 @@ const firstProtectedFactSave = packetInformationPatch({
   existingItem: forgedJsonVerificationBeforeProtected,
   answers: { court: "Circuit Court" },
   verify: false,
-  protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0 }
+  protectedVerification: defaultProtectedVerification
 });
 assert.equal(
   firstProtectedFactSave.patch.commercialFlow.verification.status,
   "unverified",
   "participant JSON cannot forge a prior verified record and force a protected invalidation transition"
+);
+const resumedProtectedDraft = protectedPacketInformationModelFor(firstProtectedFactSave.protectedTransition.nextVerification);
+assert.ok(resumedProtectedDraft, "first protected fact save can be resumed without participant JSON");
+assert.equal(resumedProtectedDraft.packetAnswers.court, "Circuit Court");
+assert.equal(resumedProtectedDraft.stage, "in_progress");
+const resumedFinalReview = packetInformationPatch({
+  existingItem: { ...forgedJsonVerificationBeforeProtected, artifactRefs: {} },
+  answers: completePacketAnswers,
+  verify: false,
+  protectedVerification: firstProtectedFactSave.protectedTransition.nextVerification
+});
+assert.equal(resumedFinalReview.patch.commercialFlow.packetInformation.stage, "facts_complete");
+const promotedVerification = packetInformationPatch({
+  existingItem: { ...forgedJsonVerificationBeforeProtected, artifactRefs: {} },
+  answers: {},
+  verify: true,
+  protectedVerification: resumedFinalReview.protectedTransition.nextVerification
+});
+assert.equal(promotedVerification.protectedTransition.nextVerification.status, "verified");
+assert.equal(
+  promotedVerification.protectedTransition.nextVerification.draftHash,
+  resumedFinalReview.protectedTransition.nextVerification.draftHash,
+  "explicit verification promotes the same protected draft"
 );
 
 const sponsoredBaseItem = structuredClone(baseItem);
@@ -478,32 +545,34 @@ assert.doesNotThrow(() => requireCurrentPacketVerificationRecord(
 const forgedPlanItem = structuredClone(baseItem);
 forgedPlanItem.artifactRefs.commercialFlow.screening.packetPlan.mode = "official_form_overlay_or_source_form_set";
 const forgedPlanVerification = packetInformationPatch({ existingItem: forgedPlanItem, answers: completePacketAnswers, verify: true });
-assert.equal(forgedPlanVerification.readyToGenerate, false, "stored packet plans must exactly match current evaluator authority");
+assert.equal(forgedPlanVerification.readyToGenerate, true, "writable packet-plan mirrors cannot alter protected draft authority");
+assert.equal(forgedPlanVerification.protectedTransition.nextVerification.snapshot.packetPlan.mode, compiledChecklistPlan.mode);
 const removedRequiredItem = structuredClone(baseItem);
 removedRequiredItem.artifactRefs.commercialFlow.packetInformation.requiredInputIds = requiredInputs.filter((id) => id !== "court");
 const removedRequiredVerification = packetInformationPatch({ existingItem: removedRequiredItem, answers: completePacketAnswers, verify: true });
-assert.equal(removedRequiredVerification.readyToGenerate, false, "stored required-input ids must exactly match current packet authority");
+assert.equal(removedRequiredVerification.readyToGenerate, true, "writable required-input mirrors cannot alter protected draft authority");
+assert.deepEqual(removedRequiredVerification.missingInputIds, []);
 const forgedAuthorityCases = [
-  ["pathway", "stored_pathway_mismatch", (item) => { item.artifactRefs.commercialFlow.screening.pathwayId = "forged-pathway"; }],
-  ["result", "stored_result_mismatch", (item) => { item.artifactRefs.commercialFlow.screening.resultCode = "packet_ready"; }],
-  ["payment", "stored_payment_authority_mismatch", (item) => { item.artifactRefs.commercialFlow.screening.paymentAllowed = false; }],
-  ["packet type", "stored_packet_type_mismatch", (item) => { item.artifactRefs.commercialFlow.screening.packetType = "official_pdf_overlay"; }],
-  ["server jurisdiction", "stored_server_fact_mismatch", (item) => { item.artifactRefs.commercialFlow.packetInformation.serverFacts.jurisdiction = "CA"; }],
-  ["server pathway", "stored_server_fact_mismatch", (item) => { item.artifactRefs.commercialFlow.packetInformation.serverFacts.pathway_id = "forged-pathway"; }]
+  ["pathway", (item) => { item.artifactRefs.commercialFlow.screening.pathwayId = "forged-pathway"; }],
+  ["result", (item) => { item.artifactRefs.commercialFlow.screening.resultCode = "packet_ready"; }],
+  ["payment", (item) => { item.artifactRefs.commercialFlow.screening.paymentAllowed = false; }],
+  ["packet type", (item) => { item.artifactRefs.commercialFlow.screening.packetType = "official_pdf_overlay"; }],
+  ["server jurisdiction", (item) => { item.artifactRefs.commercialFlow.packetInformation.serverFacts.jurisdiction = "CA"; }],
+  ["server pathway", (item) => { item.artifactRefs.commercialFlow.packetInformation.serverFacts.pathway_id = "forged-pathway"; }]
 ];
-for (const [label, reason, mutate] of forgedAuthorityCases) {
+for (const [label, mutate] of forgedAuthorityCases) {
   const forgedItem = structuredClone(baseItem);
   mutate(forgedItem);
   const forgedVerification = packetInformationPatch({ existingItem: forgedItem, answers: completePacketAnswers, verify: true });
-  assert.equal(forgedVerification.readyToGenerate, false, `participant-writable ${label} authority must fail closed`);
-  assert.equal(forgedVerification.reviewReason, reason);
+  assert.equal(forgedVerification.readyToGenerate, true, `participant-writable ${label} cannot alter protected authority`);
+  assert.equal(forgedVerification.reviewReason, "authoritative_route_confirmed");
 }
 
 const verifiedItem = structuredClone(baseItem);
 verifiedItem.artifactRefs.commercialFlow.packetInformation = verification.patch.commercialFlow.packetInformation;
 verifiedItem.artifactRefs.commercialFlow.verification = verification.patch.commercialFlow.verification;
 const protectedVerification = { ...verification.patch.commercialFlow.verification, revision: 7 };
-const verifiedModel = packetInformationModelFor(verifiedItem);
+const verifiedModel = protectedPacketInformationModelFor(protectedVerification);
 const snapshot = verification.patch.commercialFlow.verification.snapshot;
 const expectedSummaryKeys = ["screeningAnswers", "prefilledAnswers", "packetAnswers", "serverFacts"]
   .flatMap((source) => Object.keys(snapshot[source]).sort().map((id) => `${source}:${id}`));
@@ -524,7 +593,7 @@ for (const entry of verifiedModel.verificationContext) {
 }
 assert.deepEqual(verifiedModel.verificationManifest.factKeys, expectedSummaryKeys);
 assert.deepEqual(verifiedModel.verificationManifest.systemContextKeys, expectedContextKeys);
-assert.equal(packetVerificationState(verifiedItem).status, "verified");
+assert.notEqual(packetVerificationState(verifiedItem).status, "verified", "the participant JSON mirror never establishes verification");
 assert.throws(
   () => requireCurrentPacketVerificationRecord(verifiedItem, null),
   /protected/i,
@@ -544,7 +613,40 @@ assert.equal(
   protectedVerification.hash,
   "writable summary and nextSteps are outside verification and cannot influence render authority"
 );
+const deletedCommercialFlowItem = structuredClone(verifiedItem);
+delete deletedCommercialFlowItem.artifactRefs.commercialFlow;
+assert.equal(
+  requireCurrentPacketVerificationRecord(deletedCommercialFlowItem, protectedVerification).hash,
+  protectedVerification.hash,
+  "deleting the participant JSON mirror cannot invalidate a self-sufficient protected snapshot"
+);
+const protectedOnlyPacketModel = protectedPacketInformationModelFor(protectedVerification);
+assert.equal(protectedOnlyPacketModel.stage, "ready_to_generate");
+assert.equal(protectedOnlyPacketModel.reviewedAt, protectedVerification.snapshot.verifiedAt);
+assert.deepEqual(protectedOnlyPacketModel.missingInputIds, []);
+assert.equal(protectedOnlyPacketModel.pathwayId, protectedVerification.snapshot.pathwayId);
+assert.deepEqual(protectedOnlyPacketModel.initialAnswers.court, completePacketAnswers.court);
 assert.doesNotThrow(() => assertCheckoutAllowed(protectedVerification.snapshot));
+assert.equal(
+  protectedPacketInformationModelFor({
+    ...protectedVerification,
+    draftHash: undefined,
+    draftSnapshot: undefined
+  }),
+  null,
+  "every protected status requires the same-revision current draft"
+);
+
+const crossSourceNoOpId = requiredInputs.find((id) => id in screeningAnswers);
+assert.ok(crossSourceNoOpId, "fixture must include one packet input already established by protected screening facts");
+const crossSourceNoOp = packetInformationPatch({
+  existingItem: baseItem,
+  answers: { [crossSourceNoOpId]: screeningAnswers[crossSourceNoOpId] },
+  verify: false,
+  protectedVerification: defaultProtectedVerification
+});
+assert.deepEqual(crossSourceNoOp.protectedTransition.answerDelta, {}, "same-value facts from another protected source cannot create a packet-answer mutation");
+assert.deepEqual(crossSourceNoOp.protectedTransition.nextVerification, defaultProtectedVerification);
 
 const noOpSave = packetInformationPatch({
   existingItem: verifiedItem,
@@ -585,6 +687,30 @@ assert.equal(repeatedVerification.patch.commercialFlow.verification.snapshot.ver
 assert.equal(repeatedVerification.protectedTransition.expectedPriorRevision, 7);
 assert.equal(repeatedVerification.protectedTransition.nextVerification.revision, 7, "semantic verify no-op preserves protected revision");
 
+for (const prior of [
+  { ...defaultProtectedVerification, revision: 3 },
+  {
+    status: "invalidated",
+    reason: "facts_changed",
+    invalidatedAt: "2026-08-25T12:00:00.000Z",
+    revision: 9,
+    draftHash: defaultProtectedVerification.draftHash,
+    draftSnapshot: defaultProtectedVerification.draftSnapshot
+  }
+]) {
+  const statusNoOp = packetInformationPatch({
+    existingItem: verifiedItem,
+    answers: {},
+    verify: false,
+    protectedVerification: prior
+  });
+  assert.deepEqual(
+    statusNoOp.protectedTransition.nextVerification,
+    prior,
+    `a semantic ${prior.status} no-op preserves revision and timestamps`
+  );
+}
+
 const treatmentChangedItem = structuredClone(verifiedItem);
 treatmentChangedItem.selectedTrackId = "different-server-track";
 assert.equal(packetVerificationState(treatmentChangedItem).status, "invalidated", "server treatment dependencies invalidate verification");
@@ -607,8 +733,7 @@ try {
     verify: false,
     protectedVerification
   });
-  assert.equal(persistedDrift.patch.commercialFlow.verification.status, "invalidated");
-  assert.equal(persistedDrift.patch.commercialFlow.verification.reason, "verification_dependencies_changed");
+  assert.equal(persistedDrift, null, "profile-authority drift refuses a save until captain re-evaluation/backfill");
 } finally {
   liveProfile.questionLifecycle = originalLifecycle;
 }
@@ -624,6 +749,9 @@ invalidatedItem.artifactRefs.commercialFlow.packetInformation = invalidated.patc
 invalidatedItem.artifactRefs.commercialFlow.verification = invalidated.patch.commercialFlow.verification;
 assert.equal(packetVerificationState(invalidatedItem).status, "invalidated");
 assert.equal(invalidated.patch.commercialFlow.verification.hash, undefined, "an invalidated record must not expose a reusable current hash");
+const invalidatedResume = protectedPacketInformationModelFor(invalidated.protectedTransition.nextVerification);
+assert.equal(invalidatedResume.packetAnswers.court, "Different Court", "invalidated edits preserve protected draft presentation");
+assert.equal(invalidatedResume.stage, "facts_complete");
 assert.throws(() => requireCurrentPacketVerificationRecord(invalidatedItem, { ...invalidated.patch.commercialFlow.verification, revision: 8 }), /current final verification/i);
 
 const packetArtifact = {
@@ -662,6 +790,13 @@ const protectedArtifact = {
 };
 assert.equal(readyPacketArtifactAccess(legacyReady, protectedArtifact)?.text, "immutable packet bytes", "protected legacy provenance keeps an immutable paid artifact accessible");
 assert.equal(readyPacketArtifactAccess(legacyReady, null), undefined, "forged Ready JSON and writable packet_status cannot grant artifact access");
+assert.equal(readyPacketArtifactAccess(legacyReady, {
+  status: "ready",
+  revision: 1,
+  verificationHash: null,
+  entitlementSource: "legacy_backfill",
+  artifact: packetArtifact
+}), undefined, "a legacy_backfill label without protected issuance/byte evidence never grants access");
 const incompleteProtectedArtifact = structuredClone(protectedArtifact);
 delete incompleteProtectedArtifact.artifact.packetPlanId;
 assert.equal(readyPacketArtifactAccess(legacyReady, incompleteProtectedArtifact), undefined, "protected source-engine provenance must carry its packet plan identity");
@@ -787,6 +922,9 @@ for (const file of [
   const source = fs.readFileSync(path.join(root, file), "utf8");
   assert.ok(source.includes("requireCurrentPacketVerification"), `${file} must independently bind to current final verification`);
 }
+const protectedConsumerRenderSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
+assert.ok(protectedConsumerRenderSource.includes("const packetInformation = protectedPacketInformationModelFor({"), "render rederives fields from the protected snapshot");
+assert.ok(!protectedConsumerRenderSource.includes("packetInformationModelFor(item)"), "render never needs the writable packet-information mirror");
 const sponsoredGenerationRoute = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/packet/generate/route.ts"), "utf8");
 assert.ok(
   sponsoredGenerationRoute.includes("finalizeSponsoredPacketGeneration({"),
@@ -796,12 +934,21 @@ assert.ok(sponsoredGenerationRoute.includes("briefcaseItemId,"), "sponsored slot
 assert.ok(sponsoredGenerationRoute.includes("expectedVerificationHash: verificationHash"), "sponsored slot CAS binds the exact verification hash");
 assert.ok(sponsoredGenerationRoute.includes("if (!finalization.ok)"), "the route must reject a sponsored-slot refusal");
 assert.ok(sponsoredGenerationRoute.indexOf("if (!finalization.ok)") < sponsoredGenerationRoute.indexOf("packetStatus: \"ready\""), "no Ready response may precede a successful sponsored finalization");
+assert.ok(!sponsoredGenerationRoute.includes("isPartnerSponsoredPacketItem"), "sponsored generation cannot trust an item-supplied source-session binding");
 
 const packetGenerationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
+assert.ok(packetGenerationSource.includes("readTrustedBriefcasePresentationSource"), "generation resolves current owner/item/source sponsorship through the protected presentation-source RPC");
+assert.ok(!packetGenerationSource.includes('snapshot.dependencies.entitlementSource === "partner_sponsorship"'), "a historical verification dependency is not current sponsorship authority");
 assert.ok(packetGenerationSource.includes("if (partnerSponsored)"));
 assert.ok(packetGenerationSource.indexOf("if (partnerSponsored)") < packetGenerationSource.indexOf("await attachPacketToBriefcaseItem({"), "sponsored generation cannot attach Ready before atomic credit consumption");
 assert.ok(packetGenerationSource.includes("attachConsumerPacketArtifactIfVerified("), "DTC Ready attachment uses the protected artifact CAS RPC");
 assert.ok(packetGenerationSource.includes("readProtectedPacketArtifact("), "existing artifact access reads protected provenance");
+const legacySponsoredAttach = packetGenerationSource.slice(
+  packetGenerationSource.indexOf("export async function attachMississippiLegacyPacketArtifact"),
+  packetGenerationSource.indexOf("export async function requireOwnedPacketItem")
+);
+assert.ok(legacySponsoredAttach.includes("finalizeSponsoredPacketGeneration({"), "legacy sponsored Ready atomically consumes credit and attaches protected provenance");
+assert.ok(!legacySponsoredAttach.includes("attachPacketToBriefcaseItem({"), "legacy sponsored Ready cannot use the generic artifact attach RPC");
 const sourceDrivenRenderer = packetGenerationSource.slice(
   packetGenerationSource.indexOf("function renderSourceDrivenPacket"),
   packetGenerationSource.indexOf("function paymentLinkageText")

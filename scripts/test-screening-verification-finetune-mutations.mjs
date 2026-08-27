@@ -22,6 +22,7 @@ const paymentAdapter = path.join(root, "src/lib/expungement-ai/payment-adapter.t
 const checkoutRoute = path.join(root, "src/app/api/expungement-ai/checkout/route.ts");
 const reconciliation = path.join(root, "src/lib/expungement-ai/checkout-reconciliation.ts");
 const packetPlanner = path.join(root, "src/lib/rcap-engine/packet-planner.ts");
+const presentation = path.join(root, "src/lib/expungement-ai/briefcase-presentation-authority.ts");
 
 registerTrackedMutation("test-screening-verification-finetune-mutations.mjs", [
   "src/lib/expungement-ai/consumer-render-request.ts",
@@ -36,7 +37,8 @@ registerTrackedMutation("test-screening-verification-finetune-mutations.mjs", [
   "src/lib/expungement-ai/payment-adapter.ts",
   "src/app/api/expungement-ai/checkout/route.ts",
   "src/lib/expungement-ai/checkout-reconciliation.ts",
-  "src/lib/rcap-engine/packet-planner.ts"
+  "src/lib/rcap-engine/packet-planner.ts",
+  "src/lib/expungement-ai/briefcase-presentation-authority.ts"
 ]);
 
 const mutations = [
@@ -93,8 +95,8 @@ const mutations = [
     "mergeBriefcaseArtifactRefs({"
   )],
   ["semantic verification no-op mints a new protected revision", packetInformation, (source) => source.replace(
-    "nextVerification: { ...currentVerification, revision: priorProtected.revision }",
-    "nextVerification: { ...currentVerification, revision: priorProtected.revision + 1 }"
+    "nextVerification: priorProtected",
+    "nextVerification: { ...priorProtected, revision: priorProtected.revision + 1 }"
   )],
   ["invalidated transition trusts participant JSON verification", packetInformation, (source) => source.replace(
     "unverifiedOrInvalidatedPacketRecord(priorProtected, now, input.verify === true",
@@ -136,9 +138,9 @@ const mutations = [
     "    packetReadyWhen: plan.packetReadyWhen ?? []\n",
     ""
   )],
-  ["legacy stored plans require a writable checklist backfill", packetInformation, (source) => source.replace(
-    "canonicalEqual(storedPlan, comparableStoredPacketPlan(authoritativePlan))",
-    "canonicalEqual(storedPlan, authoritativePlan)"
+  ["legacy backfill bypasses protected issuance evidence", generation, (source) => source.replace(
+    '  if (protectedArtifact.entitlementSource === "legacy_backfill"\n    && !validProtectedLegacyArtifactEvidence(protectedArtifact)) return undefined;\n',
+    ""
   )],
   ["Stripe metadata reverts to writable pathway label", paymentAdapter, (source) => source.replace(
     "pathway_id: binding.pathwayId",
@@ -187,6 +189,50 @@ const mutations = [
   ["durable renderer trusts writable selected-track metadata", render, (source) => source.replace(
     "trackId: verification.snapshot.selectedTrackId",
     "trackId: item.selectedTrackId"
+  )],
+  ["verification persistence drops current protected draft", verificationCas, (source) => source.replace(
+    "    p_next_draft_hash: input.transition.nextVerification.draftHash ?? null,\n",
+    ""
+  )],
+  ["render returns to the writable packet-information mirror", render, (source) => source.replace(
+    "protectedPacketInformationModelFor({",
+    "packetInformationModelFor({"
+  )],
+  ["presentation source drops exact Briefcase linkage", presentation, (source) => source.replace(
+    "    || row.briefcase_item_id !== input.item.id\n",
+    ""
+  )],
+  ["presentation re-applies pre-claim TTL after durable claim", presentation, (source) => source.replace(
+    '    || typeof row.claimed_at !== "string"\n',
+    '    || typeof row.claimed_at !== "string"\n    || typeof row.expires_at === "string"\n'
+  )],
+  ["presentation trusts an inactive historical partner benefit", presentation, (source) => source.replace(
+    "row.partner_benefit_active !== true",
+    "row.partner_benefit_active !== false"
+  )],
+  ["protected invalidated presentation is made unavailable", presentation, (source) => source.replace(
+    'verification.status === "verified" ? "protected_verified" : "protected_draft"',
+    'verification.status === "verified" ? "protected_verified" : "unavailable"'
+  )],
+  ["protected presentation stops filtering packet-only answers", presentation, (source) => source.replace(
+    "    if (!(error instanceof InvalidAnswerError)) return null;\n",
+    "    return null;\n"
+  )],
+  ["protected unpaid reason becomes unavailable", presentation, (source) => source.replace(
+    ', "payment_status_unpaid"',
+    ""
+  )],
+  ["protected persistence accepts a missing current draft", verificationCas, (source) => source.replace(
+    '    return { ok: false, reason: "next_draft_required" };\n',
+    '    return { ok: false, reason: "next_draft_snapshot_missing" };\n'
+  )],
+  ["cross-source same value is persisted as a new packet fact", packetInformation, (source) => source.replace(
+    "  const answerDelta = Object.fromEntries(\n    Object.entries(acceptedAnswers).filter(([id, answer]) => !canonicalEqual(current.initialAnswers[id], answer))\n  );",
+    "  const answerDelta = acceptedAnswers;"
+  )],
+  ["legacy sponsored Ready bypasses atomic finalization", generation, (source) => source.replace(
+    "  const finalization = await finalizeSponsoredPacketGeneration({",
+    "  const finalization = await attachPacketToBriefcaseItem({"
   )]
 ];
 
