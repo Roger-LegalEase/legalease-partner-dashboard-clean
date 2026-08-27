@@ -1,6 +1,6 @@
 # Recovering the Nationwide Record Clearing corpus
 
-The 425 gathered files — 289 official PDFs and 136 reference documents across
+The 583 gathered files — 436 official PDFs and 147 reference documents across
 all 51 jurisdictions — were assembled into `private/Nationwide Record
 Clearing/`. `.gitignore` excludes `private/`, so the bytes have never been in
 this repository and were never lost from it. What is committed is a complete
@@ -8,9 +8,9 @@ SHA-256 index of them:
 
 ```text
 data/rcap-all50/nationwide-source-inventory.json
-  generatedAt 2026-06-17T12:10:37Z
+  generatedAt 2026-07-31T14:00:00Z
   sourceDir   /workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing
-  51 jurisdictions, 425 files, 418 with a recorded sha256
+  51 jurisdictions, 583 files, all 583 with a recorded sha256
 ```
 
 `/workspaces/` is the Codespaces mount point, so the corpus lived in a
@@ -72,7 +72,7 @@ node scripts/rcap-corpus/verify-nationwide-corpus.mjs --tar /tmp/nationwide-corp
 node scripts/rcap-corpus/verify-nationwide-corpus.mjs --json /tmp/corpus-report.json
 ```
 
-The corpus is ~0.13 GB, so the archive downloads comfortably from the
+The corpus is ~191 MB, so the archive downloads comfortably from the
 Codespace's file explorer.
 
 ## Why this keeps happening
@@ -119,10 +119,11 @@ node scripts/rcap-corpus/verify-nationwide-corpus.mjs --root "/Volumes/<drive>/N
 
 `verify-nationwide-corpus.mjs` walks the committed index and asks whether each
 of its 425 files is present. For recovery that is the wrong question. The index
-is a snapshot generated on 2026-06-17 by `scripts/rcap-all50-lib.mjs`, and
-gathering continued afterwards — batch 2 alone carries 165 files the index has
-never heard of. A check driven by the index cannot see them, so it would report
-a clean recovery while leaving newer files behind.
+is a snapshot, and gathering continues after each one. The index has been
+regenerated eight times: 425 files on 2026-06-17, then 518, 557, 567, 568, 572,
+582 and 583 through July and early August. A check driven by whichever snapshot
+happens to be checked out cannot see what arrived after it, so it would report a
+clean recovery while leaving newer files behind.
 
 `inventory-nationwide-corpus.mjs` walks the directories instead and uses the
 index only as a cross-check:
@@ -156,9 +157,12 @@ a tie to break silently.
 
 ### Is there a later index already?
 
-An index generated in August would be a derived artifact of the same generator
-run against a later corpus, so it is a useful cross-check rather than a
-prerequisite. To look for one:
+The newest index committed anywhere in this repository is 2026-07-31 (583
+files), added by `1fd2e122`. It is not reachable from `main` or the national
+checkpoint — it lives only on unmerged `feat/record-clearing-*` branches, which
+is why a fresh checkout carries the June one. A later index generated in the
+Codespace would be a derived artifact of the same generator against a later
+corpus: a useful cross-check, not a prerequisite. To look for one:
 
 ```bash
 find /workspaces -name "nationwide-source-inventory*.json" -not -path "*/node_modules/*" 2>/dev/null \
