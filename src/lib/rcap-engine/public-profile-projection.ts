@@ -322,7 +322,22 @@ function phaseForWilmaFact(question: PublicQuestion, jurisdictionCode: string): 
   return "postpay_packet_field";
 }
 
-function normalizePublicQuestion(question: PublicQuestion, jurisdictionCode: string, source: "designer" | "engine" | "wilma"): PublicQuestion {
+function normalizePublicQuestion(
+  question: PublicQuestion,
+  jurisdictionCode: string,
+  source: "designer" | "engine" | "wilma",
+  exactPacketFact = false
+): PublicQuestion {
+  if (exactPacketFact) {
+    return {
+      ...question,
+      lifecyclePhase: "postpay_packet_field",
+      stage: "packet_information",
+      options: normalizeQuestionOptions(question.options),
+      contextOnly: false,
+      doesNotSelectPathway: true
+    };
+  }
   const lifecyclePhase = source === "wilma"
     ? phaseForWilmaFact(question, jurisdictionCode)
     : lifecyclePhaseForQuestion(question);
@@ -917,22 +932,27 @@ const MISSISSIPPI_CORRECTION_FACT_QUESTIONS: PublicQuestion[] = [
   }
 ];
 
-function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
+function withWilmaFactQuestions(
+  profile: PublicJurisdictionProfile,
+  pathways: { id: string; label: string }[] = [],
+  exactPacketFactIds: readonly string[] = []
+): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
+  const exactPacketFacts = new Set(exactPacketFactIds);
   const authorityFactIds = new Set(routesForJurisdiction(profile.jurisdiction.code).flatMap((route) => route.screeningFactIds ?? []));
   const legalAuthorityAdditions = [
     ...(authorityFactIds.has("court_requirements_completed") && !existingIds.has("court_requirements_completed")
       ? [courtRequirementsQuestion("timing_and_completion", "prepay_timing_gate", false)]
       : []),
     ...LEGAL_AUTHORITY_FACT_QUESTIONS.filter((question) => authorityFactIds.has(question.id) && !existingIds.has(question.id))
-      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"))
+      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
   const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"
     ? [...WILMA_FACT_QUESTIONS, ...MISSISSIPPI_CORRECTION_FACT_QUESTIONS]
     : WILMA_FACT_QUESTIONS;
   const additions = availableWilmaFactQuestions
     .filter((question) => !existingIds.has(question.id))
-    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
+    .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)));
   const baseQuestions = withCompletePathwayContextOptions(
     withBroadCourtRequirementsGate(dedupeQuestionsById([...profile.questions, ...legalAuthorityAdditions])),
     pathways
@@ -1121,7 +1141,13 @@ export function projectPublicProfile(profile: EngineProfile): PublicJurisdiction
   return projected;
 }
 
+function routedExactPacketFactIds(profile: EngineProfile) {
+  return (profile.questionLifecycle?.exactPacketFactIds ?? [])
+    .filter((id) => (profile.questionLifecycle?.routeConsumers[id]?.length ?? 0) > 0);
+}
+
 function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
+  const routeScopedPacketFacts = routedExactPacketFactIds(profile);
   const designerProfile = getDesignerPublicProfiles()[profile.jurisdiction.code];
   if (designerProfile) {
     return withWilmaFactQuestions({
@@ -1139,9 +1165,14 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
         questionIds: stage.questionIds ?? designerProfile.questions.filter((question) => question.stage === stage.id).map((question) => question.id),
         screenType: stage.screenType
       })),
-      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
+      questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(
+        question,
+        profile.jurisdiction.code,
+        "designer",
+        routeScopedPacketFacts.includes(question.id)
+      ), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    }, profile.pathways ?? []);
+    }, profile.pathways ?? [], routeScopedPacketFacts);
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -1171,7 +1202,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       doesNotSelectPathway: question.contextOnly === true || question.doesNotSelectPathway === true,
       options: question.options,
       optionDisplay: question.optionDisplay
-    }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
+    }, profile.jurisdiction.code, "engine", routeScopedPacketFacts.includes(question.id)), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  }, profile.pathways ?? []);
+  }, profile.pathways ?? [], routeScopedPacketFacts);
 }

@@ -12,14 +12,17 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { routesForJurisdiction } = await import("../src/lib/legal-authority/index.ts");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
 const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { ROUTE_ESCALATION_FACT_IDS } = await import("../src/lib/rcap-engine/route-fact-relevance.ts");
+const { selectScreeningQuestionIds } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
 
 const ROOT = process.cwd();
 const PROFILE_ROOT = path.join(ROOT, "src/lib/rcap-engine/compiled/profiles");
 const EVIDENCE_PATH = path.join(ROOT, "data/expungement-ai/screening-verification-finetune/shard-f.json");
 const MANIFEST_PATH = path.join(ROOT, "data/expungement-ai/flow-audit/flow-manifest.json");
 const RECONCILIATION_PATH = path.join(ROOT, "data/expungement-ai/flow-audit/FINAL_CANDIDATE_RECONCILIATION.json");
+const EVALUATOR_PATH = path.join(ROOT, "src/lib/rcap-engine/evaluator.ts");
 
 const expected = {
   LA: {
@@ -40,7 +43,7 @@ const expected = {
       pardon_signed_date: ["pardoned-conviction-expungement-under-crim-proc-10-105-a-8"],
       arrest_date: ["police-record-expungement-when-no-charge-was-filed-under-10-103"]
     },
-    exactPacketFactIds: ["county", "court", "charge", "record_documents", "case_identifier"],
+    exactPacketFactIds: ["county", "court", "charge", "record_documents", "case_identifier", "pardon_signed_date", "arrest_date"],
     completionAliasIds: []
   },
   MA: {
@@ -72,7 +75,7 @@ const expected = {
     routeConsumers: {
       twenty_first_birthday: ["first-minor-in-possession-alcohol-expungement-under-311-326"]
     },
-    exactPacketFactIds: ["disposition_date", "arrest_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    exactPacketFactIds: ["disposition_date", "arrest_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier", "twenty_first_birthday"],
     completionAliasIds: ["sentence_completion_date", "financial_obligations"]
   },
   MT: {
@@ -96,6 +99,8 @@ const legalSurfaceHashes = {
 };
 
 const projectionPacketFacts = new Set([
+  "MD:arrest_date",
+  "MO:twenty_first_birthday",
   "MS:arrest_date",
   "MS:ms_last_conviction_date_any_court",
   "MS:ms_successful_sentence_completion_date",
@@ -111,23 +116,41 @@ const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const equal = (actual, wanted, message) => {
   try { assert.deepEqual(actual, wanted); } catch { failures.push(`${message}: got ${JSON.stringify(actual)}`); }
 };
-const stageOrder = new Map([
-  ["record_readiness", 0], ["identity_and_history", 1], ["jurisdiction_and_venue", 2],
-  ["eligibility_timing", 3], ["mandatory_exclusions", 4], ["remedy_specific", 5],
-  ["case_details", 6], ["packet_information", 7]
-]);
+
+function missouriMipExactClockViolations(source) {
+  const start = source.indexOf('if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326")');
+  const end = start < 0 ? -1 : source.indexOf("\n  }", start);
+  const branch = start < 0 || end < 0 ? "" : source.slice(start, end + 4);
+  const violations = [];
+  if (!branch) violations.push("missing exact MO §311.326 timing branch");
+  if (!branch.includes("timingFromExactAnchor(")) violations.push("MO §311.326 does not require an exact anchor");
+  if (!branch.includes('"twenty_first_birthday"')) violations.push("MO §311.326 exact anchor changed");
+  if (!branch.includes('{ value: 1, unit: "years", raw: "1 year" }')) violations.push("MO §311.326 one-year duration changed");
+  if (branch.includes("resolved_timing_bucket") || branch.includes("RESOLVED_TIMING_BUCKET_FIELD_ID")) violations.push("MO §311.326 uses a coarse timing bucket");
+  return violations;
+}
+
+const evaluatorSource = fs.readFileSync(EVALUATOR_PATH, "utf8");
+equal(missouriMipExactClockViolations(evaluatorSource), [], "MO §311.326 exact-clock contract changed");
+const exactClockMutations = [
+  evaluatorSource.replace('"twenty_first_birthday"', '"resolved_timing_bucket"'),
+  evaluatorSource.replace(
+    '"twenty_first_birthday", { value: 1, unit: "years", raw: "1 year" }',
+    '"twenty_first_birthday", { value: 2, unit: "years", raw: "2 years" }'
+  ),
+  evaluatorSource.replace(
+    'if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326")',
+    'if (key === "MO:mutated-minor-in-possession-route")'
+  ),
+  evaluatorSource.replace("return timingFromExactAnchor(profile, answers, rule, pathway, \"twenty_first_birthday\"", "return timingFromAnchor(profile, answers, rule, pathway, \"twenty_first_birthday\"")
+];
+for (const [index, mutation] of exactClockMutations.entries()) {
+  check(missouriMipExactClockViolations(mutation).length > 0, `MO §311.326 exact-clock mutation ${index + 1} survived`);
+}
 const selectPublicQuestionIds = (profile, publicProfile, selectedPathwayLabel = "") => {
-  const lifecycle = profile.questionLifecycle;
-  const selectedPathway = selectedPathwayLabel ? profile.pathways.find((pathway) => pathway.label === selectedPathwayLabel) : undefined;
-  const rows = publicProfile.questions.map((question, sourceIndex) => ({ question, sourceIndex }))
-    .filter(({ question }) => !lifecycle.exactPacketFactIds.includes(question.id) && !lifecycle.completionAliasIds.includes(question.id))
-    .filter(({ question }) => question.lifecyclePhase?.startsWith("prepay_") ?? !["record_readiness", "case_details", "packet_information"].includes(question.stage))
-    .filter(({ question }) => {
-      const consumers = lifecycle.routeConsumers[question.id] ?? [];
-      return consumers.length === 0 || Boolean(selectedPathway && consumers.includes(selectedPathway.id));
-    })
-    .sort((left, right) => (stageOrder.get(left.question.stage) ?? 99) - (stageOrder.get(right.question.stage) ?? 99) || left.sourceIndex - right.sourceIndex);
-  return [...new Set(rows.map(({ question }) => question.id))];
+  return selectScreeningQuestionIds(profile, publicProfile, selectedPathwayLabel
+    ? { possible_pathway_context: selectedPathwayLabel }
+    : {});
 };
 const selectedQuestionCounts = {};
 
@@ -155,25 +178,41 @@ for (const [state, spec] of Object.entries(expected)) {
 
   for (const [questionId, consumers] of Object.entries(lifecycle.routeConsumers)) {
     check(publicQuestionIds.has(questionId), `${state}:${questionId}: route fact is not a public profile question`);
-    check(!lifecycle.exactPacketFactIds.includes(questionId), `${state}:${questionId}: route fact cannot also be an exact packet fact`);
+    const packetOnly = lifecycle.exactPacketFactIds.includes(questionId);
     check(!emptyContextIds.has(questionId), `${state}:${questionId}: route fact leaked into empty-context screening`);
     for (const pathwayId of consumers) {
       check(pathwayIds.has(pathwayId), `${state}:${questionId}: unknown pathway ${pathwayId}`);
       const escalationSupport = (ROUTE_ESCALATION_FACT_IDS[`${state}:${pathwayId}`] ?? []).includes(questionId);
       const authoritySupport = authorityRoutes.some((route) => route.pathwayId === pathwayId && (route.screeningFactIds ?? []).includes(questionId));
       check(escalationSupport || authoritySupport, `${state}:${questionId}: ${pathwayId} lacks approved machine support`);
-      check(pathwaySelections.get(pathwayId)?.has(questionId), `${state}:${questionId}: missing from exact pathway ${pathwayId}`);
+      if (packetOnly) {
+        check(!pathwaySelections.get(pathwayId)?.has(questionId), `${state}:${questionId}: exact date leaked into free screening for ${pathwayId}`);
+        check(packetPlanForPathway(profile, pathwayId)?.requiredInputIds.includes(questionId), `${state}:${questionId}: exact packet fact is not retained by ${pathwayId}`);
+        for (const unrelatedPathwayId of pathwayIds) {
+          if (unrelatedPathwayId !== pathwayId) {
+            check(!packetPlanForPathway(profile, unrelatedPathwayId)?.requiredInputIds.includes(questionId), `${state}:${questionId}: leaked into unrelated packet plan ${unrelatedPathwayId}`);
+          }
+        }
+      } else {
+        check(pathwaySelections.get(pathwayId)?.has(questionId), `${state}:${questionId}: missing from exact pathway ${pathwayId}`);
+      }
     }
     for (const [pathwayId, selectedIds] of pathwaySelections) {
       if (!consumers.includes(pathwayId)) check(!selectedIds.has(questionId), `${state}:${questionId}: leaked into unrelated pathway ${pathwayId}`);
     }
   }
   for (const questionId of lifecycle.exactPacketFactIds) {
-    const question = rawQuestionById.get(questionId);
+    const question = publicProfile.questions.find((candidate) => candidate.id === questionId) ?? rawQuestionById.get(questionId);
     check(publicQuestionIds.has(questionId), `${state}:${questionId}: exact packet fact is not a public profile question`);
     const structural = question?.stage === "case_details" || question?.stage === "record_readiness" || question?.type === "date_or_unknown";
     check(structural || projectionPacketFacts.has(`${state}:${questionId}`), `${state}:${questionId}: exact packet fact lacks structural/date authority`);
     check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId)), `${state}:${questionId}: exact packet fact leaked into screening`);
+  }
+  for (const [pathwayId, selectedIds] of pathwaySelections) {
+    for (const questionId of selectedIds) {
+      const question = publicProfile.questions.find((candidate) => candidate.id === questionId);
+      check(question?.type !== "date_or_unknown", `${state}:${pathwayId}: exact date ${questionId} remains in free screening`);
+    }
   }
   for (const questionId of lifecycle.completionAliasIds) {
     check(rawQuestionById.has(questionId), `${state}:${questionId}: completion alias is not a compiled question`);
@@ -243,11 +282,11 @@ if (!fs.existsSync(EVIDENCE_PATH)) {
   const evidence = readJson(EVIDENCE_PATH);
   equal(evidence.states, Object.keys(expected), "evidence state order changed");
   equal(evidence.before, { flows: 80, browserWitnessVariants: 156, freeQuestions: 108, exactDateFreeCheckInputs: 9, completionOverlaps: 8, genericSpecialRouteAsks: 17, rawPacketFields: 45 }, "evidence baseline changed");
-  equal(evidence.after, { flows: 80, browserWitnessVariants: 156, freeQuestions: { emptyContext: 90, maxExactRoute: 92 }, routeConsumerFacts: 3, routeConsumerEdges: 3, exactPacketFactIds: 57, completionAliasIds: 8 }, "evidence result counts changed");
+  equal(evidence.after, { flows: 80, browserWitnessVariants: 156, freeQuestions: { emptyContext: 90, maxExactRoute: 90 }, routeConsumerFacts: 3, routeConsumerEdges: 3, exactPacketFactIds: 60, completionAliasIds: 8 }, "evidence result counts changed");
   equal(evidence.selectedQuestionCounts, selectedQuestionCounts, "evidence selected-question counts changed");
   equal(evidence.representativeSelectedFlowIds, representativeSelectedFlowIds, "evidence selected-answer witnesses changed");
   equal(evidence.authorityLimitedNoncommercialFlowIds, authorityLimitedNoncommercialFlowIds, "evidence authority-limited route witnesses changed");
-  equal(evidence.retainedExactRouteFacts, { MD: ["pardon_signed_date", "arrest_date"], MO: ["twenty_first_birthday"] }, "evidence retained-exact exceptions changed");
+  equal(evidence.packetOnlyExactRouteFacts, { MD: ["pardon_signed_date", "arrest_date"], MO: ["twenty_first_birthday"] }, "evidence packet-only exact route facts changed");
 }
 
 if (failures.length) {
@@ -257,4 +296,4 @@ if (failures.length) {
 }
 
 console.log("Lane F screening-verification verifier passed.");
-console.log("9 states, 80 terminal/payment flow witnesses, 156 browser variants, 90 empty-context / 92 max-route questions, 57 exact packet facts, 3 route-consumer edges, 8 completion aliases.");
+console.log("9 states, 80 terminal/payment flow witnesses, 156 browser variants, 90 empty-context / 90 max-route questions, 60 exact packet facts, 3 route-consumer edges, 8 completion aliases.");

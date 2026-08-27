@@ -7,13 +7,16 @@ export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhe
 export function packetPlanForPathway(profile: EngineProfile, pathwayId: string): CompiledScreeningPacketPlan | undefined {
   const plan = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === pathwayId);
   if (!plan) return undefined;
+  const baseRequiredInputIds = plan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? [];
+  const routedExactPacketFactIds = (profile.questionLifecycle?.exactPacketFactIds ?? [])
+    .filter((id) => profile.questionLifecycle?.routeConsumers[id]?.includes(pathwayId));
 
   return {
     pathwayId,
     mode: plan.mode,
     formMappingStatus: plan.formMappingStatus,
     sourceFormIds: (plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
-    requiredInputIds: plan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? [],
+    requiredInputIds: [...new Set([...baseRequiredInputIds, ...routedExactPacketFactIds])],
     sourceRuleRefs: plan.sourceRuleRefs ?? [],
     packetReadyWhen: plan.packetReadyWhen ?? []
   };

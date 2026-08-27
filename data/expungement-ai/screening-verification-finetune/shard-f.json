@@ -28,22 +28,22 @@
     "browserWitnessVariants": 156,
     "freeQuestions": {
       "emptyContext": 90,
-      "maxExactRoute": 92
+      "maxExactRoute": 90
     },
     "routeConsumerFacts": 3,
     "routeConsumerEdges": 3,
-    "exactPacketFactIds": 57,
+    "exactPacketFactIds": 60,
     "completionAliasIds": 8
   },
   "selectedQuestionCounts": {
     "LA": { "emptyContext": 9, "maxExactRoute": 9 },
     "ME": { "emptyContext": 11, "maxExactRoute": 11 },
-    "MD": { "emptyContext": 13, "maxExactRoute": 14 },
+    "MD": { "emptyContext": 13, "maxExactRoute": 13 },
     "MA": { "emptyContext": 9, "maxExactRoute": 9 },
     "MI": { "emptyContext": 10, "maxExactRoute": 10 },
     "MN": { "emptyContext": 9, "maxExactRoute": 9 },
     "MS": { "emptyContext": 7, "maxExactRoute": 7 },
-    "MO": { "emptyContext": 11, "maxExactRoute": 12 },
+    "MO": { "emptyContext": 11, "maxExactRoute": 11 },
     "MT": { "emptyContext": 11, "maxExactRoute": 11 }
   },
   "representativeSelectedFlowIds": [
@@ -58,15 +58,15 @@
   "authorityLimitedNoncommercialFlowIds": [
     "EXPAI-MS-c9d86d7fda"
   ],
-  "retainedExactRouteFacts": {
+  "packetOnlyExactRouteFacts": {
     "MD": ["pardon_signed_date", "arrest_date"],
     "MO": ["twenty_first_birthday"]
   },
   "authority": {
     "policy": "No legal rule was added or inferred from prose.",
     "routeConsumers": "MD pardon_signed_date mirrors ROUTE_ESCALATION_FACT_IDS; MD arrest_date and MO twenty_first_birthday mirror existing legal-authority screeningFactIds.",
-    "exactPacketFactIds": "Existing structural/date questions plus Mississippi's unsupported projection-added exact dates and dependent fine-imposed fact.",
-    "retainedExactException": "MD pardon_signed_date, MD arrest_date, and MO twenty_first_birthday remain exact prepay predicates only on their approved routeConsumers pathways; they are intentionally excluded from exactPacketFactIds.",
+    "exactPacketFactIds": "Existing structural/date questions plus Mississippi's unsupported projection-added exact dates and dependent fine-imposed fact. MD pardon_signed_date, MD arrest_date, and MO twenty_first_birthday are exact packet/final-verification facts on only their approved routeConsumers pathways.",
+    "freeTimingBoundary": "The generic resolved_timing_bucket describes time since case resolution, so it is not reused for Maryland's arrest/pardon deadlines or Missouri's age-21 clock. Those routes remain fail-closed without protected exact authority; each owning packet plan retains its exact fact and the free selector never renders it.",
     "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
   },
   "unchanged": [

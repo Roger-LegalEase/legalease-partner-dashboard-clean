@@ -1142,6 +1142,9 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
     };
   }
   // ---- Missouri (corrected, awaiting Lawrence reconfirmation) ----
+  if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326") {
+    return timingFromExactAnchor(profile, answers, rule, pathway, "twenty_first_birthday", { value: 1, unit: "years", raw: "1 year" }, "Mo. Rev. Stat. § 311.326 requires one year from the person's twenty-first birthday.");
+  }
   // The compiled profile only exposes disposition_date as a date anchor; the true statutory clock is
   // completion of the authorized disposition. disposition_date is used as the available proxy anchor
   // and flagged for Lawrence in the ratification worksheet.
