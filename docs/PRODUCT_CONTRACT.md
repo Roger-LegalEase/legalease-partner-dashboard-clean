@@ -778,6 +778,150 @@ possible, restrict access, retain only as needed.
 
 ---
 
+## 12A. Participant data rights — P0 gap
+
+> **Participants need an authenticated Privacy and Data area where they can
+> export their information, delete individual matters, and permanently delete
+> their account and personal data through a secure, auditable, server-controlled
+> process.**
+
+### What exists today, verified 2026-08-27
+
+The Privacy Policy recognises deletion rights and directs people to email
+`info@legalease.law`. `/legalease/data-request` serves a static page — it is
+`export const dynamic = "force-static"` with a `GET` returning
+`serveFooterPage("data-request")`, so it cannot accept, verify, track or execute
+a request even in principle. `/briefcase/settings` renders no delete, export or
+privacy control. The Expungement.ai API surface is briefcase · checkout ·
+evaluate · packet · payment · profiles · screening · support · wilma — no
+deletion, privacy-request, export, purge or anonymisation endpoint. The support
+form has no privacy category. All three `auth.admin.deleteUser` call sites
+(`add-partner-user.ts:157`, `first-admin-service.ts:647`, `:1677`) are
+partner-invite rollback, not participant deletion.
+
+**Searched across all 617 remote branches: no deletion implementation exists
+anywhere.** Unlike every other gap in this repository, this is genuinely
+unbuilt rather than unmerged.
+
+The accurate customer-facing statement today is *"You may request deletion by
+contacting LegalEase."* The product must not claim *"You can delete your account
+and data through your account settings."*
+
+A manual channel is an acceptable interim control when it is documented,
+identity-verified, consistently executed, timed and evidenced. The repository
+demonstrates the policy and the contact channel; it does not demonstrate the
+execution workflow.
+
+### Required experience
+
+`Briefcase → Settings → Privacy and data`, offering three **separate** controls —
+download a copy of my data · delete one of my matters · delete my account and
+personal data. They must not be combined: a participant may want to remove one
+abandoned screening without losing every other matter, receipt and packet.
+
+Account deletion runs: plain-language consequences → data-category inventory →
+offer export → **recent reauthentication** → disclose retention exceptions →
+final confirmation → durable request record → revoke access → process → receipt.
+
+An open browser session is not sufficient authority for permanent deletion;
+require a password, verified link, passkey or equivalent recent authentication.
+The inventory is server-generated and states categories ("3 saved matters, 2
+generated packets, 4 uploaded documents…") without exposing internal table names.
+No dark patterns, and no support negotiation for an ordinary authenticated
+participant.
+
+On acceptance: mark `deletion_pending`; revoke sessions and refresh tokens; stop
+communications; block uploads, payments, sponsorship claims, generation and
+downloads; revoke Clinic and partner-assisted access; remove from follow-up
+queues; cancel unstarted renders; write an immutable audit event; start a
+durable idempotent job. Any cancellation window is an explicit policy decision —
+it must not become an indefinite "pending support review".
+
+### What is deleted, and what is minimised
+
+Deleted or irreversibly de-identified: profile and contact information; anonymous
+sessions still linked; pending results; screening answers; matters; Briefcase
+items; packet-information answers; verification facts containing participant
+information; uploads and identification documents; generated packets and working
+files; temporary render files; signed download references; Wilma conversations;
+reminders and preferences; partner-program participant links; Clinic
+assisted-session data; consent grants and assignments; follow-up identifiers;
+support content no longer required; device and session records beyond security
+retention; and finally the Auth user.
+
+**The Auth user is deleted last.** The service needs the authenticated user ID to
+locate dependent records; deleting it first orphans them.
+
+Retained in minimised form, each with a documented category, reason, legal or
+business basis, retention period, access restriction and review date: payment
+history (transaction id, amount, currency, date, refund status); the
+sponsorship-credit ledger as non-identifying proof one credit was consumed;
+pseudonymised security events; consent evidence; privacy-request evidence
+without the deleted content; legal holds with reason, scope and review date; and
+aggregate metrics only where genuinely not linkable back. "Retained for
+legitimate purposes" never means retaining the Briefcase indefinitely.
+
+### RCAP implications
+
+A partner cannot veto a participant's deletion. On deletion, partner staff lose
+participant-level access, consent grants end, the participant leaves follow-up
+queues, direct identifiers disappear from partner views, and access codes and
+campaign attribution stop providing a path back. Sponsored packet accounting
+stays accurate without preserving identity. The partner sees a neutral
+*"Participant no longer available"* — never the deleted answers, the reason, or a
+copy of the packet.
+
+Four distinct partner actions must not be conflated: remove my access to this
+organization · delete my personal account · close the RCAP program · delete the
+partner organization. A partner administrator must never delete the organization,
+contracts, sponsorship ledgers or other staff accounts by deleting their own
+login. The last active administrator transfers the role, the replacement is
+verified, then the departing administrator may delete personally. Organizational
+deletion is a LegalEase-managed contractual offboarding process. Internal
+LegalEase accounts use workforce offboarding, not consumer self-service.
+
+### Backend
+
+A server-controlled `privacy_requests` record: id · user_id · request_type ·
+status · requested_at · identity_verified_at · processing_started_at ·
+completed_at · cancelled_at · legal_hold_status · retention_exceptions ·
+verification_method · idempotency_key · receipt_reference. Statuses: requested ·
+verification_required · verified · pending · processing · held ·
+partially_completed · completed · cancelled · denied. A denial or limitation
+carries a documented reason and a user-facing explanation.
+
+A durable job with individually tracked steps: freeze account · revoke sessions ·
+stop communications · revoke staff and partner access · delete private storage
+objects · cancel or clean up renders · delete operational data · pseudonymise
+retained ledgers · propagate to approved processors · delete the authentication
+identity · write a backup-restoration tombstone · complete and issue a receipt.
+Safe to retry: a timeout after step six must not produce a duplicate request,
+broken payment records, or an account that appears active again.
+
+### Security
+
+Derive the user from the authenticated server session and never accept a
+`user_id` from the browser. Require recent authentication, same-origin and CSRF
+protection, idempotency, and rate limiting on destructive requests. Revoke all
+sessions on activation. Prevent cross-user deletion, partner staff deleting
+participants, and participants deleting partner records. Record the request
+without putting matter details in logs. Require additional internal approval to
+override a legal hold. Issue a completion receipt. Test backup restoration so a
+deleted account is not silently resurrected.
+
+### Release gates
+
+User A cannot request deletion for user B · partner staff cannot delete a
+participant · deletion removes all active Briefcase access · private packet URLs
+stop working · uploads and generated objects are removed · reminders stop ·
+Clinic and partner access ends · payment and sponsorship accounting remain
+accurate · retained records are pseudonymised and access-restricted · auth
+sessions are revoked · the deleted account cannot sign in · repeated requests do
+not duplicate work · a failed step resumes safely · backup restoration does not
+reactivate the account · the participant receives an accurate completion receipt.
+
+---
+
 ## 13. Redundancies to remove
 
 **One legal engine.** No separate eligibility logic for Expungement.ai, RCAP,
