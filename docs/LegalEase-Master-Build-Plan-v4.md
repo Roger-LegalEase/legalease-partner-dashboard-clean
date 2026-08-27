@@ -1,0 +1,428 @@
+# LegalEase / Expungement.ai — Master Build Plan (v4)
+### Record-Clearing Engine, Multi-State Rollout, and Two-Agent Build System
+
+**Owner:** Roger Roman
+**Status:** Enterprise plan of record. Supersedes v1, v2 and v3 of this plan. v3 is preserved unchanged at `docs/LegalEase-Master-Build-Plan-v3.md`.
+**Production baseline:** `fdb0dc3 fix(billing): prevent Stripe invoice reconciliation regressions`
+**Live URL:** https://legaleasepartner.com
+
+> **v2 changes:** current continuation point added; engine skeleton + Nebraska slice moved to DONE; Agent B ownership corrected (read-not-edit legacy); shared seams split soft/hard; counsel sign-off is now a stored artifact; source-freshness gate added; explicit live-routing/selector gate added; readiness prerequisites attached to go-live (not to shadow building).
+>
+> **v4 changes:** adds the Company Controls and SOC 2 Operating System as a parallel cross-company workstream (§11-§13). No v3 product content was removed, reordered or reinterpreted. The RCAP All-50 sprint plans remain the active state-build plan of record; company controls do not replace legal, visual, source-fidelity or packet-verification gates, and do not authorize promoting any unverified route to live.
+>
+> **v3 changes:** corrected legal research-source hierarchy with Nationwide as the counsel-researched source of truth; added three-tier state build pattern; added state-pack read-only/fidelity rule; clarified that legacy generators are flow/output references only and must not be used as citation authority; added Pennsylvania correction note requiring PA config to check state-pack fidelity against Nationwide, then import the structured PA state pack.
+
+---
+
+## ★ CURRENT CONTINUATION POINT (read this first)
+
+**Already done and in the working tree (do NOT rebuild):**
+- The record-clearing shadow module exists: `src/lib/record-clearing/` (types, products, jurisdictions, form-authorities, field-maps, packet-planner, qa, audit, index, and renderers: official-pdf-renderer, overlay-renderer, acroform-renderer, xfa-detector, render-utils).
+- PDF inspection + ingest scripts exist; 235 PDFs classified (4 acroform_clean, 107 dirty, 1 xfa, 3 flat, 114 scanned, 6 encrypted).
+- Nebraska shadow-mode vertical slice exists; verifier `rcap:verify-nebraska-shadow` passes.
+- Nebraska CC 6:11, CC 6:11.2, CC 6:12 inspected (all acroform_dirty → hybrid). Shadow render produced, but **NO field maps yet** → status `ready_for_human_visual_mapping`.
+
+**The two next active tasks (parallelizable under the conditions below):**
+1. **(Human + optional Agent B) Nebraska CC 6:11 visual field-mapping, shadow only.** Build the field-map (AcroForm field targets and/or overlay coordinates), render a review PDF, and VISUALLY confirm each field lands in the right box. This is the gate that proves the overlay pattern.
+2. **(Agent A) Pennsylvania pleading renderer.** Build the CustomPleadingRenderer + PA airtight pleading state.
+
+**Nebraska status path (do NOT skip steps):**
+```
+shadow_only → visual_review_required → replacement_candidate
+```
+Nebraska CC 6:11 becomes `visual_review_required` once a field-map review PDF is generated. It becomes `replacement_candidate` ONLY after ALL of:
+- field-map review PDF generated
+- human visual check completed (fields land in the right boxes)
+- source-freshness recorded
+- vocabulary QA passed (set-aside ≠ expungement)
+- Lawrence confirms correct current form + Nebraska set-aside vocabulary
+
+**Parallel-safety conditions (these two tasks share the `src/lib/record-clearing/**` directory, so parallel is safe ONLY if):**
+- Agent B limits edits to Nebraska field-map / Nebraska manifest / Nebraska verifier files.
+- Agent A limits edits to CustomPleadingRenderer / Pennsylvania config / pleading verifier files.
+- NEITHER refactors shared types, the jurisdiction registry, or renderer interfaces during the parallel window. (If one must, pause the other first.)
+
+**Do NOT start a SECOND overlay state until Nebraska CC 6:11 has a real review PDF and you visually confirm the fields land correctly.** One mapped state teaches the per-form cost; two half-mapped states teach nothing.
+
+---
+
+## 0. Governing principle
+
+> **Easy to deploy ≠ safe to deploy.** Verify the running state, prove the wrong thing is blocked, never put an unverified record-clearing artifact in front of a real person. The harm from a defective filing lands on someone trying to clear a record blocking their job or housing. Correctness is the product. Done when it's done — no batch deadline.
+
+### 0.1 Research-source hierarchy
+**Core rule:** Do not re-derive legal content from legacy generators when the Nationwide source, a structured state pack, Wilma RTF, official PDF, official HTML, or official statute source exists.
+
+Legal content must flow from the strongest available source, in this order:
+1. `private/Nationwide Record Clearing/` is the counsel-researched, counsel-overseen source of truth for legal content: eligibility, workflows, forms, rules, citations, vocabulary, waiting periods, required fields, safety language, and filing instructions.
+2. `src/lib/rcap/state-packs/<state>/` are the coded form of Nationwide research for states that already have state packs. Import them directly where available.
+3. If a state pack and the Nationwide source conflict, Nationwide wins. The discrepancy is a state-pack fidelity bug to fix against Nationwide, not an open legal question.
+4. Official PDFs / HTML / statutes inside Nationwide are used to create or refresh state packs.
+5. Legacy generators are flow/output references only. They are never citation authority and must not be used to re-derive legal content.
+6. If neither a state pack nor Wilma RTF exists, build a state pack from official source materials before wiring a renderer.
+
+`src/lib/rcap/state-packs/**` are shared research assets consumed by both legacy generators and the new engine. They are read-only unless a task explicitly authorizes a fidelity correction against the Nationwide source. Neither agent may casually edit a state pack because a change can affect both consumers.
+
+The per-state gate is source fidelity, not re-approval of the law. The build must faithfully reflect the Nationwide source: nothing dropped, nothing altered, nothing invented. Separate overlay visual QA still confirms text lands in the right boxes.
+
+Any state pack generated from a Wilma RTF, agent-reference source, PDF, HTML, statute page, or other Nationwide material is a draft pack until it passes a fidelity check against `private/Nationwide Record Clearing/`.
+
+No auto-generated or newly converted state pack may feed a renderer as authoritative until:
+- the pack is compared against the relevant Nationwide source;
+- missing citations, pathways, waiting periods, required fields, forms, vocabulary, safety language, and filing instructions are identified;
+- discrepancies are resolved in favor of Nationwide;
+- the fidelity result is recorded.
+
+Nationwide is the tiebreaker. If a generated state pack and Nationwide conflict, Nationwide wins. The discrepancy is a pack bug to fix, not an open legal question.
+
+---
+
+## 1. Already built (do not rebuild)
+
+### 1.1 Platform core (DONE, live)
+Next.js 16 / Vercel / Supabase (auth+data+RLS) / Stripe test-mode invoice-only. Partner sign-in, dashboard (`/partner/dashboard`), team mgmt (`/partner/team`, `/partner/team/invite`). Identity from session only. Cross-partner isolation verified. Internal admin = proxy bearer + `internal_admin` role. No service-role in client paths.
+
+### 1.2 Pilot/intake (DONE)
+`/request-pilot`, `/api/request-pilot` (validation, honeypot, rate limit, no row-data returned). Internal queue `/internal/pilot-requests`; partner users blocked.
+
+### 1.3 Dashboard / RLS isolation (DONE, verified)
+Session-derived, RLS-backed. Tampering doesn't change identity. WMV scoped via `WE_MUST_VOTE_METRICS_START_AT` (debt → §6). No fake literals, no dev URLs.
+
+### 1.4 RCAP legacy generators (DONE — LEGACY, keep serving)
+`/api/rcap/intake/{start,respond,complete}`, `/api/rcap/documents/[packetId]{,/generate,/save,/update,/pdf/[pdfType]}`, and `/api/rcap/documents/{illinois,mississippi,pennsylvania,texas-harris,dc}/create`. **These keep working until a verified replacement exists per state.**
+
+### 1.5 Invoice-only billing (DONE)
+Internal-admin only. No public checkout / Payment Links / Checkout Sessions / fixed prices / auto-send / auto-charge. Tables `partner_billing_requests`, `processed_stripe_events` (RLS, no broad public). Flow: `/internal/billing/new` → validate → draft → Stripe customer → invoice item → invoice (`send_invoice`, `auto_advance:false`) → finalize → store hosted URL (not auto-sent). `POST /api/partners/checkout` = 410. Webhook: raw body, signature verified, handles `invoice.{finalized,paid,payment_failed,voided}`, idempotent via `processed_stripe_events`, processed only after verified reconciliation.
+
+### 1.6 Billing reconciliation bug FIXED (`fdb0dc3`)
+`invoice.finalized` no longer regresses terminal states (`paid`/`payment_failed`/`voided`/`canceled`). Lookup prefers `metadata.partner_billing_request_id`, falls back to `stripe_invoice_id`. No-matching-row / zero-row fail and are NOT marked processed (Stripe retries). Coverage: `scripts/test-billing-reconciliation.mjs`. Test-mode smoke verified.
+
+### 1.7 Record-clearing shadow engine + Nebraska slice (DONE — see Continuation Point)
+Shadow module, renderers, inspection, Nebraska slice, Nebraska verifier. Nebraska = `ready_for_human_visual_mapping` (no field maps yet).
+
+---
+
+## 2. Architecture
+
+### 2.1 Three strategies per relief track
+| Strategy | Grade | Output | Renderer |
+|---|---|---|---|
+| `custom_pleading` | D | engine-generated petition/motion | CustomPleadingRenderer |
+| `official_pdf_fill` | A/C | filled official PDF (overlay/acroform) | OfficialPdfRenderer |
+| `process_guidance` | n/a | agency-process guidance + prep-data, NOT a filing | GuidanceRenderer (NY Output-Type-2 pattern) |
+
+### 2.2 Lawrence's classification (governs build order)
+- **Airtight pleading (10):** CA, DC, IN, KS, ND, OK, PA, TX, VA, WY
+- **Pleading + local/county guardrails (5):** AZ, MS, NV, OH, WA
+- **Mandatory official form (27 + MN, overlay):** AL, AK, AR, CO, CT, DE, FL*, HI*, ID, IA, KY*, LA, ME, MD, MA, MI, MN, NE, NH, NJ*, NM, NC, RI, SD, UT, VT, WV, WI (*also agency-process parts → `process_guidance`)
+- **Hybrid (6, per-track mix):** GA, MO, MT, OR, SC, TN
+- **Reclassified:** IL (not clean pleading — statewide approved forms courts must accept), NY (hybrid — 160.58 motion/no-form + 160.59 official packet; sealing-not-expungement), MN (→ mandatory form, EXP 102 + 105/106/107)
+
+### 2.3 PDF reality
+235 PDFs: 4 clean / 107 dirty / 1 xfa / 3 flat / 114 scanned / 6 encrypted. Recommended mapping modes: 4 acroform / 3 overlay / 107 hybrid / 121 manual_review. **Overlay-first; AcroForm is the exception.** Field-maps for overlay states NOT built. Building one = place coordinates on a (often scanned) PDF + human visual confirm. Serial, not parallelizable. **PDF coords: bottom-left origin, Y-up (the silent-misplacement trap).**
+
+### 2.4 Grade + lifecycle
+Grades A–E. Lifecycle: `legacy_live` → `shadow_only` → `visual_review_required` (overlay states only — review PDF generated, awaiting human visual check) → `preview_only` → `replacement_candidate` → `verified_replacement` → `retired`. **Grade E legacy_live keeps serving old routes; Grade E new-engine output BLOCKED. New-engine final output only for A/B/C/D at `verified_replacement` + QA passed. No legacy retired until replacement is verified + flag flipped.**
+
+Draft field maps may be committed while status remains `visual_review_required`, but `visual_review_required` must be a hard lifecycle wall. A `visual_review_required` map may generate review artifacts only. It must be structurally impossible for that map to produce final user-facing output, live-route output, `verified_replacement` output, or partner/consumer deliverables.
+
+The verifier must fail if any `visual_review_required` mapping is wired toward final output or live routing.
+
+Visual review can be batched later, but it cannot be skipped. The batch-in-progress must never leak to users.
+
+### 2.5 Shared engine, two products
+`src/lib/record-clearing/` shared. RCAP (partner-assisted) + Expungement.ai (consumer) adapters. Court/agency forms NEVER branded. **Architectural invariant: RCAP partners can NEVER see consumer Expungement.ai records — hard isolation.**
+
+### 2.6 Non-negotiable legal/UPL rules
+Correct per-state relief vocabulary (sealing≠expungement≠set-aside≠annulment≠vacatur≠shielding) as HARD QA failure. "May be eligible," no outcome guarantees. No manual seals/logos. No invented form numbers/statutes/URLs/dates. Not-erasure + immigration disclosures where relevant. Hash blank source PDF only. XFA detected explicitly, never silent-fail.
+
+---
+
+## 3. Two-agent build system
+
+### 3.1 Principle
+Two agents, two worktrees, two branches, zero shared live files. You are the single merge point. Neither pushes to main, applies migrations, deploys, or touches production.
+
+### 3.2 Assignments
+**Agent A — Claude Code — Pleading/Engine.** Owns `src/lib/record-clearing/**` pleading path, CustomPleadingRenderer, the 10 airtight states, record-clearing verifiers. Worktree `/workspaces/worktrees/record-engine`, branch `feat/record-engine`.
+
+**Agent B — Codex — Overlay/Official-Form.** Owns the overlay renderer + official-form states (Nebraska pilot), field-map files, shadow verifiers, generated shadow artifacts (gitignored). Worktree `/workspaces/worktrees/launch-states`, branch `feat/launch-states`.
+> **Agent B may READ legacy `src/lib/rcap/**` for reference/compatibility, but may NOT edit legacy generators or live routes unless a prompt explicitly authorizes that exact legacy change.** "Owns overlay" ≠ "may patch legacy."
+
+### 3.3 Shared-seam files — split
+**Hard shared (STOP and ask — never edit without explicit instruction):**
+`package.json`, `.env.example`, Supabase migrations, live RCAP routes, billing/auth/admin/Stripe/RLS, global selector/feature-flag files.
+
+**Soft shared (edit ONLY within explicit task scope — never casually):**
+`src/lib/record-clearing/jurisdictions.ts`, `form-authorities.ts`, `field-maps.ts`, shared record-clearing types. (An agent building a state may add its own entry here when the task says so; it may not refactor or touch other states' entries.)
+
+### 3.4 Forbidden for BOTH (enforced by permission config)
+No push to main. No migration applied. No deploy. No `git add .`/`-A`/`--all`. No touching billing/auth/admin/Stripe/RLS unless the task IS that. No service-role in client. No modifying live legacy generators. No re-enabling public checkout/Payment Links/Checkout Sessions.
+
+### 3.4.1 State-pack read-only rule
+`src/lib/rcap/state-packs/**` are shared research assets consumed by both legacy generators and the new engine. They are read-only unless a task explicitly authorizes a fidelity correction against the Nationwide source. State packs may be imported by new renderers/configs, but legal content must not be copied, re-derived from legacy generators, or silently forked into new config files.
+
+### 3.5 Permissions (`.claude/settings.json`, committed)
+Deny→ask→allow, deny wins. `defaultMode: acceptEdits`. Allow: lint/typecheck/test/build, `npm run partners:*`/`rcap:*`, `node scripts/*`, reads/greps/finds, explicit `git add src|scripts|docs`, `git commit`, branch create. Ask: `git merge`/`rebase`. Deny: `git push`, `git add .|-A|--all`, `vercel`, `supabase db push`/`migration up`, `psql`, `rm -rf`, `DROP/DELETE`, reading `.env*`. (Codex: equivalent approval mode — gate push/deploy/migrations, auto-run the rest.)
+
+### 3.6 Merge loop
+Detailed single-scope prompt → agent works in worktree, runs checks, reports diff + `git status --short`, does NOT push/merge → you review the diff (bug firewall) → you merge to main, run verifiers, push → other worktree merges main before next task. Never both mid-edit on overlapping concerns.
+
+---
+
+## 4. Build sequence
+
+### 4.0 Three-tier build pattern
+**Tier 1: existing state packs.** PA, DC, IL, MS, and TX-Harris already have structured state packs. Import those state packs directly into new-engine configs/renderers. Mississippi remains excluded from the new engine selector unless explicitly authorized.
+
+**Tier 2: Wilma RTF but no state pack.** Convert Wilma RTF / agent-reference research into a structured state pack first. Wire renderers only after the state pack exists.
+
+**Tier 3: bare states.** Official source research → state pack → renderer.
+
+The factory makes the first draft fast. The Nationwide fidelity check makes it correct.
+
+### PHASE 0 — Structure (do first)
+Confirm main clean → commit `AGENTS.md` + `.claude/settings.json` → create both worktrees → configure Codex approval mode → assign agents.
+
+### PHASE 1 — Nebraska field-mapping (Human + Agent B) ‖ PA pleading (Agent A)  ← CURRENT
+**1A (overlay):** Build Nebraska CC 6:11 field-map (AcroForm targets and/or overlay coords). Render a review PDF → status `visual_review_required`. Then **HUMAN VISUAL CHECK** (each field in the right box) + source-freshness recorded + vocabulary QA passed + Lawrence confirms current correct form + set-aside-not-expungement vocabulary → ONLY THEN `replacement_candidate`. (Status path: `shadow_only → visual_review_required → replacement_candidate`.)
+**1B (pleading, parallel):** Agent A builds CustomPleadingRenderer (Grade D) + Pennsylvania config by importing `src/lib/rcap/state-packs/pennsylvania/` directly. The PA renderer structure is useful, but PA config must be reworked to import the PA state pack because the prior config re-derived content from the legacy generator and missed § 9122.1, § 9122.2, Pa.R.Crim.P. 791, Pa.R.Crim.P. 490, and Pa.R.Crim.P. 320. The corrected PA task must first check state-pack fidelity against the PA Nationwide source. Keep the renderer structure, caption, verification, proposed order, certificate of service, audit manifest, and shadow-only behavior, but legal content must come from the PA state pack after fidelity is confirmed or explicitly corrected against Nationwide. Vocabulary QA hard-assert. Verifier `rcap:verify-pleading-state`. → `replacement_candidate`. You read output; Lawrence confirms.
+*Parallel-safety: both live under `src/lib/record-clearing/**`. Safe to parallelize ONLY if Agent B stays in Nebraska field-map/manifest/verifier files, Agent A stays in CustomPleadingRenderer/PA-config/pleading-verifier files, and NEITHER refactors shared types, the jurisdiction registry, or renderer interfaces during the parallel window. Do NOT start a second overlay state until 1A has a review PDF and you've visually confirmed it.*
+
+### PHASE 2 — Roll the 10 airtight pleading states (Agent A)
+Per state (CA, DC, IN, KS, ND, OK, PA, TX, VA, WY): per-state pleading template (state-reference-driven), correct vocabulary + citations → sample output → Lawrence verifies → you read → record counsel artifact (§7) → `replacement_candidate`. (NOT live-routed yet — see Phase 5 gate.)
+
+### PHASE 3 — Audit manifest DB + counsel-artifact + source-freshness (mixed)
+3.1 (Migration, human applies) `public.packet_audit_manifests` — RLS on, **service-role/internal-admin only, no partner read v1**. Includes counsel-artifact fields (§7) and source-freshness fields (§8).
+3.2 Wire renderers to write the manifest (incl. reviewer, source URL, access date, blank-source hash, approval type).
+
+### PHASE 4 — Guardrail pleading + process-guidance (Agent A)
+4.1 5 guardrail states (AZ, MS, NV, OH, WA): pleading + local/county-form fallback + "verify your court's local form" guardrail.
+4.2 GuidanceRenderer + process-guidance states (NJ eCourts, FL/KY cert, HI AG, SC solicitor, GA agency parts): accurate process + prep-data, NOT a filing.
+
+### PHASE 5 — LIVE-ROUTING / SELECTOR GATE (the firewall — gated)
+**No state feature flag may route live users until a dedicated selector/integration verifier proves ALL of:**
+- unverified states are blocked from new-engine output
+- legacy states still route through legacy generators
+- Mississippi legacy remains untouched and excluded from the new selector
+- no live RCAP route changed unintentionally
+- new-engine output is unavailable unless lifecycle = `verified_replacement`
+
+**Go-live prerequisites (must be confirmed before flipping ANY state live to real users):**
+- Supabase PITR/backups confirmed ON
+- `npm test` confirmed meaningful coverage (audit done)
+- PII-scrubbed error alerting in place
+- periodic public-form synthetic check running
+- internal token rotation state confirmed (old dead/new live)
+Shadow building (Phases 1–4) does NOT wait on these; **flipping anything live does.**
+
+### PHASE 6 — Overlay states rollout (Agent B, rolling, post-Nebraska)
+Per mandatory-form state (27 + MN): ingest PDF → classify → build field-map → shadow render → **HUMAN VISUAL CHECK** → source-freshness recorded → Lawrence confirms → counsel artifact → `verified_replacement` → (Phase 5 gate) → flag on. Sequence by cleanliness (clean AcroForm → dirty/overlay → scanned last). Hybrid states (GA, MO, MT, OR, SC, TN): per-track.
+
+### PHASE 7 — NY redo + IL/MN (per track)
+NY fresh on main (abandon WIP-branch NY): five-mechanism workflow, Output Type 1 (160.59 petition) + Output Type 2 (verification guidance), sealing vocabulary. IL: statewide-approved-forms handling. MN: overlay (EXP 102 + 105/106/107).
+
+### Expungement.ai as a consumer adapter on the shared engine
+Expungement.ai is not a separate rebuild. It is a second front-end / consumer adapter on the same state-pack + renderer + overlay-map engine that powers RCAP. RCAP and Expungement.ai consume the same legal engine, source hierarchy, lifecycle gates, and verified state library.
+
+Do not weaken the sequencing rule: Expungement.ai starts only after the assembly line has a verified state library. The fidelity gate matters even more for Expungement.ai because it will eventually operate self-serve at scale with less human oversight than partner-assisted RCAP workflows.
+
+Hard isolation remains mandatory: RCAP partners can never see Expungement.ai consumer records. Partner-assisted RCAP records and consumer self-serve records must stay separated by product surface, roles, access policies, storage boundaries, and audit assumptions.
+
+Consumer-specific work remains its own phase before launch: privacy/payment threat model, unassisted intake, Wilma guardrails, $50 self-serve payment gate, and architecture locks. The privacy/payment threat model must cover guest vs. account retention, abandoned eligibility records, PII deletion/export, packet access after payment, refund/dispute, partner-vs-consumer role separation, and the hard invariant that RCAP partners never see consumer records. Intake must remain deterministic and form-based, not chat-led. Wilma is general-questions only, walled off from eligibility/legal advice, cheap-model constrained, and adversarially tested. The payment gate reuses hardened learnings: idempotency, fail-on-write-retry, persist eligibility before checkout with ID in metadata, never trust query-param success, test-mode round-trip, and duplicate-event testing before real money. Architecture locks must decide separate repo vs. same app, shared engine packaging, domain/Supabase/Vercel boundaries, accounts vs. guest, SOC 2 readiness posture, and pen-test scope.
+
+---
+
+## 5. AGENTS.md (commit before branching)
+[Use the AGENTS.md block from §5 of v1, WITH these updates:]
+- Agent B line: "may READ legacy src/lib/rcap/** for reference; may NOT edit legacy generators or live routes unless the prompt explicitly authorizes that exact legacy change."
+- Add soft-shared rule: "Soft-shared files (record-clearing jurisdictions/form-authorities/field-maps/types) may be edited ONLY to add the entry your current task scopes — never refactor or touch other states' entries. Hard-shared files (package.json, migrations, live routes, billing/auth/admin/RLS, selector/flag files): stop and ask."
+- Add: "Record a counsel-approval artifact and source-freshness record before any state reaches replacement_candidate (see plan §7, §8)."
+- Add: "No feature flag routes live users until the Phase 5 selector/integration verifier passes."
+- Add: "`src/lib/rcap/state-packs/**` are shared research assets consumed by both legacy generators and the new engine. They are read-only unless a task explicitly authorizes a fidelity correction against the Nationwide source. Neither agent may casually edit a state pack because a change can affect both consumers."
+- Add source hierarchy summary: "`private/Nationwide Record Clearing/` is the counsel-researched source of truth for legal content; state packs are the coded form of Nationwide research and should be imported directly where available; Nationwide wins conflicts, which are state-pack fidelity bugs; official sources inside Nationwide create or refresh state packs; legacy generators are flow/output references only, not citation authority; if neither state pack nor Wilma RTF exists, build the state pack from official source materials before wiring a renderer."
+
+---
+
+## 6. Debt register
+| Item | Status | Action |
+|---|---|---|
+| Toni's invite | Not sent | Send when ready |
+| Stripe live mode | Test only | Live keys + register webhook before real billing |
+| GA/NY WIP branch | Parked `c230b8a` | Cherry-pick GA; NY redone (Phase 7) |
+| WMV baseline hardcode | hardcoded | → `partner_records.metrics_start_at` |
+| Test-suite audit | unaudited | Confirm real coverage (go-live prereq) |
+| Backups/PITR | unconfirmed | Confirm ON (go-live prereq) |
+| Error alerting | logs only | Add PII-scrubbed alerting (go-live prereq) |
+| Public-form synthetic check | one-time | Add periodic (go-live prereq) |
+| Token rotation | rotated once | Confirm propagated (go-live prereq) |
+
+---
+
+## 7. Counsel-approval artifact (stored, not chat memory)
+Every state/track approval recorded in `packet_audit_manifests` (or a linked `legal_approvals` table):
+- reviewer name, review date
+- jurisdiction, relief track
+- source form/statute version
+- output sample hash
+- approval status
+- approval type (legal correctness / visual mapping / both)
+- notes
+A state cannot be `verified_replacement` without this record.
+
+## 8. Source-freshness gate
+Before `replacement_candidate`, the manifest records: official source URL, access date, revision date (if available), blank-source PDF hash, source authority level, reviewer. Re-verify when the source-change hash-watcher flags a mismatch (the hash watcher is the live mechanism; record-at-build is the baseline).
+
+## 9. Gates that never get skipped
+1. Counsel sign-off per state (recorded as §7 artifact) before live.
+2. Human visual check of every overlay render before live.
+3. Your diff review before every merge.
+4. Migrations reviewed + applied manually + verified live.
+5. Test-mode round-trip (incl. duplicate event) before any real payment.
+6. Vocabulary correctness as hard QA failure.
+7. Phase 5 selector/integration verifier before any live routing.
+8. Source-freshness recorded before `replacement_candidate`.
+
+A state is "launchable" only when: counsel artifact recorded + output verified (read/eyeballed) + vocabulary QA passes + (overlay) visual check passed + source-freshness recorded + Phase 5 gate passed + lifecycle `verified_replacement`.
+
+## 10. One-paragraph summary
+Platform (dashboard, RLS isolation, intake, hardened invoice billing) is DONE and live. The record-clearing shadow engine + Nebraska slice are DONE; Nebraska awaits human visual field-mapping. Next: Nebraska CC 6:11 mapping and the Pennsylvania pleading renderer may proceed in parallel ONLY under the file-boundary rules above (each agent stays in its state-specific files; neither refactors shared types/registry/renderer interfaces). Three strategies (pleading / overlay / guidance), the 10 airtight pleading states as the fast first wave, the 27 overlay states as the slow visually-verified track, legacy generators serving until replaced per-state. Every state ships only after counsel artifact + human verification + the Phase 5 live-routing gate. Same engine later founds the consumer Expungement.ai product, which gets its own privacy/payment threat model first. Done when it's done.
+
+
+---
+
+# 11. COMPANY CONTROLS AND SOC 2 OPERATING SYSTEM
+
+A parallel cross-company workstream. It runs alongside the product build; it is
+not a phase inside a state build, and it does not gate non-production state work.
+
+**Status language, approved and required.** LegalEase is implementing and
+validating the technical and operational controls required for a future SOC 2
+Type II examination. Audit completion and any applicable observation period
+remain subject to actual control operation and auditor review. No document in
+this repository may state or imply that LegalEase is SOC 2 compliant, that it is
+Type II certified, or that an observation period has begun.
+
+## 11.1 Authority
+
+| Person | Role in this program | Final authority for |
+|---|---|---|
+| **Roger Roman** | Primary Program Owner and Executive Control Owner | Program scope, priorities, budget, security-risk acceptance, production release gates, audit-firm coordination, Secureframe oversight, final readiness determination, observation-period start, executive incident command, critical-vendor approval, technical-security exceptions, company go/no-go |
+| **Lawrence Blackmon** | Secondary Program Owner and Legal Compliance Authority | Legal compliance, privacy-law interpretation, legal retention requirements, legal holds, deletion exceptions, record-clearing legal accuracy, court and form legal requirements, disclaimers and public legal statements, partner contract compliance, incident-notification determinations, regulator response, approval of policies carrying legal obligations, approval of external compliance statements |
+| **Faith Walls** | Chief of Staff and Compliance Operations Administrator | Secureframe operational administration, control calendar, task assignment and tracking, evidence collection and organization, audit data room, policy versions and acknowledgments, training coordination, onboarding and offboarding checklists, access-review campaigns, registers, vendor due-diligence coordination, scheduling reviews and exercises, minutes, exception register, evidence calendar, auditor-request coordination |
+
+Roger may delegate execution and remains accountable. Roger may not mark a
+legal, privacy, regulatory or contractual issue resolved over an unresolved legal
+block from Lawrence. Lawrence acts as program decision-maker when Roger is
+unavailable, subject to the same boundaries, and may block a release, control
+closure, policy approval, privacy disposition or compliance claim on legal
+grounds. Lawrence is not the routine evidence collector.
+
+Faith may require a control owner to provide evidence and may mark an
+administrative task complete when its stated evidence and acceptance criteria are
+present. Faith may not accept residual security risk, approve her own high-risk
+evidence without an independent approver, approve production-security
+configuration, make legal interpretations reserved for Lawrence, overrule
+Lawrence on legal compliance or Roger on program risk, receive broad production
+access because she administers compliance, change production data, or represent
+that the company is SOC 2 compliant before the audit is complete.
+
+**Segregation of duties.** Exactly one accountable owner per control. Responsible
+operator, reviewer, legal approver and evidence administrator may differ. Where a
+domain has both legal and technical responsibility, split it into two controls
+rather than naming two accountable owners. No one person may provide all three of
+implementation, independent approval, and evidence-completeness attestation for a
+high-risk control. Where the repository establishes no other person, use
+`[Technical Control Owner]`.
+
+Full detail: `docs/security/soc2/AUTHORITY_AND_RACI.md`.
+
+## 11.2 Product invariants this workstream must preserve
+
+Company-controls work must not weaken tenant isolation, participant ownership,
+packet authority, payment authority, sponsorship accounting or official-form
+controls. Specifically it preserves, and never overrides:
+
+1. Screening may be anonymous. A Briefcase may not be anonymous.
+2. A pending result becomes a matter only when securely claimed by the authenticated participant.
+3. The participant owns the account, matter, Briefcase, packet and uploads.
+4. An RCAP partner owns its program workspace, sponsorship, staff roles and permitted reporting — not the participant's Briefcase.
+5. Partner or Clinic assistance requires consent and transfers no ownership.
+6. Expungement.ai and RCAP use the same governed legal engine and final-verification threshold.
+7. Sponsorship changes funding only.
+8. No unsupported or unverified legal route may be promoted to live because company controls are complete.
+
+Completing a SOC 2 control never substitutes for legal, form, visual or packet QA
+approval. Those gates remain independent and are defined in
+`docs/PRODUCT_CONTRACT.md` and the RCAP All-50 sprint plans.
+
+## 11.3 Sequence
+
+| Phase | Scope | Exit gate |
+|---|---|---|
+| **CC0** | Repository census, control register, system boundary, data-flow map, vendor and asset census, external-action register, Secureframe mapping backlog | Every control has a unique ID, one accountable owner, a status; every claim has evidence or is labelled unverified; no duplicate source of truth |
+| **CC1** | Governance, policy set, ownership, review cadence, acknowledgment requirements | Policy inventory established with owner, approver, review frequency, approval workflow, acknowledgment requirement, Secureframe mapping |
+| **CC2** | **P0.** Privileged MFA, unique accounts, privileged-access inventory, access cleanup, quarterly review process, joiner/mover/leaver, same-day revocation, service accounts, production-access approval, branch protection or ruleset, PR review, required checks, force-push prevention, deployment traceability, rollback, emergency change, secret and key inventory | Every privileged account inventoried; MFA evidenced; access review completed; inappropriate access removed; production code cannot bypass the approved change path; emergency access controlled; evidence in the approved system |
+| **CC3** | Risk methodology and register, treatments, asset and system inventory, data inventory and classification, vendor inventory and tiering, critical-vendor due diligence, contracts and DPAs, personnel onboarding/offboarding, training, acknowledgments, endpoint standards | Top risks owned with treatments; critical assets owned; critical vendors have risk decisions; personnel with access have completed onboarding and training; overdue items escalated |
+| **CC4** | Central logging architecture and sources, sensitive-data logging restrictions, alerts and responders, log-review cadence, vulnerability/dependency/code/secret scanning, remediation SLAs, patch cadence, key rotation, baseline and drift review, capacity and render-job monitoring | Critical events alert; alerts have named responders; sensitive facts excluded from routine telemetry; findings enter tracked remediation; exceptions require written risk acceptance |
+| **CC5** | Incident-response plan, roles and severity, contact tree, evidence preservation, communications, first tabletop, BCP, DR runbook, backup and PITR confirmation, production-representative restore test, recovery results, exercise remediation | Tabletop complete with actions closed or tracked; restore test succeeded or blockers documented; actual RTO and RPO recorded; legal-notification process approved by Lawrence |
+| **CC6** | Data classification and retention approval, legal-hold process, privacy-request workflow, export, matter deletion, account and personal-data deletion, upload and packet deletion, ledger minimisation, processor propagation, backup tombstones, partner and Clinic access removal, completion receipts, one end-to-end test | Every data category has an approved retention rule; deletion exceptions documented; deletion does not corrupt financial or sponsorship integrity; deleted users lose all active access; partner access ends; private links stop working; completion evidence exists |
+| **CC7** | Secureframe mapping, recurring evidence tasks, automated versus manual evidence, task owners and approvers, evidence access restriction, management-review cadence, exception register, auditor-request workflow, evidence-quality review | All in-scope controls mapped; no control without an owner; no recurring control without a cadence; no evidence item without an approved storage location; administrative readiness attested by Faith |
+| **CC8** | Pre-observation readiness gate | See §12 CCG-E. Faith attests evidence completeness, Lawrence approves legal and privacy, Roger decides go/no-go. None may be inferred. |
+
+The first tabletop scenario is fixed: *a partner or Clinic staff account is
+compromised, participant documents may have been accessed, and a packet or signed
+download reference appears in an application log.*
+
+## 11.4 Initial P0 backlog, in order
+
+1. Protect production code changes and establish required approvals.
+2. Enforce and evidence MFA on every privileged system.
+3. Complete privileged-access inventory and access review.
+4. Remove stale or inappropriate access.
+5. Establish the control register, owners and Secureframe mapping.
+6. Establish the risk register.
+7. Confirm backups and complete a restore test.
+8. Complete incident-response plan and tabletop.
+9. Establish centralized logging, PII-safe telemetry and critical alerts.
+10. Establish vulnerability and patch management.
+11. Complete vendor inventory and critical-vendor reviews.
+12. Complete asset and data inventories.
+13. Approve data classification and retention.
+14. Operationalize privacy requests and account/data deletion.
+15. Complete employee onboarding, offboarding, training and acknowledgments.
+16. Begin recurring evidence collection only after the controls are operating.
+
+Branch protection, MFA, access review, restore testing and incident response are
+not to be sequenced behind documentation work.
+
+---
+
+# 12. COMPANY-CONTROL RELEASE GATES
+
+| Gate | Requires | Blocks | Does not block |
+|---|---|---|---|
+| **CCG-A** Control Census Complete | Census, register, boundary, data-flow map, external-action register | Claiming control completeness; beginning observation-readiness review | Non-production product development; shadow legal builds; documentation |
+| **CCG-B** Production Protection Minimum | Privileged MFA; access inventory; access review; protected production change path; required checks; secret inventory; backup status confirmation; critical logging and alerts; incident contact path | Uncontrolled production releases; new production systems without owners; claims the production environment is audit-ready | — |
+| **CCG-C** Operational Control Cycle Complete | One properly evidenced execution of each applicable recurring control: access review, vendor review, risk review, training, policy acknowledgment, alert review, vulnerability review, backup or restore exercise, incident tabletop | Observation-period start | — |
+| **CCG-D** Privacy and Data Lifecycle Ready | Data inventory; classification; retention schedule; privacy-request intake; identity verification; deletion and exception workflow; processor propagation; completion evidence | Claiming a Grade-A privacy lifecycle; declaring privacy controls ready | — |
+| **CCG-E** Observation Readiness | Faith evidence-completeness attestation; Lawrence legal and privacy approval; Roger final go decision; Secureframe mapping; no unresolved P0 exception without approved treatment | Starting the Type II observation period; customer statements implying it has begun | — |
+| **CCG-F** Audit Completion | External auditor outcome only | Any company statement about scope, period, criteria or opinion before the report is issued | — |
+
+No internal plan status substitutes for CCG-F.
+
+---
+
+# 13. RELATIONSHIP TO THE OTHER PLANS
+
+`docs/PRODUCT_CONTRACT.md` is the authority for product behaviour and outranks
+this plan on what the product must do. This plan governs how the company
+evidences and controls the building of it.
+
+The RCAP All-50 sprint plans remain the active state-build plan of record. The
+all-state build may continue in non-production. Applicable company-control gates
+must pass before `approved_for_live`, `live`, new production routing, or any
+compliance claim. Legal, visual, source-fidelity and packet-verification gates
+remain independent and are not satisfied by SOC 2 control completion.
+
+Operating detail: `docs/security/soc2/COMPANY_CONTROLS_OPERATING_PLAN.md`.

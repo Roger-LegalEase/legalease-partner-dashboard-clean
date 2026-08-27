@@ -1,11 +1,23 @@
 # AGENTS.md - RCAP All-50 ASAP Build Discipline
 
-Plan of record for this sprint:
+## Plan hierarchy
+
+**Enterprise plan of record:** `docs/LegalEase-Master-Build-Plan-v4.md`. It carries
+all still-controlling v3 content and adds the Company Controls and SOC 2
+Operating System as a parallel cross-company workstream. v3 is preserved
+unchanged at `docs/LegalEase-Master-Build-Plan-v3.md`.
+
+**Active state-build plan of record for this sprint:**
 
 - `docs/RCAP_ALL50_ASAP_MASTER_PLAN.md`
 - `docs/RCAP_ALL50_AGENT_RUNBOOK.md`
 - `docs/RCAP_ALL50_QA_ATTORNEY_HANDOFF.md`
 - `docs/RCAP_ALL50_BUILD_STATUS.md`
+
+**Company controls:** `docs/security/soc2/`. Ordinary state-build agents should
+not modify company-control documents unless the task assigns them. Company
+controls never replace legal, visual, source-fidelity or packet-verification
+gates, and completing one authorizes no route promotion.
 
 Historical architecture reference: `docs/LegalEase-Master-Build-Plan-v2.md/LegalEase-Master-Build-Plan-v2-4.md`.
 
