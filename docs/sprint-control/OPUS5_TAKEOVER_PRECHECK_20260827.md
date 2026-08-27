@@ -327,3 +327,122 @@ remote ref is moved, rewritten, or deleted.
 ## Production boundary
 
 Production was not touched and is not authorized by this package.
+
+---
+
+# Addendum — findings from executing the plan (same day)
+
+The port in the plan above was carried out. Two of its conclusions survived
+contact with the running code; one did not, and the correction is material.
+
+## Confirmed by execution
+
+**The port landed and verifies.** 21 families, 317 files, taken path-scoped
+from `875640b7`. Checked against bytes on disk rather than read from a
+manifest:
+
+```text
+24/24  rendered artifacts match recorded sha256 and byte length
+21/21  source records internally consistent
+ 4/6   contact-sheet proofs resolve to the participant artifact they name
+```
+
+The two proofs without a participant artifact are JDF 641 and JDF 2371 — the
+pair `2355e40e` returned. All three demo-critical families carry complete
+proofs.
+
+**The approval-channel gap is real, and now demonstrated rather than inferred.**
+For JDF 417, 477 and 612: `overlay-profile.json` does not exist,
+`production-field-map.json` does, and it carries no `independentReview` key.
+`platformReadyVerdict` reads the first and never the second, so there is
+nowhere to record an approval it would read.
+
+## Corrected: the delta is not one approval channel
+
+The plan named the approval channel as the whole of `TRUE_NEW_WORK`. Running
+`partitionHolds` over the ported families shows that was too narrow.
+
+The seven holds split as:
+
+```text
+release-state   (a ship decision clears)      2/21  edition_1_runtime_disabled
+                                                    state_manifest_generation_allowed_no
+review-required (an independent review clears) 1/21  f_independent_visual_review_required
+substantive                                    4/21  d3a_lane_output_not_self_approved
+                                                    state_legal_review_missing_from_supplied_corpus
+                                                    state_open_item_release_blocker
+                                                    track_level_import_mapping_required
+```
+
+Three facts about those four substantive holds change the picture:
+
+1. **No verifier, generator, or gate in this repository references any of
+   them.** They appear in exactly one other file. `partitionHolds` returns
+   them as substantive because they are absent from both known sets — that is
+   a default, not a determination. The gate has never evaluated this
+   vocabulary.
+
+2. **Colorado is the only lane-D3A state in `overlays/production/`.** The ten
+   others are lane D1 and carry a different, gate-known vocabulary
+   (`edition_1_generation_allowed_no`, `jurisdiction_runtime_disabled`,
+   `pinned_hash_absent_from_canonical_library`). Colorado's holds were written
+   by a lane whose conventions the shared gate does not implement.
+
+3. **The one artifact that knows them is explicitly non-canonical.**
+   `data/rcap-codex/d-track-terminalization/track-family-map.json` carries
+   `status: "proposed_noncanonical_analysis"` and reports, across 67 lane-D
+   tracks:
+
+   ```text
+   production_packet_candidate            0
+   held_on_source_or_design              60
+   correction_required                    7
+   unresolvedPinnedComponentRelationships 101
+   tracksWithUnresolvedFormRelationships   46
+   ```
+
+   with all eight non-technical gates non-terminal for all 67 tracks, save
+   `canonicalLegalDesignNonterminal`, which is 0. Its own derivation rules
+   close with: *"Technical approval supports candidate readiness only; no
+   candidate or technical disposition is labeled terminal."*
+
+`track_level_import_mapping_required` is therefore not a flag awaiting a
+signature. It stands for the 101 unresolved pinned component relationships,
+and resolving them is bounded by the registry-pinned relationship artifact
+under rules that refuse name, prefix, and title resemblance as evidence.
+
+## Also missing: the renderer that produced these artifacts
+
+Every Colorado `rendered-artifacts.json` names its renderer as
+`scripts/rcap-official-forms/lanes/d3a-regenerate.mjs`. That path does not
+exist in this repository; `scripts/rcap-official-forms/lanes/` does not exist
+at all.
+
+The artifacts are verifiable — their hashes match their bytes — but they are
+not reproducible here. Anything that would require re-rendering a Colorado
+family is blocked on a component that was never committed, independently of
+the source bundle being absent.
+
+## Revised delta for the three demo families
+
+```text
+1. Approval channel for AcroForm-fill families            TRUE_NEW_WORK, small
+2. Ingest the supplied Colorado legal review              input, in the handoff package
+3. Resolve track-level import mapping                     TRUE_NEW_WORK, large, bounded
+                                                          by the pinned relationship artifact
+4. Determine what state_open_item_release_blocker and
+   d3a_lane_output_not_self_approved require              UNKNOWN — no discharging
+                                                          mechanism exists in-repo
+5. Recover or rebuild the D3A renderer                    blocked, only if re-rendering
+                                                          is required
+```
+
+Items 1 and 2 remain as planned. Item 3 is substantially larger than the plan
+implied. Item 4 cannot be scoped from repository evidence and is the exact
+blocker to raise rather than fill with an assumption.
+
+The two release-state holds are worth separating out: for a **nonproduction**
+demo they describe when the corpus ships globally, not whether Colorado is
+correct. `rcap-platform-ready.mjs` makes that distinction deliberately, and
+its header explains why treating a release hold as a defect once made the
+corpus "permanently unfinishable."
