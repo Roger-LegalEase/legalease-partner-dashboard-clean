@@ -28,6 +28,21 @@ It defaults to `private/Nationwide Record Clearing` under the repository root.
 Elsewhere, pass `--root "/path/to/Nationwide Record Clearing"` — the external
 drive included.
 
+**`--root` is repeatable.** The corpus was split across sibling directories in
+the Codespace, and neither copy is complete on its own: batch 2's manifest
+holds 625 files but not one of Colorado's 39. A file counts as recovered when
+any copy holds the exact indexed bytes, so passing every copy at once answers
+the question that matters — between them, is anything still missing?
+
+```bash
+node scripts/rcap-corpus/verify-nationwide-corpus.mjs \
+  --root "/workspaces/legalease-partner-dashboard-clean-document-delivery/private/Nationwide Record Clearing" \
+  --root "/workspaces/legalease-partner-dashboard-clean-batch-2/private/Nationwide Record Clearing" \
+  --json /tmp/corpus-report.json
+```
+
+The summary then reports how many files each copy supplied.
+
 Every indexed file is reported as one of:
 
 | | |

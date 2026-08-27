@@ -34,9 +34,15 @@ const flag = (name, fallback = null) => {
   const i = argv.indexOf(name);
   return i === -1 ? fallback : argv[i + 1];
 };
+// --root is repeatable. The corpus was split across sibling directories, so a
+// file is recovered when ANY copy holds the exact indexed bytes; the union is
+// the real answer to "do I have everything?"
+const flagAll = (name) => argv.reduce((acc, a, i) => (a === name && argv[i + 1] ? [...acc, argv[i + 1]] : acc), []);
 
 const INDEX = path.join(rootDir, "data/rcap-all50/nationwide-source-inventory.json");
-const corpusRoot = path.resolve(flag("--root", path.join(rootDir, "private/Nationwide Record Clearing")));
+const rootsIn = flagAll("--root");
+const corpusRoots = (rootsIn.length ? rootsIn : [path.join(rootDir, "private/Nationwide Record Clearing")]).map((r) => path.resolve(r));
+const corpusRoot = corpusRoots[0];
 
 if (!fs.existsSync(INDEX)) {
   console.error(`Index not found: ${INDEX}`);
@@ -46,12 +52,12 @@ const index = JSON.parse(fs.readFileSync(INDEX, "utf8"));
 
 console.log(`index written : ${index.generatedAt}`);
 console.log(`index source  : ${index.sourceDir}`);
-console.log(`checking      : ${corpusRoot}`);
+for (const r of corpusRoots) console.log(`checking      : ${r}${fs.existsSync(r) ? "" : "   [DOES NOT EXIST]"}`);
 console.log("");
 
-if (!fs.existsSync(corpusRoot)) {
-  console.error(`The corpus directory does not exist at that path.`);
-  console.error(`Nothing was checked. Pass --root to point at the real location.`);
+const liveRoots = corpusRoots.filter((r) => fs.existsSync(r));
+if (!liveRoots.length) {
+  console.error(`None of those directories exist. Nothing was checked.`);
   process.exit(2);
 }
 
@@ -61,13 +67,21 @@ const present = [], missing = [], changed = [], unhashed = [];
 
 for (const state of index.states ?? []) {
   for (const f of state.files ?? []) {
-    const abs = path.join(corpusRoot, f.relativePath);
     const row = { code: state.code, name: state.name, ...f };
-    if (!fs.existsSync(abs)) { missing.push(row); continue; }
-    if (!f.sha256) { unhashed.push(row); continue; }
-    const observed = sha256(abs);
-    if (observed === f.sha256) present.push(row);
-    else changed.push({ ...row, observedSha256: observed, observedBytes: fs.statSync(abs).size });
+    const seen = [];
+    let matchedIn = null;
+    for (const r of liveRoots) {
+      const abs = path.join(r, f.relativePath);
+      if (!fs.existsSync(abs)) continue;
+      if (!f.sha256) { seen.push({ root: r, observedSha256: null }); continue; }
+      const observed = sha256(abs);
+      if (observed === f.sha256) { matchedIn = r; break; }
+      seen.push({ root: r, observedSha256: observed, observedBytes: fs.statSync(abs).size });
+    }
+    if (matchedIn) { present.push({ ...row, foundIn: matchedIn }); continue; }
+    if (!f.sha256 && seen.length) { unhashed.push(row); continue; }
+    if (seen.length) changed.push({ ...row, ...seen[0], copiesInspected: seen });
+    else missing.push(row);
   }
 }
 
@@ -79,6 +93,13 @@ console.log(`  verified identical : ${present.length}   (${pdf(present)} PDFs)`)
 console.log(`  MISSING            : ${missing.length}   (${pdf(missing)} PDFs)`);
 console.log(`  CHANGED            : ${changed.length}   (${pdf(changed)} PDFs)`);
 console.log(`  no hash in index   : ${unhashed.length}`);
+
+if (liveRoots.length > 1 && present.length) {
+  const perRoot = new Map();
+  for (const r of present) perRoot.set(r.foundIn, (perRoot.get(r.foundIn) ?? 0) + 1);
+  console.log("\nrecovered from:");
+  for (const r of liveRoots) console.log(`  ${String(perRoot.get(r) ?? 0).toString().padStart(4)}  ${r}`);
+}
 
 // Per jurisdiction, so a partial recovery shows which states are affected
 // rather than only how many files are gone.
