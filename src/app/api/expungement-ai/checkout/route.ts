@@ -8,7 +8,7 @@ import {
   ConsumerPacketNotDeliverableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
-import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { CurrentPacketVerificationRequiredError } from "@/lib/expungement-ai/packet-information";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,41 +26,6 @@ export async function POST(request: NextRequest) {
   if (!item) {
     return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
-  // Component deferral is answered before sponsored and payment handling, so an
-  // incomplete composed route is refused the same way for a sponsored
-  // participant and a direct-to-consumer one. No URL, no session, no amount.
-  // The payment adapter denies it again independently; this is the first guard,
-  // not the only one.
-  const deferralTrackId = item.selectedTrackId
-    ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null);
-  if (item.treatmentClassification === "exact_supported_deferral"
-    || exactDeferralForTrack(deferralTrackId)
-    || exactDeferralForPathway(item.state, item.pathwayLabel ?? null)) {
-    return NextResponse.json({
-      error: "No packet is prepared or sold for this route; it is served as an exact supported deferral.",
-      resultCode: "exact_supported_deferral"
-    }, { status: 403 });
-  }
-
-  // A terminalization-window treatment is refused here on the same terms and
-  // before the same sponsored/payment handling. The open independent review does
-  // not soften the refusal; it is recorded on the response so a caller can tell a
-  // pending treatment from an accepted one without either becoming sellable.
-  if (item.treatmentClassification === "terminal_treatment_candidate" || terminalTreatmentForTrack(deferralTrackId)) {
-    return NextResponse.json({
-      error: "No packet is prepared, promised or sold for this route; it is served as a complete terminal treatment.",
-      resultCode: "terminal_treatment_candidate",
-      treatmentReviewState: "pending_independent_review"
-    }, { status: 403 });
-  }
-
-  if (item.treatmentClassification === "component_deferral" || componentDeferralForTrack(deferralTrackId)) {
-    return NextResponse.json({
-      error: "Checkout is not available while this route is missing an official form we do not supply.",
-      resultCode: "component_deferral"
-    }, { status: 403 });
-  }
-
   if (await isPartnerSponsoredPacketItem(item)) {
     return NextResponse.json({ error: "Checkout is not used for partner-sponsored RCAP sessions." }, { status: 403 });
   }
@@ -99,6 +64,10 @@ export async function POST(request: NextRequest) {
         error: "Complete and review your packet information before starting checkout.",
         outcome: "review_required"
       }, { status: 409 });
+    }
+
+    if (error instanceof CurrentPacketVerificationRequiredError) {
+      return NextResponse.json({ error: "Complete the final packet-information verification before checkout.", outcome: "verification_required" }, { status: 409 });
     }
 
     if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {

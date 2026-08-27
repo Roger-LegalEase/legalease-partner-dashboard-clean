@@ -3,17 +3,29 @@ import "server-only";
 import {
   getBriefcaseItem,
   getBriefcaseItemForWebhook,
-  isPartnerSponsoredPacketItem,
   partnerSlugForPacketItem,
   updateBriefcasePacketMetadata,
   updateBriefcasePacketMetadataForWebhook
 } from "@/lib/expungement-ai/briefcase";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
+import { consumerPacketPaymentAuthority } from "@/lib/expungement-ai/consumer-payment-authority";
+import { readTrustedBriefcasePresentationSource } from "@/lib/expungement-ai/briefcase-presentation-authority";
+import { finalizeSponsoredPacketGeneration } from "@/lib/expungement-ai/rcap-slot-lifecycle";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { partnerPacketInformationActionPath } from "@/lib/expungement-ai/partner-packet-links";
+import {
+  CurrentPacketVerificationRequiredError,
+  requireCurrentPacketVerification
+} from "@/lib/expungement-ai/packet-information";
+import {
+  attachConsumerPacketArtifactIfVerified,
+  readProtectedPacketArtifact,
+  validProtectedLegacyArtifactEvidence,
+  type ProtectedPacketArtifactRecord
+} from "@/lib/expungement-ai/verification-cas";
 
 export type ConsumerPacketArtifactRefs = {
   provider: "rcap_source_engine";
@@ -48,6 +60,10 @@ export type ConsumerPacketStatus = {
   packetStatus: NonNullable<ConsumerBriefcaseItem["packetStatus"]>;
   artifactRefs?: ConsumerPacketArtifactRefs;
   canDownload: boolean;
+  protectedSponsorship?: {
+    sourceSessionId: string;
+    expectedVerificationHash: string;
+  };
 };
 
 export type ConsumerPacketDownload = {
@@ -78,19 +94,55 @@ export async function generatePaidConsumerPacket({
   const item = webhookMode
     ? await requireWebhookOwnedPacketItem(userId, briefcaseItemId)
     : await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, dryRunMode, { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
-
-  const existing = artifactRefsFor(item);
-  if (item.packetStatus === "ready" && existing) {
+  const protectedArtifactRead = await readProtectedPacketArtifact({
+    consumerAuthUserId: userId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedArtifactRead.ok) {
+    throw new ConsumerPacketArtifactAuthorityUnavailableError(protectedArtifactRead.reason);
+  }
+  const existing = readyPacketArtifactAccess(item, protectedArtifactRead.value);
+  if (existing) {
     return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
   }
+  const currentVerification = await requireCurrentPacketVerification(userId, item);
+  const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
+  const partnerSponsored = sponsorship.sponsored;
+  const verification = await assertPacketGenerationAllowed(userId, item, dryRunMode, {
+    paymentRequired: !partnerSponsored,
+    verification: currentVerification
+  });
 
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "pending" } });
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "generating" } });
+  if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+    packetStatus: "pending"
+  } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
+  if (!(await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+    packetStatus: "generating"
+  } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
 
   try {
-    const artifactRefs = buildConsumerPacketArtifact(item);
-    await attachPacketToBriefcaseItem({ userId, item, artifactRefs, webhookMode });
+    const artifactRefs = buildConsumerPacketArtifact(item, verification);
+    // Sponsored artifacts become Ready only inside the captain-owned atomic
+    // credit-consumption/finalization RPC. Returning the prepared artifact is
+    // non-durable; a refusal leaves the item generating and inaccessible.
+    if (partnerSponsored) {
+      return {
+        packetStatus: "generating",
+        artifactRefs,
+        canDownload: false,
+        protectedSponsorship: {
+          sourceSessionId: sponsorship.sourceSessionId,
+          expectedVerificationHash: verification.hash
+        }
+      };
+    }
+    await attachPacketToBriefcaseItem({
+      userId,
+      item,
+      artifactRefs,
+      expectedVerificationHash: verification.hash,
+      entitlementSource: "consumer_payment"
+    });
     await emitPacketGeneratedEvent(item, artifactRefs, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
@@ -98,12 +150,15 @@ export async function generatePaidConsumerPacket({
     });
     return { packetStatus: "ready", artifactRefs, canDownload: true };
   } catch (error) {
-    await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: { packetStatus: "failed" } });
+    await updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
+      packetStatus: "failed"
+    } });
     await emitPacketGenerationFailureHealthEvent(item, {
       configEnv: legalEaseOsConfigEnv,
       fetcher: legalEaseOsFetch,
       now
     });
+    if (error instanceof CurrentPacketVerificationRequiredError) throw error;
     throw new ConsumerPacketGenerationError(error instanceof Error ? error.message : "Packet generation failed.");
   }
 }
@@ -116,13 +171,26 @@ export async function getConsumerPacketStatus({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
-  const artifactRefs = artifactRefsFor(item);
-  return {
-    packetStatus: item.packetStatus ?? "not_started",
-    artifactRefs,
-    canDownload: item.packetStatus === "ready" && Boolean(artifactRefs)
-  };
+  const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
+  const ready = readyPacketArtifactAccess(item, protectedArtifact);
+  if (ready) return { packetStatus: "ready", artifactRefs: ready, canDownload: true };
+  const currentVerification = await requireCurrentPacketVerification(userId, item);
+  const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
+  const partnerSponsored = sponsorship.sponsored;
+  await assertPacketGenerationAllowed(userId, item, item.paymentProvider === "dry_run", {
+    paymentRequired: !partnerSponsored,
+    verification: currentVerification
+  });
+  return { packetStatus: "not_started", canDownload: false };
+}
+
+export function consumerPacketStatusForItem(
+  item: ConsumerBriefcaseItem,
+  protectedArtifact: ProtectedPacketArtifactRecord | null
+): ConsumerPacketStatus {
+  const readyArtifact = readyPacketArtifactAccess(item, protectedArtifact);
+  if (readyArtifact) return { packetStatus: "ready", artifactRefs: readyArtifact, canDownload: true };
+  return { packetStatus: "not_started", canDownload: false };
 }
 
 export async function getConsumerPacketDownload({
@@ -133,9 +201,9 @@ export async function getConsumerPacketDownload({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketDownload> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !(await isPartnerSponsoredPacketItem(item)) });
-  const artifactRefs = artifactRefsFor(item);
-  if (item.packetStatus !== "ready" || !artifactRefs || !("text" in artifactRefs)) {
+  const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
+  const artifactRefs = readyPacketArtifactAccess(item, protectedArtifact);
+  if (!artifactRefs || !("text" in artifactRefs)) {
     throw new ConsumerPacketNotReadyError();
   }
 
@@ -150,17 +218,43 @@ export async function attachPacketToBriefcaseItem({
   userId,
   item,
   artifactRefs,
-  webhookMode = false
+  expectedVerificationHash,
+  entitlementSource = "consumer_payment"
 }: {
   userId: string;
   item: ConsumerBriefcaseItem;
   artifactRefs: ConsumerPacketArtifactRefs;
-  webhookMode?: boolean;
+  expectedVerificationHash: string;
+  entitlementSource?: "consumer_payment" | "partner_sponsorship";
 }) {
-  return updatePacketMetadata({ userId, itemId: item.id, webhookMode, metadata: {
-    packetStatus: "ready",
-    artifactRefs
-  } });
+  const attached = await attachConsumerPacketArtifactIfVerified({
+    consumerAuthUserId: userId,
+    briefcaseItemId: item.id,
+    expectedVerificationHash,
+    entitlementSource,
+    artifact: artifactRefs
+  });
+  if (!attached.ok) throw new CurrentPacketVerificationRequiredError("verification_changed_before_artifact_attach");
+  return attached.value;
+}
+
+export function mergePacketArtifactEnvelope(
+  current: Record<string, unknown> | undefined,
+  artifact: ConsumerPacketArtifactRefs
+): Record<string, unknown> {
+  return { ...(current ?? {}), ...artifact };
+}
+
+/** Existing immutable packet bytes stay accessible without retroactive verification. */
+export function readyPacketArtifactAccess(
+  item: ConsumerBriefcaseItem,
+  protectedArtifact: ProtectedPacketArtifactRecord | null
+): ConsumerPacketArtifactRefs | undefined {
+  void item;
+  if (protectedArtifact?.status !== "ready" || !protectedArtifact.artifact) return undefined;
+  if (protectedArtifact.entitlementSource === "legacy_backfill"
+    && !validProtectedLegacyArtifactEvidence(protectedArtifact)) return undefined;
+  return artifactRefsForValue(protectedArtifact.artifact);
 }
 
 export async function attachMississippiPacketInformationRequest({
@@ -171,29 +265,32 @@ export async function attachMississippiPacketInformationRequest({
   briefcaseItemId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  await assertMississippiPartnerPacketReady(item);
+  const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
+  const protectedReady = readyPacketArtifactAccess(item, protectedArtifact);
+  if (protectedReady) {
+    return { packetStatus: "ready", artifactRefs: protectedReady, canDownload: "downloadPath" in protectedReady };
+  }
+  const { sponsorship } = await assertMississippiPartnerPacketReady(userId, item);
 
   const existing = artifactRefsFor(item);
-  if (item.packetStatus === "ready" && existing) {
-    return { packetStatus: "ready", artifactRefs: existing, canDownload: "downloadPath" in existing };
-  }
   if (existing?.source === "mississippi_petition_information_required") {
-    return { packetStatus: item.packetStatus ?? "pending", artifactRefs: existing, canDownload: false };
+    return { packetStatus: "pending", artifactRefs: existing, canDownload: false };
   }
 
   // Route the packet-information form to the item's actual sponsoring partner,
   // not a hardcoded slug. assertMississippiPartnerPacketReady already confirmed
   // this item is partner-sponsored, so a slug must resolve; fail closed rather
   // than send the user to the wrong partner's form.
-  const partnerSlug = await partnerSlugForPacketItem(item);
+  const partnerSlug = await partnerSlugForPacketItem({ ...item, sourceSessionId: sponsorship.sourceSessionId });
   if (!partnerSlug) {
     throw new ConsumerPacketGenerationError("A sponsoring partner slug is required to build the Mississippi packet information form.");
   }
   const artifactRefs = buildMississippiPacketInformationArtifact(item, partnerSlug);
-  await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
+  const updated = await updatePacketMetadata({ userId, itemId: item.id, webhookMode: false, metadata: {
     packetStatus: "pending",
     artifactRefs
   } });
+  if (!updated) throw new CurrentPacketVerificationRequiredError("verification_changed_before_packet_information_attach");
   return { packetStatus: "pending", artifactRefs, canDownload: false };
 }
 
@@ -207,12 +304,12 @@ export async function attachMississippiLegacyPacketArtifact({
   rcapPacketId: string;
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
-  await assertMississippiPartnerPacketReady(item);
-
-  const existing = artifactRefsFor(item);
-  if (item.packetStatus === "ready" && existing?.source === "mississippi_legacy_petition_packet" && existing.packetId === rcapPacketId) {
-    return { packetStatus: "ready", artifactRefs: existing, canDownload: true };
+  const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
+  const protectedReady = readyPacketArtifactAccess(item, protectedArtifact);
+  if (protectedReady?.source === "mississippi_legacy_petition_packet" && protectedReady.packetId === rcapPacketId) {
+    return { packetStatus: "ready", artifactRefs: protectedReady, canDownload: true };
   }
+  const { verification, sponsorship } = await assertMississippiPartnerPacketReady(userId, item);
 
   const artifactRefs: ConsumerPacketArtifactRefs = {
     provider: "rcap_legacy_mississippi",
@@ -224,7 +321,15 @@ export async function attachMississippiLegacyPacketArtifact({
     downloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/full`,
     courtPacketDownloadPath: `/api/rcap/documents/${encodeURIComponent(rcapPacketId)}/pdf/court`
   };
-  await attachPacketToBriefcaseItem({ userId, item, artifactRefs });
+  const finalization = await finalizeSponsoredPacketGeneration({
+    sessionId: sponsorship.sourceSessionId,
+    briefcaseItemId: item.id,
+    expectedVerificationHash: verification.hash,
+    artifactRefs
+  });
+  if (!finalization.ok) {
+    throw new ConsumerPacketGenerationError("Partner packet coverage could not be finalized for this matter.");
+  }
   return { packetStatus: "ready", artifactRefs, canDownload: true };
 }
 
@@ -240,34 +345,44 @@ export async function requireWebhookOwnedPacketItem(userId: string, briefcaseIte
   return item;
 }
 
-export function assertPacketGenerationAllowed(
+export async function assertPacketGenerationAllowed(
+  userId: string,
   item: ConsumerBriefcaseItem,
   dryRunMode = false,
-  options: { paymentRequired?: boolean } = {}
+  options: {
+    paymentRequired?: boolean;
+    verification?: Awaited<ReturnType<typeof requireCurrentPacketVerification>>;
+  } = {}
 ) {
-  const resultCode = item.resultCode ?? "guidance_only";
+  const verification = options.verification ?? await requireCurrentPacketVerification(userId, item);
+  const resultCode = verification.snapshot.resultCode ?? "guidance_only";
   const paymentRequired = options.paymentRequired ?? true;
   const packetReadyResult = resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
 
-  if (!packetReadyResult || (paymentRequired && !isConsumerPaymentAllowed(resultCode, item.paymentAllowed))) {
+  if (!packetReadyResult || (paymentRequired && !isConsumerPaymentAllowed(resultCode, verification.snapshot.paymentAllowed))) {
     throw new ConsumerPacketNotAllowedError(resultCode);
   }
 
-  if (paymentRequired && item.paymentStatus !== "paid" && !(dryRunMode && item.paymentProvider === "dry_run")) {
-    throw new ConsumerPacketPaymentRequiredError();
+  if (paymentRequired && !(dryRunMode && item.paymentProvider === "dry_run")) {
+    const payment = await consumerPacketPaymentAuthority(item.id, userId);
+    if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();
   }
+  return verification;
 }
 
-function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs {
+function buildConsumerPacketArtifact(
+  item: ConsumerBriefcaseItem,
+  verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>
+): ConsumerPacketArtifactRefs {
   const generatedAt = new Date().toISOString();
-  const profile = getProfileByJurisdiction(item.state);
-  const pathwayId = item.pathwayLabel;
+  const profile = getProfileByJurisdiction(verification.snapshot.jurisdiction);
+  const pathwayId = verification.snapshot.pathwayId;
   const plan = profile && pathwayId ? packetPlanForPathway(profile, pathwayId) : undefined;
   if (!profile || !pathwayId || !plan) {
     throw new ConsumerPacketGenerationError("A source-driven jurisdiction/pathway packet plan is required.");
   }
-  const text = renderSourceDrivenPacket(item, profile.jurisdiction.name, plan);
-  const fileName = `${slug(item.state)}-${slug(item.pathwayLabel ?? item.title)}-packet.txt`;
+  const text = renderSourceDrivenPacket(profile.jurisdiction.name, plan, verification);
+  const fileName = `${slug(verification.snapshot.jurisdiction)}-${slug(pathwayId)}-packet.txt`;
 
   return {
     provider: "rcap_source_engine",
@@ -315,15 +430,35 @@ export function buildMississippiPacketInformationArtifact(item: ConsumerBriefcas
   };
 }
 
-async function assertMississippiPartnerPacketReady(item: ConsumerBriefcaseItem) {
-  const state = item.state.trim().toLowerCase();
-  if (state !== "ms" && state !== "mississippi") {
-    throw new ConsumerPacketNotAllowedError(item.resultCode ?? "guidance_only");
+async function assertMississippiPartnerPacketReady(userId: string, item: ConsumerBriefcaseItem) {
+  const verification = await assertPacketGenerationAllowed(userId, item, false, { paymentRequired: false });
+  if (verification.snapshot.jurisdiction !== "MS") {
+    throw new ConsumerPacketNotAllowedError(verification.snapshot.resultCode ?? "guidance_only");
   }
-  assertPacketGenerationAllowed(item, false, { paymentRequired: false });
-  if (!(await isPartnerSponsoredPacketItem(item))) {
+  const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
+  if (!sponsorship.sponsored) {
     throw new ConsumerPacketPaymentRequiredError();
   }
+  return { verification, sponsorship };
+}
+
+async function requireCurrentPacketSponsorshipAuthority(
+  userId: string,
+  item: ConsumerBriefcaseItem
+): Promise<
+  | { sponsored: false; sourceSessionId: null }
+  | { sponsored: true; sourceSessionId: string }
+> {
+  const source = await readTrustedBriefcasePresentationSource({
+    consumerAuthUserId: userId,
+    item
+  });
+  if (!source.ok) throw new ConsumerPacketSponsorshipAuthorityUnavailableError(source.reason);
+  if (source.value.product !== "rcap_partner") return { sponsored: false, sourceSessionId: null };
+  if (!source.value.partnerBenefitActive || !source.value.partnerSlug || !source.value.sourceSessionId) {
+    throw new ConsumerPacketSponsorshipAuthorityUnavailableError("protected_partner_source_missing");
+  }
+  return { sponsored: true, sourceSessionId: source.value.sourceSessionId };
 }
 
 async function updatePacketMetadata({
@@ -402,59 +537,93 @@ function legalEaseOsEventOptions(options: PacketGenerationEventOptions): LegalEa
   };
 }
 
-function renderSourceDrivenPacket(item: ConsumerBriefcaseItem, jurisdictionName: string, plan: NonNullable<ReturnType<typeof packetPlanForPathway>>) {
+function renderSourceDrivenPacket(
+  jurisdictionName: string,
+  plan: NonNullable<ReturnType<typeof packetPlanForPathway>>,
+  verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>
+) {
+  const authoritativeSummary = `Authoritative screening result: ${verification.snapshot.resultCode ?? "packet_ready"} for ${jurisdictionName}.`;
+  const authoritativeChecklist = plan.packetReadyWhen;
   return [
     `${jurisdictionName} Source-Driven Record-Clearing Packet`,
     "",
-    item.summary,
+    authoritativeSummary,
     "",
-    `Jurisdiction: ${item.state}`,
+    `Jurisdiction: ${verification.snapshot.jurisdiction}`,
     `Pathway: ${plan.pathwayId}`,
     `Packet mode: ${plan.mode}`,
     `Form mapping status: ${plan.formMappingStatus}`,
-    `Result: ${item.resultCode}`,
+    `Result: ${verification.snapshot.resultCode}`,
     `Source forms: ${plan.sourceFormIds.length > 0 ? plan.sourceFormIds.join(", ") : "not required"}`,
     `Source rule refs: ${plan.sourceRuleRefs.join(", ")}`,
     "",
     "FILING CHECKLIST",
-    ...item.nextSteps.map((step) => `- ${step}`),
+    ...authoritativeChecklist.map((step) => `- ${step}`),
     "",
     "NEXT STEPS",
     "- Review every generated document before filing.",
     "- Confirm court filing instructions and fees before submission.",
     "- Keep a copy of your receipt and filed documents.",
     "",
-    "PAYMENT LINKAGE",
-    paymentLinkageText(item)
-  ].join("\n");
-}
-
-function paymentLinkageText(item: ConsumerBriefcaseItem) {
-  return [
-    `Payment status: ${item.paymentStatus ?? "unknown"}`,
-    `Provider: ${item.paymentProvider ?? "unknown"}`,
-    `Checkout session: ${item.checkoutSessionId ?? "not recorded"}`,
-    `Payment intent: ${item.paymentIntentId ?? "not recorded"}`,
-    `Amount cents: ${item.amountCents ?? 5000}`,
-    `Receipt: ${item.receiptUrl ?? "not recorded"}`
+    `Protected verification: ${verification.hash}`
   ].join("\n");
 }
 
 function artifactRefsFor(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs | undefined {
-  const refs = item.artifactRefs;
+  return artifactRefsForValue(item.artifactRefs);
+}
+
+function artifactRefsForValue(refs: Record<string, unknown> | undefined | null): ConsumerPacketArtifactRefs | undefined {
   if (
     refs?.provider === "rcap_source_engine" &&
     typeof refs.packetId === "string" &&
     typeof refs.fileName === "string" &&
     refs.contentType === "text/plain" &&
     typeof refs.generatedAt === "string" &&
+    refs.source === "source_driven_packet_plan" &&
+    typeof refs.packetPlanId === "string" &&
     typeof refs.downloadPath === "string" &&
     typeof refs.text === "string"
   ) {
     return refs as ConsumerPacketArtifactRefs;
   }
 
+  if (
+    refs?.provider === "rcap_legacy_mississippi" &&
+    typeof refs.packetId === "string" &&
+    typeof refs.fileName === "string" &&
+    typeof refs.generatedAt === "string" &&
+    refs.source === "mississippi_legacy_petition_packet" &&
+    refs.contentType === "application/pdf" &&
+    typeof refs.downloadPath === "string" &&
+    typeof refs.courtPacketDownloadPath === "string"
+  ) {
+    return refs as ConsumerPacketArtifactRefs;
+  }
+
+  if (
+    refs?.provider === "rcap_legacy_mississippi" &&
+    typeof refs.packetId === "string" &&
+    typeof refs.fileName === "string" &&
+    typeof refs.generatedAt === "string" &&
+    refs.source === "mississippi_petition_information_required" &&
+    typeof refs.actionPath === "string" &&
+    Array.isArray(refs.missingFields) &&
+    refs.missingFields.every((field) => typeof field === "string")
+  ) {
+    return refs as ConsumerPacketArtifactRefs;
+  }
+
   return undefined;
+}
+
+async function requireProtectedPacketArtifact(userId: string, briefcaseItemId: string) {
+  const result = await readProtectedPacketArtifact({
+    consumerAuthUserId: userId,
+    briefcaseItemId
+  });
+  if (!result.ok) throw new ConsumerPacketArtifactAuthorityUnavailableError(result.reason);
+  return result.value;
 }
 
 function slug(value: string) {
@@ -493,5 +662,19 @@ export class ConsumerPacketGenerationError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "ConsumerPacketGenerationError";
+  }
+}
+
+export class ConsumerPacketArtifactAuthorityUnavailableError extends Error {
+  constructor(readonly reason: string) {
+    super(`Protected packet artifact authority is unavailable: ${reason}`);
+    this.name = "ConsumerPacketArtifactAuthorityUnavailableError";
+  }
+}
+
+export class ConsumerPacketSponsorshipAuthorityUnavailableError extends Error {
+  constructor(readonly reason: string) {
+    super(`Protected packet sponsorship authority is unavailable: ${reason}`);
+    this.name = "ConsumerPacketSponsorshipAuthorityUnavailableError";
   }
 }

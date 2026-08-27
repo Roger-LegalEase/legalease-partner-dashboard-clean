@@ -100,7 +100,16 @@ export type RenderJobIdentity =
       expectedConsumerAuthUserId: string;
       personId: string;
       matterId: string;
+      /** Compared by the captain-owned enqueue RPC against protected verification. */
+      expectedVerificationHash: string;
     };
+
+export type VerifiedConsumerRenderPayload = {
+  /** Exact worker row. The RPC immutable-inserts it; it must never upsert it. */
+  renderPacket: Record<string, unknown>;
+  /** Full canonical review payload bound to spec.inputHash. */
+  renderInputPayload: Record<string, unknown>;
+};
 
 /**
  * Idempotent by (packet_id, input_hash) inside the database function: a retry
@@ -122,6 +131,8 @@ export async function enqueueRenderJob(
 
   const sponsored = identity.mode === "sponsored";
 
+  // The migration handoff adds p_expected_verification_hash to this RPC. It is
+  // intentionally not sent to the old production signature before that lands.
   const { data, error } = await supabase.rpc("enqueue_packet_render_job", {
     p_packet_id: spec.packetId,
     p_route_id: spec.routeId,
@@ -138,6 +149,48 @@ export async function enqueueRenderJob(
     p_max_attempts: options.maxAttempts ?? 5,
     p_consumer_briefcase_item_id: sponsored ? null : identity.consumerBriefcaseItemId,
     p_expected_consumer_auth_user_id: sponsored ? null : identity.expectedConsumerAuthUserId
+  });
+  if (error || !data) return null;
+  const record = Array.isArray(data) ? data[0] : data;
+  return record ? rowFromRecord(record as Record<string, unknown>) : null;
+}
+
+/**
+ * The only durable boundary for a verified consumer render.
+ *
+ * Captain-owned SQL must lock the protected Briefcase verification, compare
+ * p_expected_verification_hash, immutable-insert both payloads keyed by
+ * (packet_id, input_hash), and enqueue the job in that same transaction. A
+ * conflict may return the existing identical job but must never update packet
+ * bytes or input JSON for an already queued input hash.
+ */
+export async function enqueueVerifiedConsumerRender(
+  spec: RenderJobSpec,
+  identity: Extract<RenderJobIdentity, { mode: "consumer" }>,
+  payload: VerifiedConsumerRenderPayload,
+  options: { maxAttempts?: number } = {}
+): Promise<RenderJobRow | null> {
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.rpc("enqueue_verified_consumer_packet_render", {
+    p_packet_id: spec.packetId,
+    p_route_id: spec.routeId,
+    p_renderer_kind: spec.rendererKind,
+    p_renderer_version: spec.rendererVersion,
+    p_source_sha256: spec.sourceSha256,
+    p_profile_id: spec.profileId,
+    p_profile_version: spec.profileVersion,
+    p_input_hash: spec.inputHash,
+    p_briefcase_item_id: spec.briefcaseItemId,
+    p_person_id: identity.personId,
+    p_matter_id: identity.matterId,
+    p_max_attempts: options.maxAttempts ?? 5,
+    p_consumer_briefcase_item_id: identity.consumerBriefcaseItemId,
+    p_expected_consumer_auth_user_id: identity.expectedConsumerAuthUserId,
+    p_expected_verification_hash: identity.expectedVerificationHash,
+    p_render_packet: payload.renderPacket,
+    p_render_input_payload: payload.renderInputPayload
   });
   if (error || !data) return null;
   const record = Array.isArray(data) ? data[0] : data;

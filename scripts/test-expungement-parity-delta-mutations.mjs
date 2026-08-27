@@ -286,6 +286,87 @@ mutation(
   "the approval does not cover these bytes"
 );
 
+mutation(
+  "the runtime reauthorization widens beyond post-projection lifecycle validation",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].scope = "all_shared_runtime_changes";
+    writeJson(RECORD, record);
+  },
+  ".scope is not the exact post-projection lifecycle-validation scope"
+);
+
+mutation(
+  "the runtime reauthorization breaks its exact prior-hash chain",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].priorSha256 = "0".repeat(64);
+    writeJson(RECORD, record);
+  },
+  ".priorSha256 is not the exact superseded projection hash"
+);
+
+mutation(
+  "the runtime reauthorization substitutes a different proof",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].proofPath = "scripts/verify-public-profile-projection.mjs";
+    writeJson(RECORD, record);
+  },
+  ".proofPath is not the exact lifecycle-validation proof path"
+);
+
+mutation(
+  "the runtime reauthorization drops the legal-behavior exclusion",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].doesNotAuthorize = record.runtimeReauthorizations[0].doesNotAuthorize
+      .filter((entry) => entry !== "legal_behavior");
+    writeJson(RECORD, record);
+  },
+  ".doesNotAuthorize is not the exact legal/date/question/evaluator/deployment exclusion set"
+);
+
+mutation(
+  "the runtime reauthorization claims joint legal-team authority",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].authorizedBy = "Roger Roman and the LegalEase legal team";
+    writeJson(RECORD, record);
+  },
+  ".authorizedBy is not the exact controlling fine-tune authority"
+);
+
+mutation(
+  "the runtime reauthorization widens into production",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].environment = "production";
+    writeJson(RECORD, record);
+  },
+  ".environment is not repository/non-production only"
+);
+
+mutation(
+  "the runtime reauthorization names another path",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].path = EVALUATOR;
+    writeJson(RECORD, record);
+  },
+  ".path is not the exact public-profile projection path"
+);
+
+mutation(
+  "the runtime reauthorization substitutes another target hash",
+  () => {
+    const record = readJson(RECORD);
+    record.runtimeReauthorizations[0].newSha256 = "0".repeat(64);
+    writeJson(RECORD, record);
+  },
+  ".newSha256 is not the exact lifecycle-validation projection hash"
+);
+
 // 9 — an unrecognised key. Widening by adding a field must not work either.
 mutation(
   "the approval carries an unrecognised key",

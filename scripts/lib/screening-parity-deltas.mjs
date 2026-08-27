@@ -112,7 +112,41 @@ const PATHWAY_CHANGES = new Set(["add_one", "none"]);
  */
 const FLOW_STAGE_CHANGES = new Set(["append_question_id", "none"]);
 
-const ROOT_KEYS = new Set(["schemaVersion", "note", "deltas"]);
+const ROOT_KEYS = new Set(["schemaVersion", "note", "runtimeReauthorizations", "deltas"]);
+const RUNTIME_REAUTHORIZATION_KEYS = new Set([
+  "id",
+  "deltaId",
+  "path",
+  "priorSha256",
+  "newSha256",
+  "proofPath",
+  "proofSha256",
+  "authorizedBy",
+  "authorizedOn",
+  "scope",
+  "environment",
+  "statement",
+  "doesNotAuthorize"
+]);
+const RUNTIME_REAUTHORIZATION_AUTHORIZER = "Roger Roman via the controlling 2026-08-26 targeted fine-tune directive";
+const RUNTIME_REAUTHORIZATION_PATH = "src/lib/rcap-engine/public-profile-projection.ts";
+const RUNTIME_REAUTHORIZATION_PRIOR_SHA256 = "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9";
+const RUNTIME_REAUTHORIZATION_NEW_SHA256 = "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73";
+const RUNTIME_REAUTHORIZATION_PROOF_PATH = "scripts/verify-screening-verification-finetune.mjs";
+const RUNTIME_REAUTHORIZATION_PROOF_SHA256 = "6d97223f001165fccb7ee1c5f0f7c9f7d154964559625e19ce48b44885e7698c";
+const RUNTIME_REAUTHORIZATION_SCOPE = "post_projection_question_lifecycle_validation_only";
+const RUNTIME_REAUTHORIZATION_ENVIRONMENT = "repository_non_production_only";
+const RUNTIME_REAUTHORIZATION_EXCLUSIONS = [
+  "legal_behavior",
+  "date_behavior",
+  "question_changes",
+  "evaluator_changes",
+  "migration",
+  "deployment",
+  "staging",
+  "production",
+  "launch"
+];
 
 const SHA256 = /^[0-9a-f]{64}$/;
 const JURISDICTION = /^[A-Z]{2}$/;
@@ -185,19 +219,110 @@ export function loadApprovedParityDeltas({ rootDir = process.cwd(), recordPath =
   requireExactKeys(parsed, ROOT_KEYS, recordPath);
   if (parsed.schemaVersion !== 1) reject(`unsupported schemaVersion ${JSON.stringify(parsed.schemaVersion)}`);
   if (typeof parsed.note !== "string" || parsed.note.length === 0) reject("note is missing");
+  if (!Array.isArray(parsed.runtimeReauthorizations)) reject("runtimeReauthorizations is not an array");
   if (!Array.isArray(parsed.deltas) || parsed.deltas.length === 0) reject("deltas is not a non-empty array");
 
   const seen = new Set();
+  const deltaById = new Map(parsed.deltas.map((delta) => [delta.id, delta]));
+  const seenRuntimeReauthorizations = new Set();
+  for (const reauthorization of parsed.runtimeReauthorizations) {
+    validateRuntimeReauthorization(reauthorization, deltaById, rootDir);
+    if (seenRuntimeReauthorizations.has(reauthorization.id)) {
+      reject(`duplicate runtime reauthorization id "${reauthorization.id}"`);
+    }
+    seenRuntimeReauthorizations.add(reauthorization.id);
+  }
   for (const delta of parsed.deltas) {
-    validateDelta(delta, rootDir);
+    validateDelta(delta, rootDir, parsed.runtimeReauthorizations);
     if (seen.has(delta.id)) reject(`duplicate delta id "${delta.id}"`);
     seen.add(delta.id);
   }
 
-  return { deltas: parsed.deltas, present: true };
+  return {
+    deltas: parsed.deltas,
+    runtimeReauthorizations: parsed.runtimeReauthorizations,
+    present: true
+  };
 }
 
-function validateDelta(delta, rootDir) {
+function validateRuntimeReauthorization(reauthorization, deltaById, rootDir) {
+  requireExactKeys(reauthorization, RUNTIME_REAUTHORIZATION_KEYS, "a runtime reauthorization");
+  for (const key of RUNTIME_REAUTHORIZATION_KEYS) {
+    if (!(key in reauthorization)) reject(`a runtime reauthorization is missing "${key}"`);
+  }
+  if (typeof reauthorization.id !== "string" || reauthorization.id.length === 0) {
+    reject("runtime reauthorization id is missing");
+  }
+  const delta = deltaById.get(reauthorization.deltaId);
+  if (!delta) reject(`${reauthorization.id} names unknown delta ${JSON.stringify(reauthorization.deltaId)}`);
+  requireExactPath(reauthorization.path, `${reauthorization.id}.path`);
+  if (reauthorization.path !== RUNTIME_REAUTHORIZATION_PATH) {
+    reject(`${reauthorization.id}.path is not the exact public-profile projection path`);
+  }
+  if (!delta.authorizedPaths?.includes(reauthorization.path)) {
+    reject(`${reauthorization.id} names ${reauthorization.path}, which ${reauthorization.deltaId} does not authorize`);
+  }
+  requireString(reauthorization.priorSha256, SHA256, `${reauthorization.id}.priorSha256`);
+  requireString(reauthorization.newSha256, SHA256, `${reauthorization.id}.newSha256`);
+  if (reauthorization.priorSha256 !== RUNTIME_REAUTHORIZATION_PRIOR_SHA256) {
+    reject(`${reauthorization.id}.priorSha256 is not the exact superseded projection hash`);
+  }
+  if (reauthorization.newSha256 !== RUNTIME_REAUTHORIZATION_NEW_SHA256) {
+    reject(`${reauthorization.id}.newSha256 is not the exact lifecycle-validation projection hash`);
+  }
+  if (reauthorization.priorSha256 === reauthorization.newSha256) {
+    reject(`${reauthorization.id} does not move to new bytes`);
+  }
+  requireExactPath(reauthorization.proofPath, `${reauthorization.id}.proofPath`);
+  requireString(reauthorization.proofSha256, SHA256, `${reauthorization.id}.proofSha256`);
+  if (reauthorization.proofPath !== RUNTIME_REAUTHORIZATION_PROOF_PATH) {
+    reject(`${reauthorization.id}.proofPath is not the exact lifecycle-validation proof path`);
+  }
+  if (reauthorization.proofSha256 !== RUNTIME_REAUTHORIZATION_PROOF_SHA256) {
+    reject(`${reauthorization.id}.proofSha256 is not the exact lifecycle-validation proof hash`);
+  }
+  const proof = path.join(rootDir, reauthorization.proofPath);
+  if (!fs.existsSync(proof)) reject(`${reauthorization.id} cites missing proof ${reauthorization.proofPath}`);
+  const actualProofSha = sha256(fs.readFileSync(proof));
+  if (actualProofSha !== reauthorization.proofSha256) {
+    reject(`${reauthorization.id} proof ${reauthorization.proofPath} hashes to ${actualProofSha}, not ${reauthorization.proofSha256}`);
+  }
+  if (reauthorization.authorizedBy !== RUNTIME_REAUTHORIZATION_AUTHORIZER) {
+    reject(`${reauthorization.id}.authorizedBy is not the exact controlling fine-tune authority`);
+  }
+  requireString(reauthorization.authorizedOn, ISO_DATE, `${reauthorization.id}.authorizedOn`);
+  if (reauthorization.authorizedOn !== "2026-08-26") {
+    reject(`${reauthorization.id}.authorizedOn is not 2026-08-26`);
+  }
+  if (reauthorization.scope !== RUNTIME_REAUTHORIZATION_SCOPE) {
+    reject(`${reauthorization.id}.scope is not the exact post-projection lifecycle-validation scope`);
+  }
+  if (reauthorization.environment !== RUNTIME_REAUTHORIZATION_ENVIRONMENT) {
+    reject(`${reauthorization.id}.environment is not repository/non-production only`);
+  }
+  if (typeof reauthorization.statement !== "string" || reauthorization.statement.length < 80) {
+    reject(`${reauthorization.id}.statement is missing or too short`);
+  }
+  if (JSON.stringify(reauthorization.doesNotAuthorize) !== JSON.stringify(RUNTIME_REAUTHORIZATION_EXCLUSIONS)) {
+    reject(`${reauthorization.id}.doesNotAuthorize is not the exact legal/date/question/evaluator/deployment exclusion set`);
+  }
+}
+
+function authorizedRuntimeHash(delta, candidate, runtimeReauthorizations) {
+  let expected = delta.authorizedSha256[candidate];
+  const entries = runtimeReauthorizations.filter(
+    (entry) => entry.deltaId === delta.id && entry.path === candidate
+  );
+  for (const entry of entries) {
+    if (entry.priorSha256 !== expected) {
+      reject(`${entry.id} prior hash does not continue the append-only runtime authorization chain for ${candidate}`);
+    }
+    expected = entry.newSha256;
+  }
+  return expected;
+}
+
+function validateDelta(delta, rootDir, runtimeReauthorizations) {
   requireExactKeys(delta, DELTA_KEYS, "a delta");
   for (const key of DELTA_KEYS) {
     // supersededSha256 is the one optional key: a delta whose authorized files
@@ -439,9 +564,10 @@ function validateDelta(delta, rootDir) {
     const absolute = path.join(rootDir, candidate);
     if (!fs.existsSync(absolute)) reject(`${delta.id} pins ${candidate}, which does not exist`);
     const actual = sha256(fs.readFileSync(absolute));
-    if (actual !== delta.authorizedSha256[candidate]) {
+    const runtimeAuthorized = authorizedRuntimeHash(delta, candidate, runtimeReauthorizations);
+    if (actual !== runtimeAuthorized) {
       reject(
-        `${delta.id} approved ${candidate} at ${delta.authorizedSha256[candidate].slice(0, 12)}… but the file is ${actual.slice(0, 12)}…; the approval does not cover these bytes`
+        `${delta.id} approved ${candidate} through runtime hash ${runtimeAuthorized.slice(0, 12)}… but the file is ${actual.slice(0, 12)}…; the approval does not cover these bytes`
       );
     }
   }

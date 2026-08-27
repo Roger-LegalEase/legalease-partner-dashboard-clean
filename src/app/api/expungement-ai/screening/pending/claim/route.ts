@@ -235,6 +235,10 @@ function initialCommercialFlow(input: {
       missingInputIds: requiredInputIds.filter((id) => !(id in serverFacts) && !(id in prefilledAnswers)),
       updatedAt: null,
       reviewedAt: null
+    },
+    verification: {
+      status: "unverified",
+      reason: "final_verification_not_completed"
     }
   };
 }
