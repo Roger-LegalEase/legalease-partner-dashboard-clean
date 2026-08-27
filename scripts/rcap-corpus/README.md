@@ -71,3 +71,31 @@ Once a verified copy is in hand, decide deliberately where it lives. At 0.13 GB
 committing it outright is viable; Git LFS or a release asset also work. Any of
 the three beats the current answer, which is that the only complete copy is
 wherever it happens to be sitting.
+
+## Which Codespace is it in?
+
+If several Codespaces exist, the repository narrows it to one without guessing.
+`nationwide-source-inventory.json` was generated at `2026-06-17T12:10:37Z` and
+committed as `95ad8a35` two and a half minutes later, from the branch PR #9
+merged as `feat/rcap-all50-qa-attorney-handoff`. Sibling commits run 12:13 to
+12:37 — state pack batches one through three, then the QA attorney artifacts —
+so that is one working session on one machine.
+
+```bash
+scripts/rcap-corpus/find-corpus-codespace.sh                 # rank only, starts nothing
+scripts/rcap-corpus/find-corpus-codespace.sh --probe         # check best-first, stop at first hit
+scripts/rcap-corpus/find-corpus-codespace.sh --probe --fetch # verify in place, archive, download
+```
+
+Listing is free. Probing uses `gh codespace ssh`, which starts a stopped
+Codespace, so it is opt-in and ordered best-first to keep the number started as
+small as possible. `--fetch` runs the verifier inside the Codespace before
+downloading, so the archive is checked against the index while the bytes are
+still next to it.
+
+If nothing matches, the Codespace is gone and the gitignored corpus went with
+it. The external drive is then the primary copy:
+
+```bash
+node scripts/rcap-corpus/verify-nationwide-corpus.mjs --root "/Volumes/<drive>/Nationwide Record Clearing"
+```
