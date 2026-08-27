@@ -139,7 +139,17 @@ the CAS migration and all three CAS tests.
    substantive by default rather than by determination. The remaining 24 states
    must not arrive in a third dialect.
 5. **Build the 24 states with no packages at all.**
-6. **97/97 paid-route metadata**, then the currentness sweep, full chain,
+6. **Participant data rights (P0).** The authenticated Privacy and Data area —
+   export, per-matter deletion, account deletion — specified in §12A of
+   `docs/PRODUCT_CONTRACT.md`. Searched across all 617 branches: no deletion,
+   privacy-request, export or purge implementation exists anywhere. Unlike every
+   other gap in this audit, this is unbuilt rather than unmerged, so it cannot be
+   scheduled as a port. It does not block items 1 to 5, but it must land before
+   any Grade-A or SOC 2 claim, and it is worth building alongside the data-model
+   work rather than after it: a deletion job that is hard to write is evidence
+   the model has drifted.
+
+7. **97/97 paid-route metadata**, then the currentness sweep, full chain,
    candidate freeze, Lane J, Lane K.
 
 ## Exact external blockers

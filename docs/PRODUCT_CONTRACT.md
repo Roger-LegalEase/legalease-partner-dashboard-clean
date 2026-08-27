@@ -1096,13 +1096,47 @@ staff assignment; sponsorship reservation and entitlement; limited queue
 visibility; separate staff and participant sessions; Reset Device; cross-tenant
 denial. Do not duplicate the legal engine or packet builder.
 
+**Phase 6A — Build participant data rights (P0).** The authenticated Privacy and
+Data area from §12A: export my information · delete one matter · delete my
+account and personal data. The `privacy_requests` record, the durable stepped
+deletion job, recent-authentication enforcement, retention-exception handling,
+partner-access revocation, processor propagation, the backup tombstone, and the
+completion receipt.
+
+*Why here, and not last.* This is P0 for release, not P0 for ordering — nothing
+else depends on it, so it does not gate Phases 2 through 6. But it must not be
+deferred into Phase 7 as compliance paperwork, for two reasons.
+
+The first is that it cannot be written against a schema that is still moving. It
+needs Phase 1's frozen object model, because a deletion job enumerates every
+store of participant data by name.
+
+The second is the useful one: **writing a complete deletion job is the most
+reliable way to discover the redundancies in §13.** You cannot delete a
+participant without enumerating every place their data lives, and the moment two
+stores hold the same fact, or a status exists in six places, or an entitlement is
+a boolean rather than a record, the deletion job either misses data or cannot
+prove it did not. A deletion job that is hard to write is evidence the data model
+has drifted. Build it while the redundancies are still being removed, and each
+finds the other.
+
+Deletion must be complete and accepted before any claim of Grade-A or SOC 2
+readiness. Two release gates already in §15 — private delivery, and auditability
+— assume it works: a deletion leaving signed URLs live or storage objects
+orphaned fails gates the contract already asserts.
+
 **Phase 7 — Add assurance controls.** ASVS-based security verification; WCAG 2.2
 AA testing; threat model; RLS and authorization matrix; telemetry review;
 retention jobs; access reviews; backup and restore testing; incident alerts;
 evidence collection for the SOC 2 observation period.
 
-**Phase 8 — Run controlled acceptance.** New account; existing account; password
-reset; same-device verification; different-device verification; expired result;
+**Phase 8 — Run controlled acceptance.** Including the §12A deletion gates:
+cross-user denial, partner staff denial, Briefcase access removal, dead private
+URLs, object removal, reminders stopped, Clinic and partner access ended,
+accounting still accurate, retained records pseudonymised, sessions revoked,
+sign-in refused, duplicate requests deduplicated, failed steps resumed, backup
+restoration not reactivating, and an accurate receipt. Plus: new account;
+existing account; password reset; same-device verification; different-device verification; expired result;
 replayed result; simultaneous claim; already authenticated; DTC payment; RCAP
 sponsorship; exhausted sponsorship; material answer change; render failure;
 repeat download; cross-user denial; cross-tenant denial; consent revocation;
