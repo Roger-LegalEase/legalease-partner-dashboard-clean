@@ -9,6 +9,22 @@ Plan of record for this sprint:
 
 Historical architecture reference: `docs/LegalEase-Master-Build-Plan-v2.md/LegalEase-Master-Build-Plan-v2-4.md`.
 
+## Controlling Product Contract
+
+`docs/PRODUCT_CONTRACT.md` is the authority for product behaviour. Where it and
+an implementation disagree, the implementation is the defect. Where it and any
+other document here disagree — status reports, lane manifests, build plans,
+promotion manifests — the contract governs.
+
+Its governing rule:
+
+> Screening may be anonymous. A Briefcase may not be anonymous. A pending result
+> becomes a matter only when it is securely and atomically claimed by the
+> authenticated participant.
+
+The screening design it is measured against, for all 50 states and DC, is
+`docs/screening/FREE_CHECK_ALL_51_JURISDICTIONS.md`.
+
 ## Core Directive
 
 Build RCAP coverage for all 50 states plus DC from `private/Nationwide Record Clearing/`. The Nationwide folder is the source inventory for forms, resource packets, legal vocabulary, eligibility notes, required fields, official PDFs/HTML/statutes, Wilma references, and filing instructions.
