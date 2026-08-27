@@ -114,3 +114,57 @@ it. The external drive is then the primary copy:
 ```bash
 node scripts/rcap-corpus/verify-nationwide-corpus.mjs --root "/Volumes/<drive>/Nationwide Record Clearing"
 ```
+
+## Recovering everything, not just the indexed files
+
+`verify-nationwide-corpus.mjs` walks the committed index and asks whether each
+of its 425 files is present. For recovery that is the wrong question. The index
+is a snapshot generated on 2026-06-17 by `scripts/rcap-all50-lib.mjs`, and
+gathering continued afterwards — batch 2 alone carries 165 files the index has
+never heard of. A check driven by the index cannot see them, so it would report
+a clean recovery while leaving newer files behind.
+
+`inventory-nationwide-corpus.mjs` walks the directories instead and uses the
+index only as a cross-check:
+
+```bash
+node scripts/rcap-corpus/inventory-nationwide-corpus.mjs \
+  --root "/workspaces/legalease-partner-dashboard-clean-document-delivery/private/Nationwide Record Clearing" \
+  --root "/workspaces/legalease-partner-dashboard-clean-batch-2/private/Nationwide Record Clearing" \
+  --out   /tmp/nationwide-source-inventory.AUG.json \
+  --stage /tmp/corpus-union \
+  --tar   /tmp/nationwide-corpus.tgz
+```
+
+Every file found is captured whether or not anything knew about it, and each is
+reported as one of:
+
+| | |
+|---|---|
+| **matching the index** | known, and the bytes still agree |
+| **CHANGED since the index** | known, but the bytes differ — revised or drifted |
+| **not in the index at all** | gathered after 2026-06-17 |
+| **still MISSING** | in the index, in none of the copies |
+
+`--stage` assembles one deduplicated directory holding every recovered file, and
+`--out` writes a fresh inventory in the committed schema so it can replace the
+June one rather than sit beside it as a second artifact to reconcile.
+
+Where two copies hold the same path with different bytes, the first root wins
+and the disagreement is reported as a conflict. That is a fact worth seeing, not
+a tie to break silently.
+
+### Is there a later index already?
+
+An index generated in August would be a derived artifact of the same generator
+run against a later corpus, so it is a useful cross-check rather than a
+prerequisite. To look for one:
+
+```bash
+find /workspaces -name "nationwide-source-inventory*.json" -not -path "*/node_modules/*" 2>/dev/null \
+  -exec sh -c 'printf "%s  " "$1"; grep -o "\"generatedAt\"[^,]*" "$1" | head -1' _ {} \;
+```
+
+If one turns up, diff its file count against the `reconciliation` block this
+tool writes. They should agree; if they do not, the corpus moved between them
+and the difference is the thing to look at.
