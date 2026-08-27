@@ -8,6 +8,42 @@ is the specification and the implementation is the defect.
 Read as the target flow. It is **not** a claim that any stage has passed hosted
 acceptance.
 
+## The five objects
+
+The product must stop using "result", "matter" and "Briefcase" interchangeably.
+They are five objects with different lifecycles and different owners.
+
+| Object | Exists before auth? | Owner | Purpose |
+|---|---|---|---|
+| Anonymous screening session | yes | none | temporary state while answering free screening |
+| Pending result | yes, temporarily | none | server-held claimable snapshot of result and route context |
+| Account | possibly unverified during signup | user after successful auth | identity and access boundary |
+| Matter | **no** | authenticated participant | durable workflow for one record-clearance issue |
+| Briefcase | **no** | authenticated participant | private workspace showing that participant's matters |
+
+A pending result is not a lightweight matter; it is a separate temporary object.
+A matter can exist **without** a packet — waiting-period, automatic-relief,
+referral, missing-information and unsupported outcomes all become saved matters
+after authentication. "Matter" means a participant-owned workflow, not "a packet
+is available".
+
+### Invariants that must be impossible to violate
+
+```text
+matters.owner_user_id             NOT NULL
+briefcases.user_id                NOT NULL and UNIQUE
+matters.source_pending_result_id  UNIQUE
+artifacts.matter_id               NOT NULL
+entitlements.matter_id            NOT NULL
+payments.matter_id                NOT NULL
+```
+
+No `anonymous_owner`, no placeholder clinic owner, no partner-owned participant
+matter, no staff-owned Briefcase. The Briefcase should be the authenticated
+presentation of a user's matters rather than a second copy of matter status; if a
+`briefcase_items` table remains, it references the canonical matter and does not
+duplicate route, payment, verification or packet state.
+
 ## The invariant
 
 Both products run the same state-specific screening, legal-route, packet,
@@ -57,7 +93,10 @@ displaying an irrelevant question.
 
 1. **Public entry.** Free record check, no account required to begin. Disclosure:
    screening is free; a verified packet costs $50 for that specific matter.
-2. **Preliminary result.** Computed by the legal engine, never inferred by the
+2. **Preliminary result.** Never labelled "you qualify" or "you are eligible".
+   The primary action is **"Save my result and continue"** — never "save this
+   matter", "your matter", "your Briefcase" or "your saved case", because none of
+   those objects exist yet. Checkout is never shown here. Computed by the legal engine, never inferred by the
    browser. Outcomes: possible packet path, more information needed, waiting
    period may not be met, automatic/no-filing, guidance-only, attorney
    review/referral, unsupported. Preliminary results cannot authorize payment or
@@ -184,6 +223,68 @@ forged client event hint cannot remove the boundary; a forged session cannot
 mount Clinic privacy; a valid session stays protected when the hint is absent or
 wrong. Reset uses the request-bound authentication context.
 
+## Corrections that govern wording and sequence
+
+**Pre-authentication vocabulary.** Every pre-auth reference is to *your
+preliminary result*, never *your matter* or *your Briefcase*. Those words become
+correct only after the claim transaction succeeds.
+
+**RCAP sequence.** Partner or Clinic entry → optional assisted-intake consent →
+screening → preliminary result → participant creates or signs into their own
+account → claim → participant-owned matter and Briefcase. An RCAP participant may
+choose to create an account before screening, but the product must not require it
+as the default entry experience.
+
+**Authentication is an interstitial, not a new visit.** Signup, email
+verification, password reset, OAuth callback, magic-link callback and
+existing-account sign-in all preserve the pending result. The participant never
+returns to the homepage, restarts screening, re-enters answers, lands on an empty
+Briefcase, gets a generic welcome dashboard, or loses partner/event attribution.
+
+**An auth record is not an account.** An unverified account may exist during
+signup but receives no matter, Briefcase, upload, packet document, payment
+authority or sponsorship authority. The claim happens only after the provider
+confirms successful authentication and, where required, verification.
+
+**Payment history is not generation authority.** A material answer change
+preserves the payment record, invalidates the verification snapshot and stale
+generation authority, re-runs final verification, permits regeneration without a
+second payment while the matter remains supported, and triggers support or refund
+handling when it no longer is. This prevents both double charging and generation
+from stale legal facts.
+
+**Do not call it a record check.** The system asks questions; it does not query an
+authoritative criminal-record source. Say *"Check your record-clearing options for
+free"* or *"Take a free record-clearance screening"*. Reserve "record search" and
+"record check" for when records are actually retrieved.
+
+**Already-authenticated participants still act deliberately.** A signed-in
+participant starting a new screening gets "Save to my Briefcase and continue" —
+the product does not silently create matters for abandoned or experimental
+screenings.
+
+## The claim transaction
+
+The claim token is cryptographically random, opaque, single-purpose, single-use,
+short-lived, hashed at rest, bound to the pending result, excluded from analytics
+and logs, stripped from the URL immediately after use, and protected against
+replay and open-redirect manipulation. It is never stored in `localStorage`.
+
+The claim is one server-side transaction: confirm the authenticated and verified
+user; lock the pending result; confirm token hash, purpose, status and expiry;
+confirm it is not claimed by another user; create or reuse the Briefcase; create
+the matter using `source_pending_result_id` as an idempotency key; copy the
+screening snapshot and route context; preserve partner, event, campaign, locale
+and consent context; mark the pending result claimed; write an append-only audit
+event. Commit, return the exact `matter_id`, redirect to it.
+
+Retry behaviour: same user re-claiming returns the existing matter; a different
+user is denied generically without revealing who claimed it; two simultaneous
+clicks create one matter; refresh during claim returns the same matter; multiple
+auth callbacks return the same matter; an expired pending result explains itself
+and starts a new screening; a failed transaction leaves neither a partial matter
+nor an orphaned Briefcase item.
+
 ## Role boundaries
 
 A partner administrator may view only their own partner, open approved events,
@@ -197,6 +298,44 @@ reach another tenant; or grant themselves LegalEase internal-admin privileges.
 Clinic Mode is enabled through provisioning and partner/event controls — never by
 inserting database rows, changing RLS, or editing environment variables. Staff
 accounts are named; shared credentials are prohibited.
+
+## Release-blocking gates
+
+The flow is not production-ready until every one of these passes:
+
+anonymous users cannot create matters, Briefcases, uploads, payments,
+entitlements, render jobs or artifacts; signup, sign-in, verification, OAuth and
+password reset all preserve the result; a successful claim always lands on the
+exact matter; refreshes, double clicks, callback retries and multiple tabs create
+one matter; every matter has exactly one participant owner; user B cannot reach
+user A's matter, packet, metadata or download; partner staff cannot reach another
+partner's participants or event data; staff access requires current consent,
+assignment, tenant membership and approved purpose; participant clients cannot
+write payment, sponsorship, verification, route, packet-family, form-set,
+entitlement, render or artifact authority; material edits invalidate the
+verification snapshot and checkout or render authority; only verified payment
+events create entitlements and duplicates are idempotent; no credit is used
+before successful first generation; packet files are never publicly addressable
+and every download rechecks authorization; no participant data survives a Clinic
+reset including Back/Forward behaviour; no PII, answers, documents, tokens or
+signed URLs appear in analytics or ordinary logs; expired result, failed auth,
+network interruption, render failure and account recovery all have resumable
+paths; the complete flow passes WCAG 2.2 AA automated and manual testing.
+
+## The rule, verbatim
+
+> **Screening may be anonymous. A Briefcase may not be anonymous. A pending
+> result becomes a matter only when it is securely and atomically claimed by the
+> authenticated participant.**
+
+An implementation fails this contract when it creates a durable matter before
+successful participant authentication, creates or displays an anonymous
+Briefcase, calls a pending result a saved matter, drops the participant on a
+generic dashboard after authentication, loses screening answers during signup or
+recovery, lets staff own or inherit participant materials, lets the client
+authorize payment, sponsorship, verification or rendering, generates a packet
+from stale verification, exposes packet files through public or reusable URLs, or
+retains participant data after a Clinic reset.
 
 ## Measured against the code, 2026-08-27
 
