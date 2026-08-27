@@ -28,6 +28,20 @@ export type PacketVerificationSummaryFact = {
   systemContext: boolean;
 };
 
+export type PacketVerificationContextFact = {
+  key: string;
+  label: string;
+  value: unknown;
+  /** Display-only server context. It is never participant answer authority. */
+  systemContext: true;
+};
+
+export type PacketVerificationManifest = {
+  schemaVersion: "expungement-ai/verification-review-manifest/v1";
+  factKeys: string[];
+  systemContextKeys: string[];
+};
+
 export type PacketInformationModel = {
   stateCode: string;
   stateName: string;
@@ -38,8 +52,13 @@ export type PacketInformationModel = {
   builderQuestions: ProfileQuestion[];
   initialAnswers: Record<string, AnswerValue>;
   screeningAnswers: Record<string, AnswerValue>;
+  /** Explicit protected-authority facts; arbitrary persisted serverFacts are discarded. */
+  serverFacts: Record<string, AnswerValue>;
   /** Canonical review surface for every fact map covered by the verification hash. */
   verificationSummary: PacketVerificationSummaryFact[];
+  /** Completeness surface for every non-participant snapshot dependency. */
+  verificationContext: PacketVerificationContextFact[];
+  verificationManifest: PacketVerificationManifest;
   requiredInputIds: string[];
   missingInputIds: string[];
   stage: PacketInformationStage;
@@ -91,11 +110,7 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
   const pathwayId = typeof screening.pathwayId === "string"
     ? screening.pathwayId
     : packetPlan?.pathwayId ?? null;
-  const serverFacts: Record<string, AnswerValue> = {
-    ...answerRecord(progress.serverFacts),
-    jurisdiction: profile.jurisdiction.code,
-    ...(pathwayId ? { pathway_id: pathwayId } : {})
-  };
+  const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathwayId);
   const screeningAnswers = answerRecord(screening.answers);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
   const savedAnswers = answerRecord(progress.answers);
@@ -150,7 +165,15 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     ? questions.filter((question) => !["offense_category", "offense_level", "sentence_completion_date", "court_requirements_completed", "ownership_scope", "jurisdiction_scope", "resolved_timing_bucket"].includes(question.id))
     : questions;
   const missingInputIds = missingRequiredInputs(requiredInputIds, serverFacts, initialAnswers);
-  const verificationSummary = verificationSummaryFor(flow, questionById);
+  const verificationSummary = verificationSummaryFor(flow, questionById, serverFacts);
+  const verificationContext = verificationContextFor(
+    verificationContextSourceFor(item, flow, profile, pathwayId)
+  );
+  const verificationManifest: PacketVerificationManifest = {
+    schemaVersion: "expungement-ai/verification-review-manifest/v1",
+    factKeys: verificationSummary.map((fact) => fact.key),
+    systemContextKeys: verificationContext.map((entry) => entry.key)
+  };
 
   return {
     stateCode: profile.jurisdiction.code,
@@ -164,7 +187,10 @@ export function packetInformationModelFor(item: ConsumerBriefcaseItem): PacketIn
     builderQuestions,
     initialAnswers,
     screeningAnswers,
+    serverFacts,
     verificationSummary,
+    verificationContext,
+    verificationManifest,
     requiredInputIds,
     missingInputIds,
     stage: packetInformationStage(progress.stage),
@@ -215,11 +241,7 @@ export function packetInformationPatch(input: {
   const flow = profile ? commercialFlowForItem(input.existingItem, profile) : null;
   const progress = isRecord(flow?.packetInformation) ? flow?.packetInformation : {};
   const pathwayId = current.pathwayId ?? current.packetPlan?.pathwayId ?? null;
-  const serverFacts: Record<string, AnswerValue> = {
-    ...answerRecord(progress.serverFacts),
-    jurisdiction: current.stateCode,
-    ...(pathwayId ? { pathway_id: pathwayId } : {})
-  };
+  const serverFacts = canonicalServerFacts(current.stateCode, pathwayId);
   const prefilledAnswers = answerRecord(progress.prefilledAnswers);
   const allowedIds = new Set(current.questions.map((question) => question.id));
   const acceptedAnswers = Object.fromEntries(
@@ -235,7 +257,7 @@ export function packetInformationPatch(input: {
     return {
       patch: {
         commercialFlow: {
-          packetInformation: progress,
+          packetInformation: { ...progress, serverFacts },
           verification: currentVerification
         }
       },
@@ -376,7 +398,10 @@ function buildPacketVerificationSnapshot(
   if (!authority.safe) return null;
   const { profile, evaluation, packetType, selectedTrackId } = authority.authoritative;
   const packetPlan = evaluation.packetPlan ?? null;
-  const factDependencies = verificationFactDependencies(flow);
+  const factDependencies = verificationFactDependencies(
+    flow,
+    canonicalServerFacts(profile.jurisdiction.code, evaluation.pathwayId ?? null)
+  );
   return canonicalize({
     schemaVersion: "expungement-ai/final-verification/v1",
     verifiedAt,
@@ -467,22 +492,26 @@ function recordValue(value: unknown): Record<string, unknown> {
   return isRecord(value) ? value : {};
 }
 
-function verificationFactDependencies(flow: CommercialFlow) {
+function verificationFactDependencies(
+  flow: CommercialFlow,
+  serverFacts: Record<string, AnswerValue>
+) {
   const screening = isRecord(flow.screening) ? flow.screening : {};
   const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
   return {
     screeningAnswers: recordValue(screening.answers),
     prefilledAnswers: recordValue(packetInformation.prefilledAnswers),
     packetAnswers: recordValue(packetInformation.answers),
-    serverFacts: recordValue(packetInformation.serverFacts)
+    serverFacts: recordValue(serverFacts)
   };
 }
 
 function verificationSummaryFor(
   flow: CommercialFlow,
-  questionById: Map<string, ProfileQuestion>
+  questionById: Map<string, ProfileQuestion>,
+  serverFacts: Record<string, AnswerValue>
 ): PacketVerificationSummaryFact[] {
-  const factDependencies = verificationFactDependencies(flow);
+  const factDependencies = verificationFactDependencies(flow, serverFacts);
   const sources: PacketVerificationSummaryFact["source"][] = [
     "screeningAnswers",
     "prefilledAnswers",
@@ -497,6 +526,65 @@ function verificationSummaryFor(
     source,
     systemContext: source === "serverFacts" && (id === "jurisdiction" || id === "pathway_id")
   })));
+}
+
+const VERIFICATION_FACT_KEYS = new Set([
+  "screeningAnswers",
+  "prefilledAnswers",
+  "packetAnswers",
+  "serverFacts"
+]);
+
+function verificationContextFor(source: Record<string, unknown>): PacketVerificationContextFact[] {
+  return Object.keys(source)
+    .filter((key) => !VERIFICATION_FACT_KEYS.has(key))
+    .sort()
+    .map((key) => ({
+      key,
+      label: answerLabel(key),
+      value: source[key],
+      systemContext: true as const
+    }));
+}
+
+function verificationContextSourceFor(
+  item: ConsumerBriefcaseItem,
+  flow: CommercialFlow,
+  profile: NonNullable<ReturnType<typeof getProfileByJurisdiction>>,
+  pathwayId: string | null
+): Record<string, unknown> {
+  const stored = readVerificationRecord(flow.verification);
+  const screening = isRecord(flow.screening) ? flow.screening : {};
+  const authoritativePlan = pathwayId ? packetPlanForPathway(profile, pathwayId) : null;
+  return canonicalize({
+    schemaVersion: "expungement-ai/final-verification/v1",
+    verifiedAt: stored?.status === "verified" && stored.snapshot?.verifiedAt
+      ? stored.snapshot.verifiedAt
+      : null,
+    jurisdiction: profile.jurisdiction.code,
+    profileVersion: profile.profileVersion,
+    profileSourceFingerprint: profile.source?.sourceCorpusSha256 ?? null,
+    profileAuthorityFingerprint: profileAuthorityFingerprint(profile, pathwayId),
+    pathwayId,
+    resultCode: typeof screening.resultCode === "string" ? screening.resultCode : item.resultCode ?? null,
+    paymentAllowed: typeof screening.paymentAllowed === "boolean" ? screening.paymentAllowed : item.paymentAllowed,
+    packetType: typeof screening.packetType === "string" ? screening.packetType : item.packetType ?? null,
+    packetPlan: authoritativePlan ? { ...authoritativePlan } : null,
+    requiredInputIds: authoritativePlan?.requiredInputIds ?? [],
+    packetFamilyIdentifiers: {
+      mode: authoritativePlan?.mode ?? null,
+      sourceFormIds: authoritativePlan?.sourceFormIds ?? []
+    },
+    selectedTrackId: item.selectedTrackId
+      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+    treatmentClassification: item.treatmentClassification ?? null,
+    deferralComponentIds: [...(item.deferralComponentIds ?? [])].sort(),
+    dependencies: {
+      commercialFlowVersion: typeof flow.version === "number" ? flow.version : null,
+      entitlementSource: typeof flow.entitlementSource === "string" ? flow.entitlementSource : null,
+      productId: typeof flow.productId === "string" ? flow.productId : null
+    }
+  }) as Record<string, unknown>;
 }
 
 /**
@@ -603,8 +691,10 @@ function authoritativePacketContext(
     return { safe: false, reason: "stored_pathway_mismatch" };
   }
   const storedServerFacts = answerRecord(packetInformation.serverFacts);
-  if (answerTextRaw(storedServerFacts.jurisdiction) !== currentProfile.jurisdiction.code
-    || answerTextRaw(storedServerFacts.pathway_id) !== (evaluation.pathwayId ?? "")) {
+  if (("jurisdiction" in storedServerFacts
+      && answerTextRaw(storedServerFacts.jurisdiction) !== currentProfile.jurisdiction.code)
+    || ("pathway_id" in storedServerFacts
+      && answerTextRaw(storedServerFacts.pathway_id) !== (evaluation.pathwayId ?? ""))) {
     return { safe: false, reason: "stored_server_fact_mismatch" };
   }
   if (screening.resultCode !== evaluation.resultCode || item.resultCode !== evaluation.resultCode) {
@@ -690,10 +780,7 @@ function commercialFlowForItem(
   const packetPlan = packetPlanForPathway(profile, pathway.pathwayId);
   if (!packetPlan) return null;
 
-  const serverFacts: Record<string, AnswerValue> = {
-    jurisdiction: profile.jurisdiction.code,
-    pathway_id: pathway.pathwayId
-  };
+  const serverFacts = canonicalServerFacts(profile.jurisdiction.code, pathway.pathwayId);
   return {
     screening: {
       profileVersion: profile.profileVersion,
@@ -712,6 +799,13 @@ function commercialFlowForItem(
       updatedAt: null,
       reviewedAt: null
     }
+  };
+}
+
+function canonicalServerFacts(jurisdiction: string, pathwayId: string | null): Record<string, AnswerValue> {
+  return {
+    jurisdiction,
+    ...(pathwayId ? { pathway_id: pathwayId } : {})
   };
 }
 

@@ -246,9 +246,14 @@ function mergeArtifactObjects(
   const merged: Record<string, unknown> = { ...current };
   for (const [key, value] of Object.entries(patch)) {
     const existing = merged[key];
-    merged[key] = isPlainObject(existing) && isPlainObject(value)
-      ? mergeArtifactObjects(existing, value)
-      : value;
+    // packetInformation.serverFacts is an explicit protected-authority
+    // allowlist, not an extensible participant map. Replace it so legacy or
+    // forged keys cannot survive the ordinary recursive envelope merge.
+    merged[key] = key === "serverFacts" && isPlainObject(value)
+      ? { ...value }
+      : isPlainObject(existing) && isPlainObject(value)
+        ? mergeArtifactObjects(existing, value)
+        : value;
   }
   return merged;
 }

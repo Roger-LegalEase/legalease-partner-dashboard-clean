@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
-  recordPartnerPacketGeneration,
+  finalizeSponsoredPacketGeneration,
   resolvePartnerPacketCapDecision
 } from "@/lib/expungement-ai/rcap-slot-lifecycle";
 import {
@@ -65,18 +65,30 @@ export async function POST(request: NextRequest) {
       dryRunMode: body?.dryRunMode === true
     });
 
-    // Consume exactly one partner packet credit (included or overage) on a
-    // successful sponsored generation. The RPC is idempotent, so retries and
-    // duplicate webhooks never double-count.
-    if (packet.packetStatus === "ready" && isPartnerSponsored && partnerSessionId) {
-      const latestItem = await getBriefcaseItem(auth.userId, briefcaseItemId);
-      if (!verificationHash || !latestItem || requireCurrentPacketVerification(latestItem).hash !== verificationHash) {
-        throw new CurrentPacketVerificationRequiredError("verification_changed_before_sponsored_slot_consumption");
+    // A fresh sponsored artifact is only prepared in memory. The atomic RPC
+    // consumes credit and attaches Ready together; a refusal returns no Ready
+    // response and leaves no accessible artifact.
+    if (packet.packetStatus === "generating" && isPartnerSponsored && partnerSessionId && packet.artifactRefs) {
+      if (!verificationHash) {
+        throw new CurrentPacketVerificationRequiredError("verification_missing_before_sponsored_finalization");
       }
-      await recordPartnerPacketGeneration({
+      const finalization = await finalizeSponsoredPacketGeneration({
         sessionId: partnerSessionId,
         briefcaseItemId,
-        expectedVerificationHash: verificationHash
+        expectedVerificationHash: verificationHash,
+        artifactRefs: packet.artifactRefs
+      });
+      if (!finalization.ok) {
+        return NextResponse.json(
+          { error: "Partner packet coverage could not be finalized for this matter." },
+          { status: 409 }
+        );
+      }
+      return NextResponse.json({
+        packetStatus: "ready",
+        canDownload: true,
+        artifact: safeArtifact(packet.artifactRefs),
+        briefcaseItemId
       });
     }
 

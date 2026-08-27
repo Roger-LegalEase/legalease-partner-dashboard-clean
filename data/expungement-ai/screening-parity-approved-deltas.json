@@ -1,6 +1,33 @@
 {
   "schemaVersion": 1,
   "note": "The single reviewed exception mechanism for verify-expungement-plain-language-values. It does not excuse a parity failure. Each record is APPLIED to the origin/main baseline to produce the exact expected shape, and the verifier's existing strict comparison then runs unchanged against that. Anything outside the recorded delta is still a failure, because the expected result is fully specified rather than partially waived. Unknown keys are rejected and no field accepts a wildcard, a prefix or a glob, so widening scope requires changing the schema and its tests, not editing a list.",
+  "runtimeReauthorizations": [
+    {
+      "id": "public-profile-lifecycle-validation-2026-08-26",
+      "deltaId": "md-pardon-signed-date-2026-08-25",
+      "path": "src/lib/rcap-engine/public-profile-projection.ts",
+      "priorSha256": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9",
+      "newSha256": "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73",
+      "proofPath": "scripts/verify-screening-verification-finetune.mjs",
+      "proofSha256": "2950fd5e914821fb775762281a5b28a7e3281744db12ca3bf85066e0fe993c3d",
+      "authorizedBy": "Roger Roman via the controlling 2026-08-26 targeted fine-tune directive",
+      "authorizedOn": "2026-08-26",
+      "scope": "post_projection_question_lifecycle_validation_only",
+      "environment": "repository_non_production_only",
+      "statement": "Authorize only the exact public-profile projection bytes that validate questionLifecycle after the complete public question projection is built, so projection-added questions are validated without recursive projection. This is a repository and non-production runtime authorization, not legal authority.",
+      "doesNotAuthorize": [
+        "legal_behavior",
+        "date_behavior",
+        "question_changes",
+        "evaluator_changes",
+        "migration",
+        "deployment",
+        "staging",
+        "production",
+        "launch"
+      ]
+    }
+  ],
   "deltas": [
     {
       "id": "md-pardon-signed-date-2026-08-25",

@@ -19,9 +19,8 @@ import {
 } from "@/lib/expungement-ai/packet-information";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { buildRenderJobSpec, RenderContractError } from "@/lib/rcap/render/job-contract";
-import { enqueueRenderJob } from "@/lib/rcap/render/job-queue";
+import { enqueueVerifiedConsumerRender } from "@/lib/rcap/render/job-queue";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
-import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 /**
  * The application-side half of the paid consumer journey.
@@ -62,105 +61,17 @@ function deterministicUuid(seed: string): string {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
 }
 
-/**
- * Resolves the packet row this Briefcase item renders from, creating it once.
- *
- * The id is derived from the item, so a retry with the same reviewed answers
- * finds the same packet and lands on Phase 53's idempotency. A later correction
- * keeps the same paid matter but changes the answer-bound input hash, allowing
- * a corrected render without creating another payment entitlement.
- */
-async function resolveConsumerPacketId(input: {
-  authUserId: string;
-  briefcaseItemId: string;
-  personId: string;
-  matterId: string;
-  jurisdiction: string;
-  pathwayLabel: string;
-  item: ConsumerBriefcaseItem;
-  packetInformation: PacketInformationModel;
-  packetFields: Record<string, unknown>;
-}): Promise<string | null> {
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) return null;
-
-  const packetId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${input.briefcaseItemId}`);
-  const packetRow = consumerPacketRow(input);
-
-  const existing = await supabase
-    .from("rcap_document_packets")
-    .select("id, partner_slug, user_id, briefcase_id")
-    .eq("id", packetId)
-    .maybeSingle<{
-      id: string;
-      partner_slug: string;
-      user_id: string | null;
-      briefcase_id: string | null;
-    }>();
-
-  if (existing.error) return null;
-  if (existing.data && (
-    existing.data.partner_slug !== CONSUMER_PERSON_NAMESPACE
-    || existing.data.user_id !== input.authUserId
-    || existing.data.briefcase_id !== input.briefcaseItemId
-  )) return null;
-
-  const saved = existing.data
-    ? await supabase
-      .from("rcap_document_packets")
-      .update(packetRow)
-      .eq("id", packetId)
-      .eq("user_id", input.authUserId)
-      .eq("briefcase_id", input.briefcaseItemId)
-      .select("id")
-      .maybeSingle<{ id: string }>()
-    : await supabase
-      .from("rcap_document_packets")
-      .insert({
-        id: packetId,
-        // The same reserved namespace the consumer person uses. It is not a
-        // partner, and no partner accounting reads it: a consumer job carries
-        // a null partner_id and takes the zero_charge path, so nothing here can
-        // consume a partner's credit.
-        partner_slug: CONSUMER_PERSON_NAMESPACE,
-        user_id: input.authUserId,
-        briefcase_id: input.briefcaseItemId,
-        ...packetRow
-      })
-      .select("id")
-      .maybeSingle<{ id: string }>();
-
-  if (saved.error || saved.data?.id !== packetId) return null;
-
-  // Preserve the full reviewed answer snapshot even where the legacy packet
-  // table has no dedicated column. The immutable worker renders the common
-  // court-facing fields above; future renderer revisions can consume the same
-  // source payload without trusting browser input or reconstructing history.
-  const inputs = await supabase
-    .from("rcap_document_packet_inputs")
-    .upsert({
-      document_packet_id: packetId,
-      partner_slug: CONSUMER_PERSON_NAMESPACE,
-      intake_session_id: null,
-      input_payload: {
-        schemaVersion: "expungement-ai-consumer-packet/v1",
-        productId: CONSUMER_PACKET_PRODUCT_ID,
-        authUserId: input.authUserId,
-        briefcaseItemId: input.briefcaseItemId,
-        personId: input.personId,
-        matterId: input.matterId,
-        jurisdiction: input.jurisdiction,
-        pathwayLabel: input.pathwayLabel,
-        reviewedAt: input.packetInformation.reviewedAt,
-        packetFields: input.packetFields
-      }
-    }, { onConflict: "document_packet_id" })
-    .select("document_packet_id")
-    .maybeSingle<{ document_packet_id: string }>();
-
-  if (inputs.error || inputs.data?.document_packet_id !== packetId) return null;
-
-  return packetId;
+function canonicalPayloadHash(value: unknown): string {
+  const canonicalize = (entry: unknown): unknown => {
+    if (Array.isArray(entry)) return entry.map(canonicalize);
+    if (!entry || typeof entry !== "object") return entry;
+    return Object.fromEntries(
+      Object.keys(entry as Record<string, unknown>)
+        .sort()
+        .map((key) => [key, canonicalize((entry as Record<string, unknown>)[key])])
+    );
+  };
+  return createHash("sha256").update(JSON.stringify(canonicalize(value))).digest("hex");
 }
 
 function consumerPacketRow(input: {
@@ -246,13 +157,12 @@ function splitFullName(value: string | null): { firstName: string | null; lastNa
   return { firstName: parts.slice(0, -1).join(" "), lastName: parts.at(-1) ?? null };
 }
 
-function canonicalPacketFields(item: ConsumerBriefcaseItem, model: PacketInformationModel) {
+function canonicalPacketFields(model: PacketInformationModel) {
   return {
     ...model.initialAnswers,
-    // These two are server-resolved facts. Put them last so a legacy screening
-    // answer can never override the authoritative state or pathway.
-    jurisdiction: model.stateCode,
-    pathway_id: model.pathwayId ?? item.pathwayLabel ?? ""
+    // Explicitly allowlisted protected facts are last. Arbitrary persisted
+    // serverFacts never enter the model and therefore cannot reach rendering.
+    ...model.serverFacts
   };
 }
 
@@ -310,7 +220,12 @@ async function requestConsumerPacketRenderInternal(input: {
     || !packetInformation.reviewedAt) {
     return { status: "route_not_renderable", reason: "packet information has not passed the accuracy review" };
   }
-  const packetFields = canonicalPacketFields(item, packetInformation);
+  const packetFields = canonicalPacketFields(packetInformation);
+  const verifiedPathwayId = verification.snapshot.pathwayId;
+  if (!verifiedPathwayId) {
+    return { status: "route_contract_unverifiable", reason: "verified pathway identity is missing" };
+  }
+  const provisionalPacketId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}`);
 
   // Exact track identity from the item's own server-authored metadata, so a
   // deferred composed route is refused here — before a packet row is created,
@@ -329,9 +244,9 @@ async function requestConsumerPacketRenderInternal(input: {
   let built;
   try {
     built = buildRenderJobSpec({
-      packetId: deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}`),
+      packetId: provisionalPacketId,
       state: item.state,
-      pathway: item.pathwayLabel,
+      pathway: verifiedPathwayId,
       briefcaseItemId: item.id,
       trackId: item.selectedTrackId
         ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
@@ -365,41 +280,88 @@ async function requestConsumerPacketRenderInternal(input: {
   });
   if (!authority.valid) return { status: "payment_required", reason: authority.reason };
 
-  const packetId = await resolveConsumerPacketId({
-    authUserId,
-    briefcaseItemId: item.id,
+  const renderPacketBody = consumerPacketRow({
     personId: person.personId,
-    matterId,
     jurisdiction: built.route.jurisdiction,
     pathwayLabel: built.route.pathwayId,
     item,
     packetInformation,
     packetFields
   });
-  if (!packetId) return { status: "identity_unresolved", reason: "could not resolve a consumer packet record" };
-
-  // Application-level compare immediately before enqueue. The captain-owned
-  // RPC migration closes the remaining read/write race inside the transaction.
-  const latestItem = lookup === "service"
-    ? await getBriefcaseItemForWebhook(authUserId, item.id)
-    : await getBriefcaseItem(authUserId, item.id);
-  try {
-    if (!latestItem || requireCurrentPacketVerification(latestItem).hash !== verification.hash) {
-      return { status: "route_not_renderable", reason: "final verification changed before render enqueue" };
+  const renderInputPayloadBase = {
+    schemaVersion: "expungement-ai-consumer-packet/v2",
+    productId: CONSUMER_PACKET_PRODUCT_ID,
+    authUserId,
+    briefcaseItemId: item.id,
+    personId: person.personId,
+    matterId,
+    jurisdiction: built.route.jurisdiction,
+    pathwayId: built.route.pathwayId,
+    reviewedAt: packetInformation.reviewedAt,
+    verificationHash: verification.hash,
+    packetFields
+  };
+  const renderPacketSeed = {
+    partner_slug: CONSUMER_PERSON_NAMESPACE,
+    user_id: authUserId,
+    briefcase_id: item.id,
+    intake_session_id: null,
+    relief_outcome: "not_recorded",
+    ...renderPacketBody
+  };
+  // The worker reads by packet id. Version the id by every exact row/input byte
+  // so no later request can point an existing queued job at different source.
+  const payloadVersionHash = canonicalPayloadHash({
+    renderPacketSeed,
+    renderInputPayloadBase,
+    renderContract: {
+      routeId: built.spec.routeId,
+      rendererKind: built.spec.rendererKind,
+      rendererVersion: built.spec.rendererVersion,
+      sourceSha256: built.spec.sourceSha256,
+      profileId: built.spec.profileId,
+      profileVersion: built.spec.profileVersion
     }
-  } catch {
-    return { status: "route_not_renderable", reason: "final verification changed before render enqueue" };
-  }
+  });
+  const packetId = deterministicUuid(
+    `${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}:${payloadVersionHash}`
+  );
+  const versioned = buildRenderJobSpec({
+    packetId,
+    state: item.state,
+    pathway: verifiedPathwayId,
+    briefcaseItemId: item.id,
+    trackId: item.selectedTrackId
+      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+    packetFields
+  });
+  if (!versioned.spec) return { status: "route_not_renderable", reason: versioned.route.reason };
+  const renderPacket = { id: packetId, ...renderPacketSeed };
+  const inputHash = canonicalPayloadHash({
+    renderPacket,
+    renderInputPayload: renderInputPayloadBase,
+    renderContractInputHash: versioned.spec.inputHash
+  });
+  const renderInputPayload = {
+    ...renderInputPayloadBase,
+    inputHash,
+    renderContractInputHash: versioned.spec.inputHash
+  };
+  const verifiedSpec = { ...versioned.spec, inputHash };
 
-  const job = await enqueueRenderJob(built.spec, {
+  // No packet or input row is written before this call. The captain-owned RPC
+  // compares protected verification, immutable-inserts these exact payloads,
+  // and enqueues as one transaction.
+  const job = await enqueueVerifiedConsumerRender(verifiedSpec, {
     mode: "consumer",
     consumerBriefcaseItemId: item.id,
-    // Session-derived. The database independently loads the item's canonical
-    // owner and refuses the insert unless the two agree.
     expectedConsumerAuthUserId: authUserId,
     personId: person.personId,
     matterId,
     expectedVerificationHash: verification.hash
+  }, {
+    renderPacket,
+    renderInputPayload
   });
 
   if (!job) return { status: "enqueue_failed", reason: "the render queue refused or is unavailable" };

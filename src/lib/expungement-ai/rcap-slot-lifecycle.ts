@@ -2,6 +2,7 @@ import "server-only";
 
 import { emitPartnerUsageWindowEvent } from "@/lib/expungement-ai/nudge-os-events";
 import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
+import type { ConsumerPacketArtifactRefs } from "@/lib/expungement-ai/packet-generation";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
 export type RcapSlotLifecycleResult = {
@@ -60,6 +61,66 @@ export type PartnerPacketRecordResult = {
   reason?: string;
   error?: string;
 };
+
+/**
+ * Atomic sponsored completion boundary. Captain-owned SQL compares protected
+ * verification, consumes exactly one included/overage credit, merges the
+ * prepared artifact into the existing envelope, and sets Ready in one locked
+ * transaction. A refusal must perform none of those mutations.
+ */
+export async function finalizeSponsoredPacketGeneration(input: {
+  sessionId: string;
+  briefcaseItemId: string;
+  expectedVerificationHash: string;
+  artifactRefs: ConsumerPacketArtifactRefs;
+}): Promise<PartnerPacketRecordResult> {
+  try {
+    assertExpectedPacketVerificationHash(input.expectedVerificationHash);
+  } catch (error) {
+    return {
+      ok: false,
+      recorded: false,
+      countedAs: "not_counted",
+      error: error instanceof Error ? error.message : "invalid_verification_hash"
+    };
+  }
+  const supabase = getSupabaseAdminClient();
+  if (!supabase) return { ok: false, recorded: false, countedAs: "not_counted", error: "supabase_not_configured" };
+
+  try {
+    const { data, error } = await supabase.rpc("finalize_sponsored_packet_generation_if_verified", {
+      p_session_id: input.sessionId,
+      p_briefcase_item_id: input.briefcaseItemId,
+      p_expected_verification_hash: input.expectedVerificationHash,
+      p_packet_artifact: input.artifactRefs
+    });
+    if (error) return { ok: false, recorded: false, countedAs: "not_counted", error: error.message };
+    const row = (Array.isArray(data) ? data[0] : data) as
+      | { ok?: boolean; recorded?: boolean; counted_as?: string; reason?: string | null }
+      | undefined;
+    if (row?.ok !== true) {
+      return {
+        ok: false,
+        recorded: false,
+        countedAs: "not_counted",
+        reason: row?.reason ?? "sponsored_finalization_refused"
+      };
+    }
+    return {
+      ok: true,
+      recorded: Boolean(row.recorded),
+      countedAs: (row.counted_as ?? "not_counted") as PartnerPacketRecordResult["countedAs"],
+      reason: row.reason ?? undefined
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      recorded: false,
+      countedAs: "not_counted",
+      error: error instanceof Error ? error.message : "sponsored_finalization_failed"
+    };
+  }
+}
 
 // Overage-aware packet-credit consumption. Idempotent at the database level
 // (a slot is consumed only once), so duplicate webhook/generation retries never

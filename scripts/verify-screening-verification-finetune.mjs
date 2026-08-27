@@ -25,6 +25,7 @@ const {
 const { assertCheckoutAllowed } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 const {
   assertPacketGenerationAllowed,
+  consumerPacketStatusForItem,
   generatePaidConsumerPacket,
   getConsumerPacketDownload,
   getConsumerPacketStatus,
@@ -37,12 +38,15 @@ const {
   saveScreeningResultToBriefcase,
   updateBriefcasePacketMetadata
 } = await import("../src/lib/expungement-ai/briefcase.ts");
-const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { getAllJurisdictionProfiles, getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 const {
+  PACKET_VERIFICATION_CAS_CALL_SITES,
   PACKET_VERIFICATION_CAS_HANDOFF,
   assertExpectedPacketVerificationHash
 } = await import("../src/lib/expungement-ai/verification-cas.ts");
+const { finalizeSponsoredPacketGeneration } = await import("../src/lib/expungement-ai/rcap-slot-lifecycle.ts");
 
 assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_HANDOFF), [
   "checkout_binding",
@@ -55,6 +59,19 @@ for (const point of Object.values(PACKET_VERIFICATION_CAS_HANDOFF)) {
   assert.equal(point.expectedHashParameter, "p_expected_verification_hash");
   assert.ok(point.rpcName, "every concurrency boundary names its captain-owned RPC");
 }
+assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.rpcName, "enqueue_verified_consumer_packet_render");
+assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.atomicPayloadParameters, [
+  "p_render_packet",
+  "p_render_input_payload"
+]);
+assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.sponsored_slot_consumption.rpcName, "finalize_sponsored_packet_generation_if_verified");
+assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_CALL_SITES), Object.keys(PACKET_VERIFICATION_CAS_HANDOFF));
+assert.match(PACKET_VERIFICATION_CAS_CALL_SITES.payment_entitlement.captainWarning, /does not yet send p_expected_verification_hash/);
+const checkoutSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/payment-adapter.ts"), "utf8");
+assert.ok(
+  checkoutSource.includes('if (session.status === "open") await stripe.checkout.sessions.expire(session.id);'),
+  "a Checkout Session created before a refused binding CAS must be expired"
+);
 assert.equal(assertExpectedPacketVerificationHash("a".repeat(64)), "a".repeat(64));
 assert.throws(() => assertExpectedPacketVerificationHash("participant-controlled"), /verification hash/i);
 
@@ -133,6 +150,28 @@ assert.deepEqual(
   "missing lifecycle authority must expose universal questions only"
 );
 
+const allProfiles = getAllJurisdictionProfiles();
+assert.equal(allProfiles.length, 51, "real fail-closed coverage includes 50 states plus DC");
+for (const profile of allProfiles) {
+  if (profile.questionLifecycle) continue; // State shards add exact post-integration proofs.
+  const projected = projectPublicProfile(profile);
+  const pathwayQuestion = projected.questions.find((question) => question.id === "possible_pathway_context");
+  const exactLabel = pathwayQuestion?.options?.find((option) => typeof option === "string") ?? "";
+  const universal = selectScreeningQuestionIds(profile, projected, {});
+  const attemptedRoute = selectScreeningQuestionIds(profile, projected, { possible_pathway_context: exactLabel });
+  assert.deepEqual(attemptedRoute, universal, `${profile.jurisdiction.code} missing metadata cannot unlock route facts`);
+  const stageOrder = new Map(projected.flowStages.map((stage) => [stage.id, stage.order]));
+  const routingOrder = stageOrder.get("pathway_routing") ?? Number.NEGATIVE_INFINITY;
+  const postRoutingIds = projected.questions
+    .filter((question) => (stageOrder.get(question.stage) ?? Number.MAX_SAFE_INTEGER) > routingOrder)
+    .map((question) => question.id);
+  assert.equal(
+    attemptedRoute.some((id) => postRoutingIds.includes(id)),
+    false,
+    `${profile.jurisdiction.code} missing metadata withholds post-routing/exact packet facts`
+  );
+}
+
 const invalidProfile = structuredClone(engineProfile);
 invalidProfile.questionLifecycle.routeConsumers.missing_question = ["route-a"];
 assert.equal(validateQuestionLifecycleMetadata(invalidProfile).ok, false, "unknown metadata question IDs fail closed");
@@ -185,7 +224,7 @@ const baseItem = {
   nextSteps: [],
   paymentAllowed: true,
   packetReady: false,
-  pathwayLabel: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
+  pathwayLabel: "Non-conviction expungement for dismissal, no disposition, or acquittal",
   packetType: authoritativeFixture.packetType,
   paymentStatus: "unpaid",
   packetStatus: "not_started",
@@ -210,13 +249,32 @@ const baseItem = {
         serverFacts: {
           jurisdiction: "MS",
           pathway_id: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
-          server_confirmed_balance: "Satisfied"
+          server_confirmed_balance: "Satisfied",
+          court: "Forged Server Court",
+          participant_full_legal_name: "Forged Server Name"
         },
         prefilledAnswers: {}, answers: {}, missingInputIds: requiredInputs.filter((id) => !["jurisdiction", "pathway_id"].includes(id)), updatedAt: null, reviewedAt: null
       }
     }
   }
 };
+
+const forgedRequiredServerFactItem = structuredClone(baseItem);
+const forgedRequiredServerFactAnswers = { ...completePacketAnswers };
+delete forgedRequiredServerFactAnswers.court;
+delete forgedRequiredServerFactAnswers.participant_full_legal_name;
+const forgedRequiredServerFactModel = packetInformationModelFor(forgedRequiredServerFactItem);
+assert.ok(forgedRequiredServerFactModel.questions.some((question) => question.id === "court"), "a forged server court cannot hide its participant question");
+assert.ok(forgedRequiredServerFactModel.questions.some((question) => question.id === "participant_full_legal_name"), "a forged server name cannot hide its participant question");
+assert.deepEqual(Object.keys(forgedRequiredServerFactModel.serverFacts), ["jurisdiction", "pathway_id"]);
+const forgedRequiredServerFactVerification = packetInformationPatch({
+  existingItem: forgedRequiredServerFactItem,
+  answers: forgedRequiredServerFactAnswers,
+  verify: true
+});
+assert.equal(forgedRequiredServerFactVerification.readyToGenerate, false, "forged server facts cannot complete participant-required inputs");
+assert.ok(forgedRequiredServerFactVerification.missingInputIds.includes("court"));
+assert.ok(forgedRequiredServerFactVerification.missingInputIds.includes("participant_full_legal_name"));
 
 const incomplete = packetInformationPatch({ existingItem: baseItem, answers: { court: "Circuit Court" }, verify: false });
 assert.equal(incomplete.patch.commercialFlow.packetInformation.stage, "in_progress");
@@ -236,7 +294,7 @@ assert.match(verification.patch.commercialFlow.verification.hash, /^[a-f0-9]{64}
 assert.equal(verification.patch.commercialFlow.verification.snapshot.schemaVersion, "expungement-ai/final-verification/v1");
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.screeningAnswers), Object.keys(baseItem.artifactRefs.commercialFlow.screening.answers).sort());
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.packetAnswers), Object.keys(completePacketAnswers).sort());
-assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.serverFacts), ["jurisdiction", "pathway_id", "server_confirmed_balance"]);
+assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.serverFacts), ["jurisdiction", "pathway_id"]);
 assert.ok(verification.patch.commercialFlow.verification.snapshot.packetPlan, "packet plan dependency must be snapshotted");
 assert.match(verification.patch.commercialFlow.verification.snapshot.profileAuthorityFingerprint, /^[a-f0-9]{64}$/);
 
@@ -288,13 +346,18 @@ assert.deepEqual(
   expectedSummaryKeys,
   "every hashed participant fact must appear once in canonical source/id order"
 );
-assert.equal(
-  verifiedModel.verificationSummary.find((fact) => fact.key === "serverFacts:server_confirmed_balance")?.systemContext,
-  false,
-  "arbitrary server facts are participant-reviewable facts"
-);
+assert.equal(verifiedModel.verificationSummary.some((fact) => fact.key === "serverFacts:server_confirmed_balance"), false);
 assert.equal(verifiedModel.verificationSummary.find((fact) => fact.key === "serverFacts:jurisdiction")?.systemContext, true);
 assert.equal(verifiedModel.verificationSummary.find((fact) => fact.key === "serverFacts:pathway_id")?.systemContext, true);
+const expectedContextKeys = Object.keys(snapshot)
+  .filter((key) => !["screeningAnswers", "prefilledAnswers", "packetAnswers", "serverFacts"].includes(key))
+  .sort();
+assert.deepEqual(verifiedModel.verificationContext.map((entry) => entry.key), expectedContextKeys);
+for (const entry of verifiedModel.verificationContext) {
+  assert.deepEqual(entry.value, snapshot[entry.key], `system context ${entry.key} matches the canonical snapshot dependency`);
+}
+assert.deepEqual(verifiedModel.verificationManifest.factKeys, expectedSummaryKeys);
+assert.deepEqual(verifiedModel.verificationManifest.systemContextKeys, expectedContextKeys);
 assert.equal(packetVerificationState(verifiedItem).status, "verified");
 assert.doesNotThrow(() => requireCurrentPacketVerification(verifiedItem));
 assert.doesNotThrow(() => assertCheckoutAllowed(verifiedItem));
@@ -351,6 +414,13 @@ const packetArtifact = {
 };
 const attachedEnvelope = mergePacketArtifactEnvelope(verifiedItem.artifactRefs, packetArtifact);
 assert.deepEqual(attachedEnvelope.commercialFlow, verifiedItem.artifactRefs.commercialFlow, "artifact attachment preserves verification and commercial flow");
+const refusedSponsoredFinalization = await finalizeSponsoredPacketGeneration({
+  sessionId: "no-database-session",
+  briefcaseItemId: verifiedItem.id,
+  expectedVerificationHash: verification.patch.commercialFlow.verification.hash,
+  artifactRefs: packetArtifact
+});
+assert.equal(refusedSponsoredFinalization.ok, false, "a refused sponsored CAS cannot be treated as finalized");
 const legacyReady = {
   ...verifiedItem,
   artifactRefs: attachedEnvelope,
@@ -383,6 +453,44 @@ assert.equal(legacyStatus.canDownload, true, "status exposes an already-issued p
 const legacyDownload = await getConsumerPacketDownload({ userId: legacyArtifactUser, briefcaseItemId: savedLegacyReady.id });
 assert.equal(legacyDownload.body, "immutable packet bytes", "download preserves immutable legacy artifact access");
 
+const sponsoredLegacyPdf = {
+  ...sponsoredVerifiedItem,
+  packetStatus: "ready",
+  artifactRefs: {
+    provider: "rcap_legacy_mississippi",
+    packetId: "legacy-ms-pdf",
+    fileName: "mississippi-petition-packet.pdf",
+    contentType: "application/pdf",
+    generatedAt: "2026-08-26T12:00:00.000Z",
+    source: "mississippi_legacy_petition_packet",
+    downloadPath: "/api/rcap/documents/legacy-ms-pdf/pdf/full",
+    courtPacketDownloadPath: "/api/rcap/documents/legacy-ms-pdf/pdf/court"
+  }
+};
+assert.equal(readyPacketArtifactAccess(sponsoredLegacyPdf, true)?.downloadPath, "/api/rcap/documents/legacy-ms-pdf/pdf/full", "issued sponsored legacy PDFs remain accessible without retroactive verification");
+const sponsoredLegacyUser = "sponsored-legacy-pdf-user";
+const savedSponsoredLegacyPdf = await saveScreeningResultToBriefcase({
+  userId: sponsoredLegacyUser,
+  itemType: "result",
+  jurisdiction: "MS",
+  pathwayLabel: baseItem.pathwayLabel,
+  resultCode: baseItem.resultCode,
+  packetType: baseItem.packetType,
+  paymentAllowed: false,
+  status: "packet_ready",
+  summary: "Issued sponsored legacy PDF",
+  nextSteps: [],
+  artifactRefs: sponsoredLegacyPdf.artifactRefs,
+  paymentStatus: "not_applicable",
+  packetStatus: "ready",
+  sourceSessionId: "sponsored-legacy-session"
+});
+const reloadedSponsoredLegacyPdf = await getBriefcaseItem(sponsoredLegacyUser, savedSponsoredLegacyPdf.id);
+const sponsoredLegacyStatus = consumerPacketStatusForItem(reloadedSponsoredLegacyPdf, true);
+assert.equal(sponsoredLegacyStatus.packetStatus, "ready", "sponsored legacy PDF survives persistence reload");
+assert.equal(sponsoredLegacyStatus.canDownload, true, "sponsored legacy PDF status exposes its immutable download access");
+assert.equal(sponsoredLegacyStatus.artifactRefs.downloadPath, "/api/rcap/documents/legacy-ms-pdf/pdf/full");
+
 const generationUser = "verification-generation-user";
 let generationItem = await saveScreeningResultToBriefcase({
   userId: generationUser,
@@ -405,6 +513,11 @@ let generationItem = await saveScreeningResultToBriefcase({
 const generationVerification = packetInformationPatch({ existingItem: generationItem, answers: completePacketAnswers, verify: true });
 generationItem = await mergeBriefcaseArtifactRefs(generationUser, generationItem.id, generationVerification.patch);
 assert.ok(generationItem);
+assert.deepEqual(
+  Object.keys(generationItem.artifactRefs.commercialFlow.packetInformation.serverFacts),
+  ["jurisdiction", "pathway_id"],
+  "canonical serverFacts replace rather than recursively preserve forged legacy keys"
+);
 assert.equal(
   await updateBriefcasePacketMetadata(generationUser, generationItem.id, {
     packetStatus: "pending",
@@ -421,6 +534,7 @@ const generatedStatus = await getConsumerPacketStatus({ userId: generationUser, 
 assert.equal(generatedStatus.canDownload, true);
 const generatedDownload = await getConsumerPacketDownload({ userId: generationUser, briefcaseItemId: generationItem.id });
 assert.equal(generatedDownload.body, generated.artifactRefs.text);
+assert.equal(generated.artifactRefs.packetPlanId, authoritativeFixture.evaluation.pathwayId, "packet generation uses the verified pathway id, not a human display label");
 
 const progressRoute = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/screening/progress/route.ts"), "utf8");
 for (const forbidden of ["paymentAllowed", "packetPlan", "sponsorship", "pathwayId", "selectedTrackId"]) {
@@ -439,10 +553,49 @@ for (const file of [
 }
 const sponsoredGenerationRoute = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/packet/generate/route.ts"), "utf8");
 assert.ok(
-  sponsoredGenerationRoute.lastIndexOf("requireCurrentPacketVerification") < sponsoredGenerationRoute.indexOf("recordPartnerPacketGeneration({"),
-  "sponsored generation must recheck the current verification immediately before slot consumption"
+  sponsoredGenerationRoute.includes("finalizeSponsoredPacketGeneration({"),
+  "sponsored generation uses the atomic verification/credit/artifact finalizer"
 );
 assert.ok(sponsoredGenerationRoute.includes("briefcaseItemId,"), "sponsored slot CAS binds the Briefcase matter");
 assert.ok(sponsoredGenerationRoute.includes("expectedVerificationHash: verificationHash"), "sponsored slot CAS binds the exact verification hash");
+assert.ok(sponsoredGenerationRoute.includes("if (!finalization.ok)"), "the route must reject a sponsored-slot refusal");
+assert.ok(sponsoredGenerationRoute.indexOf("if (!finalization.ok)") < sponsoredGenerationRoute.indexOf("packetStatus: \"ready\""), "no Ready response may precede a successful sponsored finalization");
+
+const packetGenerationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
+assert.ok(packetGenerationSource.includes("if (partnerSponsored)"));
+assert.ok(packetGenerationSource.indexOf("if (partnerSponsored)") < packetGenerationSource.indexOf("await attachPacketToBriefcaseItem({"), "sponsored generation cannot attach Ready before atomic credit consumption");
+
+const consumerRenderSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
+for (const forbidden of ['.from("rcap_document_packets")', '.from("rcap_document_packet_inputs")', "getSupabaseAdminClient"]) {
+  assert.ok(!consumerRenderSource.includes(forbidden), `consumer render must not perform pre-CAS durable mutation via ${forbidden}`);
+}
+assert.ok(consumerRenderSource.includes("enqueueVerifiedConsumerRender("), "consumer render calls only the atomic verified enqueue boundary");
+assert.ok(
+  consumerRenderSource.includes('`${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}:${payloadVersionHash}`'),
+  "versioned worker packet identity binds the current verification and exact payload hashes"
+);
+assert.ok(
+  consumerRenderSource.includes("const renderPacketSeed = {")
+    && consumerRenderSource.includes('relief_outcome: "not_recorded"'),
+  "versioned worker packet identity seeds every immutable packet row field before deriving id"
+);
+assert.ok(
+  consumerRenderSource.includes("renderPacketSeed,")
+    && consumerRenderSource.includes("const renderPacket = { id: packetId, ...renderPacketSeed }"),
+  "packet identity hashes the exact immutable row seed later sent to the atomic boundary"
+);
+for (const dependency of ["rendererKind", "rendererVersion", "sourceSha256", "profileId", "profileVersion"]) {
+  assert.ok(consumerRenderSource.includes(`${dependency}: built.spec.${dependency}`), `packet source version binds ${dependency}`);
+}
+assert.ok(consumerRenderSource.includes("const verifiedSpec = { ...versioned.spec, inputHash }"), "queue input_hash covers the exact immutable render payload");
+const jobQueueSource = fs.readFileSync(path.join(root, "src/lib/rcap/render/job-queue.ts"), "utf8");
+assert.ok(jobQueueSource.includes('rpc("enqueue_verified_consumer_packet_render"'));
+for (const parameter of ["p_expected_verification_hash", "p_render_packet", "p_render_input_payload"]) {
+  assert.ok(jobQueueSource.includes(parameter), `atomic render enqueue must send ${parameter}`);
+}
+assert.ok(
+  jobQueueSource.includes("p_expected_verification_hash: identity.expectedVerificationHash"),
+  "atomic render enqueue sends the exact current verification hash value"
+);
 
 console.log("screening-verification-finetune: OK");

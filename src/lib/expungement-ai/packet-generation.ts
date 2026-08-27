@@ -99,7 +99,13 @@ export async function generatePaidConsumerPacket({
   } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
 
   try {
-    const artifactRefs = buildConsumerPacketArtifact(item);
+    const artifactRefs = buildConsumerPacketArtifact(item, verification);
+    // Sponsored artifacts become Ready only inside the captain-owned atomic
+    // credit-consumption/finalization RPC. Returning the prepared artifact is
+    // non-durable; a refusal leaves the item generating and inaccessible.
+    if (partnerSponsored) {
+      return { packetStatus: "generating", artifactRefs, canDownload: false };
+    }
     await attachPacketToBriefcaseItem({
       userId,
       item,
@@ -137,6 +143,13 @@ export async function getConsumerPacketStatus({
 }): Promise<ConsumerPacketStatus> {
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   const partnerSponsored = await isPartnerSponsoredPacketItem(item);
+  return consumerPacketStatusForItem(item, partnerSponsored);
+}
+
+export function consumerPacketStatusForItem(
+  item: ConsumerBriefcaseItem,
+  partnerSponsored = false
+): ConsumerPacketStatus {
   const readyArtifact = readyPacketArtifactAccess(item, partnerSponsored);
   if (readyArtifact) return { packetStatus: "ready", artifactRefs: readyArtifact, canDownload: true };
   assertPacketGenerationAllowed(item, item.paymentProvider === "dry_run", { paymentRequired: !partnerSponsored });
@@ -315,10 +328,13 @@ export function assertPacketGenerationAllowed(
   return verification;
 }
 
-function buildConsumerPacketArtifact(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRefs {
+function buildConsumerPacketArtifact(
+  item: ConsumerBriefcaseItem,
+  verification: ReturnType<typeof requireCurrentPacketVerification>
+): ConsumerPacketArtifactRefs {
   const generatedAt = new Date().toISOString();
   const profile = getProfileByJurisdiction(item.state);
-  const pathwayId = item.pathwayLabel;
+  const pathwayId = verification.snapshot.pathwayId;
   const plan = profile && pathwayId ? packetPlanForPathway(profile, pathwayId) : undefined;
   if (!profile || !pathwayId || !plan) {
     throw new ConsumerPacketGenerationError("A source-driven jurisdiction/pathway packet plan is required.");
@@ -509,6 +525,32 @@ function artifactRefsFor(item: ConsumerBriefcaseItem): ConsumerPacketArtifactRef
     typeof refs.generatedAt === "string" &&
     typeof refs.downloadPath === "string" &&
     typeof refs.text === "string"
+  ) {
+    return refs as ConsumerPacketArtifactRefs;
+  }
+
+  if (
+    refs?.provider === "rcap_legacy_mississippi" &&
+    typeof refs.packetId === "string" &&
+    typeof refs.fileName === "string" &&
+    typeof refs.generatedAt === "string" &&
+    refs.source === "mississippi_legacy_petition_packet" &&
+    refs.contentType === "application/pdf" &&
+    typeof refs.downloadPath === "string" &&
+    typeof refs.courtPacketDownloadPath === "string"
+  ) {
+    return refs as ConsumerPacketArtifactRefs;
+  }
+
+  if (
+    refs?.provider === "rcap_legacy_mississippi" &&
+    typeof refs.packetId === "string" &&
+    typeof refs.fileName === "string" &&
+    typeof refs.generatedAt === "string" &&
+    refs.source === "mississippi_petition_information_required" &&
+    typeof refs.actionPath === "string" &&
+    Array.isArray(refs.missingFields) &&
+    refs.missingFields.every((field) => typeof field === "string")
   ) {
     return refs as ConsumerPacketArtifactRefs;
   }

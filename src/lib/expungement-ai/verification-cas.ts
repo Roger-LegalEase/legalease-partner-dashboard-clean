@@ -21,16 +21,48 @@ export const PACKET_VERIFICATION_CAS_HANDOFF = {
     expectedHashParameter: "p_expected_verification_hash"
   },
   render_enqueue: {
-    rpcName: "enqueue_packet_render_job",
-    expectedHashParameter: "p_expected_verification_hash"
+    rpcName: "enqueue_verified_consumer_packet_render",
+    expectedHashParameter: "p_expected_verification_hash",
+    atomicPayloadParameters: ["p_render_packet", "p_render_input_payload"]
   },
   sponsored_slot_consumption: {
-    rpcName: "record_partner_packet_generation",
+    rpcName: "finalize_sponsored_packet_generation_if_verified",
     expectedHashParameter: "p_expected_verification_hash"
   }
 } as const;
 
 export type PacketVerificationCasPoint = keyof typeof PACKET_VERIFICATION_CAS_HANDOFF;
+
+/** Exact captain migration/RPC application handoff; no SQL is owned here. */
+export const PACKET_VERIFICATION_CAS_CALL_SITES = {
+  checkout_binding: {
+    applicationFunction: "payment-adapter.persistCheckoutBinding -> consumer-payment-authority.persistConsumerCheckoutBinding",
+    currentMutation: "direct consumer_briefcase_items UPDATE",
+    requiredAtomicMutation: "lock protected verification; compare expected hash; bind checkout/product/person/matter",
+    failureCompensation: "expire a newly-created open Stripe Checkout Session when the CAS refuses"
+  },
+  payment_entitlement: {
+    applicationFunction: "checkout-reconciliation.recordVerifiedConsumerPayment -> consumer-payment-authority.recordConsumerPacketPayment",
+    currentMutation: "record_consumer_packet_payment RPC",
+    requiredAtomicMutation: "compare protected hash while recording provider evidence and entitlement",
+    captainWarning: "RecordConsumerPaymentInput validates expectedVerificationHash, but the live RPC payload does not yet send p_expected_verification_hash"
+  },
+  artifact_attach: {
+    applicationFunction: "packet-generation.attachPacketToBriefcaseItem -> briefcase.updateBriefcasePacketMetadata{,ForWebhook}",
+    currentMutation: "application read/merge/UPDATE",
+    requiredAtomicMutation: "compare protected hash; merge current artifact envelope; attach DTC Ready without replacing commercialFlow/verification"
+  },
+  render_enqueue: {
+    applicationFunction: "consumer-render-request.requestConsumerPacketRenderInternal -> job-queue.enqueueVerifiedConsumerRender",
+    currentMutation: "enqueue_verified_consumer_packet_render RPC (captain SQL pending)",
+    requiredAtomicMutation: "lock protected hash; immutable-insert exact render packet/input keyed by packet id + input hash; enqueue one job"
+  },
+  sponsored_slot_consumption: {
+    applicationFunction: "packet/generate route -> rcap-slot-lifecycle.finalizeSponsoredPacketGeneration",
+    currentMutation: "finalize_sponsored_packet_generation_if_verified RPC (captain SQL pending)",
+    requiredAtomicMutation: "lock protected hash; consume included/overage credit; merge artifact; set Ready together; refusal mutates nothing"
+  }
+} as const;
 
 export type ExpectedPacketVerification = {
   expectedVerificationHash: string;
