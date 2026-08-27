@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "screening-verification-finetune-shard/v1",
+  "lane": "D",
+  "status": "implemented",
+  "baseSha": "de28d4220e21710b9e340b461b6dc2c5403951cf",
+  "states": [
+    "AL",
+    "AK",
+    "AZ",
+    "AR",
+    "CA",
+    "CO",
+    "CT",
+    "DE",
+    "DC"
+  ],
+  "before": {
+    "flows": 47,
+    "browserWitnessVariants": 88,
+    "freeQuestions": 99,
+    "completionOverlaps": 7,
+    "specialRouteQuestions": 12,
+    "rawPacketFields": 48
+  },
+  "after": {
+    "flows": 47,
+    "browserWitnessVariants": 88,
+    "freeQuestions": 99,
+    "routeConsumerFacts": 6,
+    "routeConsumerEdges": 12,
+    "exactPacketFactIds": 53,
+    "completionAliasIds": 7
+  },
+  "authority": {
+    "policy": "No legal rule was added or inferred from prose.",
+    "routeConsumers": "CA and DC mappings exactly mirror ROUTE_ESCALATION_FACT_IDS.",
+    "exactPacketFactIds": "Existing compiled questions whose stage is case_details or record_readiness, plus existing date_or_unknown disposition facts.",
+    "completionAliasIds": "Existing sentence_completion_date and financial_obligations questions that overlap the projected court_requirements_completed completion fact."
+  },
+  "unchanged": [
+    "questions",
+    "pathways",
+    "orderedDecisionRules",
+    "legalAuthority",
+    "packetGenerator",
+    "forms",
+    "terminal outcomes",
+    "payment outcomes"
+  ],
+  "blockers": []
+}
