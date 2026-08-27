@@ -77,6 +77,8 @@ export type BriefcasePresentationItem = {
       capturedAt: string;
       initialAnswers: Record<string, AnswerValue>;
       screeningAnswers: Record<string, AnswerValue>;
+      prefilledAnswers: Readonly<Record<string, AnswerValue>>;
+      packetAnswers: Readonly<Record<string, AnswerValue>>;
       serverFacts: Record<string, AnswerValue>;
       requiredInputIds: string[];
       missingInputIds: string[];
@@ -422,6 +424,8 @@ function presentationDraftForModel(
     capturedAt: model.capturedAt,
     initialAnswers: model.initialAnswers,
     screeningAnswers: model.screeningAnswers,
+    prefilledAnswers: model.prefilledAnswers,
+    packetAnswers: model.packetAnswers,
     serverFacts: model.serverFacts,
     requiredInputIds: [...model.requiredInputIds],
     missingInputIds: [...model.missingInputIds],

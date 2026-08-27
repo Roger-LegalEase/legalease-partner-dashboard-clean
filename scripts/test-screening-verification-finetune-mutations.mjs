@@ -222,6 +222,22 @@ const mutations = [
     ', "payment_status_unpaid"',
     ""
   )],
+  ["protected presentation omits the prefilled source map", presentation, (source) => source.replace(
+    "    prefilledAnswers: model.prefilledAnswers,\n",
+    ""
+  )],
+  ["protected presentation omits packet-source extras", presentation, (source) => source.replace(
+    "    packetAnswers: model.packetAnswers,\n",
+    ""
+  )],
+  ["source collision retains an overridden prefilled fact", packetInformation, (source) => source.replace(
+    "  const prefilledAnswers = omitAnswerIds(answerRecord(input.prefilledAnswers), packetOrServerIds);",
+    "  const prefilledAnswers = omitAnswerIds(answerRecord(input.prefilledAnswers), serverIds);"
+  )],
+  ["source normalization drops protected packet extras", packetInformation, (source) => source.replace(
+    "  const packetAnswers = omitAnswerIds(answerRecord(input.packetAnswers), serverIds);",
+    "  const packetAnswers = {};"
+  )],
   ["protected persistence accepts a missing current draft", verificationCas, (source) => source.replace(
     '    return { ok: false, reason: "next_draft_required" };\n',
     '    return { ok: false, reason: "next_draft_snapshot_missing" };\n'

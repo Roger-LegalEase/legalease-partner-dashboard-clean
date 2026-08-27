@@ -101,11 +101,16 @@ const protectedArtifact = {
   }
 };
 
+let defaultVerificationRead = async () => ({ ok: false, reason: "default_verification_not_configured" });
+let defaultArtifactRead = async () => ({ ok: false, reason: "default_artifact_not_configured" });
+let defaultPaymentRead = async () => ({ valid: false, reason: "default_payment_not_configured", providerEventId: null });
+let defaultEvaluate = () => { throw new Error("default_evaluator_not_configured"); };
+
 const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-authority.ts", {
   "server-only": {},
   "@/components/expungement-ai/screening/answers": { toScreeningAnswers: (answers) => answers },
-  "@/lib/expungement-ai/authoritative-screening-result": {},
-  "@/lib/expungement-ai/consumer-payment-authority": {},
+  "@/lib/expungement-ai/authoritative-screening-result": { evaluateAuthoritativeScreeningResult: (...args) => defaultEvaluate(...args) },
+  "@/lib/expungement-ai/consumer-payment-authority": { consumerPacketPaymentAuthority: (...args) => defaultPaymentRead(...args) },
   "@/lib/expungement-ai/packet-information": {
     protectedPacketDraftSeedFromAuthoritative: ({ screeningAnswers, capturedAt }) => ({
       hash: "e".repeat(64),
@@ -123,10 +128,16 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
         stateCode: "PA",
         pathwayId: protectedAuthority.pathwayId,
         packetPlan: null,
-        initialAnswers: verification.draftSnapshot?.packetAnswers ?? { participant_full_legal_name: "Protected Person" },
-        screeningAnswers: verification.draftSnapshot?.screeningAnswers ?? { case_outcome: "Dismissed" },
-        prefilledAnswers: {},
-        packetAnswers: verification.draftSnapshot?.packetAnswers ?? { participant_full_legal_name: "Protected Person" },
+        initialAnswers: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)
+          ? {
+            ...(verification.status === "verified" ? verification.snapshot : verification.draftSnapshot).screeningAnswers,
+            ...(verification.status === "verified" ? verification.snapshot : verification.draftSnapshot).prefilledAnswers,
+            ...(verification.status === "verified" ? verification.snapshot : verification.draftSnapshot).packetAnswers
+          }
+          : { county: "Protected County", participant_full_legal_name: "Protected Person" },
+        screeningAnswers: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)?.screeningAnswers ?? { case_outcome: "Dismissed" },
+        prefilledAnswers: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)?.prefilledAnswers ?? { county: "Protected County" },
+        packetAnswers: (verification.status === "verified" ? verification.snapshot : verification.draftSnapshot)?.packetAnswers ?? { participant_full_legal_name: "Protected Person" },
         serverFacts: { jurisdiction: "PA", pathway_id: protectedAuthority.pathwayId },
         requiredInputIds: ["case_outcome"],
         missingInputIds: [],
@@ -143,6 +154,8 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
       })
   },
   "@/lib/expungement-ai/verification-cas": {
+    readProtectedPacketVerification: (...args) => defaultVerificationRead(...args),
+    readProtectedPacketArtifact: (...args) => defaultArtifactRead(...args),
     validProtectedLegacyArtifactEvidence: (record) => Boolean(
       record.legacyEvidence
       && record.consumerAuthUserId === record.legacyEvidence.consumerAuthUserId
@@ -154,7 +167,7 @@ const adapter = loadTsWithMocks("src/lib/expungement-ai/briefcase-presentation-a
     )
   },
   "@/lib/rcap-engine/evaluator": { InvalidAnswerError: MockInvalidAnswerError },
-  "@/lib/supabase/server": {}
+  "@/lib/supabase/server": { getSupabaseAdminClient: () => null }
 });
 
 const presented = adapter.assembleBriefcasePresentationItem({
@@ -324,6 +337,20 @@ assert.equal(protectedRuntime.authorityStatus, "protected_verified");
 assert.equal(protectedRuntime.paymentState, "paid");
 assert.equal(trustedSourceReads, 1, "protected legal facts never fall back, but payment mode checks the current owner/item-bound source authority");
 assert.equal(protectedRuntime.artifact.status, "ready");
+assert.deepEqual(protectedRuntime.packetDraft.prefilledAnswers, {}, "the protected verified snapshot exposes its exact prefilled-answer source map");
+assert.deepEqual(protectedRuntime.packetDraft.packetAnswers, { participant_full_legal_name: "Protected Person" }, "the protected verified snapshot exposes its exact packet-answer source map");
+
+defaultVerificationRead = async () => ({ ok: true, value: protectedVerification });
+defaultArtifactRead = async () => ({ ok: true, value: protectedArtifact });
+defaultPaymentRead = async () => ({ valid: true, reason: "paid", providerEventId: "evt_default" });
+defaultEvaluate = () => authoritativeEvaluation;
+const defaultRpcRuntime = await adapter.decorateBriefcaseItemForPresentation({
+  consumerAuthUserId: "11111111-1111-4111-8111-111111111111",
+  item: { ...item, artifactRefs: {} }
+});
+assert.equal(defaultRpcRuntime.authorityStatus, "protected_verified", "the default runtime reads protected verification authority");
+assert.deepEqual(defaultRpcRuntime.packetDraft.prefilledAnswers, {}, "the default RPC path preserves exact prefilled fact membership");
+assert.deepEqual(defaultRpcRuntime.packetDraft.packetAnswers, { participant_full_legal_name: "Protected Person" }, "the default RPC path preserves exact packet fact membership");
 
 const immutableReadyDuringVerificationOutage = await adapter.decorateBriefcaseItemForPresentationWithDependencies({
   consumerAuthUserId: "11111111-1111-4111-8111-111111111111",
@@ -383,6 +410,8 @@ assert.equal(trustedRuntime.authorityStatus, "trusted_source");
 assert.equal(trustedRuntime.paymentState, "unpaid");
 assert.equal(trustedRuntime.packetProgress, "not_started");
 assert.equal(trustedRuntime.packetDraft.status, "available", "first-open builder uses the owner-bound trusted source draft");
+assert.deepEqual(trustedRuntime.packetDraft.prefilledAnswers, {}, "trusted-source presentation keeps the canonical prefilled source map separate");
+assert.deepEqual(trustedRuntime.packetDraft.packetAnswers, {}, "trusted-source presentation keeps the canonical packet source map separate");
 assert.ok(!JSON.stringify(trustedRuntime).includes("FORGED"));
 
 let forbiddenFallbackReads = 0;
@@ -416,6 +445,8 @@ assert.equal(invalidatedRuntime.authorityStatus, "protected_draft");
 assert.equal(invalidatedRuntime.verificationStatus, "invalidated");
 assert.equal(invalidatedRuntime.packetProgress, "facts_complete");
 assert.equal(invalidatedRuntime.packetDraft.status, "available");
+assert.deepEqual(invalidatedRuntime.packetDraft.prefilledAnswers, {}, "invalidated protected presentation preserves the exact prefilled source map");
+assert.deepEqual(invalidatedRuntime.packetDraft.packetAnswers, { participant_full_legal_name: "Protected Person" }, "invalidated protected presentation preserves extra packet-only facts for fail-closed validation");
 assert.equal(forbiddenFallbackReads, 1, "an invalidated legal result stays protected while payment mode independently checks current source authority");
 assert.equal(invalidatedRuntime.artifact.status, "absent");
 

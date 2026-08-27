@@ -487,10 +487,17 @@ export function protectedPacketInformationModelFor(
     || !canonicalEqual(evaluation.packetPlan ?? null, snapshot.packetPlan)) return null;
   const packetPlan = readPacketPlan(snapshot.packetPlan);
   if (packetPlan && packetPlan.pathwayId !== snapshot.pathwayId) return null;
-  const screeningAnswers = answerRecord(snapshot.screeningAnswers);
-  const prefilledAnswers = answerRecord(snapshot.prefilledAnswers);
-  const packetAnswers = answerRecord(snapshot.packetAnswers);
-  const serverFacts = answerRecord(snapshot.serverFacts);
+  const {
+    screeningAnswers,
+    prefilledAnswers,
+    packetAnswers,
+    serverFacts
+  } = sourceDisjointFactMaps({
+    screeningAnswers: snapshot.screeningAnswers,
+    prefilledAnswers: snapshot.prefilledAnswers,
+    packetAnswers: snapshot.packetAnswers,
+    serverFacts: snapshot.serverFacts
+  });
   const initialAnswers = { ...screeningAnswers, ...prefilledAnswers, ...packetAnswers };
   const requiredInputIds = stringArray(snapshot.requiredInputIds);
   if (!canonicalEqual(requiredInputIds, packetPlan?.requiredInputIds ?? [])) return null;
@@ -687,6 +694,12 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
   const profile = getProfileByJurisdiction(evaluation.jurisdiction);
   if (!profile || profile.profileVersion !== evaluation.profileVersion) return null;
   const packetPlan = evaluation.packetPlan ?? null;
+  const factMaps = sourceDisjointFactMaps({
+    screeningAnswers: input.screeningAnswers,
+    prefilledAnswers: input.prefilledAnswers,
+    packetAnswers: input.packetAnswers,
+    serverFacts: canonicalServerFacts(evaluation.jurisdiction, evaluation.pathwayId ?? null)
+  });
   const snapshot = canonicalize({
     schemaVersion: "expungement-ai/protected-packet-draft/v1",
     capturedAt: input.capturedAt,
@@ -707,10 +720,10 @@ export function protectedPacketDraftSeedFromAuthoritative(input: {
     selectedTrackId: input.authoritative.selectedTrackId,
     treatmentClassification: evaluation.treatmentClassification ?? null,
     deferralComponentIds: [...(evaluation.deferralComponentIds ?? [])].sort(),
-    screeningAnswers: recordValue(input.screeningAnswers),
-    packetAnswers: recordValue(input.packetAnswers),
-    serverFacts: canonicalServerFacts(evaluation.jurisdiction, evaluation.pathwayId ?? null),
-    prefilledAnswers: recordValue(input.prefilledAnswers),
+    screeningAnswers: factMaps.screeningAnswers,
+    packetAnswers: factMaps.packetAnswers,
+    serverFacts: factMaps.serverFacts,
+    prefilledAnswers: factMaps.prefilledAnswers,
     dependencies: canonicalize(input.dependencies)
   }) as ProtectedPacketDraftSnapshot;
   return { snapshot, hash: protectedPacketDraftHash(snapshot) };
@@ -906,22 +919,41 @@ function canonicalize(value: unknown): unknown {
   return Object.fromEntries(Object.keys(value).sort().map((key) => [key, canonicalize(value[key])]));
 }
 
-function recordValue(value: unknown): Record<string, unknown> {
-  return isRecord(value) ? value : {};
-}
-
 function verificationFactDependencies(
   flow: CommercialFlow,
   serverFacts: Record<string, AnswerValue>
 ) {
   const screening = isRecord(flow.screening) ? flow.screening : {};
   const packetInformation = isRecord(flow.packetInformation) ? flow.packetInformation : {};
-  return {
-    screeningAnswers: recordValue(screening.answers),
-    prefilledAnswers: recordValue(packetInformation.prefilledAnswers),
-    packetAnswers: recordValue(packetInformation.answers),
-    serverFacts: recordValue(serverFacts)
-  };
+  return sourceDisjointFactMaps({
+    screeningAnswers: screening.answers,
+    prefilledAnswers: packetInformation.prefilledAnswers,
+    packetAnswers: packetInformation.answers,
+    serverFacts
+  });
+}
+
+function sourceDisjointFactMaps(input: {
+  screeningAnswers: unknown;
+  prefilledAnswers: unknown;
+  packetAnswers: unknown;
+  serverFacts: unknown;
+}) {
+  const serverFacts = answerRecord(input.serverFacts);
+  const serverIds = new Set(Object.keys(serverFacts));
+  const packetAnswers = omitAnswerIds(answerRecord(input.packetAnswers), serverIds);
+  const packetOrServerIds = new Set([...serverIds, ...Object.keys(packetAnswers)]);
+  const prefilledAnswers = omitAnswerIds(answerRecord(input.prefilledAnswers), packetOrServerIds);
+  const effectiveIds = new Set([...packetOrServerIds, ...Object.keys(prefilledAnswers)]);
+  const screeningAnswers = omitAnswerIds(answerRecord(input.screeningAnswers), effectiveIds);
+  return { screeningAnswers, prefilledAnswers, packetAnswers, serverFacts };
+}
+
+function omitAnswerIds(
+  answers: Record<string, AnswerValue>,
+  omittedIds: ReadonlySet<string>
+): Record<string, AnswerValue> {
+  return Object.fromEntries(Object.entries(answers).filter(([id]) => !omittedIds.has(id)));
 }
 
 function verificationSummaryFor(

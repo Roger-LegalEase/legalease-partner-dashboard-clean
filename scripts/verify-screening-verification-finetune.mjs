@@ -127,6 +127,8 @@ assert.doesNotMatch(presentationSource, /expires_at/, "a claimed presentation so
 assert.ok(presentationSource.includes('verification.status === "verified" ? "protected_verified" : "protected_draft"'), "unverified/invalidated presentation comes from the protected draft");
 assert.ok(presentationSource.includes("error instanceof InvalidAnswerError") && presentationSource.includes("delete answers[id]"), "protected presentation filters packet-only answers before authoritative screening retry");
 assert.ok(presentationSource.includes('"payment_status_unpaid"'), "the protected payment authority's exact unpaid reason remains visibly unpaid");
+assert.ok(presentationSource.includes("prefilledAnswers: model.prefilledAnswers"), "protected presentation exposes exact prefilled-answer membership without a merged fallback");
+assert.ok(presentationSource.includes("packetAnswers: model.packetAnswers"), "protected presentation exposes exact packet-answer membership including unexpected protected extras");
 assert.ok(verificationCasSource.includes('return { ok: false, reason: "next_draft_required" }'), "protected persistence refuses every status without a current draft");
 assert.ok(
   checkoutSource.includes('if (session.status === "open") await stripe.checkout.sessions.expire(session.id);'),
@@ -422,6 +424,86 @@ defaultProtectedVerification = {
   draftHash: initialDraftSeed.hash,
   draftSnapshot: initialDraftSeed.snapshot
 };
+
+const sourceCollisionSeed = protectedPacketDraftSeedFromAuthoritative({
+  authoritative: authoritativeFixture,
+  screeningAnswers: {
+    ...screeningAnswers,
+    court: "Screening Court",
+    county: "Screening County",
+    jurisdiction: "participant-forged-jurisdiction"
+  },
+  prefilledAnswers: {
+    court: "Prefilled Court",
+    county: "Prefilled County",
+    pathway_id: "participant-forged-pathway"
+  },
+  packetAnswers: {
+    court: "Edited Packet Court",
+    participant_full_legal_name: "Protected Person"
+  },
+  dependencies: {
+    commercialFlowVersion: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet"
+  },
+  capturedAt: "2026-08-26T00:00:00.000Z"
+});
+assert.ok(sourceCollisionSeed);
+assert.equal(sourceCollisionSeed.snapshot.packetAnswers.court, "Edited Packet Court", "packet answers own an edited prefilled fact");
+assert.equal("court" in sourceCollisionSeed.snapshot.prefilledAnswers, false, "packet precedence removes the overridden prefilled source fact");
+assert.equal("court" in sourceCollisionSeed.snapshot.screeningAnswers, false, "packet precedence removes the overridden screening source fact");
+assert.equal(sourceCollisionSeed.snapshot.prefilledAnswers.county, "Prefilled County", "prefill precedence removes only the lower screening duplicate");
+assert.equal("county" in sourceCollisionSeed.snapshot.screeningAnswers, false);
+assert.equal("jurisdiction" in sourceCollisionSeed.snapshot.screeningAnswers, false, "canonical server facts cannot collide with participant answer maps");
+assert.equal("pathway_id" in sourceCollisionSeed.snapshot.prefilledAnswers, false, "canonical pathway authority cannot collide with participant answer maps");
+assert.deepEqual(sourceCollisionSeed.snapshot.serverFacts, {
+  jurisdiction: "MS",
+  pathway_id: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal"
+});
+
+const prefilledDraftSeed = protectedPacketDraftSeedFromAuthoritative({
+  authoritative: authoritativeFixture,
+  screeningAnswers,
+  prefilledAnswers: { court: "Prefilled Court" },
+  dependencies: {
+    commercialFlowVersion: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet"
+  },
+  capturedAt: "2026-08-26T00:00:00.000Z"
+});
+assert.ok(prefilledDraftSeed);
+const prefilledProtectedVerification = {
+  status: "unverified",
+  reason: "final_verification_not_completed",
+  revision: 0,
+  draftHash: prefilledDraftSeed.hash,
+  draftSnapshot: prefilledDraftSeed.snapshot
+};
+const unchangedPrefill = packetInformationPatch({
+  existingItem: baseItem,
+  answers: { court: "Prefilled Court" },
+  verify: false,
+  protectedVerification: prefilledProtectedVerification
+});
+assert.deepEqual(unchangedPrefill.protectedTransition.answerDelta, {}, "a same-value prefilled save remains a material no-op");
+assert.deepEqual(unchangedPrefill.protectedTransition.nextVerification, prefilledProtectedVerification);
+const changedPrefill = packetInformationPatch({
+  existingItem: baseItem,
+  answers: { court: "Edited Packet Court" },
+  verify: false,
+  protectedVerification: prefilledProtectedVerification
+});
+assert.equal(changedPrefill.protectedTransition.nextVerification.draftSnapshot.packetAnswers.court, "Edited Packet Court");
+assert.equal("court" in changedPrefill.protectedTransition.nextVerification.draftSnapshot.prefilledAnswers, false, "an edited prefill moves once into packet-answer authority");
+const changedPrefillModel = protectedPacketInformationModelFor(changedPrefill.protectedTransition.nextVerification);
+assert.equal(changedPrefillModel.verificationSummary.filter((fact) => fact.id === "court").length, 1, "verification summary contains the edited fact exactly once");
+assert.deepEqual(
+  changedPrefillModel.verificationManifest.factKeys.filter((key) => key.endsWith(":court")),
+  ["packetAnswers:court"],
+  "verification manifest preserves the edited fact's effective source"
+);
 
 const forgedRequiredServerFactItem = structuredClone(baseItem);
 const forgedRequiredServerFactAnswers = { ...completePacketAnswers };
