@@ -66,7 +66,7 @@ export function PacketInformationBuilder({
       return;
     }
     setFieldError(null);
-    const result = await save(index >= questions.length - 1);
+    const result = await save(false);
     if (!result) return;
     if (index < questions.length - 1) {
       setIndex((current) => current + 1);
@@ -84,9 +84,9 @@ export function PacketInformationBuilder({
     return (
       <div className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
         <h2 className="text-xl font-extrabold text-[#0B1320]">Your free record check already has the information we need.</h2>
-        <p className="mt-2 text-sm leading-6 text-[#5A6275]">Review the matter for accuracy before deciding whether to generate a packet.</p>
+        <p className="mt-2 text-sm leading-6 text-[#5A6275]">Review the saved packet facts before completing final verification.</p>
         <button className="mt-5 min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" onClick={() => void continueForward()} type="button">
-          Review for accuracy
+          Review packet facts
         </button>
       </div>
     );
@@ -115,7 +115,7 @@ export function PacketInformationBuilder({
           {missing.length} required {missing.length === 1 ? "detail is" : "details are"} still missing. You can review what remains before generation.
         </p>
       ) : null}
-      {saveError ? <p className="mt-4 rounded-[10px] bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert">{saveError}</p> : null}
+      {saveError ? <p className="mt-4 rounded-[10px] bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert" aria-live="assertive">{saveError}</p> : null}
 
       <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
         <button
@@ -135,7 +135,7 @@ export function PacketInformationBuilder({
             Save and leave
           </button>
           <button className="min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white disabled:opacity-60" disabled={saving} onClick={() => void continueForward()} type="button">
-            {saving ? "Saving..." : index === questions.length - 1 ? editingFromReview ? "Save and return to review" : "Review for accuracy" : "Save and continue"}
+            {saving ? "Saving..." : index === questions.length - 1 ? editingFromReview ? "Save and return to review" : "Review packet facts" : "Save and continue"}
           </button>
         </div>
       </div>

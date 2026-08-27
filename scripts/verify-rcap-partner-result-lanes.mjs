@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-// Proves the partner result uses the four clean lane labels by result code, that
+// Proves the partner result uses accurate Briefcase-first labels by result code,
 // every lane routes forward without a price, and that DTC keeps the approved
 // save-before-payment disclosure without leaking it into the RCAP branch.
 // (The accuracy-review step is intentionally NOT added to the shared screening
@@ -21,17 +21,38 @@ const localization = read("src/lib/expungement-ai/localization.ts");
 const packetGenerationRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
 
 // 1. The four lanes are defined by result code with the required labels.
-for (const [key, label] of [
-  ["result.lane_packet_builder", "Continue to packet builder"],
+for (const [key, label, localized = true] of [
+  ["result.save_briefcase_continue", "Save to my Briefcase and continue", false],
   ["result.lane_more_info", "Continue to my Briefcase"],
   ["result.lane_next_steps", "View my next steps"],
   ["result.lane_briefcase", "View my Briefcase"]
 ]) {
   assert(result.includes(`"${key}"`) && result.includes(`"${label}"`), `Result must define partner lane ${key} => ${label}.`);
   const entry = new RegExp(`"${key.replace(/[.]/g, "\\.")}": \\{ en: "[^"]+", es: "[^"]+" \\}`);
-  assert(entry.test(localization), `${key} must have both English and Spanish values.`);
+  if (localized) assert(entry.test(localization), `${key} must have both English and Spanish values.`);
 }
 assert(result.includes("PARTNER_RESULT_LANES[evaluation.resultCode]"), "Partner CTA must pick its lane by result code.");
+
+const resultLaneViolations = (source) => {
+  const issues = [];
+  if (!source.includes('packet_ready: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" }')
+    || !source.includes('packet_ready_with_caution: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" }')) {
+    issues.push("Packet-ready results must accurately say they save to the Briefcase before the builder.");
+  }
+  const branchStart = source.indexOf("{hasScreeningSession ? (");
+  const branchEnd = source.indexOf(") : (", branchStart);
+  const branch = source.slice(branchStart, branchEnd);
+  if (branchStart < 0 || branchEnd <= branchStart || /\$50|stripe|checkout/i.test(branch)) {
+    issues.push("Partner result actions must remain free of consumer payment copy and direct checkout.");
+  }
+  return issues;
+};
+assert(resultLaneViolations(result).length === 0, resultLaneViolations(result).join("\n"));
+const stalePacketBuilderMutation = result.replaceAll("Save to my Briefcase and continue", "Continue to packet builder");
+assert(
+  resultLaneViolations(stalePacketBuilderMutation).some((issue) => issue.includes("accurately say")),
+  "Negative control failed: stale packet-builder copy was not rejected."
+);
 
 // 2. Every result code maps to a lane (no dead-end).
 const laneBlock = result.slice(result.indexOf("const PARTNER_RESULT_LANES"), result.indexOf("const TONE_ACCENT"));

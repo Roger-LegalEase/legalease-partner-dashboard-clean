@@ -13,6 +13,7 @@ const required = [
   "src/app/api/clinic/assistance/start/route.ts",
   "src/app/api/clinic/session/reset/route.ts",
   "src/app/api/clinic/events/[eventId]/queue/route.ts",
+  "src/app/briefcase/layout.tsx",
   "src/app/clinic/[eventSlug]/page.tsx",
   "src/app/clinic/[eventSlug]/assist/page.tsx",
   "src/app/clinic/[eventSlug]/screening/[state]/page.tsx",
@@ -32,10 +33,35 @@ for (const marker of ["getServerAuthState", "claimRcapPartnerScreeningSession", 
 const resetRoute = read("src/app/api/clinic/session/reset/route.ts");
 for (const marker of ["clinic_end_assisted_session", ".auth.signOut", "clinic_session", "clinic_entry", "name.startsWith(\"sb-\")", "Clear-Site-Data", "\"cookies\"", "Cache-Control", "no-store"])
   assert.ok(resetRoute.includes(marker), `reset route missing ${marker}`);
+assert.ok(resetRoute.includes("request.cookies"), "reset route must capture cookies from its NextRequest context");
+assert.doesNotMatch(resetRoute, /from \"next\/headers\"|\bcookies\(\)|getServerAuthState/, "reset route must not reacquire request-scoped cookies/auth after async work");
+assert.match(resetRoute, /const authClient = await createServerSupabaseAuthClient\(\);[\s\S]*authClient\.auth\.getUser\(\)[\s\S]*authClient\.auth\.signOut/, "reset route must reuse one request-bound auth client for identity and sign-out");
 
 const privacy = read("src/components/clinic-mode/ClinicPrivacyBoundary.tsx");
 for (const marker of ["End clinic session / Reset device", "resetClinicDeviceState", "pageshow", "event.persisted", "INACTIVITY_LIMIT_MS"])
   assert.ok(privacy.includes(marker), `privacy boundary missing ${marker}`);
+
+const participantService = read("src/lib/clinic-mode/participant-service.ts");
+for (const marker of [
+  "getActiveClinicParticipantContext",
+  "getServerAuthState",
+  'get("clinic_session")',
+  "handoff_token_hash",
+  "participant_user_id",
+  '["active", "handed_off"]',
+  'gt("expires_at"',
+  'select("public_slug")'
+]) assert.ok(participantService.includes(marker), `route-independent Clinic privacy context missing ${marker}`);
+assert.ok(!participantService.includes("searchParams") && !participantService.includes("artifactRefs"), "Clinic privacy context must not trust route or writable matter data");
+assert.match(participantService, /if \(!rawToken\) return null;/, "Clinic privacy context must require the protected session token");
+assert.doesNotMatch(participantService, /if \(!rawToken \|\| !eventSlugHint\) return null;/, "missing clinic_event hint must not disable privacy for a valid protected session");
+assert.doesNotMatch(participantService, /\.eq\("public_slug", normalizeSlug\(eventSlugHint\)\)/, "clinic_event hint must not override the protected session event authority");
+assert.match(participantService, /\.eq\("id", sessionResult\.data\.event_id\)\.maybeSingle\(\)/, "canonical Clinic context must resolve by protected session event_id");
+
+const briefcaseLayout = read("src/app/briefcase/layout.tsx");
+for (const marker of ["getActiveClinicParticipantContext", "ClinicPrivacyBoundary", "cleanEntryPath", "children"])
+  assert.ok(briefcaseLayout.includes(marker), `Briefcase Clinic privacy layout missing ${marker}`);
+assert.ok(!/searchParams|packetId|artifactRefs|paymentStatus/.test(briefcaseLayout), "Briefcase privacy layout must not infer Clinic mode from route, item, or writable status");
 
 const screening = read("src/app/clinic/[eventSlug]/screening/[state]/page.tsx");
 for (const marker of ["ScreeningFlow", "getClinicParticipantSession", "participantUserId", "screeningSessionId", 'dynamic = "force-dynamic"'])

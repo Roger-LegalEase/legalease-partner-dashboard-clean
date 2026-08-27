@@ -78,12 +78,15 @@ const sources = {
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
   pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
   briefcase: read("src/lib/expungement-ai/briefcase.ts"),
-  packetGeneration: read("src/lib/expungement-ai/packet-generation.ts"),
   checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
   documents: read("src/components/expungement-ai/BriefcaseViews.tsx"),
   matterPage: read("src/app/briefcase/[packetId]/page.tsx"),
-  generateRoute: read("src/app/api/rcap/documents/[packetId]/generate/route.ts"),
-  msForm: read("src/app/documents/[partnerSlug]/form/MississippiPetitionInformationForm.tsx"),
+  packetInformationPage: read("src/app/briefcase/[packetId]/packet-information/page.tsx"),
+  reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  verificationAction: read("src/components/expungement-ai/PacketVerificationAction.tsx"),
+  presentationAuthority: read("src/lib/expungement-ai/briefcase-presentation-authority.ts"),
+  packetInformationRoute: read("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts"),
+  verificationCas: read("src/lib/expungement-ai/verification-cas.ts"),
   flow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
   briefcasePage: read("src/app/briefcase/page.tsx"),
   saveIntent: read("src/components/expungement-ai/BriefcaseSaveIntent.tsx")
@@ -120,13 +123,32 @@ assert(
   "Negative control failed: bypassing the server-verified pending claim was not detected."
 );
 
+const rawPresentationFallback = {
+  ...sources,
+  documents: `${sources.documents}\npacketCompletionActionFor(item)`,
+  matterPage: `${sources.matterPage}\npacketInformationModelFor(storedItem)`
+};
+assert(
+  persistenceWiringViolations(rawPresentationFallback).some((failure) => failure.includes("raw writable Briefcase fields")),
+  "Negative control failed: raw packet presentation helpers were not rejected."
+);
+
+const directCheckoutReview = {
+  ...sources,
+  reviewPage: sources.reviewPage.replace("<PacketVerificationAction", "<ConsumerCheckoutButton")
+};
+assert(
+  persistenceWiringViolations(directCheckoutReview).some((failure) => failure.includes("delegate post-verification")),
+  "Negative control failed: direct Checkout on review was not rejected."
+);
+
 if (failures.length) {
   console.error(`verify-rcap-briefcase-result-persistence: ${failures.length} failure(s)`);
   for (const f of failures) console.error(`  - ${f}`);
   process.exit(1);
 }
 console.log("verify-rcap-briefcase-result-persistence: OK (server-authoritative claim persists; dedup; guidance_saved; partner packet has no Stripe; DTC $50 preserved)");
-console.log("Negative controls detected restoration of browser-result persistence, loss of the authoritative writer, and bypass of the verified claim.");
+console.log("Negative controls detected restoration of browser-result persistence, loss of the authoritative writer, bypass of the verified claim, raw presentation fallback, and direct Checkout on review.");
 
 function persistenceWiringViolations(input) {
   const issues = [];
@@ -162,23 +184,44 @@ function persistenceWiringViolations(input) {
   require(input.briefcase.includes('packet_status: clamped.packetStatus ?? "not_started"'), "New authoritative matters must default packet_status to not_started before generation.");
   require(input.briefcase.includes("export async function isRcapPartnerScreeningSession"), "Persistence must expose server-side partner-session validation.");
 
-  require(input.packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Partner-sponsored packet generation must not require payment.");
-  require(input.packetGeneration.includes('resultCode === "packet_ready" || resultCode === "packet_ready_with_caution"'), "Only packet-ready result codes may generate packets.");
-  require(input.packetGeneration.includes('item.packetStatus === "ready" && existing'), "Duplicate generation must return an existing ready artifact instead of regenerating.");
-  require(input.packetGeneration.includes("attachPacketToBriefcaseItem") && input.packetGeneration.includes('packetStatus: "ready"'), "Packet generation must attach artifact refs and mark packet_status ready.");
-  require(input.packetGeneration.includes("mississippi_petition_information_required"), "Mississippi partner saves must retain the completion action when packet fields are missing.");
-  require(input.packetGeneration.includes("attachMississippiLegacyPacketArtifact") && input.packetGeneration.includes("mississippi_legacy_petition_packet"), "Generated Mississippi legacy PDFs must attach as distinguishable consumer artifacts.");
-
   require(input.checkoutRoute.includes("isPartnerSponsoredPacketItem") && input.checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Partner-sponsored matters must not enter checkout.");
-  require(input.documents.includes("packetCompletionActionFor") && input.documents.includes("Complete packet information"), "Briefcase views must expose packet information before generation.");
-  require(input.documents.includes("Download") && input.documents.includes("artifact.downloadPath"), "Briefcase documents must expose generated packet downloads.");
-  require(input.matterPage.includes("packetInformationModelFor") && input.matterPage.includes("Complete packet information") && input.matterPage.includes("Review for accuracy"), "Exact matters must expose packet information and accuracy review before consumer payment.");
-  require(input.generateRoute.includes("consumerBriefcaseItemId") && input.generateRoute.includes("attachMississippiLegacyPacketArtifact"), "Shared document generation must bridge generated Mississippi PDFs back to the consumer Briefcase.");
-  require(input.msForm.includes("consumerBriefcaseItemId") && input.msForm.includes("generate"), "Mississippi information form must carry the consumer matter id through generation.");
+  require(input.presentationAuthority.includes("export async function decorateBriefcaseItemForPresentation")
+    && input.presentationAuthority.includes("packetProgress")
+    && input.presentationAuthority.includes("packetDraft")
+    && input.presentationAuthority.includes("readProtectedPacketVerification")
+    && input.presentationAuthority.includes("readProtectedPacketArtifact"), "Briefcase presentation must be decorated from protected server authority.");
+  require(input.documents.includes("BriefcasePresentationItem")
+    && input.documents.includes('item.artifact.status === "ready"')
+    && input.documents.includes("item.artifact.canDownload")
+    && input.documents.includes("artifact.documents"), "Briefcase documents must use the protected presentation artifact and downloads.");
+  require(input.matterPage.includes("decorateBriefcaseItemForPresentation")
+    && input.matterPage.includes(".packetDraft.status")
+    && input.matterPage.includes(".packetProgress"), "Exact matters must use protected packet draft/progress presentation.");
+  require(input.packetInformationPage.includes("decorateBriefcaseItemForPresentation")
+    && input.packetInformationPage.includes(".packetDraft.status"), "Packet information must use the protected presentation draft.");
+  require(input.reviewPage.includes("decorateBriefcaseItemForPresentation")
+    && input.reviewPage.includes("<PacketVerificationAction")
+    && !input.reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification payment and generation from protected presentation state.");
+  require(input.verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && input.verificationAction.includes("requestPacketVerification")
+    && input.verificationAction.includes("{nextActions.checkout ? (")
+    && input.verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must keep generation and Checkout behind explicit current verification.");
+  require(!input.documents.includes("packetCompletionActionFor")
+    && !input.documents.includes("packetInformationModelFor")
+    && !input.matterPage.includes("packetCompletionActionFor")
+    && !input.matterPage.includes("packetInformationModelFor")
+    && !input.packetInformationPage.includes("packetInformationModelFor")
+    && !input.reviewPage.includes("packetInformationModelFor"), "Participant presentation must never fall back to raw writable Briefcase fields or legacy packet models.");
+  require(input.packetInformationRoute.includes("readProtectedPacketVerification")
+    && input.packetInformationRoute.includes("protectedPacketInformationModelFor")
+    && input.packetInformationRoute.includes("persistProtectedPacketVerification"), "Packet information saves and verification must cross the protected CAS boundary.");
+  require(input.verificationCas.includes('rpcName: "persist_consumer_packet_verification"')
+    && input.verificationCas.includes("expectedPriorHash")
+    && input.verificationCas.includes("expectedPriorRevision"), "Protected packet updates must retain hash/revision compare-and-swap handoff.");
 
   require(resultAction.includes('"/api/expungement-ai/screening/pending"'), "The completed result action must create a server-side pending result.");
   require(resultAction.includes('"/api/expungement-ai/screening/pending/claim"'), "The completed result action must claim the stored inputs through the server-verified boundary.");
-  require(resultAction.includes("answers: toScreeningAnswers(answers)"), "The pending handoff must send screening inputs for authoritative evaluation.");
+  require(resultAction.includes("answers: toScreeningAnswers(evaluatedAnswers ?? answers)"), "The pending handoff must send the evaluated screening inputs for authoritative evaluation.");
   require(resultAction.includes('body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })'), "The result action must enter the free Briefcase before payment.");
   require(!resultAction.includes("/expungement-ai/pay") && !resultAction.includes("checkout"), "The result action must not bypass packet information and final review.");
 
