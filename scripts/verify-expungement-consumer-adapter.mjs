@@ -1,7 +1,14 @@
 import fs from "node:fs";
+import { register } from "node:module";
 import path from "node:path";
 import { changedFilesForScopeGuard } from "./lib/changed-files-scope.mjs";
+import {
+  CLINIC_MODE_SCOPE_FILES,
+  CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES
+} from "./rcap-scope-allowlist.mjs";
 import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const root = process.cwd();
 const failures = [];
@@ -62,6 +69,8 @@ for (const asset of [
 const checkPage = read("src/app/expungement-ai/check/page.tsx");
 const statePickerSource = read("src/components/expungement-ai/screening/StatePicker.tsx");
 const screeningFlowSource = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
+const screensSource = read("src/components/expungement-ai/screening/screens.ts");
+const screeningProgressRouteSource = read("src/app/api/expungement-ai/screening/progress/route.ts");
 const statesSource = read("src/lib/expungement-ai/states.ts");
 const adapterSource = read("src/lib/expungement-ai/eligibility-adapter.ts");
 const engineSource = read("src/lib/rcap-engine/evaluator.ts");
@@ -90,7 +99,95 @@ assert(selectable.length === 51, `Expected all 50 states + DC selectable, found 
 assert(checkPage.includes("<StatePicker />"), "Check route must enter the profile-driven StatePicker.");
 assert(statePickerSource.includes("data-state-count={jurisdictions.length}"), "StatePicker must expose selectable jurisdiction count for verification.");
 assert(statePickerSource.includes('href={`/expungement-ai/screening/${jurisdiction.code}`}'), "StatePicker must route selected states into profile-driven ScreeningFlow routes.");
-assert(screeningFlowSource.includes("deriveScreens(load.profile)") && screeningFlowSource.includes("currentIndex < screens.length - 1"), "ScreeningFlow must derive the full profile question sequence before evaluating.");
+assert(screeningProgressRouteSource.includes("selectScreeningQuestionIds") && screeningProgressRouteSource.includes("projectPublicProfile(profile)"), "Screening progress must select question IDs on the server from the authoritative profile.");
+assert(screeningProgressRouteSource.includes("profile.profileVersion !== body.profileVersion"), "Screening progress must reject a stale client profile version.");
+assert(screeningFlowSource.includes('fetch("/api/expungement-ai/screening/progress"'), "ScreeningFlow must request the server-selected question plan.");
+assert(screeningFlowSource.includes("screensFromQuestionIds(load.profile, questionIds)") && !screeningFlowSource.includes("deriveScreens(load.profile)"), "ScreeningFlow must render only the server-selected question IDs.");
+assert(screensSource.includes("export function screensFromQuestionIds") && screensSource.includes("seen.has(questionId)"), "Question-ID projection must preserve a deduplicated server order over trusted profile questions.");
+assert(screensSource.includes("seen.add(questionId)"), "Question-ID projection must record each accepted ID so repeats are actually removed.");
+assert(screensSource.includes("export function sanitizeAnswersForQuestionIds") && screensSource.includes("!previouslyRendered.has(questionId) || stillSelected.has(questionId)"), "Branch pruning must remove only previously rendered answers that the server no longer selects.");
+assert(
+  screeningFlowSource.includes("const sanitizedAnswers = sanitizeAnswersForQuestionIds")
+    && screeningFlowSource.includes("setAnswers(sanitizedAnswers)")
+    && screeningFlowSource.includes("runEvaluation(sanitizedAnswers)")
+    && /async function handleSaveProgress[\s\S]*?answers: sanitizedAnswers/.test(screeningFlowSource),
+  "Server-pruned answers must replace client state before evaluation and save/resume persistence."
+);
+assert(screeningFlowSource.includes("sanitizeResumedAnswersForQuestionIds") && screeningFlowSource.includes("setAnswers(sanitizedResumedAnswers)"), "Resumed screening answers must be pruned against the server-selected branch before restoration.");
+assert(screeningFlowSource.includes("selectionError && questionIds === null"), "An unavailable initial server question plan must fail closed instead of deriving a local sequence.");
+assertSanitizedAnswerSinks(screeningFlowSource, failures);
+
+for (const [label, mutant, expectedFailure] of [
+  [
+    "stale evaluation state",
+    screeningFlowSource.replace("setEvaluatedAnswers(answerSnapshot)", "setEvaluatedAnswers(answers)"),
+    "store the sanitized evaluation snapshot"
+  ],
+  [
+    "stale pending-result payload",
+    screeningFlowSource.replace("toScreeningAnswers(evaluatedAnswers ?? answers)", "toScreeningAnswers(answers)"),
+    "submit the stored sanitized evaluation snapshot"
+  ],
+  [
+    "raw save/resume payload",
+    screeningFlowSource.replace("answers: sanitizedAnswers,\n          currentQuestionId", "answers,\n          currentQuestionId"),
+    "persist only the sanitized branch snapshot"
+  ],
+  [
+    "raw resumed state",
+    screeningFlowSource.replace("setAnswers(sanitizedResumedAnswers)", "setAnswers(resumedAnswers)"),
+    "restore only the sanitized resumed snapshot"
+  ]
+]) {
+  const mutantFailures = [];
+  assertSanitizedAnswerSinks(mutant, mutantFailures);
+  assert(
+    mutantFailures.some((failure) => failure.includes(expectedFailure)),
+    `ScreeningFlow ${label} negative control must be rejected.`
+  );
+}
+
+const screensModule = await import("../src/components/expungement-ai/screening/screens.ts");
+const questionProjectionFixture = {
+  jurisdiction: { code: "TS", name: "Test", slug: "test" },
+  profileVersion: "test-v1",
+  terminology: { primaryConsumerTerm: "record clearing", allowedStateTerms: [] },
+  flowStages: [
+    { id: "scope", order: 1, screenType: "question_sequence" },
+    { id: "case_details", order: 2, screenType: "form_fields" }
+  ],
+  questions: [
+    { id: "first", stage: "scope", prompt: "First?", type: "text", required: true, contextOnly: false },
+    { id: "second", stage: "scope", prompt: "Second?", type: "text", required: true, contextOnly: false },
+    { id: "packet_only", stage: "case_details", prompt: "Packet?", type: "text", required: true, contextOnly: false }
+  ]
+};
+const projectedQuestionIds = screensModule.screensFromQuestionIds(
+  questionProjectionFixture,
+  ["second", "unknown", "first", "second", "packet_only"]
+).map((question) => question.id);
+assert(
+  JSON.stringify(projectedQuestionIds) === JSON.stringify(["second", "first"]),
+  "Question-ID projection must behaviorally preserve server order while dropping unknown, repeated, and postpay IDs."
+);
+const branchPrunedAnswers = screensModule.sanitizeAnswersForQuestionIds(
+  {
+    route_selector: "route-b",
+    universal_answer: "keep",
+    route_a_answer: "drop",
+    hidden_server_fact: "preserve"
+  },
+  ["route_selector", "universal_answer", "route_a_answer"],
+  ["route_selector", "universal_answer", "route_b_answer"]
+);
+assert(
+  JSON.stringify(branchPrunedAnswers) === JSON.stringify({
+    route_selector: "route-b",
+    universal_answer: "keep",
+    hidden_server_fact: "preserve"
+  }),
+  "Branch pruning must behaviorally remove the abandoned rendered answer while preserving selected and hidden facts."
+);
 assert(!checkPage.includes("state_not_live"), "Consumer check flow must not include state_not_live.");
 assert(!adapterSource.includes("state_not_live"), "Consumer adapter must not include state_not_live.");
 assert(resultPanelSource.includes('result.paymentAllowed === true && (result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution")'), "Pay gate must require paymentAllowed and packet-ready result codes.");
@@ -182,6 +279,8 @@ const restrictedPatterns = [
 // literal because that is what they are — decisions already made, with no
 // authorization record to point at.
 const HISTORICAL_ALLOWED = new Set([
+  ...CLINIC_MODE_SCOPE_FILES,
+  ...CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES,
   ".env.example",
   "src/lib/app-url.ts",
   "src/lib/partners/add-partner-user.ts",
@@ -244,6 +343,44 @@ for (const entry of unauthorized) {
 
 function paymentAllowedForFixture(resultCode) {
   return true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
+}
+
+function assertSanitizedAnswerSinks(source, targetFailures) {
+  const evaluationSection = sourceSection(source, "async function runEvaluation", "async function handlePacketAction");
+  if (!evaluationSection.includes("setEvaluatedAnswers(answerSnapshot)")) {
+    targetFailures.push("runEvaluation must store the sanitized evaluation snapshot, not stale component answers.");
+  }
+
+  const packetActionSection = sourceSection(source, "async function handlePacketAction", "async function handleContinue");
+  if (!packetActionSection.includes("answers: toScreeningAnswers(evaluatedAnswers ?? answers)")) {
+    targetFailures.push("Pending-result creation must submit the stored sanitized evaluation snapshot.");
+  }
+
+  const continueSection = sourceSection(source, "async function handleContinue", "function handleBack");
+  if (!continueSection.includes("runEvaluation(sanitizedAnswers)")) {
+    targetFailures.push("Evaluation must receive the sanitized branch snapshot.");
+  }
+
+  const saveSection = sourceSection(source, "async function handleSaveProgress", 'if (phase === "evaluating")');
+  if (!saveSection.includes("answers: sanitizedAnswers")) {
+    targetFailures.push("Save/resume must persist only the sanitized branch snapshot.");
+  }
+
+  const resumeSection = sourceSection(
+    source,
+    'const stored = window.sessionStorage.getItem("expungement-ai:resume-session")',
+    "// Move keyboard focus"
+  );
+  if (!resumeSection.includes("setAnswers(sanitizedResumedAnswers)")) {
+    targetFailures.push("Resume must restore only the sanitized resumed snapshot.");
+  }
+}
+
+function sourceSection(source, startMarker, endMarker) {
+  const start = source.indexOf(startMarker);
+  if (start < 0) return "";
+  const end = source.indexOf(endMarker, start + startMarker.length);
+  return source.slice(start, end < 0 ? source.length : end);
 }
 
 function assertPacketReadyCompatibilityRoute(source, targetFailures) {

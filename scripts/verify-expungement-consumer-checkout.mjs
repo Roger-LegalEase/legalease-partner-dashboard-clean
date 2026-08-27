@@ -39,6 +39,7 @@ const stripeWebhookHandler = read("src/lib/stripe/webhook-handler.ts");
 const legacyStripeWebhookRoute = "src/app/api/method/expungement.api.payment.stripe_webhook/route.ts";
 const legacyStripeWebhookSource = exists(legacyStripeWebhookRoute) ? read(legacyStripeWebhookRoute) : "";
 const checkoutReconciliation = read("src/lib/expungement-ai/checkout-reconciliation.ts");
+const packetGenerationSource = read("src/lib/expungement-ai/packet-generation.ts");
 const briefcaseSource = read("src/lib/expungement-ai/briefcase.ts");
 const packageSource = read("package.json");
 const envExampleSource = read(".env.example");
@@ -76,12 +77,19 @@ assert(paymentAdapter.includes("isConsumerCheckoutDryRunEnabled"), "Checkout mus
 assert(paymentAdapter.includes('EXPUNGEMENT_AI_CHECKOUT_DRY_RUN === "true"'), "Dry-run checkout must require EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=true.");
 assert(paymentAdapter.includes("!isProductionRuntime()"), "Dry-run checkout must be impossible in production runtime.");
 assert(paymentAdapter.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Missing Stripe config must fail closed with a temporary-unavailable error.");
-// The packet-status guard moved when the payment adapter stopped writing
-// payment facts. Its home is now the signature-verified webhook, which is the
-// only thing that records a payment at all — so it is asserted there. Asserting
-// it on the adapter would pass only while the adapter still wrote state it must
-// no longer write.
-assert(checkoutReconciliation.includes('item.packetStatus === "ready" ? "ready" : "pending"'), "Payment confirmation must not mark packets ready before artifact generation.");
+assertCheckoutWebhookArtifactBoundary(checkoutReconciliation, failures);
+const checkoutReadyNegativeControlFailures = [];
+assertCheckoutWebhookArtifactBoundary(
+  checkoutReconciliation.replace(
+    /(updateBriefcasePacketStatusForWebhook\([\s\S]{0,120}?)"pending"/,
+    '$1"ready"'
+  ),
+  checkoutReadyNegativeControlFailures
+);
+assert(
+  checkoutReadyNegativeControlFailures.some((failure) => failure.includes("exactly pending")),
+  "Checkout artifact-boundary negative control must reject a webhook that marks the packet ready."
+);
 assert(!/payment_status:\s*["']paid["']/.test(paymentAdapter), "The payment adapter must not write a paid payment status; the server-only writer owns that.");
 assert(!paymentAdapter.includes("updateBriefcasePaymentMetadata("), "The participant-authenticated payment writer must not return; phase 52 revokes those columns from authenticated.");
 assert(!paymentAdapter.includes("partner_billing") && !paymentAdapter.includes("partner_billing_requests"), "Payment adapter must not touch partner billing.");
@@ -120,17 +128,25 @@ assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook c
 assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
 assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
+const checkoutMetadataSource = sourceSection(paymentAdapter, "function checkoutMetadata", "async function persistCheckoutBinding");
 for (const metadataKey of [
+  "channel",
+  "user_id",
+  "briefcase_item_id",
   "source_session_id",
   "jurisdiction",
   "packet_type",
-  "pathway_label",
   "product_id",
   "person_id",
-  "matter_id"
+  "matter_id",
+  "pathway_id",
+  "verification_hash"
 ]) {
-  assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
+  assert(checkoutMetadataSource.includes(metadataKey), `Checkout metadata constructor must include ${metadataKey}.`);
 }
+assert(checkoutMetadataSource.includes("pathway_id: binding.pathwayId"), "Checkout metadata must bind the protected machine pathway id.");
+assert(checkoutMetadataSource.includes("verification_hash: binding.verificationHash"), "Checkout metadata must bind the protected final-verification hash.");
+assert(!checkoutMetadataSource.includes("pathway_label"), "Checkout metadata must not trust the writable human pathway label.");
 for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
   assert(checkoutReconciliation.includes(eventType), `Consumer Checkout webhook must handle ${eventType}.`);
 }
@@ -139,10 +155,14 @@ assert(checkoutReconciliation.includes('session.metadata.user_id') && checkoutRe
 assert(checkoutReconciliation.includes('session.payment_status !== "paid"'), "Consumer Checkout webhook must require paid Checkout Sessions.");
 assert(checkoutReconciliation.includes("session.client_reference_id !== briefcaseItemId"), "Consumer Checkout webhook must validate client reference consistency.");
 assert(checkoutReconciliation.includes("getBriefcaseItemForWebhook(userId, briefcaseItemId)"), "Consumer Checkout webhook must load the owned Briefcase item.");
+assert(checkoutReconciliation.includes("readProtectedPacketArtifact"), "Consumer Checkout webhook must read protected packet-artifact authority.");
+assert(checkoutReconciliation.includes("requireCurrentPacketVerification(userId, item)"), "Consumer Checkout webhook must require the current protected final verification.");
+assert(checkoutReconciliation.includes("session.metadata.verification_hash !== verification.hash"), "Consumer Checkout webhook must reject payment for a stale verification hash.");
 // Payment is recorded through the service-role-only RPC, never a column write.
 // The old marker named a direct update that phase 52's paid_requires_server_evidence
 // constraint would now refuse outright, so asserting it would demand the broken shape.
 assert(checkoutReconciliation.includes("recordConsumerPacketPayment"), "Consumer Checkout webhook must record Stripe payment confirmation.");
+assert(checkoutReconciliation.includes("expectedVerificationHash"), "Consumer Checkout payment recording must carry the protected verification hash.");
 assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer Checkout webhook must record payment under the server_webhook authority.");
 assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
 assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
@@ -151,6 +171,23 @@ assert(checkoutReconciliation.includes("requestConsumerPacketRenderForWebhook"),
 assert(!checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must not synchronously generate a legacy artifact.");
 assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
+
+assert(packetGenerationSource.includes("attachConsumerPacketArtifactIfVerified"), "Packet generation must attach artifacts through the verification-bound CAS writer.");
+assert(packetGenerationSource.includes("expectedVerificationHash: verification.hash"), "Packet generation must bind artifact attachment to the verification used to generate it.");
+assert(packetGenerationSource.includes('protectedArtifact?.status !== "ready"'), "Packet readiness must come from protected ready-artifact authority.");
+assertVerificationBoundArtifactAttachment(packetGenerationSource, failures);
+const wrongArtifactHashNegativeControlFailures = [];
+assertVerificationBoundArtifactAttachment(
+  packetGenerationSource.replace(
+    /(const attached = await attachConsumerPacketArtifactIfVerified\(\{[\s\S]{0,300}?)\bexpectedVerificationHash\b(?=\s*,)/,
+    '$1expectedVerificationHash: "wrong-hash"'
+  ),
+  wrongArtifactHashNegativeControlFailures
+);
+assert(
+  wrongArtifactHashNegativeControlFailures.some((failure) => failure.includes("helper parameter unchanged")),
+  "Artifact-attachment negative control must reject a constant or unrelated verification hash inside the CAS call."
+);
 
 for (const column of ["payment_provider", "checkout_session_id", "payment_intent_id", "amount_cents", "receipt_url"]) {
   assert(briefcaseSource.includes(column), `Briefcase adapter must store ${column}.`);
@@ -212,6 +249,70 @@ function assertPacketReadyCompatibilityReturn(source, targetFailures) {
   if (/\bgenerate(?:PaidConsumer|Consumer)?Packet\w*\s*\(/.test(source)) {
     targetFailures.push("Packet-ready compatibility return must not generate a packet.");
   }
+}
+
+function assertCheckoutWebhookArtifactBoundary(source, targetFailures) {
+  const enqueueIndex = source.indexOf("await requestConsumerPacketRenderForWebhook");
+  const pendingWrite = /await updateBriefcasePacketStatusForWebhook\(\s*userId,\s*item\.id,\s*"pending"\s*\)/;
+  const pendingIndex = source.search(pendingWrite);
+  if (enqueueIndex < 0) {
+    targetFailures.push("Payment confirmation must enqueue durable artifact generation.");
+  }
+  if (pendingIndex < 0) {
+    targetFailures.push("Payment confirmation must set packet status to exactly pending, never ready.");
+  }
+  if (enqueueIndex >= 0 && pendingIndex >= 0 && pendingIndex < enqueueIndex) {
+    targetFailures.push("Payment confirmation must enqueue durable artifact generation before recording pending status.");
+  }
+  if (/updateBriefcasePacketStatusForWebhook\([\s\S]{0,120}?"ready"/.test(source)) {
+    targetFailures.push("Payment confirmation must set packet status to exactly pending, never ready.");
+  }
+}
+
+function assertVerificationBoundArtifactAttachment(source, targetFailures) {
+  const generationSection = sourceSection(
+    source,
+    "export async function generatePaidConsumerPacket",
+    "export async function getConsumerPacketStatus"
+  );
+  const generationCall = callSection(generationSection, "await attachPacketToBriefcaseItem({");
+  if (!generationCall.includes("expectedVerificationHash: verification.hash")) {
+    targetFailures.push("Generated artifact attachment must receive the current verification hash.");
+  }
+
+  const helperSection = sourceSection(
+    source,
+    "export async function attachPacketToBriefcaseItem",
+    "export function mergePacketArtifactEnvelope"
+  );
+  if (!helperSection.includes("expectedVerificationHash: string;")) {
+    targetFailures.push("Artifact attachment helper must require an expected verification hash parameter.");
+  }
+  const casCall = callSection(helperSection, "await attachConsumerPacketArtifactIfVerified({");
+  if (!/(?:^|\n)\s*expectedVerificationHash(?:\s*:\s*expectedVerificationHash)?\s*,/m.test(casCall)) {
+    targetFailures.push("CAS artifact attachment must pass the helper parameter unchanged as expectedVerificationHash.");
+  }
+}
+
+function callSection(source, callMarker) {
+  const start = source.indexOf(callMarker);
+  if (start < 0) return "";
+  const objectStart = source.indexOf("{", start + callMarker.length - 1);
+  if (objectStart < 0) return "";
+  let depth = 0;
+  for (let index = objectStart; index < source.length; index += 1) {
+    if (source[index] === "{") depth += 1;
+    if (source[index] === "}") depth -= 1;
+    if (depth === 0) return source.slice(start, index + 1);
+  }
+  return "";
+}
+
+function sourceSection(source, startMarker, endMarker) {
+  const start = source.indexOf(startMarker);
+  if (start < 0) return "";
+  const end = source.indexOf(endMarker, start + startMarker.length);
+  return source.slice(start, end < 0 ? source.length : end);
 }
 
 run("npm", ["run", "expungement:verify-consumer-persistence"]);

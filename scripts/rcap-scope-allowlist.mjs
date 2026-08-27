@@ -470,7 +470,30 @@ export const ROGER_APPROVED_EXPUNGEMENT_PR101_FILES = [
   "src/components/expungement-ai/state-landing/StateLandingPage.tsx"
 ];
 
+// Reviewed Clinic Mode integration files that overlap legacy production-scope
+// guards. This is intentionally limited to the exact partner pages and SQL
+// migrations those guards classify as restricted; it grants no clinic,
+// partner, or supabase directory prefix.
+export const CLINIC_MODE_SCOPE_FILES = [
+  "src/app/partner/clinic/[eventId]/follow-up/page.tsx",
+  "src/app/partner/clinic/[eventId]/page.tsx",
+  "src/app/partner/clinic/[eventId]/reporting/page.tsx",
+  "src/app/partner/clinic/page.tsx",
+  "supabase/migrations/20260825120000_clinic_mode_core.sql",
+  "supabase/migrations/20260825121000_clinic_mode_security.sql",
+  "supabase/migrations/20260825122000_clinic_mode_accounting_reporting.sql"
+];
+
+// Captain-owned CAS migration for protected verification, checkout binding,
+// payment entitlement, render enqueue, and artifact attachment. Exact file
+// only: no general supabase/migrations allowance is created.
+export const CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES = [
+  "supabase/migrations/20260827120000_consumer_packet_verification_cas.sql"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
+  ...CLINIC_MODE_SCOPE_FILES,
+  ...CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES,
   ...PACKET_DELIVERY_GATE_FILES,
   ...ROGER_APPROVED_EXPUNGEMENT_PR101_FILES,
   ...SHARED_SCOPE_GUARD_ENV_FILES,

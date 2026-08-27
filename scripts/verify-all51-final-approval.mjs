@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import {
+  CLINIC_MODE_SCOPE_FILES,
+  CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES
+} from "./rcap-scope-allowlist.mjs";
 import { applyExactPathAuthorizations } from "./source-engine-change-scope.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -94,6 +98,8 @@ function assertNoRestrictedChanges() {
     "src/components/expungement/"
   ];
   const allowedConsumerPersistenceFiles = new Set([
+    ...CLINIC_MODE_SCOPE_FILES,
+    ...CONSUMER_PACKET_VERIFICATION_CAS_SCOPE_FILES,
     ".env.example",
     "src/lib/stripe/server.ts",
     // Shared handler both Stripe webhook routes delegate to. Reviewed for the launch payment-guard
