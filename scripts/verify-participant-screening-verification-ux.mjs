@@ -182,14 +182,54 @@ requireSource(
   "Verification failures must be announced by a live alert region."
 );
 requireSource(
-  verificationAction.includes("sponsoredReviewCopy(verified)")
+  verificationAction.includes("sponsoredReviewCopy(verified, packetReady)")
     && verificationAction.includes("Packet facts verified and current")
-    && verificationAction.includes("Complete final verification"),
-  "Sponsored review copy must change after verification without introducing consumer commerce language."
+    && verificationAction.includes("Complete final verification")
+    && verificationAction.includes("Your covered packet remains available in this matter")
+    && verificationAction.includes("Covered packet generation is now available"),
+  "Sponsored review copy must vary across unverified, ready, and generation-available states without consumer commerce language."
 );
 
 if (verificationClientExists) {
-  const { requestPacketVerification } = await import("../src/components/expungement-ai/packet-verification-client.ts");
+  const {
+    packetVerificationActions,
+    requestPacketVerification
+  } = await import("../src/components/expungement-ai/packet-verification-client.ts");
+  requireSource(
+    typeof packetVerificationActions === "function",
+    "The verification action must expose a direct, testable branch policy."
+  );
+  if (typeof packetVerificationActions === "function") {
+    requireSource(
+      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "paid" })) === JSON.stringify({
+        openPacket: true,
+        checkout: false,
+        generation: { mode: "paid_durable", label: "Prepare updated packet" }
+      }),
+      "A currently verified paid matter with an existing artifact must retain Open my packet and Prepare updated packet."
+    );
+    requireSource(
+      JSON.stringify(packetVerificationActions({ verified: false, packetReady: true, mode: "paid" })) === JSON.stringify({
+        openPacket: false,
+        checkout: false,
+        generation: null
+      }),
+      "A paid ready artifact must not expose open or correction actions before explicit current verification."
+    );
+    requireSource(
+      JSON.stringify(packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored" })) === JSON.stringify({
+        openPacket: true,
+        checkout: false,
+        generation: null
+      })
+        && JSON.stringify(packetVerificationActions({ verified: true, packetReady: false, mode: "sponsored" })) === JSON.stringify({
+          openPacket: false,
+          checkout: false,
+          generation: { mode: "sponsored_sync" }
+        }),
+      "Sponsored matters must open an existing packet without regenerating it, and generate only when no artifact exists."
+    );
+  }
   const observed = { body: null, method: null, path: null };
   const boundary = http.createServer(async (request, response) => {
     observed.method = request.method;

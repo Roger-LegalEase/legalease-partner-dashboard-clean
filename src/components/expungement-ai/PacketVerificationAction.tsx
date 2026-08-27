@@ -6,17 +6,21 @@ import { useState } from "react";
 
 import { ConsumerCheckoutButton } from "@/app/expungement-ai/pay/ConsumerCheckoutButton";
 import { PacketGenerateButton } from "@/components/expungement-ai/PacketGenerateButton";
-import { requestPacketVerification } from "@/components/expungement-ai/packet-verification-client";
+import {
+  packetVerificationActions,
+  requestPacketVerification,
+  type VerificationMode
+} from "@/components/expungement-ai/packet-verification-client";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
-type VerificationMode = "consumer" | "paid" | "sponsored";
-
-function sponsoredReviewCopy(verified: boolean) {
+function sponsoredReviewCopy(verified: boolean, packetReady: boolean) {
   return verified
     ? {
         eyebrow: "Covered by your partner program",
         heading: "Packet facts verified and current.",
-        body: "Covered packet generation is now available."
+        body: packetReady
+          ? "Your covered packet remains available in this matter."
+          : "Covered packet generation is now available."
       }
     : {
         eyebrow: "Covered by your partner program",
@@ -44,7 +48,8 @@ export function PacketVerificationAction({
   const [verified, setVerified] = useState(initiallyVerified);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const sponsoredCopy = sponsoredReviewCopy(verified);
+  const sponsoredCopy = sponsoredReviewCopy(verified, packetReady);
+  const nextActions = packetVerificationActions({ verified, packetReady, mode });
 
   async function verify() {
     if (verifying || !canVerify) return;
@@ -75,7 +80,9 @@ export function PacketVerificationAction({
       <p className="mt-2 text-sm leading-6 text-white/75">
         {mode === "sponsored"
           ? sponsoredCopy.body
-          : "Check every answer against your records. Editing any answer will require verification again."}
+          : mode === "paid" && verified && packetReady
+            ? "Your existing packet remains available. You can also prepare an updated packet for this same matter."
+            : "Check every answer against your records. Editing any answer will require verification again."}
       </p>
 
       {!verified ? (
@@ -93,20 +100,31 @@ export function PacketVerificationAction({
             Complete every required packet detail before final verification.
           </p>
         )
-      ) : packetReady ? (
-        <Link className="mt-5 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${encodeURIComponent(itemId)}`}>
-          Open my packet
-        </Link>
-      ) : mode === "sponsored" ? (
-        <div className="mt-5 [&_button]:bg-[#FF3B00]">
-          <PacketGenerateButton briefcaseItemId={itemId} mode="sponsored_sync" />
-        </div>
-      ) : mode === "paid" ? (
-        <div className="mt-5 [&_button]:bg-[#FF3B00]">
-          <PacketGenerateButton briefcaseItemId={itemId} mode="paid_durable" label="Prepare updated packet" />
-        </div>
       ) : (
-        <ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet" />
+        <div className="mt-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+          {nextActions.openPacket ? (
+            <Link className="inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href={`/briefcase/${encodeURIComponent(itemId)}`}>
+              Open my packet
+            </Link>
+          ) : null}
+          {nextActions.generation?.mode === "sponsored_sync" ? (
+            <div className="[&_button]:mt-0 [&_button]:bg-[#FF3B00]">
+              <PacketGenerateButton briefcaseItemId={itemId} mode="sponsored_sync" />
+            </div>
+          ) : null}
+          {nextActions.generation?.mode === "paid_durable" ? (
+            <div className="[&_button]:mt-0 [&_button]:bg-[#FF3B00]">
+              <PacketGenerateButton
+                briefcaseItemId={itemId}
+                mode="paid_durable"
+                label={nextActions.generation.label}
+              />
+            </div>
+          ) : null}
+          {nextActions.checkout ? (
+            <ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet" />
+          ) : null}
+        </div>
       )}
 
       {error ? (

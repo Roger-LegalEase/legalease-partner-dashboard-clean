@@ -7,6 +7,54 @@ export type PacketVerificationClientResult = {
   missingInputIds: string[];
 };
 
+export type VerificationMode = "consumer" | "paid" | "sponsored";
+
+export type PacketVerificationActions = {
+  openPacket: boolean;
+  checkout: boolean;
+  generation:
+    | { mode: "sponsored_sync" }
+    | { mode: "paid_durable"; label: "Prepare updated packet" }
+    | null;
+};
+
+/** Keep every post-verification action behind one directly testable policy boundary. */
+export function packetVerificationActions({
+  verified,
+  packetReady,
+  mode
+}: {
+  verified: boolean;
+  packetReady: boolean;
+  mode: VerificationMode;
+}): PacketVerificationActions {
+  if (!verified) {
+    return { openPacket: false, checkout: false, generation: null };
+  }
+
+  if (mode === "paid") {
+    return {
+      openPacket: packetReady,
+      checkout: false,
+      generation: { mode: "paid_durable", label: "Prepare updated packet" }
+    };
+  }
+
+  if (mode === "sponsored") {
+    return {
+      openPacket: packetReady,
+      checkout: false,
+      generation: packetReady ? null : { mode: "sponsored_sync" }
+    };
+  }
+
+  return {
+    openPacket: packetReady,
+    checkout: !packetReady,
+    generation: null
+  };
+}
+
 function responseRecord(payload: unknown): Record<string, unknown> | null {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
   const record = payload as Record<string, unknown>;

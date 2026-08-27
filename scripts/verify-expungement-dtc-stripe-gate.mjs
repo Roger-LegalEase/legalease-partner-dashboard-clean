@@ -108,7 +108,12 @@ function stripeBoundaryViolations(input) {
   require(input.checkoutRoute.includes("ConsumerCheckoutReviewRequiredError"), "Checkout route must preserve its review-required error boundary.");
   require(input.checkoutRoute.includes("isPartnerSponsoredPacketItem") && input.checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Checkout route must reject partner-covered matters.");
   require(input.checkoutRoute.includes("We couldn’t start payment for this case. Your information is still saved."), "Unavailable Stripe Checkout must fail closed without losing the matter.");
-  require(input.paymentAdapter.includes("ConsumerCheckoutReviewRequiredError") && input.paymentAdapter.includes("reviewedPacketInputHash"), "Payment adapter must verify reviewed packet information before Checkout.");
+  require(
+    input.paymentAdapter.includes("ConsumerCheckoutReviewRequiredError")
+      && input.paymentAdapter.includes("requireCurrentPacketVerification")
+      && input.paymentAdapter.includes("verificationHash: verification.hash"),
+    "Payment adapter must bind Checkout to the current canonical verification hash."
+  );
   require(input.paymentAdapter.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Missing Stripe configuration must not bypass Checkout.");
   require(input.paymentAdapter.includes("!isProductionRuntime()"), "Dry-run Checkout must remain disabled in production.");
   require(input.paymentAdapter.includes('success_url: successUrl ?? defaultSuccessUrl') && input.paymentAdapter.includes("/briefcase/${encodeURIComponent(item.id)}?payment=return"), "Stripe success must return to the exact Briefcase matter.");

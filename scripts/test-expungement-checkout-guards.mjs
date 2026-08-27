@@ -794,7 +794,8 @@ function sourceContracts() {
   assert.ok(renderRequest.includes('from("rcap_document_packet_inputs")'));
 
   const packetGenerateButton = read("src/components/expungement-ai/PacketGenerateButton.tsx");
-  const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
+  const verificationAction = read("src/components/expungement-ai/PacketVerificationAction.tsx");
+  const actionPolicy = loadTsWithMocks("src/components/expungement-ai/packet-verification-client.ts", {});
   assert.ok(packetGenerateButton.includes('mode: "sponsored_sync" | "paid_durable"'));
   assert.ok(packetGenerateButton.includes('"/api/expungement-ai/packet/render"'));
   assert.ok(packetGenerateButton.includes("durable && response.status !== 202"));
@@ -804,10 +805,26 @@ function sourceContracts() {
   );
   assert.ok(durableAccepted.includes('setStatus("preparing")') && durableAccepted.includes("return;"));
   assert.ok(!durableAccepted.includes('trackFunnelEvent("packet_generated"'), "202 may mean preparing, never generated");
-  assert.ok(reviewPage.includes('mode="paid_durable"'), "paid correction/retry must use the durable render route");
-  assert.ok(reviewPage.includes('label="Prepare updated packet"'), "paid corrections must expose an explicit same-matter update action");
-  assert.ok(!reviewPage.includes('model.missingInputIds.length === 0 && item.packetStatus !== "ready"'), "a ready artifact must not block a paid correction render");
-  assert.ok(reviewPage.includes('mode="sponsored_sync"'), "sponsored generation must keep its existing endpoint");
+  assert.equal(typeof actionPolicy.packetVerificationActions, "function", "verification action branch policy must be directly testable");
+  assert.deepEqual(
+    actionPolicy.packetVerificationActions({ verified: true, packetReady: true, mode: "paid" }),
+    { openPacket: true, checkout: false, generation: { mode: "paid_durable", label: "Prepare updated packet" } },
+    "paid ready/current matters keep legacy open access plus durable same-matter correction"
+  );
+  assert.deepEqual(
+    actionPolicy.packetVerificationActions({ verified: false, packetReady: true, mode: "paid" }),
+    { openPacket: false, checkout: false, generation: null },
+    "paid correction/retry remains absent before explicit current verification"
+  );
+  assert.deepEqual(
+    actionPolicy.packetVerificationActions({ verified: true, packetReady: true, mode: "sponsored" }),
+    { openPacket: true, checkout: false, generation: null },
+    "sponsored ready matters retain open access without consuming another covered generation"
+  );
+  assert.ok(verificationAction.includes("nextActions.openPacket") && verificationAction.includes("nextActions.generation"), "PacketVerificationAction must render the tested action policy");
+  assert.ok(verificationAction.includes('mode="paid_durable"'), "paid correction/retry must use the durable render route");
+  assert.ok(verificationAction.includes('label={nextActions.generation.label}'), "paid corrections must expose the policy-owned same-matter update copy");
+  assert.ok(verificationAction.includes('mode="sponsored_sync"'), "sponsored generation must keep its existing endpoint");
 
   const legacyPacketReturn = read("src/app/expungement-ai/packet-ready/page.tsx");
   assert.ok(legacyPacketReturn.includes("getBriefcaseItem") && legacyPacketReturn.includes("redirect("));
