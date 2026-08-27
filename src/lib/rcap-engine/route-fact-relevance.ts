@@ -50,7 +50,7 @@ export const UNIVERSAL_PREPAY_FACT_IDS: ReadonlySet<string> = new Set([
  */
 export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[]>> = {
   "CA:tool-4-arrest-record-sealing": ["case_outcome"],
-  "CA:prop-64-currently-serving-petition-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense", "ca_prop64_relief_requested"],
+  "CA:prop-64-currently-serving-petition-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense"],
   "CA:prop-64-completed-sentence-application-11361-8": ["ca_prop64_branch", "ca_prop64_qualifying_marijuana_offense", "ca_prop64_lesser_or_no_offense", "ca_prop64_relief_requested"],
   "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59": [
     "eligible_conviction_count", "new_convictions_during_waiting_period", "pending_cases",
@@ -59,14 +59,16 @@ export const ROUTE_ESCALATION_FACT_IDS: Readonly<Record<string, readonly string[
     "ny_16059_prior_sealing"
   ],
   "NY:conditional-treatment-sealing-under-cpl-160-58": ["ny_16058_treatment_program_completed", "sentence_completion_date"],
-  "DC:dc_actual_innocence_expungement_16_803": ["actual_innocence_basis", "dc_offense_severity_group"],
-  "DC:dc_motion_seal_felony_conviction_8yr_16_806": ["actual_innocence_basis", "dc_offense_severity_group"],
+  "DC:dc_actual_innocence_expungement_16_803": ["actual_innocence_basis"],
+  "DC:dc_motion_seal_felony_conviction_8yr_16_806": ["dc_offense_severity_group"],
   "IL:felony-prostitution-relief": ["charge", "offense_level"],
-  "HI:nonconviction-arrest-expungement": ["case_outcome", "hi_court_order_confirmed"],
+  "HI:nonconviction-arrest-expungement": ["case_outcome"],
+  "HI:first-time-drug-conviction": ["hi_court_order_confirmed"],
+  "HI:dui-under-21-conviction": ["hi_court_order_confirmed"],
   "DE:discretionary-court-expungement-under-11-del-c-4374": ["state_exclusion_categories"],
   "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40": ["case_outcome"],
   "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8": ["pardon_signed_date"],
-  "IN:conviction-expungement-with-sealed-confidential-access": ["in_prosecutor_consent_confirmed", "eligible_conviction_class"],
+  "IN:conviction-expungement-with-sealed-confidential-access": ["in_prosecutor_consent_confirmed"],
   "WI:adult-conviction-expungement-under-wis-stat-973-015": ["wi_expungement_ordered_at_sentencing", "wi_no_probation_jail_prison"]
 };
 

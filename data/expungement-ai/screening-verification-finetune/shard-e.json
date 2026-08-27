@@ -25,16 +25,17 @@
   "after": {
     "flows": 55,
     "browserWitnessVariants": 104,
-    "freeQuestions": 89,
-    "routeConsumerFacts": 3,
+    "freeQuestionsEmptyContext": 82,
+    "freeQuestionsMaxExactRoute": 84,
+    "routeConsumerFacts": 2,
     "routeConsumerEdges": 3,
-    "exactPacketFactIds": 51,
+    "exactPacketFactIds": 52,
     "completionAliasIds": 5
   },
   "authority": {
     "policy": "No legal rule was added or inferred from prose.",
-    "routeConsumers": "HI and IN mappings exactly mirror ROUTE_ESCALATION_FACT_IDS.",
-    "exactPacketFactIds": "Existing compiled questions whose stage is case_details or record_readiness, plus existing date_or_unknown facts.",
+    "routeConsumers": "HI and IN mappings exactly mirror the route-specific evaluator gates and ROUTE_ESCALATION_FACT_IDS; selector-derived counts cover empty context and every exact route.",
+    "exactPacketFactIds": "Existing packet/date questions plus the projected Indiana conviction-class packet fact, which remains postpayment and is required by the sealed-access packet plan.",
     "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
   },
   "unchanged": [
@@ -42,12 +43,11 @@
     "pathways",
     "orderedDecisionRules",
     "legalAuthority",
-    "packetGenerator",
+    "packet families",
+    "form sets",
     "forms",
     "terminal outcomes",
     "payment outcomes"
   ],
-  "blockers": [
-    "Lane B metadata validation must admit approved projection-added question IDs; HI and IN route facts are not raw compiled-profile questions."
-  ]
+  "blockers": []
 }
