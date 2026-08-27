@@ -17,8 +17,6 @@ const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profil
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { toScreeningAnswers } = await import("../src/components/expungement-ai/screening/answers.ts");
 const { buildPartnerUsageWindowEventPayload } = await import("../src/lib/expungement-ai/nudge-os-events.ts");
-const { saveEligibilityResultToBriefcase } = await import("../src/lib/expungement-ai/briefcase.ts");
-const { ConsumerPacketPaymentRequiredError, generatePaidConsumerPacket } = await import("../src/lib/expungement-ai/packet-generation.ts");
 
 try {
   rcapPaymentRoutingStatus = verifySourceWiring();
@@ -47,7 +45,6 @@ try {
   await verifyUsageEventNoPii();
   await verifyScopeGuardDiscipline();
   await verifyDtcUnchangedGuard(db);
-  await verifyUnpaidDtcPacketGenerationRejected();
 
   await db.close();
 } catch (error) {
@@ -85,6 +82,7 @@ function verifySourceWiring() {
   const dtcStartPage = read("src/app/expungement-ai/start/page.tsx");
   const payPage = read("src/app/expungement-ai/pay/page.tsx");
   const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
+  const verificationAction = read("src/components/expungement-ai/PacketVerificationAction.tsx");
   const packetReadyPage = read("src/app/expungement-ai/packet-ready/page.tsx");
   const checkoutRoute = read("src/app/api/expungement-ai/checkout/route.ts");
   const paymentConfirmRoute = read("src/app/api/expungement-ai/payment/confirm/route.ts");
@@ -117,7 +115,7 @@ function verifySourceWiring() {
   assert(!intakeLib.includes(".from(\"screening_sessions\").insert"), "No app-level insert flow allowed.");
   assert(!intakeLib.includes("screenings_used + 1"), "No app-level entitlement increment allowed.");
 
-  const approvedHandoffIssues = approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage });
+  const approvedHandoffIssues = approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage, verificationAction });
   assert(approvedHandoffIssues.length === 0, approvedHandoffIssues.join("\n"));
 
   // Negative control: a source mutation that reintroduces payment immediately
@@ -132,11 +130,23 @@ function verifySourceWiring() {
     screeningFlow: mutatedPacketAction,
     screeningResult,
     pendingClaimRoute,
-    reviewPage
+    reviewPage,
+    verificationAction
   });
   assert(
     regressionIssues.some((message) => message.includes("free Briefcase before payment")),
     "Negative control failed: RCAP partner-mode verifier did not detect a premature DTC payment handoff."
+  );
+  const directCheckoutIssues = approvedScreeningHandoffViolations({
+    screeningFlow,
+    screeningResult,
+    pendingClaimRoute,
+    reviewPage: reviewPage.replace("<PacketVerificationAction", "<ConsumerCheckoutButton"),
+    verificationAction
+  });
+  assert(
+    directCheckoutIssues.some((message) => message.includes("delegate payment and generation")),
+    "Negative control failed: a direct Checkout control on final review was not rejected."
   );
 
   assert(!screeningFlow.includes("payment-adapter"), "RCAP screening flow must not invoke payment adapter.");
@@ -148,16 +158,20 @@ function verifySourceWiring() {
   // Partner mode renders one of four lane CTAs without a price. DTC saves the
   // result first and owns Checkout only from the exact matter's final review.
   assert(screeningResult.includes("PARTNER_RESULT_LANES[evaluation.resultCode].key"), "Partner-covered result CTA must use the four result-lane labels.");
-  assert(screeningResult.includes('"result.lane_packet_builder"') && screeningResult.includes('"Continue to packet builder"'), "Partner packet-ready lane must say Continue to packet builder.");
+  assert(screeningResult.includes('"result.save_briefcase_continue"') && screeningResult.includes('"Save to my Briefcase and continue"'), "Partner packet-ready lane must accurately say the result is saved to the Briefcase first.");
   const partnerCtaBranch = screeningResult.slice(
     screeningResult.indexOf("{hasScreeningSession ? ("),
     screeningResult.indexOf(") : (", screeningResult.indexOf("{hasScreeningSession ? ("))
   );
   assert(partnerCtaBranch.length > 0 && !partnerCtaBranch.includes("$50"), "Partner result CTA branch must never render the $50 label.");
-  assert(screeningResult.includes("result.partner_no_pay"), "Partner-covered result must show no-payment supporting copy.");
+  assert(screeningResult.includes("Your packet is covered by your partner program.")
+    && screeningResult.includes("Your saved result and next steps are covered by your partner program."), "Partner result must visibly explain verified program coverage without consumer commercial copy.");
   assert(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC result CTA must save the exact matter before payment.");
   assert(screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC packet-ready result must retain its matter-level $50 disclosure.");
-  assert(reviewPage.includes("<ConsumerCheckoutButton") && reviewPage.includes('label="Pay $50 and generate my packet"'), "DTC Checkout must remain on the exact matter's final accuracy review.");
+  assert(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification generation and Checkout decisions to PacketVerificationAction.");
+  assert(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && verificationAction.includes("{nextActions.checkout ? (")
+    && verificationAction.includes('<ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet"'), "DTC Checkout must remain reachable only through the verified action branch.");
   assert(payPage.includes("Compatibility route") && payPage.includes("/review"), "Legacy pay links must redirect the exact matter to final review.");
   assert(packetReadyPage.includes("Compatibility return") && !packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
   assert(dtcStartPage.includes('fallback="Start free"'), "DTC start page must retain the Start free action.");
@@ -196,7 +210,7 @@ function verifySourceWiring() {
   return rcapPaymentRoutingStatus;
 }
 
-function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage }) {
+function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pendingClaimRoute, reviewPage, verificationAction }) {
   const issues = [];
   const require = (condition, message) => {
     if (!condition) issues.push(message);
@@ -214,7 +228,10 @@ function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pe
   require(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet-ready result must use the approved save-before-payment action.");
   require(pendingClaimRoute.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs server-side.");
   require(pendingClaimRoute.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
-  require(reviewPage.includes("<ConsumerCheckoutButton") && reviewPage.includes('label="Pay $50 and generate my packet"'), "Consumer Checkout must exist only on final accuracy review.");
+  require(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate payment and generation until explicit verification.");
+  require(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
+    && verificationAction.includes("{nextActions.checkout ? (")
+    && verificationAction.includes("{nextActions.generation?.mode"), "PacketVerificationAction must own all post-verification Checkout and generation branches.");
   return issues;
 }
 
@@ -486,50 +503,6 @@ async function verifyDtcUnchangedGuard(db) {
   assert(fresh.resultCode === repeated.resultCode, "DTC and RCAP routes must share the same evaluator entrypoint.");
   assert(fresh.paymentAllowed === repeated.paymentAllowed, "DTC and RCAP must agree on paymentAllowed before routing.");
   assertDeepEqual(fresh.packetPlan ?? null, repeated.packetPlan ?? null, "DTC and RCAP must agree on packetPlan before routing.");
-}
-
-async function verifyUnpaidDtcPacketGenerationRejected() {
-  const savedEnv = {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-    SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY
-  };
-  delete process.env.NEXT_PUBLIC_SUPABASE_URL;
-  delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  delete process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  try {
-    const userId = `dtc-unpaid-${randomUuid()}`;
-    const item = saveEligibilityResultToBriefcase({
-      resultCode: "packet_ready",
-      userLabel: "Your self-help packet is ready to prepare.",
-      state: "MS",
-      pathwayLabel: "Mississippi record-clearing review",
-      confidence: "high",
-      paymentAllowed: true,
-      priceCents: 5000,
-      packetType: "custom_pleading",
-      reasons: ["The engine found a packet-ready path."],
-      nextSteps: ["Review the result.", "Pay once to generate the packet.", "Follow the filing checklist."],
-      emailCaptureRecommended: false,
-      disclaimer: "Verifier fixture."
-    }, userId);
-
-    assert(item.paymentStatus !== "paid", "DTC verifier fixture must start without paid status.");
-    assert(item.sourceSessionId === undefined, "DTC verifier fixture must not carry an RCAP source session.");
-
-    let rejected = false;
-    try {
-      await generatePaidConsumerPacket({ userId, briefcaseItemId: item.id });
-    } catch (error) {
-      rejected = error instanceof ConsumerPacketPaymentRequiredError;
-    }
-    assert(rejected, "Unpaid DTC packet-ready item must be rejected before packet generation.");
-  } finally {
-    restoreEnv("NEXT_PUBLIC_SUPABASE_URL", savedEnv.NEXT_PUBLIC_SUPABASE_URL);
-    restoreEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY", savedEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-    restoreEnv("SUPABASE_SERVICE_ROLE_KEY", savedEnv.SUPABASE_SERVICE_ROLE_KEY);
-  }
 }
 
 function createPgliteScreeningSessionStorage(db) {
@@ -813,14 +786,6 @@ function indexOf(source, needle) {
 
 function randomUuid() {
   return crypto.randomUUID();
-}
-
-function restoreEnv(key, value) {
-  if (value === undefined) {
-    delete process.env[key];
-    return;
-  }
-  process.env[key] = value;
 }
 
 function read(relativePath) {

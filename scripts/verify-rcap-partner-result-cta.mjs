@@ -188,6 +188,7 @@ assert(
 const noSession = renderResult(false);
 assert(noSession.includes("$50 one time when you are ready to generate this packet"), "No session must render the DTC $50 packet disclosure.");
 assert(noSession.includes("Save to my Briefcase and continue"), "No session must render the accurate DTC Briefcase handoff CTA.");
+assert(!noSession.includes("covered by your partner program"), "Ordinary DTC results must not claim partner coverage.");
 assert(!noSession.includes("Generate my packet - $50"), "The result must not offer immediate pay-and-generate before the builder/review gate.");
 
 // 3) URL shape validation is only an input gate for the server lookup. Invalid

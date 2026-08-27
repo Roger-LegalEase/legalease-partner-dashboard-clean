@@ -279,10 +279,10 @@ if (summaryExists) {
   const canonicalFacts = [
     { key: "screeningAnswers:hidden_screening_fact", id: "hidden_screening_fact", label: "Hidden screening fact", value: "Visible fact", source: "screeningAnswers", systemContext: false },
     { key: "screeningAnswers:route_answer", id: "route_answer", label: "Route answer", value: "Route B", source: "screeningAnswers", systemContext: false },
-    { key: "screeningAnswers:shared_answer", id: "shared_answer", label: "Shared answer", value: "Screening value", source: "screeningAnswers", systemContext: false },
+    { key: "screeningAnswers:screening_only_answer", id: "screening_only_answer", label: "Screening-only answer", value: "Screening value", source: "screeningAnswers", systemContext: false },
     { key: "prefilledAnswers:read_only_packet_fact", id: "read_only_packet_fact", label: "Read-only packet fact", value: "Read only", source: "prefilledAnswers", systemContext: false },
     { key: "packetAnswers:editable_packet_fact", id: "editable_packet_fact", label: "Editable packet fact", value: "Editable", source: "packetAnswers", systemContext: false },
-    { key: "packetAnswers:shared_answer", id: "shared_answer", label: "Shared packet answer", value: "Packet value", source: "packetAnswers", systemContext: false },
+    { key: "packetAnswers:packet_only_answer", id: "packet_only_answer", label: "Packet-only answer", value: "Packet value", source: "packetAnswers", systemContext: false },
     { key: "serverFacts:jurisdiction", id: "jurisdiction", label: "Jurisdiction", value: "MS", source: "serverFacts", systemContext: true },
     { key: "serverFacts:pathway_id", id: "pathway_id", label: "Pathway", value: "server-path", source: "serverFacts", systemContext: true }
   ];
@@ -337,16 +337,23 @@ if (summaryExists) {
     requiredInputIds: ["editable_packet_fact"],
     screeningAnswers: {
       route_answer: "Route B",
-      shared_answer: "Screening value",
+      screening_only_answer: "Screening value",
       hidden_screening_fact: "Visible fact"
     },
-    initialAnswers: {
-      shared_answer: "Packet value",
+    prefilledAnswers: {
+      read_only_packet_fact: "Read only"
+    },
+    packetAnswers: {
       editable_packet_fact: "Editable",
+      packet_only_answer: "Packet value"
+    },
+    initialAnswers: {
+      editable_packet_fact: "Editable",
+      packet_only_answer: "Packet value",
       read_only_packet_fact: "Read only"
     },
     questions: [
-      { id: "shared_answer", prompt: "Shared answer?" },
+      { id: "packet_only_answer", prompt: "Packet-only answer?" },
       { id: "editable_packet_fact", prompt: "Editable packet fact?" },
       { id: "read_only_packet_fact", prompt: "Read-only packet fact?" }
     ],
@@ -372,10 +379,10 @@ if (summaryExists) {
     JSON.stringify(answerRows.map((row) => row.key)) === JSON.stringify([
       "screeningAnswers:hidden_screening_fact",
       "screeningAnswers:route_answer",
-      "screeningAnswers:shared_answer",
+      "screeningAnswers:screening_only_answer",
       "prefilledAnswers:read_only_packet_fact",
       "packetAnswers:editable_packet_fact",
-      "packetAnswers:shared_answer"
+      "packetAnswers:packet_only_answer"
     ])
       && new Set([...summary.context, ...answerRows].map((row) => row.key)).size === canonicalFacts.length + canonicalContext.length
       && [...summary.context, ...answerRows].length === canonicalFacts.length + canonicalContext.length,
@@ -482,6 +489,65 @@ if (summaryExists) {
         verificationSummary: canonicalFacts.map((fact) => fact.key === "serverFacts:jurisdiction" ? { ...fact, value: "CA" } : fact)
       }) === null,
     "Review must validate manifested screening and protected server fact values against the model maps."
+  );
+  const collidingPacketFact = {
+    key: "packetAnswers:read_only_packet_fact",
+    id: "read_only_packet_fact",
+    label: "Edited read-only packet fact",
+    value: "Packet override",
+    source: "packetAnswers",
+    systemContext: false
+  };
+  const serverFactStart = canonicalFacts.findIndex((fact) => fact.source === "serverFacts");
+  const omittedPrefillFacts = [
+    ...canonicalFacts.slice(0, serverFactStart).filter((fact) => fact.key !== "prefilledAnswers:read_only_packet_fact"),
+    collidingPacketFact,
+    ...canonicalFacts.slice(serverFactStart)
+  ];
+  const omittedPrefillManifest = {
+    ...canonicalManifest,
+    factKeys: omittedPrefillFacts.map((fact) => fact.key)
+  };
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      prefilledAnswers: { read_only_packet_fact: "Read only" },
+      packetAnswers: { ...model.packetAnswers, read_only_packet_fact: "Packet override" },
+      initialAnswers: { ...model.initialAnswers, read_only_packet_fact: "Packet override" },
+      verificationSummary: omittedPrefillFacts,
+      verificationManifest: omittedPrefillManifest
+    }) === null,
+    "Review must reject a hashed prefilled fact omitted behind a same-id packet answer."
+  );
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      packetAnswers: { ...model.packetAnswers, extra_packet_fact: "Unmanifested packet value" }
+    }) === null
+      && summaryModule.verificationSummary({
+        ...model,
+        packetAnswers: { ...model.packetAnswers, editable_packet_fact: "Forged packet value" }
+      }) === null,
+    "Review must validate exact packet-answer membership and values even when initialAnswers and the summary collude."
+  );
+  const collidingScreeningFact = {
+    key: "screeningAnswers:editable_packet_fact",
+    id: "editable_packet_fact",
+    label: "Colliding screening fact",
+    value: "Screening collision",
+    source: "screeningAnswers",
+    systemContext: false
+  };
+  const crossSourceFacts = [...canonicalFacts];
+  crossSourceFacts.splice(0, 0, collidingScreeningFact);
+  requireSource(
+    summaryModule.verificationSummary({
+      ...model,
+      screeningAnswers: { ...model.screeningAnswers, editable_packet_fact: "Screening collision" },
+      verificationSummary: crossSourceFacts,
+      verificationManifest: { ...canonicalManifest, factKeys: crossSourceFacts.map((fact) => fact.key) }
+    }) === null,
+    "Review must reject duplicate fact ids and cross-source collisions even when every source-qualified key is unique."
   );
   const draftContextKeys = [...canonicalContextKeys.filter((key) => key !== "verifiedAt"), "capturedAt"].sort();
   const draftContext = draftContextKeys.map((key) => {

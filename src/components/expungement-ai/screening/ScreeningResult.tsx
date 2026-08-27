@@ -252,6 +252,14 @@ export function ScreeningResult({
         </div>
       ) : null}
 
+      {hasScreeningSession ? (
+        <p className="mt-6 rounded-xl border border-[#D9E5DF] bg-[#F3F8F5] px-4 py-3 text-sm font-semibold leading-6 text-[#29453B]" data-partner-coverage="verified">
+          {isPacketReady
+            ? "Your packet is covered by your partner program."
+            : "Your saved result and next steps are covered by your partner program."}
+        </p>
+      ) : null}
+
       {actionError ? (
         <p className="mt-6 rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert">
           {actionError}

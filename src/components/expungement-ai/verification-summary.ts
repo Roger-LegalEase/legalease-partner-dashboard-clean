@@ -78,8 +78,10 @@ export function verificationSummary(model: {
   packetPlan: unknown;
   requiredInputIds: string[];
   screeningAnswers: Record<string, AnswerValue>;
+  prefilledAnswers: Record<string, AnswerValue>;
+  packetAnswers: Record<string, AnswerValue>;
   initialAnswers: Record<string, AnswerValue>;
-  serverFacts?: Record<string, AnswerValue>;
+  serverFacts: Record<string, AnswerValue>;
   builderQuestions: Array<{ id: string }>;
   verificationSummary?: unknown;
   verificationContext?: unknown;
@@ -103,6 +105,7 @@ export function verificationSummary(model: {
   const manifestFactKeys = new Set(manifest.factKeys);
   const manifestContextKeys = new Set(manifest.systemContextKeys);
   if (factsByKey.size !== facts.length
+    || new Set(facts.map((fact) => fact.id)).size !== facts.length
     || contextByKey.size !== contextFacts.length
     || manifestFactKeys.size !== manifest.factKeys.length
     || manifestContextKeys.size !== manifest.systemContextKeys.length
@@ -119,17 +122,10 @@ export function verificationSummary(model: {
     || !sameValue(contextByKey.get("packetPlan")?.value, model.packetPlan)
     || !sameValue(contextByKey.get("requiredInputIds")?.value, model.requiredInputIds)) return null;
 
-  if (!model.serverFacts
-    || !sourceFactsMatch(facts, "screeningAnswers", model.screeningAnswers)
+  if (!sourceFactsMatch(facts, "screeningAnswers", model.screeningAnswers)
+    || !sourceFactsMatch(facts, "prefilledAnswers", model.prefilledAnswers)
+    || !sourceFactsMatch(facts, "packetAnswers", model.packetAnswers)
     || !sourceFactsMatch(facts, "serverFacts", model.serverFacts)) return null;
-
-  for (const [id, value] of Object.entries(model.screeningAnswers)) {
-    if (!sameValue(factsByKey.get(`screeningAnswers:${id}`)?.value, value)) return null;
-  }
-  for (const [id, value] of Object.entries(model.initialAnswers)) {
-    const represented = facts.some((fact) => !fact.systemContext && fact.id === id && sameValue(fact.value, value));
-    if (!represented) return null;
-  }
 
   const editableIds = new Set(model.builderQuestions.map((question) => question.id));
   const rows = facts.map((fact): VerificationSummaryRow => ({

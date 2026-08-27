@@ -8,6 +8,11 @@ import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/sessi
 import { ClinicServiceError } from "@/lib/clinic-mode/errors";
 import type { ClinicParticipantSession, ClinicQueueCase, PublicClinicEvent } from "@/lib/clinic-mode/types";
 
+export type ActiveClinicParticipantContext = Pick<
+  ClinicParticipantSession,
+  "id" | "eventId" | "eventSlug" | "participantUserId" | "screeningSessionId" | "status" | "expiresAt"
+>;
+
 export async function getPublicClinicEvent(eventSlug: string): Promise<PublicClinicEvent> {
   const db = requireDatabase();
   const result = await db.from("clinic_events").select("id,public_slug,name,starts_at,ends_at,timezone,location_name,geography,status")
@@ -39,6 +44,44 @@ export async function getClinicParticipantSession(eventSlug: string): Promise<Cl
     participantUserId: String(sessionResult.data.participant_user_id), screeningSessionId: String(sessionResult.data.screening_session_id),
     jurisdiction: String(screeningResult.data.jurisdiction),
     status: sessionResult.data.status as ClinicParticipantSession["status"], expiresAt: String(sessionResult.data.expires_at)
+  };
+}
+
+/**
+ * Resolve Clinic privacy state for routes outside /clinic. Cookie values are
+ * lookup hints only: the authenticated owner, hashed handoff token, active
+ * status, expiry, and canonical event must all agree before callers may trust
+ * the returned context.
+ */
+export async function getActiveClinicParticipantContext(): Promise<ActiveClinicParticipantContext | null> {
+  const auth = await getServerAuthState();
+  if (!auth.isAuthenticated) return null;
+  const cookieStore = await cookies();
+  const rawToken = cookieStore.get("clinic_session")?.value;
+  const eventSlugHint = cookieStore.get("clinic_event")?.value;
+  if (!rawToken || !eventSlugHint) return null;
+
+  const db = requireDatabase();
+  const sessionResult = await db.from("clinic_assisted_sessions")
+    .select("id,event_id,participant_user_id,screening_session_id,status,expires_at")
+    .eq("handoff_token_hash", sha256(rawToken)).eq("participant_user_id", auth.userId)
+    .in("status", ["active", "handed_off"]).gt("expires_at", new Date().toISOString()).maybeSingle();
+  if (sessionResult.error) throw new ClinicServiceError("unavailable", "Clinic privacy validation failed.");
+  if (!sessionResult.data?.screening_session_id) return null;
+
+  const eventResult = await db.from("clinic_events").select("public_slug")
+    .eq("id", sessionResult.data.event_id).eq("public_slug", normalizeSlug(eventSlugHint)).maybeSingle();
+  if (eventResult.error) throw new ClinicServiceError("unavailable", "Clinic privacy validation failed.");
+  if (!eventResult.data) return null;
+
+  return {
+    id: String(sessionResult.data.id),
+    eventId: String(sessionResult.data.event_id),
+    eventSlug: String(eventResult.data.public_slug),
+    participantUserId: String(sessionResult.data.participant_user_id),
+    screeningSessionId: String(sessionResult.data.screening_session_id),
+    status: sessionResult.data.status as ClinicParticipantSession["status"],
+    expiresAt: String(sessionResult.data.expires_at)
   };
 }
 

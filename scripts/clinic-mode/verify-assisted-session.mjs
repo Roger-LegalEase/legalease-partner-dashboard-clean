@@ -13,6 +13,7 @@ const required = [
   "src/app/api/clinic/assistance/start/route.ts",
   "src/app/api/clinic/session/reset/route.ts",
   "src/app/api/clinic/events/[eventId]/queue/route.ts",
+  "src/app/briefcase/layout.tsx",
   "src/app/clinic/[eventSlug]/page.tsx",
   "src/app/clinic/[eventSlug]/assist/page.tsx",
   "src/app/clinic/[eventSlug]/screening/[state]/page.tsx",
@@ -36,6 +37,25 @@ for (const marker of ["clinic_end_assisted_session", ".auth.signOut", "clinic_se
 const privacy = read("src/components/clinic-mode/ClinicPrivacyBoundary.tsx");
 for (const marker of ["End clinic session / Reset device", "resetClinicDeviceState", "pageshow", "event.persisted", "INACTIVITY_LIMIT_MS"])
   assert.ok(privacy.includes(marker), `privacy boundary missing ${marker}`);
+
+const participantService = read("src/lib/clinic-mode/participant-service.ts");
+for (const marker of [
+  "getActiveClinicParticipantContext",
+  "getServerAuthState",
+  'get("clinic_session")',
+  'get("clinic_event")',
+  "handoff_token_hash",
+  "participant_user_id",
+  '["active", "handed_off"]',
+  'gt("expires_at"',
+  'select("public_slug")'
+]) assert.ok(participantService.includes(marker), `route-independent Clinic privacy context missing ${marker}`);
+assert.ok(!participantService.includes("searchParams") && !participantService.includes("artifactRefs"), "Clinic privacy context must not trust route or writable matter data");
+
+const briefcaseLayout = read("src/app/briefcase/layout.tsx");
+for (const marker of ["getActiveClinicParticipantContext", "ClinicPrivacyBoundary", "cleanEntryPath", "children"])
+  assert.ok(briefcaseLayout.includes(marker), `Briefcase Clinic privacy layout missing ${marker}`);
+assert.ok(!/searchParams|packetId|artifactRefs|paymentStatus/.test(briefcaseLayout), "Briefcase privacy layout must not infer Clinic mode from route, item, or writable status");
 
 const screening = read("src/app/clinic/[eventSlug]/screening/[state]/page.tsx");
 for (const marker of ["ScreeningFlow", "getClinicParticipantSession", "participantUserId", "screeningSessionId", 'dynamic = "force-dynamic"'])
