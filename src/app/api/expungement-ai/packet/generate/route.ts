@@ -29,15 +29,6 @@ export async function POST(request: NextRequest) {
   // Partner cap accounting is isolated from the DTC path: it only runs for
   // items whose source screening session is partner-sponsored.
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
-  let verificationHash: string | null = null;
-  try {
-    if (item) verificationHash = requireCurrentPacketVerification(item).hash;
-  } catch (error) {
-    if (error instanceof CurrentPacketVerificationRequiredError) {
-      return NextResponse.json({ error: "Current final verification is required before packet generation." }, { status: 409 });
-    }
-    throw error;
-  }
   const partnerSessionId = item?.sourceSessionId ?? null;
   const isPartnerSponsored = Boolean(item) && (await isPartnerSponsoredPacketItem(item!));
 
@@ -69,9 +60,8 @@ export async function POST(request: NextRequest) {
     // consumes credit and attaches Ready together; a refusal returns no Ready
     // response and leaves no accessible artifact.
     if (packet.packetStatus === "generating" && isPartnerSponsored && partnerSessionId && packet.artifactRefs) {
-      if (!verificationHash) {
-        throw new CurrentPacketVerificationRequiredError("verification_missing_before_sponsored_finalization");
-      }
+      if (!item) throw new CurrentPacketVerificationRequiredError("verification_item_missing_before_sponsored_finalization");
+      const verificationHash = (await requireCurrentPacketVerification(auth.userId, item)).hash;
       const finalization = await finalizeSponsoredPacketGeneration({
         sessionId: partnerSessionId,
         briefcaseItemId,

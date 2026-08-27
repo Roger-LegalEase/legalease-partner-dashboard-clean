@@ -18,6 +18,7 @@ import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungem
 import { requestConsumerPacketRenderForWebhook } from "@/lib/expungement-ai/consumer-render-request";
 import { consumerPacketPriceCents, type ConsumerCheckoutStatus } from "@/lib/expungement-ai/payment-adapter";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { readProtectedPacketArtifact } from "@/lib/expungement-ai/verification-cas";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 
@@ -86,9 +87,19 @@ export async function reconcileExpungementAiCheckoutEvent(
   }
 
   await assertConsumerItemIsNotSponsored(item);
+  const protectedArtifact = await readProtectedPacketArtifact({
+    consumerAuthUserId: userId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedArtifact.ok) {
+    throw new ConsumerCheckoutEvidenceError(`protected artifact authority is unavailable: ${protectedArtifact.reason}`);
+  }
+  if (item.paymentStatus === "paid" && protectedArtifact.value.status === "ready") {
+    return "duplicate";
+  }
   let verification;
   try {
-    verification = requireCurrentPacketVerification(item);
+    verification = await requireCurrentPacketVerification(userId, item);
   } catch {
     throw new ConsumerCheckoutEvidenceError("current final verification is required");
   }
@@ -120,7 +131,6 @@ export async function reconcileExpungementAiCheckoutEvent(
     // idempotent: the payment writer converges on already_paid and the Phase 53
     // queue converges on the same packet/input job, so no duplicate entitlement
     // or duplicate artifact can result.
-    if (item.packetStatus === "ready") return "duplicate";
     await finalizePaidCheckoutSession(userId, item, session, event.id, person.personId, matterId, verification.hash);
     return "recovered";
   }
@@ -185,7 +195,7 @@ async function finalizePaidCheckoutSession(
   const statusUpdated = await updateBriefcasePacketStatusForWebhook(
     userId,
     item.id,
-    item.packetStatus === "ready" ? "ready" : "pending"
+    "pending"
   );
   if (!statusUpdated) throw new Error("Unable to record the queued packet status.");
 

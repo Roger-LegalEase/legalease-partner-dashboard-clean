@@ -84,6 +84,19 @@ function eligibilityResult(code, pathwayLabel) {
   };
 }
 
+function verificationSnapshot(code, pathwayId, trackId = null) {
+  return {
+    jurisdiction: code,
+    pathwayId,
+    selectedTrackId: trackId,
+    treatmentClassification: null,
+    deferralComponentIds: [],
+    packetType: "custom_pleading",
+    resultCode: "packet_ready",
+    paymentAllowed: true
+  };
+}
+
 // --------------------------------------------------------------------------- both directions, every jurisdiction
 const payableRoutes = Object.entries(routeMetadata)
   .filter(([, meta]) => meta.paymentProductEligible === true)
@@ -96,12 +109,12 @@ for (const profile of profiles) {
   const code = profile.jurisdiction.code;
   for (const pathway of profile.pathways) {
     const label = pathway.label;
-    const canRender = packetRouteCanRender(resolvePacketRoute({ state: code, pathway: label, trackId: null }));
+    const canRender = packetRouteCanRender(resolvePacketRoute({ state: code, pathway: pathway.id, trackId: null }));
     const item = payableItem(code, label);
 
     let threw = null;
     try {
-      assertPacketRouteCanDeliver(item);
+      assertPacketRouteCanDeliver(verificationSnapshot(code, pathway.id));
     } catch (error) {
       threw = error;
     }
@@ -118,13 +131,13 @@ for (const profile of profiles) {
       // must never be shown a price.
       let checkoutThrew = null;
       try {
-        assertCheckoutAllowed(item);
+        assertCheckoutAllowed(verificationSnapshot(code, pathway.id));
       } catch (error) {
         checkoutThrew = error;
       }
       check(checkoutThrew !== null, `${code}:${pathway.id}: assertCheckoutAllowed admitted a route that cannot produce a packet`);
 
-      const placeholder = createConsumerPaymentPlaceholder(eligibilityResult(code, label));
+      const placeholder = createConsumerPaymentPlaceholder(eligibilityResult(code, label), pathway.id);
       check(placeholder.enabled === false,
         `${code}:${pathway.id}: a $50 price was offered for a route that cannot produce a packet`);
       check(placeholder.amountCents === undefined,
@@ -142,13 +155,13 @@ for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
   const item = payableItem(code, label);
   let threw = null;
   try {
-    assertCheckoutAllowed(item);
+    assertCheckoutAllowed(verificationSnapshot(code, profile.pathways[0]?.id ?? null));
   } catch (error) {
     threw = error;
   }
   check(!(threw instanceof ConsumerPacketNotDeliverableError),
     `${code}: the delivery guard fenced off a legacy verified generator, which must keep selling`);
-  const placeholder = createConsumerPaymentPlaceholder(eligibilityResult(code, label));
+  const placeholder = createConsumerPaymentPlaceholder(eligibilityResult(code, label), profile.pathways[0]?.id ?? null);
   check(placeholder.enabled === true, `${code}: a legacy verified generator lost its price`);
 }
 
@@ -157,7 +170,7 @@ const payableAndUndeliverable = payableRoutes.filter(({ jurisdiction, pathwayId 
   const profile = profiles.find((p) => p.jurisdiction.code === jurisdiction);
   const pathway = profile?.pathways.find((p) => p.id === pathwayId);
   if (!pathway) return false;
-  return !packetRouteCanRender(resolvePacketRoute({ state: jurisdiction, pathway: pathway.label, trackId: null }));
+  return !packetRouteCanRender(resolvePacketRoute({ state: jurisdiction, pathway: pathway.id, trackId: null }));
 });
 
 for (const route of payableAndUndeliverable) {
@@ -165,7 +178,7 @@ for (const route of payableAndUndeliverable) {
   const pathway = profile.pathways.find((p) => p.id === route.pathwayId);
   let threw = null;
   try {
-    assertCheckoutAllowed(payableItem(route.jurisdiction, pathway.label));
+    assertCheckoutAllowed(verificationSnapshot(route.jurisdiction, pathway.id));
   } catch (error) {
     threw = error;
   }
@@ -178,8 +191,8 @@ if (MUTATIONS) {
   // caught by nothing else, so removing the guard would silently reopen the
   // charge. This asserts the failure mode rather than trusting the guard's name.
   const undeliverable = profiles
-    .flatMap((p) => p.pathways.map((pathway) => ({ code: p.jurisdiction.code, label: pathway.label })))
-    .find(({ code, label }) => !packetRouteCanRender(resolvePacketRoute({ state: code, pathway: label, trackId: null })));
+    .flatMap((p) => p.pathways.map((pathway) => ({ code: p.jurisdiction.code, id: pathway.id, label: pathway.label })))
+    .find(({ code, id }) => !packetRouteCanRender(resolvePacketRoute({ state: code, pathway: id, trackId: null })));
   const item = payableItem(undeliverable.code, undeliverable.label);
   let withoutGuard = null;
   try {

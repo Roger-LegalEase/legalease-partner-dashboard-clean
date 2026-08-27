@@ -13,7 +13,11 @@ import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
 } from "@/lib/expungement-ai/consumer-payment-authority";
-import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
+import type {
+  ConsumerBriefcaseItem,
+  ExpungementAiEligibilityResult,
+  PacketVerificationSnapshot
+} from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
 export const consumerPacketCurrency = "usd" as const;
@@ -52,6 +56,7 @@ type ConsumerCheckoutBinding = {
   productId: typeof CONSUMER_PACKET_PRODUCT_ID;
   personId: string;
   matterId: string;
+  pathwayId: string;
   verificationHash: string;
 };
 
@@ -64,7 +69,10 @@ export type ConsumerCheckoutStatus = {
   amountCents: 5000;
 };
 
-export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilityResult): ConsumerPaymentIntent {
+export function createConsumerPaymentPlaceholder(
+  result: ExpungementAiEligibilityResult,
+  pathwayId: string | null
+): ConsumerPaymentIntent {
   // The placeholder is the first surface a participant sees. A component
   // deferral shows no amount at all, independently of the result booleans.
   const deferred = result.treatmentClassification === "component_deferral"
@@ -73,7 +81,7 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
     || Boolean(componentDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(terminalTreatmentForTrack(result.selectedTrackId ?? null))
-    || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
+    || Boolean(exactDeferralForPathway(result.state, pathwayId));
   // A price we cannot honour is not shown. The evaluator's payment gate and the
   // packet route resolver were independent of each other, so a participant on a
   // ratified route in a jurisdiction with no certified renderer saw a $50 offer
@@ -81,7 +89,7 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // sold, and neither is a packet we cannot produce.
   const canDeliver = packetRouteCanRender(resolvePacketRoute({
     state: result.state,
-    pathway: result.pathwayLabel ?? null,
+    pathway: pathwayId,
     trackId: result.selectedTrackId ?? null
   }));
   const enabled = !deferred && canDeliver && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
@@ -104,11 +112,9 @@ export async function createConsumerPacketCheckout({
   successUrl?: string;
   cancelUrl?: string;
 }): Promise<ConsumerCheckoutResult> {
-  assertCheckoutAllowed(item);
-  const verification = requireCurrentPacketVerification(item);
-
   // P0 double-charge guard: an already-paid Briefcase item must never mint a new
-  // Stripe Checkout Session or reset payment state. Send the user to their packet.
+  // Stripe Checkout Session or demand a retroactive verification. Payment
+  // columns are protected server evidence; this does not grant artifact access.
   if (item.paymentStatus === "paid") {
     return {
       mode: item.paymentProvider === "dry_run" ? "dry_run" : "stripe",
@@ -122,7 +128,47 @@ export async function createConsumerPacketCheckout({
     };
   }
 
-  assertConsumerCheckoutReviewReady(item);
+  // A completed provider Session is immutable payment evidence even while the
+  // webhook is still recording protected payment columns. Recover that state
+  // before asking for a current verification or resolving new-commerce
+  // identity, so an invalidated verification can never open a replacement
+  // Checkout Session for money Stripe already collected.
+  let stripe: Stripe | null = null;
+  let existing: Stripe.Checkout.Session | null = null;
+  let existingLookupCompleted = false;
+  if (item.checkoutSessionId?.startsWith("cs_")) {
+    try {
+      stripe = getStripeServerClient();
+      existing = await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
+        expand: ["line_items.data.price.product"]
+      });
+      existingLookupCompleted = true;
+      if (existing.status === "complete") {
+        return {
+          mode: "stripe",
+          checkoutSessionId: existing.id,
+          checkoutUrl: consumerPacketReadyUrl(item.id),
+          amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "payment_pending",
+          briefcaseItemId: item.id,
+          paymentPending: true
+        };
+      }
+    } catch (error) {
+      if (!isStripeConfigurationError(error)) throw error;
+      stripe = null;
+    }
+  }
+
+  let verification;
+  try {
+    verification = await requireCurrentPacketVerification(userId, item);
+  } catch {
+    throw new ConsumerCheckoutReviewRequiredError();
+  }
+  const verifiedSnapshot = verification.snapshot;
+  assertCheckoutAllowed(verifiedSnapshot);
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();
@@ -132,6 +178,7 @@ export async function createConsumerPacketCheckout({
     productId: CONSUMER_PACKET_PRODUCT_ID,
     personId: person.personId,
     matterId: consumerMatterIdForItem(item.id),
+    pathwayId: verifiedSnapshot.pathwayId,
     verificationHash: verification.hash
   };
 
@@ -139,12 +186,12 @@ export async function createConsumerPacketCheckout({
   const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
 
   try {
-    const stripe = getStripeServerClient();
-    const existing = item.checkoutSessionId?.startsWith("cs_")
+    stripe ??= getStripeServerClient();
+    existing = !existingLookupCompleted && item.checkoutSessionId?.startsWith("cs_")
       ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
         expand: ["line_items.data.price.product"]
       })
-      : null;
+      : existing;
 
     if (existing && existing.status !== "expired" && existing.metadata?.verification_hash !== binding.verificationHash) {
       if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
@@ -157,7 +204,11 @@ export async function createConsumerPacketCheckout({
         expectedCancelUrl: cancelUrl ?? defaultCancelUrl
       });
       if (!reusable) throw new ConsumerCheckoutTemporarilyUnavailableError();
-      if (!(await persistCheckoutBinding(binding, reusable.id, "stripe"))) {
+      const bindingResult = await persistCheckoutBinding(binding, reusable.id, "stripe");
+      if (bindingResult.outcome !== "bound") {
+        if (bindingResult.outcome === "refused" && reusable.status === "open") {
+          await stripe.checkout.sessions.expire(reusable.id);
+        }
         throw new ConsumerCheckoutTemporarilyUnavailableError();
       }
       if (reusable.status === "open" && reusable.url) {
@@ -207,11 +258,23 @@ export async function createConsumerPacketCheckout({
         }
       ]
     }, {
-      idempotencyKey: checkoutIdempotencyKey(item.id, item.checkoutSessionId)
+      idempotencyKey: checkoutIdempotencyKey(
+        item.id,
+        binding.verificationHash,
+        verification.revision,
+        item.checkoutSessionId
+      )
     });
 
-    if (!(await persistCheckoutBinding(binding, session.id, "stripe"))) {
+    if (session.status !== "open" || !session.url) {
       if (session.status === "open") await stripe.checkout.sessions.expire(session.id);
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
+    const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe");
+    if (bindingResult.outcome !== "bound") {
+      if (bindingResult.outcome === "refused" && session.status === "open") {
+        await stripe.checkout.sessions.expire(session.id);
+      }
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
@@ -231,7 +294,7 @@ export async function createConsumerPacketCheckout({
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    if (!(await persistCheckoutBinding(binding, dryRunSessionId, "dry_run"))) {
+    if ((await persistCheckoutBinding(binding, dryRunSessionId, "dry_run")).outcome !== "bound") {
       throw new ConsumerCheckoutTemporarilyUnavailableError();
     }
 
@@ -259,9 +322,8 @@ function checkoutMetadata(binding: ConsumerCheckoutBinding, item: ConsumerBriefc
     source_session_id: item.sourceSessionId ?? "",
     jurisdiction: item.state,
     packet_type: item.packetType ?? "",
-    pathway_label: item.pathwayLabel ?? "",
+    pathway_id: binding.pathwayId,
     verification_hash: binding.verificationHash,
-    reviewed_input_hash: binding.verificationHash
   };
 }
 
@@ -302,8 +364,8 @@ async function reconcileReusableCheckoutSession({
     product_id: binding.productId,
     person_id: binding.personId,
     matter_id: binding.matterId,
-    verification_hash: binding.verificationHash,
-    reviewed_input_hash: binding.verificationHash
+    pathway_id: binding.pathwayId,
+    verification_hash: binding.verificationHash
   };
   for (const [key, value] of Object.entries(desired)) {
     const existing = session.metadata?.[key];
@@ -336,6 +398,7 @@ function checkoutSessionBaseBindingMatches(
     && session.metadata?.channel === "expungement_ai_consumer"
     && session.metadata?.user_id === binding.userId
     && session.metadata?.briefcase_item_id === binding.briefcaseItemId
+    && session.metadata?.pathway_id === binding.pathwayId
     && session.metadata?.verification_hash === binding.verificationHash
     && session.amount_total === consumerPacketPriceCents
     && (session.currency ?? "").toLowerCase() === "usd"
@@ -354,8 +417,17 @@ function sameOrigin(actual: string | null, expected: string): boolean {
   }
 }
 
-function checkoutIdempotencyKey(itemId: string, previousSessionId?: string) {
-  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${previousSessionId ?? "initial"}`;
+function checkoutIdempotencyKey(
+  itemId: string,
+  verificationHash: string,
+  verificationRevision: number,
+  previousSessionId?: string
+) {
+  // Concurrent requests for one protected authority converge on one Stripe
+  // Session. A refused stale CAS forces a protected reload/rederivation; the
+  // changed hash/revision then advances the key instead of returning the
+  // expired stale-authority Session.
+  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${verificationHash}:${verificationRevision}:${previousSessionId ?? "initial"}`;
 }
 
 export async function getConsumerCheckoutStatus({
@@ -458,21 +530,19 @@ export async function recordConsumerPaymentConfirmation({
  * corrupted item claiming packet_ready with paymentAllowed=true on a deferred
  * route still gets nothing.
  */
-function assertNotExactDeferral(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  const deferred = classification === "exact_supported_deferral"
-    || Boolean(exactDeferralForTrack(trackId))
-    || Boolean(exactDeferralForPathway(item.state, item.pathwayLabel ?? null));
+function assertNotExactDeferral(snapshot: PacketVerificationSnapshot) {
+  const deferred = snapshot.treatmentClassification === "exact_supported_deferral"
+    || Boolean(exactDeferralForTrack(snapshot.selectedTrackId))
+    || Boolean(exactDeferralForPathway(snapshot.jurisdiction, snapshot.pathwayId));
   if (deferred) {
     throw new ConsumerCheckoutNotAllowedError("exact_supported_deferral");
   }
 }
 
-function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  if (classification === "component_deferral" || componentDeferralForTrack(trackId)) {
+function assertNotComponentDeferral(snapshot: PacketVerificationSnapshot) {
+  if (snapshot.treatmentClassification === "component_deferral"
+    || snapshot.deferralComponentIds.length > 0
+    || componentDeferralForTrack(snapshot.selectedTrackId)) {
     throw new ConsumerCheckoutNotAllowedError("component_deferral");
   }
 }
@@ -482,10 +552,9 @@ function assertNotComponentDeferral(item: ConsumerBriefcaseItem) {
  * A candidate is not a weaker suppression than an accepted deferral — it is the
  * same suppression, with the review still open.
  */
-function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
-  const trackId = (item.artifactRefs?.selectedTrackId as string | undefined) ?? item.selectedTrackId ?? null;
-  const classification = (item.artifactRefs?.treatmentClassification as string | undefined) ?? item.treatmentClassification ?? null;
-  if (classification === "terminal_treatment_candidate" || terminalTreatmentForTrack(trackId)) {
+function assertNotTerminalTreatment(snapshot: PacketVerificationSnapshot) {
+  if (snapshot.treatmentClassification === "terminal_treatment_candidate"
+    || terminalTreatmentForTrack(snapshot.selectedTrackId)) {
     throw new ConsumerCheckoutNotAllowedError("terminal_treatment_candidate");
   }
 }
@@ -505,45 +574,35 @@ function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
  * blocker in data/rcap-ledger/sellable-pathway-closure.json; what changes is
  * only that we stop taking money for a packet we cannot hand over.
  */
-export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
+export function assertPacketRouteCanDeliver(
+  snapshot: PacketVerificationSnapshot
+): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
+  if (!snapshot.pathwayId?.trim()) throw new ConsumerPacketNotDeliverableError("missing_verified_pathway");
   const route = resolvePacketRoute({
-    state: item.state,
-    pathway: item.pathwayLabel ?? null,
-    trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
+    state: snapshot.jurisdiction,
+    pathway: snapshot.pathwayId,
+    trackId: snapshot.selectedTrackId
   });
   if (!packetRouteCanRender(route)) {
     throw new ConsumerPacketNotDeliverableError(route.routeKind);
   }
 }
 
-export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
-  assertNotExactDeferral(item);
-  assertNotComponentDeferral(item);
-  assertNotTerminalTreatment(item);
-  assertPacketRouteCanDeliver(item);
-  const packetProduct = item.packetType === "custom_pleading"
-    || item.packetType === "official_pdf_overlay"
-    || item.packetType === "legacy_packet";
+export function assertCheckoutAllowed(
+  snapshot: PacketVerificationSnapshot
+): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
+  assertNotExactDeferral(snapshot);
+  assertNotComponentDeferral(snapshot);
+  assertNotTerminalTreatment(snapshot);
+  assertPacketRouteCanDeliver(snapshot);
+  const packetProduct = snapshot.packetType === "custom_pleading"
+    || snapshot.packetType === "official_pdf_overlay"
+    || snapshot.packetType === "legacy_packet";
   if (!packetProduct
-    || item.status !== "packet_ready"
-    || !item.state?.trim()
-    || !item.pathwayLabel?.trim()
-    || !item.paymentAllowed
-    || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
-    throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
-  }
-  try {
-    requireCurrentPacketVerification(item);
-  } catch {
-    throw new ConsumerCheckoutReviewRequiredError();
-  }
-}
-
-export function assertConsumerCheckoutReviewReady(item: ConsumerBriefcaseItem) {
-  try {
-    requireCurrentPacketVerification(item);
-  } catch {
-    throw new ConsumerCheckoutReviewRequiredError();
+    || !snapshot.jurisdiction?.trim()
+    || !snapshot.paymentAllowed
+    || !isConsumerPaymentAllowed(snapshot.resultCode ?? "guidance_only", snapshot.paymentAllowed)) {
+    throw new ConsumerCheckoutNotAllowedError(snapshot.resultCode ?? "missing_result_code");
   }
 }
 

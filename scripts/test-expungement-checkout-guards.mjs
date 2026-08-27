@@ -41,6 +41,7 @@ const ITEM = "22222222-2222-4222-8222-222222222222";
 const PERSON = "33333333-3333-4333-8333-333333333333";
 const MATTER = "44444444-4444-4444-8444-444444444444";
 const PRODUCT = "expungement_packet";
+const PATHWAY_ID = "pa-path-a-non-conviction-expungement";
 const APP_ORIGIN = "https://axis-serving-believed-century.trycloudflare.com";
 
 function eligibleItem(overrides = {}) {
@@ -76,9 +77,8 @@ function openSession(overrides = {}) {
       user_id: USER,
       briefcase_item_id: ITEM,
       jurisdiction: "PA",
-      pathway_label: "Path A — Non-conviction expungement",
+      pathway_id: PATHWAY_ID,
       packet_type: "custom_pleading",
-      reviewed_input_hash: "a".repeat(64),
       verification_hash: "a".repeat(64)
     },
     line_items: {
@@ -187,8 +187,11 @@ async function authoritativePersistenceBehavior() {
 
 function buildPaymentAdapter({
   retrievedSession = null,
-  persistResult = true,
+  persistOutcome = "bound",
   reviewReady = true,
+  verificationSnapshotOverrides = {},
+  verificationHash = "a".repeat(64),
+  verificationRevision = 4,
   stripeConfigurationError = null
 } = {}) {
   const createCalls = [];
@@ -196,6 +199,8 @@ function buildPaymentAdapter({
   const updateCalls = [];
   const expireCalls = [];
   const persistCalls = [];
+  const routeInputs = [];
+  let verificationCalls = 0;
 
   const stripeClient = {
     checkout: {
@@ -257,7 +262,10 @@ function buildPaymentAdapter({
     // jurisdiction, with its own mutations.
     "@/lib/rcap/documents/packet-route-resolver": {
       packetRouteCanRender: () => true,
-      resolvePacketRoute: () => ({ kind: "factory_v2", canRender: true })
+      resolvePacketRoute: (input) => {
+        routeInputs.push(input);
+        return { kind: "factory_v2", canRender: true };
+      }
     },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async () => null
@@ -270,23 +278,48 @@ function buildPaymentAdapter({
       CONSUMER_PACKET_PRODUCT_ID: PRODUCT,
       persistConsumerCheckoutBinding: async (input) => {
         persistCalls.push(input);
-        return persistResult;
+        return { outcome: persistOutcome };
       }
     },
     "@/lib/expungement-ai/packet-information": {
       requireCurrentPacketVerification: () => {
+        verificationCalls += 1;
         if (!reviewReady) throw new Error("current final verification is required");
-        return { hash: "a".repeat(64), snapshot: {} };
+        return {
+          hash: verificationHash,
+          snapshot: {
+            jurisdiction: "PA",
+            pathwayId: PATHWAY_ID,
+            selectedTrackId: null,
+            treatmentClassification: null,
+            deferralComponentIds: [],
+            packetType: "custom_pleading",
+            resultCode: "packet_ready",
+            paymentAllowed: true,
+            packetPlan: null,
+            ...verificationSnapshotOverrides
+          },
+          revision: verificationRevision
+        };
       }
     }
   });
 
-  return { adapter, createCalls, retrieveCalls, updateCalls, expireCalls, persistCalls };
+  return {
+    adapter,
+    createCalls,
+    retrieveCalls,
+    updateCalls,
+    expireCalls,
+    persistCalls,
+    routeInputs,
+    verificationCalls: () => verificationCalls
+  };
 }
 
 async function checkoutBehavior() {
   {
-    const h = buildPaymentAdapter();
+    const h = buildPaymentAdapter({ reviewReady: false });
     const result = await h.adapter.createConsumerPacketCheckout({
       userId: USER,
       item: eligibleItem({ paymentStatus: "paid", checkoutSessionId: "cs_test_paid" })
@@ -294,6 +327,25 @@ async function checkoutBehavior() {
     assert.equal(result.alreadyPaid, true);
     assert.equal(h.createCalls.length, 0, "paid matter must never create another Session");
     assert.equal(h.persistCalls.length, 0, "paid matter must never be reset to unpaid");
+    assert.equal(h.verificationCalls(), 0, "already-paid access must not demand a new current verification");
+  }
+
+  {
+    const h = buildPaymentAdapter();
+    const result = await h.adapter.createConsumerPacketCheckout({
+      userId: USER,
+      item: eligibleItem({
+        pathwayLabel: null,
+        selectedTrackId: "participant-forged-track",
+        treatmentClassification: "exact_supported_deferral",
+        artifactRefs: {
+          selectedTrackId: "participant-forged-track",
+          treatmentClassification: "terminal_treatment_candidate"
+        }
+      })
+    });
+    assert.equal(result.outcome, "checkout_created", "writable route/display fields cannot suppress protected checkout authority");
+    assert.equal(h.routeInputs.at(-1)?.pathway, PATHWAY_ID);
   }
 
   {
@@ -306,12 +358,9 @@ async function checkoutBehavior() {
   }
 
   {
-    const h = buildPaymentAdapter();
+    const h = buildPaymentAdapter({ verificationSnapshotOverrides: { packetType: "guidance_packet" } });
     await assert.rejects(
-      h.adapter.createConsumerPacketCheckout({
-        userId: USER,
-        item: eligibleItem({ packetType: "guidance_packet" })
-      }),
+      h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
       (error) => error?.name === "ConsumerCheckoutNotAllowedError"
     );
     assert.equal(h.createCalls.length, 0, "a mutated payment boolean cannot make a guidance matter purchasable");
@@ -332,10 +381,15 @@ async function checkoutBehavior() {
       Object.fromEntries(["user_id", "briefcase_item_id", "product_id", "person_id", "matter_id"].map((key) => [key, h.createCalls[0].params.metadata[key]])),
       { user_id: USER, briefcase_item_id: ITEM, product_id: PRODUCT, person_id: PERSON, matter_id: MATTER }
     );
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:initial`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:initial`);
     assert.equal(h.persistCalls.length, 1);
     assert.equal(h.persistCalls[0].checkoutSessionId, "cs_test_new");
     assert.equal(h.persistCalls[0].expectedVerificationHash, "a".repeat(64), "checkout binding carries the exact verified snapshot hash");
+    assert.equal(h.routeInputs.at(-1)?.pathway, PATHWAY_ID, "checkout delivery uses the protected machine pathway id, never the human label");
+    assert.equal(h.createCalls[0].params.metadata.pathway_id, PATHWAY_ID, "Stripe metadata carries the protected machine pathway id");
+    assert.equal(h.createCalls[0].params.metadata.verification_hash, "a".repeat(64), "Stripe metadata carries the protected verification hash");
+    assert.ok(!("pathway_label" in h.createCalls[0].params.metadata), "Stripe metadata cannot fall back to a writable human pathway label");
+    assert.ok(!("reviewed_input_hash" in h.createCalls[0].params.metadata), "the obsolete participant-JSON hash contract is removed");
     assert.ok(!("paymentStatus" in h.persistCalls[0]), "beginning Checkout cannot assert paid");
   }
 
@@ -358,6 +412,37 @@ async function checkoutBehavior() {
       { product_id: PRODUCT, person_id: PERSON, matter_id: MATTER }
     );
     assert.equal(h.persistCalls[0].checkoutSessionId, legacy.id);
+  }
+
+  {
+    const completeOldAuthority = openSession({
+      status: "complete",
+      payment_status: "paid",
+      url: null,
+      metadata: { ...openSession().metadata, verification_hash: "f".repeat(64) }
+    });
+    const h = buildPaymentAdapter({ retrievedSession: completeOldAuthority, reviewReady: false });
+    const result = await h.adapter.createConsumerPacketCheckout({
+      userId: USER,
+      item: eligibleItem({ checkoutSessionId: completeOldAuthority.id })
+    });
+    assert.equal(result.outcome, "payment_pending", "a completed paid Session cannot be replaced after verification changes");
+    assert.equal(h.createCalls.length, 0, "webhook lag cannot open a second payable Session");
+    assert.equal(h.expireCalls.length, 0, "completed Sessions are immutable provider evidence");
+    assert.equal(h.verificationCalls(), 0, "completed provider payment evidence returns before demanding a new current verification");
+  }
+
+  {
+    const reusable = openSession();
+    const h = buildPaymentAdapter({ retrievedSession: reusable, persistOutcome: "refused" });
+    await assert.rejects(
+      h.adapter.createConsumerPacketCheckout({
+        userId: USER,
+        item: eligibleItem({ checkoutSessionId: reusable.id })
+      }),
+      (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
+    );
+    assert.deepEqual(h.expireCalls, [reusable.id], "a reused open Session must be expired when binding CAS refuses");
   }
 
   {
@@ -395,11 +480,11 @@ async function checkoutBehavior() {
       item: eligibleItem({ checkoutSessionId: expired.id })
     });
     assert.equal(h.createCalls.length, 1);
-    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${expired.id}`);
+    assert.equal(h.createCalls[0].options.idempotencyKey, `${PRODUCT}:${ITEM}:${"a".repeat(64)}:4:${expired.id}`);
   }
 
   {
-    const h = buildPaymentAdapter({ persistResult: false });
+    const h = buildPaymentAdapter({ persistOutcome: "refused" });
     await assert.rejects(
       h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
       (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
@@ -408,6 +493,133 @@ async function checkoutBehavior() {
     assert.equal(h.persistCalls.length, 1, "a Session is never returned until its exact DB binding persists");
     assert.deepEqual(h.expireCalls, ["cs_test_new"], "a Session created before failed verification CAS must be expired");
   }
+
+  {
+    const concurrent = buildPaymentAdapter();
+    await Promise.all([
+      concurrent.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+      concurrent.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() })
+    ]);
+    assert.equal(
+      concurrent.createCalls[0].options.idempotencyKey,
+      concurrent.createCalls[1].options.idempotencyKey,
+      "concurrent creates for one protected authority must converge on one Stripe idempotency key"
+    );
+
+    const stale = buildPaymentAdapter({ persistOutcome: "refused", verificationHash: "a".repeat(64), verificationRevision: 4 });
+    await assert.rejects(
+      stale.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+      (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
+    );
+    const rederived = buildPaymentAdapter({ persistOutcome: "refused", verificationHash: "b".repeat(64), verificationRevision: 5 });
+    await assert.rejects(
+      rederived.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+      (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
+    );
+    assert.notEqual(
+      stale.createCalls[0].options.idempotencyKey,
+      rederived.createCalls[0].options.idempotencyKey,
+      "rederived protected authority after CAS refusal advances the Stripe idempotency key"
+    );
+  }
+
+  {
+    const h = buildPaymentAdapter({ persistOutcome: "unavailable" });
+    await assert.rejects(
+      h.adapter.createConsumerPacketCheckout({ userId: USER, item: eligibleItem() }),
+      (error) => error?.name === "ConsumerCheckoutTemporarilyUnavailableError"
+    );
+    assert.deepEqual(h.expireCalls, [], "ambiguous binding transport failure cannot expire a Session that may have committed");
+  }
+}
+
+async function protectedCasBehavior() {
+  const calls = [];
+  let refusePersist = false;
+  const snapshot = { schemaVersion: "expungement-ai/final-verification/v1", pathwayId: PATHWAY_ID };
+  const admin = {
+    async rpc(name, args) {
+      calls.push({ name, args });
+      if (name === "get_consumer_packet_verification_authority") {
+        return { data: { status: "verified", reason: "explicit_final_verification", hash: "a".repeat(64), snapshot, revision: 4 }, error: null };
+      }
+      if (name === "persist_consumer_packet_verification") {
+        if (refusePersist) return { data: null, error: { message: "expected revision mismatch" } };
+        return { data: { status: "verified", reason: "explicit_final_verification", hash: "b".repeat(64), snapshot, revision: 5 }, error: null };
+      }
+      if (name === "get_consumer_packet_artifact_authority") {
+        return { data: { status: "absent", revision: 0, verification_hash: null, entitlement_source: null, artifact: null }, error: null };
+      }
+      if (name === "attach_consumer_packet_artifact_if_verified") {
+        return {
+          data: {
+            status: "ready",
+            revision: 1,
+            verification_hash: args.p_expected_verification_hash,
+            entitlement_source: args.p_entitlement_source,
+            artifact: args.p_artifact
+          },
+          error: null
+        };
+      }
+      throw new Error(`unexpected protected CAS RPC ${name}`);
+    }
+  };
+  const cas = loadTsWithMocks("src/lib/expungement-ai/verification-cas.ts", {
+    "server-only": {},
+    "@/lib/supabase/server": { getSupabaseAdminClient: () => admin }
+  });
+
+  const readVerification = await cas.readProtectedPacketVerification({ consumerAuthUserId: USER, briefcaseItemId: ITEM });
+  assert.equal(readVerification.ok, true);
+  assert.equal(readVerification.value.revision, 4);
+
+  const transition = {
+    expectedPriorHash: "a".repeat(64),
+    expectedPriorRevision: 4,
+    answerDelta: { court: "Court of Common Pleas" },
+    packetInformationMetadata: { stage: "ready_to_generate", serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID } },
+    nextVerification: {
+      status: "verified",
+      reason: "explicit_final_verification",
+      hash: "b".repeat(64),
+      snapshot,
+      revision: 5
+    }
+  };
+  const persisted = await cas.persistProtectedPacketVerification({
+    consumerAuthUserId: USER,
+    briefcaseItemId: ITEM,
+    transition
+  });
+  assert.equal(persisted.ok, true);
+  const persistCall = calls.find((call) => call.name === "persist_consumer_packet_verification");
+  assert.equal(persistCall.args.p_expected_prior_revision, 4);
+  assert.equal(persistCall.args.p_expected_prior_hash, "a".repeat(64));
+  assert.deepEqual(persistCall.args.p_answer_delta, transition.answerDelta);
+  assert.deepEqual(persistCall.args.p_next_verification_snapshot, snapshot);
+  assert.ok(!("p_artifact_refs_patch" in persistCall.args), "stale full artifact patches cannot enter protected persistence");
+
+  refusePersist = true;
+  const beforeStale = calls.filter((call) => call.name === "persist_consumer_packet_verification").length;
+  const stale = await cas.persistProtectedPacketVerification({ consumerAuthUserId: USER, briefcaseItemId: ITEM, transition });
+  const afterStale = calls.filter((call) => call.name === "persist_consumer_packet_verification").length;
+  assert.equal(stale.ok, false);
+  assert.equal(afterStale - beforeStale, 1, "a stale verify is refused once and never retried over a later fact save");
+
+  const artifactRead = await cas.readProtectedPacketArtifact({ consumerAuthUserId: USER, briefcaseItemId: ITEM });
+  assert.equal(artifactRead.ok, true);
+  assert.equal(artifactRead.value.status, "absent");
+  const artifact = { provider: "rcap_source_engine", source: "source_driven_packet_plan", packetId: ITEM };
+  const attached = await cas.attachConsumerPacketArtifactIfVerified({
+    consumerAuthUserId: USER,
+    briefcaseItemId: ITEM,
+    expectedVerificationHash: "b".repeat(64),
+    entitlementSource: "consumer_payment",
+    artifact
+  });
+  assert.equal(attached.ok, true);
+  assert.deepEqual(attached.value.artifact, artifact);
 }
 
 function completedEvent(overrides = {}) {
@@ -447,7 +659,8 @@ function buildReconciliation({
   claim = "new",
   paymentOutcome = "recorded_paid",
   item = eligibleItem({ checkoutSessionId: "cs_test_bound", sourceSessionId: undefined }),
-  sponsorship = null
+  sponsorship = null,
+  protectedArtifactReady = false
 } = {}) {
   const paymentCalls = [];
   const renderCalls = [];
@@ -516,6 +729,14 @@ function buildReconciliation({
     "@/lib/expungement-ai/packet-information": {
       requireCurrentPacketVerification: () => ({ hash: "a".repeat(64), snapshot: {} })
     },
+    "@/lib/expungement-ai/verification-cas": {
+      readProtectedPacketArtifact: async () => ({
+        ok: true,
+        value: protectedArtifactReady
+          ? { status: "ready", revision: 1, verificationHash: "a".repeat(64), entitlementSource: "consumer_payment", artifact: { packetId: ITEM } }
+          : { status: "absent", revision: 0, verificationHash: null, entitlementSource: null, artifact: null }
+      })
+    },
     "@/lib/supabase/server": {
       getSupabaseAdminClient: () => supabase
     }
@@ -559,6 +780,18 @@ async function webhookBehavior() {
       claim: "duplicate",
       paymentOutcome: "already_paid",
       item: eligibleItem({ checkoutSessionId: "cs_test_bound", packetStatus: "ready" })
+    });
+    const outcome = await h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent());
+    assert.equal(outcome, "recovered", "writable packet_status Ready cannot suppress protected recovery");
+    assert.equal(h.renderCalls.length, 1);
+  }
+
+  {
+    const h = buildReconciliation({
+      claim: "duplicate",
+      paymentOutcome: "already_paid",
+      protectedArtifactReady: true,
+      item: eligibleItem({ checkoutSessionId: "cs_test_bound", packetStatus: "ready", paymentStatus: "paid" })
     });
     const outcome = await h.reconciliation.reconcileExpungementAiCheckoutEvent(completedEvent());
     assert.equal(outcome, "duplicate");
@@ -672,6 +905,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
       disposition_date: "2025-01-02",
       criminal_history: "The listed charge was dismissed."
     },
+    serverFacts: { jurisdiction: "PA", pathway_id: PATHWAY_ID },
     requiredInputIds: ["participant_full_legal_name", "county", "court", "charge", "disposition_date", "criminal_history"],
     missingInputIds: [],
     stage: "ready_to_generate",
@@ -698,7 +932,11 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
       packetInformationModelFor: () => model,
       requireCurrentPacketVerification: () => {
         if (model?.stage !== "ready_to_generate") throw new Error("current final verification is required");
-        return { hash: "a".repeat(64), snapshot: {} };
+        return {
+          hash: "a".repeat(64),
+          snapshot: { pathwayId: PATHWAY_ID, selectedTrackId: null, resultCode: "packet_ready", packetPlan: null },
+          revision: 4
+        };
       }
     },
     "@/lib/rcap/render/job-contract": {
@@ -707,7 +945,7 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
         return {
           spec: {
             packetId: input.packetId,
-            routeId: `PA:${item.pathwayLabel}`,
+            routeId: `PA:${PATHWAY_ID}`,
             rendererKind: "packet_document_v1",
             rendererVersion: "1.0.0",
             sourceSha256: null,
@@ -716,13 +954,13 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
             briefcaseItemId: ITEM,
             inputHash: "a".repeat(64)
           },
-          route: { jurisdiction: "PA", pathwayId: item.pathwayLabel }
+          route: { jurisdiction: "PA", pathwayId: PATHWAY_ID }
         };
       }
     },
     "@/lib/rcap/render/job-queue": {
-      enqueueRenderJob: async (spec, identity) => {
-        enqueueCalls.push({ spec, identity });
+      enqueueVerifiedConsumerRender: async (spec, identity, payload) => {
+        enqueueCalls.push({ spec, identity, payload });
         return { id: "job_exact_matter" };
       }
     },
@@ -752,20 +990,15 @@ async function renderRequestBehavior() {
       briefcaseItemId: ITEM
     });
     assert.equal(outcome.status, "queued");
-    assert.equal(h.buildCalls.length, 1);
+    assert.equal(h.buildCalls.length, 2, "provisional and immutable-version packet specs are both built from the exact pathway");
+    assert.equal(h.buildCalls[0].pathway, PATHWAY_ID);
+    assert.equal(h.buildCalls[1].pathway, PATHWAY_ID);
+    assert.equal(h.buildCalls[0].trackId, null);
+    assert.equal(h.buildCalls[1].trackId, null);
     assert.equal(h.buildCalls[0].packetFields.participant_full_legal_name, "Alex Acceptance");
     assert.equal(h.buildCalls[0].packetFields.jurisdiction, "PA");
-    assert.equal(h.packetRows.length, 1);
-    assert.equal(h.packetRows[0].pathway, "source_engine_packet_plan", "storage uses the schema-admitted source pathway");
-    assert.equal(h.packetRows[0].petitioner_first_name, "Alex");
-    assert.equal(h.packetRows[0].petitioner_last_name, "Acceptance");
-    assert.equal(h.packetRows[0].court_county, "Allegheny");
-    assert.equal(h.packetRows[0].person_id, PERSON);
-    assert.equal(h.inputSnapshots.length, 1, "the full reviewed answer snapshot must persist before enqueue");
-    assert.equal(h.inputSnapshots[0].options.onConflict, "document_packet_id");
-    assert.equal(h.inputSnapshots[0].row.input_payload.productId, PRODUCT);
-    assert.equal(h.inputSnapshots[0].row.input_payload.matterId, MATTER);
-    assert.equal(h.inputSnapshots[0].row.input_payload.packetFields.charge, "Synthetic test charge");
+    assert.equal(h.packetRows.length, 0, "application performs no packet-row write before atomic enqueue");
+    assert.equal(h.inputSnapshots.length, 0, "application performs no mutable input upsert before atomic enqueue");
     assert.equal(h.enqueueCalls.length, 1);
     assert.deepEqual(h.enqueueCalls[0].identity, {
       mode: "consumer",
@@ -775,6 +1008,15 @@ async function renderRequestBehavior() {
       matterId: MATTER,
       expectedVerificationHash: "a".repeat(64)
     });
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.pathway, "source_engine_packet_plan");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_first_name, "Alex");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.petitioner_last_name, "Acceptance");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.court_county, "Allegheny");
+    assert.equal(h.enqueueCalls[0].payload.renderPacket.person_id, PERSON);
+    assert.equal(h.enqueueCalls[0].payload.renderInputPayload.productId, PRODUCT);
+    assert.equal(h.enqueueCalls[0].payload.renderInputPayload.matterId, MATTER);
+    assert.equal(h.enqueueCalls[0].payload.renderInputPayload.pathwayId, PATHWAY_ID);
+    assert.equal(h.enqueueCalls[0].payload.renderInputPayload.packetFields.charge, "Synthetic test charge");
   }
 
   {
@@ -805,7 +1047,9 @@ function sourceContracts() {
   const renderRequest = read("src/lib/expungement-ai/consumer-render-request.ts");
   assert.ok(!renderRequest.includes("packetFields: {}"), "render idempotency must include reviewed packet answers");
   assert.ok(renderRequest.includes('pathway: CONSUMER_PACKET_STORAGE_PATHWAY'));
-  assert.ok(renderRequest.includes('from("rcap_document_packet_inputs")'));
+  assert.ok(!renderRequest.includes('from("rcap_document_packet_inputs")'), "application cannot mutate worker inputs before CAS enqueue");
+  assert.ok(renderRequest.includes("enqueueVerifiedConsumerRender(verifiedSpec"));
+  assert.ok(renderRequest.includes("renderPacket,") && renderRequest.includes("renderInputPayload"));
 
   const packetGenerateButton = read("src/components/expungement-ai/PacketGenerateButton.tsx");
   const reviewPage = read("src/app/briefcase/[packetId]/review/page.tsx");
@@ -849,6 +1093,7 @@ function sourceContracts() {
 
 await authoritativePersistenceBehavior();
 await checkoutBehavior();
+await protectedCasBehavior();
 await webhookBehavior();
 await renderRequestBehavior();
 sourceContracts();

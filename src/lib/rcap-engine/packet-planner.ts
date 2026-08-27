@@ -2,7 +2,9 @@ import "server-only";
 
 import type { EngineProfile, ScreeningPacketPlan } from "@/lib/rcap-engine/contracts";
 
-export function packetPlanForPathway(profile: EngineProfile, pathwayId: string): ScreeningPacketPlan | undefined {
+export type CompiledScreeningPacketPlan = ScreeningPacketPlan & { packetReadyWhen: string[] };
+
+export function packetPlanForPathway(profile: EngineProfile, pathwayId: string): CompiledScreeningPacketPlan | undefined {
   const plan = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === pathwayId);
   if (!plan) return undefined;
 
@@ -12,7 +14,8 @@ export function packetPlanForPathway(profile: EngineProfile, pathwayId: string):
     formMappingStatus: plan.formMappingStatus,
     sourceFormIds: (plan.formCandidates ?? []).map((candidate) => `${profile.jurisdiction.code}:${candidate.relativePath}:${candidate.sha256}`),
     requiredInputIds: plan.requiredInputIds ?? profile.packetGenerator.requiredInputs ?? [],
-    sourceRuleRefs: plan.sourceRuleRefs ?? []
+    sourceRuleRefs: plan.sourceRuleRefs ?? [],
+    packetReadyWhen: plan.packetReadyWhen ?? []
   };
 }
 

@@ -62,6 +62,11 @@ export type ConsumerPaymentRecord = {
   reason?: string;
 };
 
+export type ConsumerCheckoutBindingResult =
+  | { outcome: "bound" }
+  | { outcome: "refused"; reason: string }
+  | { outcome: "unavailable"; reason: string };
+
 export type RecordConsumerPaymentInput = {
   briefcaseItemId: string;
   paymentStatus: "paid" | "refunded" | "unpaid";
@@ -157,7 +162,8 @@ export async function recordConsumerPacketPayment(
     p_recorded_by: input.recordedBy,
     p_product_id: input.productId,
     p_person_id: input.personId,
-    p_matter_id: input.matterId
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
   });
 
   if (error) {
@@ -271,43 +277,34 @@ export async function persistConsumerCheckoutBinding(input: {
   matterId: string;
   /** Exact protected verification hash the checkout-binding RPC must compare atomically. */
   expectedVerificationHash: string;
-}): Promise<boolean> {
+}): Promise<ConsumerCheckoutBindingResult> {
   try {
     assertExpectedPacketVerificationHash(input.expectedVerificationHash);
   } catch {
-    return false;
+    return { outcome: "refused", reason: "invalid_expected_verification_hash" };
   }
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return false;
+  if (!supabase) return { outcome: "unavailable", reason: "checkout_binding_storage_unavailable" };
 
-  // The captain-owned bind_consumer_checkout_verification RPC will replace
-  // this transitional update and compare expectedVerificationHash against the
-  // protected verification row in the same transaction.
-  const { data, error } = await supabase
-    .from("consumer_briefcase_items")
-    .update({
-      payment_status: "unpaid",
-      payment_provider: input.paymentProvider,
-      checkout_session_id: input.checkoutSessionId,
-      amount_cents: CONSUMER_PACKET_PRICE_CENTS,
-      payment_product_id: input.productId,
-      payment_person_id: input.personId,
-      payment_matter_id: input.matterId,
-      packet_status: "not_started",
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", input.briefcaseItemId)
-    .eq("user_id", input.userId)
-    .eq("payment_allowed", true)
-    .eq("status", "packet_ready")
-    .eq("payment_status", "unpaid")
-    .in("result_code", ["packet_ready", "packet_ready_with_caution"])
-    .in("packet_type", ["official_pdf_overlay", "custom_pleading", "legacy_packet"])
-    .not("pathway_label", "is", null)
-    .select("id, checkout_session_id")
-    .maybeSingle<{ id: string; checkout_session_id: string }>();
-
-  return !error
-    && data?.id === input.briefcaseItemId
-    && data.checkout_session_id === input.checkoutSessionId;
+  const { data, error } = await supabase.rpc("bind_consumer_checkout_verification", {
+    p_consumer_auth_user_id: input.userId,
+    p_briefcase_item_id: input.briefcaseItemId,
+    p_checkout_session_id: input.checkoutSessionId,
+    p_payment_provider: input.paymentProvider,
+    p_product_id: input.productId,
+    p_person_id: input.personId,
+    p_matter_id: input.matterId,
+    p_expected_verification_hash: input.expectedVerificationHash
+  });
+  if (error) return { outcome: "unavailable", reason: error.message };
+  const row = Array.isArray(data) ? data[0] : data;
+  if (row?.ok === true
+    && row.briefcase_item_id === input.briefcaseItemId
+    && row.checkout_session_id === input.checkoutSessionId) {
+    return { outcome: "bound" };
+  }
+  if (row?.ok === false) {
+    return { outcome: "refused", reason: typeof row.reason === "string" ? row.reason : "checkout_binding_refused" };
+  }
+  return { outcome: "unavailable", reason: "checkout_binding_response_invalid" };
 }

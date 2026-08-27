@@ -143,7 +143,18 @@ const legacyWebhookRoute = await import("../src/app/api/method/expungement.api.p
 const renderRoute = await import("../src/app/api/expungement-ai/packet/render/route.ts");
 const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
 const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
-const { packetInformationPatch, requireCurrentPacketVerification } = await import("../src/lib/expungement-ai/packet-information.ts");
+const {
+  packetInformationPatch: derivePacketInformationPatch,
+  requireCurrentPacketVerification
+} = await import("../src/lib/expungement-ai/packet-information.ts");
+const packetInformationPatch = (input) => derivePacketInformationPatch({
+  protectedVerification: {
+    status: "unverified",
+    reason: "final_verification_not_completed",
+    revision: 0
+  },
+  ...input
+});
 
 // --- fixtures -----------------------------------------------------------------
 
@@ -257,7 +268,9 @@ async function checkoutSession({ itemId, userId, sessionId, amount = 5000, curre
     `select user_id from public.consumer_briefcase_items where id='${itemId}'`
   ).trim();
   const item = await getBriefcaseItemForWebhook(canonicalOwner, itemId);
-  const verificationHash = item ? requireCurrentPacketVerification(item).hash : null;
+  const verificationHash = item
+    ? (await requireCurrentPacketVerification(canonicalOwner, item)).hash
+    : null;
   if (!verificationHash) throw new Error(`fixture ${itemId} has no current final-verification hash`);
   const matchKey = `consumer:${createHash("sha256")
     .update(`rcap:consumer-person:v1:${canonicalOwner}`)

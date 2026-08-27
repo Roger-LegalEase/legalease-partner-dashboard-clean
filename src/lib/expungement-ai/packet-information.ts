@@ -15,6 +15,11 @@ import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
 import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
 import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
+import {
+  readProtectedPacketVerification,
+  type ProtectedPacketVerificationRecord,
+  type ProtectedPacketVerificationTransition
+} from "@/lib/expungement-ai/verification-cas";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "facts_complete" | "ready_to_generate";
 
@@ -231,6 +236,8 @@ export function packetInformationPatch(input: {
   existingItem: ConsumerBriefcaseItem;
   answers: Record<string, AnswerValue>;
   verify?: boolean;
+  /** Service-role protected state read immediately before deriving this transition. */
+  protectedVerification: ProtectedPacketVerificationRecord;
   /** Compatibility only. Saving the final fact is never verification. */
   reviewed?: boolean;
 }) {
@@ -242,28 +249,48 @@ export function packetInformationPatch(input: {
   const progress = isRecord(flow?.packetInformation) ? flow?.packetInformation : {};
   const pathwayId = current.pathwayId ?? current.packetPlan?.pathwayId ?? null;
   const serverFacts = canonicalServerFacts(current.stateCode, pathwayId);
-  const prefilledAnswers = answerRecord(progress.prefilledAnswers);
   const allowedIds = new Set(current.questions.map((question) => question.id));
+  const prefilledAnswers = answerRecordForIds(progress.prefilledAnswers, allowedIds);
   const acceptedAnswers = Object.fromEntries(
     Object.entries(input.answers).filter(([id, answer]) => allowedIds.has(id) && isAnswerValue(answer))
   );
-  const savedAnswers = { ...answerRecord(progress.answers), ...acceptedAnswers };
-  const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
+  const savedAnswers = { ...answerRecordForIds(progress.answers, allowedIds), ...acceptedAnswers };
+  const mergedAnswers = { ...answerRecordForIds(current.initialAnswers, allowedIds), ...acceptedAnswers };
   const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
   const materialFactChange = Object.entries(acceptedAnswers)
     .some(([id, answer]) => !canonicalEqual(current.initialAnswers[id], answer));
-  const currentVerification = packetVerificationState(input.existingItem);
-  if (input.verify !== true && !materialFactChange && currentVerification.status === "verified") {
+  const priorProtected = input.protectedVerification;
+  const currentVerification = packetVerificationStateForRecord(input.existingItem, priorProtected);
+  if (!materialFactChange && currentVerification.status === "verified") {
+    const packetInformation = {
+      stage: "ready_to_generate" as const,
+      requiredInputIds: current.requiredInputIds,
+      serverFacts,
+      prefilledAnswers,
+      answers: savedAnswers,
+      missingInputIds,
+      updatedAt: current.updatedAt,
+      reviewedAt: current.reviewedAt,
+      reviewSafety: { safe: true, reason: "authoritative_route_confirmed" }
+    };
+    const protectedTransition: ProtectedPacketVerificationTransition = {
+      expectedPriorHash: currentVerification.hash ?? null,
+      expectedPriorRevision: priorProtected.revision,
+      answerDelta: acceptedAnswers,
+      packetInformationMetadata: packetInformationMetadata(packetInformation),
+      nextVerification: { ...currentVerification, revision: priorProtected.revision }
+    };
     return {
       patch: {
         commercialFlow: {
-          packetInformation: { ...progress, serverFacts },
+          packetInformation,
           verification: currentVerification
         }
       },
+      protectedTransition,
       missingInputIds,
       readyToGenerate: true,
-      reviewReason: "current_verification_preserved"
+      reviewReason: input.verify === true ? "authoritative_route_confirmed" : "current_verification_preserved"
     };
   }
   const review = input.verify === true && missingInputIds.length === 0
@@ -292,11 +319,22 @@ export function packetInformationPatch(input: {
       ...flow,
       packetInformation
     }, now)
-    : unverifiedOrInvalidatedPacketRecord(flow?.verification, now, input.verify === true
+    : unverifiedOrInvalidatedPacketRecord(priorProtected, now, input.verify === true
       ? review.reason
       : !materialFactChange && currentVerification.status === "invalidated"
         ? currentVerification.reason
         : "facts_saved_after_verification");
+  const nextVerification: ProtectedPacketVerificationRecord = {
+    ...verification,
+    revision: priorProtected.revision + 1
+  };
+  const protectedTransition: ProtectedPacketVerificationTransition = {
+    expectedPriorHash: priorProtected.status === "verified" ? priorProtected.hash ?? null : null,
+    expectedPriorRevision: priorProtected.revision,
+    answerDelta: acceptedAnswers,
+    packetInformationMetadata: packetInformationMetadata(packetInformation),
+    nextVerification
+  };
 
   return {
     patch: {
@@ -306,9 +344,10 @@ export function packetInformationPatch(input: {
         // subsequent saves use the ordinary nested merge path.
         ...(persistedFlow ? {} : flow),
         packetInformation,
-        verification
+        verification: nextVerification
       }
     },
+    protectedTransition,
     missingInputIds,
     readyToGenerate: review.safe,
     reviewReason: review.reason
@@ -318,6 +357,48 @@ export function packetInformationPatch(input: {
 export function packetVerificationState(item: ConsumerBriefcaseItem): PacketVerificationRecord {
   const flow = readCommercialFlow(item.artifactRefs);
   const stored = readVerificationRecord(flow?.verification);
+  return packetVerificationStateForRecord(item, stored);
+}
+
+/** Pure authority check used after a protected service-role read. JSON verification is ignored. */
+export function requireCurrentPacketVerificationRecord(
+  item: ConsumerBriefcaseItem,
+  protectedVerification: ProtectedPacketVerificationRecord | null
+): { hash: string; snapshot: PacketVerificationSnapshot; revision: number } {
+  if (!protectedVerification) {
+    throw new CurrentPacketVerificationRequiredError("protected_verification_missing");
+  }
+  const verification = packetVerificationStateForRecord(item, protectedVerification);
+  if (verification.status !== "verified" || !verification.hash || !verification.snapshot) {
+    throw new CurrentPacketVerificationRequiredError(verification.reason);
+  }
+  return {
+    hash: verification.hash,
+    snapshot: verification.snapshot,
+    revision: protectedVerification.revision
+  };
+}
+
+/** Every commerce boundary reloads protected authority and then rederives it. */
+export async function requireCurrentPacketVerification(
+  consumerAuthUserId: string,
+  item: ConsumerBriefcaseItem
+): Promise<{ hash: string; snapshot: PacketVerificationSnapshot; revision: number }> {
+  const protectedRead = await readProtectedPacketVerification({
+    consumerAuthUserId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedRead.ok) {
+    throw new CurrentPacketVerificationRequiredError(protectedRead.reason);
+  }
+  return requireCurrentPacketVerificationRecord(item, protectedRead.value);
+}
+
+function packetVerificationStateForRecord(
+  item: ConsumerBriefcaseItem,
+  stored: PacketVerificationRecord | ProtectedPacketVerificationRecord | null
+): PacketVerificationRecord {
+  const flow = readCommercialFlow(item.artifactRefs);
   if (!flow || !stored || stored.status !== "verified" || !stored.hash || !stored.snapshot) {
     return stored ?? { status: "unverified", reason: "final_verification_missing" };
   }
@@ -334,17 +415,6 @@ export function packetVerificationState(item: ConsumerBriefcaseItem): PacketVeri
     return { status: "invalidated", reason: "verification_dependencies_changed" };
   }
   return stored;
-}
-
-export function requireCurrentPacketVerification(item: ConsumerBriefcaseItem): {
-  hash: string;
-  snapshot: PacketVerificationSnapshot;
-} {
-  const verification = packetVerificationState(item);
-  if (verification.status !== "verified" || !verification.hash || !verification.snapshot) {
-    throw new CurrentPacketVerificationRequiredError(verification.reason);
-  }
-  return { hash: verification.hash, snapshot: verification.snapshot };
 }
 
 export class CurrentPacketVerificationRequiredError extends Error {
@@ -387,6 +457,23 @@ function invalidatedPacketRecord(now: string, reason: string): PacketVerificatio
     reason,
     invalidatedAt: now
   };
+}
+
+function packetInformationMetadata(packetInformation: Record<string, unknown>): Record<string, unknown> {
+  return {
+    stage: packetInformation.stage,
+    requiredInputIds: packetInformation.requiredInputIds,
+    serverFacts: packetInformation.serverFacts,
+    prefilledAnswers: packetInformation.prefilledAnswers,
+    missingInputIds: packetInformation.missingInputIds,
+    updatedAt: packetInformation.updatedAt,
+    reviewedAt: packetInformation.reviewedAt,
+    reviewSafety: packetInformation.reviewSafety
+  };
+}
+
+function answerRecordForIds(value: unknown, allowedIds: ReadonlySet<string>): Record<string, AnswerValue> {
+  return Object.fromEntries(Object.entries(answerRecord(value)).filter(([id]) => allowedIds.has(id)));
 }
 
 function buildPacketVerificationSnapshot(
@@ -709,7 +796,7 @@ function authoritativePacketContext(
   if (screening.packetType !== (authoritative.packetType ?? null) || item.packetType !== authoritative.packetType) {
     return { safe: false, reason: "stored_packet_type_mismatch" };
   }
-  if (!canonicalEqual(storedPlan, authoritativePlan)) {
+  if (!canonicalEqual(storedPlan, comparableStoredPacketPlan(authoritativePlan))) {
     return { safe: false, reason: "stored_packet_plan_mismatch" };
   }
   if (!canonicalEqual(stringArray(packetInformation.requiredInputIds), authoritativePlan?.requiredInputIds ?? [])) {
@@ -821,6 +908,18 @@ function readPacketPlan(value: unknown): PacketPlan | null {
     sourceFormIds: stringArray(value.sourceFormIds),
     requiredInputIds: stringArray(value.requiredInputIds),
     sourceRuleRefs: stringArray(value.sourceRuleRefs)
+  };
+}
+
+function comparableStoredPacketPlan(value: PacketPlan | null): PacketPlan | null {
+  if (!value) return null;
+  return {
+    pathwayId: value.pathwayId,
+    mode: value.mode,
+    formMappingStatus: value.formMappingStatus,
+    sourceFormIds: [...value.sourceFormIds],
+    requiredInputIds: [...value.requiredInputIds],
+    sourceRuleRefs: [...value.sourceRuleRefs]
   };
 }
 

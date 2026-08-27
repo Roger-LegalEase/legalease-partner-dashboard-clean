@@ -81,6 +81,7 @@ function consumerPacketRow(input: {
   item: ConsumerBriefcaseItem;
   packetInformation: PacketInformationModel;
   packetFields: Record<string, unknown>;
+  verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>;
 }) {
   const fullName = packetText(input.packetFields, "participant_full_legal_name", "full_legal_name", "name");
   const splitName = splitFullName(fullName);
@@ -90,11 +91,15 @@ function consumerPacketRow(input: {
   const caseOutcome = packetText(input.packetFields, "case_outcome", "disposition");
   const criminalHistory = packetText(input.packetFields, "criminal_history");
   const generatedStatement = [
-    input.item.summary?.trim(),
+    `Authoritative screening result: ${input.verification.snapshot.resultCode ?? "packet_ready"}.`,
     `Matter pathway: ${input.pathwayLabel}.`,
     caseOutcome ? `Case outcome supplied: ${caseOutcome}.` : "",
     criminalHistory ? `Record information supplied: ${criminalHistory}.` : ""
   ].filter(Boolean).join("\n\n");
+  const snapshotPlan = input.verification.snapshot.packetPlan;
+  const packetReadyWhen = snapshotPlan && Array.isArray(snapshotPlan.packetReadyWhen)
+    ? snapshotPlan.packetReadyWhen.filter((entry): entry is string => typeof entry === "string" && Boolean(entry.trim()))
+    : [];
 
   return {
     person_id: input.personId,
@@ -123,7 +128,9 @@ function consumerPacketRow(input: {
     sentence_completion_date: packetText(input.packetFields, "sentence_completion_date"),
     needs_record_review: true,
     generated_plain_text: generatedStatement,
-    filing_instructions: input.item.nextSteps,
+    filing_instructions: packetReadyWhen.length > 0
+      ? packetReadyWhen
+      : ["Review every generated document and confirm current local filing requirements before filing."],
     county_court_instructions: court || county
       ? [`Confirm the current filing location and local requirements with ${court || `${county} County court`}.`]
       : [],
@@ -208,7 +215,7 @@ async function requestConsumerPacketRenderInternal(input: {
 
   let verification;
   try {
-    verification = requireCurrentPacketVerification(item);
+    verification = await requireCurrentPacketVerification(authUserId, item);
   } catch {
     return { status: "route_not_renderable", reason: "current final verification is required" };
   }
@@ -248,8 +255,7 @@ async function requestConsumerPacketRenderInternal(input: {
       state: item.state,
       pathway: verifiedPathwayId,
       briefcaseItemId: item.id,
-      trackId: item.selectedTrackId
-        ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+      trackId: verification.snapshot.selectedTrackId,
       packetFields
     });
   } catch (error) {
@@ -286,7 +292,8 @@ async function requestConsumerPacketRenderInternal(input: {
     pathwayLabel: built.route.pathwayId,
     item,
     packetInformation,
-    packetFields
+    packetFields,
+    verification
   });
   const renderInputPayloadBase = {
     schemaVersion: "expungement-ai-consumer-packet/v2",
@@ -323,16 +330,13 @@ async function requestConsumerPacketRenderInternal(input: {
       profileVersion: built.spec.profileVersion
     }
   });
-  const packetId = deterministicUuid(
-    `${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}:${payloadVersionHash}`
-  );
+  const packetId = deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}:${verification.hash}:${payloadVersionHash}`);
   const versioned = buildRenderJobSpec({
     packetId,
     state: item.state,
     pathway: verifiedPathwayId,
     briefcaseItemId: item.id,
-    trackId: item.selectedTrackId
-      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+    trackId: verification.snapshot.selectedTrackId,
     packetFields
   });
   if (!versioned.spec) return { status: "route_not_renderable", reason: versioned.route.reason };

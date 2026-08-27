@@ -192,7 +192,7 @@ async function runChecks() {
       reminderRecommended: false,
       disclaimer: "",
       selectedTrackId: treatment.trackId
-    });
+    }, null);
     check(placeholder.enabled === false, `${key}: the payment placeholder is enabled for a treated route`);
     check(placeholder.amountCents === undefined, `${key}: the payment placeholder carries an amount for a treated route`);
 
@@ -200,13 +200,14 @@ async function runChecks() {
     let refused = false;
     try {
       assertCheckoutAllowed({
-        id: `verify-${treatment.trackId}`,
-        state: treatment.jurisdiction,
-        pathwayLabel: "",
+        jurisdiction: treatment.jurisdiction,
+        pathwayId: null,
         selectedTrackId: treatment.trackId,
+        treatmentClassification: "terminal_treatment_candidate",
+        deferralComponentIds: [],
+        packetType: "custom_pleading",
         resultCode: "packet_ready",
-        paymentAllowed: true,
-        artifactRefs: {}
+        paymentAllowed: true
       });
     } catch (error) {
       refused = error instanceof ConsumerCheckoutNotAllowedError;

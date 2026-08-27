@@ -43,7 +43,7 @@ function log(msg) { lines.push(msg); }
 // and (b) exercise that exact logic through a mirror for behavioural coverage.
 const PKTGEN_SRC = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
 {
-  const start = PKTGEN_SRC.indexOf("export function assertPacketGenerationAllowed(");
+  const start = PKTGEN_SRC.indexOf("export async function assertPacketGenerationAllowed(");
   const body = start === -1 ? "" : PKTGEN_SRC.slice(start, PKTGEN_SRC.indexOf("\n}", start));
   ok(/packet_ready_with_caution/.test(body) && /isConsumerPaymentAllowed\(/.test(body) && /ConsumerPacketPaymentRequiredError/.test(body) && /paymentStatus !== "paid"/.test(body),
     "assertPacketGenerationAllowed source no longer requires packet-ready + payment clamp + paid/dry_run (guard weakened).");

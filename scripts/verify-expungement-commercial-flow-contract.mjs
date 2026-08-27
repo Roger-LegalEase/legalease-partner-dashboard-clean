@@ -43,9 +43,17 @@ const {
 } = await import("../src/lib/expungement-ai/save-result-policy.ts");
 const {
   packetInformationModelFor,
-  packetInformationPatch,
+  packetInformationPatch: derivePacketInformationPatch,
   packetInformationReviewSafety
 } = await import("../src/lib/expungement-ai/packet-information.ts");
+const packetInformationPatch = (input) => derivePacketInformationPatch({
+  protectedVerification: {
+    status: "unverified",
+    reason: "final_verification_not_completed",
+    revision: 0
+  },
+  ...input
+});
 const { humanMatterState } = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
 const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 
@@ -400,41 +408,47 @@ function loadTsWithMocks(relPath, mocks) {
 }
 
 async function exerciseBuilderRoute(item, sponsored) {
-  const merges = [];
+  const transitions = [];
   const route = loadTsWithMocks("src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts", {
     "@/lib/rcap/briefcase/auth": {
       getRcapBriefcaseAuthState: async () => ({ isAuthenticated: true, userId: "route-owner" })
     },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async (userId, itemId) => userId === "route-owner" && itemId === item.id ? item : null,
-      isPartnerSponsoredPacketItem: async () => sponsored,
-      mergeBriefcaseArtifactRefs: async (...args) => {
-        merges.push(args);
-        return item;
-      }
+      isPartnerSponsoredPacketItem: async () => sponsored
     },
-    "@/lib/expungement-ai/packet-information": { packetInformationPatch }
+    "@/lib/expungement-ai/packet-information": { packetInformationPatch },
+    "@/lib/expungement-ai/verification-cas": {
+      readProtectedPacketVerification: async () => ({
+        ok: true,
+        value: { status: "unverified", reason: "final_verification_not_completed", revision: 0 }
+      }),
+      persistProtectedPacketVerification: async ({ transition }) => {
+        transitions.push(transition);
+        return { ok: true, value: transition.nextVerification };
+      }
+    }
   });
   const response = await route.POST(new Request(`https://local.test/api/expungement-ai/briefcase/${item.id}/packet-information`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ answers: { court: "Test court" }, verify: false })
   }), { params: Promise.resolve({ itemId: item.id }) });
-  return { response, body: await response.json(), merges };
+  return { response, body: await response.json(), transitions };
 }
 
 const unpaidRouteResult = await exerciseBuilderRoute({ ...savedByResult.get("packet_ready"), artifactRefs: commercialArtifact() }, false);
 assert.equal(unpaidRouteResult.response.status, 200, "unpaid owner must be able to save packet information");
-assert.equal(unpaidRouteResult.merges.length, 1);
+assert.equal(unpaidRouteResult.transitions.length, 1);
 assert.ok(unpaidRouteResult.body.reviewPath.endsWith("/review"));
 
 const sponsoredRouteResult = await exerciseBuilderRoute(sponsoredMatter, true);
 assert.equal(sponsoredRouteResult.response.status, 200, "verified sponsored owner must use the shared builder without Stripe");
-assert.equal(sponsoredRouteResult.merges.length, 1);
+assert.equal(sponsoredRouteResult.transitions.length, 1);
 
 const guidanceRouteResult = await exerciseBuilderRoute(savedByResult.get("guidance_only"), false);
 assert.equal(guidanceRouteResult.response.status, 403, "guidance-only matter must not acquire a packet builder");
-assert.equal(guidanceRouteResult.merges.length, 0);
+assert.equal(guidanceRouteResult.transitions.length, 0);
 
 console.log("Expungement.ai commercial-flow contract verification passed.");
 console.log("- Every authoritative result lane saves to the free Briefcase; multiple packet matters stay independently unpaid and undeliverable.");

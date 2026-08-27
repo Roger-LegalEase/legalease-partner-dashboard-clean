@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import {
+  ConsumerPacketArtifactAuthorityUnavailableError,
   ConsumerPacketNotAllowedError,
   ConsumerPacketNotFoundError,
   ConsumerPacketNotReadyError,
@@ -28,6 +29,9 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
+    if (error instanceof ConsumerPacketArtifactAuthorityUnavailableError) {
+      return NextResponse.json({ error: "Packet download authority is temporarily unavailable." }, { status: 503 });
+    }
     if (error instanceof ConsumerPacketNotFoundError) {
       return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
     }

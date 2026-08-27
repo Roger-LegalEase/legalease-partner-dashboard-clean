@@ -18,17 +18,23 @@ const {
 } = await import("../src/lib/rcap-engine/screening-question-selection.ts");
 const {
   packetInformationModelFor,
-  packetInformationPatch,
+  packetInformationPatch: derivePacketInformationPatch,
   packetVerificationState,
-  requireCurrentPacketVerification
+  requireCurrentPacketVerificationRecord
 } = await import("../src/lib/expungement-ai/packet-information.ts");
+const defaultProtectedVerification = {
+  status: "unverified",
+  reason: "final_verification_not_completed",
+  revision: 0
+};
+const packetInformationPatch = (input) => derivePacketInformationPatch({
+  protectedVerification: defaultProtectedVerification,
+  ...input
+});
 const { assertCheckoutAllowed } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 const {
-  assertPacketGenerationAllowed,
   consumerPacketStatusForItem,
   generatePaidConsumerPacket,
-  getConsumerPacketDownload,
-  getConsumerPacketStatus,
   mergePacketArtifactEnvelope,
   readyPacketArtifactAccess
 } = await import("../src/lib/expungement-ai/packet-generation.ts");
@@ -39,6 +45,7 @@ const {
   updateBriefcasePacketMetadata
 } = await import("../src/lib/expungement-ai/briefcase.ts");
 const { getAllJurisdictionProfiles, getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 const {
@@ -49,29 +56,144 @@ const {
 const { finalizeSponsoredPacketGeneration } = await import("../src/lib/expungement-ai/rcap-slot-lifecycle.ts");
 
 assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_HANDOFF), [
+  "verification_persistence",
+  "artifact_authority",
   "checkout_binding",
   "payment_entitlement",
   "artifact_attach",
   "render_enqueue",
   "sponsored_slot_consumption"
 ]);
-for (const point of Object.values(PACKET_VERIFICATION_CAS_HANDOFF)) {
-  assert.equal(point.expectedHashParameter, "p_expected_verification_hash");
+for (const [name, point] of Object.entries(PACKET_VERIFICATION_CAS_HANDOFF)) {
+  if (name !== "verification_persistence" && name !== "artifact_authority") {
+    assert.equal(point.expectedHashParameter, "p_expected_verification_hash");
+  }
   assert.ok(point.rpcName, "every concurrency boundary names its captain-owned RPC");
 }
+assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.verification_persistence.rpcName, "persist_consumer_packet_verification");
+assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.verification_persistence.atomicPayloadParameters, [
+  "p_consumer_auth_user_id",
+  "p_briefcase_item_id",
+  "p_expected_prior_hash",
+  "p_expected_prior_revision",
+  "p_answer_delta",
+  "p_packet_information_metadata",
+  "p_next_verification_status",
+  "p_next_verification_reason",
+  "p_next_verification_hash",
+  "p_next_verification_snapshot",
+  "p_next_verification_invalidated_at"
+]);
+assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.artifact_authority.rpcName, "get_consumer_packet_artifact_authority");
 assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.rpcName, "enqueue_verified_consumer_packet_render");
 assert.deepEqual(PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.atomicPayloadParameters, [
+  "p_packet_id",
+  "p_route_id",
+  "p_renderer_kind",
+  "p_renderer_version",
+  "p_source_sha256",
+  "p_profile_id",
+  "p_profile_version",
+  "p_input_hash",
+  "p_briefcase_item_id",
+  "p_person_id",
+  "p_matter_id",
+  "p_max_attempts",
+  "p_consumer_briefcase_item_id",
+  "p_expected_consumer_auth_user_id",
+  "p_expected_verification_hash",
   "p_render_packet",
   "p_render_input_payload"
 ]);
 assert.equal(PACKET_VERIFICATION_CAS_HANDOFF.sponsored_slot_consumption.rpcName, "finalize_sponsored_packet_generation_if_verified");
 assert.deepEqual(Object.keys(PACKET_VERIFICATION_CAS_CALL_SITES), Object.keys(PACKET_VERIFICATION_CAS_HANDOFF));
-assert.match(PACKET_VERIFICATION_CAS_CALL_SITES.payment_entitlement.captainWarning, /does not yet send p_expected_verification_hash/);
+assert.doesNotMatch(PACKET_VERIFICATION_CAS_CALL_SITES.payment_entitlement.currentMutation, /missing|does not yet send/i);
 const checkoutSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/payment-adapter.ts"), "utf8");
 assert.ok(
   checkoutSource.includes('if (session.status === "open") await stripe.checkout.sessions.expire(session.id);'),
   "a Checkout Session created before a refused binding CAS must be expired"
 );
+assert.ok(
+  /if \(bindingResult\.outcome === "refused" && reusable\.status === "open"\) \{\s*await stripe\.checkout\.sessions\.expire\(reusable\.id\);/.test(checkoutSource),
+  "a reused open Checkout Session must also be expired when binding CAS refuses"
+);
+assert.ok(checkoutSource.includes("pathway_id: binding.pathwayId"), "Stripe metadata binds the protected machine pathway id");
+assert.ok(!checkoutSource.includes("pathway_label: item.pathwayLabel"), "Stripe metadata cannot trust the writable human pathway label");
+assert.ok(!checkoutSource.includes("reviewed_input_hash"), "the obsolete participant-JSON hash contract is removed from Stripe metadata");
+assert.ok(
+  checkoutSource.includes("${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${verificationHash}:${verificationRevision}:${previousSessionId ?? \"initial\"}"),
+  "Stripe idempotency converges concurrent requests and advances only with protected authority"
+);
+assert.ok(!checkoutSource.includes("randomUUID()"), "concurrent checkout requests cannot mint unrelated Stripe Sessions");
+assert.ok(checkoutSource.includes('if (session.status !== "open" || !session.url)'), "an expired or unusable created Session fails before binding");
+assert.ok(checkoutSource.includes('if (existing.status === "complete")'), "a completed paid Session blocks replacement checkout during webhook lag");
+assert.ok(
+  checkoutSource.indexOf('if (existing.status === "complete")') < checkoutSource.indexOf("requireCurrentPacketVerification(userId, item)"),
+  "completed provider payment evidence returns before current verification or any new-commerce work"
+);
+const checkoutGuardSource = checkoutSource.slice(
+  checkoutSource.indexOf("function assertNotExactDeferral"),
+  checkoutSource.indexOf("export function isConsumerCheckoutDryRunEnabled")
+);
+for (const protectedDependency of [
+  "snapshot.jurisdiction",
+  "snapshot.pathwayId",
+  "snapshot.selectedTrackId",
+  "snapshot.treatmentClassification",
+  "snapshot.deferralComponentIds",
+  "snapshot.packetType",
+  "snapshot.resultCode",
+  "snapshot.paymentAllowed"
+]) {
+  assert.ok(checkoutGuardSource.includes(protectedDependency), `checkout guard binds protected ${protectedDependency}`);
+}
+for (const forbidden of ["item.pathwayLabel", "item.artifactRefs", "item.selectedTrackId", "item.treatmentClassification"]) {
+  assert.ok(!checkoutGuardSource.includes(forbidden), `checkout guard cannot trust writable ${forbidden}`);
+}
+assert.ok(
+  checkoutGuardSource.includes("exactDeferralForPathway(snapshot.jurisdiction, snapshot.pathwayId)"),
+  "exact-deferral checkout suppression binds the protected jurisdiction/pathway pair"
+);
+const verificationCasSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/verification-cas.ts"), "utf8");
+for (const rpc of [
+  "get_consumer_packet_verification_authority",
+  "persist_consumer_packet_verification",
+  "get_consumer_packet_artifact_authority",
+  "attach_consumer_packet_artifact_if_verified"
+]) {
+  assert.ok(verificationCasSource.includes(`rpc("${rpc}"`), `application must call protected RPC ${rpc}`);
+}
+for (const parameter of [
+  "p_expected_prior_hash",
+  "p_expected_prior_revision",
+  "p_answer_delta",
+  "p_packet_information_metadata",
+  "p_next_verification_status",
+  "p_next_verification_hash",
+  "p_next_verification_snapshot"
+]) {
+  assert.ok(verificationCasSource.includes(parameter), `verification transition must send ${parameter}`);
+}
+const protectedPersistenceRpcSource = verificationCasSource.slice(
+  verificationCasSource.indexOf('rpc("persist_consumer_packet_verification"'),
+  verificationCasSource.indexOf("if (error)", verificationCasSource.indexOf('rpc("persist_consumer_packet_verification"'))
+);
+assert.ok(
+  protectedPersistenceRpcSource.includes("p_expected_prior_revision: input.transition.expectedPriorRevision"),
+  "protected persistence sends the exact revision read before canonical rederivation"
+);
+const packetInformationRouteSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts"), "utf8");
+const packetInformationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/packet-information.ts"), "utf8");
+assert.ok(packetInformationSource.includes("protectedVerification: ProtectedPacketVerificationRecord;"));
+assert.ok(!packetInformationSource.includes("protectedVerification?:"), "packet transition derivation cannot default missing protected authority");
+assert.ok(packetInformationRouteSource.includes("readProtectedPacketVerification("));
+assert.ok(packetInformationRouteSource.includes("persistProtectedPacketVerification("));
+assert.ok(!packetInformationRouteSource.includes("mergeBriefcaseArtifactRefs("), "verification facts and protected transition must share one CAS RPC");
+const consumerPaymentAuthoritySource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-payment-authority.ts"), "utf8");
+assert.ok(consumerPaymentAuthoritySource.includes('rpc("bind_consumer_checkout_verification"'));
+assert.ok(consumerPaymentAuthoritySource.includes("p_expected_verification_hash: input.expectedVerificationHash"));
+assert.ok(!consumerPaymentAuthoritySource.includes('.from("consumer_briefcase_items")\n    .update('), "checkout binding cannot use a direct UPDATE");
+assert.ok(consumerPaymentAuthoritySource.includes("p_expected_verification_hash: input.expectedVerificationHash"), "payment and checkout RPCs send the exact protected hash");
 assert.equal(assertExpectedPacketVerificationHash("a".repeat(64)), "a".repeat(64));
 assert.throws(() => assertExpectedPacketVerificationHash("participant-controlled"), /verification hash/i);
 
@@ -193,6 +315,11 @@ const authoritativeFixture = evaluateAuthoritativeScreeningResult({
   answers: screeningAnswers
 });
 const requiredInputs = authoritativeFixture.evaluation.packetPlan.requiredInputIds;
+const compiledChecklistPlan = packetPlanForPathway(
+  getProfileByJurisdiction(authoritativeFixture.evaluation.jurisdiction),
+  authoritativeFixture.evaluation.pathwayId
+);
+assert.ok(compiledChecklistPlan?.packetReadyWhen.length, "compiled packet plan carries its route-specific readiness checklist into protected verification");
 const completePacketAnswers = {
   age_at_offense: { value: "30", unknown: false },
   case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
@@ -296,7 +423,42 @@ assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snap
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.packetAnswers), Object.keys(completePacketAnswers).sort());
 assert.deepEqual(Object.keys(verification.patch.commercialFlow.verification.snapshot.serverFacts), ["jurisdiction", "pathway_id"]);
 assert.ok(verification.patch.commercialFlow.verification.snapshot.packetPlan, "packet plan dependency must be snapshotted");
+assert.deepEqual(
+  verification.patch.commercialFlow.verification.snapshot.packetPlan.packetReadyWhen,
+  compiledChecklistPlan.packetReadyWhen,
+  "protected verification snapshots carry the route-specific compiled readiness checklist"
+);
 assert.match(verification.patch.commercialFlow.verification.snapshot.profileAuthorityFingerprint, /^[a-f0-9]{64}$/);
+const legacyPlanWithoutChecklist = structuredClone(baseItem);
+delete legacyPlanWithoutChecklist.artifactRefs.commercialFlow.screening.packetPlan.packetReadyWhen;
+const verifiedLegacyPlan = packetInformationPatch({
+  existingItem: legacyPlanWithoutChecklist,
+  answers: completePacketAnswers,
+  verify: true
+});
+assert.equal(verifiedLegacyPlan.reviewReason, "authoritative_route_confirmed", "legacy stored plans remain verifiable without a writable-JSON checklist backfill");
+assert.deepEqual(verifiedLegacyPlan.patch.commercialFlow.verification.snapshot.packetPlan.packetReadyWhen, compiledChecklistPlan.packetReadyWhen);
+const forgedWritableChecklist = structuredClone(baseItem);
+forgedWritableChecklist.artifactRefs.commercialFlow.screening.packetPlan.packetReadyWhen = ["participant-forged instruction"];
+const verifiedForgedChecklist = packetInformationPatch({
+  existingItem: forgedWritableChecklist,
+  answers: completePacketAnswers,
+  verify: true
+});
+assert.ok(!verifiedForgedChecklist.patch.commercialFlow.verification.snapshot.packetPlan.packetReadyWhen.includes("participant-forged instruction"));
+const forgedJsonVerificationBeforeProtected = structuredClone(baseItem);
+forgedJsonVerificationBeforeProtected.artifactRefs.commercialFlow.verification = verification.patch.commercialFlow.verification;
+const firstProtectedFactSave = packetInformationPatch({
+  existingItem: forgedJsonVerificationBeforeProtected,
+  answers: { court: "Circuit Court" },
+  verify: false,
+  protectedVerification: { status: "unverified", reason: "final_verification_not_completed", revision: 0 }
+});
+assert.equal(
+  firstProtectedFactSave.patch.commercialFlow.verification.status,
+  "unverified",
+  "participant JSON cannot forge a prior verified record and force a protected invalidation transition"
+);
 
 const sponsoredBaseItem = structuredClone(baseItem);
 sponsoredBaseItem.paymentAllowed = false;
@@ -308,7 +470,10 @@ assert.equal(sponsoredVerification.patch.commercialFlow.verification.status, "ve
 const sponsoredVerifiedItem = structuredClone(sponsoredBaseItem);
 sponsoredVerifiedItem.artifactRefs.commercialFlow.packetInformation = sponsoredVerification.patch.commercialFlow.packetInformation;
 sponsoredVerifiedItem.artifactRefs.commercialFlow.verification = sponsoredVerification.patch.commercialFlow.verification;
-assert.doesNotThrow(() => assertPacketGenerationAllowed(sponsoredVerifiedItem, false, { paymentRequired: false }));
+assert.doesNotThrow(() => requireCurrentPacketVerificationRecord(
+  sponsoredVerifiedItem,
+  { ...sponsoredVerification.patch.commercialFlow.verification, revision: 1 }
+));
 
 const forgedPlanItem = structuredClone(baseItem);
 forgedPlanItem.artifactRefs.commercialFlow.screening.packetPlan.mode = "official_form_overlay_or_source_form_set";
@@ -337,6 +502,7 @@ for (const [label, reason, mutate] of forgedAuthorityCases) {
 const verifiedItem = structuredClone(baseItem);
 verifiedItem.artifactRefs.commercialFlow.packetInformation = verification.patch.commercialFlow.packetInformation;
 verifiedItem.artifactRefs.commercialFlow.verification = verification.patch.commercialFlow.verification;
+const protectedVerification = { ...verification.patch.commercialFlow.verification, revision: 7 };
 const verifiedModel = packetInformationModelFor(verifiedItem);
 const snapshot = verification.patch.commercialFlow.verification.snapshot;
 const expectedSummaryKeys = ["screeningAnswers", "prefilledAnswers", "packetAnswers", "serverFacts"]
@@ -359,14 +525,65 @@ for (const entry of verifiedModel.verificationContext) {
 assert.deepEqual(verifiedModel.verificationManifest.factKeys, expectedSummaryKeys);
 assert.deepEqual(verifiedModel.verificationManifest.systemContextKeys, expectedContextKeys);
 assert.equal(packetVerificationState(verifiedItem).status, "verified");
-assert.doesNotThrow(() => requireCurrentPacketVerification(verifiedItem));
-assert.doesNotThrow(() => assertCheckoutAllowed(verifiedItem));
-assert.doesNotThrow(() => assertPacketGenerationAllowed({ ...verifiedItem, paymentStatus: "paid" }));
+assert.throws(
+  () => requireCurrentPacketVerificationRecord(verifiedItem, null),
+  /protected/i,
+  "participant-writable JSON verification is never commerce authority"
+);
+assert.doesNotThrow(() => requireCurrentPacketVerificationRecord(verifiedItem, protectedVerification));
+const forgedVerificationMirror = structuredClone(verifiedItem);
+forgedVerificationMirror.artifactRefs.commercialFlow.verification.hash = "f".repeat(64);
+assert.equal(
+  requireCurrentPacketVerificationRecord(forgedVerificationMirror, protectedVerification).hash,
+  protectedVerification.hash,
+  "protected verification wins over a forged JSON mirror"
+);
+const changedDisplayItem = { ...verifiedItem, summary: "Attacker summary", nextSteps: ["Attacker instruction"] };
+assert.equal(
+  requireCurrentPacketVerificationRecord(changedDisplayItem, protectedVerification).hash,
+  protectedVerification.hash,
+  "writable summary and nextSteps are outside verification and cannot influence render authority"
+);
+assert.doesNotThrow(() => assertCheckoutAllowed(protectedVerification.snapshot));
 
-const noOpSave = packetInformationPatch({ existingItem: verifiedItem, answers: { court: completePacketAnswers.court }, verify: false });
+const noOpSave = packetInformationPatch({
+  existingItem: verifiedItem,
+  answers: { court: completePacketAnswers.court },
+  verify: false,
+  protectedVerification
+});
 assert.equal(noOpSave.patch.commercialFlow.verification.status, "verified", "a semantic no-op save preserves current verification");
 assert.equal(noOpSave.patch.commercialFlow.verification.hash, verification.patch.commercialFlow.verification.hash);
 assert.equal(noOpSave.patch.commercialFlow.packetInformation.stage, "ready_to_generate");
+const forgedNoOpMetadataItem = structuredClone(verifiedItem);
+forgedNoOpMetadataItem.artifactRefs.commercialFlow.packetInformation.participantExtension = "must-not-persist";
+const canonicalNoOpSave = packetInformationPatch({
+  existingItem: forgedNoOpMetadataItem,
+  answers: { court: completePacketAnswers.court },
+  verify: false,
+  protectedVerification
+});
+assert.deepEqual(Object.keys(canonicalNoOpSave.protectedTransition.packetInformationMetadata), [
+  "stage",
+  "requiredInputIds",
+  "serverFacts",
+  "prefilledAnswers",
+  "missingInputIds",
+  "updatedAt",
+  "reviewedAt",
+  "reviewSafety"
+]);
+assert.ok(!("participantExtension" in canonicalNoOpSave.patch.commercialFlow.packetInformation), "arbitrary participant metadata is not mirrored");
+const repeatedVerification = packetInformationPatch({
+  existingItem: verifiedItem,
+  answers: { court: completePacketAnswers.court },
+  verify: true,
+  protectedVerification
+});
+assert.equal(repeatedVerification.patch.commercialFlow.verification.hash, protectedVerification.hash);
+assert.equal(repeatedVerification.patch.commercialFlow.verification.snapshot.verifiedAt, protectedVerification.snapshot.verifiedAt);
+assert.equal(repeatedVerification.protectedTransition.expectedPriorRevision, 7);
+assert.equal(repeatedVerification.protectedTransition.nextVerification.revision, 7, "semantic verify no-op preserves protected revision");
 
 const treatmentChangedItem = structuredClone(verifiedItem);
 treatmentChangedItem.selectedTrackId = "different-server-track";
@@ -384,22 +601,30 @@ liveProfile.questionLifecycle = {
 };
 try {
   assert.equal(packetVerificationState(verifiedItem).status, "invalidated", "machine-authority changes invalidate without a version bump");
-  const persistedDrift = packetInformationPatch({ existingItem: verifiedItem, answers: {}, verify: false });
+  const persistedDrift = packetInformationPatch({
+    existingItem: verifiedItem,
+    answers: {},
+    verify: false,
+    protectedVerification
+  });
   assert.equal(persistedDrift.patch.commercialFlow.verification.status, "invalidated");
   assert.equal(persistedDrift.patch.commercialFlow.verification.reason, "verification_dependencies_changed");
 } finally {
   liveProfile.questionLifecycle = originalLifecycle;
 }
 
-const invalidated = packetInformationPatch({ existingItem: verifiedItem, answers: { court: "Different Court" }, verify: false });
+const invalidated = packetInformationPatch({
+  existingItem: verifiedItem,
+  answers: { court: "Different Court" },
+  verify: false,
+  protectedVerification
+});
 const invalidatedItem = structuredClone(verifiedItem);
 invalidatedItem.artifactRefs.commercialFlow.packetInformation = invalidated.patch.commercialFlow.packetInformation;
 invalidatedItem.artifactRefs.commercialFlow.verification = invalidated.patch.commercialFlow.verification;
 assert.equal(packetVerificationState(invalidatedItem).status, "invalidated");
 assert.equal(invalidated.patch.commercialFlow.verification.hash, undefined, "an invalidated record must not expose a reusable current hash");
-assert.throws(() => requireCurrentPacketVerification(invalidatedItem), /current final verification/i);
-assert.throws(() => assertCheckoutAllowed(invalidatedItem), /verification/i);
-assert.throws(() => assertPacketGenerationAllowed({ ...invalidatedItem, paymentStatus: "paid" }), /verification/i);
+assert.throws(() => requireCurrentPacketVerificationRecord(invalidatedItem, { ...invalidated.patch.commercialFlow.verification, revision: 8 }), /current final verification/i);
 
 const packetArtifact = {
   provider: "rcap_source_engine",
@@ -428,7 +653,18 @@ const legacyReady = {
   paymentStatus: "paid"
 };
 delete legacyReady.artifactRefs.commercialFlow.verification;
-assert.equal(readyPacketArtifactAccess(legacyReady)?.text, "immutable packet bytes", "legacy paid ready artifacts stay status/download visible");
+const protectedArtifact = {
+  status: "ready",
+  revision: 3,
+  verificationHash: protectedVerification.hash,
+  entitlementSource: "consumer_payment",
+  artifact: packetArtifact
+};
+assert.equal(readyPacketArtifactAccess(legacyReady, protectedArtifact)?.text, "immutable packet bytes", "protected legacy provenance keeps an immutable paid artifact accessible");
+assert.equal(readyPacketArtifactAccess(legacyReady, null), undefined, "forged Ready JSON and writable packet_status cannot grant artifact access");
+const incompleteProtectedArtifact = structuredClone(protectedArtifact);
+delete incompleteProtectedArtifact.artifact.packetPlanId;
+assert.equal(readyPacketArtifactAccess(legacyReady, incompleteProtectedArtifact), undefined, "protected source-engine provenance must carry its packet plan identity");
 const legacyArtifactUser = "legacy-ready-artifact-user";
 const savedLegacyReady = await saveScreeningResultToBriefcase({
   userId: legacyArtifactUser,
@@ -448,10 +684,9 @@ const savedLegacyReady = await saveScreeningResultToBriefcase({
   packetStatus: "ready",
   sourceSessionId: "legacy-ready-artifact-session"
 });
-const legacyStatus = await getConsumerPacketStatus({ userId: legacyArtifactUser, briefcaseItemId: savedLegacyReady.id });
+const legacyStatus = consumerPacketStatusForItem(savedLegacyReady, protectedArtifact);
 assert.equal(legacyStatus.canDownload, true, "status exposes an already-issued paid artifact without retroactive verification");
-const legacyDownload = await getConsumerPacketDownload({ userId: legacyArtifactUser, briefcaseItemId: savedLegacyReady.id });
-assert.equal(legacyDownload.body, "immutable packet bytes", "download preserves immutable legacy artifact access");
+assert.equal(legacyStatus.artifactRefs.text, "immutable packet bytes", "protected provenance preserves immutable legacy artifact bytes");
 
 const sponsoredLegacyPdf = {
   ...sponsoredVerifiedItem,
@@ -467,7 +702,14 @@ const sponsoredLegacyPdf = {
     courtPacketDownloadPath: "/api/rcap/documents/legacy-ms-pdf/pdf/court"
   }
 };
-assert.equal(readyPacketArtifactAccess(sponsoredLegacyPdf, true)?.downloadPath, "/api/rcap/documents/legacy-ms-pdf/pdf/full", "issued sponsored legacy PDFs remain accessible without retroactive verification");
+const sponsoredProtectedArtifact = {
+  status: "ready",
+  revision: 2,
+  verificationHash: protectedVerification.hash,
+  entitlementSource: "partner_sponsorship",
+  artifact: sponsoredLegacyPdf.artifactRefs
+};
+assert.equal(readyPacketArtifactAccess(sponsoredLegacyPdf, sponsoredProtectedArtifact)?.downloadPath, "/api/rcap/documents/legacy-ms-pdf/pdf/full", "protected sponsored legacy PDFs remain accessible without retroactive verification");
 const sponsoredLegacyUser = "sponsored-legacy-pdf-user";
 const savedSponsoredLegacyPdf = await saveScreeningResultToBriefcase({
   userId: sponsoredLegacyUser,
@@ -486,7 +728,7 @@ const savedSponsoredLegacyPdf = await saveScreeningResultToBriefcase({
   sourceSessionId: "sponsored-legacy-session"
 });
 const reloadedSponsoredLegacyPdf = await getBriefcaseItem(sponsoredLegacyUser, savedSponsoredLegacyPdf.id);
-const sponsoredLegacyStatus = consumerPacketStatusForItem(reloadedSponsoredLegacyPdf, true);
+const sponsoredLegacyStatus = consumerPacketStatusForItem(reloadedSponsoredLegacyPdf, sponsoredProtectedArtifact);
 assert.equal(sponsoredLegacyStatus.packetStatus, "ready", "sponsored legacy PDF survives persistence reload");
 assert.equal(sponsoredLegacyStatus.canDownload, true, "sponsored legacy PDF status exposes its immutable download access");
 assert.equal(sponsoredLegacyStatus.artifactRefs.downloadPath, "/api/rcap/documents/legacy-ms-pdf/pdf/full");
@@ -518,23 +760,17 @@ assert.deepEqual(
   ["jurisdiction", "pathway_id"],
   "canonical serverFacts replace rather than recursively preserve forged legacy keys"
 );
-assert.equal(
-  await updateBriefcasePacketMetadata(generationUser, generationItem.id, {
-    packetStatus: "pending",
-    expectedVerificationHash: "b".repeat(64)
-  }),
-  null,
-  "artifact/status writes reject a stale expected verification hash"
+const forgedReadyGenerationItem = await updateBriefcasePacketMetadata(generationUser, generationItem.id, {
+  packetStatus: "ready",
+  artifactRefs: packetArtifact
+});
+assert.ok(forgedReadyGenerationItem);
+assert.equal(readyPacketArtifactAccess(forgedReadyGenerationItem, null), undefined, "writable JSON Ready fields do not grant access");
+await assert.rejects(
+  generatePaidConsumerPacket({ userId: generationUser, briefcaseItemId: generationItem.id, dryRunMode: true }),
+  /protected packet artifact authority is unavailable/i,
+  "new generation fails closed until captain-owned protected artifact SQL is installed"
 );
-const generated = await generatePaidConsumerPacket({ userId: generationUser, briefcaseItemId: generationItem.id, dryRunMode: true });
-assert.equal(generated.packetStatus, "ready");
-const reloadedGenerated = await getBriefcaseItem(generationUser, generationItem.id);
-assert.equal(packetVerificationState(reloadedGenerated).status, "verified", "artifact attach/reload preserves verification");
-const generatedStatus = await getConsumerPacketStatus({ userId: generationUser, briefcaseItemId: generationItem.id });
-assert.equal(generatedStatus.canDownload, true);
-const generatedDownload = await getConsumerPacketDownload({ userId: generationUser, briefcaseItemId: generationItem.id });
-assert.equal(generatedDownload.body, generated.artifactRefs.text);
-assert.equal(generated.artifactRefs.packetPlanId, authoritativeFixture.evaluation.pathwayId, "packet generation uses the verified pathway id, not a human display label");
 
 const progressRoute = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/screening/progress/route.ts"), "utf8");
 for (const forbidden of ["paymentAllowed", "packetPlan", "sponsorship", "pathwayId", "selectedTrackId"]) {
@@ -564,6 +800,78 @@ assert.ok(sponsoredGenerationRoute.indexOf("if (!finalization.ok)") < sponsoredG
 const packetGenerationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/packet-generation.ts"), "utf8");
 assert.ok(packetGenerationSource.includes("if (partnerSponsored)"));
 assert.ok(packetGenerationSource.indexOf("if (partnerSponsored)") < packetGenerationSource.indexOf("await attachPacketToBriefcaseItem({"), "sponsored generation cannot attach Ready before atomic credit consumption");
+assert.ok(packetGenerationSource.includes("attachConsumerPacketArtifactIfVerified("), "DTC Ready attachment uses the protected artifact CAS RPC");
+assert.ok(packetGenerationSource.includes("readProtectedPacketArtifact("), "existing artifact access reads protected provenance");
+const sourceDrivenRenderer = packetGenerationSource.slice(
+  packetGenerationSource.indexOf("function renderSourceDrivenPacket"),
+  packetGenerationSource.indexOf("function paymentLinkageText")
+);
+assert.ok(!sourceDrivenRenderer.includes("item.summary"), "source-driven output cannot render writable summary text");
+assert.ok(!sourceDrivenRenderer.includes("item.nextSteps"), "source-driven output cannot render writable next-step text");
+
+assert.ok(!verificationCasSource.includes("while ("), "a stale protected transition cannot retry without rederiving authority");
+assert.ok(packetInformationRouteSource.includes("readProtectedPacketVerification({"), "fact saves first read protected verification authority");
+assert.ok(packetInformationRouteSource.includes("persistProtectedPacketVerification({"), "fact saves use one protected atomic transition");
+assert.ok(!packetInformationRouteSource.includes("mergeBriefcaseArtifactRefs"), "fact saves cannot use a stale full JSON merge");
+
+const paymentRpcSource = consumerPaymentAuthoritySource.slice(
+  consumerPaymentAuthoritySource.indexOf('rpc("record_consumer_packet_payment"'),
+  consumerPaymentAuthoritySource.indexOf("if (error)", consumerPaymentAuthoritySource.indexOf('rpc("record_consumer_packet_payment"'))
+);
+assert.ok(paymentRpcSource.includes("p_expected_verification_hash: input.expectedVerificationHash"), "payment entitlement binds the exact protected verification hash");
+for (const parameter of PACKET_VERIFICATION_CAS_HANDOFF.payment_entitlement.atomicPayloadParameters) {
+  assert.ok(paymentRpcSource.includes(`${parameter}:`), `payment entitlement sends ${parameter}`);
+}
+
+assert.ok(consumerPaymentAuthoritySource.includes('rpc("bind_consumer_checkout_verification"'), "checkout binding uses the protected CAS RPC");
+assert.ok(!checkoutSource.includes('.from("consumer_briefcase_items")\n    .update('), "checkout binding cannot directly update the participant row");
+const checkoutRpcSource = consumerPaymentAuthoritySource.slice(
+  consumerPaymentAuthoritySource.indexOf('rpc("bind_consumer_checkout_verification"'),
+  consumerPaymentAuthoritySource.indexOf("if (error)", consumerPaymentAuthoritySource.indexOf('rpc("bind_consumer_checkout_verification"'))
+);
+for (const parameter of PACKET_VERIFICATION_CAS_HANDOFF.checkout_binding.atomicPayloadParameters) {
+  assert.ok(checkoutRpcSource.includes(`${parameter}:`), `checkout binding sends ${parameter}`);
+}
+assert.ok(
+  consumerPaymentAuthoritySource.includes('if (error) return { outcome: "unavailable", reason: error.message };'),
+  "ambiguous checkout-binding transport failures remain unavailable rather than definitive CAS refusals"
+);
+assert.ok(consumerPaymentAuthoritySource.includes('if (row?.ok === false)'), "only an explicit RPC refusal triggers checkout compensation");
+const artifactAttachRpcSource = verificationCasSource.slice(
+  verificationCasSource.indexOf('rpc("attach_consumer_packet_artifact_if_verified"'),
+  verificationCasSource.indexOf("if (error)", verificationCasSource.indexOf('rpc("attach_consumer_packet_artifact_if_verified"'))
+);
+for (const parameter of PACKET_VERIFICATION_CAS_HANDOFF.artifact_attach.atomicPayloadParameters) {
+  assert.ok(artifactAttachRpcSource.includes(`${parameter}:`), `artifact attachment sends ${parameter}`);
+}
+const sponsoredFinalizeSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/rcap-slot-lifecycle.ts"), "utf8");
+const sponsoredFinalizeRpcSource = sponsoredFinalizeSource.slice(
+  sponsoredFinalizeSource.indexOf('rpc("finalize_sponsored_packet_generation_if_verified"'),
+  sponsoredFinalizeSource.indexOf("if (error)", sponsoredFinalizeSource.indexOf('rpc("finalize_sponsored_packet_generation_if_verified"'))
+);
+for (const parameter of PACKET_VERIFICATION_CAS_HANDOFF.sponsored_slot_consumption.atomicPayloadParameters) {
+  assert.ok(sponsoredFinalizeRpcSource.includes(`${parameter}:`), `sponsored finalization sends ${parameter}`);
+}
+const reusedBindingRefusal = checkoutSource.slice(
+  checkoutSource.indexOf('const bindingResult = await persistCheckoutBinding(binding, reusable.id, "stripe")'),
+  checkoutSource.indexOf("if (reusable.status === \"open\" && reusable.url)")
+);
+assert.ok(reusedBindingRefusal.includes('bindingResult.outcome === "refused"'), "reused-session compensation requires a definitive CAS refusal");
+assert.ok(reusedBindingRefusal.includes("checkout.sessions.expire(reusable.id)"), "reused open checkout is expired after a binding CAS refusal");
+const newBindingRefusal = checkoutSource.slice(
+  checkoutSource.indexOf('const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe")'),
+  checkoutSource.indexOf("return {", checkoutSource.indexOf('const bindingResult = await persistCheckoutBinding(binding, session.id, "stripe")'))
+);
+assert.ok(newBindingRefusal.includes('bindingResult.outcome === "refused"'), "new-session compensation requires a definitive CAS refusal");
+assert.ok(newBindingRefusal.includes("checkout.sessions.expire(session.id)"), "new open checkout is expired after a binding CAS refusal");
+const checkoutRouteSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/checkout/route.ts"), "utf8");
+for (const forbidden of ["guidance-packet-registry", "item.artifactRefs", "item.selectedTrackId", "item.treatmentClassification", "item.pathwayLabel"]) {
+  assert.ok(!checkoutRouteSource.includes(forbidden), `checkout route cannot preempt protected authority with ${forbidden}`);
+}
+
+const reconciliationSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/checkout-reconciliation.ts"), "utf8");
+assert.ok(reconciliationSource.includes("readProtectedPacketArtifact({"), "webhook duplicate access requires protected artifact provenance");
+assert.ok(!reconciliationSource.includes('item.packetStatus === "ready"'), "writable packet status cannot suppress payment/generation");
 
 const consumerRenderSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
 for (const forbidden of ['.from("rcap_document_packets")', '.from("rcap_document_packet_inputs")', "getSupabaseAdminClient"]) {
@@ -588,9 +896,20 @@ for (const dependency of ["rendererKind", "rendererVersion", "sourceSha256", "pr
   assert.ok(consumerRenderSource.includes(`${dependency}: built.spec.${dependency}`), `packet source version binds ${dependency}`);
 }
 assert.ok(consumerRenderSource.includes("const verifiedSpec = { ...versioned.spec, inputHash }"), "queue input_hash covers the exact immutable render payload");
+assert.ok(!consumerRenderSource.includes("input.item.summary"), "durable render source cannot consume writable summary text");
+assert.ok(!consumerRenderSource.includes("input.item.nextSteps"), "durable render source cannot consume writable next-step text");
+assert.ok(
+  consumerRenderSource.includes("filing_instructions: packetReadyWhen.length > 0\n      ? packetReadyWhen"),
+  "durable render filing instructions use the exact checklist carried by protected verification"
+);
+assert.equal(
+  consumerRenderSource.match(/trackId: verification\.snapshot\.selectedTrackId/g)?.length,
+  2,
+  "both render-contract derivations bind the protected selected-track dependency"
+);
 const jobQueueSource = fs.readFileSync(path.join(root, "src/lib/rcap/render/job-queue.ts"), "utf8");
 assert.ok(jobQueueSource.includes('rpc("enqueue_verified_consumer_packet_render"'));
-for (const parameter of ["p_expected_verification_hash", "p_render_packet", "p_render_input_payload"]) {
+for (const parameter of PACKET_VERIFICATION_CAS_HANDOFF.render_enqueue.atomicPayloadParameters) {
   assert.ok(jobQueueSource.includes(parameter), `atomic render enqueue must send ${parameter}`);
 }
 assert.ok(

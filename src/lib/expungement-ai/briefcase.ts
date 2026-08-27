@@ -8,7 +8,6 @@ import type {
   ExpungementAiEligibilityResult
 } from "@/lib/expungement-ai/types";
 import { findItemForSession } from "@/lib/expungement-ai/save-result-policy";
-import { storedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
 import { componentDeferralBundle, componentDeferralForTrack, exactDeferralBundle, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentBundle, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 
 // Production-ready path: use the request user's Supabase auth client and consumer_briefcase_items RLS.
@@ -638,7 +637,6 @@ export async function updateBriefcasePacketMetadata(
   metadata: {
     packetStatus: ConsumerBriefcaseItem["packetStatus"];
     artifactRefs?: Record<string, unknown>;
-    expectedVerificationHash?: string;
   }
 ): Promise<ConsumerBriefcaseItem | null> {
   const supabase = await getConsumerBriefcaseClient();
@@ -647,8 +645,6 @@ export async function updateBriefcasePacketMetadata(
     const items = fallbackItemsForUser(userId);
     const index = items.findIndex((item) => item.id === itemId);
     if (index === -1) return null;
-    if (metadata.expectedVerificationHash
-      && storedPacketVerificationHash(items[index].artifactRefs) !== metadata.expectedVerificationHash) return null;
     items[index] = {
       ...items[index],
       packetStatus: metadata.packetStatus,
@@ -660,7 +656,7 @@ export async function updateBriefcasePacketMetadata(
     return items[index];
   }
 
-  if (metadata.artifactRefs || metadata.expectedVerificationHash) {
+  if (metadata.artifactRefs) {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const current = await supabase
         .from("consumer_briefcase_items")
@@ -669,8 +665,6 @@ export async function updateBriefcasePacketMetadata(
         .eq("id", itemId)
         .maybeSingle<{ artifact_refs_json: Record<string, unknown>; updated_at: string }>();
       if (current.error || !current.data) return null;
-      if (metadata.expectedVerificationHash
-        && storedPacketVerificationHash(current.data.artifact_refs_json) !== metadata.expectedVerificationHash) return null;
       const updated = await supabase
         .from("consumer_briefcase_items")
         .update({
@@ -718,13 +712,12 @@ export async function updateBriefcasePacketMetadataForWebhook(
   metadata: {
     packetStatus: ConsumerBriefcaseItem["packetStatus"];
     artifactRefs?: Record<string, unknown>;
-    expectedVerificationHash?: string;
   }
 ): Promise<ConsumerBriefcaseItem | null> {
   const supabase = getSupabaseAdminClient();
   if (!supabase) return updateBriefcasePacketMetadata(userId, itemId, metadata);
 
-  if (metadata.artifactRefs || metadata.expectedVerificationHash) {
+  if (metadata.artifactRefs) {
     for (let attempt = 0; attempt < 3; attempt += 1) {
       const current = await supabase
         .from("consumer_briefcase_items")
@@ -733,8 +726,6 @@ export async function updateBriefcasePacketMetadataForWebhook(
         .eq("id", itemId)
         .maybeSingle<{ artifact_refs_json: Record<string, unknown>; updated_at: string }>();
       if (current.error || !current.data) return null;
-      if (metadata.expectedVerificationHash
-        && storedPacketVerificationHash(current.data.artifact_refs_json) !== metadata.expectedVerificationHash) return null;
       const updated = await supabase
         .from("consumer_briefcase_items")
         .update({

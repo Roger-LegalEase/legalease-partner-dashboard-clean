@@ -251,6 +251,7 @@ export type EngineProfile = {
       formMappingStatus: FormMappingStatus;
       sourceRuleRefs?: string[];
       requiredInputIds?: string[];
+      packetReadyWhen?: string[];
     }>;
     requiredInputs: string[];
   };

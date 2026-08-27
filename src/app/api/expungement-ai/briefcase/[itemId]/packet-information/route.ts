@@ -3,11 +3,14 @@ import { NextResponse } from "next/server";
 import { getRcapBriefcaseAuthState } from "@/lib/rcap/briefcase/auth";
 import {
   getBriefcaseItem,
-  isPartnerSponsoredPacketItem,
-  mergeBriefcaseArtifactRefs
+  isPartnerSponsoredPacketItem
 } from "@/lib/expungement-ai/briefcase";
 import { packetInformationPatch } from "@/lib/expungement-ai/packet-information";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
+import {
+  persistProtectedPacketVerification,
+  readProtectedPacketVerification
+} from "@/lib/expungement-ai/verification-cas";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,17 +43,30 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "invalid_request" }, { status: 400 });
   }
 
+  const protectedRead = await readProtectedPacketVerification({
+    consumerAuthUserId: auth.userId,
+    briefcaseItemId: item.id
+  });
+  if (!protectedRead.ok) {
+    return NextResponse.json({ ok: false, error: "protected_verification_unavailable" }, { status: 503 });
+  }
+
   const update = packetInformationPatch({
     existingItem: item,
     answers: parsed.answers,
-    verify: parsed.verify
+    verify: parsed.verify,
+    protectedVerification: protectedRead.value
   });
   if (!update) {
     return NextResponse.json({ ok: false, error: "packet_plan_unavailable" }, { status: 409 });
   }
 
-  const saved = await mergeBriefcaseArtifactRefs(auth.userId, item.id, update.patch);
-  if (!saved) {
+  const saved = await persistProtectedPacketVerification({
+    consumerAuthUserId: auth.userId,
+    briefcaseItemId: item.id,
+    transition: update.protectedTransition
+  });
+  if (!saved.ok) {
     return NextResponse.json({ ok: false, error: "save_failed" }, { status: 503 });
   }
 
