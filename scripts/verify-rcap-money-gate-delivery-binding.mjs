@@ -22,6 +22,7 @@
 // intended-sellable denominator with an open blocker recorded against it.
 
 import fs from "node:fs";
+const documentRendererSource = fs.readFileSync("src/components/rcap/documents/DocumentPacketRenderer.tsx", "utf8");
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -120,10 +121,28 @@ for (const profile of profiles) {
     }
 
     if (canRender) {
-      check(threw === null, `${code}:${pathway.id}: the delivery guard refused a route that can render (${threw?.name})`);
-      soldCount += 1;
+      /**
+       * The guard may be STRICTER than the route resolver, and now is.
+       *
+       * This used to require exact agreement: a route the resolver said could
+       * render had to pass the delivery guard. That was the right binding when
+       * the resolver was the only authority. It is not any more — the packet
+       * fulfillment gate refuses a route that cannot prove it delivers the
+       * packet it promises, and the resolver cannot reach that question,
+       * because it classifies whether a STATE can render rather than whether a
+       * ROUTE produces its filing.
+       *
+       * So the direction that matters is the only one asserted: the guard must
+       * never ALLOW what the resolver refuses. Refusing more is the containment
+       * working, and requiring agreement would have made the fulfillment gate
+       * impossible to add without deleting this check.
+       */
+      const refusedForFulfillment = threw?.name === "PacketFulfillmentNotProvenError";
+      check(threw === null || refusedForFulfillment,
+        `${code}:${pathway.id}: the delivery guard refused a renderable route for a reason other than unproven fulfillment (${threw?.name})`);
+      if (threw === null) soldCount += 1;
     } else {
-      check(threw instanceof ConsumerPacketNotDeliverableError,
+      check(threw instanceof ConsumerPacketNotDeliverableError || threw?.name === "PacketFulfillmentNotProvenError",
         `${code}:${pathway.id}: a route that cannot render was allowed through the delivery guard`);
       refusedCount += 1;
 
@@ -146,7 +165,25 @@ for (const profile of profiles) {
   }
 }
 
-// --------------------------------------------------------------------------- the legacy generators still sell
+// --------------------------------------------------------------------------- the legacy generators are preserved, and not by price
+/**
+ * This block used to require that the five preserved legacy jurisdictions keep
+ * a live direct-consumer price. They do not any more, deliberately.
+ *
+ * What that price bought was measured rather than assumed. The direct-consumer
+ * paid path has one artifact builder, it takes no branch on jurisdiction, and
+ * it returned a text/plain route summary — for Mississippi and Illinois and the
+ * District of Columbia and Pennsylvania and Texas exactly as for everywhere
+ * else. The legacy PETITION generators are a different path: they render from a
+ * stored document packet at /documents/[partnerSlug]/[packetId], and the paid
+ * consumer flow never reached them. So the price was not the legacy generator's
+ * price; it was a price for the summary.
+ *
+ * The generators themselves are preserved and are still asserted below: their
+ * renderers exist, their jurisdictions still classify as legacy_verified, and
+ * their document components still render. What is closed is charging a
+ * participant on a path that would not have given them one.
+ */
 for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
   const profile = profiles.find((p) => p.jurisdiction.code === code);
   check(Boolean(profile), `${code}: legacy verified jurisdiction has no compiled profile`);
@@ -159,10 +196,20 @@ for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
   } catch (error) {
     threw = error;
   }
+  // The one refusal that would mean the generator itself was fenced off.
   check(!(threw instanceof ConsumerPacketNotDeliverableError),
-    `${code}: the delivery guard fenced off a legacy verified generator, which must keep selling`);
-  const placeholder = createConsumerPaymentPlaceholder(eligibilityResult(code, label), profile.pathways[0]?.id ?? null);
-  check(placeholder.enabled === true, `${code}: a legacy verified generator lost its price`);
+    `${code}: the delivery guard fenced off a legacy verified generator, which must keep rendering`);
+  check(threw === null || threw?.name === "PacketFulfillmentNotProvenError",
+    `${code}: checkout refused a legacy jurisdiction for an unexpected reason (${threw?.name})`);
+  // The generator is preserved where preservation actually lives.
+  const route = resolvePacketRoute({ state: code, pathway: profile.pathways[0]?.id ?? null, trackId: null });
+  // Any classification EXCEPT the two that mean "this jurisdiction is unknown".
+  // Texas's first pathway is an accepted exact-supported deferral, which is a
+  // decision about that route rather than a loss of the generator.
+  check(route.routeKind !== "disabled" && route.routeKind !== "guidance_only",
+    `${code}: the packet route resolver stopped recognising this jurisdiction (${route.routeKind})`);
+  check(new RegExp(`^\\s*${code}: `, "m").test(documentRendererSource),
+    `${code}: the governed document renderer map no longer names this jurisdiction, which is what "preserved" actually protects`);
 }
 
 // --------------------------------------------------------------------------- the gate is measurably narrower
@@ -182,8 +229,13 @@ for (const route of payableAndUndeliverable) {
   } catch (error) {
     threw = error;
   }
-  check(threw instanceof ConsumerPacketNotDeliverableError,
-    `${route.key}: the evaluator marks this route payment-eligible and it cannot produce an artifact, yet checkout admitted it`);
+  // Either refusal closes the sale, and which one fires first is not the point.
+  // The fulfillment gate now runs before the deliverability test in
+  // assertCheckoutAllowed, so a route that is both unproven and undeliverable
+  // reports the stronger reason. Requiring the weaker one would fail the build
+  // for refusing too early.
+  check(threw instanceof ConsumerPacketNotDeliverableError || threw?.name === "PacketFulfillmentNotProvenError",
+    `${route.key}: the evaluator marks this route payment-eligible and it cannot produce an artifact, yet checkout admitted it (threw ${threw?.name ?? "nothing"})`);
 }
 
 if (MUTATIONS) {

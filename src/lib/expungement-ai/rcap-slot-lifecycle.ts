@@ -1,4 +1,5 @@
 import "server-only";
+import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
 
 import { emitPartnerUsageWindowEvent } from "@/lib/expungement-ai/nudge-os-events";
 import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
@@ -73,8 +74,24 @@ export async function finalizeSponsoredPacketGeneration(input: {
   briefcaseItemId: string;
   expectedVerificationHash: string;
   artifactRefs: ConsumerPacketArtifactRefs;
+  /**
+   * The route the credit is being spent on. Optional only because existing
+   * callers predate the fulfillment gate; when supplied it is checked, and a
+   * caller that omits it cannot use that omission to spend a credit on an
+   * unproven route because the generation surface has already refused.
+   */
+  fulfillmentRoute?: { jurisdiction: string | null | undefined; pathwayId: string | null | undefined };
 }): Promise<PartnerPacketRecordResult> {
   try {
+    // Packet credit consumption. A credit is spent once and is not refunded by
+    // discovering afterwards that the artifact was a text file.
+    if (input.fulfillmentRoute) {
+      assertPacketFulfillmentProven(
+        input.fulfillmentRoute.jurisdiction,
+        input.fulfillmentRoute.pathwayId,
+        "packet credit consumption"
+      );
+    }
     assertExpectedPacketVerificationHash(input.expectedVerificationHash);
   } catch (error) {
     return {

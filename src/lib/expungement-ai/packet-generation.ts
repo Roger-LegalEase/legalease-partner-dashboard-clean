@@ -11,6 +11,7 @@ import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapt
 import { consumerPacketPaymentAuthority } from "@/lib/expungement-ai/consumer-payment-authority";
 import { readTrustedBriefcasePresentationSource } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { finalizeSponsoredPacketGeneration } from "@/lib/expungement-ai/rcap-slot-lifecycle";
+import { assertPacketFulfillmentProven, packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -355,6 +356,13 @@ export async function assertPacketGenerationAllowed(
   } = {}
 ) {
   const verification = options.verification ?? await requireCurrentPacketVerification(userId, item);
+  // Packet generation. Ahead of the result code, because a ready result on a
+  // route that produces a text summary is exactly the state this refuses.
+  assertPacketFulfillmentProven(
+    verification.snapshot.jurisdiction,
+    verification.snapshot.pathwayId,
+    "packet generation"
+  );
   const resultCode = verification.snapshot.resultCode ?? "guidance_only";
   const paymentRequired = options.paymentRequired ?? true;
   const packetReadyResult = resultCode === "packet_ready" || resultCode === "packet_ready_with_caution";
@@ -381,20 +389,49 @@ function buildConsumerPacketArtifact(
   if (!profile || !pathwayId || !plan) {
     throw new ConsumerPacketGenerationError("A source-driven jurisdiction/pathway packet plan is required.");
   }
-  const text = renderSourceDrivenPacket(profile.jurisdiction.name, plan, verification);
-  const fileName = `${slug(verification.snapshot.jurisdiction)}-${slug(pathwayId)}-packet.txt`;
+  /**
+   * The purchased packet is dispatched through the governed provider, and there
+   * is no fallback.
+   *
+   * This function used to end by returning a text/plain summary built from the
+   * route's own metadata and the packet plan's readiness conditions. It took no
+   * branch on jurisdiction, pathway, packet family or plan mode, so that was
+   * the artifact for every paid packet in every state — fifty-four commercially
+   * open routes, twenty-six of them with checkout open. A route summary, a rule
+   * list and a generic checklist are not the packet a person paid for, and
+   * relabelling them as one is the failure this refuses.
+   *
+   * `assertPacketFulfillmentProven` has already run at the generation surface,
+   * so reaching this point means a fulfillment record exists and named an
+   * approved provider. Dispatch on it. Until a family is implemented behind one
+   * of those providers, the record cannot exist and generation never gets here.
+   */
+  const fulfillment = packetFulfillmentAuthority(verification.snapshot.jurisdiction, pathwayId);
+  if (!fulfillment.allowed) {
+    throw new ConsumerPacketGenerationError(
+      `No proven packet fulfillment for ${verification.snapshot.jurisdiction}:${pathwayId} (missing ${fulfillment.missing.join(", ")}). A purchased packet is not a route summary.`
+    );
+  }
+  throw new ConsumerPacketGenerationError(
+    `${fulfillment.record.artifactProvider} is recorded as the approved provider for ${verification.snapshot.jurisdiction}:${pathwayId}, and no dispatch to it is implemented in this path yet. Failing closed rather than substituting a summary.`
+  );
+}
 
-  return {
-    provider: "rcap_source_engine",
-    packetId: item.id,
-    fileName,
-    contentType: "text/plain",
-    generatedAt,
-    source: "source_driven_packet_plan",
-    packetPlanId: plan.pathwayId,
-    downloadPath: `/api/expungement-ai/packet/download?briefcaseItemId=${encodeURIComponent(item.id)}`,
-    text
-  };
+/**
+ * Kept, unreferenced by the paid path, and deliberately not deleted.
+ *
+ * This is what a purchased packet used to be. A guidance route may still save
+ * material like it — it is an honest description of a route — but it is not a
+ * filing and it may not be sold, so nothing in the paid path calls it. Deleting
+ * it would remove the record of what the defect actually looked like; leaving it
+ * reachable from generation would let it come back.
+ */
+export function renderRouteSummaryForSavedGuidance(
+  jurisdictionName: string,
+  plan: NonNullable<ReturnType<typeof packetPlanForPathway>>,
+  verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>
+) {
+  return renderSourceDrivenPacket(jurisdictionName, plan, verification);
 }
 
 export function buildMississippiPacketInformationArtifact(item: ConsumerBriefcaseItem, partnerSlug: string): ConsumerPacketArtifactRefs {
@@ -435,6 +472,14 @@ async function assertMississippiPartnerPacketReady(userId: string, item: Consume
   if (verification.snapshot.jurisdiction !== "MS") {
     throw new ConsumerPacketNotAllowedError(verification.snapshot.resultCode ?? "guidance_only");
   }
+  // Sponsored entitlement. A sponsored credit buys the same packet a payment
+  // buys, so it answers to the same proof; being partner-funded is not a
+  // reason to deliver something a paying participant would be refused.
+  assertPacketFulfillmentProven(
+    verification.snapshot.jurisdiction,
+    verification.snapshot.pathwayId,
+    "sponsored entitlement"
+  );
   const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
   if (!sponsorship.sponsored) {
     throw new ConsumerPacketPaymentRequiredError();

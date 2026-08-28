@@ -6,6 +6,7 @@ import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError 
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
+import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
@@ -92,7 +93,18 @@ export function createConsumerPaymentPlaceholder(
     pathway: pathwayId,
     trackId: result.selectedTrackId ?? null
   }));
-  const enabled = !deferred && canDeliver && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  // Consumer payment authority. A price is not shown for a packet we cannot
+  // prove we deliver, which is a stronger statement than the renderer check
+  // beside it: that one asks whether the state can render, this one asks
+  // whether this route produces the filing it promises.
+  let fulfillmentProven = true;
+  try {
+    assertPacketFulfillmentProven(result.state, pathwayId, "consumer payment authority");
+  } catch {
+    fulfillmentProven = false;
+  }
+  const enabled = !deferred && canDeliver && fulfillmentProven
+    && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
@@ -581,6 +593,10 @@ export function assertPacketRouteCanDeliver(
   snapshot: PacketVerificationSnapshot
 ): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
   if (!snapshot.pathwayId?.trim()) throw new ConsumerPacketNotDeliverableError("missing_verified_pathway");
+  // Participant delivery. The route resolver below answers "can this state
+  // render at all"; this answers "does this route deliver the packet it
+  // promises", which is the question the resolver cannot reach.
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "participant delivery");
   const route = resolvePacketRoute({
     state: snapshot.jurisdiction,
     pathway: snapshot.pathwayId,
@@ -594,6 +610,10 @@ export function assertPacketRouteCanDeliver(
 export function assertCheckoutAllowed(
   snapshot: PacketVerificationSnapshot
 ): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
+  // Checkout creation. First, before any other test: a route that cannot prove
+  // it delivers a packet does not get to be asked whether its result code and
+  // packet type look right.
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation");
   assertNotExactDeferral(snapshot);
   assertNotComponentDeferral(snapshot);
   assertNotTerminalTreatment(snapshot);
