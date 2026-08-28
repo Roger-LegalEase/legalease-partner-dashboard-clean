@@ -11,6 +11,7 @@ import { resolveRoute } from "@/lib/legal-authority/resolve-route";
 import type { FactSnapshotMap } from "@/lib/legal-authority/conditions";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudications.json";
+import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -449,6 +450,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway) : undefined;
+  if (preselectedPathway && preConflict) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "needs_review", [preConflict], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
   const preProductGuidance = preselectedPathway ? productGuidanceReason(profile, answers, preselectedPathway) : undefined;
   if (preselectedPathway && preProductGuidance) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
@@ -515,6 +525,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "court_petition_preconditions_missing", "Required court-petition precondition facts are missing.")], {
       pathwayId: pathway.id,
       missingQuestionIds: missingProductFacts,
+      paymentAllowed: false
+    });
+  }
+  const presentationConflict = presentationConflictReason(profile, pathway);
+  if (presentationConflict) {
+    const plan = packetPlanForPathway(profile, pathway.id);
+    return result(profile, request, "needs_review", [presentationConflict], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
     });
   }
@@ -1126,6 +1145,47 @@ function dcSafetyGate(profile: EngineProfile, answers: Record<string, ScreeningA
     }
   }
   return undefined;
+}
+
+/**
+ * Routes whose participant-facing text and whose contract describe different
+ * things. Held on that, specifically.
+ *
+ * Georgia's legacy first-offender route is the case this exists for. Its
+ * contract is right — § 42-8-62.1 under LD-GA-01 — and its compiled summary and
+ * rule clauses are the whole Georgia restriction-and-sealing chapter, naming
+ * five other mechanisms that have their own routes and never naming § 42-8-62.1
+ * at all. The canonical resolver reads the contract and calls the route a
+ * sellable participant packet with no open gates. Nothing sells today only
+ * because an unrelated Lawrence hold happens to close it, and that hold could be
+ * lifted without anyone looking at this.
+ */
+const PRESENTATION_CONFLICT_ROUTE_KEYS: ReadonlySet<string> = new Set(
+  (routePresentationConflicts as { rows: { routeKey: string; status: string }[] }).rows
+    .filter((row) => row.status === "held")
+    .map((row) => row.routeKey)
+);
+
+/**
+ * The presentation conflict, as a reason.
+ *
+ * It runs ahead of every product-guidance and hold check, because those answer
+ * "what does this route do" and this one answers "do we know what we are
+ * showing this participant". Placed after them it would never fire: Georgia's
+ * legacy route is already caught by the Lawrence guidance hold, so the check
+ * would look present and prove nothing.
+ *
+ * `needs_review`, not `guidance_only`. A held petition route is not guidance,
+ * and describing it as guidance is the same class of error as the conflict.
+ */
+function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (!PRESENTATION_CONFLICT_ROUTE_KEYS.has(`${profile.jurisdiction.code}:${pathway.id}`)) return undefined;
+  return reason(
+    profile.jurisdiction.code,
+    "route_presentation_conflicts_with_its_contract",
+    "This route's description and the packet its legal authority defines do not describe the same mechanism, so no packet decision or checkout may proceed until the description is corrected.",
+    pathway.sourceRef
+  );
 }
 
 function postTimingPolicyReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
