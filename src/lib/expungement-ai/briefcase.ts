@@ -789,8 +789,7 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
     createdAt: startedAt,
     summary: "Free screening started and saved to your Briefcase.",
     nextSteps: ["Finish the screening questions.", "Return here any time to continue."],
-    paymentAllowed: false,
-    packetReady: false
+    paymentAllowed: false
   };
   rememberFallbackItem(userId, item);
   return item;
@@ -808,7 +807,6 @@ export function saveEligibilityResultToBriefcase(result: ExpungementAiEligibilit
     summary: result.userLabel,
     nextSteps: result.nextSteps,
     paymentAllowed: result.paymentAllowed,
-    packetReady: result.resultCode === "packet_ready" || result.resultCode === "packet_ready_with_caution",
     pathwayLabel: result.pathwayLabel,
     packetType: result.packetType,
     ...(result.treatmentClassification === "component_deferral"
@@ -844,7 +842,6 @@ export function saveGeneratedPacketToBriefcase(result: ExpungementAiEligibilityR
     summary: "Generated packet saved to Briefcase.",
     nextSteps: ["Download your packet.", "Review the filing checklist before you file."],
     paymentAllowed: false,
-    packetReady: true,
     pathwayLabel: result.pathwayLabel,
     packetType: result.packetType,
     packetStatus: "ready" as const
@@ -894,8 +891,7 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
       createdAt: startedAt,
       summary: "Wilma explained what a filing checklist is and pointed back to the free screening.",
       nextSteps: ["Continue the check from Briefcase."],
-      paymentAllowed: false,
-      packetReady: false
+      paymentAllowed: false
     }
   ];
 }
@@ -921,7 +917,6 @@ function fallbackItemFromCreateInput(input: CreateConsumerBriefcaseItemInput): C
     summary: input.summary,
     nextSteps: input.nextSteps,
     paymentAllowed: input.paymentAllowed,
-    packetReady: input.status === "packet_ready",
     pathwayLabel: input.pathwayLabel,
     packetType: input.packetType,
     artifactRefs: input.artifactRefs,
@@ -954,7 +949,6 @@ function rowToBriefcaseItem(row: ConsumerBriefcaseRow): ConsumerBriefcaseItem {
     summary: summaryText,
     nextSteps: Array.isArray(row.next_steps_json) ? row.next_steps_json : [],
     paymentAllowed: row.payment_allowed,
-    packetReady: row.status === "packet_ready",
     pathwayLabel: row.pathway_label ?? undefined,
     packetType: row.packet_type ?? undefined,
     artifactRefs: row.artifact_refs_json,
