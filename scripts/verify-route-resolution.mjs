@@ -521,12 +521,39 @@ for (const row of contradictions.rows) {
     row.proposal.preservedOutcomeMode === contract.outcomeMode
     && Boolean(row.proposal.preservedServiceDisposition));
 }
-ok("the eleven rows are adjudicated individually, not as one move",
-  new Set(contradictions.rows.map((r) => r.adjudication?.serviceDisposition)).size > 1,
+/**
+ * The register shrank because the contradictions were resolved, not hidden.
+ *
+ * It carried four rows and now carries one. Three left — ME:adult-non-
+ * conviction-record-relief, ND:non-conviction-court-record-closing-under-n-d-c-c
+ * -12-60-1-05 and WV:pardon-based-expungement — when the sellable-pathway
+ * closure was regenerated and classified them non_filing_guidance. A
+ * contradiction row exists because a route is BOTH in the paid denominator and
+ * guidance; once it is only guidance, there is nothing left to contradict.
+ *
+ * So the assertions are stated against departures by name rather than against a
+ * count. The one that matters is the direction each row left in: a route may
+ * leave this register by ceasing to be paid, and never by becoming sellable.
+ */
+const CONTRADICTIONS_DEPARTED = new Map([
+  ["ME:adult-non-conviction-record-relief", "the closure classifies it non_filing_guidance, so it is no longer in the paid denominator"],
+  ["ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", "the closure classifies it non_filing_guidance; it was the row blocked on the closure vocabulary, and the vocabulary is what resolved it"],
+  ["WV:pardon-based-expungement", "the closure classifies it non_filing_guidance, consistent with its contract carrying packetFamily null"]
+]);
+const contradictionKeys = new Set(contradictions.rows.map((r) => r.pathwayKey));
+for (const [key, why] of CONTRADICTIONS_DEPARTED) {
+  ok(`${key} left the contradiction register: ${why}`, !contradictionKeys.has(key));
+  const departedContract = contractByKey.get(key);
+  ok(`${key} left by ceasing to be paid, not by becoming sellable`,
+    routePaymentAuthority(departedContract) !== "packet_checkout",
+    routePaymentAuthority(departedContract));
+}
+ok("every remaining row is adjudicated individually",
+  contradictions.rows.every((r) => Boolean(r.adjudication?.serviceDisposition)),
   JSON.stringify(contradictions.serviceDispositions));
-ok("North Dakota is branch_mixed and blocked on the closure vocabulary",
-  contradictions.rowsBlockedOnVocabulary.length === 1
-  && contradictions.rowsBlockedOnVocabulary[0].pathwayKey.startsWith("ND:"));
+ok("no row is left blocked on the closure vocabulary",
+  contradictions.rowsBlockedOnVocabulary.length === 0,
+  JSON.stringify(contradictions.rowsBlockedOnVocabulary.map((r) => r.pathwayKey)));
 ok("Minnesota's two conflated mechanisms are named",
   (contradictions.rows.find((r) => r.pathwayKey.startsWith("MN:"))?.adjudication?.conflatesDistinctMechanisms ?? []).length === 2);
 // Rhode Island has left the contradiction register — it is reclassified — so the
@@ -568,13 +595,19 @@ for (const key of RECLASSIFIED) {
 // Two rows remain held, each on a condition the owner's approval states: North
 // Dakota until its branches are classified separately, Minnesota until its two
 // mechanisms are separated.
-for (const key of [
-  "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-  "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06"
-]) {
+// North Dakota's hold has been LIFTED, and by the condition the owner's approval
+// named: it was held "until its branches are classified separately", and the
+// regenerated closure now classifies it non_filing_guidance rather than
+// paid_packet_intended. A hold whose condition is met is not still a hold.
+// Minnesota's condition — separating its two conflated mechanisms — has not
+// been met, so it stays.
+for (const key of ["MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06"]) {
   ok(`${key}: held back, still in the paid denominator`,
     closureByKey.get(key)?.category === "paid_packet_intended", closureByKey.get(key)?.category ?? "absent");
 }
+ok("North Dakota's hold is lifted by its condition being met, not by being dropped",
+  closureByKey.get("ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05")?.category === "non_filing_guidance",
+  closureByKey.get("ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05")?.category ?? "absent");
 // An accounted total rather than a frozen one. A contradiction is a PROPOSAL —
 // the closure ledger sells a pathway the route authority says is not a packet —
 // so the count moves whenever a batch gives such a route its first contract,
@@ -595,9 +628,27 @@ const CONTRADICTION_BASELINE = {
     }
   ]
 };
-const expectedContradictions = CONTRADICTION_BASELINE.recorded + CONTRADICTION_BASELINE.additions.length;
+/**
+ * Departures, named. A contradiction row is resolved when the route stops being
+ * in the paid denominator, and each of these three did exactly that when the
+ * sellable-pathway closure was regenerated. Subtracting them without saying so
+ * would make a resolved contradiction indistinguishable from a deleted one.
+ */
+CONTRADICTION_BASELINE.departures = [
+  { pathwayKey: "ME:adult-non-conviction-record-relief", reason: "the closure now classifies it non_filing_guidance, which is what its Batch B contract said all along" },
+  { pathwayKey: "WV:pardon-based-expungement", reason: "the closure now classifies it non_filing_guidance, matching its Batch C contract's packetFamily null" },
+  { pathwayKey: "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", reason: "the row that was blocked on the closure vocabulary; the vocabulary now classifies it non_filing_guidance, which is the condition the owner's approval named" }
+];
+const expectedContradictions = CONTRADICTION_BASELINE.recorded
+  + CONTRADICTION_BASELINE.additions.length
+  - CONTRADICTION_BASELINE.departures.length;
 ok(`${expectedContradictions} rows remain in the contradiction register`,
   contradictions.total === expectedContradictions, String(contradictions.total));
+for (const departure of CONTRADICTION_BASELINE.departures) {
+  ok(`${departure.pathwayKey}: departed for a recorded reason — ${departure.reason}`,
+    closureByKey.get(departure.pathwayKey)?.category === "non_filing_guidance",
+    closureByKey.get(departure.pathwayKey)?.category ?? "absent");
+}
 for (const addition of CONTRADICTION_BASELINE.additions) {
   ok(`${addition.pathwayKey}: the new contradiction is a proposal, not a decision`,
     (contradictions.rows ?? contradictions.pathways ?? []).every?.((row) =>
