@@ -225,9 +225,17 @@ assert(flowSrc.includes("hasScreeningSession={isPartnerSession}"), "ScreeningFlo
 // result to the consumer payment page.
 assert(flowSrc.includes("onPacketAction={() => void handlePacketAction()}"), "ScreeningFlow must route the packet action through handlePacketAction.");
 assert(flowSrc.includes('/api/expungement-ai/screening/pending'), "Screening result action must persist server-verifiable inputs before claiming a matter.");
-assert(flowSrc.includes('/api/expungement-ai/screening/pending/claim'), "Authenticated screening result action must claim the pending result into the exact Briefcase matter.");
-assert(flowSrc.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending handoff must keep RCAP and DTC product identity distinct.");
-assert(flowSrc.includes("router.push(claimed.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
+const claimHandoffSrc = readFileSync(path.join(process.cwd(), "src/lib/expungement-ai/claim/claim-handoff.ts"), "utf8");
+assert(claimHandoffSrc.includes('/api/expungement-ai/screening/pending/claim'), "Authenticated screening result action must claim the pending result into the exact matter.");
+// Product identity is now decided by the server from its own record of the
+// anonymous session. A browser that could name its product could elect itself
+// into sponsorship it was never granted.
+assert(flowSrc.includes("anonymousSessionId:"), "Pending handoff must name the anonymous session so the server can keep RCAP and DTC identity distinct.");
+assert(!flowSrc.includes('product: isPartnerSession'), "The browser must not declare RCAP versus DTC product identity.");
+assert(readFileSync(path.join(process.cwd(), "src/app/api/expungement-ai/screening/pending/route.ts"), "utf8")
+  .includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'),
+  "Pending storage must keep RCAP and DTC product identity distinct, server-side.");
+assert(flowSrc.includes("router.push(claim.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
 assert(!flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC result must not bypass the builder/review flow by routing directly to payment.");
 assert(!flowSrc.includes('next: "/expungement-ai/pay"'), "Anonymous DTC result handoff must not bypass the saved matter and builder with payment as next.");
 assert(!flowSrc.includes('/expungement-ai/packet-ready"'), "DTC packet action must not bypass payment to packet-ready.");

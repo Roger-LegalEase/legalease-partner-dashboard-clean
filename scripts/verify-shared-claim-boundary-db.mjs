@@ -19,8 +19,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MIGRATION = "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql";
 
 if (!ephemeralPgAvailable()) {
-  console.error("Shared claim boundary DB proof requires PostgreSQL 16 binaries (initdb, pg_ctl).");
-  process.exit(2);
+  console.error("verify-shared-claim-boundary-db requires a local PostgreSQL toolchain.");
+  process.exit(1);
 }
 
 const ids = {
@@ -298,7 +298,144 @@ try {
       '${token("u3")}', null, ${matterPayload()}, 'req-9')`);
   check(/claim_requires_authenticated_participant/.test(anonymousClaim), "a null participant is refused");
 
-  section("13. Concurrency: two claimants, one matter");
+  section("13. The anonymous boundary holds until the claim");
+  {
+    const anon = "30000000-0000-4000-8000-00000000000a";
+    db.sql(seedPending(anon, hashOf(token("anon"))));
+    const before = db.json(`select to_jsonb(t) from (select
+        (select count(*)::int from public.consumer_briefcase_items where source_pending_result_id = '${anon}') as matters,
+        (select count(*)::int from public.consumer_pending_screening_results
+           where pending_id = '${anon}' and claimed_user_id is null and claimed_matter_id is null) as unowned
+      ) t`);
+    check(before.matters === 0, "an unclaimed preliminary result has produced no matter");
+    check(before.unowned === 1, "an unclaimed preliminary result has no owner and no matter link");
+
+    // The pending result is structurally incapable of holding the things a
+    // matter holds. This is the anonymous boundary as a schema fact rather than
+    // a convention.
+    const pendingHas = (column) => column in pendingColumns;
+    for (const forbidden of [
+      "user_id", "owner_user_id", "briefcase_id", "payment_status", "amount_cents",
+      "checkout_session_id", "payment_intent_id", "entitlement_id", "artifact_id",
+      "render_job_id", "verification_snapshot", "upload_id"
+    ]) {
+      check(!pendingHas(forbidden), `a pending result carries no ${forbidden}`);
+    }
+    check(
+      db.scalar(`select count(*)::int from information_schema.columns
+                   where table_schema = 'public' and table_name = 'consumer_pending_screening_results'
+                     and column_name like '%packet_status%'`) === "0",
+      "a pending result carries no packet status"
+    );
+  }
+
+  section("14. RCAP: attribution travels, ownership does not");
+  {
+    const partnerPending = "30000000-0000-4000-8000-00000000000b";
+    db.sql(`insert into public.consumer_pending_screening_results
+      (pending_id, claim_token_hash, product, jurisdiction, result_code, summary,
+       screening_answers, profile_version, screening_correlation_id, anonymous_session_id,
+       locale, partner_slug, program_id, event_id, campaign_name, access_code_id, consent_grant_id,
+       expires_at, status)
+     values ('${partnerPending}', '${hashOf(token("rcap"))}', 'rcap_partner', 'MS', 'packet_ready',
+       'A path may be available.', '{"q1":"yes"}'::jsonb, 'v1', 'corr-2', '${ids.sessionA}',
+       'es', 'we-must-vote', 'record-clearing', '40000000-0000-4000-8000-000000000001',
+       'fall-drive', '50000000-0000-4000-8000-000000000001', '60000000-0000-4000-8000-000000000001',
+       now() + interval '24 hours', 'PENDING')`);
+
+    const partnerMatter = `'${JSON.stringify({
+      item_type: "result",
+      jurisdiction: "MS",
+      result_code: "packet_ready",
+      payment_allowed: false,
+      status: "packet_ready",
+      summary_json: { text: "A path may be available." },
+      next_steps_json: [],
+      artifact_refs_json: {
+        attribution: {
+          product: "rcap_partner",
+          partnerSlug: "we-must-vote",
+          programId: "record-clearing",
+          eventId: "40000000-0000-4000-8000-000000000001",
+          campaignName: "fall-drive",
+          accessCodeId: "50000000-0000-4000-8000-000000000001",
+          consentGrantId: "60000000-0000-4000-8000-000000000001",
+          locale: "es"
+        }
+      },
+      payment_status: "not_applicable",
+      packet_status: "not_started",
+      product: "rcap_partner"
+    })}'::jsonb`;
+
+    const rcapClaim = db.json(`select to_jsonb(t) from public.claim_pending_screening_result(
+        '${token("rcap")}', '${ids.userA}'::uuid, ${partnerMatter}, 'rcap-1') t`);
+    check(rcapClaim.outcome === "claimed", "a sponsored preliminary result claims like any other", JSON.stringify(rcapClaim));
+
+    const matter = db.json(`select to_jsonb(t) from (select user_id, payment_allowed, payment_status,
+        artifact_refs_json -> 'attribution' as attribution
+      from public.consumer_briefcase_items where id = '${rcapClaim.matter_id}') t`);
+    check(matter.user_id === ids.userA, "the participant owns the sponsored matter");
+    check(matter.attribution?.partnerSlug === "we-must-vote", "partner attribution reached the matter");
+    check(matter.attribution?.eventId === "40000000-0000-4000-8000-000000000001", "event attribution reached the matter");
+    check(matter.attribution?.campaignName === "fall-drive", "campaign attribution reached the matter");
+    check(matter.attribution?.consentGrantId === "60000000-0000-4000-8000-000000000001", "the consent reference reached the matter");
+    check(matter.attribution?.locale === "es", "locale reached the matter");
+    check(matter.payment_allowed === false && matter.payment_status === "not_applicable",
+      "a sponsored matter carries no consumer payment posture");
+
+    // Attribution is a record of who sponsored the work. It is not an owner, and
+    // there is nowhere on the matter for a partner to become one.
+    check(
+      db.scalar(`select count(*)::int from information_schema.columns
+                   where table_schema = 'public' and table_name = 'consumer_briefcase_items'
+                     and column_name in ('partner_slug', 'partner_id', 'owner_partner_slug')`) === "0",
+      "the canonical matter has no partner-ownership column at all"
+    );
+
+    const audit = db.json(`select to_jsonb(t) from (select partner_slug, event_id, actor_user_id
+      from public.participant_claim_events
+      where pending_result_id = '${partnerPending}' and event = 'claim_succeeded') t`);
+    check(audit.partner_slug === "we-must-vote" && audit.event_id === "40000000-0000-4000-8000-000000000001",
+      "the claim audit records which partner and event the claim belonged to");
+    check(audit.actor_user_id === ids.userA, "the claim audit records the participant, not the partner");
+
+    // Two partners, one participant: two matters, one owner, no crossing.
+    const secondPartner = "30000000-0000-4000-8000-00000000000c";
+    db.sql(`insert into public.consumer_pending_screening_results
+      (pending_id, claim_token_hash, product, jurisdiction, result_code, summary,
+       screening_answers, profile_version, screening_correlation_id, partner_slug, expires_at, status)
+     values ('${secondPartner}', '${hashOf(token("rcap2"))}', 'rcap_partner', 'IL', 'guidance_only',
+       'Next steps.', '{}'::jsonb, 'v1', 'corr-3', 'other-partner', now() + interval '24 hours', 'PENDING')`);
+    const second = db.json(`select to_jsonb(t) from public.claim_pending_screening_result(
+        '${token("rcap2")}', '${ids.userA}'::uuid,
+        '{"item_type":"result","jurisdiction":"IL","status":"guidance_saved","result_code":"guidance_only","payment_allowed":false,"product":"rcap_partner"}'::jsonb,
+        'rcap-2') t`);
+    check(second.outcome === "claimed", "a second partner's result claims independently");
+    check(second.matter_id !== rcapClaim.matter_id, "each partner's result produces its own matter");
+    check(
+      db.scalar(`select count(distinct user_id)::int from public.consumer_briefcase_items
+                   where id in ('${rcapClaim.matter_id}', '${second.matter_id}')`) === "1",
+      "both matters have the same single participant owner"
+    );
+
+    // A pending result attributed to one partner cannot be claimed into another
+    // product's posture: the product is read from the stored row, not the caller.
+    const mismatched = db.json(`select to_jsonb(t) from public.claim_pending_screening_result(
+        '${token("u1")}', '${ids.userB}'::uuid,
+        '{"item_type":"result","jurisdiction":"MS","status":"packet_ready","result_code":"packet_ready","payment_allowed":true,"product":"rcap_partner"}'::jsonb,
+        'mismatch-1') t`);
+    check(mismatched.outcome === "denied_product_mismatch",
+      "a caller cannot claim a DTC result into a sponsored posture", JSON.stringify(mismatched));
+    check(
+      db.scalar(`select count(*)::int from public.consumer_briefcase_items
+                   where source_pending_result_id = '30000000-0000-4000-8000-000000000001'
+                     and user_id = '${ids.userB}'`) === "0",
+      "a denied product mismatch creates no matter"
+    );
+  }
+
+  section("15. Concurrency: two claimants, one matter");
   await concurrency(db, check, hashOf, token, ids, matterPayload);
 } finally {
   db.stop();

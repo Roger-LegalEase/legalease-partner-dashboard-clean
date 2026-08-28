@@ -17,3 +17,17 @@ Neither was applied to any environment. The first is inert — a column-level
 `REVOKE` beneath a table-level `GRANT SELECT` changes no effective privilege in
 PostgreSQL. The second treats the symptom: it gives an owner to an object that
 should not be durable before a claim.
+
+## Their verifiers were removed, deliberately
+
+`scripts/verify-pin05-participant-pii-privileges.mjs` and
+`scripts/verify-pin05-participant-ownership.mjs` were deleted along with their
+npm scripts. Both read the migration text and asserted on it, and both passed
+against `20260828000000` — which is inert. A verifier that reads SQL and reports
+that a control exists is how an inert control looks like a working one.
+
+What replaced them measures behaviour instead:
+`scripts/verify-shared-claim-boundary-db.mjs` applies the real migration to a
+throwaway PostgreSQL 16 cluster and asks the database what a role can actually
+do, using `has_table_privilege`, `has_column_privilege`, `pg_policies` and real
+DML. `scripts/verify-shared-claim-boundary-app.mjs` covers the application half.
