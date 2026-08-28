@@ -3,12 +3,12 @@
   "generatedBy": "scripts/generate-pathway-bridge-adjudication.mjs",
   "question": "The authority finalization published fourteen pathways as approved-track bridges. How many of those candidates survive evidence?",
   "correction": "These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING, assigned by a lexical Jaccard candidate finder at a 0.34 threshold. A candidate finder proposes; it does not decide. This register adjudicates each candidate against the legal-authority route record's statute, stage and outcomeMode, and against the memo track's controlling authority and population.",
-  "subjectCount": 34,
+  "subjectCount": 33,
   "counts": {
-    "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 6,
-    "CANDIDATE_REJECTED": 9,
+    "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 5,
+    "CANDIDATE_REJECTED": 10,
     "NO_CANDIDATE_TRACK_EXISTS": 15,
-    "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 2,
+    "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 1,
     "UNDECIDED_INSUFFICIENT_EVIDENCE": 2
   },
   "rows": [
@@ -183,56 +183,6 @@
       "action": "Do not bind this pathway to id_isp_expungement. ID carries no track for this population at all, so this is new legal design work, not a bridge."
     },
     {
-      "pathwayKey": "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-      "jurisdiction": "ID",
-      "pathwayLabel": "Withheld-judgment / Idaho Code § 19-2604 review branch",
-      "candidateTrackId": "id_set_aside_dismissal",
-      "candidateTrackName": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": null,
-      "lexicalMatchScore": 0,
-      "finalizationClassification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
-      "routeAuthority": null,
-      "trackCitations": [
-        "I.C. § 19-2604(1)"
-      ],
-      "sharedCitationKeys": [
-        "192604"
-      ],
-      "sharedExactCitationKeys": [
-        "192604"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "id_set_aside_dismissal",
-          "legalName": "Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1)",
-          "sharedKeys": [
-            "192604"
-          ],
-          "eligibleDispositions": [
-            "sentence imposed but suspended",
-            "sentence withheld",
-            "graduation from an authorized drug court or mental health court program with compliance during any subsequent probation"
-          ]
-        },
-        {
-          "trackId": "id_felony_reduction",
-          "legalName": "Application to Amend Judgment to a Misdemeanor, I.C. § 19-2604(2)",
-          "sharedKeys": [
-            "192604"
-          ],
-          "eligibleDispositions": [
-            "judgment of conviction imposing a term in the custody of the Board of Correction"
-          ]
-        }
-      ],
-      "disqualifiers": [],
-      "samePopulationTracks": [],
-      "verdict": "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION",
-      "reason": "2 tracks in ID cite the same provision as this route and none is distinguished by subsection: id_set_aside_dismissal, id_felony_reduction. Picking one would be an arbitrary choice presented as a finding.",
-      "action": "Decide which of id_set_aside_dismissal or id_felony_reduction covers ID:withheld-judgment-idaho-code-19-2604-review-branch, then bind it. The distinguishing evidence is the eligible disposition, not the citation."
-    },
-    {
       "pathwayKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
       "jurisdiction": "IL",
       "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
@@ -252,6 +202,37 @@
       "verdict": "NO_CANDIDATE_TRACK_EXISTS",
       "reason": "No track in IL's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.",
       "action": "Write the legal design for IL:human-trafficking-survivor-vacatur-and-expungement, or record it as intentionally outside product scope through the signed reclassification register."
+    },
+    {
+      "pathwayKey": "IL:juvenile-automatic-or-petition-expungement",
+      "jurisdiction": "IL",
+      "pathwayLabel": "Juvenile automatic or petition expungement",
+      "candidateTrackId": "il-exp-pardon",
+      "candidateTrackName": "Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement",
+      "candidateSource": "lexical",
+      "lexicalCandidateTrackId": "il-exp-pardon",
+      "lexicalMatchScore": 0.5,
+      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
+      "routeAuthority": null,
+      "trackCitations": [
+        "20 ILCS 2630/5.2(e)",
+        "20 ILCS 2630/5.2(d)(5)(A)",
+        "20 ILCS 2630/5.2(d)(2)"
+      ],
+      "sharedCitationKeys": [],
+      "sharedExactCitationKeys": [],
+      "statutoryMatchesAtTopRank": [],
+      "disqualifiers": [
+        {
+          "test": "population",
+          "finding": "The pathway is juvenile relief and il-exp-pardon (Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement) is not. Juvenile record relief is a separate statutory scheme heard in a different court; the shared word \"expungement\" is not coverage.",
+          "source": "data/record-clearing/legal-design-intake/IL"
+        }
+      ],
+      "samePopulationTracks": [],
+      "verdict": "CANDIDATE_REJECTED",
+      "reason": "The lexical candidate il-exp-pardon is refuted by 1 test: population.",
+      "action": "Do not bind this pathway to il-exp-pardon. IL carries no track for this population at all, so this is new legal design work, not a bridge."
     },
     {
       "pathwayKey": "MD:juvenile-expungement",
@@ -696,44 +677,6 @@
       "verdict": "TRACK_MATCHED_BUT_DESIGN_DEFERRED",
       "reason": "nv-ls-1 cites the same provision as this route (179247) and is the correct track, but its design status is legal_research_required.",
       "action": "Complete the deferred legal research on nv-ls-1, then bind NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 to it. Do not commission a new design; the track already exists."
-    },
-    {
-      "pathwayKey": "NY:conditional-treatment-sealing-under-cpl-160-58",
-      "jurisdiction": "NY",
-      "pathwayLabel": "Conditional / treatment sealing under CPL 160.58",
-      "candidateTrackId": "ny_160_58_conditional",
-      "candidateTrackName": "Conditional Sealing After Judicial Diversion or Court-Approved Treatment (CPL § 160.58)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ny_160_58_conditional",
-      "lexicalMatchScore": 1,
-      "finalizationClassification": "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS",
-      "routeAuthority": null,
-      "trackCitations": [
-        "N.Y. Crim. Proc. Law § 160.58"
-      ],
-      "sharedCitationKeys": [
-        "16058"
-      ],
-      "sharedExactCitationKeys": [
-        "16058"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ny_160_58_conditional",
-          "legalName": "Conditional Sealing After Judicial Diversion or Court-Approved Treatment (CPL § 160.58)",
-          "sharedKeys": [
-            "16058"
-          ],
-          "eligibleDispositions": [
-            "convicted"
-          ]
-        }
-      ],
-      "disqualifiers": [],
-      "samePopulationTracks": [],
-      "verdict": "TRACK_MATCHED_BUT_DESIGN_DEFERRED",
-      "reason": "ny_160_58_conditional cites the same provision as this route (16058) and is the correct track, but its design status is legal_research_required.",
-      "action": "Complete the deferred legal research on ny_160_58_conditional, then bind NY:conditional-treatment-sealing-under-cpl-160-58 to it. Do not commission a new design; the track already exists."
     },
     {
       "pathwayKey": "OH:juvenile-sealing-and-expungement",

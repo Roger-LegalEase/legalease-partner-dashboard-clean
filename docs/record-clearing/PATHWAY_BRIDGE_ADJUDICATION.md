@@ -7,21 +7,13 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 | Verdict | Candidates |
 |---|---:|
 | NO_CANDIDATE_TRACK_EXISTS | 15 |
-| CANDIDATE_REJECTED | 9 |
-| TRACK_MATCHED_BUT_DESIGN_DEFERRED | 6 |
-| BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 2 |
+| CANDIDATE_REJECTED | 10 |
+| TRACK_MATCHED_BUT_DESIGN_DEFERRED | 5 |
 | UNDECIDED_INSUFFICIENT_EVIDENCE | 2 |
-| **TOTAL** | **34** |
+| BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 1 |
+| **TOTAL** | **33** |
 
 ## BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION
-
-### `ID:withheld-judgment-idaho-code-19-2604-review-branch`
-
-- **Lexical candidate**: `id_set_aside_dismissal` — Application for Set-Aside, Dismissal and Discharge, I.C. § 19-2604(1) (score undefined)
-- **Route authority**: no record
-- **Track authority**: I.C. § 19-2604(1)
-- **Reason**: 2 tracks in ID cite the same provision as this route and none is distinguished by subsection: id_set_aside_dismissal, id_felony_reduction. Picking one would be an arbitrary choice presented as a finding.
-- **Action**: Decide which of id_set_aside_dismissal or id_felony_reduction covers ID:withheld-judgment-idaho-code-19-2604-review-branch, then bind it. The distinguishing evidence is the eligible disposition, not the citation.
 
 ### `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4`
 
@@ -61,6 +53,15 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Refuted on population**: The pathway is juvenile relief and id_isp_expungement (Application for Expungement of a Non-Conviction Record, I.C. § 67-3004(10)) is not. Juvenile record relief is a separate statutory scheme heard in a different court; the shared word "expungement" is not coverage.
 - **Reason**: The lexical candidate id_isp_expungement is refuted by 1 test: population.
 - **Action**: Do not bind this pathway to id_isp_expungement. ID carries no track for this population at all, so this is new legal design work, not a bridge.
+
+### `IL:juvenile-automatic-or-petition-expungement`
+
+- **Lexical candidate**: `il-exp-pardon` — Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement (score undefined)
+- **Route authority**: no record
+- **Track authority**: 20 ILCS 2630/5.2(e); 20 ILCS 2630/5.2(d)(5)(A); 20 ILCS 2630/5.2(d)(2)
+- **Refuted on population**: The pathway is juvenile relief and il-exp-pardon (Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement) is not. Juvenile record relief is a separate statutory scheme heard in a different court; the shared word "expungement" is not coverage.
+- **Reason**: The lexical candidate il-exp-pardon is refuted by 1 test: population.
+- **Action**: Do not bind this pathway to il-exp-pardon. IL carries no track for this population at all, so this is new legal design work, not a bridge.
 
 ### `MD:juvenile-expungement`
 
@@ -249,14 +250,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Track authority**: NRS 179.247; NRS 179.245; NRS 201.354
 - **Reason**: nv-ls-1 cites the same provision as this route (179247) and is the correct track, but its design status is legal_research_required.
 - **Action**: Complete the deferred legal research on nv-ls-1, then bind NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247 to it. Do not commission a new design; the track already exists.
-
-### `NY:conditional-treatment-sealing-under-cpl-160-58`
-
-- **Lexical candidate**: `ny_160_58_conditional` — Conditional Sealing After Judicial Diversion or Court-Approved Treatment (CPL § 160.58) (score undefined)
-- **Route authority**: no record
-- **Track authority**: N.Y. Crim. Proc. Law § 160.58
-- **Reason**: ny_160_58_conditional cites the same provision as this route (16058) and is the correct track, but its design status is legal_research_required.
-- **Action**: Complete the deferred legal research on ny_160_58_conditional, then bind NY:conditional-treatment-sealing-under-cpl-160-58 to it. Do not commission a new design; the track already exists.
 
 ### `OK:human-trafficking-survivor-relief`
 
