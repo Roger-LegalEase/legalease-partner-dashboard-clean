@@ -34,6 +34,7 @@
       "effectiveFrom": "2026-08-28",
       "deliveryGates": [
         {
+          "id": "sc_pti_circuit_solicitor_configuration",
           "kind": "source_acquisition",
           "items": [
             "the circuit-specific solicitor application form or intake instruction",
@@ -41,14 +42,34 @@
             "the delivery method and address that circuit requires"
           ],
           "owner": "RCAP source acquisition",
+          "statusSource": "server_configuration_record",
+          "evidenceReference": "pending: no circuit configuration record exists yet",
           "note": "The statewide rule is settled; what is missing is per-circuit administrative detail. This gate holds the guidance content, not the legal answer."
         }
       ],
       "failureDisposition": [
         {
-          "when": "the solicitor denies the expungement, or eligibility is contested",
+          "id": "sc_pti_solicitor_denied",
+          "when": "the solicitor denies the expungement",
+          "selector": {
+            "operator": "equals",
+            "factId": "sc_pti_solicitor_decision",
+            "value": "denied",
+            "requiredProvenance": "participant_authenticated"
+          },
           "disposition": "retained_counsel",
-          "note": "A contested solicitor decision is individualized advocacy, not a self-help filing. This is a service disposition, not missing statewide research."
+          "note": "A denied application is individualized advocacy, not a self-help filing. This is a service disposition, not missing statewide research."
+        },
+        {
+          "id": "sc_pti_eligibility_contested",
+          "when": "eligibility is contested by the solicitor",
+          "selector": {
+            "operator": "is_true",
+            "factId": "sc_pti_eligibility_contested",
+            "requiredProvenance": "participant_authenticated"
+          },
+          "disposition": "retained_counsel",
+          "note": "A contested eligibility question leaves the ordinary route entirely."
         }
       ],
       "commercialPosture": {
@@ -106,55 +127,92 @@
           "id": "pre_effective_date_petition",
           "when": "the qualifying disposition was entered before 2025-08-01",
           "selector": {
+            "operator": "date_before",
             "factId": "nd_qualifying_disposition_date",
-            "kind": "date_before",
-            "value": "2025-08-01"
+            "value": "2025-08-01",
+            "requiredProvenance": "verified_record",
+            "requiredPhase": "FINAL_VERIFICATION"
           },
           "outcomeMode": "participant_packet",
           "packetFamily": "North Dakota § 12-60.1-05 Petition and Proposed Order",
-          "branchDeliveryGates": [
-            "artifact_generation"
+          "stage": "single_stage",
+          "packetComponents": [
+            "Petition under N.D.C.C. § 12-60.1-05",
+            "Proposed order"
           ],
-          "note": "Before the amendment took effect the record does not close by operation of law, so the participant files the official petition and proposed order. The artifact does not exist yet, so this branch resolves to a held state that says the petition path is identified and not yet available. It must never be served the post-2025 verification guidance as though that were the completed outcome: the record will not close on its own and the participant would wait for something that never happens."
+          "commercialPosture": {
+            "checkoutEnabled": true,
+            "sponsoredGenerationEnabled": true,
+            "packetCreditsConsumed": 1,
+            "note": "This branch is a real participant filing, so its posture is its own rather than the automatic parent's. It stays closed today because its artifact gate is open, not because the branch forbids selling."
+          },
+          "branchDeliveryGateIds": [
+            "nd_pre_2025_petition_artifact"
+          ],
+          "note": "Before the amendment took effect the record does not close by operation of law, so the participant files the official petition and proposed order. The artifact does not exist yet, so this branch resolves to identified-but-not-yet-available. It must never be served the post-2025 verification guidance as though that were the completed outcome: the record will not close on its own and the participant would wait for something that never happens."
         },
         {
           "id": "post_effective_date_automatic",
           "when": "the qualifying disposition was entered on or after 2025-08-01",
           "selector": {
+            "operator": "date_on_or_after",
             "factId": "nd_qualifying_disposition_date",
-            "kind": "date_on_or_after",
-            "value": "2025-08-01"
+            "value": "2025-08-01",
+            "requiredProvenance": "verified_record",
+            "requiredPhase": "FINAL_VERIFICATION"
           },
           "outcomeMode": "automatic_relief",
           "packetFamily": null,
+          "stage": "automatic",
           "note": "The record closes by operation of the statute. Wait 61 complete days from the qualifying disposition, verify on day 62 or the next business day, and file nothing to obtain the closure itself."
         }
       ],
       "failureDisposition": [
         {
+          "id": "nd_still_public_day_62",
           "when": "the record still appears on the public index on day 62",
+          "selector": {
+            "operator": "is_true",
+            "factId": "nd_record_still_public_on_day_62",
+            "requiredProvenance": "participant_authenticated"
+          },
           "disposition": "agency_correction",
           "note": "First a written request to the clerk of the original court to implement the closure. If the clerk cannot correct it, a motion to enforce in the original criminal case."
         },
         {
-          "when": "the criminal history held by BCI or the originating agency still shows the matter after the court record is closed",
+          "id": "nd_agency_history_error",
+          "when": "the BCI or originating-agency criminal history still shows the matter after the court record is closed",
+          "selector": {
+            "operator": "is_true",
+            "factId": "nd_agency_history_still_shows_matter",
+            "requiredProvenance": "participant_authenticated"
+          },
           "disposition": "agency_correction",
           "note": "A separate challenge to BCI or the originating agency. Closing the court record does not correct an agency history, and the two must not be presented as one step."
         },
         {
+          "id": "nd_eligibility_contested",
           "when": "eligibility for the automatic closure is contested",
+          "selector": {
+            "operator": "is_true",
+            "factId": "nd_eligibility_contested",
+            "requiredProvenance": "participant_authenticated"
+          },
           "disposition": "attorney_or_prosecutor",
           "note": "A contested eligibility question is individualized advocacy."
         }
       ],
       "deliveryGates": [
         {
+          "id": "nd_pre_2025_petition_artifact",
           "kind": "artifact_generation",
           "items": [
             "the official pre-2025-08-01 petition and proposed order for the pre_effective_date_petition branch"
           ],
           "owner": "RCAP packet factory",
-          "note": "Scoped to the pre-effective-date branch. It must not hold the post-2025-08-01 default, which is guidance and needs no artifact."
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: no rendered candidate exists yet",
+          "note": "Scoped to the pre-effective-date branch by id. It must not hold the post-2025-08-01 default, which is guidance and needs no artifact."
         }
       ],
       "commercialPosture": {
@@ -163,7 +221,7 @@
         "packetCreditsConsumed": 0,
         "note": "Relief happens by operation of law on the default branch, so nothing is sold. The pre-effective-date branch is not built, so nothing is sold there either."
       },
-      "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch."
+      "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch. CONTRACT MODEL: option B, branch-specific stage and commercial posture, chosen over two contracts. The routeKey is JURISDICTION:pathwayId and the compiled profile models this as one pathway, so two contracts would require inventing a second pathwayId for what is one statute at two points in its legislative history. The split is temporal, not mechanistic, which is what a branch is for; a second statute would need a second contract."
     }
   ]
 }

@@ -102,6 +102,8 @@ export type RouteProcessingDeadline = {
   note: string;
 };
 
+import type { Condition } from "@/lib/legal-authority/conditions";
+
 /**
  * A condition that must hold before a packet may be released on this route.
  *
@@ -116,8 +118,15 @@ export type PacketReleasePrecondition = {
   id: string;
   /** What satisfies it, in the approved wording. */
   requires: string;
-  /** What the route does when it is absent. Absence is never release. */
-  whenAbsent: "fail_closed_guidance" | "fail_closed_handoff";
+  /**
+   * The machine-readable truth test. Presence is not satisfaction: a Georgia
+   * consent precondition tested by presence alone is satisfied by "refused",
+   * "no", "unknown", "request sent" and "no known objection", every one of
+   * which the controlling report says is not written consent.
+   */
+  satisfiedWhen: Condition;
+  /** What the route does when it is not satisfied. Absence is never release. */
+  whenUnsatisfied: "fail_closed_guidance" | "fail_closed_handoff";
   /**
    * Where the answer is collected. Anonymous screening may not carry a
    * privileged or document-bearing precondition: a participant has not
@@ -137,10 +146,21 @@ export type DeliveryGateKind =
   | "scheduled_legal_reread";
 
 export type DeliveryGate = {
+  /**
+   * Stable identity. Gates were keyed by kind, so a route with two
+   * local_filing_configuration gates could not have one closed without closing
+   * the other — and Missouri's receiving-clerk configuration is six distinct
+   * requirements, not one.
+   */
+  id: string;
   kind: DeliveryGateKind;
   /** Every item that must be confirmed before this gate opens. */
   items: string[];
   owner: string;
+  /** Where a closed status legitimately comes from. Never a browser assertion. */
+  statusSource: "server_configuration_record" | "server_approval_record" | "server_artifact_record";
+  /** The record or version a closed status must cite. */
+  evidenceReference?: string;
   note: string;
 };
 
@@ -161,24 +181,26 @@ export type DeliveryGate = {
  * North Dakota's pre/post-2025-08-01 split was exactly that until this existed:
  * the note said what should happen and every participant got the same answer.
  */
-export type ServiceBranchSelector = {
-  /** The authenticated fact the branch turns on. */
-  factId: string;
-  kind: "date_before" | "date_on_or_after";
-  /** ISO date for the date comparisons. */
-  value: string;
-};
-
 export type ServiceBranch = {
   id: string;
   /** The condition, in the approved wording. */
   when: string;
   /** How the condition is tested. Absent means the branch is prose only. */
-  selector?: ServiceBranchSelector;
+  selector?: Condition;
   outcomeMode: RouteOutcomeMode;
   packetFamily: string | null;
-  /** Gates that apply on this branch alone. */
-  branchDeliveryGates?: DeliveryGateKind[];
+  /**
+   * Branch overrides. A branch that turns automatic guidance into a participant
+   * packet is a materially different route treatment, and inheriting the
+   * parent's automatic stage would keep its checkout closed by a rule that no
+   * longer describes it.
+   */
+  stage?: RouteStage;
+  packetComponents?: string[];
+  commercialPosture?: CommercialPosture;
+  requiredFacts?: string[];
+  /** Gates that apply on this branch alone, by gate id. */
+  branchDeliveryGateIds?: string[];
   note: string;
 };
 
@@ -195,8 +217,15 @@ export type EffectiveDateGate = {
 
 /** Where the route sends a participant when the relief itself is unavailable. */
 export type FailureDisposition = {
+  id: string;
   /** The condition, in the approved wording. */
   when: string;
+  /**
+   * The machine-readable test. A failure disposition without one is prose that
+   * describes an outcome nobody produces: South Carolina's solicitor denial
+   * would sit in metadata while the route kept serving ordinary guidance.
+   */
+  selector?: Condition;
   disposition:
     | "retained_counsel"
     | "attorney_or_prosecutor"

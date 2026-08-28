@@ -8,6 +8,7 @@ import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-e
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { legalRouteContract, routeIsAutomaticOrNoFiling as legalRouteIsAutomaticOrNoFiling, routePaymentAuthority } from "@/lib/legal-authority/index";
 import { resolveRoute } from "@/lib/legal-authority/resolve-route";
+import type { FactSnapshotMap } from "@/lib/legal-authority/conditions";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
@@ -612,7 +613,10 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     jurisdiction: profile.jurisdiction.code,
     pathwayId: pathway.id,
     facts: routeResolutionFacts(answers),
-    on: evaluationToday()
+    on: evaluationToday(),
+    // Free screening. An exact-date or document-backed condition may not
+    // control here, and the resolver enforces that rather than the caller.
+    phase: "PRELIMINARY_SCREENING"
   });
   const legallyAuthorizedPayment = resolution.contract
     ? resolution.paymentAuthority === "packet_checkout" && resolution.delivery?.paymentAllowed === true
@@ -626,18 +630,22 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
 }
 
 /**
- * The authenticated exact facts a branch selector may read.
+ * The facts a branch selector may read during screening, each labelled with the
+ * provenance it actually has.
  *
- * Screening answers are deliberately NOT passed through wholesale. A branch
- * that decides which statute governs must not turn on a recalled date, so only
- * facts the flow treats as authenticated reach the resolver, and an absent one
- * resolves to needs-more-info rather than to a default branch.
+ * The whitelist limits WHICH facts reach the resolver; the provenance label
+ * limits what they may decide. A condition requiring verified_record refuses a
+ * screening answer even when the value is right, so an exact date recalled in
+ * free screening cannot select a statute.
  */
-function routeResolutionFacts(answers: Record<string, ScreeningAnswerValue>): Record<string, string | undefined> {
-  const facts: Record<string, string | undefined> = {};
+function routeResolutionFacts(answers: Record<string, ScreeningAnswerValue>): FactSnapshotMap {
+  const facts: FactSnapshotMap = {};
   for (const key of AUTHENTICATED_ROUTE_FACT_IDS) {
     const value = answerText(answers[key]).trim();
-    if (value) facts[key] = value;
+    // A screening answer is labelled a screening answer. It may identify a
+    // candidate route; a condition that demands verified provenance will refuse
+    // it, which is the point. Nothing here is promoted by being whitelisted.
+    if (value) facts[key] = { value, provenance: "screening_answer" };
   }
   return facts;
 }

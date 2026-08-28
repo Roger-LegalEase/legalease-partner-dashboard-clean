@@ -248,19 +248,28 @@ export function routeDeliveryAuthority(
     && route.packetFamily !== null
     && !NO_PARTICIPANT_FILING_OUTCOMES.includes(route.outcomeMode);
 
+  // artifactApprovalRequired closes payment and sponsorship on its own, without
+  // needing a duplicate artifact_legal_review gate record. Otherwise a contract
+  // that declares the requirement but omits the gate would take money for a
+  // packet no one has approved, and the hold reason would say so while the
+  // flags said otherwise.
+  const awaitingArtifactApproval = route.artifactApprovalRequired === true;
+
   const paymentAllowed = legallyResolved
     && dateClear
     && payment === "packet_checkout"
     && !generationBlocked
-    && !deliveryBlocked;
+    && !deliveryBlocked
+    && !awaitingArtifactApproval;
 
   // A sponsored generation spends a partner credit, so it needs what a paid one
   // needs except the consumer checkout. Guidance is never sponsored.
-  const sponsoredGenerationAllowed = generationAllowed && payment !== "closed" && !deliveryBlocked;
+  const sponsoredGenerationAllowed = generationAllowed
+    && payment !== "closed"
+    && !deliveryBlocked
+    && !awaitingArtifactApproval;
 
-  const commerciallyDeliverable = paymentAllowed
-    && generationAllowed
-    && !route.artifactApprovalRequired;
+  const commerciallyDeliverable = paymentAllowed && generationAllowed;
 
   // The declared posture is a one-way valve: it may close what the derivation
   // opens, never open what the derivation closes.
@@ -378,9 +387,31 @@ export function assertRouteContractInvariants(routes: readonly LegalRouteContrac
       if (!branch.when.trim()) fail(routeKey, "branch_without_condition", `service branch ${branch.id} names no condition`);
     }
 
+    const gateIds = new Set<string>();
     for (const gate of route.deliveryGates ?? []) {
-      if (gate.items.length === 0) fail(routeKey, "delivery_gate_without_items", `${gate.kind} names nothing that would close it`);
-      if (!gate.owner.trim()) fail(routeKey, "delivery_gate_without_owner", `${gate.kind} names no owner`);
+      if (!gate.id?.trim()) fail(routeKey, "delivery_gate_without_id", `a ${gate.kind} gate has no id`);
+      if (gateIds.has(gate.id)) fail(routeKey, "duplicate_delivery_gate_id", `two gates share the id ${gate.id}`);
+      gateIds.add(gate.id);
+      if (gate.items.length === 0) fail(routeKey, "delivery_gate_without_items", `${gate.id} names nothing that would close it`);
+      if (!gate.owner.trim()) fail(routeKey, "delivery_gate_without_owner", `${gate.id} names no owner`);
+      // A gate closed on a participant's say-so is not a gate. Its status must
+      // come from a server record.
+      if (!gate.statusSource) fail(routeKey, "delivery_gate_without_status_source", `${gate.id} does not say where a closed status comes from`);
+    }
+    for (const branch of route.serviceBranches ?? []) {
+      for (const gateId of branch.branchDeliveryGateIds ?? []) {
+        if (!gateIds.has(gateId)) fail(routeKey, "branch_names_unknown_gate", `service branch ${branch.id} scopes gate ${gateId}, which this route does not declare`);
+      }
+    }
+    // A precondition without a truth test is a presence check by another name.
+    for (const precondition of route.packetReleasePreconditions ?? []) {
+      if (!precondition.satisfiedWhen) fail(routeKey, "precondition_without_truth_test", `${precondition.id} has no machine-readable condition`);
+    }
+    // A failure disposition nobody can evaluate is prose describing an outcome
+    // no route produces.
+    for (const failure of route.failureDisposition ?? []) {
+      if (!failure.id?.trim()) fail(routeKey, "failure_without_id", "a failure disposition has no id");
+      if (!failure.selector) fail(routeKey, "failure_without_selector", `${failure.id} has no machine-readable condition, so it can never fire`);
     }
 
     for (const deadline of route.processingDeadlines ?? []) {
