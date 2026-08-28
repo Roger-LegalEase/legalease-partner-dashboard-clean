@@ -43,6 +43,12 @@ for (const record of ledger.records ?? []) {
     decision.allowed ? "" : decision.missing.join(", "));
 }
 
+const MONEY_SURFACES = [
+  "checkout creation",
+  "consumer payment authority",
+  "sponsored entitlement",
+  "packet credit consumption"
+];
 const SURFACES = [
   "checkout creation",
   "consumer payment authority",
@@ -58,7 +64,26 @@ for (const row of census.rows) {
   const [code, pathwayId] = row.route.split(/:(.+)/);
   const decision = packetFulfillmentAuthority(code, pathwayId);
   if (proven.has(row.route)) {
-    ok(`${row.route}: proven, so it is allowed`, decision.allowed === true);
+    ok(`${row.route}: proven, so the packet itself is established`, decision.allowed === true,
+      decision.allowed ? "" : decision.missing.join(", "));
+    // Proven is not sold. A record with a held posture proves the packet exists
+    // and still refuses every surface where money or an entitlement changes
+    // hands, which is the whole point of separating the two questions.
+    const record = (ledger.records ?? []).find((entry) => entry.routeKey === row.route);
+    for (const surface of MONEY_SURFACES) {
+      const posture = surface === "sponsored entitlement" || surface === "packet credit consumption"
+        ? record.sponsoredPosture
+        : record.consumerPosture;
+      if (posture !== "held") continue;
+      ok(`${row.route}: ${surface} refuses while its posture is held`,
+        refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+    }
+    // Generation and delivery are reachable, because they are only ever reached
+    // through an entitlement the surfaces above already gated.
+    for (const surface of ["packet generation", "participant delivery"]) {
+      ok(`${row.route}: ${surface} is open on a proven packet`,
+        !refuses(() => assertPacketFulfillmentProven(code, pathwayId, surface)));
+    }
     continue;
   }
   ok(`${row.route}: no proof, so no commercial authority`, decision.allowed === false, decision.allowed ? "allowed" : "");
@@ -72,11 +97,21 @@ for (const row of census.rows) {
 // ledger — mutating a tracked file to prove a rule about tracked files is a bad
 // trade, and a module cache would make the re-import a lie anyway.
 const complete = {
-  routeKey: "ZZ:probe", packetFamily: "Probe Family", artifactProvider: "rcap_packet_factory_v2",
+  routeKey: "ZZ:probe", jurisdiction: "ZZ", pathwayId: "probe",
+  packetFamily: "probe-family", packetFamilyLabel: "Probe Family",
+  packetSpecificationId: "zz-probe", packetSpecificationVersion: "1.0.0",
+  packetSpecificationPath: "data/record-clearing/packet-specifications/ZZ-probe.v1.json",
+  packetSpecificationSha256: "0".repeat(64),
   packetComponents: [...REQUIRED_PACKET_COMPONENTS], contentType: "application/pdf",
-  sourceIdentities: ["ZZ:probe.pdf:abc"], renderer: "packet_document_v1",
+  sourceIdentities: [{ sourceId: "ZZ:probe.pdf", kind: "official_form", verification: "present_in_repository" }],
+  artifactProvider: "rcap_grade_a_composer_v1", artifactProviderVersion: "1.0.0",
+  renderer: "rcap_grade_a_document_v1", rendererVersion: "1.0.0",
+  requiredFacts: ["participant_full_legal_name"],
+  finalVerificationRequirements: ["the participant signs the filing"],
   verificationBinding: "protected packet verification hash", privateDelivery: true,
-  repeatDownload: true, provenBy: "a probe", provenOn: "2026-08-28"
+  repeatDownload: true,
+  artifactApprovalStatus: "counsel_reviewed", consumerPosture: "open", sponsoredPosture: "open", holdReason: "",
+  provenBy: "a probe", provenOn: "2026-08-28"
 };
 ok("a record that proves every field grants authority",
   packetFulfillmentShortfall(complete).length === 0, packetFulfillmentShortfall(complete).join(", "));
@@ -84,6 +119,18 @@ ok("no record at all is a refusal, not a gap", packetFulfillmentShortfall(undefi
 for (const [label, record] of [
   ["a text/plain packet", { ...complete, contentType: "text/plain" }],
   ["the summary provider", { ...complete, artifactProvider: "rcap_source_engine" }],
+  ["a retired legacy provider", { ...complete, artifactProvider: "rcap_legacy_mississippi" }],
+  ["the retired factory provider", { ...complete, artifactProvider: "rcap_packet_factory_v2" }],
+  ["no specification hash", { ...complete, packetSpecificationSha256: "" }],
+  ["a specification hash that is not a sha256", { ...complete, packetSpecificationSha256: "not-a-hash" }],
+  ["no specification version", { ...complete, packetSpecificationVersion: "v1" }],
+  ["a source identity with no verification state", { ...complete, sourceIdentities: [{ sourceId: "x", kind: "y" }] }],
+  ["no required facts", { ...complete, requiredFacts: [] }],
+  ["no final-verification requirements", { ...complete, finalVerificationRequirements: [] }],
+  ["no artifact approval status", { ...complete, artifactApprovalStatus: "" }],
+  ["an invented consumer posture", { ...complete, consumerPosture: "maybe" }],
+  ["an invented sponsored posture", { ...complete, sponsoredPosture: "maybe" }],
+  ["a hold with no reason", { ...complete, consumerPosture: "held", holdReason: "" }],
   ["no packet family", { ...complete, packetFamily: "" }],
   ["a missing proposed order", { ...complete, packetComponents: REQUIRED_PACKET_COMPONENTS.filter((c) => !c.startsWith("proposed order")) }],
   ["a missing filing destination", { ...complete, packetComponents: REQUIRED_PACKET_COMPONENTS.filter((c) => c !== "filing destination") }],
@@ -111,6 +158,8 @@ ok("it dispatches on the fulfillment record instead",
   builderBody.includes("packetFulfillmentAuthority"));
 ok("and fails closed when no provider is implemented",
   /Failing closed rather than substituting a summary/.test(builderBody));
+ok("the only implemented dispatch is the Grade-A composer",
+  builderBody.includes('artifactProvider === "rcap_grade_a_composer_v1"'));
 ok("the summary renderer survives, reachable only for saved guidance",
   generation.includes("renderRouteSummaryForSavedGuidance"));
 

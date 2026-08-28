@@ -11,7 +11,14 @@ import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapt
 import { consumerPacketPaymentAuthority } from "@/lib/expungement-ai/consumer-payment-authority";
 import { readTrustedBriefcasePresentationSource } from "@/lib/expungement-ai/briefcase-presentation-authority";
 import { finalizeSponsoredPacketGeneration } from "@/lib/expungement-ai/rcap-slot-lifecycle";
-import { assertPacketFulfillmentProven, packetFulfillmentAuthority } from "@/lib/expungement-ai/packet-fulfillment-authority";
+import {
+  assertPacketFulfillmentProven,
+  packetFulfillmentAuthority,
+  type PacketFulfillmentRecord
+} from "@/lib/expungement-ai/packet-fulfillment-authority";
+import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
+import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
+import { gradeAPacketFilename, renderGradeAPacketPdf } from "@/lib/rcap/grade-a/renderer";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -55,6 +62,30 @@ export type ConsumerPacketArtifactRefs = {
   source: "mississippi_petition_information_required";
   actionPath: string;
   missingFields: string[];
+} | {
+  /**
+   * The Grade-A artifact.
+   *
+   * It carries the specification's identity and hash rather than the packet
+   * bytes. The document set is a deterministic function of the specification
+   * and the verified matter, so the download path recomposes it — which is what
+   * makes repeat download work without a blob store, and what makes a changed
+   * specification visible as a changed hash rather than as a silently different
+   * packet under the same receipt.
+   */
+  provider: "rcap_grade_a_composer_v1";
+  packetId: string;
+  fileName: string;
+  contentType: "application/pdf";
+  generatedAt: string;
+  source: "grade_a_packet_specification";
+  packetSpecificationId: string;
+  packetSpecificationVersion: string;
+  packetSpecificationSha256: string;
+  packetFamily: string;
+  documentCount: number;
+  verificationHash: string;
+  downloadPath: string;
 };
 
 export type ConsumerPacketStatus = {
@@ -70,7 +101,13 @@ export type ConsumerPacketStatus = {
 export type ConsumerPacketDownload = {
   fileName: string;
   contentType: string;
-  body: string;
+  /**
+   * A string for the legacy text path; bytes for a rendered PDF. The download
+   * route hands either to NextResponse unchanged, so widening this does not
+   * widen what may be delivered — `packetFulfillmentAuthority` already refuses
+   * every content type but application/pdf for a purchased packet.
+   */
+  body: string | Uint8Array;
 };
 
 type PacketGenerationEventOptions = Pick<LegalEaseOsEventOptions, "configEnv" | "fetcher" | "now">;
@@ -204,14 +241,84 @@ export async function getConsumerPacketDownload({
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
   const artifactRefs = readyPacketArtifactAccess(item, protectedArtifact);
-  if (!artifactRefs || !("text" in artifactRefs)) {
-    throw new ConsumerPacketNotReadyError();
+  if (!artifactRefs) throw new ConsumerPacketNotReadyError();
+
+  if (artifactRefs.provider === "rcap_grade_a_composer_v1") {
+    return gradeAPacketDownload(userId, item, artifactRefs);
   }
 
+  if (!("text" in artifactRefs)) throw new ConsumerPacketNotReadyError();
   return {
     fileName: artifactRefs.fileName,
     contentType: artifactRefs.contentType,
     body: artifactRefs.text
+  };
+}
+
+/**
+ * Recomposes and renders the Grade-A packet for its owner.
+ *
+ * Repeat download works because composition is deterministic: the same
+ * specification and the same verified facts produce the same document set every
+ * time. Nothing is stored, so nothing can drift out of sync with what the
+ * fulfillment record vouches for.
+ *
+ * The verification hash is compared before anything is rendered. A participant
+ * who changed an answer after generating has a superseded packet, and handing
+ * them the old one — built on a fact they have since corrected — is worse than
+ * telling them to generate again.
+ */
+async function gradeAPacketDownload(
+  userId: string,
+  item: ConsumerBriefcaseItem,
+  artifactRefs: Extract<ConsumerPacketArtifactRefs, { provider: "rcap_grade_a_composer_v1" }>
+): Promise<ConsumerPacketDownload> {
+  const verification = await requireCurrentPacketVerification(userId, item);
+  if (verification.hash !== artifactRefs.verificationHash) {
+    throw new ConsumerPacketNotReadyError();
+  }
+
+  // Delivery is a commercial surface. It consults the one authority like every
+  // other one, so a record withdrawn after an artifact was attached closes the
+  // download too. The route identity comes from the server-held verification
+  // snapshot and never from the Briefcase item, which a client can influence.
+  assertPacketFulfillmentProven(
+    verification.snapshot.jurisdiction,
+    verification.snapshot.pathwayId,
+    "participant delivery"
+  );
+
+  const specification = packetSpecificationFor(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId ?? ""}`);
+  if (!specification || specification.specificationVersion !== artifactRefs.packetSpecificationVersion) {
+    throw new ConsumerPacketNotReadyError();
+  }
+
+  const facts: Record<string, string> = {};
+  for (const source of [
+    verification.snapshot.screeningAnswers,
+    verification.snapshot.prefilledAnswers,
+    verification.snapshot.serverFacts,
+    verification.snapshot.packetAnswers
+  ]) {
+    for (const [key, value] of Object.entries(source ?? {})) {
+      if (typeof value === "string" && value.trim()) facts[key] = value;
+      else if (typeof value === "number") facts[key] = String(value);
+    }
+  }
+
+  const packet = composeGradeAPacket(specification, {
+    routeKey: specification.routeKey,
+    jurisdiction: verification.snapshot.jurisdiction,
+    pathwayId: String(verification.snapshot.pathwayId ?? ""),
+    facts,
+    verificationHash: verification.hash,
+    verifiedAt: verification.snapshot.verifiedAt
+  });
+
+  return {
+    fileName: artifactRefs.fileName,
+    contentType: "application/pdf",
+    body: await renderGradeAPacketPdf(packet)
   };
 }
 
@@ -412,9 +519,76 @@ function buildConsumerPacketArtifact(
       `No proven packet fulfillment for ${verification.snapshot.jurisdiction}:${pathwayId} (missing ${fulfillment.missing.join(", ")}). A purchased packet is not a route summary.`
     );
   }
+  if (fulfillment.record.artifactProvider === "rcap_grade_a_composer_v1") {
+    return buildGradeAArtifact(item, verification, fulfillment.record, generatedAt);
+  }
   throw new ConsumerPacketGenerationError(
     `${fulfillment.record.artifactProvider} is recorded as the approved provider for ${verification.snapshot.jurisdiction}:${pathwayId}, and no dispatch to it is implemented in this path yet. Failing closed rather than substituting a summary.`
   );
+}
+
+/**
+ * Composes the Grade-A packet and returns its identity.
+ *
+ * Composition happens HERE, at generation, and not at download. The composer is
+ * the thing that refuses a matter with a missing fact, and a refusal has to
+ * happen while the participant is still in a flow that can ask them for it —
+ * not when they click download and get an error instead of a filing.
+ */
+function buildGradeAArtifact(
+  item: ConsumerBriefcaseItem,
+  verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>,
+  record: PacketFulfillmentRecord,
+  generatedAt: string
+): ConsumerPacketArtifactRefs {
+  const snapshot = verification.snapshot;
+  const specification = packetSpecificationFor(record.routeKey);
+  if (!specification) {
+    throw new ConsumerPacketGenerationError(
+      `${record.routeKey} has a fulfillment record naming specification ${record.packetSpecificationId}, and no such specification is registered. Failing closed.`
+    );
+  }
+  if (specification.specificationVersion !== record.packetSpecificationVersion) {
+    throw new ConsumerPacketGenerationError(
+      `${record.routeKey}: the fulfillment record vouches for specification v${record.packetSpecificationVersion} and the registered specification is v${specification.specificationVersion}. `
+      + "A record may only authorize the exact document set it was written against."
+    );
+  }
+
+  // Later sources win: a fact confirmed at packet information supersedes the
+  // approximate answer the same person gave during anonymous screening.
+  const facts: Record<string, string> = {};
+  for (const source of [snapshot.screeningAnswers, snapshot.prefilledAnswers, snapshot.serverFacts, snapshot.packetAnswers]) {
+    for (const [key, value] of Object.entries(source ?? {})) {
+      if (typeof value === "string" && value.trim()) facts[key] = value;
+      else if (typeof value === "number") facts[key] = String(value);
+    }
+  }
+
+  const packet = composeGradeAPacket(specification, {
+    routeKey: record.routeKey,
+    jurisdiction: snapshot.jurisdiction,
+    pathwayId: String(snapshot.pathwayId ?? ""),
+    facts,
+    verificationHash: verification.hash,
+    verifiedAt: snapshot.verifiedAt
+  });
+
+  return {
+    provider: "rcap_grade_a_composer_v1",
+    packetId: item.id,
+    fileName: gradeAPacketFilename(packet),
+    contentType: "application/pdf",
+    generatedAt,
+    source: "grade_a_packet_specification",
+    packetSpecificationId: packet.specificationId,
+    packetSpecificationVersion: packet.specificationVersion,
+    packetSpecificationSha256: record.packetSpecificationSha256,
+    packetFamily: packet.packetFamily,
+    documentCount: packet.documents.length,
+    verificationHash: packet.verificationHash,
+    downloadPath: `/api/expungement-ai/packet/${item.id}/download`
+  };
 }
 
 /**

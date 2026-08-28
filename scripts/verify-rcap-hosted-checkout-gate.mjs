@@ -58,7 +58,7 @@ includesEvery(gate, [
   "consumer_caller_profile_and_eligibility_mapping_exact",
   "getProfileByJurisdiction",
   "isConsumerPaymentAllowed",
-  'routeKind === "legacy_verified"',
+  'routeKind === "legacy_retired"',
   'rendererKind === "packet_document_v1"',
   'rendererVersion === "1.0.0"',
   "unpaid_render_returns_402",

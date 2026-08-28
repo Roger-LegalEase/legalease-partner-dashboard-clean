@@ -27,7 +27,8 @@ export type PacketRouteKind =
   | "disabled"
   | "component_deferral"
   | "exact_supported_deferral"
-  | "packet_correction_required";
+  | "packet_correction_required"
+  | "legacy_retired";
 
 export type PacketRouteResolution = {
   routeKind: PacketRouteKind;
@@ -91,6 +92,24 @@ export type PacketRouteInput = {
  * set and the route fences itself to guidance rather than serving a wrong packet.
  */
 export const LEGACY_VERIFIED_JURISDICTIONS = ["MS", "IL", "DC", "PA", "TX"] as const;
+
+/**
+ * The same five, named for what they are now.
+ *
+ * Roger Roman retired their commercial authority on 2026-08-28 (ADR-0004). They
+ * are retained as assets and history: their renderers still exist so an
+ * already-generated artifact stays reachable, and their document components are
+ * implementation references and comparison evidence during migration. What they
+ * no longer do is authorize anything.
+ *
+ * The old branch returned `sellable: true, creditConsumable: true` for every
+ * route in the jurisdiction, which is jurisdiction-only sellability — a
+ * statement about a STATE standing in for a fact about a ROUTE. That is what
+ * let a Mississippi route with no document type of its own be classified
+ * sellable, and it is why this constant is kept under a second name rather than
+ * quietly reused: the list is the same, and what it grants is not.
+ */
+const LEGACY_RETIRED_JURISDICTIONS = LEGACY_VERIFIED_JURISDICTIONS;
 
 const LEGACY_VERIFIED = new Set<string>(LEGACY_VERIFIED_JURISDICTIONS);
 
@@ -288,13 +307,17 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
 
   if (LEGACY_VERIFIED.has(jurisdiction)) {
     return {
-      routeKind: "legacy_verified",
+      routeKind: "legacy_retired",
       jurisdiction,
       pathwayId,
+      // The renderer stays. An artifact already generated for a participant
+      // must remain reachable, and the components are migration evidence.
       rendererKind: "packet_document_v1",
-      sellable: true,
-      creditConsumable: true,
-      reason: `${jurisdiction} renders its packet document through the browser-free renderer.`
+      // The authority does not. Commercial authority now comes only from a
+      // Grade-A fulfillment record keyed to an exact route and packet family.
+      sellable: false,
+      creditConsumable: false,
+      reason: `${jurisdiction}'s legacy generator is retired as a commercial fulfillment path (ADR-0004). It renders for historical access and migration comparison only, and authorizes no checkout, sponsorship, credit or delivery.`
     };
   }
 

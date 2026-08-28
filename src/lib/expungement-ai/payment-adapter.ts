@@ -610,14 +610,26 @@ export function assertPacketRouteCanDeliver(
 export function assertCheckoutAllowed(
   snapshot: PacketVerificationSnapshot
 ): asserts snapshot is PacketVerificationSnapshot & { pathwayId: string } {
-  // Checkout creation. First, before any other test: a route that cannot prove
-  // it delivers a packet does not get to be asked whether its result code and
-  // packet type look right.
-  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation");
+  // Checkout creation. The order is most-specific-refusal first, backstop last.
+  //
+  // Every one of these runs unconditionally, so the order changes which reason
+  // a refusal carries and never whether it happens. The deferral and terminal
+  // treatments know exactly why a particular route is closed and say so; the
+  // fulfillment gate only knows that nothing proved this route delivers. Naming
+  // the specific reason where one exists is better for the participant, better
+  // in the logs, and it keeps each lane's own safeguard observable at this
+  // boundary instead of being masked by a check standing in front of it — a
+  // second door silently covering for a missing first one is exactly the
+  // failure those lane suites were written to catch.
+  //
+  // The fulfillment gate goes last precisely because it is the backstop: it
+  // refuses everything the specific safeguards let through, so reaching it means
+  // a route survived every other test and still cannot prove it ships a packet.
   assertNotExactDeferral(snapshot);
   assertNotComponentDeferral(snapshot);
   assertNotTerminalTreatment(snapshot);
   assertPacketRouteCanDeliver(snapshot);
+  assertPacketFulfillmentProven(snapshot.jurisdiction, snapshot.pathwayId, "checkout creation");
   const packetProduct = snapshot.packetType === "custom_pleading"
     || snapshot.packetType === "official_pdf_overlay"
     || snapshot.packetType === "legacy_packet";

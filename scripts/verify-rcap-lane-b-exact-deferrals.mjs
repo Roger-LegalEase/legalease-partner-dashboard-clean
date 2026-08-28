@@ -433,21 +433,25 @@ async function runChecks() {
   for (const pathway of txProfile.pathways) {
     if (deferredTxPathways.has(pathway.id)) continue;
     const route = resolvePacketRoute({ state: "TX", pathway: pathway.id });
-    check(route.routeKind === "legacy_verified", `TX ${pathway.id}: unrelated route changed to ${route.routeKind}`);
-    check(route.sellable === true, `TX ${pathway.id}: an unrelated supported Texas route was disabled`);
+    // "Untouched" is a claim about THIS LANE, not about commerce. ADR-0004
+    // retired every legacy generator's commercial authority, so the preserved
+    // fact is the classification and the route identity: a lane-B deferral must
+    // not reclassify a Texas route it does not name.
+    check(route.routeKind === "legacy_retired", `TX ${pathway.id}: unrelated route changed to ${route.routeKind}`);
+    check(route.sellable === false, `TX ${pathway.id}: a retired Texas legacy route regained commercial authority`);
     untouchedTx += 1;
   }
   check(untouchedTx > 0, "no unrelated Texas route was checked, so the preservation proof is vacuous");
   const legacyGeneratorRoute = resolvePacketRoute({ state: "TX", pathway: "more_information_needed" });
   check(
-    legacyGeneratorRoute.routeKind === "legacy_verified" && legacyGeneratorRoute.sellable === true,
+    legacyGeneratorRoute.routeKind === "legacy_retired" && legacyGeneratorRoute.sellable === false,
     "the Texas-Harris legacy generator's own stored pathway lost its route"
   );
 
-  // The other legacy-verified jurisdictions are untouched.
+  // The other legacy jurisdictions are untouched by this lane.
   for (const [state, pathway] of [["MS", "expungement-petition"], ["IL", "sealing_conviction"], ["PA", "pa-limited-access"], ["DC", "automatic_expungement"]]) {
     const route = resolvePacketRoute({ state, pathway });
-    check(route.routeKind === "legacy_verified", `${state} lost its legacy_verified classification`);
+    check(route.routeKind === "legacy_retired", `${state} lost its legacy classification`);
   }
 
   // No participant reaches checkout through an alternate adapter: every caller

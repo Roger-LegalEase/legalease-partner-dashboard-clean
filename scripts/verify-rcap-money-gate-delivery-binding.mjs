@@ -180,9 +180,13 @@ for (const profile of profiles) {
  * price; it was a price for the summary.
  *
  * The generators themselves are preserved and are still asserted below: their
- * renderers exist, their jurisdictions still classify as legacy_verified, and
- * their document components still render. What is closed is charging a
- * participant on a path that would not have given them one.
+ * renderers exist, their jurisdictions still resolve to a route of their own,
+ * and their document components still render. What is closed is charging a
+ * participant on a path that would not have given them one — and since
+ * ADR-0004 that closure is the owner's decision rather than an inference: the
+ * five legacy generators are retired as commercial fulfillment paths, so they
+ * classify legacy_retired and sell nothing, while everything that makes them
+ * worth keeping is asserted here unchanged.
  */
 for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
   const profile = profiles.find((p) => p.jurisdiction.code === code);
@@ -199,7 +203,15 @@ for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
   // The one refusal that would mean the generator itself was fenced off.
   check(!(threw instanceof ConsumerPacketNotDeliverableError),
     `${code}: the delivery guard fenced off a legacy verified generator, which must keep rendering`);
-  check(threw === null || threw?.name === "PacketFulfillmentNotProvenError",
+  // A legacy jurisdiction's first pathway can independently be an exact
+  // deferral or a terminal treatment, and those refuse with
+  // ConsumerCheckoutNotAllowedError. That is a statement about the ROUTE and
+  // says nothing about the generator, so it belongs in the accepted set; the
+  // check that actually protects the generator is the one directly above, which
+  // requires that the delivery guard was not what fenced it off.
+  check(threw === null
+    || threw?.name === "PacketFulfillmentNotProvenError"
+    || threw?.name === "ConsumerCheckoutNotAllowedError",
     `${code}: checkout refused a legacy jurisdiction for an unexpected reason (${threw?.name})`);
   // The generator is preserved where preservation actually lives.
   const route = resolvePacketRoute({ state: code, pathway: profile.pathways[0]?.id ?? null, trackId: null });
@@ -229,12 +241,15 @@ for (const route of payableAndUndeliverable) {
   } catch (error) {
     threw = error;
   }
-  // Either refusal closes the sale, and which one fires first is not the point.
-  // The fulfillment gate now runs before the deliverability test in
-  // assertCheckoutAllowed, so a route that is both unproven and undeliverable
-  // reports the stronger reason. Requiring the weaker one would fail the build
-  // for refusing too early.
-  check(threw instanceof ConsumerPacketNotDeliverableError || threw?.name === "PacketFulfillmentNotProvenError",
+  // Any of the three refusals closes the sale, and which one fires first is not
+  // the point of this file. assertCheckoutAllowed refuses most-specific-first
+  // and backstops with the fulfillment gate, so a route that is undeliverable
+  // AND unproven AND independently suppressed reports the most specific reason
+  // it has. Naming one of them as the required refusal would fail the build for
+  // refusing for a better reason. What must never appear here is `nothing`.
+  check(threw instanceof ConsumerPacketNotDeliverableError
+    || threw?.name === "PacketFulfillmentNotProvenError"
+    || threw?.name === "ConsumerCheckoutNotAllowedError",
     `${route.key}: the evaluator marks this route payment-eligible and it cannot produce an artifact, yet checkout admitted it (threw ${threw?.name ?? "nothing"})`);
 }
 
@@ -273,4 +288,4 @@ if (failures.length > 0) {
   if (failures.length > 40) console.error(` … and ${failures.length - 40} more`);
   process.exit(1);
 }
-console.log("No route can take money for a packet it cannot produce, and every route that can produce one still sells.");
+console.log("No route can take money for a packet it cannot produce. Since ADR-0004 no route sells at all until a Grade-A fulfillment record proves it delivers, so the second half of this binding is currently vacuous by design rather than by accident.");

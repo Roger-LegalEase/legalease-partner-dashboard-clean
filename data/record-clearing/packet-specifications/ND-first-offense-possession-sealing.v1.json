@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "specificationId": "nd-first-offense-possession-sealing",
+  "specificationVersion": "1.0.0",
+  "routeKey": "ND:first-offense-possession-sealing",
+  "jurisdiction": "ND",
+  "pathwayId": "first-offense-possession-sealing",
+  "pathwayLabel": "First-offense possession sealing",
+  "packetFamily": "rcap-nd-custom-pleading",
+  "packetFamilyLabel": "North Dakota First-Offense Possession Sealing Motion under N.D.C.C. ch. 19-03.1",
+  "trackId": "nd-marijuana-first-offense-seal",
+  "packetSetId": "nd-marijuana-first-offense-seal-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "ND",
+  "profileVersion": "2026-06-19-source-conversion-1",
+
+  "specificationNote": "This specification is the exact statement of what the packet contains. It is versioned and hashed, and the fulfillment record names the hash, so a change to the packet's contents cannot happen without changing what the commercial gate is vouching for. Every rule below is drawn from the compiled North Dakota profile's extracted rules and from the owner-approved packet-set manifest nd-marijuana-first-offense-seal-set; nothing here is inferred from another state or another chapter.",
+
+  "statutoryAuthority": {
+    "primary": "N.D.C.C. ch. 19-03.1 (controlled substances), first-offense possession sealing provision",
+    "sourceUrl": "https://ndlegis.gov/cencode/t19c03-1.pdf",
+    "ruleStatement": "If a person pleads guilty or is found guilty of a first offense involving possession of one ounce or less of marijuana or two grams or less of THC, and judgment is entered, the court, on motion, must seal the court record if the person is not subsequently convicted within two years of a further controlled-substance violation. Once sealed, the court record may not be opened even by court order.",
+    "reliefIsMandatoryOnMotion": true,
+    "doNotImport": [
+      "N.D.C.C. ch. 12-60.1 is North Dakota's GENERAL criminal-record sealing chapter. Its three- and five-year clean periods, its clear-and-convincing burden, its forty-five-day hearing floor and its proof-of-service requirement do not govern this route, which is mandatory on motion under ch. 19-03.1. Chapter 12-60.1 is cited in this packet only where the owner-approved manifest itself invokes it by analogy, and it is labelled as an analogy where it appears.",
+      "The North Dakota Summary Pardon Application for certain marijuana offenses is a separate remedy administered by the Pardon Advisory Board. It is not this route and its five-year condition must never be applied here."
+    ]
+  },
+
+  "sourceIdentities": [
+    {
+      "sourceId": "ND-profile:section:90-95",
+      "kind": "compiled_profile_source_section",
+      "verification": "asserted_by_ingestion",
+      "note": "Carried in the compiled North Dakota profile's ingestion record. The underlying private/Nationwide Record Clearing/ file is not present in this container, so the identity is asserted by that record and has not been re-verified against bytes here."
+    },
+    {
+      "sourceId": "ND-profile:corpus-unit:38",
+      "kind": "compiled_profile_source_section",
+      "verification": "asserted_by_ingestion",
+      "note": "Same provenance and same limitation as the section reference above."
+    },
+    {
+      "sourceId": "nd-marijuana-first-offense-seal-set@1.0.0",
+      "kind": "owner_approved_packet_set_manifest",
+      "verification": "present_in_repository",
+      "location": "data/record-clearing/legal-design-packet-set-manifests.json",
+      "note": "Owner-approved legal design. Decision record auth-2026-08-19-owner-legal-approval-completed-output."
+    }
+  ],
+
+  "requiredFacts": [
+    { "factId": "participant_full_legal_name", "use": "caption and signature block", "inRegistryRequiredInputs": true },
+    { "factId": "contact_information", "use": "signature block service address", "inRegistryRequiredInputs": true },
+    { "factId": "court", "use": "caption — the court that entered the judgment", "inRegistryRequiredInputs": true },
+    { "factId": "residency_or_location", "use": "caption — county or judicial district", "inRegistryRequiredInputs": true },
+    { "factId": "case_number", "use": "caption — the existing criminal case this motion is filed in", "inRegistryRequiredInputs": false, "gapNote": "case_number is NOT among the registry's requiredInputIds for this route, and a motion filed in an existing criminal case cannot be captioned without it. It is required here and is collected at packet information. This gap is recorded rather than papered over." },
+    { "factId": "charge", "use": "the offense as the court record words it", "inRegistryRequiredInputs": true },
+    { "factId": "offense_category", "use": "confirming the offense is a controlled-substance possession offense", "inRegistryRequiredInputs": true },
+    { "factId": "offense_level", "use": "confirming the offense level on the record", "inRegistryRequiredInputs": true },
+    { "factId": "record_type", "use": "confirming this is a conviction record", "inRegistryRequiredInputs": true },
+    { "factId": "case_outcome", "use": "confirming a guilty plea or guilty finding with judgment entered", "inRegistryRequiredInputs": true },
+    { "factId": "disposition_date", "use": "the date the court entered the judgment of guilt — the statutory anchor", "inRegistryRequiredInputs": true },
+    { "factId": "nd_charged_quantity", "use": "the quantity charged, which is an element of eligibility under the one-ounce / two-gram limit", "inRegistryRequiredInputs": false, "gapNote": "Named by the packet-set manifest as a confirm_answer step. Collected at packet information; recollection is expressly not enough." },
+    { "factId": "nd_first_offense_confirmation", "use": "the participant's confirmation that this was a first controlled-substance offense — an element the statute requires", "inRegistryRequiredInputs": false, "gapNote": "Neither the registry's requiredInputIds nor the packet-set manifest's participantActionRequired list names a first-offense confirmation, yet the motion has to assert first-offense status to the court because the statute makes it an element. Asserting an element with no fact behind it is the defect; collecting the fact is the fix. This gap in the approved design is recorded here and belongs in the next legal-design review of this route." },
+    { "factId": "criminal_history", "use": "whether any further controlled-substance conviction followed, and when", "inRegistryRequiredInputs": true },
+    { "factId": "prior_relief", "use": "whether sealing or similar relief was already granted for another record", "inRegistryRequiredInputs": true }
+  ],
+
+  "finalVerificationRequirements": [
+    "The date the court entered the judgment of guilt is confirmed against the criminal judgment obtained from the clerk of court.",
+    "The quantity charged is confirmed against the charging document — the complaint or information — obtained from the clerk of court.",
+    "Where the participant is unsure whether any further controlled-substance conviction exists, the answer is confirmed against the North Dakota BCI criminal history record.",
+    "The participant confirms that this was a first controlled-substance offense. The motion asserts that to the court as a statutory element, so it is confirmed rather than inferred from the record type.",
+    "The participant signs the motion in the signature block. No notarization is required for this filing.",
+    "No filing fee is identified for this motion, so no fee is collected and no waiver application is prepared."
+  ],
+
+  "documents": [
+    {
+      "documentId": "nd-cover-and-contents",
+      "role": "cover_and_contents",
+      "title": "Your North Dakota Sealing Packet",
+      "order": 1,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "sections": [
+        { "heading": "What this packet is", "kind": "static", "body": "This packet asks the court that entered your judgment to seal the court record of a first-offense marijuana or THC possession case under North Dakota Century Code chapter 19-03.1. Under that chapter the court must seal the record on motion when the conditions are met, so this is a motion asking for something the statute requires rather than a request for the court's discretion." },
+        { "heading": "What is in it", "kind": "contents_list" },
+        { "heading": "What you still have to do", "kind": "participant_checklist_summary" },
+        { "heading": "What this packet is not", "kind": "static", "body": "This packet is not legal advice and it is not a filing service. It is prepared from the facts you gave and from the statute; you file it yourself. It does not use North Dakota's general sealing chapter 12-60.1, which has its own waiting periods and its own burden of proof, and it is not the Summary Pardon Application administered by the Pardon Advisory Board." }
+      ]
+    },
+    {
+      "documentId": "nd-motion-to-seal",
+      "role": "primary_filing",
+      "title": "Motion to Seal Court Record — First-Offense Possession",
+      "order": 2,
+      "outputStrategy": "custom_pleading",
+      "requirement": "required",
+      "manifestComponentId": "nd-marijuana-first-offense-seal-primary-filing-1",
+      "sections": [
+        { "heading": "Caption", "kind": "caption", "fields": ["court", "residency_or_location", "case_number", "participant_full_legal_name"] },
+        { "heading": "Motion", "kind": "static", "body": "The defendant moves the court to seal the court record in this case under North Dakota Century Code chapter 19-03.1, which requires the court to seal the record on motion where the conditions below are met." },
+        { "heading": "Grounds", "kind": "grounds", "assertions": [
+          { "id": "guilt-entered", "text": "The defendant pleaded guilty or was found guilty in this case and judgment was entered on {{disposition_date}}.", "facts": ["disposition_date", "case_outcome"] },
+          { "id": "first-offense", "text": "This was a first offense involving possession of a controlled substance: {{nd_first_offense_confirmation}}", "facts": ["nd_first_offense_confirmation", "record_type", "prior_relief"] },
+          { "id": "quantity", "text": "The quantity charged was {{nd_charged_quantity}}, which is within the statutory limit of one ounce or less of marijuana or two grams or less of THC.", "facts": ["nd_charged_quantity", "charge", "offense_category"] },
+          { "id": "no-subsequent", "text": "The defendant has not been convicted of a further violation of North Dakota's controlled substances chapter within two years of the judgment entered in this case.", "facts": ["criminal_history"] }
+        ] },
+        { "heading": "Relief requested", "kind": "static", "body": "The defendant asks the court to order the court record in this case sealed. Once sealed under chapter 19-03.1 the court record may not be opened, even by court order." },
+        { "heading": "Signature", "kind": "signature_block", "fields": ["participant_full_legal_name", "contact_information"], "notarizationRequired": false }
+      ]
+    },
+    {
+      "documentId": "nd-proposed-order",
+      "role": "proposed_order",
+      "title": "Proposed Order Sealing Court Record",
+      "order": 3,
+      "outputStrategy": "custom_pleading",
+      "requirement": "conditional",
+      "conditionDescription": "Advisable by analogy to Chapter 12-60.1 practice; the subsection does not require one.",
+      "manifestComponentId": "nd-marijuana-first-offense-seal-proposed-order-2",
+      "includeWhen": "always_unless_participant_declines",
+      "sections": [
+        { "heading": "Caption", "kind": "caption", "fields": ["court", "residency_or_location", "case_number", "participant_full_legal_name"] },
+        { "heading": "Order", "kind": "static", "body": "The defendant's motion to seal the court record under North Dakota Century Code chapter 19-03.1 having been considered, and the court finding the statutory conditions met, IT IS ORDERED that the court record in this case is sealed." },
+        { "heading": "Why this is included", "kind": "static", "body": "Chapter 19-03.1 does not require a proposed order. One is included because it is the ordinary practice under North Dakota's general sealing chapter and it gives the court a document to sign. This is an analogy to that practice, not a requirement imported from it." },
+        { "heading": "Signature lines", "kind": "court_signature_block" }
+      ]
+    },
+    {
+      "documentId": "nd-legal-effect",
+      "role": "legal_effect_explanation",
+      "title": "What sealing does, and what it does not do",
+      "order": 4,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "manifestComponentId": "nd-marijuana-first-offense-seal-legal-effect-explanation-3",
+      "sections": [
+        { "heading": "What the order does", "kind": "static", "body": "A sealing order under chapter 19-03.1 seals the court record in this case. The statute is unusually strong on this point: once sealed, the court record may not be opened even by court order." },
+        { "heading": "What it does not reach", "kind": "static", "body": "The order is directed at the court record. It does not by itself change records held by other agencies, and it is not a pardon. If you need a criminal-history record corrected as well, that is a separate request to the agency that holds it." },
+        { "heading": "This is not the general sealing chapter", "kind": "static", "body": "North Dakota's general criminal-record sealing chapter, 12-60.1, uses waiting periods of three years for a misdemeanor and five for a felony, a clear-and-convincing burden, and a hearing no earlier than forty-five days after filing. None of that applies here. Chapter 19-03.1 makes sealing mandatory on motion when its own conditions are met." }
+      ]
+    },
+    {
+      "documentId": "nd-filing-and-next-steps",
+      "role": "filing_and_next_steps",
+      "title": "Filing this packet, and what happens next",
+      "order": 5,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "sections": [
+        { "heading": "Where this goes", "kind": "filing_destination" },
+        { "heading": "The filing fee", "kind": "fee_and_waiver" },
+        { "heading": "Who has to be served", "kind": "service_and_notice" },
+        { "heading": "How many copies", "kind": "copy_requirements" },
+        { "heading": "After you file", "kind": "post_filing_timeline" },
+        { "heading": "If there is a hearing or an objection", "kind": "hearing_and_objection_stops" },
+        { "heading": "Your checklist", "kind": "participant_checklist" },
+        { "heading": "Documents to attach", "kind": "attachments" }
+      ]
+    }
+  ],
+
+  "filingDestination": {
+    "statement": "File the motion in the existing criminal case with the clerk of court.",
+    "office": "Clerk of court for the court that entered the judgment",
+    "newCaseOrExisting": "existing_criminal_case",
+    "sourceOfRule": "packet-set manifest nd-marijuana-first-offense-seal-set, participantActionRequired kind file"
+  },
+
+  "feeAndWaiver": {
+    "feeIdentified": false,
+    "statement": "No filing fee is identified for this motion. The statewide fee schedule carries no line item for a motion in an existing criminal case.",
+    "waiverApplicable": false,
+    "waiverStatement": "A fee waiver application is not included because no fee is identified. If the clerk asks you for a fee, do not pay it before asking which schedule item it is under — this packet was prepared on the basis that none applies.",
+    "sourceOfRule": "packet-set manifest, participantActionRequired kinds pay_fee and apply_fee_waiver"
+  },
+
+  "serviceAndNotice": {
+    "serviceRequired": false,
+    "statement": "The subsection states no service requirement, so this packet does not include a certificate of service and does not direct you to serve anyone.",
+    "certificateOfServiceIncluded": false,
+    "whyNoCertificate": "A certificate of service is a required component of a filing packet only where the route requires service. Including one here would assert an obligation the statute does not impose. The absence is deliberate and is recorded so that it reads as a decision rather than an omission.",
+    "sourceOfRule": "packet-set manifest, participantActionRequired kind serve_party: \"None stated by the subsection.\""
+  },
+
+  "copyRequirements": {
+    "statement": "Bring the original signed motion and the proposed order for the clerk, and keep one complete copy of everything you file for yourself. Ask the clerk whether the court wants an additional copy for the judge — practice varies by district and the statute does not set a number.",
+    "originalPlusCopies": "1 original, 1 participant copy, ask the clerk about a judge's copy",
+    "sourceOfRule": "General filing practice. The statute sets no copy count, and this packet says so rather than inventing one."
+  },
+
+  "postFilingTimeline": [
+    { "step": "You file the motion and the proposed order with the clerk of court in the existing criminal case.", "timing": "when your checklist is complete" },
+    { "step": "The clerk dockets the motion in the existing case.", "timing": "usually the same day or the next business day" },
+    { "step": "The court rules on the motion. Sealing under chapter 19-03.1 is mandatory when the conditions are met, so the ordinary outcome is an order granting it.", "timing": "no statutory deadline applies to the court" },
+    { "step": "If the court signs the order, ask the clerk for a conformed copy for your records before the file is sealed.", "timing": "immediately after the order is signed" }
+  ],
+
+  "hearingAndObjectionStops": [
+    { "situation": "The court sets a hearing.", "whatItMeans": "Chapter 19-03.1 does not require a hearing on this motion. If one is set, attend it and bring the criminal judgment and the charging document.", "stopAndGetHelp": false },
+    { "situation": "The prosecutor objects, or the court questions whether this was a first offense or whether the quantity is within the limit.", "whatItMeans": "Those are the two elements of eligibility. If either is disputed, the answer is in the charging document and the criminal history, not in argument.", "stopAndGetHelp": true },
+    { "situation": "The court applies chapter 12-60.1's waiting periods or its clear-and-convincing burden to this motion.", "whatItMeans": "That is the general sealing chapter and it does not govern a chapter 19-03.1 first-offense motion. This is worth raising, and it is worth getting help to raise.", "stopAndGetHelp": true },
+    { "situation": "The court denies the motion.", "whatItMeans": "Get the written reason. A denial of relief the statute makes mandatory is a different problem from a denial on the facts.", "stopAndGetHelp": true }
+  ],
+
+  "attachments": [
+    { "attachmentId": "nd-criminal-judgment", "title": "Criminal judgment", "requirement": "required", "obtainedFrom": "Clerk of court", "whyNeeded": "It establishes the date judgment of guilt was entered, which is the statutory anchor.", "requiredBeforeFiling": false },
+    { "attachmentId": "nd-charging-document", "title": "Charging document showing the quantity", "requirement": "required", "obtainedFrom": "Clerk of court", "whyNeeded": "The quantity charged is an element of eligibility and recollection is not enough.", "requiredBeforeFiling": true },
+    { "attachmentId": "nd-bci-criminal-history", "title": "North Dakota BCI criminal history record", "requirement": "conditional", "conditionDescription": "Where the participant is unsure whether any further controlled-substance conviction exists.", "obtainedFrom": "North Dakota Attorney General, Bureau of Criminal Investigation", "whyNeeded": "It settles whether a further controlled-substance conviction followed within two years.", "requiredBeforeFiling": false }
+  ],
+
+  "participantChecklist": [
+    { "id": "confirm-judgment-date", "text": "Check your answer to \"On what date did the court enter the judgment of guilt?\" against the criminal judgment, and correct the packet if they disagree.", "requiredBeforeFiling": true },
+    { "id": "confirm-quantity", "text": "Check your answer to \"What quantity was charged?\" against the charging document, and correct the packet if they disagree.", "requiredBeforeFiling": true },
+    { "id": "confirm-no-subsequent", "text": "If you are unsure whether you have any further North Dakota controlled-substance conviction, check against your BCI criminal history record and correct the packet if they disagree.", "requiredBeforeFiling": true, "requirement": "conditional" },
+    { "id": "confirm-first-offense", "text": "Confirm that this was your first controlled-substance offense. The motion tells the court that it was, and that is one of the things the statute requires.", "requiredBeforeFiling": true },
+    { "id": "sign-motion", "text": "Sign the motion in the signature block.", "requiredBeforeFiling": true },
+    { "id": "no-notarization", "text": "No notarization is required for this filing.", "requiredBeforeFiling": true, "kind": "informational" },
+    { "id": "no-fee", "text": "No filing fee is identified for this motion, and no waiver application is needed.", "requiredBeforeFiling": true, "kind": "informational" },
+    { "id": "file-it", "text": "File the motion in the existing criminal case with the clerk of court.", "requiredBeforeFiling": false }
+  ]
+}

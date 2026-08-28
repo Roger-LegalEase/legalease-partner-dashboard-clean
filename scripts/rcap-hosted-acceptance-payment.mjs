@@ -1086,8 +1086,26 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   const imageResolvesPacket = Boolean(probe)
     && probe.packetRead?.attempted === true
     && probe.packetRead.resolved === true;
-  const passed = preflightRoute.routeKind === "legacy_verified"
-    && preflightRoute.sellable === true
+  // ADR-0004 retired the five legacy generators as commercial fulfillment paths
+  // on 2026-08-28. This harness charges a real Stripe test payment against a
+  // legacy route, so the precondition it must satisfy is no longer "the route is
+  // legacy_verified and sellable" — that combination cannot occur any more — but
+  // "the one fulfillment authority proves this exact route delivers a packet".
+  //
+  // Taking the verdict from the authority rather than from a constant here means
+  // this harness reopens when a Grade-A fulfillment record for the route exists
+  // and never because a staging script was edited. `passed` feeds `finish()`
+  // below, so a refusal stops the run before anything is charged.
+  const { packetFulfillmentAuthority } =
+    await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+  const preflightFulfillment = packetFulfillmentAuthority(
+    preflightRoute.profileId ?? preflightRoute.jurisdiction ?? "",
+    preflightRoute.pathwayId ?? "",
+    "checkout creation"
+  );
+  const passed = preflightRoute.routeKind === "legacy_retired"
+    && preflightRoute.sellable === false
+    && preflightFulfillment.allowed === true
     && dependsOnHeldPdf === false
     && digestPinned
     && digestMatches
@@ -1097,7 +1115,7 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   record(
     "immutable_image_admits_the_tuple_before_any_charge",
     passed,
-    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. Inside that same image, with ENABLE_SUPABASE_PARTNER_DATA=${probe?.partnerDataFlag ?? "(no probe)"}, getRcapDocumentPacket resolved an existing consumer packet ${probePacketId ?? "(none found to probe)"}: ${probe?.packetRead?.resolved ?? "not attempted"}${probe?.packetRead?.state ? ` (state ${probe.packetRead.state}, pathway ${probe.packetRead.pathway})` : ""}${probe?.packetRead?.error ? ` — ${probe.packetRead.error}` : ""}. That is the exact call that answered "packet not found" in run 32416556886 for a row that existed, because without the flag the reader returns null WITHOUT querying the table. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
+    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; the one fulfillment authority ${preflightFulfillment.allowed ? "PROVES" : "REFUSES"} this route (${preflightFulfillment.reason}); sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. Inside that same image, with ENABLE_SUPABASE_PARTNER_DATA=${probe?.partnerDataFlag ?? "(no probe)"}, getRcapDocumentPacket resolved an existing consumer packet ${probePacketId ?? "(none found to probe)"}: ${probe?.packetRead?.resolved ?? "not attempted"}${probe?.packetRead?.state ? ` (state ${probe.packetRead.state}, pathway ${probe.packetRead.pathway})` : ""}${probe?.packetRead?.error ? ` — ${probe.packetRead.error}` : ""}. That is the exact call that answered "packet not found" in run 32416556886 for a row that existed, because without the flag the reader returns null WITHOUT querying the table. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
   );
   evidence.imagePreflight = {
     tuple,

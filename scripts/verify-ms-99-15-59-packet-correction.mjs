@@ -80,12 +80,22 @@ ok("assertPacketRouteCanDeliver refuses this route", refuses(assertPacketRouteCa
 ok("assertCheckoutAllowed refuses this route", refuses(assertCheckoutAllowed));
 
 // The comparison that keeps the closure honest: a Mississippi route that is not
-// recorded here must be unaffected, or this is a state-wide shutdown wearing a
-// route-shaped record.
+// recorded here must not pick up THIS correction, or the correction is a
+// state-wide shutdown wearing a route-shaped record.
+//
+// ADR-0004 retired every legacy generator's commercial authority, so the
+// neighbour is no longer sellable either and the old form of this control —
+// "the neighbour still sells" — would now be asserting something the owner
+// decision withdrew. The control's actual job survives the retirement: the
+// correction row is route-scoped, so the neighbour must receive the ordinary
+// retired treatment rather than the correction. Two distinct classifications
+// inside one state is the evidence; sellability never was.
 const neighbour = resolvePacketRoute({
   state: "MS", pathway: "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal", trackId: null });
-ok("a Mississippi route with no correction row is untouched",
-  neighbour.routeKind === "legacy_verified" && neighbour.sellable === true, neighbour.routeKind);
+ok("a Mississippi route with no correction row does not inherit the correction",
+  neighbour.routeKind === "legacy_retired", neighbour.routeKind);
+ok("the correction stays route-scoped rather than state-wide",
+  neighbour.routeKind !== "packet_correction_required", neighbour.routeKind);
 
 // -------------------------------------------------- the artifact, re-derived
 const profile = getProfileByJurisdiction("MS");

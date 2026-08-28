@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 2,
+  "selectedOn": "2026-08-28",
+  "supersedesSelection": {
+    "route": "LA:human-trafficking-survivor-expungement-fee-exempt-route",
+    "withdrawnOn": "2026-08-28",
+    "whyWithdrawn": "It is held to guidance in BOTH per-route ratification records: HELD_GUIDANCE_ROUTES in the live evaluator, and lawrenceRatification.status hold_guidance with packet_capable false in the compiled profile. The first scoring pass consulted the legal-authority route contract and the factory_v2 registry and never consulted either ratification record, so it read a route counsel has held as though nothing were open. Recorded rather than deleted: the miss is that a route contract with zero gates is not the same fact as counsel having ratified the route."
+  },
+
+  "materialArchitectureConflict": {
+    "id": "dual-lawrence-ratification-records",
+    "finding": "There are two independent per-route records of counsel's ratification and they disagree.",
+    "recordA": {
+      "location": "src/lib/rcap-engine/evaluator.ts :: RATIFIED_DEPLOYABLE_ROUTES",
+      "count": 81,
+      "isAuthority": true,
+      "why": "isRatifiedDeployable() reads it at screening time. It is what actually runs."
+    },
+    "recordB": {
+      "location": "compiled profiles :: pathways[].lawrenceRatification",
+      "counts": { "ratified_deployable": 53, "packet_capable_false": 118, "absent": 166 },
+      "isAuthority": false,
+      "why": "Nothing in src/ reads it except INTERNAL_LEAK_MARKERS in src/lib/content/state-resources.ts, which lists it as a field that must never reach the public projection. It is data with no reader."
+    },
+    "overlap": 40,
+    "resolution": "Record B is a stale snapshot. The compiled profiles are profileVersion 2026-06-19-source-conversion-1; docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md records counsel promoting 16 route keys on 2026-07-01, and those promotions appear in Record A and not in Record B. Louisiana's 894(B) and 893(E) routes are the visible proof: promoted by the worksheet, ratified in the evaluator, still hold_guidance in the compiled snapshot.",
+    "consequence": "Route selection must be taken from Record A. Record B is usable only as corroboration, and agreement between the two is treated here as extra confidence rather than as a requirement.",
+    "openItem": "The compiled snapshot should either be regenerated from the evaluator or removed. Leaving a second per-route legal-status record that disagrees with the authority is how the first selection went wrong, and it will go wrong again."
+  },
+
+  "selectionMethod": "Scored every route in RATIFIED_DEPLOYABLE_ROUTES (the live authority), excluding the five retired legacy jurisdictions, on repository evidence only: route contract present, packet family named, factory_v2 admission and resolution, zero unmet build inputs, packet-family status BUILT, owner-approved legal design, payment allowed at the evaluator, public-witness reachability, zero open blockers, corroboration from the compiled ratification snapshot, official form identities, and a negative weight for delivery gates, packet-release preconditions and failure dispositions. Then applied the one constraint that is a fact about this container rather than about the routes: whether the packet can be composed here at all.",
+
+  "bestRouteOnLegalEvidence": {
+    "route": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+    "score": 31,
+    "marginOverNext": 5,
+    "whyItWon": "The only route that is ratified in both records, owner-approved on legal design, payment-allowed at the evaluator, witness-reachable, carrying zero open blockers and zero contract gates, with packet family BUILT, factory_v2 resolving, zero unmet build inputs, and a seven-component owner-approved packet set.",
+    "status": "BLOCKED — not selected",
+    "exactBlocker": {
+      "kind": "external",
+      "statement": "Its packet set renders the primary filing and the proposed order with outputStrategy official_pdf_fill against form OR-OJD-ADULT-SET-ASIDE-PACKET. Those blank official PDF bytes are not in this container: private/ does not exist and no official form PDF is anywhere in the repository.",
+      "whatWouldUnblockIt": "The OR-OJD-ADULT-SET-ASIDE-PACKET and OR-OSP-SET-ASIDE-CCH source PDFs, plus a field map for each.",
+      "whatWasNotDone": "The approved output strategy was NOT changed to custom_pleading to route around the missing bytes. Rewriting an owner-approved legal design to suit the container is not a build decision.",
+      "consequence": "Oregon is the first migration once those bytes arrive."
+    }
+  },
+
+  "secondFinding": {
+    "id": "no-output-strategy-runtime",
+    "statement": "Nothing in src/ reads outputStrategy at all. Neither official_pdf_fill nor custom_pleading has a composer behind it. The 497 packet-set manifests in data/record-clearing/legal-design-packet-set-manifests.json are an owner-approved design record with no runtime.",
+    "consequence": "The delta for the first Grade-A packet is not a missing renderer for one family. It is that the composer does not exist for any family. That is what this build creates."
+  },
+
+  "route": "ND:first-offense-possession-sealing",
+  "jurisdiction": "ND",
+  "pathwayId": "first-offense-possession-sealing",
+  "packetFamily": "rcap-nd-custom-pleading",
+  "packetFamilyLabel": "North Dakota First-Offense Possession Sealing Motion under N.D.C.C. ch. 19-03.1",
+
+  "whySelected": [
+    "It is the highest-scoring route (21) among those whose owner-approved packet set can be composed in this container — that is, whose components are custom_pleading and process_guidance and need no official PDF bytes.",
+    "Ratified in BOTH records: RATIFIED_DEPLOYABLE_ROUTES in the evaluator, and ratified_deployable in the compiled snapshot. The conflict recorded above does not touch it.",
+    "ownerApprovedLegalDesign is true, under decision record auth-2026-08-19-owner-legal-approval-completed-output. It is the only composable-here candidate that is both owner-approved and ratified in both records.",
+    "Its packet set names a primary_filing and a proposed_order, the two components a filing packet cannot invent, plus a legal_effect_explanation. All seven factory_v2 build inputs are met and unmetBuildInputs is empty.",
+    "Zero delivery gates, zero packet-release preconditions, zero failure dispositions, zero open blockers.",
+    "The statute makes sealing mandatory on motion, so the packet asks for something the court must grant rather than something it may. There is no discretionary-relief argument for the composer to get wrong.",
+    "No fee is identified and no service is required, so the packet needs no parish or county fee schedule and no certificate of service — the two components most likely to be wrong in a first build.",
+    "The packet-set manifest already carries a full participantActionRequired list naming signature, notarisation, fee and waiver, so the participant checklist is drawn from the approved design rather than composed.",
+    "It is not a retired legacy jurisdiction, so it exercises the Grade-A path rather than inheriting anything from a retired generator."
+  ],
+
+  "knownCostOfThisChoice": {
+    "paymentAllowedAtTheEvaluator": false,
+    "why": "The evaluator does not admit payment for this route. That costs nothing here: ADR-0004 holds every commercial posture closed regardless, and the Grade-A record proves the packet exists without opening a sale. It does mean the end-to-end proof exercises generation and delivery rather than a paid checkout — which is the correct scope, because reopening payment is not something a local proof may do.",
+    "packetFamilyStatusLedger": "The route does not appear in data/rcap-ledger/packet-family-build-status.json, and its family name comes from the factory_v2 registry (packetFamilies: rcap-nd-custom-pleading) rather than from the compiled profile's legalAuthority block, which this route does not carry. Recorded so the family name is not read as a compiled legal statement.",
+    "noRouteContract": "This route has no entry in src/lib/legal-authority/routes/. Every route that does have one requires official PDF bytes; the two sets are disjoint. The packet specification therefore draws its legal statements from the compiled profile's extracted rules and from the owner-approved packet-set manifest, and names both."
+  },
+
+  "legalStatus": "N.D.C.C. ch. 19-03.1 first-offense possession sealing. Sealing is mandatory on motion where the offence was a first offence involving one ounce or less of marijuana or two grams or less of THC, judgment was entered, and no further controlled-substance conviction followed within two years. Once sealed, the court record may not be opened even by court order.",
+  "sourceStatus": "Two compiled-profile source identities (section:90-95 and corpus-unit:38) carried from the ingestion record and NOT re-verifiable against bytes here, because private/Nationwide Record Clearing/ is absent from this container. One source that IS present and verifiable: the owner-approved packet-set manifest nd-marijuana-first-offense-seal-set at version 1.0.0. The fulfillment record names each identity with its verification state, so an asserted hash is never read as a live verification.",
+  "mapStatus": "No official form and no field map. Every filing component is custom_pleading, which is why this route is buildable here.",
+  "rendererStatus": "To be built. A Grade-A composer and an application/pdf provider are the delta.",
+  "artifactStatus": "Not yet produced.",
+
+  "packetSpecification": {
+    "path": "data/record-clearing/packet-specifications/ND-first-offense-possession-sealing.v1.json",
+    "specificationId": "nd-first-offense-possession-sealing",
+    "version": "1.0.0",
+    "sha256": "3ca17d0425a62b3da1842a3f8f6723a6f224669b0aa1923d7f653029c991c262",
+    "documents": 5,
+    "requiredFacts": 14,
+    "finalVerificationRequirements": 5,
+    "attachments": 3,
+    "participantChecklistItems": 7
+  },
+
+  "exactRemainingDelta": [
+    "A Grade-A composer that turns the specification plus a verified matter into the document set.",
+    "A Grade-A provider that renders the document set to application/pdf.",
+    "The Grade-A fulfillment record, naming the specification hash, the source identities and their verification states, the provider and renderer with versions, the required facts, the final-verification requirements, the artifact-approval status, both commercial postures and the hold reason.",
+    "A proof through the real product surfaces, with both postures held throughout."
+  ],
+
+  "notSelectedAndWhy": {
+    "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": "Best on legal evidence; blocked on missing official PDF bytes. See bestRouteOnLegalEvidence.",
+    "UT:path-i-traffic-offense-expungement-or-deletion": "Score 26, owner-approved and payment-allowed, but its packet set needs official_pdf_fill against five Utah forms that are not in this container.",
+    "MN:petition-based-expungement-under-609a-02-03": "Score 26 and ratified in both records, but ownerApprovedLegalDesign is false and its packet set needs official_pdf_fill against EXP101, EXP102, EXP104, EXP105 and FEE102.",
+    "GA:sb-288-misdemeanor-conviction-restriction-and-sealing": "The richest composable-here set at thirteen components, all custom_pleading, and ratified in both records — but ownerApprovedLegalDesign is false. Building the first commercially-authoritative packet on a legal design the owner has not approved is the wrong first case whatever its component count.",
+    "WY, OK, NV, WA, VA, ND:deferred-imposition, NH, WI, CA:tool-4, NM, TN, MD": "Composable here but each loses to ND:first-offense-possession-sealing on the combination of owner approval, ratification in both records, and a packet set that names both a primary filing and a proposed order.",
+    "MS, IL, DC, PA, TX routes": "Excluded on principle: the point is to prove the Grade-A path, not to inherit a retired generator's material."
+  }
+}

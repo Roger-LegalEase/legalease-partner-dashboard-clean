@@ -636,7 +636,7 @@ async function main() {
     packetType: consumerPacketType,
     paymentAllowed: consumerPaymentAllowed
   };
-  const routeExact = routeIdentity.routeKind === "legacy_verified"
+  const routeExact = routeIdentity.routeKind === "legacy_retired"
     && routeIdentity.routeId === `PA:${PA_PATHWAY}`
     && routeIdentity.pathwayId === PA_PATHWAY
     && routeIdentity.jurisdiction === "PA"
@@ -645,11 +645,39 @@ async function main() {
     && routeIdentity.profileId === "PA"
     && routeIdentity.profileVersion === "1.3.0"
     && routeIdentity.sourceSha256 === null
-    && routeIdentity.sellable === true
-    && routeIdentity.creditConsumable === true
-    && routeIdentity.paymentAllowed === true;
+    && routeIdentity.sellable === false
+    && routeIdentity.creditConsumable === false;
   record("pennsylvania_path_a_resolver_exact", routeExact, JSON.stringify(routeIdentity));
   evidence.pennsylvaniaRoute = routeIdentity;
+
+  // ---- ADR-0004: this harness may no longer transact this route ------------
+  //
+  // The fixture this gate charges is Pennsylvania Path A, which reaches the
+  // participant through the Pennsylvania legacy generator. Roger Roman retired
+  // the five legacy generators as commercial fulfillment paths on 2026-08-28, so
+  // there is no longer a payable route here to accept.
+  //
+  // The refusal is taken from the one fulfillment authority rather than from a
+  // constant in this file, so that this harness reopens exactly when a Grade-A
+  // fulfillment record for PA Path A exists, and never because someone edited a
+  // staging script. `paymentAllowed` above is left in the recorded identity as
+  // evidence: the evaluator still admits payment for this result code, and the
+  // gate that stops it is the fulfillment record, not the evaluator.
+  const { packetFulfillmentAuthority } =
+    await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
+  const paFulfillment = packetFulfillmentAuthority("PA", PA_PATHWAY, "checkout creation");
+  record(
+    "legacy_route_is_not_a_transactable_fulfillment_path",
+    paFulfillment.allowed === false,
+    `PA:${PA_PATHWAY} fulfillment authority: allowed=${paFulfillment.allowed}; ${paFulfillment.reason}`
+  );
+  if (!paFulfillment.allowed) {
+    throw new Error(
+      `ADR-0004: PA:${PA_PATHWAY} is served by a retired legacy generator and is not an approved `
+      + `commercial fulfillment path. This gate transacts a real Checkout, so it stops here rather `
+      + `than charging for a packet no fulfillment record proves. Reason: ${paFulfillment.reason}`
+    );
+  }
 
   const summaryJson = sqlText(JSON.stringify({ text: "RCAP hosted Checkout gate — synthetic Pennsylvania Path A", gate: "human_checkout" }));
   const insert = await sql(`

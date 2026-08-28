@@ -169,17 +169,23 @@ function failures(registry) {
     } else {
       // Not an error on its own — a suppression legitimately outranks the
       // factory — but it must be a suppression and never a silent sale.
-      fail(resolution.sellable === false || resolution.routeKind === "legacy_verified",
+      fail(resolution.sellable === false,
         `L-suppressed ${route.pathwayKey}: admitted by the registry, resolved as ${resolution.routeKind}, and sellable`);
     }
   }
   fail(resolvedAsFactory > 0, "L-live: no admitted route actually resolves as factory_v2 through the resolver");
 
-  // The legacy generators keep working and keep selling.
+  // The legacy generators keep their own route and keep rendering. They no
+  // longer sell: ADR-0004 retired their commercial authority, so the factory is
+  // not competing with them for a sale — there is no sale to compete for. What
+  // still matters here is that admission to the factory never quietly absorbs a
+  // legacy jurisdiction's route identity.
   for (const code of LEGACY_VERIFIED_JURISDICTIONS) {
     const resolution = resolvePacketRoute({ state: code, pathway: "" });
-    fail(resolution.routeKind === "legacy_verified",
-      `L-legacy ${code}: resolved as ${resolution.routeKind}; the live legacy generator must keep its own route`);
+    fail(resolution.routeKind === "legacy_retired",
+      `L-legacy ${code}: resolved as ${resolution.routeKind}; the retired legacy generator must keep its own route`);
+    fail(resolution.sellable === false && resolution.creditConsumable === false,
+      `L-legacy-closed ${code}: a retired legacy generator resolved with commercial authority`);
   }
 
   // An unknown route still fails closed.

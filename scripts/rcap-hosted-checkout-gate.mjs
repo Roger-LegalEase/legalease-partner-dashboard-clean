@@ -529,7 +529,7 @@ async function main() {
     resultCode: consumerResultCode,
     packetType: consumerPacketType
   };
-  const routeExact = routeIdentity.routeKind === "legacy_verified"
+  const routeExact = routeIdentity.routeKind === "legacy_retired"
     && routeIdentity.routeId === `PA:${PA_PATHWAY}`
     && routeIdentity.pathwayId === PA_PATHWAY
     && routeIdentity.jurisdiction === "PA"
@@ -538,13 +538,17 @@ async function main() {
     && routeIdentity.profileId === "PA"
     && routeIdentity.profileVersion === String(compiledProfile?.profileVersion)
     && routeIdentity.sourceSha256 === null
-    && routeIdentity.sellable === true
-    && routeIdentity.creditConsumable === true;
+    && routeIdentity.sellable === false
+    && routeIdentity.creditConsumable === false;
   record("pennsylvania_path_a_resolver_exact", routeExact, JSON.stringify(routeIdentity));
   evidence.pennsylvaniaRoute = routeIdentity;
 
   // The PA resolver proof above is a compatibility boundary, not permission to
-  // sell that route. The frozen authoritative evaluator classifies PA Path A
+  // sell that route — and since ADR-0004 it is the opposite of permission: the
+  // legacy renderer is retained for historical access and migration comparison,
+  // and the identity is asserted to carry sellable false and creditConsumable
+  // false so that a regression restoring legacy commercial authority fails here
+  // rather than at a checkout. The frozen authoritative evaluator classifies PA Path A
   // needs_review/dtc_no_payment. The transacted fixture therefore follows the
   // full payment harness: try the registry route first, then MS/IL/PA, and use
   // only a route the evaluator itself proves sellable.
@@ -554,6 +558,13 @@ async function main() {
     await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
   const { projectPublicProfile } =
     await import("../src/lib/rcap-engine/public-profile-projection.ts");
+  // The one fulfillment authority. Since ADR-0004 an evaluator verdict of
+  // paymentAllowed is a necessary condition for a sale and never a sufficient
+  // one: it says the matter qualifies for relief, not that the product can
+  // deliver the filing. This harness transacts a real Checkout, so it selects
+  // only a route the authority itself proves.
+  const { packetFulfillmentAuthority } =
+    await import("../src/lib/expungement-ai/packet-fulfillment-authority.ts");
   const preferredAnswers = {
     ownership_scope: "Yes",
     jurisdiction_scope: "State or local",
@@ -641,10 +652,21 @@ async function main() {
         continue;
       }
       last = evaluation;
-      const sellable = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
+      const evaluatorAdmitsPayment = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
         && evaluation.paymentAllowed === true
         && typeof evaluation.pathwayId === "string";
-      if (sellable) return { state, profile, evaluation, answers };
+      // Two independent conditions, deliberately not collapsed: the evaluator
+      // admits payment for the matter, AND a fulfillment record proves this
+      // exact route delivers a packet. The harness may transact only where both
+      // hold, so a route that qualifies legally but has nothing to ship is
+      // rejected here rather than at a participant's download.
+      const fulfillment = evaluatorAdmitsPayment
+        ? packetFulfillmentAuthority(state, evaluation.pathwayId, "checkout creation")
+        : { allowed: false, reason: "the evaluator does not admit payment for this matter" };
+      if (evaluatorAdmitsPayment && !fulfillment.allowed) {
+        return { state, failure: `${evaluation.pathwayId}: evaluator admits payment but no proven fulfillment — ${fulfillment.reason}` };
+      }
+      if (evaluatorAdmitsPayment && fulfillment.allowed) return { state, profile, evaluation, answers };
       const missing = evaluation.missingQuestionIds ?? [];
       if (!missing.length) {
         return { state, failure: `${evaluation.resultCode} with no remaining questions` };

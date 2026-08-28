@@ -68,17 +68,43 @@ Ask Roger before any action that would:
 
 Never use `git add .`, `git add -A`, or `git add --all`.
 
-## Legacy Generators Preserved
+## Legacy Generators: Preserve Assets And History, Not Authority
 
-Existing live legacy generators must remain preserved:
+The legacy packet generators for Mississippi, Illinois, the District of
+Columbia, Pennsylvania and Texas-Harris are **not approved commercial
+fulfillment paths**. Roger Roman decided this on 2026-08-28; the record is
+`data/record-clearing/legal-decisions/2026-08-28-legacy-generator-retirement.json`
+and the reasoning is ADR-0004.
 
-- Mississippi
-- Illinois
-- District of Columbia
-- Pennsylvania
-- Texas-Harris
+**Preservation means preserving useful assets and history. It does not mean
+preserving runtime or commercial authority.**
 
-Legacy generators are flow/output references and live fallbacks. Do not break them. Do not change live RCAP routes unless a task explicitly authorizes that exact route change.
+Preserved — do not delete merely because a runtime is retired:
+
+- state packs, official sources, field maps, packet text, filing instructions,
+  fixtures and participant copy;
+- already-generated artifacts, reachable through protected owner-authorized
+  access;
+- the document components, as implementation references and as comparison
+  evidence during migration.
+
+Not preserved — no legacy generator authorizes any of these:
+
+- checkout, sponsored entitlement, packet-credit consumption;
+- render jobs, participant delivery, commercially deliverable status.
+
+Do not restore their direct-consumer price. Do not create a state-specific
+exception, and do not let a partner-only generator become a direct-consumer one.
+Jurisdiction membership grants nothing.
+
+Commercial authority comes from a Grade-A fulfillment record keyed to an exact
+route and packet family, and from nothing else. A route sells only what a record
+proves it delivers, and the absence of a record is a refusal rather than a gap.
+Migration is route by route and family by family; a state is never reopened
+because one of its routes passes.
+
+Do not change live RCAP routes unless a task explicitly authorizes that exact
+route change.
 
 ## Source Hierarchy
 

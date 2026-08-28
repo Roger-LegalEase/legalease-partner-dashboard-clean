@@ -36,6 +36,9 @@ const { resolvePacketRoute, packetRouteCanRender } = await import("@/lib/rcap/do
 const { legalRouteContract } = await import("@/lib/legal-authority/index");
 const { resolveRoute } = await import("@/lib/legal-authority/resolve-route");
 const { isConsumerPaymentAllowed } = await import("@/lib/expungement-ai/eligibility-adapter");
+const { packetFulfillmentAuthority } = await import("@/lib/expungement-ai/packet-fulfillment-authority");
+const fulfillmentLedger = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-fulfillment-records.json", "utf8"));
+const FULFILLED = new Map((fulfillmentLedger.records ?? []).map((record) => [record.routeKey, record]));
 
 const witnesses = JSON.parse(fs.readFileSync("data/rcap-ledger/public-witness-answer-sets.json", "utf8")).witnesses;
 const correction = JSON.parse(fs.readFileSync("data/rcap-ledger/packet-correction-required.json", "utf8"));
@@ -99,6 +102,7 @@ function componentsPresentIn(text) {
 }
 
 const rows = [];
+const departures = [];
 for (const witness of witnesses) {
   const terminal = witness.terminalEvaluation ?? {};
   const jurisdiction = witness.jurisdiction;
@@ -108,7 +112,29 @@ for (const witness of witnesses) {
   const creditConsumable = packetRoute.creditConsumable === true;
   // Commercial means it can take money or a sponsored credit. Either is enough
   // to require an account of what the participant receives.
-  if (!evaluatorPaymentAllowed && !creditConsumable) continue;
+  // A route enters the census if it can take money or a sponsored credit, OR if
+  // a fulfillment record vouches for it. The third case is new: ADR-0004 lets a
+  // packet be proven while both its commercial postures stay held, and a proven
+  // packet that nothing accounts for is exactly the gap this census exists to
+  // close — in the other direction.
+  if (!evaluatorPaymentAllowed && !creditConsumable && !FULFILLED.has(witness.pathwayKey)) {
+    // A route leaving the commercial denominator is accounted for by name. The
+    // census fell from 54 routes to 30 the moment ADR-0004 withdrew the legacy
+    // generators' credit-consumability, and a denominator that shrinks without
+    // an explanation is indistinguishable from one that was quietly edited.
+    if (packetRoute.routeKind === "legacy_retired") {
+      departures.push({
+        route: witness.pathwayKey,
+        jurisdiction,
+        pathway: pathwayId,
+        wasCommercialBecause: "the packet route resolver classified its jurisdiction legacy_verified, which made every route in that state credit-consumable",
+        leftBecause: "ADR-0004 retired the five legacy generators as commercial fulfillment paths. The route resolves legacy_retired with sellable false and creditConsumable false, so it can no longer take money or a sponsored credit and is not a commercial route.",
+        stillRenders: packetRoute.rendererKind,
+        note: "Its renderer is retained so an already-generated artifact stays reachable. That is historical access, not commercial authority."
+      });
+    }
+    continue;
+  }
 
   const profile = getProfileByJurisdiction(jurisdiction);
   const plan = profile ? packetPlanForPathway(profile, pathwayId) : undefined;
@@ -144,7 +170,26 @@ for (const witness of witnesses) {
   let classification;
   let delta;
   const missing = components.absent.join("; ");
-  if (correctionRow) {
+  const fulfillment = FULFILLED.get(witness.pathwayKey);
+  const proven = packetFulfillmentAuthority(jurisdiction, pathwayId).allowed === true;
+  /**
+   * COMPLETE_PACKET_PROVEN is now decided by the fulfillment record and by
+   * nothing else.
+   *
+   * It used to be decided by running seven regexes over the text summary the
+   * paid path returned. That test could only ever have said whether a summary
+   * mentioned the words "proposed order" — which is precisely the proxy the
+   * Mississippi finding proved worthless, since the summary mentions plenty of
+   * things it does not contain. A route is proven when a record says it is, and
+   * a record is written when a packet is built and machine-verified.
+   */
+  if (proven) {
+    const held = fulfillment.consumerPosture === "held" || fulfillment.sponsoredPosture === "held";
+    classification = held ? "COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD" : "COMPLETE_PACKET_PROVEN";
+    delta = held
+      ? `The packet is proven (${fulfillment.packetSpecificationId} v${fulfillment.packetSpecificationVersion}, provider ${fulfillment.artifactProvider}, ${fulfillment.contentType}). Consumer posture ${fulfillment.consumerPosture}, sponsored posture ${fulfillment.sponsoredPosture}. ${fulfillment.holdReason}`
+      : "None.";
+  } else if (correctionRow) {
     classification = "PACKET_CORRECTION_REQUIRED";
     delta = "Already closed by an individual proof; see data/rcap-ledger/packet-correction-required.json.";
   } else if (!plan) {
@@ -165,8 +210,10 @@ for (const witness of witnesses) {
       ? `Checkout is OPEN on a route that promises no packet, and the paid path would return a ${artifact ? Buffer.byteLength(artifact) : 0}-byte text/plain summary.`
       : `The packet route resolver classifies this ${packetRoute.routeKind} and closes checkout, while the evaluator reports paymentAllowed ${evaluatorPaymentAllowed}. The two disagree; only the resolver's answer is closing it.`;
   } else if (components.absent.length === 0) {
-    classification = "COMPLETE_PACKET_PROVEN";
-    delta = "None.";
+    // The summary mentions every component name and contains none of them. That
+    // is the finding, not a pass.
+    classification = "PACKET_CORRECTION_REQUIRED";
+    delta = "The text summary mentions every required component by name and contains none of them, which is why component keywords can no longer establish a proven packet. No fulfillment record exists for this route.";
   } else if (checkoutOpen) {
     classification = "PACKET_CORRECTION_REQUIRED";
     delta = `Checkout is OPEN. A participant can pay today and receive a ${Buffer.byteLength(artifact)}-byte text/plain summary. Missing: ${missing}.`;
@@ -190,16 +237,28 @@ for (const witness of witnesses) {
       contractSponsorshipAuthority: resolution.sponsorshipAuthority ?? null,
       routeCreditConsumable: creditConsumable
     },
-    generationEntryPoint: "generatePaidConsumerPacket -> buildConsumerPacketArtifact -> renderSourceDrivenPacket",
-    artifactProvider: "rcap_source_engine",
-    contentType: "text/plain",
+    generationEntryPoint: fulfillment
+      ? "generatePaidConsumerPacket -> buildConsumerPacketArtifact -> buildGradeAArtifact -> composeGradeAPacket"
+      : "generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)",
+    artifactProvider: fulfillment?.artifactProvider ?? "none",
+    contentType: fulfillment?.contentType ?? "none",
+    fulfillmentRecord: fulfillment
+      ? {
+        packetSpecificationId: fulfillment.packetSpecificationId,
+        packetSpecificationVersion: fulfillment.packetSpecificationVersion,
+        packetSpecificationSha256: fulfillment.packetSpecificationSha256,
+        artifactApprovalStatus: fulfillment.artifactApprovalStatus,
+        consumerPosture: fulfillment.consumerPosture,
+        sponsoredPosture: fulfillment.sponsoredPosture
+      }
+      : null,
     actualComponents: components.present,
     requiredComponents: REQUIRED_COMPONENTS,
     sourceHashes: plan?.sourceFormIds ?? [],
     renderer: packetRoute.rendererKind,
     routeKind: packetRoute.routeKind,
-    artifactHash: artifact ? crypto.createHash("sha256").update(artifact).digest("hex") : null,
-    artifactBytes: artifact ? Buffer.byteLength(artifact) : 0,
+    artifactHash: fulfillment ? null : (artifact ? crypto.createHash("sha256").update(artifact).digest("hex") : null),
+    artifactBytes: fulfillment ? null : (artifact ? Buffer.byteLength(artifact) : 0),
     privateDelivery: "owner-scoped Briefcase download path; not reached while the route is fail-closed",
     repeatDownload: "supported by the download path; not reached while the route is fail-closed",
     currentClassification: classification,
@@ -214,13 +273,21 @@ const doc = {
   generatedBy: "scripts/generate-commercial-packet-integrity.mjs",
   createsApproval: false,
   evaluatedAt: process.env.RCAP_EVALUATOR_TODAY,
+  provenIsTheOnlyClassificationThatCanOpenPayment: "COMPLETE_PACKET_PROVEN is set from the fulfillment record and from nothing else, and every other classification leaves the route refused at all six commercial surfaces. COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD is a proven packet whose postures are still closed: it opens nothing either.",
   finding: "The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.",
   totals: {
     commercialRoutes: rows.length,
     evaluatorPaymentAllowed: rows.filter((row) => row.currentPaymentAuthority.evaluatorPaymentAllowed).length,
     checkoutActuallyOpen: rows.filter((row) => row.currentPaymentAuthority.checkoutActuallyOpen).length,
+    provenByFulfillmentRecord: rows.filter((row) => row.fulfillmentRecord !== null).length,
     sponsorshipCapable: rows.filter((row) => row.currentSponsorshipAuthority.routeCreditConsumable).length,
     ...counts
+  },
+  departuresFromTheCommercialDenominator: {
+    note: "Routes that were in this census and no longer are, each with the exact reason. A denominator that changes silently is not a denominator.",
+    count: departures.length,
+    reconciliation: `The previous census carried 54 commercial routes. ${departures.length} left when ADR-0004 withdrew the legacy generators' credit-consumability, and ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} entered on a fulfillment record rather than on a commercial capability. 54 - ${departures.length} + ${rows.filter((row) => row.fulfillmentRecord !== null && !row.currentPaymentAuthority.evaluatorPaymentAllowed && !row.currentSponsorshipAuthority.routeCreditConsumable).length} = ${rows.length}.`,
+    routes: departures.sort((a, b) => a.route.localeCompare(b.route))
   },
   rows
 };
@@ -233,7 +300,9 @@ const md = [
   "",
   doc.finding,
   "",
-  `**${doc.totals.commercialRoutes} commercial routes** — ${doc.totals.evaluatorPaymentAllowed} payment-allowed at the evaluator, ${doc.totals.checkoutActuallyOpen} with checkout actually open once the packet route resolver is consulted, ${doc.totals.sponsorshipCapable} sponsorship-capable.`,
+  `**${doc.totals.commercialRoutes} commercial routes** — ${doc.totals.evaluatorPaymentAllowed} payment-allowed at the evaluator, ${doc.totals.checkoutActuallyOpen} with checkout actually open once the packet route resolver is consulted, ${doc.totals.sponsorshipCapable} sponsorship-capable, ${doc.totals.provenByFulfillmentRecord} proven by a fulfillment record.`,
+  "",
+  `**${departures.length} routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under \`departuresFromTheCommercialDenominator\`; none of them can take money or a sponsored credit any more, and each still renders for historical access.`,
   "",
   "| Classification | Routes |",
   "|---|---:|",
