@@ -50,8 +50,8 @@
       "insertion": "append_without_reordering",
       "beforeQuestionCount": 35,
       "afterQuestionCount": 36,
-      "statutoryAuthority": "Maryland Criminal Procedure § 10-105(a)(8) and § 10-105(c)(4)",
-      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure § 10-105(c)(4), measured from the date the pardon was signed.",
+      "statutoryAuthority": "Maryland Criminal Procedure \u00a7 10-105(a)(8) and \u00a7 10-105(c)(4)",
+      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure \u00a7 10-105(c)(4), measured from the date the pardon was signed.",
       "routeBehavior": [
         "A participant not on the pardon pathway is unaffected.",
         "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
@@ -140,7 +140,7 @@
           "path": "src/lib/rcap-engine/evaluator.ts",
           "sha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e",
           "supersededOn": "2026-08-19",
-          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves — no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
+          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves \u2014 no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         },
         {
@@ -168,7 +168,7 @@
           "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
           "sha256": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
           "supersededOn": "2026-08-25",
-          "reason": "The Maryland profile now consumes LD-MD-03 instead of remaining exempt from legal-contract binding. The change replaces the route's unrelated shared waiting statements with the approved § 10-103 eight-year filing-deadline statement, records the agency-application output, and binds arrest_date. The pardon question, pathway, placement, counts and ten-year pardon deadline remain unchanged.",
+          "reason": "The Maryland profile now consumes LD-MD-03 instead of remaining exempt from legal-contract binding. The change replaces the route's unrelated shared waiting statements with the approved \u00a7 10-103 eight-year filing-deadline statement, records the agency-application output, and binds arrest_date. The pardon question, pathway, placement, counts and ten-year pardon deadline remain unchanged.",
           "behaviouralProof": "scripts/verify-rcap-md-police-record-deadline.mjs"
         },
         {
@@ -213,9 +213,25 @@
           "path": "src/lib/rcap-engine/evaluator.ts",
           "sha256": "57e016a785a61c8c643c38278c690104fa4731b30b2f2be344df2d7576cea733",
           "supersededOn": "2026-08-28",
-          "reason": "Mississippi § 99-15-59 was proven to generate a status summary rather than a filing, so the evaluator now holds it at needs_review with no payment; a route recorded in data/rcap-ledger/packet-correction-required.json is closed at the evaluator as well as at the packet route resolver, because closing only the resolver stops the sale and still reports a ready packet. Maryland is untouched: no Maryland question, rule or deadline changes, and both Maryland deadlines are re-proven end to end over these bytes.",
+          "reason": "Mississippi \u00a7 99-15-59 was proven to generate a status summary rather than a filing, so the evaluator now holds it at needs_review with no payment; a route recorded in data/rcap-ledger/packet-correction-required.json is closed at the evaluator as well as at the packet route resolver, because closing only the resolver stops the sale and still reports a ready packet. Maryland is untouched: no Maryland question, rule or deadline changes, and both Maryland deadlines are re-proven end to end over these bytes.",
           "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
           "repinnedTo": "3b12e43c4c24cc851356063a0f183f290ac1a50ca849e8a681eba565fe49241c"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "3b12e43c4c24cc851356063a0f183f290ac1a50ca849e8a681eba565fe49241c",
+          "supersededOn": "2026-08-28",
+          "reason": "The seven per-route ratification Sets became projections of data/record-clearing/legal-decisions/route-ratification-registry.json. The repository carried two editable records of the same legal fact and they disagreed; the registry is now the authority and the evaluator filters it. The projected membership is identical to the literals it replaced, set for set \u2014 ratified 80, corrected 4, hard-gate 37, held 31, approved-release 9, unsupported 24, caution-override 2, with the same route keys in each. So no route's ratification changed and Maryland's pardon route is ratified exactly as before. What changed is where the list is stored. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that moves.",
+          "behaviouralProof": "scripts/generate-route-ratification-projections.mjs",
+          "repinnedTo": "d458ae06985f0faf0fcae01cc128b7e71556f9619b3d5e12cf024a092d7047fd"
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "sha256": "6e6ef8b1d60eea81a910c6fb84542624483525af2f2588cff9d4fc5b842a6a5b",
+          "supersededOn": "2026-08-28",
+          "reason": "Each pathway's lawrenceRatification block is now written from the ratification registry rather than carried as an independently editable copy. That field is listed in INTERNAL_LEAK_MARKERS in src/lib/content/state-resources.ts: it must never reach the public projection, and it does not. It cannot add, remove, rename, reorder or retype a question, cannot move an eligibility rule, and cannot change the ten-year filing period under Crim. Proc. 10-105(c)(4). Maryland's pardon route keeps the same ratified status it had. The bytes moved for a reason outside what this approval covers, which is what a re-pin is for; the approval is not rehashed and nobody's name is put on bytes they did not see.",
+          "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs",
+          "repinnedTo": "c7cc900732e23f748bf7a8274cb0f56cc558a178621c13970bce6478c23bf0e5"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",

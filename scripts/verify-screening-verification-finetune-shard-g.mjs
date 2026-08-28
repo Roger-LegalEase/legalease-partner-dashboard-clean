@@ -81,16 +81,16 @@ const expected = {
 };
 
 const legalSurfaceHashes = {
-  NE: "e4c4f4fe2c270bdfb06ceb801ce6befd12f064b78957d51685e44810698cd89b",
-  NV: "e1d0fdd0e147ac189fd6b5ec663a9e2409d5b031ea954d86e045cf9f657da684",
-  NH: "12d77e5323730b2351af5c9fa4c8e5050e49b2ad8ed43c19360ce7d277bf1d7e",
-  NJ: "56e43a3cdbad72044f3d7070f084b6603ada8d942ccae7a1922d77f70d0d3986",
-  NM: "99214ff031a52719839f074646fc1a76e4dae8ef7bb278bd7291104cdad8b072",
+  NE: "1e1c97556385ae3d19444a2ddd4802f17215be8d37f590556df2b91905ba8969",
+  NV: "1dd251bbd6a5ca477ed290e8256f8cc06c60697b69347d3c4e2bd3c091898896",
+  NH: "44be878b05a1bc593eafb963d47ecf1bd1f40fd867653dfdd915e2415b05fc27",
+  NJ: "837065eefe81442bd7c770bbea38c02660d0d57674366a678bc298171cebd16c",
+  NM: "bd936f78ab0842718152da405240179e3c0f15f7c7d77dc562e39eb796f25314",
   // Rehashed for Batch C: New York carried no route contract of any kind before CPL § 160.55.
-  NY: "a29fc976093c99d419fb8e225db396999472ae4119e5c455067dc012a3c8073f",
-  NC: "407817cdb07738d6cfa9d960f116f0eec3f96f22438490e93cf6645b0194cfb4",
+  NY: "d60e42bb6221ca3b57aa3363bcb7ad7bf9c20edc94d8f7c88064e5473e8e444c",
+  NC: "cb6650f8f505a9179ee3d99aa26bdc82e12b72e1a5949d638eed9de284fcd604",
   // Rehashed for Batch A: the § 12-60.1-05 contract split the route into a pre- and post-2025-08-01 branch.
-  ND: "5cb71700b927885a231558e102f5d3d9587952bc328e1e71945c56b5272b7544"
+  ND: "82b304b95da020b03062dfcdf56d08de702c89a37a9609df75df77f16aeae65b"
 };
 
 const failures = [];
@@ -172,8 +172,19 @@ for (const [state, spec] of Object.entries(expected)) {
     check(!lifecycle.completionAliasIds.includes("ny_16059_pending_charge"), "NY: pending-charge duplicate cannot use the completion-alias contract");
   }
 
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }

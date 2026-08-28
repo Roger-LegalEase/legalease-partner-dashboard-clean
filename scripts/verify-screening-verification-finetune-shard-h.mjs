@@ -32,15 +32,15 @@ const expected = {
 
 const legalSurfaceHashes = {
   // Rehashed for Batch C: Ohio carried no route contract of any kind before R.C. 2953.321.
-  OH: "985ba7ba9b3abba0a95912c5e78c02380d4f5fd846b2a46b2463cdfe96bdc088",
-  OK: "1dbd794fe15353d78b0608205ad17a121045a2bdcf594b9c31388af8be01d7d3",
-  OR: "64d229122d770035509af18ca2a18b8650ba5f3ff6cbe9dd4a00be0c74171491",
-  PA: "d5381a433907fe0b13b12d3272d8ad58d1568a06713ff457fae1948e302a01d8",
-  RI: "57bef89bba43d4402ac31570310c34bbf94cbce67adb381672d60997a177b8c2",
+  OH: "4003ed5991053c732cb0309e6e6d9fe9ab38110e41c49714b6cb09574c069278",
+  OK: "055430e49e6b492770c9b496951d53b4c39f8d808cddda3298392d96e7cf9eeb",
+  OR: "343bc668f06c35c2f550fb920ac4e3d33ccaa07e7c5ff555a337f22ff966ff47",
+  PA: "44c064fa78848d8eaadd4228f5cad242938e9ea1ed1b0d206282f045b5f639a0",
+  RI: "a94a710e9208f1155f3139567ce77f94f9e2bfdaf56be23a295344d5b8819488",
   // Rehashed for Batch A: § 17-22-150 became solicitor-administered guidance.
-  SC: "c175898cccb446d3b9240e0c0cda0a5c4324e5c7bec5666f0409a108b0dbdfe5",
-  SD: "87f16c212694416bdb0f7c04788fc2b6447e406ec9c23ec9e014998989bf0163",
-  TN: "6596366cfe2b0b5c243c91d24f9146658b435fabb29da5bb086daaaa2ecd34cd"
+  SC: "4d101b6b3a89a1943d5ac7084dc83fea9b7b02f1c2630e36dd1bdb165f123b16",
+  SD: "4141861f8d6be2061560209fc10f965a261a1952b28331cf6b5d42515ce42cbb",
+  TN: "a8865eae0989693852dc1107fa8a9d71dbba600e27a61b6a545ffeb26747caf4"
 };
 
 const failures = [];
@@ -105,8 +105,19 @@ for (const [state, spec] of Object.entries(expected)) {
   if (["PA", "RI"].includes(state)) {
     equal(lifecycle, { routeConsumers: {}, exactPacketFactIds: [], completionAliasIds: [] }, `${state}: seven-question free check gained route details`);
   }
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }

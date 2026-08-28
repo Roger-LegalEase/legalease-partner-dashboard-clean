@@ -40,15 +40,15 @@ const expected = {
 };
 
 const legalSurfaceHashes = {
-  TX: "b22917254ba43ffefbcc245dcddaf6c2da8ec06e4ed3bc4f19cb2337d11112a5",
-  UT: "7222b2b7cf971bf2bbeaffdfabac163b45c911498b6f345b82e610c55a387471",
-  VT: "0cdb110eead423dbcccdd7662bb21732873b1145aa939566be3ece556806b37e",
-  VA: "c612528beb78c5bf1ea30202cdc0baac615bcf6a6405a6d0ed21b5005c9418dd",
-  WA: "728f296a3eb5dbb70c891456468dda178d7022984da41f83b2c15897a91e667a",
+  TX: "e2d2f62a2b22caf056af647baa0d02126a9a38601c81aa5bc4c65d6ec130caf8",
+  UT: "44f48d4c835ef99be0eb77d790dcfd709fff5b3c017d4fa86db31cf75b968963",
+  VT: "cb1d2f5afadcd70bfef34e3d5423b2958ade24691eae60abf87d3cb08bd7b3cc",
+  VA: "36d7c2dc9ca1e237dae1e3d391051fff3f363fb1722032d4cea4c0a1fd7fa771",
+  WA: "bdd98fdb5f06d1cd2b92a4d72fe93be7a82ca1e1abbc75bf950b908b2ff7cad8",
   // Rehashed for Batch C: four West Virginia routes gained their first contracts.
-  WV: "ef62cdeb87bc0616a0af935dd40bc3a8efd804a7cf93ba9cd42047722eed74c8",
-  WI: "045f423673a30cc74aea8c891ec501a9c58e16bfc7e714a82571da68c478d452",
-  WY: "6b134f4f17ad00409695c2b3c3cec94b94e163a26cafe668c8cf3f6def1efdf4"
+  WV: "cee7fcd4a6ee3c73984e844afcbd9becfc5922fca6a4c458a27b24af5c4bb7c6",
+  WI: "3a4ebcdaaa8347aae86c2c9701b9cd0a22062404c71f17619f31c9c07d51c2af",
+  WY: "450d20d246814def7bea66b56d1da73a62f34d923ac37fa2cdd914532cfb93a2"
 };
 
 const failures = [];
@@ -119,8 +119,19 @@ for (const [state, spec] of Object.entries(expected)) {
     check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId)), `${state}:${questionId}: completion alias leaked into screening`);
   }
   if (state === "UT") equal(lifecycle, { routeConsumers: {}, exactPacketFactIds: [], completionAliasIds: [] }, "UT: six-question free check gained route details");
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }

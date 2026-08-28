@@ -93,12 +93,12 @@ const legalSurfaceHashes = {
   // the AS 12.55.085(e) belated set-aside motion.
   AK: "3e3800a5fe7436c2d46e8e03107d7c138540965d54a7e465677edfb521972145",
   AZ: "83959449fac7969c0996ab0649833a04bce971fb5e7fa1dbfd48ce83b002cab9",
-  AR: "fe8d24a05e45534af89042ab55a676bca93385fadb6ca3cc8d4a80f4936b7438",
-  CA: "26e6639ff62d65ee2d67f601a209c01c068b8d0efb2a2bc3851596826512f970",
-  CO: "be5125d07676942e70af4342ebcabf4b3c622b3ebb0646aa9cf218a7e2fc4795",
-  CT: "9852996d489bd96ab55603ae3e5ad2f9d7eb0c5c5698944a83c92c475b550504",
+  AR: "2d549ecb3c038da9a9b5ff137fd2573efba62e1f9535eacf32e80dc975fb10c5",
+  CA: "e27f734008b0f3fb892374dcf7b84a8a6472827f53af0d98881e9e9e366fcd43",
+  CO: "b355e96034781a3f864ddc7b6da5d8ea61b109a310c6f978337e8304dd9a2167",
+  CT: "aef720dbc31f0e5d353f3a8808487985d37cd9b4fb82606cf54b9914082173ff",
   DE: "3730e3758b6bb6f10e95d71c5b30d7abf99ae4c77a6a45c13b1dabb46e07397f",
-  DC: "88625dc044ba597b00d20a35bf155c6843777c4a739a34d4f488ce88524724a3"
+  DC: "8f07b5c2963c852cece6000f49747aab628e27247e30be8eaca725b22e0e197f"
 };
 
 const failures = [];
@@ -181,8 +181,19 @@ for (const [state, spec] of Object.entries(expected)) {
     check(["sentence_completion_date", "financial_obligations"].includes(questionId), `${state}:${questionId}: completion alias is not approved`);
   }
 
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }

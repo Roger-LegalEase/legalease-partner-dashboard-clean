@@ -84,15 +84,15 @@ const expected = {
 };
 
 const legalSurfaceHashes = {
-  FL: "e8aac465e89dd9f533db3b0a3a57c25744531235d877308cc667ecd68cb0f992",
-  GA: "15ac61e0c0b0794d28de8a2009b3998550716f1f67df90a319de5e1803e33653",
+  FL: "cac483b9a141b0afd5f2a7fbdd58c34390ed6b0f7d2c79775e612e3a79fefb08",
+  GA: "06c54e85636b1aac32652da2d48ef54ca68712199b1141fc83e1a491a760e676",
   HI: "6e75e435cd813c392c3f9af38e588786a69ae48bd5952a1b2c762f111c547b2b",
-  ID: "0e3dbbd28387e59aa55f935afaa4c57ac52745e88ec4b2dc603fe7952b1826e7",
-  IL: "06080b4cdabce9a389aafd64f07a642ceddb32659ae16b23c24c4f3499ec4444",
-  IN: "34e57bc6c3ccc75ff584950fe50669b1ef569b7595494fa570f52944ce6c4161",
-  IA: "98ef98accc8f4939a9e322a8d1fb5d6849c61ea8505a83069a661993101ad145",
-  KS: "974f662fdd9a39591cea7d17cf408bc77f71f3bab756446687ed477557e0b2e8",
-  KY: "588fce03261c3abb340aa8bb92f6a9c5db27b590c6cfcce8e46fbd3a1fdb5895"
+  ID: "2cbbc09b6dd4b8233ed385ade0926fc105142485b801e9d11254de3df42d0b5b",
+  IL: "e6ef09bc6dd2b2be5d4dcee9385e2574974c67982d87367a31445ede568ae70e",
+  IN: "9348b47f1ae91d70e56deede2c54b1b04aace4ae7430116de03a11f1ff4f6fb8",
+  IA: "d774f41f718f8f28ca2ab1f02b7b87a65eda75d42a247f1dda82f1d776717d2b",
+  KS: "ac81294787c28258926bccb04da50205666a1e1ed1da435d2cb3e826ea42e5a8",
+  KY: "2e24e1c1394f28ae33d53c94ee8540b3ebad9acfaeb262914112d9819fe9e60e"
 };
 
 const failures = [];
@@ -186,8 +186,19 @@ for (const [state, spec] of Object.entries(expected)) {
     check(["sentence_completion_date", "financial_obligations"].includes(questionId), `${state}:${questionId}: completion alias is not approved`);
   }
 
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }

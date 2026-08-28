@@ -94,20 +94,20 @@ const expected = {
 const legalSurfaceHashes = {
   // Rehashed for Batch B: Louisiana gained a contract for the art. 977(D)/998
   // route and had two ungated LD-LA-05 contracts superseded by gated ones.
-  LA: "9d83357632f526cff5ddad1d86cae1120adaf6b47eccc2f6abbbb09a37a35326",
+  LA: "c2581bdca29bb10cc1c4d81675ba77329b3949a0b821301068067daae412532d",
   // Rehashed for Batch B: Maine had no route contracts at all except juvenile
   // sealing; § 2264, § 2264(7) and § 703(2) all gained one.
-  ME: "f8580a042af867ae055de3f1bf2d0b64201585d8a07b225f5fc4eed04c991750",
-  MD: "158287d6d66fcba83112b4e81adb0d94cc9f3d0233540b89ef7cb33cbb43981c",
-  MA: "b19adba173d6c36d9a15094182327e66e7d745570fcf5f7ab67ca483699f4b03",
-  MI: "525af598d6b5d72745a1a7f7e0c6b69e8f03984908898c2597eb7f4a8df3da16",
-  MN: "477efc8afcbbe165c245ef5c213a52f0140ad481140d481f277294959c1b5d1e",
-  MS: "df72da8788bab609702c9c32e1ea952265d925f6c68116d5ea6c63ee07d189a9",
+  ME: "e4fae698f3f5d1ccb5973f02afddfa9bf4a119d87db9a755ca8633c2e77fbfbd",
+  MD: "dc1a6be4a8ca9785e2a84f7ade9da6f4e9470f67bb8989d944093d979683bf08",
+  MA: "6a1cfa42b113588f48f1ead7b1b86a29fa41e11baad41931167f82b307379d8f",
+  MI: "38f6e24e9049ebdfe33db2449554f3c0a32c538dc302cde240d9a62258bf163e",
+  MN: "a5917918b52c8a856f9f95a5e59833c6ff50fd568d003565b86929e4104a70c8",
+  MS: "ec89b172562919c1e963b0560eee1c5119f202622864cb0bda0b447e1005e9b2",
   // Rehashed for the § 311.326 fact-model correction: the exact birth date
   // moved behind the claim and an approximate threshold took its place in
   // screening. Both questions live in the legal surface, so the hash moves.
-  MO: "16636b5d25c82713b7952989ed148ecfd97559f620b36e7a47e9706a1dbb5bbe",
-  MT: "3bacd63e832245f01fb94a1f34783e30e3c68362ac693349dbac7353e1fbfe97"
+  MO: "a9aec1523f2317ce007d82cd6e2ad0dccba1e3e0211cf2921333965dc3a08583",
+  MT: "844331157f0e991f35e37aa833d648c4ce0ee904b57c220bc85ec361ef65edb5"
 };
 
 const projectionPacketFacts = new Set([
@@ -259,8 +259,19 @@ for (const [state, spec] of Object.entries(expected)) {
     check(!emptyContextIds.has(questionId) && [...pathwaySelections.values()].every((ids) => !ids.has(questionId)), `${state}:${questionId}: completion alias leaked into screening`);
   }
 
+// The legal/route/packet surface, minus two fields it is not about.
+//
+// questionLifecycle was already excluded. lawrenceRatification is excluded now
+// for the same kind of reason and a stronger one: it is listed in
+// INTERNAL_LEAK_MARKERS, so it never reaches the public projection and cannot
+// change a question, a route selection or a packet fact — and since it became a
+// generated projection of the ratification registry, leaving it inside this pin
+// meant every counsel decision churned fifty-one hashes that this verifier is
+// not about. Ratification changes are caught where they belong, by
+// scripts/generate-route-ratification-projections.mjs --check.
   const legalSurface = structuredClone(profile);
   delete legalSurface.questionLifecycle;
+  for (const pathway of legalSurface.pathways ?? []) delete pathway.lawrenceRatification;
   const hash = crypto.createHash("sha256").update(JSON.stringify(legalSurface)).digest("hex");
   check(hash === legalSurfaceHashes[state], `${state}: legal/route/packet profile surface changed (${hash})`);
 }
