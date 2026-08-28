@@ -35,10 +35,10 @@ intendedSellablePathways
 | `intendedSellablePathways` | 263 | — |
 | `publiclyReachableSellablePathways` | 79 | **184** |
 | `authoritativePacketReadyPathways` | 79 | **184** |
-| `packetSpecCompletePathways` | 254 | **9** |
-| `technicallyApprovedPacketPathways` | 114 | **149** |
+| `packetSpecCompletePathways` | 253 | **10** |
+| `technicallyApprovedPacketPathways` | 113 | **150** |
 | `legallyApprovedPacketPathways` | 47 | **216** |
-| `successfullyRenderedPathways` | 200 | **63** |
+| `successfullyRenderedPathways` | 199 | **64** |
 
 **The invariant does not hold.** 6 of the six downstream stages fall short of the 263-pathway denominator (publiclyReachableSellablePathways, authoritativePacketReadyPathways, packetSpecCompletePathways, technicallyApprovedPacketPathways, legallyApprovedPacketPathways, successfullyRenderedPathways). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.
 
@@ -82,7 +82,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | Blocker | Pathways |
 |---|---|
 | `legal_review_pending` | 216 |
-| `renderer_unavailable` | 63 |
+| `renderer_unavailable` | 64 |
 | `route_metadata` | 45 |
 | `not_paid_product` | 36 |
 | `gate_build` | 36 |
@@ -90,7 +90,7 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `wait_anchor_fix` | 19 |
 | `intake_fix` | 16 |
 | `filing_determination_missing` | 11 |
-| `packet_spec_incomplete` | 9 |
+| `packet_spec_incomplete` | 10 |
 | `legal_action_required` | 2 |
 
 **33 of 263** intended-sellable pathways are closed with no open blocker.
@@ -116,10 +116,10 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `renderer_unavailable` | 7 | AR, CA, MS, ND, NM, WI |
 | `legal_review_pending + renderer_unavailable` | 7 | GA, ID, MD, NH, NY, TN, TX |
 | `intake_fix + legal_review_pending` | 6 | FL, KS, LA, MI, NE, WA |
-| `filing_determination_missing + legal_review_pending + not_paid_product` | 5 | DE, LA, NE, OK, WV |
 | `legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 4 | AK, MN, MS |
+| `filing_determination_missing + legal_review_pending + not_paid_product` | 4 | DE, LA, NE, OK |
+| `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 3 | AK, WI, WV |
 | `legal_review_pending + renderer_unavailable + wait_anchor_fix` | 3 | CO, VT, WV |
-| `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 2 | AK, WI |
 | `filing_determination_missing + legal_action_required + legal_review_pending` | 2 | HI |
 | `legal_review_pending + not_paid_product + renderer_unavailable` | 2 | KY, MD |
 | `legal_reconfirmation + legal_review_pending + packet_spec_incomplete + renderer_unavailable` | 2 | ME, ND |
@@ -133,7 +133,7 @@ they are payment-eligible, counsel-ratified and packet-spec complete, and the on
 thing between them and a delivered packet is a certified renderer for their
 jurisdiction. Nothing about them needs a legal decision or a classification change.
 
-Going the other way, **167** pathway(s) in AK, AL, AR, AZ, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY already produce a packet
+Going the other way, **166** pathway(s) in AK, AL, AR, AZ, CO, CT, DC, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY already produce a packet
 while carrying an open blocker. Every one of them carries `legal_review_pending`:
 these routes render and sell today on a compiled profile that records no counsel
 ratification for them.

@@ -86,9 +86,11 @@ const legalSurfaceHashes = {
   NH: "12d77e5323730b2351af5c9fa4c8e5050e49b2ad8ed43c19360ce7d277bf1d7e",
   NJ: "56e43a3cdbad72044f3d7070f084b6603ada8d942ccae7a1922d77f70d0d3986",
   NM: "99214ff031a52719839f074646fc1a76e4dae8ef7bb278bd7291104cdad8b072",
-  NY: "204c722fb228ecd129a792c00ce8fa5806c71733979bc7f1c62690d77961b805",
+  // Rehashed for Batch C: New York carried no route contract of any kind before CPL § 160.55.
+  NY: "a29fc976093c99d419fb8e225db396999472ae4119e5c455067dc012a3c8073f",
   NC: "407817cdb07738d6cfa9d960f116f0eec3f96f22438490e93cf6645b0194cfb4",
-  ND: "d2278eb8e01c9ca801f5cee9c94d1f7646f68dba5bc84ff5019e77d56cd6087a"
+  // Rehashed for Batch A: the § 12-60.1-05 contract split the route into a pre- and post-2025-08-01 branch.
+  ND: "5cb71700b927885a231558e102f5d3d9587952bc328e1e71945c56b5272b7544"
 };
 
 const failures = [];

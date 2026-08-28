@@ -27,10 +27,10 @@ measured against the closure ledger's seven-stage chain.
 |---|---|
 | ownerApprovedLegalDesign | 168 |
 | technicalApprovalCurrent | 193 |
-| deterministicArtifactProven | 224 |
+| deterministicArtifactProven | 225 |
 | noProblematicPdfHold | 19 |
-| paymentAllowed | 235 |
-| rendererSelected | 63 |
+| paymentAllowed | 234 |
+| rendererSelected | 64 |
 | packetSpecificationComplete | 40 |
 
 ## Per jurisdiction
@@ -86,7 +86,7 @@ measured against the closure ledger's seven-stage chain.
 | VT | Vermont | REMAINING_TO_BUILD | 8 | 0 | 7 | 0 | legal_review_pending×8, gate_build×3, wait_anchor_fix×3, renderer_unavailable×1, route_metadata×1 |
 | WA | Washington | REMAINING_TO_BUILD | 7 | 0 | 6 | 0 | legal_review_pending×7, gate_build×2, legal_reconfirmation×2, wait_anchor_fix×1, renderer_unavailable×1, intake_fix×1 |
 | WI | Wisconsin | REMAINING_TO_BUILD | 5 | 0 | 1 | 1 | renderer_unavailable×4, legal_review_pending×4, route_metadata×1, filing_determination_missing×1, not_paid_product×1, packet_spec_incomplete×1, intake_fix×1, legal_reconfirmation×1 |
-| WV | West Virginia | REMAINING_TO_BUILD | 7 | 0 | 4 | 0 | legal_review_pending×7, renderer_unavailable×3, wait_anchor_fix×2, gate_build×1, legal_reconfirmation×1, filing_determination_missing×1, not_paid_product×1, intake_fix×1 |
+| WV | West Virginia | REMAINING_TO_BUILD | 7 | 0 | 3 | 0 | legal_review_pending×7, renderer_unavailable×4, wait_anchor_fix×2, gate_build×1, legal_reconfirmation×1, filing_determination_missing×1, not_paid_product×1, packet_spec_incomplete×1, intake_fix×1 |
 | WY | Wyoming | REMAINING_TO_BUILD | 3 | 0 | 1 | 0 | legal_review_pending×3, route_metadata×2, renderer_unavailable×2 |
 
 ## Smallest remaining delta, per jurisdiction
@@ -140,6 +140,6 @@ measured against the closure ledger's seven-stage chain.
 - **VT Vermont** — REMAINING_TO_BUILD. 8 of 8 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (8); gate_build (3); wait_anchor_fix (3); renderer_unavailable (1); route_metadata (1)
 - **WA Washington** — REMAINING_TO_BUILD. 7 of 7 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (7); gate_build (2); legal_reconfirmation (2); wait_anchor_fix (1); renderer_unavailable (1); intake_fix (1)
 - **WI Wisconsin** — REMAINING_TO_BUILD. 5 of 5 adopted participant-filed routes have an unmet engineering gate. _Delta:_ renderer_unavailable (4); legal_review_pending (4); route_metadata (1); filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); intake_fix (1); legal_reconfirmation (1)
-- **WV West Virginia** — REMAINING_TO_BUILD. 7 of 7 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (7); renderer_unavailable (3); wait_anchor_fix (2); gate_build (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); intake_fix (1)
+- **WV West Virginia** — REMAINING_TO_BUILD. 7 of 7 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (7); renderer_unavailable (4); wait_anchor_fix (2); gate_build (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); intake_fix (1)
 - **WY Wyoming** — REMAINING_TO_BUILD. 3 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (3); route_metadata (2); renderer_unavailable (2)
 

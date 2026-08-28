@@ -16,6 +16,7 @@ import routeSplitRoutes from "@/lib/legal-authority/routes/route-splits.json";
 import singleRoutes from "@/lib/legal-authority/routes/single-routes.json";
 import nationalReportRoutes from "@/lib/legal-authority/routes/national-report-2026-08-28.json";
 import nationalReportBatchBRoutes from "@/lib/legal-authority/routes/national-report-batch-b.json";
+import nationalReportBatchCRoutes from "@/lib/legal-authority/routes/national-report-batch-c.json";
 
 /**
  * The approved authority, assembled once.
@@ -29,7 +30,7 @@ import nationalReportBatchBRoutes from "@/lib/legal-authority/routes/national-re
  * contract for the same routeKey replaces an earlier one. The national report
  * is the latest authority, so it sits last and its decisions govern.
  */
-const ROUTE_FILES = [p0Routes, mississippiRoutes, routeSplitRoutes, singleRoutes, nationalReportRoutes, nationalReportBatchBRoutes] as unknown as Array<{
+const ROUTE_FILES = [p0Routes, mississippiRoutes, routeSplitRoutes, singleRoutes, nationalReportRoutes, nationalReportBatchBRoutes, nationalReportBatchCRoutes] as unknown as Array<{
   routes: LegalRouteContract[];
 }>;
 

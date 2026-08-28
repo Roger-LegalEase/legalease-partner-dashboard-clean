@@ -6,10 +6,10 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 
 | Authority outcome mode | Pathways |
 |---|---:|
-| guidance_status | 1 |
+| guidance_status | 2 |
 | referral | 1 |
 | automatic_relief | 1 |
-| **TOTAL** | **3** |
+| **TOTAL** | **4** |
 
 ## Deliberately not proposed
 
@@ -29,6 +29,7 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 | `ME:adult-non-conviction-record-relief` | paid_packet_intended → non_paid_service | process_guidance | 2 | NATIONAL-2026-08-28-B-ME-03 |
 | `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | paid_packet_intended → non_paid_service | selection_only | — | LD-MN-01 |
 | `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | paid_packet_intended → branch_mixed | branch_dependent | — | NATIONAL-2026-08-28-LA-IMM-03 |
+| `WV:pardon-based-expungement` | paid_packet_intended → non_paid_service | process_guidance | 2 | NATIONAL-2026-08-28-C-WV-04 |
 
 ### Not ready to apply
 
@@ -125,6 +126,37 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "preservedServiceDisposition": "branch_dependent",
   "preservedOutcomeMode": "automatic_relief",
   "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a branch_dependent outcome, and any consumer that reads the new classification must read this field with it."
+}
+```
+
+## `WV:pardon-based-expungement`
+
+- **Closure says**: paid_packet_intended — Route metadata records productRouteType=board_or_pardon but does not answer whether the participant files something; the pathway is held in the paid denominator until an evidenced filing determination is recorded.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (NATIONAL-2026-08-28-C-WV-04 / WV-5-1-16A-NARROW-STATUTORY-EFFECT)
+- **The record's own note**: Report disposition RELEASE — GUIDANCE, narrow statutory effect, no universal nondisclosure. Subsection (b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it contains no general non-disclosure provision, so the guidance must describe the effect it actually has and may not promise the record becomes generally undisclosable.
+- **Open blockers**: filing_determination_missing, not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
+- **Proposed commercial classification**: non_paid_service
+- **Child packet route that must remain active**: `WV:eligible-conviction-expungement-under-w-va-code-61-11-26`
+- **Child packet route that must remain active**: `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
+- **Implementation effect**: Batch C gave this route its first contract and the national report releases it as guidance under NATIONAL-2026-08-28-C-WV-04. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Section 5-1-16a(b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or for a licence required by a West Virginia professional organisation; unlike §§ 61-11-25(e) and 61-11-26(l) it carries no general non-disclosure provision. The two West Virginia petitions are separate participant packets on their own artifact-review gates and must remain reachable.
+- **Do not**: Do not describe the effect as general nondisclosure. The narrow statutory effect is the decision, and overstating it is the specific error this record exists to prevent.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-WV-PARDON-BASED-EXPUNGEMENT",
+  "pathwayKey": "WV:pardon-based-expungement",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/national-report-batch-c.json records WV:pardon-based-expungement under NATIONAL-2026-08-28-C-WV-04 / WV-5-1-16A-NARROW-STATUTORY-EFFECT as outcomeMode=guidance_status with packetFamily=null, citing W. Va. Code § 5-1-16a(b). The route reports or verifies a status; nothing is filed. The record's own note: \"Report disposition RELEASE — GUIDANCE, narrow statutory effect, no universal nondisclosure. Subsection (b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it contains no general non-disclosure provision, so the guidance must describe the effect it actually has and may not promise the record becomes generally undisclosable.\"",
+  "authority": null,
+  "decidedOn": null,
+  "preservedServiceDisposition": "process_guidance",
+  "preservedOutcomeMode": "guidance_status",
+  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
 }
 ```
 

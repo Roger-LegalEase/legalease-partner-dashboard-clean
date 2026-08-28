@@ -21,8 +21,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 170,
-    "factoryV2Resolved": 170,
+    "factoryV2Selected": 169,
+    "factoryV2Resolved": 169,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -39,21 +39,25 @@
       {
         "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
         "suppressedBy": "exact_supported_deferral"
+      },
+      {
+        "pathwayKey": "WV:pardon-based-expungement",
+        "suppressedBy": "guidance_only"
       }
     ],
-    "paymentAllowed": 28,
-    "deterministicallyRenderedComposedText": 170,
-    "deterministicallyRendered": 39,
+    "paymentAllowed": 29,
+    "deterministicallyRenderedComposedText": 169,
+    "deterministicallyRendered": 38,
     "officialFormsNamedButNotHeldInThisRepository": 131,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 168,
     "technicalApprovalCurrent": 193,
-    "deterministicArtifactProven": 224,
+    "deterministicArtifactProven": 225,
     "noProblematicPdfHold": 19,
-    "paymentAllowed": 235,
-    "rendererSelected": 63,
+    "paymentAllowed": 234,
+    "rendererSelected": 64,
     "packetSpecificationComplete": 40
   },
   "classificationCounts": {
@@ -3570,12 +3574,12 @@
         "intendedSellable": 7,
         "publiclyReachableSellable": 1,
         "authoritativePacketReady": 1,
-        "packetSpecComplete": 7,
-        "technicallyApprovedPacket": 3,
+        "packetSpecComplete": 6,
+        "technicallyApprovedPacket": 2,
         "legallyApprovedPacket": 0,
-        "successfullyRendered": 4
+        "successfullyRendered": 3
       },
-      "renderedPaidPathways": 4,
+      "renderedPaidPathways": 3,
       "paymentAllowedPathways": 0,
       "fullyClosedPaidPathways": 0,
       "openBlockers": [
@@ -3589,7 +3593,7 @@
           "id": "renderer_unavailable",
           "severity": "blocking",
           "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=exact_supported_deferral).",
-          "count": 3
+          "count": 4
         },
         {
           "id": "wait_anchor_fix",
@@ -3622,6 +3626,12 @@
           "count": 1
         },
         {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
+          "count": 1
+        },
+        {
           "id": "intake_fix",
           "severity": "blocking",
           "statement": "A required screening fact is not modelable from the current public intake.",
@@ -3632,7 +3642,7 @@
       "hostedAccepted": false,
       "classification": "REMAINING_TO_BUILD",
       "classificationBasis": "7 of 7 adopted participant-filed routes have an unmet engineering gate.",
-      "smallestRemainingDelta": "legal_review_pending (7); renderer_unavailable (3); wait_anchor_fix (2); gate_build (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); intake_fix (1)"
+      "smallestRemainingDelta": "legal_review_pending (7); renderer_unavailable (4); wait_anchor_fix (2); gate_build (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); intake_fix (1)"
     },
     {
       "jurisdiction": "WY",

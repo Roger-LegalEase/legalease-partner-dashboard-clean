@@ -45,10 +45,10 @@
       "intendedSellablePathways": 263,
       "publiclyReachableSellablePathways": 79,
       "authoritativePacketReadyPathways": 79,
-      "packetSpecCompletePathways": 254,
-      "technicallyApprovedPacketPathways": 114,
+      "packetSpecCompletePathways": 253,
+      "technicallyApprovedPacketPathways": 113,
       "legallyApprovedPacketPathways": 47,
-      "successfullyRenderedPathways": 200
+      "successfullyRenderedPathways": 199
     },
     "holds": false,
     "breaks": [
@@ -439,8 +439,8 @@
       {
         "stage": "packetSpecCompletePathways",
         "expected": 263,
-        "actual": 254,
-        "shortfall": 9,
+        "actual": 253,
+        "shortfall": 10,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -450,14 +450,15 @@
           "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
           "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
           "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-          "WI:executive-pardon-guidance"
+          "WI:executive-pardon-guidance",
+          "WV:pardon-based-expungement"
         ]
       },
       {
         "stage": "technicallyApprovedPacketPathways",
         "expected": 263,
-        "actual": 114,
-        "shortfall": 149,
+        "actual": 113,
+        "shortfall": 150,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -605,6 +606,7 @@
           "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
           "WV:juvenile-record-relief",
           "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+          "WV:pardon-based-expungement",
           "WV:sex-trafficking-victim-vacatur-and-expungement",
           "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
           "WY:juvenile-minor-expungement-w-s-14-6-241"
@@ -837,8 +839,8 @@
       {
         "stage": "successfullyRenderedPathways",
         "expected": 263,
-        "actual": 200,
-        "shortfall": 63,
+        "actual": 199,
+        "shortfall": 64,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -900,6 +902,7 @@
           "WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
           "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
           "WV:juvenile-record-relief",
+          "WV:pardon-based-expungement",
           "WV:sex-trafficking-victim-vacatur-and-expungement",
           "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
           "WY:juvenile-minor-expungement-w-s-14-6-241"
@@ -2617,7 +2620,6 @@
       "WV:first-offense-drug-possession-conditional-discharge-relief",
       "WV:juvenile-record-relief",
       "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
-      "WV:pardon-based-expungement",
       "WV:sex-trafficking-victim-vacatur-and-expungement",
       "WY:felony-conviction-expungement-w-s-7-13-1502",
       "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
@@ -2736,7 +2738,6 @@
       "WA:non-conviction-record-deletion-under-rcw-10-97-060",
       "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
       "WV:first-offense-drug-possession-conditional-discharge-relief",
-      "WV:pardon-based-expungement",
       "WY:felony-conviction-expungement-w-s-7-13-1502"
     ],
     "legallyApprovedPacketPathways": [
@@ -2987,7 +2988,6 @@
       "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
       "WV:first-offense-drug-possession-conditional-discharge-relief",
       "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
-      "WV:pardon-based-expungement",
       "WY:felony-conviction-expungement-w-s-7-13-1502"
     ]
   },
@@ -17169,7 +17169,7 @@
         "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "NY has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "NY:automatic-non-conviction-sealing-under-cpl-160-50-160-55 is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": null,
       "stages": {
@@ -25145,12 +25145,12 @@
         "category": "paid_packet_intended",
         "categoryBasis": "Route metadata records productRouteType=board_or_pardon but does not answer whether the participant files something; the pathway is held in the paid denominator until an evidenced filing determination is recorded.",
         "evidence": {
-          "routeType": "pardon_then_court",
+          "routeType": "automatic_guidance",
           "productRouteType": "board_or_pardon",
           "userFiled": false,
           "currentlyOperative": true,
           "paidRouteBlocker": "not_paid_product",
-          "packetPlanMode": "state_specific_custom_packet_from_source_rules",
+          "packetPlanMode": "automatic_relief_verification_and_guidance",
           "tracks": [
             "wv_pardon_expungement"
           ],
@@ -25161,26 +25161,26 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "WV pardon-based-expungement builds through the shared packet factory from packet set wv_pardon_expungement-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "WV:pardon-based-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": null,
       "stages": {
         "intendedSellable": true,
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
-        "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "packetSpecComplete": false,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2930
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -25194,9 +25194,19 @@
           "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment."
         },
         {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs."
+        },
+        {
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {

@@ -45,7 +45,8 @@ const legalSurfaceHashes = {
   VT: "0cdb110eead423dbcccdd7662bb21732873b1145aa939566be3ece556806b37e",
   VA: "c612528beb78c5bf1ea30202cdc0baac615bcf6a6405a6d0ed21b5005c9418dd",
   WA: "728f296a3eb5dbb70c891456468dda178d7022984da41f83b2c15897a91e667a",
-  WV: "2c929797e861c783f1a72033a8054e3715c4fd4e95841b2114872b21c3d0b0f6",
+  // Rehashed for Batch C: four West Virginia routes gained their first contracts.
+  WV: "ef62cdeb87bc0616a0af935dd40bc3a8efd804a7cf93ba9cd42047722eed74c8",
   WI: "045f423673a30cc74aea8c891ec501a9c58e16bfc7e714a82571da68c478d452",
   WY: "6b134f4f17ad00409695c2b3c3cec94b94e163a26cafe668c8cf3f6def1efdf4"
 };

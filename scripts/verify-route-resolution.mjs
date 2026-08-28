@@ -587,6 +587,11 @@ const CONTRADICTION_BASELINE = {
       pathwayKey: "ME:adult-non-conviction-record-relief",
       decisionId: "NATIONAL-2026-08-28-B-ME-03",
       reason: "Batch B gave Maine § 703(2) its first route contract, and the report releases it as guidance. The closure ledger still carries it as paid_packet_intended, which is exactly the contradiction this register exists to surface. It is a proposal, not an applied reclassification: authority and decidedOn stay null."
+    },
+    {
+      pathwayKey: "WV:pardon-based-expungement",
+      decisionId: "NATIONAL-2026-08-28-C-WV-04",
+      reason: "Batch C gave West Virginia § 5-1-16a its first route contract, and the report releases it as guidance with a narrow statutory effect. Same shape as the Maine row: a route whose first contract says guidance while the closure ledger still counts it as a paid packet. Also a proposal."
     }
   ]
 };

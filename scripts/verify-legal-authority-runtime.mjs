@@ -39,6 +39,12 @@ const CONTRACT_BASELINE = {
       contracts: 7,
       decisionRouteKeys: 7,
       note: "Louisiana art. 977(D)/998, art. 985 redaction and art. 985.3; Maine § 2264, § 2264(7) and § 703(2); Alaska AS 12.55.085(e). Five of the seven had no contract at all, so nothing carried the report's conditions on them."
+    },
+    {
+      batch: "NATIONAL-2026-08-28-BATCH-C",
+      contracts: 6,
+      decisionRouteKeys: 6,
+      note: "West Virginia § 61-11-26a, § 61-11-26, § 61-11-25 and § 5-1-16a; Ohio R.C. 2953.321; New York CPL § 160.55. All six were uncontracted, and Ohio and New York had no route contract of any kind before this batch."
     }
   ],
   departures: [

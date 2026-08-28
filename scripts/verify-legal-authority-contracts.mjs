@@ -107,6 +107,40 @@ const DECISION_BASELINE = {
       decisionId: "NATIONAL-2026-08-28-B-AK-01",
       routeKeys: 1,
       reason: "Alaska AS 12.55.085(e) belated set-aside motion. Alaska carried no route contract of any kind before this."
+    },
+    // ---- Batch C: West Virginia, Ohio, New York ----
+    // West Virginia carried ten of the report's decisions across three routes
+    // and had a contract on none of them. Ohio and New York carried no register
+    // questions at all and one research-track decision each.
+    {
+      decisionId: "NATIONAL-2026-08-28-C-WV-01",
+      routeKeys: 1,
+      reason: "W. Va. § 61-11-26a accelerated expungement: job readiness is an alternative trigger to ninety days of compliance, for a single misdemeanour only."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-C-WV-02",
+      routeKeys: 1,
+      reason: "W. Va. § 61-11-26 conviction expungement: four decisions on one route — no residence-county venue, no single receiving court for a multi-county group, sever an excluded conviction, and a thirty-day reply period the published instruction sheet prints as ten."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-C-WV-03",
+      routeKeys: 1,
+      reason: "W. Va. § 61-11-25 no-conviction expungement: SCA-C903 predates five amendments to the section and is held on artifact review."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-C-WV-04",
+      routeKeys: 1,
+      reason: "W. Va. § 5-1-16a(b) pardon expungement released as guidance with a narrow statutory effect and no universal nondisclosure."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-C-OH-01",
+      routeKeys: 1,
+      reason: "Ohio R.C. 2953.321 marijuana and hashish possession expungement. Ohio carried no route contract of any kind before this."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-C-NY-01",
+      routeKeys: 1,
+      reason: "N.Y. CPL § 160.55 automatic partial sealing, served as a correction workflow. New York carried no route contract of any kind before this."
     }
   ]
 };

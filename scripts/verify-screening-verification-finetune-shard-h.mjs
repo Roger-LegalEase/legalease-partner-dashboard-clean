@@ -31,12 +31,14 @@ const expected = {
 };
 
 const legalSurfaceHashes = {
-  OH: "c1f6854bb9208efebe772ef4366f142d4a8b5a8914771b5805c352b806944a82",
+  // Rehashed for Batch C: Ohio carried no route contract of any kind before R.C. 2953.321.
+  OH: "985ba7ba9b3abba0a95912c5e78c02380d4f5fd846b2a46b2463cdfe96bdc088",
   OK: "1dbd794fe15353d78b0608205ad17a121045a2bdcf594b9c31388af8be01d7d3",
   OR: "64d229122d770035509af18ca2a18b8650ba5f3ff6cbe9dd4a00be0c74171491",
   PA: "d5381a433907fe0b13b12d3272d8ad58d1568a06713ff457fae1948e302a01d8",
   RI: "57bef89bba43d4402ac31570310c34bbf94cbce67adb381672d60997a177b8c2",
-  SC: "421c9b267d17f7688de1718a9bda48c4bd2b68742a74ab33eb5a2d4b56dee6ff",
+  // Rehashed for Batch A: § 17-22-150 became solicitor-administered guidance.
+  SC: "c175898cccb446d3b9240e0c0cda0a5c4324e5c7bec5666f0409a108b0dbdfe5",
   SD: "87f16c212694416bdb0f7c04788fc2b6447e406ec9c23ec9e014998989bf0163",
   TN: "6596366cfe2b0b5c243c91d24f9146658b435fabb29da5bb086daaaa2ecd34cd"
 };

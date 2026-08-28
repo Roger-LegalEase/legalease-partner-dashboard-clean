@@ -62,7 +62,7 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** None. No legal decision is required.
 - **ENGINEERING OWNER:** RCAP ledger generation
 - **ENGINEERING DELTA AFTER DECISION:** One change in the closure-ledger generator, plus a regeneration. No legal artifact, no schema change.
-- **PACKET GENERATION CURRENTLY DISABLED:** 17 of 53 rows do not render today; payment is closed for all 53.
+- **PACKET GENERATION CURRENTLY DISABLED:** 18 of 53 rows do not render today; payment is closed for all 53.
 - **PAYMENT CURRENTLY DISABLED:** All 53 rows.
 - **DUPLICATE DECISIONS COLLAPSED:** 52
 
@@ -321,7 +321,7 @@ collapses those rows against the registers that already hold decisions.
 | `WV:first-offense-drug-possession-conditional-discharge-relief` | factory_v2 | LEGAL_RECONFIRMATION_REQUIRED |
 | `WV:juvenile-record-relief` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `WV:pardon-based-expungement` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
+| `WV:pardon-based-expungement` | guidance_only | EXISTING_APPROVAL_NOT_LINKED |
 | `WV:sex-trafficking-victim-vacatur-and-expungement` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `WY:felony-conviction-expungement-w-s-7-13-1502` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `WY:human-trafficking-victim-vacatur-w-s-6-2-708` | guidance_only | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |

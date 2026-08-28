@@ -166,6 +166,13 @@ const ADJUDICATION = {
     implementationEffect: "Entry depends on the district attorney and the program, not on any elapsed wait. The post-completion diversion expungement is a separate participant packet and must remain reachable.",
     doNotDo: "Do not open checkout until a qualifying disposition exists."
   },
+  "WV:pardon-based-expungement": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: ["WV:eligible-conviction-expungement-under-w-va-code-61-11-26", "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"],
+    implementationEffect: "Batch C gave this route its first contract and the national report releases it as guidance under NATIONAL-2026-08-28-C-WV-04. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Section 5-1-16a(b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or for a licence required by a West Virginia professional organisation; unlike §§ 61-11-25(e) and 61-11-26(l) it carries no general non-disclosure provision. The two West Virginia petitions are separate participant packets on their own artifact-review gates and must remain reachable.",
+    doNotDo: "Do not describe the effect as general nondisclosure. The narrow statutory effect is the decision, and overstating it is the specific error this record exists to prevent."
+  },
   "ME:adult-non-conviction-record-relief": {
     commercialClassification: "non_paid_service",
     serviceDisposition: "process_guidance",
