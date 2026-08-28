@@ -63,10 +63,10 @@ try {
     }
   });
 
-  // 1. Public landing to the anonymous state-specific free check.
+  // 1. Public landing to the anonymous state-specific free guided check.
   const landingResponse = await page.goto(baseUrl, { waitUntil: "networkidle" });
   check(landingResponse?.ok(), `DTC landing returned ${landingResponse?.status() ?? "no response"}.`);
-  await expectText(page, "Start with a free record check");
+  await expectText(page, "Start with a free guided check");
   const landingCta = page.getByRole("link", { name: /Check my record free/i }).first();
   check(await landingCta.isVisible(), "Landing did not show the free record-check CTA.");
   await landingCta.click();

@@ -86,7 +86,6 @@ for (const marker of [
 const acceptedStartCtaCopy = [
   "Start My Free Screening",
   "Start free screening",
-  "Start free record check",
   "Start free check"
 ];
 if (!acceptedStartCtaCopy.some((copy) => staticLandingSource.includes(copy))) {

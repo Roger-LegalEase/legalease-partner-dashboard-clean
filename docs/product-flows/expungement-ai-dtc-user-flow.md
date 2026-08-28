@@ -31,11 +31,11 @@ RCAP-sponsored matters use the same Briefcase where appropriate but never use pa
 
 ## Direct-to-consumer flow
 
-1. **Start a free record check**
+1. **Start a free guided check**
 
    A visitor can begin without an account. Landing and result disclosure:
 
-   > Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate.
+   > Start with a free guided check. If a self-help packet is available for your matter, it costs $50 to generate.
 
 2. **Complete the profile-driven screening**
 
@@ -124,7 +124,7 @@ Internal route, render, payment, and job vocabulary must not be shown to consume
 
 ## Guardrails
 
-- No account wall before the free record check.
+- No account wall before the free guided check.
 - No payment before the state-specific packet builder and final accuracy review.
 - Result copy says **A path may be available**, never "you qualify."
 - Do not promise expungement, clearance, filing, court approval, or legal representation.
@@ -136,7 +136,7 @@ Internal route, render, payment, and job vocabulary must not be shown to consume
 
 ## Clean final flow
 
-**Start free record check** -> profile-driven screening -> authoritative result -> **Save this matter and continue** -> create account or sign in -> exact free Briefcase matter -> **Complete packet information** -> save and resume -> accuracy review -> **Pay $50 and generate my packet** -> verified matter-level payment -> durable packet generation -> **Packet ready** -> authenticated download and filing checklist -> outcome follow-up.
+**Start free guided check** -> profile-driven screening -> authoritative result -> **Save this matter and continue** -> create account or sign in -> exact free Briefcase matter -> **Complete packet information** -> save and resume -> accuracy review -> **Pay $50 and generate my packet** -> verified matter-level payment -> durable packet generation -> **Packet ready** -> authenticated download and filing checklist -> outcome follow-up.
 # Participant language
 
 This flow follows the shared participant-language rule in [Product Flow Source of Truth](./README.md): external copy explains the result, next steps, costs, and packet progress without exposing implementation details.

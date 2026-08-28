@@ -771,7 +771,7 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
   const item = {
     id: consumerBriefcaseId("check", state, "started"),
     type: "eligibility_check" as const,
-    title: `${state} record check`,
+    title: `${state} guided check`,
     state,
     status: "check_saved" as const,
     createdAt: startedAt,

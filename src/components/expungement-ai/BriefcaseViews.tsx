@@ -11,7 +11,7 @@ import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai
 /* ------------------------------------------------------------------ */
 
 const DTC_STAGES = [
-  { label: "Record check", key: "briefcase.stage.free_screening" },
+  { label: "Guided check", key: "briefcase.stage.free_screening" },
   { label: "Packet information", key: "briefcase.stage.packet_information" },
   { label: "Final verification", key: "briefcase.stage.accuracy_review" },
   { label: "Payment", key: "briefcase.stage.payment" },
@@ -51,7 +51,7 @@ export function matterStatus(item: BriefcasePresentationItem): MatterStatus {
     : label === "We need a little more information" ? "red"
     : label === "You may need to wait before taking the next step" || label === "Waiting on the court" ? "amber"
       : label === "Decision received" ? "green"
-        : label === "Record check saved" ? "gray"
+        : label === "Guided check saved" ? "gray"
           : "teal";
   return { careState, isGuidance, pillLabel: label, pillTone: tone, stepper: stepperForHumanState(label) };
 }
@@ -59,7 +59,7 @@ export function matterStatus(item: BriefcasePresentationItem): MatterStatus {
 function stepperForHumanState(label: ReturnType<typeof humanMatterState>) {
   const stateLabel = label as string;
   if (label === "Matter details unavailable" || label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
-  if (label === "Record check saved") return { done: 1, current: -1 };
+  if (label === "Guided check saved") return { done: 1, current: -1 };
   if (label === "A self-help packet may be available") return { done: 1, current: 1 };
   if (label === "Packet details in progress") return { done: 1, current: 1 };
   if (stateLabel === "Packet facts complete") return { done: 2, current: 2 };
@@ -192,12 +192,12 @@ function EmptyBriefcase() {
           <path d="M3 7h18v13H3zM8 7V4h8v3" />
         </svg>
       </span>
-      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Start a free record check" /></h2>
+      <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Start a free guided check" /></h2>
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
         <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It's free, and you'll see possible next steps before paying anything." />
       </p>
       <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
-        <LocalizedText k="briefcase.empty_cta" fallback="Start a free record check" />
+        <LocalizedText k="briefcase.empty_cta" fallback="Start a free guided check" />
       </Link>
     </div>
   );

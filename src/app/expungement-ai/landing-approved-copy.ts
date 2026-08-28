@@ -97,7 +97,7 @@ export const APPROVED_LANDING_COPY_EN: Record<string, string> = {
   brief_demo_tabs_label: "Example Briefcase stages",
   brief_demo_case: "Example supported case",
   brief_demo_next: "Next step",
-  brief_demo_s0: "Record check saved",
+  brief_demo_s0: "Guided check saved",
   brief_demo_s1: "Packet information in progress",
   brief_demo_s2: "Ready to review",
   brief_demo_s3: "Packet ready",

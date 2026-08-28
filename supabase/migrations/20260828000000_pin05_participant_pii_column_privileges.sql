@@ -1,3 +1,22 @@
+-- ============================================================================
+-- STATUS: NOT_APPLIED / TRANSITIONAL / NOT_ACCEPTED
+-- DO NOT APPLY THIS MIGRATION TO ANY ENVIRONMENT.
+--
+-- Rejected 2026-08-28 by docs/architecture/adr/ADR-0001-participant-ownership-
+-- and-the-claim-boundary.md. Retained as a diagnostic record only.
+--
+-- WHY IT IS REJECTED: it is inert. 20260728213131_remote_schema.sql lines
+-- 3280-3308 issue GRANT ALL ON TABLE to both "anon" and "authenticated" on all
+-- three tables touched below. In PostgreSQL a table-level SELECT grant permits
+-- every column, so a column-level REVOKE layered on top changes no effective
+-- privilege. This file reads as a fix and closes nothing.
+--
+-- The replacement corrects privileges at the grant layer per role -- anonymous,
+-- participant, partner staff, partner administrator, internal administrator,
+-- service operations -- before any policy is written, and proves effective
+-- access against isolated PostgreSQL rather than by reading the SQL.
+-- ============================================================================
+
 -- PIN-05 — remove participant PII from partner-tenancy read access.
 --
 -- THREE TABLES, ONE SHAPE. rcap_intake_sessions, rcap_document_packets and

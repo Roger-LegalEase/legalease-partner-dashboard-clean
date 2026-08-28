@@ -128,7 +128,7 @@ Legal terms explained. Documents organized. One next step at a time. Your free B
 
 This demonstration uses a fictional case and no real participant information.
 
-- **Record check saved:** Review your result.
+- **Guided check saved:** Review your result.
 - **Packet information in progress:** Continue packet information.
 - **Ready to review:** Review before payment.
 - **Packet ready:** Download packet.

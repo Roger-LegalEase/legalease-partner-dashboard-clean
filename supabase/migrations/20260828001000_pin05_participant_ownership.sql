@@ -1,3 +1,24 @@
+-- ============================================================================
+-- STATUS: NOT_APPLIED / TRANSITIONAL / NOT_ACCEPTED
+-- DO NOT APPLY THIS MIGRATION TO ANY ENVIRONMENT.
+--
+-- Rejected 2026-08-28 by docs/architecture/adr/ADR-0001-participant-ownership-
+-- and-the-claim-boundary.md. Retained as a diagnostic record only.
+--
+-- WHY IT IS REJECTED: it treats the symptom. Adding user_id to
+-- rcap_intake_sessions gives an owner to an object that should not be durable
+-- before a claim. RCAP has no pending-result object at all, so the defect is
+-- the absence of the claim boundary, not a missing column. The sequential
+-- UPDATE backfill below also chooses silently between conflicting owners where
+-- a session links to records owned by different users.
+--
+-- The replacement makes rcap_intake_sessions an explicitly temporary pre-claim
+-- object with a lifecycle, routes RCAP through one shared claim service, and
+-- reconciles rather than backfills: every row is classified and only
+-- OWNER_PROVEN_UNIQUE is written, with counts and redacted identifiers going to
+-- a restricted remediation register outside Git.
+-- ============================================================================
+
 -- PIN-05, ownership half — give every durable RCAP participant record a
 -- participant owner, and give the participant a read path to their own record.
 --

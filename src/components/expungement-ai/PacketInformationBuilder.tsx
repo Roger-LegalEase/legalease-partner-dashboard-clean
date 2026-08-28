@@ -83,7 +83,7 @@ export function PacketInformationBuilder({
   if (!question) {
     return (
       <div className="rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-        <h2 className="text-xl font-extrabold text-[#0B1320]">Your free record check already has the information we need.</h2>
+        <h2 className="text-xl font-extrabold text-[#0B1320]">Your free guided check already has the information we need.</h2>
         <p className="mt-2 text-sm leading-6 text-[#5A6275]">Review the saved packet facts before completing final verification.</p>
         <button className="mt-5 min-h-11 rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" onClick={() => void continueForward()} type="button">
           Review packet facts
