@@ -6,6 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -107,12 +108,13 @@ const evaluatorSource = fs.readFileSync(
   path.join(root, "src/lib/rcap-engine/evaluator.ts"),
   "utf8"
 );
-const ratifiedBlock = evaluatorSource.match(
-  /RATIFIED_DEPLOYABLE_ROUTES = new Set\(\[([\s\S]*?)\]\);/
-)?.[1];
-check(Boolean(ratifiedBlock), "could not parse RATIFIED_DEPLOYABLE_ROUTES");
+// The ratified set is a projection of the ratification registry. Reading the
+// registry is reading the same list one step closer to the authority; a regex
+// over evaluator.ts would now only confirm that a filter exists.
+const ratifiedRoutes = evaluatorRouteSet("RATIFIED_DEPLOYABLE_ROUTES");
+check(ratifiedRoutes.size > 0, "could not read RATIFIED_DEPLOYABLE_ROUTES from the ratification registry");
 for (const row of assignment.deterministic) {
-  const listedAsRatified = ratifiedBlock?.includes(`"${row.routeKey}"`) === true;
+  const listedAsRatified = ratifiedRoutes.has(row.routeKey);
   if (assignedRatifiedPaymentRoutes.has(row.routeKey)) {
     check(
       listedAsRatified,

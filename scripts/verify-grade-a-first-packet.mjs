@@ -267,11 +267,61 @@ ok("the record's artifact status is not a reviewed one",
   !["counsel_reviewed", "counsel_reviewed_and_visually_verified"].includes(record?.artifactApprovalStatus),
   record?.artifactApprovalStatus);
 
+// --------------------------------------- the artifact, and how it is delivered
+//
+// Determinism is what makes repeat download work without a blob store, and it
+// is what makes the artifact hash mean anything: the same specification and the
+// same verified facts must produce the same bytes every time.
+const second = await renderGradeAPacketPdf(composeGradeAPacket(specification, matter));
+ok("rendering twice produces identical bytes", bytes.equals(second), `${bytes.length} vs ${second.length}`);
+const artifactSha256 = createHash("sha256").update(bytes).digest("hex");
+ok("the artifact hash matches the one the record pins",
+  record?.artifactSha256 === artifactSha256, `record ${record?.artifactSha256} vs rendered ${artifactSha256}`);
+ok("the record pins the artifact's byte length and page count",
+  record?.artifactBytes === bytes.length && record?.artifactPages === parsed.getPageCount(),
+  `${record?.artifactBytes}/${record?.artifactPages} vs ${bytes.length}/${parsed.getPageCount()}`);
+
+// Private, owner-only delivery, asserted at the code that enforces it.
+const generation = readFileSync(path.join(process.cwd(), "src/lib/expungement-ai/packet-generation.ts"), "utf8");
+const downloadRoute = readFileSync(path.join(process.cwd(), "src/app/api/expungement-ai/packet/download/route.ts"), "utf8");
+ok("the download route requires an authenticated participant session",
+  downloadRoute.includes("requireConsumerBriefcaseSession"));
+ok("the download resolves the item through the owner-scoped reader",
+  generation.includes("requireOwnedPacketItem(userId, briefcaseItemId)"));
+const deliveryFn = generation.slice(generation.indexOf("async function gradeAPacketDownload"));
+const deliveryBody = deliveryFn.slice(0, deliveryFn.indexOf("\n}\n") + 3);
+ok("delivery consults the one fulfillment authority",
+  deliveryBody.includes("assertPacketFulfillmentProven") && deliveryBody.includes('"participant delivery"'));
+ok("delivery takes the route identity from the server-held snapshot, never the item",
+  deliveryBody.includes("verification.snapshot.jurisdiction") && deliveryBody.includes("verification.snapshot.pathwayId"));
+ok("a superseded verification refuses the download rather than serving a stale packet",
+  deliveryBody.includes("verification.hash !== artifactRefs.verificationHash"));
+ok("PDF bytes are served without a text charset",
+  downloadRoute.includes("binary ? packet.contentType"));
+
+// Payment and sponsorship idempotency: a replay is never a second entitlement.
+const paymentAuthority = readFileSync(path.join(process.cwd(), "src/lib/expungement-ai/consumer-payment-authority.ts"), "utf8");
+ok("the payment writer has a duplicate-event outcome", paymentAuthority.includes("duplicate_provider_event"));
+ok("a replay is not reported as a fresh payment",
+  paymentAuthority.includes('return outcome === "recorded_paid"'));
+ok("an already-paid replay is recognised separately", paymentAuthority.includes("isAlreadyRecordedOutcome"));
+ok("generation is idempotent on an existing ready artifact",
+  generation.includes('return { packetStatus: "ready", artifactRefs: existing, canDownload: true }'));
+
+// Page-by-page visual review. Stated, not claimed.
+ok("the record does not claim a visual review that has not happened",
+  record?.visualReview?.status === "not_performed_no_rasteriser_in_this_runtime",
+  String(record?.visualReview?.status));
+ok("the record does not claim completed-output legal approval",
+  record?.outputLegalReview?.status === "not_performed",
+  String(record?.outputLegalReview?.status));
+
 // ------------------------------------------------------------------- report
 console.log(`Grade-A first packet — ${ROUTE_KEY}`);
 console.log(`  specification ${specification.specificationId} v${specification.specificationVersion} sha256 ${specSha256}`);
 console.log(`  ${packet.documents.length} documents, ${parsed.getPageCount()} pages, ${bytes.length} bytes, ${GRADE_A_CONTENT_TYPE}`);
 console.log(`  renderer ${GRADE_A_RENDERER_KIND} v${GRADE_A_RENDERER_VERSION}`);
+console.log(`  artifact sha256 ${artifactSha256}`);
 console.log(`  ${checks} checks`);
 
 if (failures.length > 0) {

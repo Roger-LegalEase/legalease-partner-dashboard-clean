@@ -57,6 +57,8 @@ export type GradeAPacket = {
   packetFamily: string;
   packetFamilyLabel: string;
   verificationHash: string;
+  /** The matter's verification time. The renderer stamps it so bytes are deterministic. */
+  verifiedAt: string;
   documents: GradeADocument[];
 };
 
@@ -146,6 +148,7 @@ export function composeGradeAPacket(
     packetFamily: specification.packetFamily,
     packetFamilyLabel: specification.packetFamilyLabel,
     verificationHash: matter.verificationHash,
+    verifiedAt: matter.verifiedAt,
     documents
   };
 }

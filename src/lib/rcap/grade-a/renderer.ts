@@ -46,6 +46,20 @@ export async function renderGradeAPacketPdf(packet: GradeAPacket): Promise<Buffe
   document.setTitle(packet.packetFamilyLabel);
   document.setProducer("LegalEase Grade-A packet renderer");
   document.setCreator("LegalEase");
+  /**
+   * The document's dates are the matter's verification time, not now.
+   *
+   * pdf-lib stamps the current clock into CreationDate and ModDate by default,
+   * which makes every render of the same packet a different file. That is fatal
+   * for a fulfillment record that pins an artifact hash: the hash would name a
+   * moment rather than a packet, and a participant re-downloading would get
+   * bytes that no longer match what was vouched for. Binding both dates to the
+   * verification makes the artifact a pure function of its inputs.
+   */
+  const verifiedAt = new Date(packet.verifiedAt);
+  const stamp = Number.isNaN(verifiedAt.getTime()) ? new Date(0) : verifiedAt;
+  document.setCreationDate(stamp);
+  document.setModificationDate(stamp);
 
   const fonts: Fonts = {
     body: await document.embedFont(StandardFonts.Helvetica),

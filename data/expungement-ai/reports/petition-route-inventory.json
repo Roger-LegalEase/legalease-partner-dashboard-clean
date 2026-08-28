@@ -2,7 +2,7 @@
   "generatedBy": "scripts/audit-petition-route-inventory.mjs",
   "auditOnly": true,
   "runtimeBehaviorChanged": false,
-  "headCommit": "7df7d567cba3f76ae50117ddd51f080a1b029021",
+  "headCommit": "c8db0bd309ebcbf5c7a0be60f50eac1555ad12e4",
   "routeTierSetSizes": {
     "RATIFIED_DEPLOYABLE": 80,
     "CORRECTED_AWAITING_RECONFIRM": 4,
@@ -12,38 +12,38 @@
     "ADMINISTRATIVE_APPLICATION": 4
   },
   "totals": {
-    "totalPathwaysClassified": 336,
-    "compiledPathwayCount": 336,
+    "totalPathwaysClassified": 337,
+    "compiledPathwayCount": 337,
     "jurisdictions": 51,
-    "paidNowRoutes": 80,
-    "paidNowJurisdictions": 47,
-    "buildablePaidRoutes": 145,
-    "zeroPaidJurisdictionsWithBuildableRoute": 4,
+    "paidNowRoutes": 79,
+    "paidNowJurisdictions": 46,
+    "buildablePaidRoutes": 144,
+    "zeroPaidJurisdictionsWithBuildableRoute": 5,
     "legalActionRequiredRoutes": 2,
-    "legalActionRequiredItems": 147,
-    "paid_now": 80,
+    "legalActionRequiredItems": 146,
+    "paid_now": 79,
     "paid_after_legal_reconfirmation": 29,
-    "paid_after_route_metadata_fix": 45,
+    "paid_after_route_metadata_fix": 46,
     "paid_after_gate_build": 36,
     "paid_after_intake_fix": 16,
-    "paid_after_wait_anchor_fix": 19,
+    "paid_after_wait_anchor_fix": 17,
     "paid_after_packet_form_work": 0,
     "gate_built_wait_pending": 0,
-    "permanent_guidance_not_a_paid_product": 106,
+    "permanent_guidance_not_a_paid_product": 109,
     "not_currently_operational": 2,
     "discard_or_duplicate": 1,
     "legal_action_required": 2
   },
   "bucketCounts": {
-    "paid_now": 80,
+    "paid_now": 79,
     "paid_after_legal_reconfirmation": 29,
-    "paid_after_route_metadata_fix": 45,
+    "paid_after_route_metadata_fix": 46,
     "paid_after_gate_build": 36,
     "paid_after_intake_fix": 16,
-    "paid_after_wait_anchor_fix": 19,
+    "paid_after_wait_anchor_fix": 17,
     "paid_after_packet_form_work": 0,
     "gate_built_wait_pending": 0,
-    "permanent_guidance_not_a_paid_product": 106,
+    "permanent_guidance_not_a_paid_product": 109,
     "not_currently_operational": 2,
     "discard_or_duplicate": 1,
     "legal_action_required": 2
@@ -94,7 +94,6 @@
     "OK",
     "OR",
     "PA",
-    "SC",
     "SD",
     "TN",
     "TX",
@@ -110,7 +109,8 @@
     "AL",
     "KY",
     "MA",
-    "RI"
+    "RI",
+    "SC"
   ],
   "summaries": {
     "s1_all_paid_now_routes": [
@@ -182,7 +182,6 @@
       "OK:acquittal-dismissal-or-other-no-conviction-expungement",
       "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "PA:path-a-non-conviction-expungement",
-      "SC:diversion-or-program-completion-expungement",
       "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
       "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
       "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
@@ -341,10 +340,6 @@
         "name": "Pennsylvania"
       },
       {
-        "code": "SC",
-        "name": "South Carolina"
-      },
-      {
         "code": "SD",
         "name": "South Dakota"
       },
@@ -401,6 +396,10 @@
       {
         "code": "RI",
         "name": "Rhode Island"
+      },
+      {
+        "code": "SC",
+        "name": "South Carolina"
       }
     ],
     "s4_routes_needing_only_legal_reconfirmation": [
@@ -413,14 +412,13 @@
       "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
       "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
       "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
-      "ME:adult-non-conviction-record-relief",
       "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
       "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
-      "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "NE:law-enforcement-error-expungement",
       "NH:annulment-of-a-vacated-conviction",
       "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
       "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "OH:marijuana-hashish-possession-expungement-under-2953-321",
       "OK:juvenile-record-expungement",
       "OR:marijuana-specific-set-aside-redesignation",
       "RI:path-d-non-conviction-sealing-expungement",
@@ -432,7 +430,8 @@
       "WA:juvenile-record-sealing-under-rcw-13-50-260",
       "WA:misdemeanor-cannabis-conviction-vacation",
       "WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
-      "WV:first-offense-drug-possession-conditional-discharge-relief"
+      "WV:first-offense-drug-possession-conditional-discharge-relief",
+      "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
     ],
     "s5_routes_needing_only_route_metadata_fix": [
       "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
@@ -443,6 +442,7 @@
       "AZ:remedy-3-marijuana-expungement",
       "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
       "GA:non-conviction-record-restriction-through-the-agency-prosecutor-process",
+      "GA:retroactive-first-offender-treatment-under-42-8-66",
       "ID:clean-slate-shielding-under-idaho-code-67-3004-11",
       "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
       "MA:marijuana-only-expungement",
@@ -545,7 +545,6 @@
       "NV:non-conviction-record-sealing",
       "NV:probation-or-specialty-court-dismissal-set-aside-sealing",
       "OH:certain-firearm-carry-conviction-expungement-under-2953-35",
-      "OH:marijuana-hashish-possession-expungement-under-2953-321",
       "OK:up-to-two-felony-deferred-dismissal-expungement",
       "RI:path-c-deferred-sentence-expungement",
       "SC:summary-court-non-conviction-expungement",
@@ -555,8 +554,7 @@
       "VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g",
       "VT:young-adult-sealing-for-offenses-committed-at-ages-18-21",
       "WA:blake-drug-possession-vacation-and-refund-route",
-      "WV:juvenile-record-relief",
-      "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      "WV:juvenile-record-relief"
     ],
     "s9_routes_needing_packet_form_work": [],
     "s10_permanent_guidance_routes": [
@@ -605,6 +603,7 @@
       "MD:cannabis-specific-expungement",
       "MD:juvenile-expungement",
       "MD:second-chance-act-shielding",
+      "ME:adult-non-conviction-record-relief",
       "ME:pardon-route",
       "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
       "MI:automatic-clean-slate-set-aside-under-mcl-780-621g",
@@ -629,6 +628,7 @@
       "MT:deferred-sentence-dismissal-or-confidentiality-route",
       "MT:doj-record-removal-update-request",
       "MT:non-conviction-criminal-history-removal-through-criss",
+      "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "NE:automatic-nonconviction-sealing",
       "NE:juvenile-automatic-sealing",
       "NE:pardon-then-seal",
@@ -653,6 +653,7 @@
       "PA:path-k-human-trafficking-vacatur-expungement",
       "RI:path-f-marijuana-possession-expungement",
       "RI:path-g-decriminalized-offense-expungement",
+      "SC:diversion-or-program-completion-expungement",
       "SC:pardon-guidance-for-otherwise-ineligible-convictions",
       "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
       "SD:pardon-based-sealing",
@@ -779,171 +780,171 @@
       },
       {
         "id": "LAR-015",
+        "jurisdiction": "GA",
+        "route": "retroactive-first-offender-treatment-under-42-8-66",
+        "type": "Missing legal confirmation",
+        "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
+      },
+      {
+        "id": "LAR-016",
         "jurisdiction": "HI",
         "route": "deferred-acceptance-one-year",
         "type": "Missing legal confirmation",
         "item": "Forum ambiguous: HRS ch. 853 deferred-acceptance discharge is a court process, but expungement is via the HCJDC application. Confirm which is the sellable user-filed step."
       },
       {
-        "id": "LAR-016",
+        "id": "LAR-017",
         "jurisdiction": "HI",
         "route": "deferred-prostitution-three-year",
         "type": "Missing legal confirmation",
         "item": "Forum ambiguous: HRS § 712-1200 deferred-acceptance/prostitution discharge vs later HCJDC application. Confirm the sellable user-filed step."
       },
       {
-        "id": "LAR-017",
+        "id": "LAR-018",
         "jurisdiction": "IA",
         "route": "misdemeanor-901c3",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-018",
+        "id": "LAR-019",
         "jurisdiction": "IA",
         "route": "public-intoxication-12346",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-019",
+        "id": "LAR-020",
         "jurisdiction": "IA",
         "route": "underage-alcohol-12347",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-020",
+        "id": "LAR-021",
         "jurisdiction": "IA",
         "route": "minor-prostitution-7251",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-021",
+        "id": "LAR-022",
         "jurisdiction": "ID",
         "route": "clean-slate-shielding-under-idaho-code-67-3004-11",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-022",
+        "id": "LAR-023",
         "jurisdiction": "ID",
         "route": "juvenile-expungement",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-023",
+        "id": "LAR-024",
         "jurisdiction": "ID",
         "route": "human-trafficking-survivor-vacatur-and-expungement",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-024",
+        "id": "LAR-025",
         "jurisdiction": "IN",
         "route": "non-conviction-arrest-or-criminal-charge-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-025",
+        "id": "LAR-026",
         "jurisdiction": "IN",
         "route": "juvenile-allegation-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-026",
+        "id": "LAR-027",
         "jurisdiction": "IN",
         "route": "conviction-expungement-with-records-marked-expunged",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-027",
+        "id": "LAR-028",
         "jurisdiction": "KS",
         "route": "conviction-or-diversion-216614",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-028",
+        "id": "LAR-029",
         "jurisdiction": "KS",
         "route": "prostitution-coercion",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-029",
+        "id": "LAR-030",
         "jurisdiction": "KY",
         "route": "nonconviction-431076",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-030",
+        "id": "LAR-031",
         "jurisdiction": "LA",
         "route": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-031",
+        "id": "LAR-032",
         "jurisdiction": "LA",
         "route": "expungement-by-redaction-for-multi-person-records",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-032",
+        "id": "LAR-033",
         "jurisdiction": "LA",
         "route": "human-trafficking-survivor-expungement-fee-exempt-route",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-033",
+        "id": "LAR-034",
         "jurisdiction": "LA",
         "route": "immediate-expungement-after-successful-court-program-completion-art-985-3",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-034",
+        "id": "LAR-035",
         "jurisdiction": "MA",
         "route": "court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-035",
+        "id": "LAR-036",
         "jurisdiction": "MA",
         "route": "non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-036",
+        "id": "LAR-037",
         "jurisdiction": "MA",
         "route": "marijuana-only-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-037",
+        "id": "LAR-038",
         "jurisdiction": "MD",
         "route": "eligible-conviction-expungement-under-crim-proc-10-110",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
-      },
-      {
-        "id": "LAR-038",
-        "jurisdiction": "ME",
-        "route": "adult-non-conviction-record-relief",
-        "type": "Missing legal confirmation",
-        "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
         "id": "LAR-039",
@@ -1039,670 +1040,663 @@
       {
         "id": "LAR-052",
         "jurisdiction": "ND",
-        "route": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "type": "Missing legal confirmation",
-        "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
-      },
-      {
-        "id": "LAR-053",
-        "jurisdiction": "ND",
         "route": "dui-record-sealing-under-the-separate-dui-statute",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-054",
+        "id": "LAR-053",
         "jurisdiction": "NE",
         "route": "trafficking-survivor-set-aside-and-seal",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-055",
+        "id": "LAR-054",
         "jurisdiction": "NE",
         "route": "law-enforcement-error-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-056",
+        "id": "LAR-055",
         "jurisdiction": "NE",
         "route": "juvenile-petition-backstop",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-057",
+        "id": "LAR-056",
         "jurisdiction": "NH",
         "route": "annulment-of-a-vacated-conviction",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-058",
+        "id": "LAR-057",
         "jurisdiction": "NH",
         "route": "conviction-annulment-under-rsa-651-5",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-059",
+        "id": "LAR-058",
         "jurisdiction": "NH",
         "route": "marijuana-possession-annulment-under-rsa-651-5-b",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-060",
+        "id": "LAR-059",
         "jurisdiction": "NH",
         "route": "dwi-dui-annulment",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-061",
+        "id": "LAR-060",
         "jurisdiction": "NJ",
         "route": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-062",
+        "id": "LAR-061",
         "jurisdiction": "NJ",
         "route": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-063",
+        "id": "LAR-062",
         "jurisdiction": "NM",
         "route": "conviction",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-064",
+        "id": "LAR-063",
         "jurisdiction": "NV",
         "route": "deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-065",
+        "id": "LAR-064",
         "jurisdiction": "NV",
         "route": "probation-or-specialty-court-dismissal-set-aside-sealing",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-066",
+        "id": "LAR-065",
         "jurisdiction": "NV",
         "route": "reentry-program-sealing-under-nrs-179-259",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-067",
+        "id": "LAR-066",
         "jurisdiction": "NV",
         "route": "trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-068",
+        "id": "LAR-067",
         "jurisdiction": "NV",
         "route": "controlled-substance-possession-sealing-under-nrs-453-3365",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-069",
+        "id": "LAR-068",
         "jurisdiction": "NV",
         "route": "non-conviction-record-sealing",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-070",
+        "id": "LAR-069",
         "jurisdiction": "OH",
         "route": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-071",
+        "id": "LAR-070",
         "jurisdiction": "OH",
         "route": "marijuana-hashish-possession-expungement-under-2953-321",
-        "type": "Missing eligibility rule",
-        "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
+        "type": "Missing legal confirmation",
+        "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-072",
+        "id": "LAR-071",
         "jurisdiction": "OH",
         "route": "human-trafficking-survivor-conviction-expungement-under-2953-36",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-073",
+        "id": "LAR-072",
         "jurisdiction": "OH",
         "route": "human-trafficking-survivor-non-conviction-expungement-under-2953-521",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-074",
+        "id": "LAR-073",
         "jurisdiction": "OH",
         "route": "certain-firearm-carry-conviction-expungement-under-2953-35",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-075",
+        "id": "LAR-074",
         "jurisdiction": "OH",
         "route": "juvenile-sealing-and-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-076",
+        "id": "LAR-075",
         "jurisdiction": "OK",
         "route": "arrest-with-no-charges-filed",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-077",
+        "id": "LAR-076",
         "jurisdiction": "OK",
         "route": "conviction-reversed-and-case-dismissed",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-078",
+        "id": "LAR-077",
         "jurisdiction": "OK",
         "route": "dna-factual-innocence-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-079",
+        "id": "LAR-078",
         "jurisdiction": "OK",
         "route": "misdemeanor-deferred-dismissal-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-080",
+        "id": "LAR-079",
         "jurisdiction": "OK",
         "route": "nonviolent-felony-deferred-dismissal-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-081",
+        "id": "LAR-080",
         "jurisdiction": "OK",
         "route": "up-to-two-felony-deferred-dismissal-expungement",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-082",
+        "id": "LAR-081",
         "jurisdiction": "OK",
         "route": "fine-only-misdemeanor-conviction-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-083",
+        "id": "LAR-082",
         "jurisdiction": "OK",
         "route": "other-eligible-misdemeanor-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-084",
+        "id": "LAR-083",
         "jurisdiction": "OK",
         "route": "one-eligible-nonviolent-felony-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-085",
+        "id": "LAR-084",
         "jurisdiction": "OK",
         "route": "not-more-than-two-eligible-felony-convictions-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-086",
+        "id": "LAR-085",
         "jurisdiction": "OK",
         "route": "felony-reclassified-as-a-misdemeanor",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-087",
+        "id": "LAR-086",
         "jurisdiction": "OK",
         "route": "deferred-sentence-court-record-expungement-under-991-c",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-088",
+        "id": "LAR-087",
         "jurisdiction": "OK",
         "route": "human-trafficking-survivor-relief",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-089",
+        "id": "LAR-088",
         "jurisdiction": "OK",
         "route": "victim-protective-order-record-relief",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-090",
+        "id": "LAR-089",
         "jurisdiction": "OK",
         "route": "juvenile-record-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-091",
+        "id": "LAR-090",
         "jurisdiction": "OR",
         "route": "set-aside-of-eligible-convictions-under-ors-137-225-1-a",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-092",
+        "id": "LAR-091",
         "jurisdiction": "OR",
         "route": "marijuana-specific-set-aside-redesignation",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-093",
+        "id": "LAR-092",
         "jurisdiction": "RI",
         "route": "path-a-first-offender-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-094",
+        "id": "LAR-093",
         "jurisdiction": "RI",
         "route": "path-b-multiple-misdemeanor-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-095",
+        "id": "LAR-094",
         "jurisdiction": "RI",
         "route": "path-c-deferred-sentence-expungement",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-096",
+        "id": "LAR-095",
         "jurisdiction": "RI",
         "route": "path-d-non-conviction-sealing-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-097",
+        "id": "LAR-096",
         "jurisdiction": "RI",
         "route": "path-e-filed-complaint-relief-under-12-10-12",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-098",
+        "id": "LAR-097",
         "jurisdiction": "RI",
         "route": "path-h-commercial-sexual-activity-related-expungement",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-099",
+        "id": "LAR-098",
         "jurisdiction": "SC",
         "route": "general-sessions-non-conviction-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-100",
+        "id": "LAR-099",
         "jurisdiction": "SC",
         "route": "summary-court-non-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-101",
+        "id": "LAR-100",
         "jurisdiction": "SC",
         "route": "eligible-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-102",
+        "id": "LAR-101",
         "jurisdiction": "SC",
         "route": "human-trafficking-survivor-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-103",
+        "id": "LAR-102",
         "jurisdiction": "SC",
         "route": "juvenile-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-104",
+        "id": "LAR-103",
         "jurisdiction": "SD",
         "route": "diversion-expungement",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-105",
+        "id": "LAR-104",
         "jurisdiction": "SD",
         "route": "suspended-imposition-of-sentence-sealing",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-106",
+        "id": "LAR-105",
         "jurisdiction": "SD",
         "route": "controlled-substance-deferred-disposition-route",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-107",
+        "id": "LAR-106",
         "jurisdiction": "SD",
         "route": "juvenile-delinquency-sealing",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-108",
+        "id": "LAR-107",
         "jurisdiction": "SD",
         "route": "juvenile-trafficking-expungement",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-109",
+        "id": "LAR-108",
         "jurisdiction": "TN",
         "route": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-110",
+        "id": "LAR-109",
         "jurisdiction": "TN",
         "route": "pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-111",
+        "id": "LAR-110",
         "jurisdiction": "TN",
         "route": "pathway-4-two-offense-expunction-under-40-32-101-k",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-112",
+        "id": "LAR-111",
         "jurisdiction": "TX",
         "route": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-113",
+        "id": "LAR-112",
         "jurisdiction": "TX",
         "route": "expunction-after-qualifying-dismissal-or-quash",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-114",
+        "id": "LAR-113",
         "jurisdiction": "TX",
         "route": "expunction-after-pardon-or-actual-innocence-relief",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-115",
+        "id": "LAR-114",
         "jurisdiction": "TX",
         "route": "expunction-after-qualifying-class-c-deferred-disposition",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-116",
+        "id": "LAR-115",
         "jurisdiction": "TX",
         "route": "petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-117",
+        "id": "LAR-116",
         "jurisdiction": "TX",
         "route": "petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-118",
+        "id": "LAR-117",
         "jurisdiction": "TX",
         "route": "first-offense-dwi-nondisclosure",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-119",
+        "id": "LAR-118",
         "jurisdiction": "UT",
         "route": "path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-120",
+        "id": "LAR-119",
         "jurisdiction": "UT",
         "route": "path-e-petition-based-non-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-121",
+        "id": "LAR-120",
         "jurisdiction": "UT",
         "route": "path-f-petition-based-conviction-expungement",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-122",
+        "id": "LAR-121",
         "jurisdiction": "UT",
         "route": "path-j-cannabis-possession-petition-without-a-bci-certificate",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-123",
+        "id": "LAR-122",
         "jurisdiction": "UT",
         "route": "path-l-vacatur-human-trafficking-related-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-124",
+        "id": "LAR-123",
         "jurisdiction": "UT",
         "route": "path-m-juvenile-expungement",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-125",
+        "id": "LAR-124",
         "jurisdiction": "VT",
         "route": "adult-conviction-expungement-narrow-statutory-route",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-126",
+        "id": "LAR-125",
         "jurisdiction": "VT",
         "route": "adult-misdemeanor-conviction-sealing",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-127",
+        "id": "LAR-126",
         "jurisdiction": "VT",
         "route": "adult-felony-conviction-sealing",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-128",
+        "id": "LAR-127",
         "jurisdiction": "VT",
         "route": "non-conviction-sealing",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-129",
+        "id": "LAR-128",
         "jurisdiction": "VT",
         "route": "young-adult-sealing-for-offenses-committed-at-ages-18-21",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-130",
+        "id": "LAR-129",
         "jurisdiction": "VT",
         "route": "offense-before-age-25-sealing-under-33-v-s-a-5119-g",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-131",
+        "id": "LAR-130",
         "jurisdiction": "VT",
         "route": "juvenile-sealing",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-132",
+        "id": "LAR-131",
         "jurisdiction": "WA",
         "route": "adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-133",
+        "id": "LAR-132",
         "jurisdiction": "WA",
         "route": "adult-felony-vacation-under-rcw-9-94a-640",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-134",
+        "id": "LAR-133",
         "jurisdiction": "WA",
         "route": "blake-drug-possession-vacation-and-refund-route",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-135",
+        "id": "LAR-134",
         "jurisdiction": "WA",
         "route": "misdemeanor-cannabis-conviction-vacation",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-136",
+        "id": "LAR-135",
         "jurisdiction": "WA",
         "route": "victim-survivor-conviction-vacation-route",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-137",
+        "id": "LAR-136",
         "jurisdiction": "WA",
         "route": "juvenile-record-sealing-under-rcw-13-50-260",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-138",
+        "id": "LAR-137",
         "jurisdiction": "WI",
         "route": "adult-non-conviction-arrest-only-record-correction-or-removal",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-139",
+        "id": "LAR-138",
         "jurisdiction": "WI",
         "route": "human-trafficking-prostitution-relief-under-973-015-2m",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-140",
+        "id": "LAR-139",
         "jurisdiction": "WI",
         "route": "juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-141",
+        "id": "LAR-140",
         "jurisdiction": "WV",
         "route": "no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
-        "type": "Missing eligibility rule",
-        "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
+        "type": "Missing legal confirmation",
+        "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-142",
+        "id": "LAR-141",
         "jurisdiction": "WV",
         "route": "eligible-conviction-expungement-under-w-va-code-61-11-26",
         "type": "Missing eligibility rule",
         "item": "Confirmed offense-exclusion list / count caps / prior-relief bars / preconditions the coded gate must enforce."
       },
       {
-        "id": "LAR-143",
+        "id": "LAR-142",
         "jurisdiction": "WV",
         "route": "first-offense-drug-possession-conditional-discharge-relief",
         "type": "Missing legal confirmation",
         "item": "Legal reconfirmation of the route's wait/anchor, exclusions, and that it is a sellable user-filed court/admin route."
       },
       {
-        "id": "LAR-144",
+        "id": "LAR-143",
         "jurisdiction": "WV",
         "route": "sex-trafficking-victim-vacatur-and-expungement",
         "type": "Missing intake question",
         "item": "The trafficking/coercion/survivor nexus test and how to screen it from a public intake question."
       },
       {
-        "id": "LAR-145",
+        "id": "LAR-144",
         "jurisdiction": "WV",
         "route": "juvenile-record-relief",
         "type": "Missing eligibility rule",
         "item": "The specific waiting period + anchor (and any event trigger) that applies, to resolve the ambiguous multi-wait."
       },
       {
-        "id": "LAR-146",
+        "id": "LAR-145",
         "jurisdiction": "WY",
         "route": "human-trafficking-victim-vacatur-w-s-6-2-708",
         "type": "Missing legal confirmation",
         "item": "Confirm this is a genuine user-filed court/admin route to sell (not automatic/board/prosecutor), then set explicit product route metadata."
       },
       {
-        "id": "LAR-147",
+        "id": "LAR-146",
         "jurisdiction": "WY",
         "route": "juvenile-minor-expungement-w-s-14-6-241",
         "type": "Missing legal confirmation",
@@ -1822,6 +1816,43 @@
         "expectedPaidJurisdictionGain": "yes"
       },
       {
+        "jurisdiction": "SC",
+        "jurisdictionName": "South Carolina",
+        "selectedPathwayId": "juvenile-expungement",
+        "selectedPathwayLabel": "Juvenile expungement",
+        "currentStatus": "paid_after_legal_reconfirmation",
+        "primaryBlocker": "legal_reconfirmation",
+        "secondaryBlockers": [],
+        "whySafestFirst": "Lowest-effort paid-capable court_petition route in South Carolina (blocker=legal_reconfirmation); opening it makes South Carolina a paid jurisdiction.",
+        "requires": {
+          "legalReconfirmation": true,
+          "routeMetadata": false,
+          "gateBuild": false,
+          "intakeFix": false,
+          "waitAnchorFix": false,
+          "packetFormWork": false,
+          "legalAction": false
+        },
+        "exactEvaluatorAction": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
+        "exactIntakeProfileAction": "No new public intake question required (verify existing facts suffice).",
+        "exactPacketFormAction": "Packet form work outstanding (needs_form_mapping); tracked, not blocking payment for the ratified/custom model.",
+        "exactLegalReviewAction": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
+        "exactLegalMaterialNeeded": "None outstanding.",
+        "verifierCasesRequired": [
+          "qualifying facts -> payment opens (only after the work below lands and legal items close)",
+          "just-under wait -> not_yet, no payment",
+          "missing anchor -> needs_more_info / needs_review, no payment",
+          "pending case -> no payment",
+          "state exclusion selected -> no payment",
+          "route-specific disqualifier -> no payment",
+          "'not sure' -> no payment",
+          "wrong route type -> no payment",
+          "packet missing required field -> no payment",
+          "open Legal Action Required item -> no payment"
+        ],
+        "expectedPaidJurisdictionGain": "yes"
+      },
+      {
         "jurisdiction": "AL",
         "jurisdictionName": "Alabama",
         "selectedPathwayId": "human-trafficking-victim-expungement",
@@ -1910,13 +1941,6 @@
         "effortScore": 1
       },
       {
-        "routeKey": "ME:adult-non-conviction-record-relief",
-        "jurisdiction": "ME",
-        "bucket": "paid_after_legal_reconfirmation",
-        "primaryBlocker": "legal_reconfirmation",
-        "effortScore": 1
-      },
-      {
         "routeKey": "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
         "jurisdiction": "MO",
         "bucket": "paid_after_legal_reconfirmation",
@@ -1926,13 +1950,6 @@
       {
         "routeKey": "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
         "jurisdiction": "MO",
-        "bucket": "paid_after_legal_reconfirmation",
-        "primaryBlocker": "legal_reconfirmation",
-        "effortScore": 1
-      },
-      {
-        "routeKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "jurisdiction": "ND",
         "bucket": "paid_after_legal_reconfirmation",
         "primaryBlocker": "legal_reconfirmation",
         "effortScore": 1
@@ -1966,6 +1983,13 @@
         "effortScore": 1
       },
       {
+        "routeKey": "OH:marijuana-hashish-possession-expungement-under-2953-321",
+        "jurisdiction": "OH",
+        "bucket": "paid_after_legal_reconfirmation",
+        "primaryBlocker": "legal_reconfirmation",
+        "effortScore": 1
+      },
+      {
         "routeKey": "OK:juvenile-record-expungement",
         "jurisdiction": "OK",
         "bucket": "paid_after_legal_reconfirmation",
@@ -1982,13 +2006,6 @@
       {
         "routeKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
         "jurisdiction": "RI",
-        "bucket": "paid_after_legal_reconfirmation",
-        "primaryBlocker": "legal_reconfirmation",
-        "effortScore": 1
-      },
-      {
-        "routeKey": "SC:juvenile-expungement",
-        "jurisdiction": "SC",
         "bucket": "paid_after_legal_reconfirmation",
         "primaryBlocker": "legal_reconfirmation",
         "effortScore": 1
@@ -2043,6 +2060,13 @@
         "effortScore": 1
       },
       {
+        "routeKey": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
+        "jurisdiction": "WV",
+        "bucket": "paid_after_legal_reconfirmation",
+        "primaryBlocker": "legal_reconfirmation",
+        "effortScore": 1
+      },
+      {
         "routeKey": "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
         "jurisdiction": "AK",
         "bucket": "paid_after_route_metadata_fix",
@@ -2086,6 +2110,13 @@
       },
       {
         "routeKey": "GA:non-conviction-record-restriction-through-the-agency-prosecutor-process",
+        "jurisdiction": "GA",
+        "bucket": "paid_after_route_metadata_fix",
+        "primaryBlocker": "route_metadata",
+        "effortScore": 2
+      },
+      {
+        "routeKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
         "jurisdiction": "GA",
         "bucket": "paid_after_route_metadata_fix",
         "primaryBlocker": "route_metadata",
@@ -2400,13 +2431,6 @@
         "effortScore": 3
       },
       {
-        "routeKey": "OH:marijuana-hashish-possession-expungement-under-2953-321",
-        "jurisdiction": "OH",
-        "bucket": "paid_after_wait_anchor_fix",
-        "primaryBlocker": "wait_anchor_fix",
-        "effortScore": 3
-      },
-      {
         "routeKey": "OK:up-to-two-felony-deferred-dismissal-expungement",
         "jurisdiction": "OK",
         "bucket": "paid_after_wait_anchor_fix",
@@ -2471,13 +2495,6 @@
       },
       {
         "routeKey": "WV:juvenile-record-relief",
-        "jurisdiction": "WV",
-        "bucket": "paid_after_wait_anchor_fix",
-        "primaryBlocker": "wait_anchor_fix",
-        "effortScore": 3
-      },
-      {
-        "routeKey": "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication",
         "jurisdiction": "WV",
         "bucket": "paid_after_wait_anchor_fix",
         "primaryBlocker": "wait_anchor_fix",
@@ -3214,9 +3231,7 @@
       ],
       "bucket": "paid_after_route_metadata_fix",
       "primaryBlocker": "route_metadata",
-      "secondaryBlockers": [
-        "wait_anchor_fix"
-      ],
+      "secondaryBlockers": [],
       "productRouteType": "court_motion",
       "paymentProductEligible": false,
       "serviceBehavior": "guidance",
@@ -6712,6 +6727,84 @@
     {
       "jurisdictionCode": "GA",
       "jurisdictionName": "Georgia",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "routeKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "routeType": "court_petition",
+      "currentlyOperative": true,
+      "userFiles": true,
+      "filingForum": "court",
+      "canEverBePaidPacket": true,
+      "evaluatorTier": "other / unclassified",
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "formMappingStatus": "custom_or_manual_mapping_required",
+      "sourceFormCandidates": [],
+      "requiredInputIds": [
+        "arrest_date",
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "criminal_history",
+        "disposition_date",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "pending_cases",
+        "prior_relief",
+        "record_type",
+        "residency_or_location",
+        "sentence_completion_date"
+      ],
+      "sourceRuleRefs": [
+        "legal-authority:NATIONAL-2026-08-28-LA-IMM-01"
+      ],
+      "bucket": "paid_after_route_metadata_fix",
+      "primaryBlocker": "route_metadata",
+      "secondaryBlockers": [],
+      "productRouteType": "court_petition",
+      "paymentProductEligible": false,
+      "serviceBehavior": "guidance",
+      "legalSignoffStatus": "needs_reconfirm",
+      "packetFulfillmentStatus": "needs_custom_packet",
+      "engineRecognizedAsCourtFiled": false,
+      "isAdministrativeApplication": false,
+      "packetFulfillmentReady": true,
+      "missingEligibilityGates": [],
+      "missingIntakeQuestions": [],
+      "missingWaitAnchorEventLogic": [],
+      "missingPacketFormFulfillment": [
+        "Packet form work outstanding (needs_custom_packet); tracked, not blocking payment for the ratified/custom model."
+      ],
+      "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
+      "legalActionRequiredItemIds": [
+        "LAR-015"
+      ],
+      "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
+      "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
+      "materialNeededFromLegalTeam": "None outstanding.",
+      "verifierCasesRequiredBeforePayment": [
+        "qualifying facts -> payment opens (only after the work below lands and legal items close)",
+        "just-under wait -> not_yet, no payment",
+        "missing anchor -> needs_more_info / needs_review, no payment",
+        "pending case -> no payment",
+        "state exclusion selected -> no payment",
+        "route-specific disqualifier -> no payment",
+        "'not sure' -> no payment",
+        "wrong route type -> no payment",
+        "packet missing required field -> no payment",
+        "open Legal Action Required item -> no payment"
+      ],
+      "priority": "route-depth",
+      "effortScore": 2
+    },
+    {
+      "jurisdictionCode": "GA",
+      "jurisdictionName": "Georgia",
       "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing",
       "pathwayLabel": "SB 288 misdemeanor-conviction restriction and sealing",
       "routeKey": "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
@@ -6916,7 +7009,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-015"
+        "LAR-016"
       ],
       "engineeringWorkNeeded": "Blocked pending legal material/confirmation; no safe engineering path until supplied.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -6986,7 +7079,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-016"
+        "LAR-017"
       ],
       "engineeringWorkNeeded": "Blocked pending legal material/confirmation; no safe engineering path until supplied.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7242,7 +7335,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-020"
+        "LAR-021"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7316,7 +7409,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-017"
+        "LAR-018"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7454,7 +7547,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-018"
+        "LAR-019"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7530,7 +7623,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-019"
+        "LAR-020"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7605,7 +7698,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-021"
+        "LAR-022"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7680,7 +7773,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-023"
+        "LAR-024"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -7755,7 +7848,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-022"
+        "LAR-023"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -8613,7 +8706,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-026"
+        "LAR-027"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -8656,6 +8749,7 @@
         "contact_information",
         "county",
         "court",
+        "eligible_conviction_class",
         "jurisdiction",
         "participant_full_legal_name",
         "pathway_id",
@@ -8749,7 +8843,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-025"
+        "LAR-026"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -8822,7 +8916,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-024"
+        "LAR-025"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -8898,7 +8992,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-027"
+        "LAR-028"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -9031,7 +9125,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-028"
+        "LAR-029"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -9408,7 +9502,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-029"
+        "LAR-030"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -9553,7 +9647,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-031"
+        "LAR-032"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -9919,7 +10013,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-032"
+        "LAR-033"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -9997,7 +10091,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-033"
+        "LAR-034"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -10079,7 +10173,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-030"
+        "LAR-031"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -10528,7 +10622,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-034"
+        "LAR-035"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -10689,7 +10783,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-036"
+        "LAR-037"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -10780,7 +10874,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-035"
+        "LAR-036"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -11148,7 +11242,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-037"
+        "LAR-038"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -11557,13 +11651,13 @@
       "pathwayId": "adult-non-conviction-record-relief",
       "pathwayLabel": "Adult non-conviction record relief",
       "routeKey": "ME:adult-non-conviction-record-relief",
-      "routeType": "court_petition",
+      "routeType": "automatic_relief",
       "currentlyOperative": true,
-      "userFiles": true,
-      "filingForum": "court",
-      "canEverBePaidPacket": true,
+      "userFiles": false,
+      "filingForum": "automatic",
+      "canEverBePaidPacket": false,
       "evaluatorTier": "HELD_GUIDANCE_ROUTES",
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "formMappingStatus": "source_candidate_identified",
       "sourceFormCandidates": [
         "LegalEase Maine/MJB-Form-cr-218.pdf"
@@ -11593,46 +11687,31 @@
         "section:134-145",
         "corpus-unit:51"
       ],
-      "bucket": "paid_after_legal_reconfirmation",
-      "primaryBlocker": "legal_reconfirmation",
-      "secondaryBlockers": [
-        "wait_anchor_fix"
-      ],
-      "productRouteType": "court_petition",
+      "bucket": "permanent_guidance_not_a_paid_product",
+      "primaryBlocker": "automatic_relief_mode",
+      "secondaryBlockers": [],
+      "productRouteType": "automatic_relief",
       "paymentProductEligible": false,
-      "serviceBehavior": "guidance",
+      "serviceBehavior": "automatic",
       "legalSignoffStatus": "blocked",
-      "packetFulfillmentStatus": "needs_form_mapping",
+      "packetFulfillmentStatus": "not_applicable",
       "engineRecognizedAsCourtFiled": true,
       "isAdministrativeApplication": false,
-      "packetFulfillmentReady": true,
+      "packetFulfillmentReady": false,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
       "missingWaitAnchorEventLogic": [],
-      "missingPacketFormFulfillment": [
-        "Packet form work outstanding (needs_form_mapping); tracked, not blocking payment for the ratified/custom model."
-      ],
+      "missingPacketFormFulfillment": [],
       "routeMetadataIssue": null,
-      "legalActionRequiredItemIds": [
-        "LAR-038"
-      ],
-      "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
-      "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
+      "legalActionRequiredItemIds": [],
+      "engineeringWorkNeeded": "Not applicable — guidance-only / non-paid route.",
+      "legalSourceReviewNeeded": "Confirm this route must remain guidance-only (automatic / board / pardon / prosecutor / agency / no-filing).",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
-        "qualifying facts -> payment opens (only after the work below lands and legal items close)",
-        "just-under wait -> not_yet, no payment",
-        "missing anchor -> needs_more_info / needs_review, no payment",
-        "pending case -> no payment",
-        "state exclusion selected -> no payment",
-        "route-specific disqualifier -> no payment",
-        "'not sure' -> no payment",
-        "wrong route type -> no payment",
-        "packet missing required field -> no payment",
-        "open Legal Action Required item -> no payment"
+        "any qualifying facts -> guidance_only / fail-closed, paymentAllowed=false (must never open payment)"
       ],
-      "priority": "route-depth",
-      "effortScore": 1
+      "priority": "guidance-only",
+      "effortScore": 9
     },
     {
       "jurisdictionCode": "ME",
@@ -15698,7 +15777,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-053"
+        "LAR-052"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -15952,13 +16031,13 @@
       "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
       "routeKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "routeType": "court_petition",
+      "routeType": "automatic_relief",
       "currentlyOperative": true,
-      "userFiles": true,
-      "filingForum": "court",
-      "canEverBePaidPacket": true,
+      "userFiles": false,
+      "filingForum": "automatic",
+      "canEverBePaidPacket": false,
       "evaluatorTier": "CORRECTED_AWAITING_RECONFIRM_ROUTES",
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "formMappingStatus": "source_candidate_identified",
       "sourceFormCandidates": [
         "LegalEase North Dakota/Close-Nonconviction-Records.pdf"
@@ -15995,44 +16074,31 @@
         "corpus-unit:114",
         "corpus-unit:201"
       ],
-      "bucket": "paid_after_legal_reconfirmation",
-      "primaryBlocker": "legal_reconfirmation",
+      "bucket": "permanent_guidance_not_a_paid_product",
+      "primaryBlocker": "automatic_relief_mode",
       "secondaryBlockers": [],
-      "productRouteType": "court_petition",
+      "productRouteType": "automatic_relief",
       "paymentProductEligible": false,
-      "serviceBehavior": "guidance",
+      "serviceBehavior": "automatic",
       "legalSignoffStatus": "needs_reconfirm",
-      "packetFulfillmentStatus": "needs_form_mapping",
+      "packetFulfillmentStatus": "not_applicable",
       "engineRecognizedAsCourtFiled": true,
       "isAdministrativeApplication": false,
-      "packetFulfillmentReady": true,
+      "packetFulfillmentReady": false,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
       "missingWaitAnchorEventLogic": [],
-      "missingPacketFormFulfillment": [
-        "Packet form work outstanding (needs_form_mapping); tracked, not blocking payment for the ratified/custom model."
-      ],
+      "missingPacketFormFulfillment": [],
       "routeMetadataIssue": null,
-      "legalActionRequiredItemIds": [
-        "LAR-052"
-      ],
-      "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
-      "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
+      "legalActionRequiredItemIds": [],
+      "engineeringWorkNeeded": "Not applicable — guidance-only / non-paid route.",
+      "legalSourceReviewNeeded": "Confirm this route must remain guidance-only (automatic / board / pardon / prosecutor / agency / no-filing).",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
-        "qualifying facts -> payment opens (only after the work below lands and legal items close)",
-        "just-under wait -> not_yet, no payment",
-        "missing anchor -> needs_more_info / needs_review, no payment",
-        "pending case -> no payment",
-        "state exclusion selected -> no payment",
-        "route-specific disqualifier -> no payment",
-        "'not sure' -> no payment",
-        "wrong route type -> no payment",
-        "packet missing required field -> no payment",
-        "open Legal Action Required item -> no payment"
+        "any qualifying facts -> guidance_only / fail-closed, paymentAllowed=false (must never open payment)"
       ],
-      "priority": "route-depth",
-      "effortScore": 1
+      "priority": "guidance-only",
+      "effortScore": 9
     },
     {
       "jurisdictionCode": "NE",
@@ -16228,7 +16294,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-056"
+        "LAR-055"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16308,7 +16374,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-055"
+        "LAR-054"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16601,7 +16667,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-054"
+        "LAR-053"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16746,7 +16812,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-057"
+        "LAR-056"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16827,7 +16893,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-058"
+        "LAR-057"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16906,7 +16972,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-060"
+        "LAR-059"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -16985,7 +17051,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-059"
+        "LAR-058"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -17200,7 +17266,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-062"
+        "LAR-061"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -17349,7 +17415,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-061"
+        "LAR-060"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -17565,7 +17631,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-063"
+        "LAR-062"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -17785,7 +17851,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-068"
+        "LAR-067"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -17864,7 +17930,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-064"
+        "LAR-063"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18017,7 +18083,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-069"
+        "LAR-068"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18095,7 +18161,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-065"
+        "LAR-064"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18180,7 +18246,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-066"
+        "LAR-065"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18261,7 +18327,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-067"
+        "LAR-066"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18682,7 +18748,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-070"
+        "LAR-069"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18829,7 +18895,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-074"
+        "LAR-073"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18912,7 +18978,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-072"
+        "LAR-071"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -18995,7 +19061,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-073"
+        "LAR-072"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19073,7 +19139,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-075"
+        "LAR-074"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19130,8 +19196,8 @@
         "section:100-103",
         "corpus-unit:30"
       ],
-      "bucket": "paid_after_wait_anchor_fix",
-      "primaryBlocker": "wait_anchor_fix",
+      "bucket": "paid_after_legal_reconfirmation",
+      "primaryBlocker": "legal_reconfirmation",
       "secondaryBlockers": [],
       "productRouteType": "court_petition",
       "paymentProductEligible": false,
@@ -19143,17 +19209,15 @@
       "packetFulfillmentReady": true,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
-      "missingWaitAnchorEventLogic": [
-        "Multiple distinct source waits could apply and no route-specific specialRouteTiming entry exists; the engine fails closed on ambiguity. Add route-specific wait/anchor/event logic."
-      ],
+      "missingWaitAnchorEventLogic": [],
       "missingPacketFormFulfillment": [
         "Packet form work outstanding (needs_custom_packet); tracked, not blocking payment for the ratified/custom model."
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-071"
+        "LAR-070"
       ],
-      "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
+      "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
@@ -19169,7 +19233,7 @@
         "open Legal Action Required item -> no payment"
       ],
       "priority": "route-depth",
-      "effortScore": 3
+      "effortScore": 1
     },
     {
       "jurisdictionCode": "OK",
@@ -19304,7 +19368,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-076"
+        "LAR-075"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19443,7 +19507,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-077"
+        "LAR-076"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19527,7 +19591,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-087"
+        "LAR-086"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19603,7 +19667,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-078"
+        "LAR-077"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19681,7 +19745,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-086"
+        "LAR-085"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19759,7 +19823,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-082"
+        "LAR-081"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19840,7 +19904,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-088"
+        "LAR-087"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19919,7 +19983,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-090"
+        "LAR-089"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -19997,7 +20061,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-079"
+        "LAR-078"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20075,7 +20139,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-080"
+        "LAR-079"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20156,7 +20220,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-085"
+        "LAR-084"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20237,7 +20301,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-084"
+        "LAR-083"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20318,7 +20382,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-083"
+        "LAR-082"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20463,7 +20527,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-081"
+        "LAR-080"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20540,7 +20604,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-089"
+        "LAR-088"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20623,7 +20687,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-092"
+        "LAR-091"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -20775,7 +20839,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-091"
+        "LAR-090"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -21607,7 +21671,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-093"
+        "LAR-092"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -21692,7 +21756,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-094"
+        "LAR-093"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -21775,7 +21839,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-095"
+        "LAR-094"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -21860,7 +21924,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-096"
+        "LAR-095"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -21941,7 +22005,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-097"
+        "LAR-096"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22162,7 +22226,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-098"
+        "LAR-097"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22188,13 +22252,13 @@
       "pathwayId": "diversion-or-program-completion-expungement",
       "pathwayLabel": "Diversion or program-completion expungement",
       "routeKey": "SC:diversion-or-program-completion-expungement",
-      "routeType": "court_petition",
+      "routeType": "automatic_relief",
       "currentlyOperative": true,
-      "userFiles": true,
-      "filingForum": "court",
-      "canEverBePaidPacket": true,
+      "userFiles": false,
+      "filingForum": "automatic",
+      "canEverBePaidPacket": false,
       "evaluatorTier": "RATIFIED_DEPLOYABLE_ROUTES",
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "formMappingStatus": "custom_or_manual_mapping_required",
       "sourceFormCandidates": [],
       "requiredInputIds": [
@@ -22222,34 +22286,31 @@
         "section:73-83",
         "corpus-unit:27"
       ],
-      "bucket": "paid_now",
-      "primaryBlocker": "none",
+      "bucket": "permanent_guidance_not_a_paid_product",
+      "primaryBlocker": "automatic_relief_mode",
       "secondaryBlockers": [],
-      "productRouteType": "court_petition",
-      "paymentProductEligible": true,
+      "productRouteType": "automatic_relief",
+      "paymentProductEligible": false,
       "serviceBehavior": "packet",
       "legalSignoffStatus": "signed_off",
       "packetFulfillmentStatus": "ready",
       "engineRecognizedAsCourtFiled": true,
       "isAdministrativeApplication": false,
-      "packetFulfillmentReady": true,
+      "packetFulfillmentReady": false,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
       "missingWaitAnchorEventLogic": [],
       "missingPacketFormFulfillment": [],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [],
-      "engineeringWorkNeeded": "None to open payment — route is ratified, engine-recognized, and fulfillment-ready.",
-      "legalSourceReviewNeeded": "Already ratified. Standard post-build QA / source-freshness / visual review remains a separate gate before live.",
+      "engineeringWorkNeeded": "Not applicable — guidance-only / non-paid route.",
+      "legalSourceReviewNeeded": "Confirm this route must remain guidance-only (automatic / board / pardon / prosecutor / agency / no-filing).",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
-        "qualifying + wait/order satisfied -> packet_ready(+caution) with paymentAllowed=true + source-backed reason",
-        "just-under wait / missing court order -> not_yet / likely_not_eligible, no payment",
-        "state exclusion selected / route disqualifier -> no payment",
-        "pending case -> no payment"
+        "any qualifying facts -> guidance_only / fail-closed, paymentAllowed=false (must never open payment)"
       ],
-      "priority": "high-confidence",
-      "effortScore": 0
+      "priority": "guidance-only",
+      "effortScore": 9
     },
     {
       "jurisdictionCode": "SC",
@@ -22314,7 +22375,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-101"
+        "LAR-100"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22331,7 +22392,7 @@
         "packet missing required field -> no payment",
         "open Legal Action Required item -> no payment"
       ],
-      "priority": "route-depth",
+      "priority": "first-paid-jurisdiction",
       "effortScore": 4
     },
     {
@@ -22395,7 +22456,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-099"
+        "LAR-098"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22412,7 +22473,7 @@
         "packet missing required field -> no payment",
         "open Legal Action Required item -> no payment"
       ],
-      "priority": "route-depth",
+      "priority": "first-paid-jurisdiction",
       "effortScore": 2
     },
     {
@@ -22476,7 +22537,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-102"
+        "LAR-101"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22493,7 +22554,7 @@
         "packet missing required field -> no payment",
         "open Legal Action Required item -> no payment"
       ],
-      "priority": "route-depth",
+      "priority": "first-paid-jurisdiction",
       "effortScore": 2
     },
     {
@@ -22563,7 +22624,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-103"
+        "LAR-102"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22580,7 +22641,7 @@
         "packet missing required field -> no payment",
         "open Legal Action Required item -> no payment"
       ],
-      "priority": "route-depth",
+      "priority": "first-paid-jurisdiction",
       "effortScore": 1
     },
     {
@@ -22715,7 +22776,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-100"
+        "LAR-099"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -22732,7 +22793,7 @@
         "packet missing required field -> no payment",
         "open Legal Action Required item -> no payment"
       ],
-      "priority": "route-depth",
+      "priority": "first-paid-jurisdiction",
       "effortScore": 3
     },
     {
@@ -22939,7 +23000,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-106"
+        "LAR-105"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23019,7 +23080,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-104"
+        "LAR-103"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23099,7 +23160,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-107"
+        "LAR-106"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23181,7 +23242,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-108"
+        "LAR-107"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23326,7 +23387,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-105"
+        "LAR-104"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23474,7 +23535,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-109"
+        "LAR-108"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23557,7 +23618,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-110"
+        "LAR-109"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23639,7 +23700,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-111"
+        "LAR-110"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23877,7 +23938,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-114"
+        "LAR-113"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -23954,7 +24015,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-115"
+        "LAR-114"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24039,7 +24100,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-113"
+        "LAR-112"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24123,7 +24184,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-112"
+        "LAR-111"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24213,7 +24274,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-118"
+        "LAR-117"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24311,7 +24372,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-116"
+        "LAR-115"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24409,7 +24470,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-117"
+        "LAR-116"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24700,7 +24761,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-119"
+        "LAR-118"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24787,7 +24848,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-120"
+        "LAR-119"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -24875,7 +24936,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-121"
+        "LAR-120"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25033,7 +25094,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-122"
+        "LAR-121"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25186,7 +25247,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-123"
+        "LAR-122"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25268,7 +25329,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-124"
+        "LAR-123"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25538,7 +25599,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-125"
+        "LAR-124"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25620,7 +25681,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-127"
+        "LAR-126"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25702,7 +25763,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-126"
+        "LAR-125"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25859,7 +25920,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-131"
+        "LAR-130"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -25941,7 +26002,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-128"
+        "LAR-127"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26022,7 +26083,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-130"
+        "LAR-129"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26101,7 +26162,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-129"
+        "LAR-128"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26184,7 +26245,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-133"
+        "LAR-132"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26268,7 +26329,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-132"
+        "LAR-131"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26361,7 +26422,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-134"
+        "LAR-133"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26438,7 +26499,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-137"
+        "LAR-136"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26523,7 +26584,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-135"
+        "LAR-134"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26689,7 +26750,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-136"
+        "LAR-135"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26838,7 +26899,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-138"
+        "LAR-137"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -26979,7 +27040,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-139"
+        "LAR-138"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27061,7 +27122,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-140"
+        "LAR-139"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27209,9 +27270,7 @@
       ],
       "bucket": "paid_after_gate_build",
       "primaryBlocker": "gate_build",
-      "secondaryBlockers": [
-        "wait_anchor_fix"
-      ],
+      "secondaryBlockers": [],
       "productRouteType": "court_petition",
       "paymentProductEligible": false,
       "serviceBehavior": "guidance",
@@ -27230,7 +27289,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-142"
+        "LAR-141"
       ],
       "engineeringWorkNeeded": "Implement + verify the named substantive gate in routeSpecificSafetyGate; wire its public intake facts; then promote from HARD_GATE_PENDING.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27318,7 +27377,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-143"
+        "LAR-142"
       ],
       "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27406,7 +27465,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-145"
+        "LAR-144"
       ],
       "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27470,8 +27529,8 @@
         "corpus-unit:13",
         "corpus-unit:20"
       ],
-      "bucket": "paid_after_wait_anchor_fix",
-      "primaryBlocker": "wait_anchor_fix",
+      "bucket": "paid_after_legal_reconfirmation",
+      "primaryBlocker": "legal_reconfirmation",
       "secondaryBlockers": [],
       "productRouteType": "court_petition",
       "paymentProductEligible": false,
@@ -27483,17 +27542,15 @@
       "packetFulfillmentReady": true,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
-      "missingWaitAnchorEventLogic": [
-        "Multiple distinct source waits could apply and no route-specific specialRouteTiming entry exists; the engine fails closed on ambiguity. Add route-specific wait/anchor/event logic."
-      ],
+      "missingWaitAnchorEventLogic": [],
       "missingPacketFormFulfillment": [
         "Packet form work outstanding (needs_custom_packet); tracked, not blocking payment for the ratified/custom model."
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-141"
+        "LAR-140"
       ],
-      "engineeringWorkNeeded": "Add a route-specific specialRouteTiming entry (wait/anchor/event) so the engine stops failing closed on ambiguous waits; then tier + ratify.",
+      "engineeringWorkNeeded": "No new eligibility code required; add the route key to RATIFIED_DEPLOYABLE_ROUTES + set paymentProductEligible metadata after legal reconfirmation, then re-run both-direction verifier.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
       "materialNeededFromLegalTeam": "None outstanding.",
       "verifierCasesRequiredBeforePayment": [
@@ -27509,7 +27566,7 @@
         "open Legal Action Required item -> no payment"
       ],
       "priority": "route-depth",
-      "effortScore": 3
+      "effortScore": 1
     },
     {
       "jurisdictionCode": "WV",
@@ -27517,13 +27574,13 @@
       "pathwayId": "pardon-based-expungement",
       "pathwayLabel": "Pardon-based expungement",
       "routeKey": "WV:pardon-based-expungement",
-      "routeType": "board_or_pardon",
+      "routeType": "automatic_relief",
       "currentlyOperative": true,
       "userFiles": false,
-      "filingForum": "board",
+      "filingForum": "automatic",
       "canEverBePaidPacket": false,
       "evaluatorTier": "other / unclassified",
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "formMappingStatus": "custom_or_manual_mapping_required",
       "sourceFormCandidates": [],
       "requiredInputIds": [
@@ -27556,22 +27613,20 @@
         "corpus-unit:59"
       ],
       "bucket": "permanent_guidance_not_a_paid_product",
-      "primaryBlocker": "not_paid_product",
+      "primaryBlocker": "automatic_relief_mode",
       "secondaryBlockers": [],
-      "productRouteType": "board_or_pardon",
+      "productRouteType": "automatic_relief",
       "paymentProductEligible": false,
-      "serviceBehavior": "guidance",
+      "serviceBehavior": "automatic",
       "legalSignoffStatus": "not_applicable",
-      "packetFulfillmentStatus": "needs_custom_packet",
+      "packetFulfillmentStatus": "not_applicable",
       "engineRecognizedAsCourtFiled": true,
       "isAdministrativeApplication": false,
-      "packetFulfillmentReady": true,
+      "packetFulfillmentReady": false,
       "missingEligibilityGates": [],
       "missingIntakeQuestions": [],
       "missingWaitAnchorEventLogic": [],
-      "missingPacketFormFulfillment": [
-        "Packet form work outstanding (needs_custom_packet); tracked, not blocking payment for the ratified/custom model."
-      ],
+      "missingPacketFormFulfillment": [],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [],
       "engineeringWorkNeeded": "Not applicable — guidance-only / non-paid route.",
@@ -27650,7 +27705,7 @@
       ],
       "routeMetadataIssue": null,
       "legalActionRequiredItemIds": [
-        "LAR-144"
+        "LAR-143"
       ],
       "engineeringWorkNeeded": "Add the nexus intake question to public-profile-projection + a matching safety gate; then tier + ratify.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27855,7 +27910,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-146"
+        "LAR-145"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",
@@ -27931,7 +27986,7 @@
       ],
       "routeMetadataIssue": "Engine does not recognize this route as a user-filed court/admin route (isCourtFiledPetitionRoute=false and not an approved admin route). Fix by adding explicit product route metadata, NOT by expanding summary regexes.",
       "legalActionRequiredItemIds": [
-        "LAR-147"
+        "LAR-146"
       ],
       "engineeringWorkNeeded": "Set explicit productRouteType/filingForum/userFiled/paymentProductEligible metadata for this route and add an explicit recognition branch (isCourtFiledPetitionRoute or admin predicate). Do NOT expand summary regexes.",
       "legalSourceReviewNeeded": "Legal/source review required: confirm operative status, sellable user-filed forum, wait/anchor, exclusions/preconditions/count caps/prior-relief bars, and form-readiness before ratification.",

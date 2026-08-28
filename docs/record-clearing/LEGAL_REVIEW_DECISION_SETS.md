@@ -50,7 +50,7 @@ collapses those rows against the registers that already hold decisions.
 
 - **CLASSIFICATION:** EXISTING_APPROVAL_NOT_LINKED
 - **JURISDICTION:** 24 — AK CT GA HI IL LA MD MN MO ND NE NH NV OH OK RI SC SD TN TX UT WA WI WV
-- **ROUTES / AFFECTED VARIANTS:** exact_supported_deferral/none, factory_v2/packet_document_v1, guidance_only/none, legacy_verified/packet_document_v1
+- **ROUTES / AFFECTED VARIANTS:** exact_supported_deferral/none, factory_v2/packet_document_v1, guidance_only/none, legacy_retired/packet_document_v1
 - **AFFECTED PATHWAY ROWS:** 53
 - **CURRENT LEGAL REVIEW:** approved_by_decision_owner
 - **CURRENT PRIMARY AUTHORITY:** auth-2026-08-19-owner-legal-approval-completed-output (approved, authorized) plus EXT-ADOPT-01 standing external counsel adoption of 2026-08-08
@@ -90,7 +90,7 @@ collapses those rows against the registers that already hold decisions.
 
 - **CLASSIFICATION:** ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL
 - **JURISDICTION:** 38 — AK CO DE FL GA HI IL IN KS KY LA MA MD ME MI MN MO MS NC ND NE NH NJ NM NV NY OH OK RI SC SD TX UT VA VT WA WI WV
-- **ROUTES / AFFECTED VARIANTS:** exact_supported_deferral/none, factory_v2/packet_document_v1, guidance_only/none, legacy_verified/packet_document_v1
+- **ROUTES / AFFECTED VARIANTS:** exact_supported_deferral/none, factory_v2/packet_document_v1, guidance_only/none, legacy_retired/packet_document_v1
 - **AFFECTED PATHWAY ROWS:** 131
 - **CURRENT LEGAL REVIEW:** owner_approval_pending
 - **CURRENT PRIMARY AUTHORITY:** auth-2026-08-19-owner-legal-approval-completed-output (approved, authorized) plus EXT-ADOPT-01 standing external counsel adoption of 2026-08-08
@@ -150,8 +150,8 @@ collapses those rows against the registers that already hold decisions.
 | `ID:juvenile-expungement` | guidance_only | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `ID:withheld-judgment-idaho-code-19-2604-review-branch` | guidance_only | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
-| `IL:felony-prostitution-relief` | legacy_verified | EXISTING_APPROVAL_NOT_LINKED |
-| `IL:human-trafficking-survivor-vacatur-and-expungement` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `IL:felony-prostitution-relief` | legacy_retired | EXISTING_APPROVAL_NOT_LINKED |
+| `IL:human-trafficking-survivor-vacatur-and-expungement` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `IN:conviction-expungement-with-records-marked-expunged` | factory_v2 | LEGAL_RECONFIRMATION_REQUIRED |
 | `IN:conviction-expungement-with-sealed-confidential-access` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `IN:juvenile-allegation-expungement` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
@@ -198,12 +198,12 @@ collapses those rows against the registers that already hold decisions.
 | `MO:first-minor-in-possession-alcohol-expungement-under-311-326` | factory_v2 | LEGAL_RECONFIRMATION_REQUIRED |
 | `MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `MO:stolen-or-mistaken-identity-expungement-under-610-145` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `MS:additional-justice-court-misdemeanor-relief-9-11-15-3` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `MS:human-trafficking-survivor-expungement-97-3-54-6-6` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `MS:human-trafficking-survivor-vacatur-97-3-54-6-5` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `NC:nonviolent-conviction-expunction-under-g-s-15a-145-5` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
@@ -281,13 +281,13 @@ collapses those rows against the registers that already hold decisions.
 | `TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
 | `TN:pathway-4-two-offense-expunction-under-40-32-101-k` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
 | `TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a` | exact_supported_deferral | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `TX:expunction-after-pardon-or-actual-innocence-relief` | legacy_verified | EXISTING_APPROVAL_NOT_LINKED |
+| `TX:expunction-after-pardon-or-actual-innocence-relief` | legacy_retired | EXISTING_APPROVAL_NOT_LINKED |
 | `TX:expunction-after-qualifying-class-c-deferred-disposition` | exact_supported_deferral | EXISTING_APPROVAL_NOT_LINKED |
 | `TX:expunction-after-qualifying-dismissal-or-quash` | exact_supported_deferral | EXISTING_APPROVAL_NOT_LINKED |
-| `TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period` | legacy_verified | EXISTING_APPROVAL_NOT_LINKED |
-| `TX:first-offense-dwi-nondisclosure` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735` | legacy_verified | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period` | legacy_retired | EXISTING_APPROVAL_NOT_LINKED |
+| `TX:first-offense-dwi-nondisclosure` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `UT:path-e-petition-based-non-conviction-expungement` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `UT:path-f-petition-based-conviction-expungement` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |

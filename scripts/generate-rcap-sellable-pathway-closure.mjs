@@ -37,6 +37,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet as sharedEvaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
@@ -106,10 +107,19 @@ const treatmentByTrack = new Map(treatments.map((t) => [t.trackId, t]));
 // scripts/audit-petition-route-inventory.mjs does: these sets ARE the gate, and
 // a re-implementation here would measure this script instead of the runtime.
 const evaluatorSource = read(EVALUATOR);
+/**
+ * The live payment gate, read from the one controlling registry.
+ *
+ * This used to parse the Sets out of evaluator.ts, on the reasoning that those
+ * sets ARE the gate and a re-implementation here would measure this script
+ * instead of the runtime. That was right while they were hand-written literals.
+ * They are projections now: the evaluator filters
+ * data/record-clearing/legal-decisions/route-ratification-registry.json, so
+ * reading the registry is reading the same list one step closer to the
+ * authority, and there is no second list left for it to drift from.
+ */
 function evaluatorRouteSet(name) {
-  const match = evaluatorSource.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\)`, "m"));
-  if (!match) throw new Error(`evaluator.ts no longer declares ${name}; the closure ledger cannot measure the payment gate.`);
-  return new Set([...match[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]).filter((k) => /^[A-Z]{2}:/.test(k)));
+  return sharedEvaluatorRouteSet(name);
 }
 const RATIFIED_DEPLOYABLE = evaluatorRouteSet("RATIFIED_DEPLOYABLE_ROUTES");
 

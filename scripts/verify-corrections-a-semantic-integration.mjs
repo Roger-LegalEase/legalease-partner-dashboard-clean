@@ -5,6 +5,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 
 process.env.RCAP_EVALUATOR_TODAY = "2026-08-25";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
@@ -62,10 +63,9 @@ for (const row of closure.routes) {
   assert.equal(metadata.routes[row.routeKey]?.serviceBehavior, expected, `${row.routeKey}: generated metadata carries final service behavior`);
 }
 
-const parseSet = (name) => new Set(
-  [...(evaluatorSource.match(new RegExp(`const ${name} = new Set\\(\\[([\\s\\S]*?)\\]\\);`))?.[1] ?? "").matchAll(/"([A-Z]{2}:[^"]+)"/g)]
-    .map((match) => match[1])
-);
+// The ratification sets are projections of the registry now; reading the
+// registry is reading the same list one step closer to the authority.
+const parseSet = (name) => evaluatorRouteSet(name);
 const ratified = parseSet("RATIFIED_DEPLOYABLE_ROUTES");
 const corrected = parseSet("CORRECTED_AWAITING_RECONFIRM_ROUTES");
 const hardGate = parseSet("HARD_GATE_PENDING_ROUTES");

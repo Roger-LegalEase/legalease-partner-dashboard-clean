@@ -3,11 +3,25 @@
   "profileVersion": "2026-06-19-source-conversion-1",
   "questionLifecycle": {
     "routeConsumers": {
-      "wi_expungement_ordered_at_sentencing": ["adult-conviction-expungement-under-wis-stat-973-015"],
-      "wi_no_probation_jail_prison": ["adult-conviction-expungement-under-wis-stat-973-015"]
+      "wi_expungement_ordered_at_sentencing": [
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ],
+      "wi_no_probation_jail_prison": [
+        "adult-conviction-expungement-under-wis-stat-973-015"
+      ]
     },
-    "exactPacketFactIds": ["criminal_history", "disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
-    "completionAliasIds": ["sentence_completion_date"]
+    "exactPacketFactIds": [
+      "criminal_history",
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date"
+    ]
   },
   "jurisdiction": {
     "code": "WI",
@@ -588,7 +602,8 @@
         "packet_capable": true,
         "payment_allowed_when_engine_confirms": true,
         "legal_basis": "Wis. Stat. § 973.015; CR-266",
-        "lawrence_review": "first_pass_ratified"
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -710,7 +725,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-        "lawrence_review": "hold_guidance_only"
+        "lawrence_review": "hold_guidance",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {

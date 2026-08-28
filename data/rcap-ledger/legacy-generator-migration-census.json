@@ -22,7 +22,7 @@
       "MIGRATABLE_NOW": 9,
       "NO_APPROVED_PACKET_SET": 32,
       "BLOCKED_ON_RATIFICATION": 5,
-      "BLOCKED_ON_OFFICIAL_FORM_BYTES": 13
+      "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME": 13
     }
   },
   "whatMigrationMeans": [
@@ -271,12 +271,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "IL:adult-non-conviction-expungement",
@@ -312,13 +313,14 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (EXP-AD Additional Cases Expungement, EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Additional Cases Expungement, EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "IL:cannabis-specific-automatic-or-petition-expungement",
@@ -358,11 +360,12 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (CXP Additional Cannabis Convictions, CXP Additional Notice of Court Date, CXP Getting Started Motion to Vacate and Expunge, CXP Motion to Vacate and Expunge, CXP Notice of Court Date for Motion, CXP Order Granting or Denying Motion) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (CXP Additional Cannabis Convictions, CXP Additional Notice of Court Date, CXP Getting Started Motion to Vacate and Expunge, CXP Motion to Vacate and Expunge, CXP Notice of Court Date for Motion, CXP Order Granting or Denying Motion). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "IL:clean-slate-automatic-sealing",
@@ -448,12 +451,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (EXP-AD Case List, EXP-AD Order Granting, EXP-AD Request, FW-CIV-APPLICATION). IL has 22 inventoried source artifact(s) present and re-verified and 7 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "IL:felony-prostitution-relief",
@@ -1264,12 +1268,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (PA-IFP-CCP, PA-IFP-MDJ, PA-RCRIM-P-490-ORDER, PA-RCRIM-P-490-PETITION, PA-RCRIM-P-790-ORDER, PA-RCRIM-P-790-PETITION) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (PA-IFP-CCP, PA-IFP-MDJ, PA-RCRIM-P-490-ORDER, PA-RCRIM-P-490-PETITION, PA-RCRIM-P-790-ORDER, PA-RCRIM-P-790-PETITION). PA has 18 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "PA:path-b-complete-acquittal-not-guilty-expungement",
@@ -1590,12 +1595,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:expunction-after-pardon-or-actual-innocence-relief",
@@ -1629,12 +1635,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:expunction-after-qualifying-class-c-deferred-disposition",
@@ -1668,12 +1675,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:expunction-after-qualifying-dismissal-or-quash",
@@ -1707,12 +1715,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
@@ -1746,12 +1755,13 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:first-offense-dwi-nondisclosure",
@@ -1787,13 +1797,14 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0731, OCA Model Petition for an Order of Nondisclosure under Section 411.0731, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0731, OCA Model Petition for an Order of Nondisclosure under Section 411.0731, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel ratification (currently unclassified)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
@@ -1829,13 +1840,14 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0725, OCA Model Petition for an Order of Nondisclosure under Section 411.0725, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0725, OCA Model Petition for an Order of Nondisclosure under Section 411.0725, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel ratification (currently hard_gate_pending)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     },
     {
       "route": "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
@@ -1871,20 +1883,21 @@
         "documentComponent": "src/components/rcap/documents/DocumentPacketRenderer.tsx",
         "note": "The legacy document component is the closest thing the repository has to a specification of what a complete packet looks like for this jurisdiction, and is the comparison evidence for the migrated packet."
       },
-      "migrationReadiness": "BLOCKED_ON_OFFICIAL_FORM_BYTES",
-      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0735, OCA Model Petition for an Order of Nondisclosure under Section 411.0735, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond) and those blank PDFs are not in this container.",
+      "migrationReadiness": "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME",
+      "exactBlocker": "Its packet set fills official forms (OCA Model Order of Nondisclosure under Section 411.0735, OCA Model Petition for an Order of Nondisclosure under Section 411.0735, Statement of Inability to Afford Payment of Court Costs or an Appeal Bond). TX has 3 inventoried source artifact(s) present and re-verified and 0 identified but not materialised in this runtime. Whether THIS route's forms are among the present set is settled per form in data/rcap-ledger/source-custody-census.json; nothing here is called missing.",
       "commercialOpeningStillRequires": [
         "owner approval of the legal design",
         "counsel ratification (currently hard_gate_pending)",
         "counsel review of the composed document set"
-      ]
+      ],
+      "sourceCustody": "SOURCE_IDENTIFIED_NOT_MATERIALIZED or SOURCE_PRESENT_AND_REVERIFIED, per form \u2014 see the custody census"
     }
   ],
   "readinessVocabulary": {
     "MIGRATABLE_NOW": "A specification can be written and a packet built and machine-verified today. It does NOT mean the route may be sold: see commercialOpeningStillRequires on each row, and both postures on any record written for it stay held until those are satisfied.",
-    "BLOCKED_ON_OFFICIAL_FORM_BYTES": "Its owner-approved packet set fills an official PDF whose blank bytes are not in this container. Do not change the approved output strategy to route around it.",
     "BLOCKED_ON_RATIFICATION": "A packet may still be specified and built; counsel has not ratified the route, so nothing may open.",
-    "NO_APPROVED_PACKET_SET": "There is no owner-approved packet set to migrate a specification from. Producing one is legal-design work, not build work."
+    "NO_APPROVED_PACKET_SET": "There is no owner-approved packet set to migrate a specification from. Producing one is legal-design work, not build work.",
+    "SOURCE_BYTES_NOT_MATERIALIZED_IN_CURRENT_RUNTIME": "Its owner-approved packet set fills an official PDF. Whether those bytes are in THIS runtime is a custody question, settled per form in data/rcap-ledger/source-custody-census.json. A form is never called missing because a container did not have it mounted, and the approved output strategy is never changed to route around a custody gap."
   },
   "migrationQueue": {
     "note": "The nine routes a specification can be written for today, ordered by whether the owner has already approved the legal design. Each is migrated on its own evidence; a state is never reopened because one of its routes passes.",

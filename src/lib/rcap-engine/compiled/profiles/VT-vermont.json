@@ -3,8 +3,18 @@
   "profileVersion": "2026-06-19-source-conversion-1",
   "questionLifecycle": {
     "routeConsumers": {},
-    "exactPacketFactIds": ["disposition_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
-    "completionAliasIds": ["sentence_completion_date", "financial_obligations"]
+    "exactPacketFactIds": [
+      "disposition_date",
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
+    "completionAliasIds": [
+      "sentence_completion_date",
+      "financial_obligations"
+    ]
   },
   "jurisdiction": {
     "code": "VT",
@@ -724,7 +734,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -804,7 +815,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -881,7 +893,8 @@
         "packet_capable": false,
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence named substantive gate required before selling",
-        "lawrence_review": "gate_required"
+        "lawrence_review": "hard_gate_pending",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {
@@ -986,6 +999,14 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "lawrenceRatification": {
+        "status": "ratified_deployable",
+        "packet_capable": true,
+        "payment_allowed_when_engine_confirms": true,
+        "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+        "lawrence_review": "ratified_deployable",
+        "projectedFrom": "route-ratification-registry"
       }
     },
     {

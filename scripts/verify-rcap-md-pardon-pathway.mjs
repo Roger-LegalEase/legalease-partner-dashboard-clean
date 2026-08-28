@@ -14,6 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { evaluatorRouteSet } from "./lib/route-ratification.mjs";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -152,8 +153,11 @@ assert(
   evaluatorSource.includes("md_pardon_date_needed") && evaluatorSource.includes("md_pardon_deadline_not_eligible"),
   "evaluator carries the pardon-date request and the § 10-105(c)(4) deadline bar"
 );
+// The evaluator's ratified set is a projection of the ratification registry
+// now, so the allowlist is checked where the decision actually lives. A source
+// regex over evaluator.ts would only ever confirm that a filter exists.
 assert(
-  /RATIFIED_DEPLOYABLE_ROUTES = new Set\(\[[^\]]*MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8/s.test(evaluatorSource),
+  evaluatorRouteSet("RATIFIED_DEPLOYABLE_ROUTES").has("MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8"),
   "the route is in the ratified-deployable payment allowlist (counsel approval 2026-08-11)"
 );
 

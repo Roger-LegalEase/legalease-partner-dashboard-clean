@@ -13,6 +13,7 @@ import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudications.json";
 import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
 import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
+import routeRatificationRegistry from "@/../data/record-clearing/legal-decisions/route-ratification-registry.json";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -25,165 +26,31 @@ const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "packet_ready"
 ];
 
-const RATIFIED_DEPLOYABLE_ROUTES = new Set([
-  "AR:situation-b-misdemeanor-convictions",
-  "AR:situation-c-felony-convictions",
-  "CA:tool-1-dismissal-set-aside",
-  "CA:tool-3-petition-based-felony-sealing",
-  "CA:tool-4-arrest-record-sealing",
-  "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
-  "IL:expungement-after-eligible-supervision-or-qualified-probation",
-  "IL:adult-conviction-sealing",
-  "IL:cannabis-specific-automatic-or-petition-expungement",
-  "IL:criminal-identity-theft-mistaken-identity-relief",
-  "KS:specialty-court-accelerated",
-  "MD:adult-non-conviction-expungement-under-crim-proc-10-105",
-  "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-  // MD pardoned-conviction expungement (Crim. Proc. § 10-105(a)(8)/(c)(4)): counsel approved
-  // 2026-08-11; both-direction proof lives in scripts/verify-rcap-md-pardon-pathway.mjs (qualifying
-  // in-deadline case opens payment, passed-deadline and missing-date cases stay shut).
-  "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
-  "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
-  "ND:first-offense-possession-sealing",
-  "ND:marijuana-specific-summary-pardon-or-sealing-relief",
-  "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
-  "NM:no-conviction-released-without-conviction",
-  "NM:cannabis-sentence-dismissal-incarcerated-person-pathway",
-  "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
-  "IA:nonconviction-901c2",
-  "MN:petition-based-expungement-under-609a-02-03",
-  "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
-  "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-  "MS:first-offender-nontraffic-misdemeanor-conviction-expungement-99-19-71-1",
-  "MS:eligible-felony-conviction-expungement-99-19-71",
-  "MS:nonadjudication-under-99-15-26",
-  "MS:pretrial-intervention-or-diversion-expungement",
-  "MS:first-offense-controlled-substance-conditional-discharge-relief",
-  "MS:first-offense-dui-expungement",
-  "MS:minor-in-possession-underage-alcohol-expungement",
-  "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
-  "MT:marijuana-related-redesignation-expungement-under-mmrta",
-  "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
-  "DC:dc_actual_innocence_expungement_16_803",
-  "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
-  "WI:adult-conviction-expungement-under-wis-stat-973-015",
-  // ---- Lawrence ratification: 2026-07-01 ----
-  // Basis: Lawrence reviewed and confirmed the corrected wait / anchor / gate for each held petition
-  // route in docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md as legally correct, including VA OES
-  // form-readiness. Promoted from CORRECTED_AWAITING_RECONFIRM to deployable; the $50 clamp now opens
-  // for qualifying cases (still gated by state_exclusion_categories where present and by the
-  // source-listed special_preconditions_confirmed gate everywhere, per the engine's ratified model).
-  // MO — RSMo ch. 610: 610.140 (felony 3yr / misd 1yr), 610.130 (10yr), 610.145 (event)
-  "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-  "MO:stolen-or-mistaken-identity-expungement-under-610-145",
-  // LA — La. C.Cr.P. arts. 894/893/977/978/998: 894(B)/893(E) set-aside (event) split from the
-  // 5yr (misd) / 10yr (felony) clean-period routes; 998 marijuana 90-day
-  "LA:non-conviction-arrest-expungement",
-  "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
-  "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-  "LA:felony-article-893-e-set-aside-followed-by-expungement",
-  // NE — Neb. Rev. Stat. § 29-2264 conviction SET-ASIDE (record stays visible), runs from completion
-  "NE:set-aside-probation-fine-community-service",
-  "NE:set-aside-incarceration-one-year-or-less",
-  // VA — § 19.2-392.2 non-conviction expungement (event) + § 19.2-392.12 petition sealing (misd 7yr / felony 10yr)
-  "VA:regime-1-expungement-available-now",
-  "VA:petition-based-sealing",
-  // ME — 15 M.R.S. §§ 2261–2264 CR-218 adult conviction sealing (Class E), 4yr
-  "ME:adult-conviction-sealing",
-  // IL — 20 ILCS 2630/5.2(j) felony-prostitution relief (event; Class 4 felony hard gate)
-  "IL:felony-prostitution-relief",
-  // ID — Idaho Code § 19-2604(1) withheld-judgment set-aside (event; caution-tier)
-  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-  // ---- Lawrence ratification 2026-07-01 (gate-coded hard-gate routes) ----
-  // These two families already have coded, tested substantive gates (caRouteSafetyGate,
-  // nyCpl16059SafetyGate). Lawrence confirmed them; promoted from HARD_GATE_PENDING to deployable.
-  // NY CPL 160.59 — 10yr wait, ≤2 convictions / ≤1 felony, offense-exclusion + pending + prior-sealing gate
-  "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
-  // CA HSC § 11361.8 Prop 64 — qualifying-marijuana + lesser/no-offense + branch gate
-  "CA:prop-64-currently-serving-petition-11361-8",
-  "CA:prop-64-completed-sentence-application-11361-8",
-  // ---- Hawaii administrative application packet (legal signoff 2026-07-01) ----
-  // NOT court petitions. These are the HCJDC 159(b) application to the Hawaii Criminal Justice Data
-  // Center (Dept. of the Attorney General) under HRS § 831-3.2 (non-conviction) and §§ 706-622.5/.8/.9,
-  // 291E-64(e) (conviction). Payment opens via isLegallyApprovedAdministrativeApplicationRoute, gated
-  // by hiAdminApplicationSafetyGate. The conviction tracks require a confirmed Court Order Granting
-  // Expungement to attach; without it they fail closed. See docs/expungement-ai/HAWAII_ADMIN_APPLICATION_PACKET.md.
-  "HI:nonconviction-arrest-expungement",
-  "HI:first-time-drug-conviction",
-  "HI:dui-under-21-conviction",
-  // ---- Target 51 Batch 1 — legal reconfirmation (signoff 2026-07-01) ----
-  // CORRECTED_AWAITING_RECONFIRM routes that were built with corrected route-specific wait/anchor/gate
-  // logic and were held only for legal reconfirmation. Legal signed off 2026-07-01; only those PROVEN
-  // both-direction (open when qualifying, block when disqualified) by verify-rcap-no-generic-fallbacks
-  // + all51-provability are promoted. The remaining held routes stayed in CORRECTED because a
-  // qualifying case did not open payment (missing intake fact / anchor) — they need more than a
-  // reconfirmation and were NOT promoted.
-  "IN:conviction-expungement-with-sealed-confidential-access",
-  "ND:deferred-imposition-dismissal-and-sealing",
-  "NY:conditional-treatment-sealing-under-cpl-160-58",
-  "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
-  // ---- Target 51 Batch 1 — ready-pending-ratification first-paid routes (signoff 2026-07-01) ----
-  // Untiered routes that already reach packet_ready deterministically (compiled source-rule match +
-  // route-specific source waiting rule + exclusion gates); held from payment only by non-ratification.
-  // FL: § 943.0585 court-ordered expunction (non-conviction). SD: § 23A-3-27 adult arrest-record
-  // expungement (non-conviction).
-  "FL:court-ordered-expunction-943-0585",
-  "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
-  // ---- Target 51 Batch 2 — route-metadata first-paid routes (signoff 2026-07-01) ----
-  // Real user-filed court routes the text heuristic did not recognize; ratifying gives them explicit
-  // court-route recognition (isCourtFiledPetitionRoute returns true for ratified routes). Each is
-  // proven both-direction by verify-rcap-no-generic-fallbacks + all51-provability; any that did not
-  // open payment when qualifying was reverted and held (see LEGAL_ACTION_REQUIRED.md). AK is excluded
-  // (jurisdiction hard-coded non-court); MA/PA excluded (held-guidance / legacy-preserved).
-  "AZ:remedy-1-record-sealing",
-  // DE:discretionary-court-expungement-under-11-del-c-4374 held: a qualifying case did not open
-  // payment in both-direction proof (needs an intake fact/anchor beyond metadata). See LEGAL_ACTION_REQUIRED.md.
-  "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
-  "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
-  "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
-  // NV:controlled-substance-possession-sealing-under-nrs-453-3365 held: compiled summary/id mismatch
-  // (summary is trafficking-victim NRS 179.247, not the § 453.3365 drug route) and an ambiguous
-  // multi-wait that fails closed. Needs a clean NV route selection + source fix. See LEGAL_ACTION_REQUIRED.md.
-  "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
-  "OK:acquittal-dismissal-or-other-no-conviction-expungement",
-  "SC:diversion-or-program-completion-expungement",
-  "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
-  "UT:path-i-traffic-offense-expungement-or-deletion",
-  "VT:dui-sealing",
-  "WA:non-conviction-record-deletion-under-rcw-10-97-060",
-  "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
-  "WY:felony-conviction-expungement-w-s-7-13-1502",
-  // ---- Final Five — first-paid route per remaining zero-paid jurisdiction (signoff 2026-07-01) ----
-  // Each is a genuine user-filed court route with a source-backed compiled-rule match, a coded
-  // route-specific safety gate, and a fulfillment-ready packet plan. Proven both-direction by
-  // verify-rcap-no-generic-fallbacks + all51-provability.
-  // AK — TF-810 CourtView exclusion request (AK_CV_810). Roger supplied the official Alaska Court System
-  // Form TF-810 ("Request to Exclude Case from Online Public Index (CourtView)", AS 22.35.030 /
-  // Admin. R. 40); it is a user-filed request filed at the local trial court. Limited to acquittal /
-  // dismissal cases (akCourtViewExclusionSafetyGate), 60 days after the acquittal/dismissal
-  // (specialRouteTiming). This is CourtView removal, NOT general expungement, and does not erase DPS
-  // criminal-history records. Reclassified from the automatic AS 22.35.030 confidentiality route now
-  // that the official user-filed form exists; AK LAR-003 resolved.
-  "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-  // NV — NRS 179.245 general conviction record sealing (custom pleading packet). The five source
-  // waiting periods (10/7/5/2/1yr by offense class) are disambiguated by the public waiting_rule_id
-  // fact, and the offense exclusions (crime against a child, sexual offense, etc.) are enforced by the
-  // compiled NRS 179.245 exclusion rules. Moved out of HARD_GATE_PENDING.
-  "NV:general-conviction-record-sealing-under-nrs-179-245",
-  // DE — 11 Del. C. § 4374 discretionary court expungement (official Superior Court adult petition +
-  // order + instructions from the Nationwide Delaware folder; deSuperiorExpungementSafetyGate). SBI
-  // criminal-history letter is filingReadiness=needs_external_document, NOT a checkout blocker.
-  "DE:discretionary-court-expungement-under-11-del-c-4374",
-  // MA — M.G.L. c. 276 § 100A adult conviction CORI sealing (official Petition to Seal). The 3yr
-  // (misdemeanor) / 7yr (felony) wait is coded in the MA specialRouteTiming split, and the sex-offender
-  // and offense exclusions come from the compiled § 100A rules. Moved out of HELD_GUIDANCE. Copy =
-  // record sealing, not expungement.
-  // PA — Pa.R.Crim.P. 790 court-case expungement (official AOPC Rule 790 petition + blank order).
-  // The rule-driven engine owns route selection and payment; the legacy PA generator may only render
-  // after this route ID is selected. Moved out of HELD_GUIDANCE. PATCH report is
-  // filingReadiness=needs_external_document, NOT a checkout blocker.
-  "PA:path-a-non-conviction-expungement"
-]);
+/**
+ * Per-route legal ratification, projected from the one controlling registry.
+ *
+ * These Sets used to be hand-maintained literals here, and the compiled profiles
+ * carried a second `lawrenceRatification` block that said something different:
+ * 80 routes ratified in one, 53 in the other, 40 in common. Two editable records
+ * of the same legal fact is not redundancy, it is a coin flip — and a route
+ * counsel holds to guidance was picked as a build candidate off the wrong one.
+ *
+ * So the registry is the authority and both structures are projections of it.
+ * Nothing here may be edited to add or remove a route: a status changes when
+ * counsel decides it changes, in
+ * data/record-clearing/legal-decisions/route-ratification-registry.json, and the
+ * projections follow. Runtime usage never established legal authority; it only
+ * ever recorded someone's reading of it.
+ */
+const ROUTE_RATIFICATION_REGISTRY = routeRatificationRegistry as {
+  routes: Array<{ routeKey: string; status: string; cautionOverride: boolean }>;
+};
+
+const RATIFIED_DEPLOYABLE_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "ratified_deployable")
+    .map((entry) => entry.routeKey)
+);
 
 // Legally signed-off administrative-application packet routes. These are the ONLY non-court-petition
 // routes permitted to open payment (Hawaii HCJDC 159(b) and Maryland § 10-103 agency applications). Every other automatic / admin /
@@ -205,140 +72,45 @@ const HI_ADMIN_CONVICTION_ROUTES = new Set([
 // or the relief is automatic and not a paid product). They stay held (no payment) pending that work;
 // see docs/expungement-ai/LEGAL_ACTION_REQUIRED.md. WY:adult-non-conviction is automatic-relief and is
 // held as a non-paid product.
-const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set([
-  "IN:non-conviction-arrest-or-criminal-charge-expungement",
-  "IN:juvenile-allegation-expungement",
-  "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-  "WY:adult-non-conviction-expungement-w-s-7-13-1401"
-]);
+const CORRECTED_AWAITING_RECONFIRM_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "corrected_awaiting_reconfirmation")
+    .map((entry) => entry.routeKey)
+);
 
 // Ratified routes whose compiled source rule is conservatively `needs_review` but which Lawrence
 // ratified (2026-07-01) as caution-tier packet routes (e.g. discretionary court set-asides). The
 // review short-circuit is skipped for these so the caution packet + payment can open; they still
 // pass every timing, precondition, exclusion, and pending-charge gate first.
-const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set([
-  "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-  // DE § 4374 discretionary court expungement is a discretionary Superior Court petition whose compiled
-  // source rule is conservatively needs_review; ratified 2026-07-01 as a caution-tier packet route. It
-  // still passes every timing, exclusion, and pending-charge gate (deSuperiorExpungementSafetyGate)
-  // first, and the manifest-injustice discretion is disclosed in the packet.
-  "DE:discretionary-court-expungement-under-11-del-c-4374"
-]);
+const RATIFIED_CAUTION_OVERRIDE_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.cautionOverride === true)
+    .map((entry) => entry.routeKey)
+);
 
-const HARD_GATE_PENDING_ROUTES = new Set([
-  "MD:eligible-conviction-expungement-under-crim-proc-10-110",
-  "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
-  "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
-  "TN:pathway-3-eligible-conviction-expunction-under-40-32-101-g-40-32-107",
-  "TN:pathway-4-two-offense-expunction-under-40-32-101-k",
-  "KS:conviction-or-diversion-216614",
-  "MI:set-aside-by-application-under-mcl-780-621",
-  "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
-  "NH:conviction-annulment-under-rsa-651-5",
-  "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
-  "OK:other-eligible-misdemeanor-conviction-expungement",
-  "OK:one-eligible-nonviolent-felony-conviction-expungement",
-  "OK:not-more-than-two-eligible-felony-convictions-expungement",
-  "RI:path-a-first-offender-conviction-expungement",
-  "RI:path-b-multiple-misdemeanor-expungement",
-  "SC:eligible-conviction-expungement",
-  "SD:suspended-imposition-of-sentence-sealing",
-  "TX:petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725",
-  "TX:petitioned-nondisclosure-for-an-eligible-conviction-411-0735",
-  "UT:path-d-petition-based-expungement-with-a-bci-certificate-of-eligibility",
-  "UT:path-e-petition-based-non-conviction-expungement",
-  "UT:path-f-petition-based-conviction-expungement",
-  "VT:adult-conviction-expungement-narrow-statutory-route",
-  "VT:adult-misdemeanor-conviction-sealing",
-  "VT:adult-felony-conviction-sealing",
-  "WA:adult-misdemeanor-gross-misdemeanor-vacation-under-rcw-9-96-060",
-  "WA:adult-felony-vacation-under-rcw-9-94a-640",
-  "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
-  "ND:dui-record-sealing-under-the-separate-dui-statute",
-  "IA:misdemeanor-901c3",
-  "IA:public-intoxication-12346",
-  "IA:underage-alcohol-12347",
-  "IA:minor-prostitution-7251",
-  "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
-  "FL:court-ordered-sealing-943-059",
-  "FL:lawful-self-defense-expunction-943-0578",
-  "GA:restriction-and-sealing-of-a-pardoned-felony",
-]);
+const HARD_GATE_PENDING_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "hard_gate_pending")
+    .map((entry) => entry.routeKey)
+);
 
-const HELD_GUIDANCE_ROUTES = new Set([
-  "CA:tool-5-proposition-64-marijuana-relief",
-  "IN:conviction-expungement-with-records-marked-expunged",
-  "KS:prostitution-coercion",
-  "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3",
-  "NM:dna-sample-profile-expungement",
-  "OR:marijuana-specific-set-aside-redesignation",
-  "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
-  // Trafficking-survivor vacatur requires a "offense resulted from trafficking" nexus that cannot be
-  // modeled from a single collected fact; held guidance-only (fail safe) until the nexus is modelable.
-  "ID:human-trafficking-survivor-vacatur-and-expungement",
-  "LA:first-offender-pardon-felony-expungement",
-  "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
-  "LA:expungement-by-redaction-for-multi-person-records",
-  "LA:human-trafficking-survivor-expungement-fee-exempt-route",
-  "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
-  "MA:court-requested-sealing-for-dismissal-or-nolle-prosequi-100c",
-  "MA:non-time-based-expungement-for-false-identity-error-fraud-or-decriminalized-conduct-100k",
-  "MA:marijuana-only-expungement",
-  "ME:adult-non-conviction-record-relief",
-  "ME:pardon-route",
-  "ME:juvenile-sealing",
-  "MO:closed-record-outcome-under-rsmo-610-105",
-  "MO:false-information-or-qualifying-arrest-record-expungement-under-610-122-123",
-  "MO:marijuana-expungement-under-missouri-constitution-article-xiv",
-  "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
-  "NE:trafficking-survivor-set-aside-and-seal",
-  "NE:pardon-then-seal",
-  "NE:law-enforcement-error-expungement",
-  "NE:juvenile-petition-backstop",
-  "MI:human-trafficking-related-set-aside-application",
-  "WI:human-trafficking-prostitution-relief-under-973-015-2m",
-  "FL:juvenile-diversion-expunction-943-0582",
-  "GA:youthful-first-offender-restriction-route"
-]);
+const HELD_GUIDANCE_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "held_guidance")
+    .map((entry) => entry.routeKey)
+);
 
-const APPROVED_RELEASE_GUIDANCE_ROUTES = new Set([
-  "PA:path-b-complete-acquittal-not-guilty-expungement",
-  "PA:path-c-summary-conviction-expungement",
-  "PA:path-d-ard-expungement",
-  "PA:path-e-age-70-expungement",
-  "PA:path-f-deceased-person-expungement",
-  "PA:path-g-underage-drinking-conviction-expungement",
-  "PA:path-h-pardon-based-expungement",
-  "PA:path-i-petition-for-limited-access",
-  "PA:path-k-human-trafficking-vacatur-expungement"
-]);
+const APPROVED_RELEASE_GUIDANCE_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "approved_release_guidance")
+    .map((entry) => entry.routeKey)
+);
 
-const INTENTIONAL_UNSUPPORTED_ROUTES = new Set([
-  "AK:juvenile-record-sealing-as-47-12-300",
-  "AK:sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",
-  "AL:eligible-conviction-expungement-under-the-redeemer-act",
-  "AR:situation-a-non-convictions",
-  "DC:dc_motion_seal_felony_conviction_8yr_16_806",
-  "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
-  "DC:dc_motion_seal_nonconviction_16_806",
-  "FL:early-juvenile-expunction-943-0515",
-  "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
-  "IL:adult-non-conviction-expungement",
-  "IL:human-trafficking-survivor-vacatur-and-expungement",
-  "IL:juvenile-automatic-or-petition-expungement",
-  "KY:felony-conviction-431073",
-  "KY:misdemeanor-violation-traffic-conviction",
-  "LA:felony-ten-year-clean-period-expungement",
-  "LA:misdemeanor-five-year-clean-period-expungement",
-  "MA:adult-conviction-sealing-under-m-g-l-c-276-100a",
-  "MA:juvenile-record-sealing-under-100b",
-  "MA:time-based-expungement-under-100f-100j",
-  "MD:cannabis-specific-expungement",
-  "MD:juvenile-expungement",
-  "MD:second-chance-act-shielding",
-  "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
-  "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
-]);
+const INTENTIONAL_UNSUPPORTED_ROUTES = new Set<string>(
+  ROUTE_RATIFICATION_REGISTRY.routes
+    .filter((entry) => entry.status === "intentional_unsupported")
+    .map((entry) => entry.routeKey)
+);
 
 export class UnsupportedJurisdictionError extends Error {
   constructor(readonly jurisdiction: string) {
