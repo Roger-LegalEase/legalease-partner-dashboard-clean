@@ -4,14 +4,33 @@
   "createsApproval": false,
   "controlling": "data/record-clearing/all51-current-legal-questions.json",
   "denominator": {
-    "ledgerTuples": 53,
-    "uniqueQuestions": 49,
-    "collapsed": 4,
-    "note": "The finalization emits one tuple per (pathway, track, question). Four questions are reached by two pathways each, so 53 ledger tuples are 49 distinct questions. A lawyer answers 49."
+    "historicalLedgerTuples": 53,
+    "historicalDeferredUniqueQuestions": 49,
+    "decidedTrackQuestionTexts": 6,
+    "historicalUniqueQuestions": 55,
+    "note": "Three numbers, none of them interchangeable. The finalization emits 53 (pathway, track, question) tuples; four questions are reached by two pathways each, giving 49 deferred questions. The six question texts on the four decided tracks were tracked BESIDE that 49, not inside it, so 49 minus 6 was never a valid subtraction. Folding them in gives one denominator of 55 in which resolution can be counted."
+  },
+  "resolution": {
+    "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+    "reviewedThrough": "2026-08-28",
+    "decisionsRecorded": 4,
+    "resolvedQuestions": 13,
+    "resolvedDirectly": 6,
+    "resolvedByCascade": 7,
+    "activeOpenQuestions": 42,
+    "openImmediateAssignments": 0,
+    "terminalCategories": [
+      "RESOLVED_BY_CONTROLLING_DECISION",
+      "EXISTING_AUTHORITY_ALREADY_ANSWERS",
+      "DUPLICATE_OF_DECISION_SET",
+      "STALE_OR_SUPERSEDED"
+    ]
   },
   "classificationCounts": {
+    "RESOLVED_BY_CONTROLLING_DECISION": 13,
+    "OPERATIONAL_CONFIGURATION_REQUIRED": 1,
     "READY_FOR_LEGAL_DESIGN_RESEARCH": 19,
-    "SOURCE_ACQUISITION_REQUIRED_FIRST": 18,
+    "SOURCE_ACQUISITION_REQUIRED_FIRST": 10,
     "COMPLETED_OUTPUT_REQUIRED_FIRST": 12,
     "EXISTING_AUTHORITY_ALREADY_ANSWERS": 0,
     "DUPLICATE_OF_DECISION_SET": 0,
@@ -19,7 +38,7 @@
     "PRODUCT_DECISION_NOT_LEGAL": 0,
     "ENGINEERING_QUESTION_NOT_LEGAL": 0
   },
-  "classificationSum": 49,
+  "classificationSum": 55,
   "immediateAssignments": [
     {
       "decisionId": "LA-IMM-01",
@@ -210,8 +229,8 @@
       "jurisdiction": "VA",
       "affectedElement": "governing_mechanism",
       "questionIds": [
-        "Q-038",
-        "Q-039"
+        "Q-044",
+        "Q-045"
       ],
       "trackIds": [
         "va_exp_absolute_pardon",
@@ -219,12 +238,12 @@
       ],
       "questions": [
         {
-          "questionId": "Q-038",
+          "questionId": "Q-044",
           "trackId": "va_exp_absolute_pardon",
           "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
         },
         {
-          "questionId": "Q-039",
+          "questionId": "Q-045",
           "trackId": "va_seal_ancillary_matter_only",
           "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
         }
@@ -236,14 +255,14 @@
       "jurisdiction": "KY",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-001"
+        "Q-002"
       ],
       "trackIds": [
         "ky_felony_expungement_after_pardon"
       ],
       "questions": [
         {
-          "questionId": "Q-001",
+          "questionId": "Q-002",
           "trackId": "ky_felony_expungement_after_pardon",
           "question": "Whether the pardon instrument is a full pardon is a legal reading of a document LegalEase does not see. The packet asks the participant what their document says and routes to counsel on anything other than a plain full pardon, but the characterisation should be reviewed before release."
         }
@@ -255,14 +274,14 @@
       "jurisdiction": "LA",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-005"
+        "Q-006"
       ],
       "trackIds": [
         "la-978-felony-conviction"
       ],
       "questions": [
         {
-          "questionId": "Q-005",
+          "questionId": "Q-006",
           "trackId": "la-978-felony-conviction",
           "question": "Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly."
         }
@@ -274,14 +293,14 @@
       "jurisdiction": "LA",
       "affectedElement": "waiting_period",
       "questionIds": [
-        "Q-006"
+        "Q-007"
       ],
       "trackIds": [
         "la-985-3-immediate-expungement"
       ],
       "questions": [
         {
-          "questionId": "Q-006",
+          "questionId": "Q-007",
           "trackId": "la-985-3-immediate-expungement",
           "question": "Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns."
         }
@@ -293,14 +312,14 @@
       "jurisdiction": "ME",
       "affectedElement": "legal_effect_or_warning",
       "questionIds": [
-        "Q-008"
+        "Q-009"
       ],
       "trackIds": [
         "me-nonconv"
       ],
       "questions": [
         {
-          "questionId": "Q-008",
+          "questionId": "Q-009",
           "trackId": "me-nonconv",
           "question": "Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate."
         }
@@ -312,14 +331,14 @@
       "jurisdiction": "ME",
       "affectedElement": "legal_effect_or_warning",
       "questionIds": [
-        "Q-010"
+        "Q-011"
       ],
       "trackIds": [
         "me-seal-survivor"
       ],
       "questions": [
         {
-          "questionId": "Q-010",
+          "questionId": "Q-011",
           "trackId": "me-seal-survivor",
           "question": "Form CR-308 page 2 carries a warning box stating that if at any time after the date of the order the defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes the order. That is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513, which now provides in terms that the subsection does not apply to records sealed pursuant to section 2262-A or 2262-B. Both the form and the amendment take effect 29 July 2026, so this is a live conflict on the face of two current official sources rather than a stale-form problem. LegalEase does not resolve it: the packet states the statutory rule, does not repeat the form's warning as advice, and carries the conflict as a release blocker."
         }
@@ -331,14 +350,14 @@
       "jurisdiction": "MO",
       "affectedElement": "venue",
       "questionIds": [
-        "Q-013"
+        "Q-016"
       ],
       "trackIds": [
         "mo-610-140-conviction"
       ],
       "questions": [
         {
-          "questionId": "Q-013",
+          "questionId": "Q-016",
           "trackId": "mo-610-140-conviction",
           "question": "How a participant with cases charged in more than one Missouri county obtains complete relief. § 610.140.2(2) requires every crime sought to be expunged to be listed in the one petition, while § 610.140.2(1) fixes venue by the court where the person was charged or found guilty; the two cannot both be satisfied across counties. The review records multi-county records as a referral trigger and the track treats it as a hard self-help stop rather than resolving it."
         }
@@ -350,14 +369,14 @@
       "jurisdiction": "MO",
       "affectedElement": "governing_mechanism",
       "questionIds": [
-        "Q-014"
+        "Q-017"
       ],
       "trackIds": [
         "mo-610-145-mistaken-identity"
       ],
       "questions": [
         {
-          "questionId": "Q-014",
+          "questionId": "Q-017",
           "trackId": "mo-610-145-mistaken-identity",
           "question": "Whether a participant may invoke § 610.145.1(2) where the prosecutor or judicial officer who ordered the dismissal did not give the required notice. The subsection imposes a duty on them and gives the participant no mechanism to enforce it; the practical answer is to petition under subdivision (1) instead, which the packet does, but whether any lesser step — a letter to the prosecutor, a request to the clerk — is the expected course is not addressed anywhere in the section."
         }
@@ -369,14 +388,14 @@
       "jurisdiction": "ND",
       "affectedElement": "governing_mechanism",
       "questionIds": [
-        "Q-015"
+        "Q-018"
       ],
       "trackIds": [
         "nd-dui-record-seal"
       ],
       "questions": [
         {
-          "questionId": "Q-015",
+          "questionId": "Q-018",
           "trackId": "nd-dui-record-seal",
           "question": "N.D.C.C. § 39-08-01.6(1) says the court shall seal, and states no motion or petition trigger, whereas the neighbouring marijuana provision says expressly upon motion. The petition requirement therefore rests on the official ND Courts research guide rather than on the statutory text, and participant copy must not represent the petition as statutorily mandated."
         }
@@ -388,14 +407,14 @@
       "jurisdiction": "ND",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-016"
+        "Q-019"
       ],
       "trackIds": [
         "nd-dui-record-seal"
       ],
       "questions": [
         {
-          "questionId": "Q-016",
+          "questionId": "Q-019",
           "trackId": "nd-dui-record-seal",
           "question": "The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
         }
@@ -407,14 +426,14 @@
       "jurisdiction": "NE",
       "affectedElement": "venue",
       "questionIds": [
-        "Q-017"
+        "Q-022"
       ],
       "trackIds": [
         "ne-expunge-le-error"
       ],
       "questions": [
         {
-          "questionId": "Q-017",
+          "questionId": "Q-022",
           "trackId": "ne-expunge-le-error",
           "question": "Whether venue is the district court of the county of arrest or any district court. The review states the county of arrest; the statutory text says only the district court. This must be closed before release."
         }
@@ -426,14 +445,14 @@
       "jurisdiction": "NE",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-024"
+        "Q-029"
       ],
       "trackIds": [
         "ne-setaside-custodial"
       ],
       "questions": [
         {
-          "questionId": "Q-024",
+          "questionId": "Q-029",
           "trackId": "ne-setaside-custodial",
           "question": "Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground."
         }
@@ -445,14 +464,14 @@
       "jurisdiction": "SC",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-034"
+        "Q-039"
       ],
       "trackIds": [
         "sc_22_5_930_drug"
       ],
       "questions": [
         {
-          "questionId": "Q-034",
+          "questionId": "Q-039",
           "trackId": "sc_22_5_930_drug",
           "question": "How the § 22-5-930(A) route interacts with § 44-53-450(b) for a participant who would now be eligible for a conditional discharge. Subsection (A) was read at source on 2026-08-06 and expressly includes 'those charges for which the person would now be eligible for a conditional discharge pursuant to Section 44-53-450', which brings some conditional-discharge-type facts inside the conviction route; subsection (D) separately bars the route where the person actually had a conditional discharge within the lookback period. Which route a participant with both features should be pointed to, and in what order, is a counselling question the statute does not answer."
         }
@@ -464,14 +483,14 @@
       "jurisdiction": "WV",
       "affectedElement": "waiting_period",
       "questionIds": [
-        "Q-040"
+        "Q-046"
       ],
       "trackIds": [
         "wv_acc_treatment_job_readiness"
       ],
       "questions": [
         {
-          "questionId": "Q-040",
+          "questionId": "Q-046",
           "trackId": "wv_acc_treatment_job_readiness",
           "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch."
         }
@@ -483,14 +502,14 @@
       "jurisdiction": "WV",
       "affectedElement": "venue",
       "questionIds": [
-        "Q-041"
+        "Q-047"
       ],
       "trackIds": [
         "wv_common_conv_procedure"
       ],
       "questions": [
         {
-          "questionId": "Q-041",
+          "questionId": "Q-047",
           "trackId": "wv_common_conv_procedure",
           "question": "Venue on a multi-county conviction petition. The controlling review states that S.B. 562 (2020) allows a person seeking expungement of convictions in more than one county to file in his or her county of residence. Section 61-11-26 was read in full at source on 2026-08-06 and the current text does not contain a residence-county venue option: subsections (a)(1) and (a)(2) both say 'petition the circuit court in which the conviction or convictions occurred', the subsection (d) proviso requires a multiple-misdemeanour petition to 'identify and group such information by circuit court, as applicable', and § 61-11-26a(a) says 'may petition the circuit court or circuit courts in which the conviction or convictions occurred'. Read together the current text supports one petition covering several counties, grouped by circuit court and served on the prosecuting attorney of each county of conviction, but it does not name a residence-county forum. Venue for the single-county case is unaffected and unambiguous. Until counsel resolves this, the packet directs a multi-county participant to the circuit court of conviction and adds a local-check instruction rather than promising a residence-county filing."
         }
@@ -502,14 +521,14 @@
       "jurisdiction": "WV",
       "affectedElement": "venue",
       "questionIds": [
-        "Q-042"
+        "Q-048"
       ],
       "trackIds": [
         "wv_conv_multiple_misdemeanors"
       ],
       "questions": [
         {
-          "questionId": "Q-042",
+          "questionId": "Q-048",
           "trackId": "wv_conv_multiple_misdemeanors",
           "question": "Where a multiple-misdemeanour group spans more than one county, which circuit court receives the single petition. Section 61-11-26 was read in full at source on 2026-08-06: subsection (a)(1) says 'the circuit court in which the conviction or convictions occurred', and the subsection (d) proviso requires the petition to 'identify and group such information by circuit court, as applicable'. Together those support one petition covering several counties, but the text does not say which of the several circuit courts is the forum, and it does not contain the county-of-residence option the controlling review attributes to S.B. 562. Until counsel answers, the packet directs the participant to the circuit court of conviction and, for a genuinely multi-county group, to a lawyer."
         }
@@ -521,14 +540,14 @@
       "jurisdiction": "WV",
       "affectedElement": "eligibility_branch",
       "questionIds": [
-        "Q-043"
+        "Q-049"
       ],
       "trackIds": [
         "wv_conv_multiple_misdemeanors"
       ],
       "questions": [
         {
-          "questionId": "Q-043",
+          "questionId": "Q-049",
           "trackId": "wv_conv_multiple_misdemeanors",
           "question": "Whether an excluded conviction sitting inside an otherwise eligible multiple-misdemeanour group can be severed, so the remaining convictions are expunged, or whether its presence in the petition risks the whole petition being summarily denied under § 61-11-26(i)(4). The burden at subsection (h)(1) is framed per conviction, which suggests severance, but the once-per-lifetime rule makes the downside of getting it wrong permanent."
         }
@@ -540,14 +559,14 @@
       "jurisdiction": "WV",
       "affectedElement": "legal_effect_or_warning",
       "questionIds": [
-        "Q-049"
+        "Q-055"
       ],
       "trackIds": [
         "wv_pardon_expungement"
       ],
       "questions": [
         {
-          "questionId": "Q-049",
+          "questionId": "Q-055",
           "trackId": "wv_pardon_expungement",
           "question": "Whether § 5-1-16a(b) is the whole of the effect of a pardon expungement. The subsection was read at source on 2026-08-06 and provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l), it contains no general non-disclosure provision and no statement that the proceedings are considered never to have occurred. What the packet may tell a participant about disclosing the record to an ordinary employer after a § 5-1-16a expungement is therefore not settled."
         }
@@ -867,7 +886,7 @@
   ],
   "sourceFirst": [
     {
-      "questionId": "Q-004",
+      "questionId": "Q-005",
       "jurisdiction": "LA",
       "trackId": "la-977d-marijuana-first-offense",
       "missingSource": "Current official filing instructions for Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana (La. C.Cr.P. arts. 977(D), 998)",
@@ -880,7 +899,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-009",
+      "questionId": "Q-010",
       "jurisdiction": "ME",
       "trackId": "me-seal-gen",
       "missingSource": "Current official service and notice instructions for Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264)",
@@ -893,7 +912,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-011",
+      "questionId": "Q-012",
       "jurisdiction": "ME",
       "trackId": "me-seal-survivor",
       "missingSource": "Current official service and notice instructions for Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)",
@@ -906,20 +925,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-012",
-      "jurisdiction": "MO",
-      "trackId": "mo-610-130-first-intoxication",
-      "missingSource": "Current official filing instructions for Application for Expungement of a First Intoxication-Related Traffic or Boating Offense (Mo. Rev. Stat. § 610.130)",
-      "authoritativeIssuingBody": "Clerk of the Missouri court in which the participant pled guilty or was sentenced",
-      "expectedSourceIdentity": [
-        "Mo. Rev. Stat. § 610.130 — Expungement of records of first intoxication-related traffic or boating offense, procedure (transferred 2014 from § 577.054; effective 1 January 2017)",
-        "Mo. Rev. Stat. § 302.525 — Suspension or revocation; subsection 3 defines \"alcohol-related enforcement contacts\" (as amended by 2026 H.B. 1740)"
-      ],
-      "questionAnswerableAfterAcquisition": "Which FI-05 case type code a § 610.130 application takes where a new case is opened. The official Case Types List publishes only XG, X5 and X# for expungement and none of them names this section. The code is left blank and confirmed with the clerk rather than guessed from a similar track name.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-018",
+      "questionId": "Q-023",
       "jurisdiction": "NE",
       "trackId": "ne-expunge-le-error",
       "missingSource": "Current official service and notice instructions for Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
@@ -931,7 +937,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-020",
+      "questionId": "Q-025",
       "jurisdiction": "NE",
       "trackId": "ne-seal-pardoned",
       "missingSource": "Current official filing instructions for Motion to Seal a Pardoned Conviction (Neb. Rev. Stat. § 29-3523(5))",
@@ -944,7 +950,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-022",
+      "questionId": "Q-027",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-custodial",
       "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
@@ -957,7 +963,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-025",
+      "questionId": "Q-030",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-noncustodial",
       "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to Probation, Fine or Community Service (Neb. Rev. Stat. § 29-2264(2))",
@@ -970,46 +976,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-027",
-      "jurisdiction": "SC",
-      "trackId": "sc_17_1_40_general_sessions",
-      "missingSource": "Current official filing instructions for Solicitor Application to Destroy Arrest Records of a General Sessions Non-Conviction, S.C. Code § 17-1-40",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code § 17-1-40 — Expungement; retention of certain information by law enforcement or prosecution agencies",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-028",
-      "jurisdiction": "SC",
-      "trackId": "sc_17_1_65_handgun",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge an Old Unlawful Handgun Possession Conviction, S.C. Code § 17-1-65",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code § 17-1-65 — Expungement of conviction for unlawful possession of a handgun",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-030",
-      "jurisdiction": "SC",
-      "trackId": "sc_22_5_910",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-031",
+      "questionId": "Q-036",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_910",
       "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
@@ -1022,59 +989,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-032",
-      "jurisdiction": "SC",
-      "trackId": "sc_22_5_920_yoa",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Youthful Offender Act Conviction, S.C. Code § 22-5-920",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-033",
-      "jurisdiction": "SC",
-      "trackId": "sc_22_5_930_drug",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Drug Conviction, S.C. Code § 22-5-930",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
-        "S.C. Code Title 44, Chapter 53 — Poisons, drugs and controlled substances"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-035",
-      "jurisdiction": "SC",
-      "trackId": "sc_34_11_90e_check",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Fraudulent Check Conviction, S.C. Code § 34-11-90(e)",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 34, Chapter 11 — Fraudulent checks",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-036",
-      "jurisdiction": "SC",
-      "trackId": "sc_56_5_750f",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Failure to Stop for a Blue Light Conviction, S.C. Code § 56-5-750(F)",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 56, Chapter 5 — Uniform Act Regulating Traffic on Highways",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-037",
+      "questionId": "Q-043",
       "jurisdiction": "SD",
       "trackId": "sd_sis_sealing",
       "missingSource": "Current official filing instructions for Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 23A-27-17)",
@@ -1086,7 +1001,7 @@
       "sourceAcquisitionOwner": "RCAP source acquisition"
     },
     {
-      "questionId": "Q-046",
+      "questionId": "Q-052",
       "jurisdiction": "WV",
       "trackId": "wv_conv_single_misdemeanor",
       "missingSource": "Current official service and notice instructions for Verified Petition to Expunge a Single Misdemeanour Conviction, W. Va. Code § 61-11-26(a)(1) and (b)(1)",
@@ -1101,7 +1016,7 @@
   ],
   "outputFirst": [
     {
-      "questionId": "Q-002",
+      "questionId": "Q-003",
       "jurisdiction": "KY",
       "trackId": "ky_felony_vacatur_expungement",
       "packetFamilies": [],
@@ -1110,7 +1025,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-003",
+      "questionId": "Q-004",
       "jurisdiction": "KY",
       "trackId": "ky_nonconviction_expungement",
       "packetFamilies": [],
@@ -1119,7 +1034,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-007",
+      "questionId": "Q-008",
       "jurisdiction": "LA",
       "trackId": "la-985-expungement-by-redaction",
       "packetFamilies": [],
@@ -1128,7 +1043,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-019",
+      "questionId": "Q-024",
       "jurisdiction": "NE",
       "trackId": "ne-expunge-le-error",
       "packetFamilies": [],
@@ -1137,7 +1052,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-021",
+      "questionId": "Q-026",
       "jurisdiction": "NE",
       "trackId": "ne-seal-pardoned",
       "packetFamilies": [],
@@ -1146,7 +1061,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-023",
+      "questionId": "Q-028",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-custodial",
       "packetFamilies": [],
@@ -1155,7 +1070,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-026",
+      "questionId": "Q-031",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-noncustodial",
       "packetFamilies": [],
@@ -1164,7 +1079,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-029",
+      "questionId": "Q-034",
       "jurisdiction": "SC",
       "trackId": "sc_17_22_950_summary",
       "packetFamilies": [],
@@ -1173,7 +1088,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-044",
+      "questionId": "Q-050",
       "jurisdiction": "WV",
       "trackId": "wv_conv_nonviolent_felony",
       "packetFamilies": [
@@ -1184,7 +1099,7 @@
       "responsibleEngineeringDependency": "Packet render and artifact hash"
     },
     {
-      "questionId": "Q-045",
+      "questionId": "Q-051",
       "jurisdiction": "WV",
       "trackId": "wv_conv_single_misdemeanor",
       "packetFamilies": [
@@ -1195,7 +1110,7 @@
       "responsibleEngineeringDependency": "Packet render and artifact hash"
     },
     {
-      "questionId": "Q-047",
+      "questionId": "Q-053",
       "jurisdiction": "WV",
       "trackId": "wv_nc_acquittal_dismissal",
       "packetFamilies": [],
@@ -1204,7 +1119,7 @@
       "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
     },
     {
-      "questionId": "Q-048",
+      "questionId": "Q-054",
       "jurisdiction": "WV",
       "trackId": "wv_nc_diversion_deferred",
       "packetFamilies": [],
@@ -1216,6 +1131,44 @@
   "questions": [
     {
       "questionId": "Q-001",
+      "jurisdiction": "GA",
+      "trackId": "ga-rfo",
+      "pathwayKeys": [
+        "GA:youthful-first-offender-restriction-route"
+      ],
+      "affectedElement": "output_strategy",
+      "question": "Whether counsel approves a distinct post-consent packet stage for the § 42-8-66 petition — that is, a custom_pleading unit that generates the petition only after the participant has obtained the prosecuting attorney's written consent. The petition itself is legally identifiable and the framework is recorded on this track. The adopted memorandum makes the stage conditional on counsel's later approval, which has not been given, so direct delivery remains disabled.",
+      "decidedDirectly": true,
+      "legalName": "Petition for Retroactive First Offender Treatment, Exoneration and Discharge under O.C.G.A. § 42-8-66",
+      "memoPath": "data/record-clearing/legal-design-intake/GA.memo.json",
+      "memoSha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+      "controllingAuthorities": [
+        "O.C.G.A. § 42-8-66(a)(1)",
+        "O.C.G.A. § 42-8-66(a)(2)",
+        "O.C.G.A. § 42-8-66(b)",
+        "O.C.G.A. § 42-8-66(c)",
+        "O.C.G.A. § 42-8-66(d)",
+        "O.C.G.A. § 42-8-66(e)",
+        "O.C.G.A. § 42-8-66(f)",
+        "O.C.G.A. § 42-8-66(g)",
+        "O.C.G.A. § 42-8-66(h)"
+      ],
+      "reviewedAsOf": "2026-08-02",
+      "packetFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-GA-RFO, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-GA-RFO",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-002",
       "jurisdiction": "KY",
       "trackId": "ky_felony_expungement_after_pardon",
       "pathwayKeys": [
@@ -1240,10 +1193,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-002",
+      "questionId": "Q-003",
       "jurisdiction": "KY",
       "trackId": "ky_felony_vacatur_expungement",
       "pathwayKeys": [
@@ -1274,10 +1230,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-003",
+      "questionId": "Q-004",
       "jurisdiction": "KY",
       "trackId": "ky_nonconviction_expungement",
       "pathwayKeys": [
@@ -1305,10 +1264,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-004",
+      "questionId": "Q-005",
       "jurisdiction": "LA",
       "trackId": "la-977d-marijuana-first-offense",
       "pathwayKeys": [
@@ -1342,10 +1304,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-005",
+      "questionId": "Q-006",
       "jurisdiction": "LA",
       "trackId": "la-978-felony-conviction",
       "pathwayKeys": [
@@ -1388,10 +1353,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-006",
+      "questionId": "Q-007",
       "jurisdiction": "LA",
       "trackId": "la-985-3-immediate-expungement",
       "pathwayKeys": [
@@ -1422,10 +1390,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-007",
+      "questionId": "Q-008",
       "jurisdiction": "LA",
       "trackId": "la-985-expungement-by-redaction",
       "pathwayKeys": [
@@ -1458,10 +1429,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-008",
+      "questionId": "Q-009",
       "jurisdiction": "ME",
       "trackId": "me-nonconv",
       "pathwayKeys": [
@@ -1490,10 +1464,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-009",
+      "questionId": "Q-010",
       "jurisdiction": "ME",
       "trackId": "me-seal-gen",
       "pathwayKeys": [
@@ -1529,10 +1506,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-010",
+      "questionId": "Q-011",
       "jurisdiction": "ME",
       "trackId": "me-seal-survivor",
       "pathwayKeys": [
@@ -1565,10 +1545,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-011",
+      "questionId": "Q-012",
       "jurisdiction": "ME",
       "trackId": "me-seal-survivor",
       "pathwayKeys": [
@@ -1601,10 +1584,79 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-012",
+      "questionId": "Q-013",
+      "jurisdiction": "MO",
+      "trackId": "mo-311-326-minor-in-possession",
+      "pathwayKeys": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "affectedElement": "filing_process",
+      "question": "Which FI-05 case type code a § 311.326 application takes where a new case is opened. The published Case Types List names no code for the section. The code is left blank and confirmed with the clerk.",
+      "decidedDirectly": true,
+      "legalName": "Application for Expungement of a First Minor-in-Possession Violation (Mo. Rev. Stat. § 311.326)",
+      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 311.326",
+        "Mo. Rev. Stat. § 311.325",
+        "Mo. Rev. Stat. § 302.525",
+        "Mo. Rev. Stat. § 302.700"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [
+        "rcap-mo-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-MO-311-326",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-014",
+      "jurisdiction": "MO",
+      "trackId": "mo-311-326-minor-in-possession",
+      "pathwayKeys": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "Whether a conviction under a municipal or county underage-possession ordinance, rather than under § 311.325 itself, is within § 311.326. The section names the statute and the packet applies the narrower reading, which excludes ordinance convictions; but many Missouri underage-drinking cases are charged municipally, so the narrower reading takes a substantial population out of the route. Unresolved on the face of the section.",
+      "decidedDirectly": true,
+      "legalName": "Application for Expungement of a First Minor-in-Possession Violation (Mo. Rev. Stat. § 311.326)",
+      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 311.326",
+        "Mo. Rev. Stat. § 311.325",
+        "Mo. Rev. Stat. § 302.525",
+        "Mo. Rev. Stat. § 302.700"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [
+        "rcap-mo-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-MO-311-326",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-015",
       "jurisdiction": "MO",
       "trackId": "mo-610-130-first-intoxication",
       "pathwayKeys": [
@@ -1629,13 +1681,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "OPERATIONAL_CONFIGURATION_REQUIRED",
+      "reason": "The receiving clerk confirms the case type code. CLD-2026-08-28-MO-311-326 fixes the rule (XG provisional, X5 prohibited, X1 only on clerk direction) and places the final code behind the clerk gate.",
+      "owner": "RCAP operations",
+      "blockedUntil": "receiving-clerk confirmation",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": "The controlling decision names mo-311-326-minor-in-possession. It is applied to this track because the FI-05 rule is stated about the published Case Types List and the clerk gate is the same."
     },
     {
-      "questionId": "Q-013",
+      "questionId": "Q-016",
       "jurisdiction": "MO",
       "trackId": "mo-610-140-conviction",
       "pathwayKeys": [
@@ -1666,10 +1721,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-014",
+      "questionId": "Q-017",
       "jurisdiction": "MO",
       "trackId": "mo-610-145-mistaken-identity",
       "pathwayKeys": [
@@ -1693,10 +1751,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-015",
+      "questionId": "Q-018",
       "jurisdiction": "ND",
       "trackId": "nd-dui-record-seal",
       "pathwayKeys": [
@@ -1724,10 +1785,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-016",
+      "questionId": "Q-019",
       "jurisdiction": "ND",
       "trackId": "nd-dui-record-seal",
       "pathwayKeys": [
@@ -1755,10 +1819,79 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-017",
+      "questionId": "Q-020",
+      "jurisdiction": "ND",
+      "trackId": "nd-nonconviction-auto-close-verify",
+      "pathwayKeys": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "affectedElement": "filing_process",
+      "question": "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails.",
+      "decidedDirectly": true,
+      "legalName": "Automatic Closing of Nonconviction Court Records Entered On or After 1 August 2025 (N.D.C.C. § 12-60.1-05(1))",
+      "memoPath": "data/record-clearing/legal-design-intake/ND.memo.json",
+      "memoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+      "controllingAuthorities": [
+        "N.D.C.C. § 12-60.1-05(1)",
+        "N.D.C.C. § 12-60.1-05(3)",
+        "N.D.C.C. § 12-60.1-01(1)",
+        "N.D.C.C. § 12-60.1-01(5)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [
+        "rcap-nd-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-ND-NONCONV",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-021",
+      "jurisdiction": "ND",
+      "trackId": "nd-nonconviction-auto-close-verify",
+      "pathwayKeys": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "affectedElement": "participant_instructions",
+      "question": "Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead.",
+      "decidedDirectly": true,
+      "legalName": "Automatic Closing of Nonconviction Court Records Entered On or After 1 August 2025 (N.D.C.C. § 12-60.1-05(1))",
+      "memoPath": "data/record-clearing/legal-design-intake/ND.memo.json",
+      "memoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+      "controllingAuthorities": [
+        "N.D.C.C. § 12-60.1-05(1)",
+        "N.D.C.C. § 12-60.1-05(3)",
+        "N.D.C.C. § 12-60.1-01(1)",
+        "N.D.C.C. § 12-60.1-01(5)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [
+        "rcap-nd-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-ND-NONCONV",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-022",
       "jurisdiction": "NE",
       "trackId": "ne-expunge-le-error",
       "pathwayKeys": [
@@ -1779,10 +1912,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-018",
+      "questionId": "Q-023",
       "jurisdiction": "NE",
       "trackId": "ne-expunge-le-error",
       "pathwayKeys": [
@@ -1803,10 +1939,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-019",
+      "questionId": "Q-024",
       "jurisdiction": "NE",
       "trackId": "ne-expunge-le-error",
       "pathwayKeys": [
@@ -1827,10 +1966,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-020",
+      "questionId": "Q-025",
       "jurisdiction": "NE",
       "trackId": "ne-seal-pardoned",
       "pathwayKeys": [
@@ -1855,10 +1997,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-021",
+      "questionId": "Q-026",
       "jurisdiction": "NE",
       "trackId": "ne-seal-pardoned",
       "pathwayKeys": [
@@ -1883,10 +2028,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-022",
+      "questionId": "Q-027",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-custodial",
       "pathwayKeys": [
@@ -1912,10 +2060,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-023",
+      "questionId": "Q-028",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-custodial",
       "pathwayKeys": [
@@ -1941,10 +2092,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-024",
+      "questionId": "Q-029",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-custodial",
       "pathwayKeys": [
@@ -1970,10 +2124,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-025",
+      "questionId": "Q-030",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-noncustodial",
       "pathwayKeys": [
@@ -2001,10 +2158,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-026",
+      "questionId": "Q-031",
       "jurisdiction": "NE",
       "trackId": "ne-setaside-noncustodial",
       "pathwayKeys": [
@@ -2032,10 +2192,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-027",
+      "questionId": "Q-032",
       "jurisdiction": "SC",
       "trackId": "sc_17_1_40_general_sessions",
       "pathwayKeys": [
@@ -2063,13 +2226,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-028",
+      "questionId": "Q-033",
       "jurisdiction": "SC",
       "trackId": "sc_17_1_65_handgun",
       "pathwayKeys": [
@@ -2092,13 +2258,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-029",
+      "questionId": "Q-034",
       "jurisdiction": "SC",
       "trackId": "sc_17_22_950_summary",
       "pathwayKeys": [
@@ -2127,10 +2296,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-030",
+      "questionId": "Q-035",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_910",
       "pathwayKeys": [
@@ -2158,13 +2330,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-031",
+      "questionId": "Q-036",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_910",
       "pathwayKeys": [
@@ -2195,10 +2370,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-032",
+      "questionId": "Q-037",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_920_yoa",
       "pathwayKeys": [
@@ -2225,13 +2403,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-033",
+      "questionId": "Q-038",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_930_drug",
       "pathwayKeys": [
@@ -2259,13 +2440,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-034",
+      "questionId": "Q-039",
       "jurisdiction": "SC",
       "trackId": "sc_22_5_930_drug",
       "pathwayKeys": [
@@ -2296,10 +2480,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-035",
+      "questionId": "Q-040",
       "jurisdiction": "SC",
       "trackId": "sc_34_11_90e_check",
       "pathwayKeys": [
@@ -2322,13 +2509,16 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-036",
+      "questionId": "Q-041",
       "jurisdiction": "SC",
       "trackId": "sc_56_5_750f",
       "pathwayKeys": [
@@ -2350,13 +2540,52 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": true,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-037",
+      "questionId": "Q-042",
+      "jurisdiction": "SC",
+      "trackId": "sc_pti_17_22_150",
+      "pathwayKeys": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "decidedDirectly": true,
+      "legalName": "Solicitor Application to Destroy Arrest Records After Successful Pretrial Intervention, S.C. Code § 17-22-150(a)",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 17-22-150(a)",
+        "S.C. Code § 17-22-110",
+        "S.C. Code § 17-22-930",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)",
+        "S.C. Code § 17-22-940(G)",
+        "S.C. Code § 17-1-40"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "reason": "Answered by CLD-2026-08-28-SC-PTI, reviewed through 2026-08-28.",
+      "owner": "Closed",
+      "blockedUntil": null,
+      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "cascaded": false,
+      "scopeNote": null
+    },
+    {
+      "questionId": "Q-043",
       "jurisdiction": "SD",
       "trackId": "sd_sis_sealing",
       "pathwayKeys": [
@@ -2381,10 +2610,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-038",
+      "questionId": "Q-044",
       "jurisdiction": "VA",
       "trackId": "va_exp_absolute_pardon",
       "pathwayKeys": [
@@ -2408,10 +2640,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-039",
+      "questionId": "Q-045",
       "jurisdiction": "VA",
       "trackId": "va_seal_ancillary_matter_only",
       "pathwayKeys": [
@@ -2438,10 +2673,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-040",
+      "questionId": "Q-046",
       "jurisdiction": "WV",
       "trackId": "wv_acc_treatment_job_readiness",
       "pathwayKeys": [
@@ -2473,10 +2711,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-041",
+      "questionId": "Q-047",
       "jurisdiction": "WV",
       "trackId": "wv_common_conv_procedure",
       "pathwayKeys": [
@@ -2516,10 +2757,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-042",
+      "questionId": "Q-048",
       "jurisdiction": "WV",
       "trackId": "wv_conv_multiple_misdemeanors",
       "pathwayKeys": [
@@ -2556,10 +2800,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-043",
+      "questionId": "Q-049",
       "jurisdiction": "WV",
       "trackId": "wv_conv_multiple_misdemeanors",
       "pathwayKeys": [
@@ -2596,10 +2843,13 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-044",
+      "questionId": "Q-050",
       "jurisdiction": "WV",
       "trackId": "wv_conv_nonviolent_felony",
       "pathwayKeys": [
@@ -2639,10 +2889,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-045",
+      "questionId": "Q-051",
       "jurisdiction": "WV",
       "trackId": "wv_conv_single_misdemeanor",
       "pathwayKeys": [
@@ -2679,10 +2932,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-046",
+      "questionId": "Q-052",
       "jurisdiction": "WV",
       "trackId": "wv_conv_single_misdemeanor",
       "pathwayKeys": [
@@ -2719,10 +2975,13 @@
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
       "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand"
+      "blockedUntil": "the official instructions are in hand",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-047",
+      "questionId": "Q-053",
       "jurisdiction": "WV",
       "trackId": "wv_nc_acquittal_dismissal",
       "pathwayKeys": [
@@ -2749,10 +3008,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-048",
+      "questionId": "Q-054",
       "jurisdiction": "WV",
       "trackId": "wv_nc_diversion_deferred",
       "pathwayKeys": [
@@ -2782,10 +3044,13 @@
       "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
       "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
       "owner": "RCAP packet factory",
-      "blockedUntil": "a candidate artifact and hash exist"
+      "blockedUntil": "a candidate artifact and hash exist",
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     },
     {
-      "questionId": "Q-049",
+      "questionId": "Q-055",
       "jurisdiction": "WV",
       "trackId": "wv_pardon_expungement",
       "pathwayKeys": [
@@ -2815,7 +3080,10 @@
       "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
       "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
       "owner": "Lawrence Blackmon",
-      "blockedUntil": null
+      "blockedUntil": null,
+      "resolvedBy": null,
+      "cascaded": false,
+      "scopeNote": null
     }
   ]
 }

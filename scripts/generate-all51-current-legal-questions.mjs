@@ -29,6 +29,7 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), "utf8
 const finalization = readJson("data/rcap-ledger/all51-legal-authority-finalization.json");
 const reconciliation = readJson("data/rcap-ledger/all51-legal-authority-reconciliation.json");
 const legalJoin = readJson("data/rcap-ledger/paid-pathway-legal-join.json");
+const controlling = readJson("data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json");
 
 // ---------------------------------------------------------------------------
 // The memo corpus, indexed by track.
@@ -85,8 +86,40 @@ for (const tuple of tuples) {
   });
 }
 
-// The immediate four are classified separately and are not in this denominator.
-const IMMEDIATE_TRACKS = new Set(["ga-rfo", "mo-311-326-minor-in-possession", "nd-nonconviction-auto-close-verify", "sc_pti_17_22_150"]);
+// The four decided tracks. Their six question texts were previously tracked
+// beside the 49 rather than inside it, so 49 minus 6 was never the right sum:
+// the two sets were disjoint. They are folded in here, giving one denominator
+// of 55 in which resolution can actually be counted.
+const IMMEDIATE_TRACKS = new Set(controlling.decisions.flatMap((d) => d.tracks));
+
+const decisionByTrack = new Map();
+for (const decision of controlling.decisions) {
+  for (const trackId of decision.tracks) decisionByTrack.set(trackId, decision);
+}
+
+// The exact question texts the controlling decisions answer. A question
+// elsewhere in the corpus with the same text is answered by the same decision;
+// that is a cascade, not an assumption.
+const decidedQuestionTexts = new Map();
+for (const decision of controlling.decisions) {
+  for (const text of decision.originalQuestionText) decidedQuestionTexts.set(text, decision);
+}
+
+for (const decision of controlling.decisions) {
+  for (const text of decision.originalQuestionText) {
+    const track = trackById.get(decision.tracks[0]);
+    const memoQuestion = (track?.unresolvedQuestions ?? []).find((q) => q.question === text);
+    uniqueQuestions.set(`${decision.tracks[0]}||${text}`, {
+      questionId: null,
+      jurisdiction: decision.jurisdiction,
+      trackId: decision.tracks[0],
+      pathwayKeys: [...decision.pathways],
+      affectedElement: memoQuestion?.affectedElement ?? "(unstated)",
+      question: text,
+      decidedDirectly: true
+    });
+  }
+}
 
 // Elements a lawyer decides from the statute and the adopted memo, versus those
 // that need the current official instructions or an actual rendered packet.
@@ -119,17 +152,64 @@ questions.forEach((entry, index) => {
   entry.reason = result.reason;
   entry.owner = result.owner;
   entry.blockedUntil = result.blockedUntil;
+  entry.resolvedBy = result.resolvedBy ?? null;
+  entry.cascaded = Boolean(result.cascaded);
+  entry.scopeNote = result.scopeNote ?? null;
 });
 
 function classify(entry, track) {
-  // A question on a track the immediate assignments already cover is a
-  // duplicate of that decision set, not a separate item.
-  if (IMMEDIATE_TRACKS.has(entry.trackId)) {
+  // 1. Answered outright by a controlling decision.
+  const direct = decisionByTrack.get(entry.trackId);
+  if (direct && direct.originalQuestionText.includes(entry.question)) {
     return {
-      classification: "DUPLICATE_OF_DECISION_SET",
-      reason: `This track is already covered by an immediate decision set; the question is answered there.`,
-      owner: "Lawrence Blackmon",
-      blockedUntil: null
+      classification: "RESOLVED_BY_CONTROLLING_DECISION",
+      reason: `Answered by ${direct.decisionId}, reviewed through ${direct.reviewedThrough}.`,
+      owner: "Closed",
+      blockedUntil: null,
+      resolvedBy: direct.decisionId
+    };
+  }
+
+  // 2. The same question, asked on another track. The SC single-incident fee
+  //    question appears verbatim on eight tracks; one answer settles all of
+  //    them, and re-asking would be the duplicate research this register exists
+  //    to prevent.
+  const cascade = decidedQuestionTexts.get(entry.question);
+  if (cascade) {
+    return {
+      classification: "RESOLVED_BY_CONTROLLING_DECISION",
+      reason: `Byte-identical to the question answered by ${cascade.decisionId}. One answer controls every track that asks it.`,
+      owner: "Closed",
+      blockedUntil: null,
+      resolvedBy: cascade.decisionId,
+      cascaded: true
+    };
+  }
+
+  // 3. A Missouri FI-05 case type question is a receiving-clerk configuration,
+  //    not statewide legal research. The controlling decision states the FI-05
+  //    rule about the published Case Types List -- XG provisional, X5
+  //    prohibited, X1 only on clerk direction -- and puts the final code behind
+  //    the same clerk gate. Its named scope is § 311.326; it is applied here
+  //    because the rule is about the list, and the gate is the same gate.
+  if (entry.jurisdiction === "MO" && /FI-05 case type code/i.test(entry.question)) {
+    return {
+      classification: "OPERATIONAL_CONFIGURATION_REQUIRED",
+      reason: "The receiving clerk confirms the case type code. CLD-2026-08-28-MO-311-326 fixes the rule (XG provisional, X5 prohibited, X1 only on clerk direction) and places the final code behind the clerk gate.",
+      owner: "RCAP operations",
+      blockedUntil: "receiving-clerk confirmation",
+      scopeNote: "The controlling decision names mo-311-326-minor-in-possession. It is applied to this track because the FI-05 rule is stated about the published Case Types List and the clerk gate is the same."
+    };
+  }
+
+  // 4. A question that exists only because a now-retired output was expected.
+  if (entry.jurisdiction === "SC" && retiredScPleading(entry, track)) {
+    return {
+      classification: "STALE_OR_SUPERSEDED",
+      reason: "The ordinary SC custom-pleading packet is retired by CLD-2026-08-28-SC-PTI. This question existed only because that pleading was expected.",
+      owner: "Closed",
+      blockedUntil: null,
+      resolvedBy: "CLD-2026-08-28-SC-PTI"
     };
   }
   if (!track) {
@@ -388,7 +468,23 @@ const immediateAssignments = [
 
 // ---------------------------------------------------------------------------
 
+function retiredScPleading(entry, track) {
+  // Only the ordinary PTI custom pleading is retired. Another SC track that
+  // happens to be a custom pleading is untouched.
+  return track?.trackId === "sc_pti_17_22_150" && track?.outputStrategy === "custom_pleading";
+}
+
+// Categories that close a question. Everything else is still open work.
+const TERMINAL = new Set([
+  "RESOLVED_BY_CONTROLLING_DECISION",
+  "EXISTING_AUTHORITY_ALREADY_ANSWERS",
+  "DUPLICATE_OF_DECISION_SET",
+  "STALE_OR_SUPERSEDED"
+]);
+
 const ALL_CLASSIFICATIONS = [
+  "RESOLVED_BY_CONTROLLING_DECISION",
+  "OPERATIONAL_CONFIGURATION_REQUIRED",
   "READY_FOR_LEGAL_DESIGN_RESEARCH",
   "SOURCE_ACQUISITION_REQUIRED_FIRST",
   "COMPLETED_OUTPUT_REQUIRED_FIRST",
@@ -409,10 +505,22 @@ const register = {
   createsApproval: false,
   controlling: OUT_JSON,
   denominator: {
-    ledgerTuples: tuples.length,
-    uniqueQuestions: questions.length,
-    collapsed: tuples.length - questions.length,
-    note: "The finalization emits one tuple per (pathway, track, question). Four questions are reached by two pathways each, so 53 ledger tuples are 49 distinct questions. A lawyer answers 49."
+    historicalLedgerTuples: tuples.length,
+    historicalDeferredUniqueQuestions: questions.filter((q) => !q.decidedDirectly).length,
+    decidedTrackQuestionTexts: questions.filter((q) => q.decidedDirectly).length,
+    historicalUniqueQuestions: questions.length,
+    note: "Three numbers, none of them interchangeable. The finalization emits 53 (pathway, track, question) tuples; four questions are reached by two pathways each, giving 49 deferred questions. The six question texts on the four decided tracks were tracked BESIDE that 49, not inside it, so 49 minus 6 was never a valid subtraction. Folding them in gives one denominator of 55 in which resolution can be counted."
+  },
+  resolution: {
+    controllingDecisionRecord: "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
+    reviewedThrough: controlling.reviewedThrough,
+    decisionsRecorded: controlling.decisions.length,
+    resolvedQuestions: questions.filter((q) => q.classification === "RESOLVED_BY_CONTROLLING_DECISION").length,
+    resolvedDirectly: questions.filter((q) => q.classification === "RESOLVED_BY_CONTROLLING_DECISION" && !q.cascaded).length,
+    resolvedByCascade: questions.filter((q) => q.cascaded).length,
+    activeOpenQuestions: questions.filter((q) => !TERMINAL.has(q.classification)).length,
+    openImmediateAssignments: 0,
+    terminalCategories: [...TERMINAL]
   },
   classificationCounts: counts,
   classificationSum: Object.values(counts).reduce((a, b) => a + b, 0),
@@ -431,7 +539,20 @@ const markdown = renderMarkdown(register);
 if (CHECK) {
   const problems = [];
   if (register.classificationSum !== questions.length) problems.push(`classifications sum to ${register.classificationSum}, not ${questions.length}`);
-  if (register.denominator.ledgerTuples !== 53) problems.push(`ledger tuples ${register.denominator.ledgerTuples}, expected 53`);
+  if (register.denominator.historicalLedgerTuples !== 53) problems.push(`ledger tuples ${register.denominator.historicalLedgerTuples}, expected 53`);
+  if (register.denominator.decidedTrackQuestionTexts !== 6) problems.push(`decided question texts ${register.denominator.decidedTrackQuestionTexts}, expected 6`);
+  const terminal = questions.filter((q) => TERMINAL.has(q.classification)).length;
+  if (register.resolution.activeOpenQuestions + terminal !== questions.length) {
+    problems.push(`active ${register.resolution.activeOpenQuestions} + terminal ${terminal} != ${questions.length}`);
+  }
+  if (register.resolution.decisionsRecorded !== 4) problems.push(`${register.resolution.decisionsRecorded} controlling decisions, expected 4`);
+  for (const decision of controlling.decisions) {
+    for (const text of decision.originalQuestionText) {
+      const row = questions.find((q) => q.question === text && q.trackId === decision.tracks[0]);
+      if (!row) problems.push(`${decision.decisionId} names a question text with no row`);
+      else if (row.classification !== "RESOLVED_BY_CONTROLLING_DECISION") problems.push(`${decision.decisionId} question is still ${row.classification}`);
+    }
+  }
   if (researchTracks.length !== 9) problems.push(`${researchTracks.length} true legal-research tracks, expected 9`);
   if (immediateAssignments.length !== 4) problems.push(`${immediateAssignments.length} immediate assignments, expected 4`);
   for (const track of researchTracks) {
@@ -474,7 +595,13 @@ function renderMarkdown(data) {
   L.push("**Generated by** `scripts/generate-all51-current-legal-questions.mjs` from");
   L.push(`\`${data.controlling}\`, which is controlling. Do not edit this file by hand.`);
   L.push("");
-  L.push(`**${data.denominator.ledgerTuples} ledger tuples collapse to ${data.denominator.uniqueQuestions} distinct questions.** ${data.denominator.note}`);
+  L.push(`**${data.denominator.historicalLedgerTuples} ledger tuples · ${data.denominator.historicalDeferredUniqueQuestions} deferred questions · ${data.denominator.decidedTrackQuestionTexts} on decided tracks · ${data.denominator.historicalUniqueQuestions} in one denominator.**`);
+  L.push("");
+  L.push(data.denominator.note);
+  L.push("");
+  L.push(`**Resolved by the ${data.resolution.decisionsRecorded} controlling decisions of ${data.resolution.reviewedThrough}: ${data.resolution.resolvedQuestions}** `
+    + `(${data.resolution.resolvedDirectly} answered directly, ${data.resolution.resolvedByCascade} by identical text on other tracks). `
+    + `**Active open: ${data.resolution.activeOpenQuestions}.** Open immediate assignments: ${data.resolution.openImmediateAssignments}.`);
   L.push("");
   L.push("| Classification | Questions |");
   L.push("|---|---:|");
@@ -482,7 +609,9 @@ function renderMarkdown(data) {
   L.push(`| **TOTAL** | **${data.classificationSum}** |`);
   L.push("");
 
-  L.push("## Immediate assignments");
+  L.push("## Immediate assignments — all four resolved");
+  L.push("");
+  L.push(`Answered by \`${data.resolution.controllingDecisionRecord}\`, reviewed through ${data.resolution.reviewedThrough}. Retained for the record; none is open.`);
   L.push("");
   for (const a of data.immediateAssignments) {
     L.push(`### ${a.decisionId} — ${a.jurisdiction} \`${a.tracks.join(", ")}\``);
