@@ -106,7 +106,7 @@ const legalSurfaceHashes = {
   // Rehashed for the § 311.326 fact-model correction: the exact birth date
   // moved behind the claim and an approximate threshold took its place in
   // screening. Both questions live in the legal surface, so the hash moves.
-  MO: "69bb8e1aae46e2dd610d4d0864a19a52704c07afd49b7003b66a29093c99f857",
+  MO: "16636b5d25c82713b7952989ed148ecfd97559f620b36e7a47e9706a1dbb5bbe",
   MT: "3bacd63e832245f01fb94a1f34783e30e3c68362ac693349dbac7353e1fbfe97"
 };
 

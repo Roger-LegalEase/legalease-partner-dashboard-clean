@@ -4,7 +4,7 @@
   "rows": [
     {
       "id": "MD-EXACT-ROUTE-DATES-PREPAY-VS-POSTPAY",
-      "status": "blocked_on_owner",
+      "status": "resolved",
       "raisedOn": "2026-08-28",
       "approvalRecord": "data/expungement-ai/screening-parity-approved-deltas.json",
       "approvalId": "md-pardon-signed-date-2026-08-25",
@@ -20,13 +20,20 @@
         "the_approval_is_right": "arrest_date returns to the prepay timing gate for the LD-MD-03 route, and the exact-packet-fact short-circuit gains an exception for approved prepay deadline anchors. This reopens the free-screening boundary question for Maryland: an exact arrest date in anonymous screening is an exact record date, which the product contract does not permit.",
         "the_code_is_right": "The 2026-08-25 statement is superseded and needs a new signed statement describing postpay collection, with the residual gap named: with no arrest date in screening, mdPoliceRecordDeadlineSafetyGate returns undefined, so a participant whose incident is plainly older than eight years is not told the window has closed until after they authenticate. Closing that needs an approximate Maryland threshold question."
       },
-      "recommendation": "the_code_is_right, with an approximate Maryland threshold question added so screening can still answer the deadline. The postpay move is consistent with the product contract's screening boundary and with the same correction made for Missouri.",
-      "resolvedBy": null,
-      "resolvedOn": null,
+      "resolvedBy": "behavioural proof, not a rehash",
+      "resolvedOn": "2026-08-28",
       "blocks": [
         "scripts/verify-expungement-plain-language-values.mjs",
         "every npm test step after it"
-      ]
+      ],
+      "whatWasActuallyWrong": "Not the behaviour. The signed statement says arrest_date is the prepay deadline anchor and that the LD-MD-03 route 'collects arrest_date before checkout'. Prepay is everything before checkout, which includes the authenticated packet-information step; it is not a synonym for anonymous screening. Commit 3716eba4 moved the exact date out of anonymous screening and into packet information, which is still before checkout — so it satisfied the signed statement and, in doing so, stopped asking an anonymous person for an exact record date. What broke was the delta's byte pin on MD-maryland.json, which is change detection and not the approval. My first reading of this record said the statement had become false; running it showed the opposite.",
+      "howItWasResolved": [
+        "scripts/verify-md-10-103-signed-approval.mjs proves the signed statement by executing it: 37 checks across free screening, packet information, the eight-year deadline in both directions and at the exact boundary, checkout, sponsorship, and verification invalidation.",
+        "The statement itself is pinned by its own hash over id, statutoryAuthority, purpose, routeBehavior and authorization — and nothing else, because hashing the byte pins alongside the sentences is what made every unrelated edit look like a change to what the legal team approved.",
+        "The byte pin moved through the delta's existing supersededSha256 mechanism, which requires a reason and a behavioural proof that runs. No authorization was written, edited or rehashed.",
+        "Four mutations confirm the proof is not vacuous, including restoring the exact pre-3716eba4 state in which an anonymous person was asked for the arrest date."
+      ],
+      "residualGapStillOpen": "Unchanged and still recorded: mdPoliceRecordDeadlineSafetyGate returns undefined when no arrest date is present, so free screening cannot tell a participant whose incident is plainly older than eight years that the window has closed. The route holds at needs_more_info rather than saying so. Closing that needs an approximate Maryland threshold question, which is Maryland work and not this item."
     }
   ]
 }

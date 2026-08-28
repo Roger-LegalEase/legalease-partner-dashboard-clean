@@ -73,7 +73,27 @@ const BEFORE_AFTER_EVIDENCE_KEYS = new Set([
   "afterSha256",
   "behavioralProof"
 ]);
-const SUPERSEDED_KEYS = new Set(["path", "sha256", "supersededOn", "reason", "behaviouralProof"]);
+const SUPERSEDED_KEYS = new Set(["path", "sha256", "supersededOn", "reason", "behaviouralProof", "repinnedTo"]);
+/**
+ * `repinnedTo` is optional and is what makes a supersession move the live pin.
+ *
+ * A supersession without it is pure history: the hash was the pin once, is not
+ * now, and the entry records why. With it, the entry also says which hash the
+ * pin moved TO, and `authorizedRuntimeHash` walks those forward after the
+ * runtime re-authorization chain.
+ *
+ * The distinction exists because a re-authorization and a re-pin are different
+ * acts. A re-authorization is signed: it says a person approved a specific
+ * runtime behaviour change, and its `newSha256` names the bytes they approved.
+ * A re-pin is not signed and authorizes nothing: it says a pinned file changed
+ * for an unrelated reason and the approved behaviour still holds over the new
+ * bytes, which is why every entry must cite a behavioural proof that runs.
+ *
+ * Editing a re-authorization's `newSha256` to absorb a later unrelated edit
+ * would put a person's name on bytes they never saw. This is the mechanism that
+ * makes that unnecessary.
+ */
+const REPIN_KEY = "repinnedTo";
 const OPTIONAL_DELTA_KEY = "supersededSha256";
 const PROJECTION_KEYS = new Set([
   "path",
@@ -374,6 +394,25 @@ function authorizedRuntimeHash(delta, candidate, runtimeReauthorizations) {
     }
     expected = entry.newSha256;
   }
+  // Re-pins continue the chain after the signed re-authorizations. Each hop is
+  // matched by the hash it supersedes, so the order they are written in does
+  // not decide the outcome and a hop that names a hash the chain never reaches
+  // is dead rather than silently applied.
+  const repins = (delta.supersededSha256 ?? []).filter(
+    (entry) => entry.path === candidate && typeof entry[REPIN_KEY] === "string"
+  );
+  const consumed = new Set();
+  for (let hop = 0; hop < repins.length; hop += 1) {
+    const next = repins.find((entry) => entry.sha256 === expected && !consumed.has(entry));
+    if (!next) break;
+    consumed.add(next);
+    expected = next[REPIN_KEY];
+  }
+  for (const entry of repins) {
+    if (!consumed.has(entry)) {
+      reject(`${delta.id} re-pins ${candidate} from ${entry.sha256.slice(0, 12)}…, which the authorization chain never reaches`);
+    }
+  }
   return expected;
 }
 
@@ -521,6 +560,11 @@ function validateDelta(delta, rootDir, runtimeReauthorizations) {
     for (const entry of delta.supersededSha256) {
       requireExactKeys(entry, SUPERSEDED_KEYS, `${delta.id}.supersededSha256 entry`);
       for (const key of SUPERSEDED_KEYS) {
+        // `repinnedTo` is the one optional key, and its absence is meaningful:
+        // an entry without it is history, an entry with it moves the live pin.
+        // Requiring it would force every historical entry to claim it moved the
+        // pin, which is exactly the record this file exists to keep straight.
+        if (key === REPIN_KEY) continue;
         if (!(key in entry)) reject(`${delta.id}.supersededSha256 entry is missing "${key}"`);
       }
       requireExactPath(entry.path, `${delta.id}.supersededSha256 entry path`);
@@ -537,9 +581,17 @@ function validateDelta(delta, rootDir, runtimeReauthorizations) {
       if (!fs.existsSync(proof)) {
         reject(`${delta.id} cites ${entry.behaviouralProof} as proof, and it does not exist`);
       }
-      if (entry.sha256 === delta.authorizedSha256[entry.path]) {
-        reject(`${delta.id} records ${entry.path} as superseded at the hash it is currently pinned to`);
+      if (REPIN_KEY in entry) {
+        requireString(entry[REPIN_KEY], SHA256, `${delta.id}.supersededSha256 entry ${REPIN_KEY}`);
+        if (entry[REPIN_KEY] === entry.sha256) {
+          reject(`${delta.id} re-pins ${entry.path} to the hash it supersedes, which moves nothing`);
+        }
       }
+      // The "never supersede the live pin" rule moved to the authorizedPaths
+      // loop below, where the live pin is known. `authorizedSha256` is the
+      // START of the authorization chain, not its end: once a re-authorization
+      // or a re-pin exists, superseding the start is exactly what happened and
+      // rejecting it here would forbid recording it.
       const key = `${entry.path}:${entry.sha256}`;
       if (seenSuperseded.has(key)) reject(`${delta.id} records ${entry.path} superseded twice at the same hash`);
       seenSuperseded.add(key);
@@ -620,6 +672,14 @@ function validateDelta(delta, rootDir, runtimeReauthorizations) {
     if (!fs.existsSync(absolute)) reject(`${delta.id} pins ${candidate}, which does not exist`);
     const actual = sha256(fs.readFileSync(absolute));
     const runtimeAuthorized = authorizedRuntimeHash(delta, candidate, runtimeReauthorizations);
+    // The live pin may never appear in the history. Superseding it and then
+    // re-pinning back to it is how an unrecorded shape would be laundered
+    // through a history that looks complete.
+    for (const entry of delta.supersededSha256 ?? []) {
+      if (entry.path === candidate && entry.sha256 === runtimeAuthorized) {
+        reject(`${delta.id} records ${candidate} as superseded at the hash it is currently pinned to`);
+      }
+    }
     if (actual !== runtimeAuthorized) {
       reject(
         `${delta.id} approved ${candidate} through runtime hash ${runtimeAuthorized.slice(0, 12)}… but the file is ${actual.slice(0, 12)}…; the approval does not cover these bytes`

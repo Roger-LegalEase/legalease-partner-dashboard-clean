@@ -401,10 +401,17 @@ const moScreeningIds = new Set([
 ok("Missouri free screening asks no exact birth date",
   !moScreeningIds.has("date_of_birth"));
 const moProfile = getProfileByJurisdiction("MO");
+// Read from the public catalogue, not the compiled profile. Missouri renders
+// from a designer profile, so a question in `profile.questions` that the
+// designer profile does not carry is never published — which is exactly how the
+// old twenty_first_birthday anchor came to name a fact no Missouri profile
+// asked. Both of these are published by the projection from the route
+// contract's own screeningFactIds and packetReleasePreconditions.
+const moBirthDate = moPublic.questions.find((q) => q.id === "date_of_birth");
 ok("the birth date is a packet_information fact, collected after the claim",
-  moProfile.questions.find((q) => q.id === "date_of_birth")?.stage === "packet_information");
+  moBirthDate?.stage === "packet_information", moBirthDate?.stage);
 ok("it collects date of birth once and derives the clock from it",
-  /date of birth/i.test(moProfile.questions.find((q) => q.id === "date_of_birth")?.prompt ?? ""));
+  /date of birth/i.test(moBirthDate?.prompt ?? ""));
 // Being a route consumer is what keeps the fact scoped to the one route that
 // needs it; it is not publication. The check that matters is that no context —
 // including naming the § 311.326 route itself — puts it in screening, and the
@@ -421,7 +428,8 @@ ok("it is still an exact packet fact",
 ok("free screening carries the approximate age question instead",
   moPublic.questions.some((q) => q.id === "mo_at_least_twenty_two"));
 ok("and it is a yes/no/unsure question, not a date",
-  moProfile.questions.find((q) => q.id === "mo_at_least_twenty_two")?.type === "yes_no_unsure");
+  moPublic.questions.find((q) => q.id === "mo_at_least_twenty_two")?.type === "yes_no_unsure",
+  moPublic.questions.find((q) => q.id === "mo_at_least_twenty_two")?.type);
 
 // Georgia: two route identities, not an alias.
 const aliasDoc = JSON.parse(fs.readFileSync("data/rcap-ledger/route-aliases.json", "utf8"));

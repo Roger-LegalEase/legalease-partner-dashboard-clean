@@ -184,6 +184,30 @@
           "supersededOn": "2026-08-25",
           "reason": "The final evaluator bytes move nine Pennsylvania routes from a stale hold set into the exact approved-release guidance set and add the route-specific approved guidance reason. Roger Roman and the LegalEase legal team approve those exact Pennsylvania bytes while expressly retaining the previously approved Maryland pardon and LD-MD-03 behavior. The Maryland question, pathway, placement, counts, missing-date result, ten-year pardon deadline, eight-year police-record maximum window, and unrelated-mutation detection remain unchanged and independently verifier-proven.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
+        },
+        {
+          "path": "src/lib/rcap-engine/compiled/profiles/MD-maryland.json",
+          "sha256": "faf6c82d8600605a51360e0d70729dfc04c50613a0438ea2febd1244af542497",
+          "supersededOn": "2026-08-28",
+          "reason": "Commit 3716eba4 (2026-08-27, 'fix(rcap): keep exact route dates postpay') added pardon_signed_date and arrest_date to questionLifecycle.exactPacketFactIds, which moves both out of anonymous screening and into the authenticated packet-information step. The signed statement is unaffected and is proven still to hold: arrest_date remains the prepay deadline anchor, collected after the claim and before checkout, and the eight-year window is still a maximum filing deadline that permits the exact boundary and bars a later request. Before this commit the exact arrest date was asked of an anonymous person, which the free-screening boundary does not permit; the re-pin records a correction, not a departure.",
+          "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
+          "repinnedTo": "6e6ef8b1d60eea81a910c6fb84542624483525af2f2588cff9d4fc5b842a6a5b"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "7587229f0e99a7f160437e62e1da0260f21217431cc661437df04afc5c02784c",
+          "supersededOn": "2026-08-28",
+          "reason": "Shared evaluator changes for the national legal decision report: the Missouri 311.326 clock now runs twenty-two years from a date of birth collected after authentication rather than from an unpublished anchor, the controlling route contract decides route kind where an adjudication applies, a recorded route-presentation conflict holds its own route, and a route the contract identifies but cannot yet deliver reports that instead of a ready packet. None of it touches Maryland: no Maryland question is added, removed, renamed, reordered or retyped, no Maryland eligibility rule changes, and both Maryland deadlines are re-proven end to end over these bytes.",
+          "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
+          "repinnedTo": "57e016a785a61c8c643c38278c690104fa4731b30b2f2be344df2d7576cea733"
+        },
+        {
+          "path": "src/lib/rcap-engine/public-profile-projection.ts",
+          "sha256": "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73",
+          "supersededOn": "2026-08-28",
+          "reason": "Projection changes for the same report: a route contract's packetReleasePreconditions now publish their facts as post-claim packet fields, because a fact deliberately kept out of screening previously had no publication path at all, and Missouri's exact birth-date question was replaced by an approximate age threshold. Maryland is untouched by both. This continues the chain after the 2026-08-26 runtime re-authorization rather than editing that authorization's newSha256, which would put a signature on bytes nobody signed for.",
+          "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
+          "repinnedTo": "50b74b22af960407689291f5fc1c283b11e77224568454fc0a1ecdba3a1fe0d3"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",
