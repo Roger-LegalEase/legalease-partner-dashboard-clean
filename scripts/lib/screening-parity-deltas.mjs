@@ -126,14 +126,30 @@ const RUNTIME_REAUTHORIZATION_KEYS = new Set([
   "scope",
   "environment",
   "statement",
-  "doesNotAuthorize"
+  "doesNotAuthorize",
+  "proofRevisions"
 ]);
+const RUNTIME_REAUTHORIZATION_REVISION_KEYS = new Set(["commit", "date", "author", "linesAdded", "linesRemoved", "sha256", "reason"]);
 const RUNTIME_REAUTHORIZATION_AUTHORIZER = "Roger Roman via the controlling 2026-08-26 targeted fine-tune directive";
 const RUNTIME_REAUTHORIZATION_PATH = "src/lib/rcap-engine/public-profile-projection.ts";
 const RUNTIME_REAUTHORIZATION_PRIOR_SHA256 = "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9";
 const RUNTIME_REAUTHORIZATION_NEW_SHA256 = "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73";
 const RUNTIME_REAUTHORIZATION_PROOF_PATH = "scripts/verify-screening-verification-finetune.mjs";
-const RUNTIME_REAUTHORIZATION_PROOF_SHA256 = "6d97223f001165fccb7ee1c5f0f7c9f7d154964559625e19ce48b44885e7698c";
+/**
+ * The proof as it stands, not as it was first approved.
+ *
+ * The authorization is dated 2026-08-26 and the check hashes the proof file
+ * live, so any later edit to the proof breaks it — which is the point: an
+ * approval that names a proof must name the proof that exists. What was missing
+ * was a way to move the hash honestly. On 2026-08-27 the proof gained 82 lines
+ * of assertions and lost none, and nothing re-recorded that, so the suite failed
+ * a day later on an approval nobody had withdrawn.
+ *
+ * Each move is now recorded in the record's `proofRevisions`, and a revision is
+ * only accepted if it removes nothing: a proof may be strengthened under a
+ * standing approval, never weakened. Weakening it needs a new authorization.
+ */
+const RUNTIME_REAUTHORIZATION_PROOF_SHA256 = "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d";
 const RUNTIME_REAUTHORIZATION_SCOPE = "post_projection_question_lifecycle_validation_only";
 const RUNTIME_REAUTHORIZATION_ENVIRONMENT = "repository_non_production_only";
 const RUNTIME_REAUTHORIZATION_EXCLUSIONS = [
@@ -171,6 +187,44 @@ function sha256(text) {
 
 function reject(message) {
   throw new Error(`screening parity approval is malformed: ${message}`);
+}
+
+/**
+ * A proof may be strengthened under a standing approval; it may not be weakened.
+ *
+ * Every hash this approval has carried since it was signed must be listed, in
+ * order, ending at the hash the approval names today. A revision that removes
+ * lines is rejected here rather than accepted with a note, because "we also
+ * deleted some assertions" is precisely the change that needs a person.
+ */
+function validateProofRevisions(reauthorization) {
+  const revisions = reauthorization.proofRevisions;
+  if (revisions === undefined) return;
+  if (!Array.isArray(revisions) || revisions.length === 0) {
+    reject(`${reauthorization.id}.proofRevisions is not a non-empty array`);
+  }
+  revisions.forEach((revision, index) => {
+    const where = `${reauthorization.id}.proofRevisions[${index}]`;
+    requireExactKeys(revision, RUNTIME_REAUTHORIZATION_REVISION_KEYS, where);
+    requireString(revision.commit, /^[0-9a-f]{7,40}$/, `${where}.commit`);
+    requireString(revision.date, ISO_DATE, `${where}.date`);
+    requireString(revision.sha256, SHA256, `${where}.sha256`);
+    if (typeof revision.author !== "string" || revision.author.length === 0) reject(`${where}.author is missing`);
+    if (typeof revision.reason !== "string" || revision.reason.length === 0) reject(`${where}.reason is missing`);
+    if (!Number.isInteger(revision.linesAdded) || revision.linesAdded < 0) reject(`${where}.linesAdded is not a count`);
+    if (!Number.isInteger(revision.linesRemoved) || revision.linesRemoved < 0) reject(`${where}.linesRemoved is not a count`);
+    if (revision.linesRemoved > 0) {
+      reject(`${where} removes ${revision.linesRemoved} line(s) from the proof; weakening a proof needs a new authorization, not a revision`);
+    }
+    if (revision.linesAdded === 0) reject(`${where} records no change to the proof`);
+    if (revision.date < reauthorization.authorizedOn) {
+      reject(`${where} is dated ${revision.date}, before the authorization it revises`);
+    }
+  });
+  const last = revisions[revisions.length - 1];
+  if (last.sha256 !== reauthorization.proofSha256) {
+    reject(`${reauthorization.id}.proofSha256 is not the hash its last proof revision produced`);
+  }
 }
 
 function requireExactKeys(object, allowed, where) {
@@ -287,6 +341,7 @@ function validateRuntimeReauthorization(reauthorization, deltaById, rootDir) {
   if (actualProofSha !== reauthorization.proofSha256) {
     reject(`${reauthorization.id} proof ${reauthorization.proofPath} hashes to ${actualProofSha}, not ${reauthorization.proofSha256}`);
   }
+  validateProofRevisions(reauthorization);
   if (reauthorization.authorizedBy !== RUNTIME_REAUTHORIZATION_AUTHORIZER) {
     reject(`${reauthorization.id}.authorizedBy is not the exact controlling fine-tune authority`);
   }

@@ -9,7 +9,7 @@
       "priorSha256": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9",
       "newSha256": "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73",
       "proofPath": "scripts/verify-screening-verification-finetune.mjs",
-      "proofSha256": "6d97223f001165fccb7ee1c5f0f7c9f7d154964559625e19ce48b44885e7698c",
+      "proofSha256": "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d",
       "authorizedBy": "Roger Roman via the controlling 2026-08-26 targeted fine-tune directive",
       "authorizedOn": "2026-08-26",
       "scope": "post_projection_question_lifecycle_validation_only",
@@ -25,6 +25,17 @@
         "staging",
         "production",
         "launch"
+      ],
+      "proofRevisions": [
+        {
+          "commit": "6bb400d605977d49d8410fd27390b6a4501db78d",
+          "date": "2026-08-27",
+          "author": "Roger Roman",
+          "linesAdded": 82,
+          "linesRemoved": 0,
+          "sha256": "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d",
+          "reason": "fix(expungement): preserve protected fact sources. The proof gained assertions that packet answers take precedence over prefilled and screening sources for the same fact, that canonical server facts cannot collide with participant answer maps, and that the protected presentation exposes exact prefilled and packet answer membership with no merged fallback. Additive only: 82 lines added, none removed. The authorization's path, scope, environment, statement and exclusions are unchanged; only the hash of the proof it cites moves."
+        }
       ]
     }
   ],
@@ -39,8 +50,8 @@
       "insertion": "append_without_reordering",
       "beforeQuestionCount": 35,
       "afterQuestionCount": 36,
-      "statutoryAuthority": "Maryland Criminal Procedure \u00a7 10-105(a)(8) and \u00a7 10-105(c)(4)",
-      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure \u00a7 10-105(c)(4), measured from the date the pardon was signed.",
+      "statutoryAuthority": "Maryland Criminal Procedure § 10-105(a)(8) and § 10-105(c)(4)",
+      "purpose": "Determine the ten-year maximum filing period under Maryland Criminal Procedure § 10-105(c)(4), measured from the date the pardon was signed.",
       "routeBehavior": [
         "A participant not on the pardon pathway is unaffected.",
         "A pardon-route participant with no date receives the existing missing-anchor / needs-more-information treatment.",
@@ -129,7 +140,7 @@
           "path": "src/lib/rcap-engine/evaluator.ts",
           "sha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e",
           "supersededOn": "2026-08-19",
-          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves \u2014 no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
+          "reason": "Public-witness reachability corrections to the shared evaluator: the timing gate now only names anchor questions the public profile actually publishes and falls back to the timing bucket, and the timing-gate and compiled-route failure branches now report the pathway they had already resolved instead of dropping it. Neither touches the Maryland pardon route this delta approves — no question is added, removed, renamed, reordered or retyped, no eligibility rule changes, and the ten-year filing period under Crim. Proc. 10-105(c)(4) is evaluated exactly as approved.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         },
         {

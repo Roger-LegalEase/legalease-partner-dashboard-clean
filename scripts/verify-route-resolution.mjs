@@ -387,15 +387,33 @@ console.log("\nProduct integration — Georgia route identity and Missouri scree
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 const moPublic = projectPublicProfile(getProfileByJurisdiction("MO"));
+// `projectPublicProfile(...).questions` is the whole catalogue, prepay and
+// postpay together. Free screening is what `selectScreeningQuestionIds`
+// returns, so that is what this asks — checked against the empty context and
+// every pathway context, since naming a route shows a participant more.
+const { selectScreeningQuestionIds } = await import("@/lib/rcap-engine/screening-question-selection");
+const moProfileForScreening = getProfileByJurisdiction("MO");
+const moScreeningIds = new Set([
+  ...selectScreeningQuestionIds(moProfileForScreening, moPublic, {}),
+  ...moProfileForScreening.pathways.flatMap((pathway) =>
+    selectScreeningQuestionIds(moProfileForScreening, moPublic, { possible_pathway_context: pathway.label }))
+]);
 ok("Missouri free screening asks no exact birth date",
-  !moPublic.questions.some((q) => q.id === "date_of_birth"));
+  !moScreeningIds.has("date_of_birth"));
 const moProfile = getProfileByJurisdiction("MO");
 ok("the birth date is a packet_information fact, collected after the claim",
   moProfile.questions.find((q) => q.id === "date_of_birth")?.stage === "packet_information");
 ok("it collects date of birth once and derives the clock from it",
   /date of birth/i.test(moProfile.questions.find((q) => q.id === "date_of_birth")?.prompt ?? ""));
-ok("no route consumer publishes it into screening",
-  !Object.keys(moProfile.questionLifecycle?.routeConsumers ?? {}).includes("date_of_birth"));
+// Being a route consumer is what keeps the fact scoped to the one route that
+// needs it; it is not publication. The check that matters is that no context —
+// including naming the § 311.326 route itself — puts it in screening, and the
+// earlier assertion covers that. What this adds is that the scope is exact.
+ok("the birth date is scoped to the one route that needs it",
+  (moProfile.questionLifecycle?.routeConsumers?.date_of_birth ?? []).join() === "first-minor-in-possession-alcohol-expungement-under-311-326");
+ok("and no other Missouri route inherits it",
+  moProfile.pathways.every((pathway) => pathway.id === "first-minor-in-possession-alcohol-expungement-under-311-326"
+    || !(moProfile.questionLifecycle?.routeConsumers?.date_of_birth ?? []).includes(pathway.id)));
 ok("it is still an exact packet fact",
   (moProfile.questionLifecycle?.exactPacketFactIds ?? []).includes("date_of_birth"));
 // Screening carries the approximate form of the same fact, so a plainly
