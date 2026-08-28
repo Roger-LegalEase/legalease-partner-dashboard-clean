@@ -13,6 +13,7 @@ Every row is verified on jurisdiction, track, affected element, normalized quest
 The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049.
 
 - **Q-018 is out of the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer. Source task: `data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json`.
+- **Q-057 is out of the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer. Source task: `data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json`.
 
 ## Legal status and delivery state are independent
 
@@ -20,12 +21,12 @@ legalStatus and the delivery disposition are separate and neither implies the ot
 
 | Disposition | Questions |
 |---|---:|
-| SOURCE_ACQUISITION_REQUIRED | 17 |
-| ARTIFACT_LEGAL_REVIEW_REQUIRED | 12 |
-| LEGAL_DECISION_RESOLVED_PACKET | 11 |
-| LEGAL_DECISION_RESOLVED_GUIDANCE | 5 |
-| ATTORNEY_OR_PARTNER_HANDOFF | 4 |
-| **TOTAL** | **49** |
+| SOURCE_ACQUISITION_REQUIRED | 13 |
+| ARTIFACT_LEGAL_REVIEW_REQUIRED | 10 |
+| LEGAL_DECISION_RESOLVED_PACKET | 8 |
+| LEGAL_DECISION_RESOLVED_GUIDANCE | 2 |
+| ATTORNEY_OR_PARTNER_HANDOFF | 2 |
+| **TOTAL** | **35** |
 
 ## Question decisions
 
@@ -34,17 +35,12 @@ legalStatus and the delivery disposition are separate and neither implies the ot
 | `Q-002` | Q-001 | KY | `ky_felony_expungement_after_pardon` | eligibility_branch | 272–289 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-003` | Q-002 | KY | `ky_felony_vacatur_expungement` | participant_instructions | 291–308 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
 | `Q-004` | Q-003 | KY | `ky_nonconviction_expungement` | packet_components | 310–326 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-005` | Q-004 | LA | `la-977d-marijuana-first-offense` | filing_process | 330–345 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-006` | Q-005 | LA | `la-978-felony-conviction` | eligibility_branch | 347–364 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-007` | Q-006 | LA | `la-985-3-immediate-expungement` | waiting_period | 366–384 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-008` | Q-007 | LA | `la-985-expungement-by-redaction` | packet_components | 386–404 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-009` | Q-008 | ME | `me-nonconv` | legal_effect_or_warning | 408–431 | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-010` | Q-009 | ME | `me-seal-gen` | notice_or_service | 433–448 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-011` | Q-010 | ME | `me-seal-survivor` | legal_effect_or_warning | 450–466 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-012` | Q-011 | ME | `me-seal-survivor` | notice_or_service | 468–474 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-015` | Q-012 | MO | `mo-610-130-first-intoxication` | filing_process | 478–494 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-016` | Q-013 | MO | `mo-610-140-conviction` | venue | 496–512 | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-017` | Q-014 | MO | `mo-610-145-mistaken-identity` | governing_mechanism | 514–531 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-019` | Q-015 | ND | `nd-dui-record-seal` | governing_mechanism | 535–549 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-020` | Q-016 | ND | `nd-dui-record-seal` | eligibility_branch | 551–564 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-023` | Q-017 | NE | `ne-expunge-le-error` | venue | 568–576 | LEGAL_DECISION_RESOLVED_PACKET |
@@ -52,11 +48,6 @@ legalStatus and the delivery disposition are separate and neither implies the ot
 | `Q-025` | Q-019 | NE | `ne-expunge-le-error` | packet_components | 590–609 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
 | `Q-026` | Q-020 | NE | `ne-seal-pardoned` | filing_process | 611–625 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-027` | Q-021 | NE | `ne-seal-pardoned` | packet_components | 627–635 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-028` | Q-022 | NE | `ne-setaside-custodial` | filing_process | 637–643 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-029` | Q-023 | NE | `ne-setaside-custodial` | packet_components | 645–651 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-030` | Q-024 | NE | `ne-setaside-custodial` | eligibility_branch | 653–668 | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-031` | Q-025 | NE | `ne-setaside-noncustodial` | filing_process | 670–676 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-032` | Q-026 | NE | `ne-setaside-noncustodial` | packet_components | 678–684 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
 | `Q-033` | Q-027 | SC | `sc_17_1_40_general_sessions` | filing_process | 715–733 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-034` | Q-028 | SC | `sc_17_1_65_handgun` | filing_process | 735–752 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-035` | Q-029 | SC | `sc_17_22_950_summary` | participant_instructions | 754–771 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
@@ -68,9 +59,6 @@ legalStatus and the delivery disposition are separate and neither implies the ot
 | `Q-041` | Q-035 | SC | `sc_34_11_90e_check` | filing_process | 861–876 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-042` | Q-036 | SC | `sc_56_5_750f` | filing_process | 878–893 | SOURCE_ACQUISITION_REQUIRED |
 | `Q-044` | Q-037 | SD | `sd_sis_sealing` | filing_process | 897–917 | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-045` | Q-038 | VA | `va_exp_absolute_pardon` | governing_mechanism | 921–943 | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-046` | Q-039 | VA | `va_seal_ancillary_matter_only` | governing_mechanism | 945–963 | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-047` | Q-040 | WV | `wv_acc_treatment_job_readiness` | waiting_period | 967–988 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-048` | Q-041 | WV | `wv_common_conv_procedure` | venue | 990–1006 | ATTORNEY_OR_PARTNER_HANDOFF |
 | `Q-049` | Q-042 | WV | `wv_conv_multiple_misdemeanors` | venue | 1008–1016 | ATTORNEY_OR_PARTNER_HANDOFF |
 | `Q-050` | Q-043 | WV | `wv_conv_multiple_misdemeanors` | eligibility_branch | 1018–1035 | LEGAL_DECISION_RESOLVED_PACKET |
@@ -79,7 +67,6 @@ legalStatus and the delivery disposition are separate and neither implies the ot
 | `Q-053` | Q-046 | WV | `wv_conv_single_misdemeanor` | notice_or_service | 1069–1083 | LEGAL_DECISION_RESOLVED_PACKET |
 | `Q-054` | Q-047 | WV | `wv_nc_acquittal_dismissal` | correct_form | 1085–1095 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
 | `Q-055` | Q-048 | WV | `wv_nc_diversion_deferred` | correct_form | 1097–1116 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-056` | Q-049 | WV | `wv_pardon_expungement` | legal_effect_or_warning | 1118–1138 | LEGAL_DECISION_RESOLVED_GUIDANCE |
 
 ## Immediate assignments
 

@@ -32,10 +32,15 @@
   },
   "scope": {
     "reportAnswers": 49,
-    "registerOpenQuestions": 50,
+    "registerOpenQuestions": 37,
     "registerQuestionsOutOfReportScope": [
       {
         "questionId": "Q-018",
+        "reason": "Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.",
+        "sourceTask": "data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json"
+      },
+      {
+        "questionId": "Q-057",
         "reason": "Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.",
         "sourceTask": "data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json"
       }
@@ -43,11 +48,11 @@
     "note": "The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049."
   },
   "deliveryCounts": {
-    "LEGAL_DECISION_RESOLVED_PACKET": 11,
-    "ARTIFACT_LEGAL_REVIEW_REQUIRED": 12,
-    "SOURCE_ACQUISITION_REQUIRED": 17,
-    "LEGAL_DECISION_RESOLVED_GUIDANCE": 5,
-    "ATTORNEY_OR_PARTNER_HANDOFF": 4
+    "LEGAL_DECISION_RESOLVED_PACKET": 8,
+    "ARTIFACT_LEGAL_REVIEW_REQUIRED": 10,
+    "SOURCE_ACQUISITION_REQUIRED": 13,
+    "LEGAL_DECISION_RESOLVED_GUIDANCE": 2,
+    "ATTORNEY_OR_PARTNER_HANDOFF": 2
   },
   "immediateAssignments": [
     {
@@ -549,27 +554,6 @@
       "completeSectionText": "### Q-003 — `ky_nonconviction_expungement`\n\n**Holding:** AOC-497.2’s instruction to “check all that apply” is **disjunctive and charge-specific**.\n\nThe listed disposition boxes are alternative statutory bases. A participant is not required to satisfy every box, and the form should not force only one box when different charges in the same case ended differently.\n\n**Field logic:**\n\n1. determine the qualifying disposition of each charge;\n2. map each charge to its applicable statutory branch;\n3. check every branch that applies to at least one charge in the application;\n4. do not check a branch merely because it is generally available;\n5. attach a charge/disposition schedule when the form does not make the mapping clear.\n\n**Disposition:** legal answer complete; `ARTIFACT REVIEW STILL REQUIRED` for the final field map and rendered AOC-497.2.\n\n---"
     },
     {
-      "registerQuestionId": "Q-005",
-      "reportQuestionId": "Q-004",
-      "jurisdiction": "LA",
-      "trackId": "la-977d-marijuana-first-offense",
-      "affectedElement": "filing_process",
-      "normalizedQuestionTextHash": "0e0f6f5afc224516f164c00a1a4e174f158f3addea889667f2b83ecd24e27fe6",
-      "reportSectionHash": "10c4f6ce82707ded4ca33ded100b913f42b0e364300cd1fa21224135d2fb03c7",
-      "memoPath": "data/record-clearing/legal-design-intake/LA.memo.json",
-      "memoSha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Article 983(M)’s special **$300** first-offense marijuana fee schedule became “null, void, and without effect” on **August 1, 2026**. A motion filed after that date is governed by the ordinary Article 983 schedule unless another statutory exemption, fee waiver, or in-forma-pauperis mechanism applies.\n\nThe ordinary statutory ceiling is $550:\n\n- Bureau of Criminal Identification and Information: up to $250;\n- sheriff: $50;\n- district attorney: $50; and\n- clerk: up to $200.\n\nA parish cannot continue the $300 schedule merely because an old packet or webpage remains online. Local acquisition is still required for current payees, acceptable instruments, filing location, copies, and any parish-specific waiver workflow.",
-      "holdingSha256": "365359f2dae8b78e587b3d04de9a5dd5f47eaf97d042ec53637c6c7d120b544d",
-      "productRuleSections": [],
-      "controllingProductDecision": "Post-sunset ordinary fee schedule",
-      "reportDisposition": "CONDITIONAL — SOURCE GATE",
-      "deliveryDisposition": "SOURCE_ACQUISITION_REQUIRED",
-      "reportLineStart": 330,
-      "reportLineEnd": 345,
-      "completeSectionText": "### Q-004 — `la-977d-marijuana-first-offense`\n\n**Holding:** Article 983(M)’s special **$300** first-offense marijuana fee schedule became “null, void, and without effect” on **August 1, 2026**. A motion filed after that date is governed by the ordinary Article 983 schedule unless another statutory exemption, fee waiver, or in-forma-pauperis mechanism applies.\n\nThe ordinary statutory ceiling is $550:\n\n- Bureau of Criminal Identification and Information: up to $250;\n- sheriff: $50;\n- district attorney: $50; and\n- clerk: up to $200.\n\nA parish cannot continue the $300 schedule merely because an old packet or webpage remains online. Local acquisition is still required for current payees, acceptable instruments, filing location, copies, and any parish-specific waiver workflow.\n\n**Disposition:** `CONDITIONAL — SOURCE GATE`. The legal fee is resolved; current parish filing instructions remain to be acquired. Do not display $300 after August 1, 2026.\n\n---"
-    },
-    {
       "registerQuestionId": "Q-006",
       "reportQuestionId": "Q-005",
       "jurisdiction": "LA",
@@ -640,62 +624,6 @@
       "completeSectionText": "### Q-007 — `la-985-expungement-by-redaction`\n\n**Holding:** Use the official Article 989 motion **plus a supplemental redaction election**, rather than replacing the statewide motion with an entirely custom pleading.\n\nArticle 985 authorizes a person to petition for redaction. The Article 989 motion does not supply a clear redaction election, while the Article 992 order contains the redaction disposition. Article 986 permits supplemental material that complies with the statutory forms framework.\n\nThe packet should contain:\n\n- Article 989 motion;\n- a supplemental “Election and Particularized Request for Redaction Under Article 985”;\n- the exact name, date of birth, identifying data, page, entry, and docket location to be redacted;\n- supporting records;\n- Article 992 proposed order with the redaction paragraph completed;\n- service documents under Article 982; and\n- a warning that the clerk is not responsible for redacting information or locations not identified in the order.\n\n**Disposition:** legal design complete; `ARTIFACT REVIEW STILL REQUIRED`.\n\n---"
     },
     {
-      "registerQuestionId": "Q-009",
-      "reportQuestionId": "Q-008",
-      "jurisdiction": "ME",
-      "trackId": "me-nonconv",
-      "affectedElement": "legal_effect_or_warning",
-      "normalizedQuestionTextHash": "da2f0a5aa123f1e18b606c7964a5ac2d1e9affcf2a829170e0c57bff56d6084b",
-      "reportSectionHash": "6f124d4875673e04d41ef7975cadc20ce08df16b0de02b8da843e21cfc08b09d",
-      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
-      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Successful completion of a deferred disposition does **not automatically establish that the entire criminal-history record is confidential**.\n\nSection 703(2)(G) distinguishes:\n\n- a charge dismissed with prejudice by the court; and\n- a charge dismissed with finality by a prosecutor outside a plea agreement.\n\nA deferred disposition arises from a written agreement with the State, and § 1903 directs the State to dismiss with prejudice on compliance. That does not safely fit the prosecutor-dismissal branch’s “outside a plea agreement” condition. *Gordon v. Cheskin* also rejects treating the entire prior proceeding as confidential merely because the deferred disposition ended in dismissal.\n\nThe result may differ if the actual final docket or order reflects a **court dismissal with prejudice**. The product must inspect the final instrument rather than classify from the label “deferred disposition.”",
-      "holdingSha256": "1c1f27aea5370f86ba5f536da14cca4b66d7af596c8b1f3ec4566ebfb9fd726b",
-      "productRuleSections": [
-        {
-          "label": "Product rule",
-          "text": "**Product rule:**\n\n- do not promise confidentiality from the disposition label;\n- obtain the final docket, dismissal, and SBI record;\n- treat a court dismissal with prejudice as a separate branch;\n- use a correction request only when the record is demonstrably inaccurate;\n- route unresolved classification to counsel.",
-          "value": "- do not promise confidentiality from the disposition label;\n- obtain the final docket, dismissal, and SBI record;\n- treat a court dismissal with prejudice as a separate branch;\n- use a correction request only when the record is demonstrably inaccurate;\n- route unresolved classification to counsel.",
-          "sha256": "738afd2848e57fa977d3a83af8d8b6aed66d7ac4df29f5380457e68a324f5a74"
-        }
-      ],
-      "controllingProductDecision": "No automatic confidentiality promise",
-      "reportDisposition": "RELEASE — GUIDANCE",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_GUIDANCE",
-      "reportLineStart": 408,
-      "reportLineEnd": 431,
-      "completeSectionText": "### Q-008 — `me-nonconv`\n\n**Holding:** Successful completion of a deferred disposition does **not automatically establish that the entire criminal-history record is confidential**.\n\nSection 703(2)(G) distinguishes:\n\n- a charge dismissed with prejudice by the court; and\n- a charge dismissed with finality by a prosecutor outside a plea agreement.\n\nA deferred disposition arises from a written agreement with the State, and § 1903 directs the State to dismiss with prejudice on compliance. That does not safely fit the prosecutor-dismissal branch’s “outside a plea agreement” condition. *Gordon v. Cheskin* also rejects treating the entire prior proceeding as confidential merely because the deferred disposition ended in dismissal.\n\nThe result may differ if the actual final docket or order reflects a **court dismissal with prejudice**. The product must inspect the final instrument rather than classify from the label “deferred disposition.”\n\n**Product rule:**\n\n- do not promise confidentiality from the disposition label;\n- obtain the final docket, dismissal, and SBI record;\n- treat a court dismissal with prejudice as a separate branch;\n- use a correction request only when the record is demonstrably inaccurate;\n- route unresolved classification to counsel.\n\n**Disposition:** `RELEASE — GUIDANCE` with fail-closed verification; no automatic confidentiality promise.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-010",
-      "reportQuestionId": "Q-009",
-      "jurisdiction": "ME",
-      "trackId": "me-seal-gen",
-      "affectedElement": "notice_or_service",
-      "normalizedQuestionTextHash": "70d0615a0c78d36a27a691cae4d19beeb0afba2b5ad58636f8487dbe7b3d84b6",
-      "reportSectionHash": "a58aa7b2e60246d9de5e6b510d9a9b0adbefc4183b1a95182481380c6fd32712",
-      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
-      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
-      "reviewedThrough": "2026-08-28",
-      "holding": "The motion is filed in the underlying criminal case and the prosecutorial office that represented the State is entitled to notice. Current statute and forms do not clearly state that the clerk performs every initial service act.\n\nThe absence of a certificate-of-service block on CR-218, CR-289, or CR-307 does not create a safe basis for telling a participant that no delivery to the prosecutor is required.",
-      "holdingSha256": "e8bf49441eae799b30ff8cd21cfaab82c2d9c854dcbce71c2a108d45ffcf49ff",
-      "productRuleSections": [
-        {
-          "label": "Safe statewide packet",
-          "text": "**Safe statewide packet:**\n\n- file the motion with the court of conviction;\n- provide the prosecutorial office a filed copy by the method accepted by that court;\n- include a certificate or record of delivery, or an explicit instruction to obtain the clerk’s written direction;\n- let the clerk schedule the hearing and issue court-generated notices.",
-          "value": "- file the motion with the court of conviction;\n- provide the prosecutorial office a filed copy by the method accepted by that court;\n- include a certificate or record of delivery, or an explicit instruction to obtain the clerk’s written direction;\n- let the clerk schedule the hearing and issue court-generated notices.",
-          "sha256": "c1c4e633b1f26405d4c2faeb429c5189bc4e7520935b847c57f0a213df6d9729"
-        }
-      ],
-      "controllingProductDecision": "Prosecutor notice; local method",
-      "reportDisposition": "CONDITIONAL — SOURCE GATE",
-      "deliveryDisposition": "SOURCE_ACQUISITION_REQUIRED",
-      "reportLineStart": 433,
-      "reportLineEnd": 448,
-      "completeSectionText": "### Q-009 — `me-seal-gen`\n\n**Holding:** The motion is filed in the underlying criminal case and the prosecutorial office that represented the State is entitled to notice. Current statute and forms do not clearly state that the clerk performs every initial service act.\n\nThe absence of a certificate-of-service block on CR-218, CR-289, or CR-307 does not create a safe basis for telling a participant that no delivery to the prosecutor is required.\n\n**Safe statewide packet:**\n\n- file the motion with the court of conviction;\n- provide the prosecutorial office a filed copy by the method accepted by that court;\n- include a certificate or record of delivery, or an explicit instruction to obtain the clerk’s written direction;\n- let the clerk schedule the hearing and issue court-generated notices.\n\n**Disposition:** `CONDITIONAL — SOURCE GATE`. The prosecutor-notice requirement is clear; the exact clerk/service workflow must remain configurable.\n\n---"
-    },
-    {
       "registerQuestionId": "Q-011",
       "reportQuestionId": "Q-010",
       "jurisdiction": "ME",
@@ -764,62 +692,6 @@
       "reportLineStart": 478,
       "reportLineEnd": 494,
       "completeSectionText": "### Q-012 — `mo-610-130-first-intoxication`\n\n**Holding:** Section 610.130 sends the application to the court in which the person pleaded guilty or was sentenced, but the published case-type list provides no section-specific code.\n\nUse:\n\n- **XG** as a provisional generic expungement code;\n- **not X5**, because X5 is expressly associated with § 610.140; and\n- **X1 only if the clerk directs.**\n\nThis is an administrative gap, not a substantive bar.\n\nThe petition/application, original judgment, driving record, criminal-history support, proposed order, and FI-05 may be standardized. The case-opening code, caption, service, fee, and summons treatment must be confirmed with the receiving clerk.\n\n**Disposition:** `CONDITIONAL — SOURCE GATE`.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-016",
-      "reportQuestionId": "Q-013",
-      "jurisdiction": "MO",
-      "trackId": "mo-610-140-conviction",
-      "affectedElement": "venue",
-      "normalizedQuestionTextHash": "aba80e824073a984fd784ee3714865440708937cd279bd0c9319ae8a49521586",
-      "reportSectionHash": "cfec876cb64d6fd1266f45891f7db2284bd5096d7985f810764e6a5383361c02",
-      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
-      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
-      "reviewedThrough": "2026-08-28",
-      "holding": "LegalEase should not promise that one circuit court can expunge unrelated cases from multiple Missouri counties.\n\nThe statutory instruction to list all crimes does not expressly grant a selected circuit statewide authority over records and cases of other circuits. Published Missouri practice has historically treated separate counties as requiring separate filings, and no controlling appellate decision authorizing one statewide petition was located.",
-      "holdingSha256": "c3c268743221451983b70705d5944ca78a8140d6dc32c87b6c4e181a322b3fe2",
-      "productRuleSections": [
-        {
-          "label": "Product rule",
-          "text": "**Product rule:**\n\n- one county: ordinary participant petition;\n- multiple cases in the same county: include all required matters under the statute;\n- multiple counties: coordinated multi-packet workflow or attorney/partner handoff;\n- do not charge for a “complete statewide” single petition;\n- preserve the once/lifetime and numerical limits across the coordinated filings.",
-          "value": "- one county: ordinary participant petition;\n- multiple cases in the same county: include all required matters under the statute;\n- multiple counties: coordinated multi-packet workflow or attorney/partner handoff;\n- do not charge for a “complete statewide” single petition;\n- preserve the once/lifetime and numerical limits across the coordinated filings.",
-          "sha256": "688727bb029f93385b8dbe6067ed804368b1468f136e556c37d359ce9d7c604b"
-        }
-      ],
-      "controllingProductDecision": "No promised one-court statewide petition",
-      "reportDisposition": "ATTORNEY / MULTI-PACKET",
-      "deliveryDisposition": "ATTORNEY_OR_PARTNER_HANDOFF",
-      "reportLineStart": 496,
-      "reportLineEnd": 512,
-      "completeSectionText": "### Q-013 — `mo-610-140-conviction`\n\n**Holding:** LegalEase should not promise that one circuit court can expunge unrelated cases from multiple Missouri counties.\n\nThe statutory instruction to list all crimes does not expressly grant a selected circuit statewide authority over records and cases of other circuits. Published Missouri practice has historically treated separate counties as requiring separate filings, and no controlling appellate decision authorizing one statewide petition was located.\n\n**Product rule:**\n\n- one county: ordinary participant petition;\n- multiple cases in the same county: include all required matters under the statute;\n- multiple counties: coordinated multi-packet workflow or attorney/partner handoff;\n- do not charge for a “complete statewide” single petition;\n- preserve the once/lifetime and numerical limits across the coordinated filings.\n\n**Disposition:** multi-county facts are `ATTORNEY / PARTNER HANDOFF` unless a verified local multi-packet process is built. Confidence is moderate because the statutory wording is not perfectly explicit.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-017",
-      "reportQuestionId": "Q-014",
-      "jurisdiction": "MO",
-      "trackId": "mo-610-145-mistaken-identity",
-      "affectedElement": "governing_mechanism",
-      "normalizedQuestionTextHash": "52f470937c8d62fd5c47d5e746b9e0441016a7b3c241f87800509d8fa12b2fb1",
-      "reportSectionHash": "e9750ce0c4415d535dce26982469989f4e45a9502d2c89da31fcc110ec156f7a",
-      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
-      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Failure by the prosecutor or judicial officer to provide subdivision (2)’s required notice does not eliminate the participant’s independent subdivision (1) remedy.\n\nThe participant may file the subdivision (1) petition or written motion in the court where the charge was last pending. An informal request to the prosecutor or clerk may be a useful preliminary correction step, but the statute does not make it a mandatory exhaustion requirement.",
-      "holdingSha256": "509bca07cb9eb6370e9c0aecf006175093207e6f066d2ae5eb4f120cf44e0704",
-      "productRuleSections": [
-        {
-          "label": "Product flow",
-          "text": "**Product flow:**\n\n```text\nmissing automatic notice/order\n→ optional written request to prosecutor/clerk\n→ subdivision (1) petition or motion if no order issues\n→ contested identity or record dispute to counsel\n```",
-          "value": "```text\nmissing automatic notice/order\n→ optional written request to prosecutor/clerk\n→ subdivision (1) petition or motion if no order issues\n→ contested identity or record dispute to counsel\n```",
-          "sha256": "741ebd771f107f5254df9093cb102bf34381a470b350958bd81afeafb215d998"
-        }
-      ],
-      "controllingProductDecision": "Subdivision (1) filing remains available",
-      "reportDisposition": "RELEASE — PACKET",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_PACKET",
-      "reportLineStart": 514,
-      "reportLineEnd": 531,
-      "completeSectionText": "### Q-014 — `mo-610-145-mistaken-identity`\n\n**Holding:** Failure by the prosecutor or judicial officer to provide subdivision (2)’s required notice does not eliminate the participant’s independent subdivision (1) remedy.\n\nThe participant may file the subdivision (1) petition or written motion in the court where the charge was last pending. An informal request to the prosecutor or clerk may be a useful preliminary correction step, but the statute does not make it a mandatory exhaustion requirement.\n\n**Product flow:**\n\n```text\nmissing automatic notice/order\n→ optional written request to prosecutor/clerk\n→ subdivision (1) petition or motion if no order issues\n→ contested identity or record dispute to counsel\n```\n\n**Disposition:** `RELEASE — PACKET`.\n\n---"
     },
     {
       "registerQuestionId": "Q-019",
@@ -981,111 +853,6 @@
       "reportLineStart": 627,
       "reportLineEnd": 635,
       "completeSectionText": "### Q-021 — `ne-seal-pardoned`\n\n**Holding:** Nebraska’s in-forma-pauperis statute applies to civil or criminal cases, but the available official application forms do not fit an existing criminal case cleanly.\n\nUse a **custom affidavit and application to proceed in forma pauperis under §§ 25-2301 to 25-2310**, together with the appropriate proposed order. Do not mislabel the matter as a new civil, name-change, or emancipation case merely to fit a checkbox.\n\n**Disposition:** legal design complete; `ARTIFACT REVIEW STILL REQUIRED`.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-028",
-      "reportQuestionId": "Q-022",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-custodial",
-      "affectedElement": "filing_process",
-      "normalizedQuestionTextHash": "a7a6c801f2d651b3b0e8c0c3845d692e9868b7f2cf4c9ee1142821bed001dddf",
-      "reportSectionHash": "11154f91677a955c6689c30a2aa5f70e2e406219a000e6b17445df9c7f217d06",
-      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
-      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
-      "reviewedThrough": "2026-08-28",
-      "holding": "The same fee conclusion as Q-020 applies. The petition is filed in the sentencing criminal case, and no statewide published amount is established.",
-      "holdingSha256": "4d20448a8f8771d0602ce36650cb089b7c3532a6d39ed1adda187d26ec056681",
-      "productRuleSections": [],
-      "controllingProductDecision": "No statewide existing-case fee published",
-      "reportDisposition": "CONDITIONAL — SOURCE GATE",
-      "deliveryDisposition": "SOURCE_ACQUISITION_REQUIRED",
-      "reportLineStart": 637,
-      "reportLineEnd": 643,
-      "completeSectionText": "### Q-022 — `ne-setaside-custodial`\n\n**Holding:** The same fee conclusion as Q-020 applies. The petition is filed in the sentencing criminal case, and no statewide published amount is established.\n\n**Disposition:** `CONDITIONAL — SOURCE GATE`; do not display a fee until clerk practice is acquired.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-029",
-      "reportQuestionId": "Q-023",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-custodial",
-      "affectedElement": "packet_components",
-      "normalizedQuestionTextHash": "8498dbf971458d5e34a59e3cab7565ea7924cede55c9af7c713b0315a43e0ee0",
-      "reportSectionHash": "27c35baf38749edae85d2fc2ce8c088f6a64e49bc0db7564689d2f9196b381dc",
-      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
-      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Use the custom criminal-case in-forma-pauperis application described in Q-021, not a mis-scoped civil checkbox form.",
-      "holdingSha256": "e24aaa361852f952f95ed0e2ca2f6e6b0b5da4f31831f5538fe62494551c577c",
-      "productRuleSections": [],
-      "controllingProductDecision": "Custom criminal-case IFP papers",
-      "reportDisposition": "ARTIFACT REVIEW STILL REQUIRED",
-      "deliveryDisposition": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
-      "reportLineStart": 645,
-      "reportLineEnd": 651,
-      "completeSectionText": "### Q-023 — `ne-setaside-custodial`\n\n**Holding:** Use the custom criminal-case in-forma-pauperis application described in Q-021, not a mis-scoped civil checkbox form.\n\n**Disposition:** legal design complete; `ARTIFACT REVIEW STILL REQUIRED`.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-030",
-      "reportQuestionId": "Q-024",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-custodial",
-      "affectedElement": "eligibility_branch",
-      "normalizedQuestionTextHash": "c230853f196460d07361b49e56a6eafa916fced7bc5280af2f35dd274d924f29",
-      "reportSectionHash": "5ebb6a56d5b74af555cd69e535255f6993dfb36346136d0091fc88bfa6c81285",
-      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
-      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
-      "reviewedThrough": "2026-08-28",
-      "holding": "A conviction entered under a Nebraska Rules of the Road statute falls within the custodial-route mandatory-denial provision. A municipal ordinance conviction is not automatically a conviction “under” the state Rules merely because the local ordinance is substantively similar.\n\nUse this branch:\n\n- judgment cites a state Rules of the Road section: excluded;\n- municipal ordinance expressly incorporates the cited state provision: high-risk/excluded or counsel review;\n- municipal ordinance only resembles the state rule: do not automatically apply the exclusion;\n- judgment or incorporation status unclear: local-law review.\n\nBecause no controlling Nebraska appellate decision squarely resolves the ordinance issue, do not create broad statewide eligibility for ambiguous municipal traffic judgments.",
-      "holdingSha256": "81454513c98b7351fcf021fe25f133d606e7e682767e6c60479ce0c1ebc9c68d",
-      "productRuleSections": [],
-      "controllingProductDecision": "State Rules offense excluded; ordinance review",
-      "reportDisposition": "CONDITIONAL / ATTORNEY",
-      "deliveryDisposition": "ATTORNEY_OR_PARTNER_HANDOFF",
-      "reportLineStart": 653,
-      "reportLineEnd": 668,
-      "completeSectionText": "### Q-024 — `ne-setaside-custodial`\n\n**Holding:** A conviction entered under a Nebraska Rules of the Road statute falls within the custodial-route mandatory-denial provision. A municipal ordinance conviction is not automatically a conviction “under” the state Rules merely because the local ordinance is substantively similar.\n\nUse this branch:\n\n- judgment cites a state Rules of the Road section: excluded;\n- municipal ordinance expressly incorporates the cited state provision: high-risk/excluded or counsel review;\n- municipal ordinance only resembles the state rule: do not automatically apply the exclusion;\n- judgment or incorporation status unclear: local-law review.\n\nBecause no controlling Nebraska appellate decision squarely resolves the ordinance issue, do not create broad statewide eligibility for ambiguous municipal traffic judgments.\n\n**Disposition:** state-code cases are clear; ordinance cases are `ATTORNEY / PARTNER HANDOFF`.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-031",
-      "reportQuestionId": "Q-025",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-noncustodial",
-      "affectedElement": "filing_process",
-      "normalizedQuestionTextHash": "a7a6c801f2d651b3b0e8c0c3845d692e9868b7f2cf4c9ee1142821bed001dddf",
-      "reportSectionHash": "1fac6f85108a6d6cb85eed2295c4af1fbc97e2f48bcc9aeb3389abcb1e522f57",
-      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
-      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Same as Q-020 and Q-022. No statewide fee figure is established for the existing-case petition.",
-      "holdingSha256": "579d4e4428291ef270dd098ca1df767392e5fd48fe222cae1ce3d17d7e7c9114",
-      "productRuleSections": [],
-      "controllingProductDecision": "No statewide existing-case fee published",
-      "reportDisposition": "CONDITIONAL — SOURCE GATE",
-      "deliveryDisposition": "SOURCE_ACQUISITION_REQUIRED",
-      "reportLineStart": 670,
-      "reportLineEnd": 676,
-      "completeSectionText": "### Q-025 — `ne-setaside-noncustodial`\n\n**Holding:** Same as Q-020 and Q-022. No statewide fee figure is established for the existing-case petition.\n\n**Disposition:** `CONDITIONAL — SOURCE GATE`.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-032",
-      "reportQuestionId": "Q-026",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-noncustodial",
-      "affectedElement": "packet_components",
-      "normalizedQuestionTextHash": "8498dbf971458d5e34a59e3cab7565ea7924cede55c9af7c713b0315a43e0ee0",
-      "reportSectionHash": "91137a3495d28003d5b730dc4d41e6c6f4b974a665fb3e66d3225716ef011de2",
-      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
-      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Same as Q-021 and Q-023. Use a custom criminal-case in-forma-pauperis affidavit/application and proposed order.",
-      "holdingSha256": "32ece8bd2462edd647209d834debf009b0249749deee4cdf629484659a55ae82",
-      "productRuleSections": [],
-      "controllingProductDecision": "Custom criminal-case IFP papers",
-      "reportDisposition": "ARTIFACT REVIEW STILL REQUIRED",
-      "deliveryDisposition": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
-      "reportLineStart": 678,
-      "reportLineEnd": 684,
-      "completeSectionText": "### Q-026 — `ne-setaside-noncustodial`\n\n**Holding:** Same as Q-021 and Q-023. Use a custom criminal-case in-forma-pauperis affidavit/application and proposed order.\n\n**Disposition:** legal design complete; `ARTIFACT REVIEW STILL REQUIRED`.\n\n---"
     },
     {
       "registerQuestionId": "Q-033",
@@ -1319,76 +1086,6 @@
       "completeSectionText": "### Q-037 — `sd_sis_sealing`\n\n**Holding:** Sealing under SDCL § 23A-27-17 is the court’s mandatory duty when a person is discharged and the matter dismissed under § 23A-27-14. There is no ordinary participant motion that triggers the initial sealing.\n\nThe correct product is:\n\n```text\nexpected sealing at discharge/dismissal\n→ verify court access status\n→ written implementation request in original case\n→ motion to enforce § 23A-27-17 if not corrected\n→ attorney handoff for refusal or mandamus\n```\n\nDo not use a form designed for a separate arrest-expungement statute as a fallback.\n\nThe initial written request should attach the discharge/dismissal order and ask the clerk or sentencing judge to enter and implement the statutorily required sealing order. If judicial relief is needed, file in the original criminal docket.\n\n**Disposition:** `RELEASE — GUIDANCE`; an enforcement-motion template may be built, but a contested court refusal is `ATTORNEY / PARTNER HANDOFF`.\n\n---"
     },
     {
-      "registerQuestionId": "Q-045",
-      "reportQuestionId": "Q-038",
-      "jurisdiction": "VA",
-      "trackId": "va_exp_absolute_pardon",
-      "affectedElement": "governing_mechanism",
-      "normalizedQuestionTextHash": "6ec1cc535e5e477668bf634e2c785092f23a608d7012bece77a01c455bb93e50",
-      "reportSectionHash": "187d981a76253dbb5f8e39a4be7cd9aa2a475401c0a02eb5990c86eed6e6a2b8",
-      "memoPath": "data/record-clearing/legal-design-intake/VA.memo.json",
-      "memoSha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
-      "reviewedThrough": "2026-08-28",
-      "holding": "An absolute pardon based on innocence is implemented through a mandatory intergovernmental process, not a participant-filed expungement petition.\n\nThe Secretary of the Commonwealth transmits the absolute pardon to the circuit court under § 2.2-402. The court then enters the expungement order under § 19.2-392.2. The participant does not need to prove manifest injustice, pay a petition fee, or serve a new civil action.",
-      "holdingSha256": "1af7ef7cd4d281fb505283e8987c6978b29aa1d1fef0bbf93fe37e5f0ffd2e6f",
-      "productRuleSections": [
-        {
-          "label": "Product workflow",
-          "text": "**Product workflow:**\n\n```text\nverify absolute innocence pardon\n→ confirm transmission to circuit court\n→ track entry of expungement order\n→ written clerk/Secretary implementation request if delayed\n→ attorney handoff only if the pardon’s scope or implementation is disputed\n```\n\nDo not convert this into the ordinary petition route used for nonconvictions.",
-          "value": "```text\nverify absolute innocence pardon\n→ confirm transmission to circuit court\n→ track entry of expungement order\n→ written clerk/Secretary implementation request if delayed\n→ attorney handoff only if the pardon’s scope or implementation is disputed\n```\n\nDo not convert this into the ordinary petition route used for nonconvictions.",
-          "sha256": "81e382c59c8fda02f965924f3383ee9f3408eff3c48234463b844b0ab482241f"
-        }
-      ],
-      "controllingProductDecision": "Pardon implementation, no participant petition",
-      "reportDisposition": "RELEASE — GUIDANCE",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_GUIDANCE",
-      "reportLineStart": 921,
-      "reportLineEnd": 943,
-      "completeSectionText": "### Q-038 — `va_exp_absolute_pardon`\n\n**Holding:** An absolute pardon based on innocence is implemented through a mandatory intergovernmental process, not a participant-filed expungement petition.\n\nThe Secretary of the Commonwealth transmits the absolute pardon to the circuit court under § 2.2-402. The court then enters the expungement order under § 19.2-392.2. The participant does not need to prove manifest injustice, pay a petition fee, or serve a new civil action.\n\n**Product workflow:**\n\n```text\nverify absolute innocence pardon\n→ confirm transmission to circuit court\n→ track entry of expungement order\n→ written clerk/Secretary implementation request if delayed\n→ attorney handoff only if the pardon’s scope or implementation is disputed\n```\n\nDo not convert this into the ordinary petition route used for nonconvictions.\n\n**Disposition:** `RELEASE — GUIDANCE`.\n\nThe Virginia chapter must still be re-read before the December 1, 2026 and July 1, 2027 future-effective amendments.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-046",
-      "reportQuestionId": "Q-039",
-      "jurisdiction": "VA",
-      "trackId": "va_seal_ancillary_matter_only",
-      "affectedElement": "governing_mechanism",
-      "normalizedQuestionTextHash": "6ec1cc535e5e477668bf634e2c785092f23a608d7012bece77a01c455bb93e50",
-      "reportSectionHash": "0fbcfa025b13b82dac7180b3968b908331fdc2b51e4642802f760132c1777358",
-      "memoPath": "data/record-clearing/legal-design-intake/VA.memo.json",
-      "memoSha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Section 19.2-392.12:1(B) creates a distinct participant petition for an ancillary matter after the underlying criminal charge or conviction has already been sealed by a qualifying mechanism.\n\nThe petition is filed in the **circuit court where the underlying criminal matter was disposed of**. No filing fee applies. The Commonwealth is the adverse party, and a copy is delivered or mailed as the statute directs. The participant should obtain and submit the criminal-history material needed to establish the predicate seal. A hearing is discretionary; when the statutory predicate is established, the court shall seal the ancillary matter.\n\nThe packet should include:\n\n- petition identifying the ancillary matter;\n- underlying sealed case and statutory sealing basis;\n- proof/order of underlying sealing;\n- criminal-history request/result;\n- proposed order;\n- Commonwealth notice/certificate; and\n- a narrow custodian list.",
-      "holdingSha256": "db306e027b0c702296268e81e8de9f5730e422205773b9e88f9fd5bb80e21f44",
-      "productRuleSections": [],
-      "controllingProductDecision": "No-fee ancillary-matter petition",
-      "reportDisposition": "RELEASE — PACKET",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_PACKET",
-      "reportLineStart": 945,
-      "reportLineEnd": 963,
-      "completeSectionText": "### Q-039 — `va_seal_ancillary_matter_only`\n\n**Holding:** Section 19.2-392.12:1(B) creates a distinct participant petition for an ancillary matter after the underlying criminal charge or conviction has already been sealed by a qualifying mechanism.\n\nThe petition is filed in the **circuit court where the underlying criminal matter was disposed of**. No filing fee applies. The Commonwealth is the adverse party, and a copy is delivered or mailed as the statute directs. The participant should obtain and submit the criminal-history material needed to establish the predicate seal. A hearing is discretionary; when the statutory predicate is established, the court shall seal the ancillary matter.\n\nThe packet should include:\n\n- petition identifying the ancillary matter;\n- underlying sealed case and statutory sealing basis;\n- proof/order of underlying sealing;\n- criminal-history request/result;\n- proposed order;\n- Commonwealth notice/certificate; and\n- a narrow custodian list.\n\n**Disposition:** `RELEASE — PACKET`, with scheduled statutory re-read dates.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-047",
-      "reportQuestionId": "Q-040",
-      "jurisdiction": "WV",
-      "trackId": "wv_acc_treatment_job_readiness",
-      "affectedElement": "waiting_period",
-      "normalizedQuestionTextHash": "b6fca1701800b7742be06fbf09edce0b9a1782ac30a364d9c5647a431e7a6513",
-      "reportSectionHash": "1ccd6e5489b24811b25d843965718fecee075b9561b26c0b8200a9ef638ff083",
-      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
-      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Job-readiness graduation is an independent alternative to 90 days of treatment or recovery compliance, but the accelerated timing applies only to the statute’s **single-misdemeanor** branch.\n\nSection 61-11-26a(a)(1) uses “or”:\n\n- 90 days of successful compliance with an approved treatment, recovery, and counseling program; **or**\n- completion of an approved job-readiness adult training course;\n\nfollowed by completion of incarceration or supervision, whichever is later. A job-readiness graduate does not also need 90 days in a treatment program.\n\nThe conviction-level limits matter:\n\n- **single misdemeanor:** may use the accelerated treatment-or-graduation trigger after sentence/supervision completion;\n- **multiple misdemeanors:** still must wait one year after the latest of conviction, incarceration, or supervision;\n- **eligible nonviolent felony:** still must wait three years after the latest of conviction, incarceration, or supervision.\n\nThe product must not apply the single-misdemeanor acceleration to the multiple-misdemeanor or felony branches.",
-      "holdingSha256": "86b7fc1a2c453e2a2dd53fcd935f13c81411725192c39048fd02f872f4c587f4",
-      "productRuleSections": [],
-      "controllingProductDecision": "Job-readiness is an OR trigger for single misdemeanor only",
-      "reportDisposition": "RELEASE — PACKET",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_PACKET",
-      "reportLineStart": 967,
-      "reportLineEnd": 988,
-      "completeSectionText": "### Q-040 — `wv_acc_treatment_job_readiness`\n\n**Holding:** Job-readiness graduation is an independent alternative to 90 days of treatment or recovery compliance, but the accelerated timing applies only to the statute’s **single-misdemeanor** branch.\n\nSection 61-11-26a(a)(1) uses “or”:\n\n- 90 days of successful compliance with an approved treatment, recovery, and counseling program; **or**\n- completion of an approved job-readiness adult training course;\n\nfollowed by completion of incarceration or supervision, whichever is later. A job-readiness graduate does not also need 90 days in a treatment program.\n\nThe conviction-level limits matter:\n\n- **single misdemeanor:** may use the accelerated treatment-or-graduation trigger after sentence/supervision completion;\n- **multiple misdemeanors:** still must wait one year after the latest of conviction, incarceration, or supervision;\n- **eligible nonviolent felony:** still must wait three years after the latest of conviction, incarceration, or supervision.\n\nThe product must not apply the single-misdemeanor acceleration to the multiple-misdemeanor or felony branches.\n\n**Disposition:** `RELEASE — PACKET`. Use an OR branch for treatment versus job readiness, followed by a separate conviction-level timing gate.\n\n---"
-    },
-    {
       "registerQuestionId": "Q-048",
       "reportQuestionId": "Q-041",
       "jurisdiction": "WV",
@@ -1569,34 +1266,6 @@
       "reportLineStart": 1097,
       "reportLineEnd": 1116,
       "completeSectionText": "### Q-048 — `wv_nc_diversion_deferred`\n\n**Holding:** SCA-C903 alone is not the correct complete vehicle for a deferred-adjudication or diversion dismissal.\n\nThe current statute calls for a civil petition and contains facts not captured by SCA-C903, including the deferred-adjudication basis, same-transaction or occurrence recital, and the relevant plea/dismissal carve-outs. The official form’s caption “for Reasons Other than Entry of a Plea” also makes it a poor standalone fit for a disposition involving an entered and later withdrawn plea.\n\nUse a **custom civil petition under current § 61-11-25**, or the official form accompanied by a full statutory supplemental petition only if the receiving court confirms that practice. Include:\n\n- underlying case and disposition;\n- deferred-adjudication/diversion statute;\n- compliance and dismissal records;\n- 60-day timing calculation when applicable;\n- same-transaction statement;\n- statement addressing any plea to another offense;\n- proposed order;\n- civil service and custodian list.\n\n**Disposition:** legal design complete; `ARTIFACT REVIEW STILL REQUIRED`. A custom petition is preferred.\n\n---"
-    },
-    {
-      "registerQuestionId": "Q-056",
-      "reportQuestionId": "Q-049",
-      "jurisdiction": "WV",
-      "trackId": "wv_pardon_expungement",
-      "affectedElement": "legal_effect_or_warning",
-      "normalizedQuestionTextHash": "a9abeb822385c86ec82613592b7b929d2778e16a72fd91d0ddccc7b5ba2faf8f",
-      "reportSectionHash": "01e9f1d02a81f1b66bb51aa98315f36857ccc8d060360db0208da3a9e87019bf",
-      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
-      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
-      "reviewedThrough": "2026-08-28",
-      "holding": "Section 5-1-16a(b) does not create a general “the event never occurred” rule or a universal right to deny the record to ordinary employers.\n\nThe statute expressly prohibits consideration of the expunged record in:\n\n1. an application to a West Virginia educational institution; and\n2. an application for a license required by a West Virginia professional organization.\n\nUnlike §§ 61-11-25 and 61-11-26, it does not state that the proceeding is deemed never to have occurred or provide a broad nondisclosure rule.",
-      "holdingSha256": "c0ff449ddb572a990d9945c59de1b333db78fcbced4b0d90913a2b7395fdd7b1",
-      "productRuleSections": [
-        {
-          "label": "Participant instruction",
-          "text": "**Participant instruction:**\n\n- the public record is expunged as the order directs;\n- the statute expressly protects the two listed application contexts;\n- do not advise a participant to answer “no” to every ordinary-employment question;\n- answer the question exactly as phrased and obtain counsel for federal, security-clearance, firearm, immigration, or profession-specific disclosure duties.",
-          "value": "- the public record is expunged as the order directs;\n- the statute expressly protects the two listed application contexts;\n- do not advise a participant to answer “no” to every ordinary-employment question;\n- answer the question exactly as phrased and obtain counsel for federal, security-clearance, firearm, immigration, or profession-specific disclosure duties.",
-          "sha256": "8346addcbb6a68a88a270a8f387886349190de9cc7c8c84a3bf2cb1a72086e7b"
-        }
-      ],
-      "controllingProductDecision": "Narrow statutory effect; no universal nondisclosure",
-      "reportDisposition": "RELEASE — GUIDANCE",
-      "deliveryDisposition": "LEGAL_DECISION_RESOLVED_GUIDANCE",
-      "reportLineStart": 1118,
-      "reportLineEnd": 1138,
-      "completeSectionText": "### Q-049 — `wv_pardon_expungement`\n\n**Holding:** Section 5-1-16a(b) does not create a general “the event never occurred” rule or a universal right to deny the record to ordinary employers.\n\nThe statute expressly prohibits consideration of the expunged record in:\n\n1. an application to a West Virginia educational institution; and\n2. an application for a license required by a West Virginia professional organization.\n\nUnlike §§ 61-11-25 and 61-11-26, it does not state that the proceeding is deemed never to have occurred or provide a broad nondisclosure rule.\n\n**Participant instruction:**\n\n- the public record is expunged as the order directs;\n- the statute expressly protects the two listed application contexts;\n- do not advise a participant to answer “no” to every ordinary-employment question;\n- answer the question exactly as phrased and obtain counsel for federal, security-clearance, firearm, immigration, or profession-specific disclosure duties.\n\n**Disposition:** `RELEASE — GUIDANCE` with a narrow effects statement.\n\n---"
     }
   ],
   "researchTrackDecisions": [

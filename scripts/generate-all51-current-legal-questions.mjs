@@ -21,6 +21,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
 
 const OUT_JSON = "data/record-clearing/all51-current-legal-questions.json";
+const QUESTION_ID_LEDGER = "data/record-clearing/all51-legal-question-ids.json";
 const OUT_MD = "docs/record-clearing/ALL51_CURRENT_LEGAL_QUESTIONS.md";
 const MEMO_DIR = "data/record-clearing/legal-design-intake";
 
@@ -114,6 +115,30 @@ const TUPLE_BASELINE = {
       reversedBy: "SC-2026-08-28-PTI-SOLICITOR-ADMINISTERED",
       reason: "Batch A briefly added this tuple: giving SC:diversion-or-program-completion-expungement a route contract bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join, and the track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question. The signed reclassification of 2026-08-28 then removed the pathway from the paid denominator, so the join no longer reaches it and the tuple is gone. The entry is kept at zero rather than deleted: the tuple existed, and a denominator that silently returns to its old value hides the fact that it moved twice."
     }
+  ],
+  /**
+   * Departures, named, for the same reason additions are.
+   *
+   * A ledger tuple is a (track, open question, pathway) reached through the
+   * paid-pathway legal join. Fourteen went away at once when the ratification
+   * registry replaced the compiled profiles' independently editable snapshot:
+   * thirty-nine routes were carrying counsel's ratification in the evaluator
+   * and NOT in the compiled copy, so they sat in the legal-review queue with
+   * open questions attached. Recording the ratification that counsel had
+   * already made answers those questions; it does not delete them. Each keeps
+   * its identity in data/record-clearing/all51-legal-question-ids.json and is
+   * listed as retired in the national-report crosswalk.
+   *
+   * The distinction that matters: a question leaves this ledger by being
+   * answered, never by the route it hangs on quietly becoming unreachable.
+   */
+  departures: [
+    {
+      cause: "ratification-registry-correction-2026-08-28",
+      tuples: 14,
+      reason: "Thirty-nine ratified_deployable routes left the legal-review queue because their counsel ratification is now recorded rather than lost to a stale compiled snapshot. Fourteen ledger tuples went with them. The questions are answered and keep their ids; see data/record-clearing/all51-legal-question-ids.json and the crosswalk's retiredFromTheLiveRegister block.",
+      evidence: "data/record-clearing/legal-decisions/route-ratification-registry.json"
+    }
   ]
 };
 
@@ -184,8 +209,36 @@ const questions = [...uniqueQuestions.values()].sort(
   (a, b) => a.jurisdiction.localeCompare(b.jurisdiction) || a.trackId.localeCompare(b.trackId)
 );
 
-questions.forEach((entry, index) => {
-  entry.questionId = `Q-${String(index + 1).padStart(3, "0")}`;
+/**
+ * Ids come from a durable ledger, never from array position.
+ *
+ * This used to be `Q-${index + 1}` over the sorted live set, so any change to
+ * which questions are open silently re-pointed every id after the first change.
+ * When the ratification correction removed thirty-nine routes from the
+ * legal-review queue, thirty-seven of the fifty-six ids changed meaning: Q-004
+ * stopped being one Kentucky question and became another, Q-011 stopped being a
+ * Maine question and became a Missouri one. Every crosswalk row and decision
+ * record citing those ids was pointing at a different question than the one it
+ * was written about.
+ *
+ * The national-report crosswalk states the rule this now follows: position in
+ * an array is not identity. An id is keyed to a question's track and its exact
+ * text, it is never reused, and a question that leaves the live register keeps
+ * it — because the records that cite it still mean the question it named.
+ */
+const questionIdLedger = readJson(QUESTION_ID_LEDGER);
+let highestAssigned = questionIdLedger.highestAssigned;
+const newlyAssigned = [];
+questions.forEach((entry) => {
+  const identity = `${entry.trackId}||${entry.question}`;
+  let assigned = questionIdLedger.ids[identity];
+  if (!assigned) {
+    highestAssigned += 1;
+    assigned = `Q-${String(highestAssigned).padStart(3, "0")}`;
+    questionIdLedger.ids[identity] = assigned;
+    newlyAssigned.push({ identity, questionId: assigned });
+  }
+  entry.questionId = assigned;
   const track = trackById.get(entry.trackId) ?? null;
   const pathways = joinByTrack.get(entry.trackId) ?? [];
   entry.legalName = track?.legalName ?? null;
@@ -708,9 +761,11 @@ if (CHECK) {
   // The published tuple count was 53. It may move, but only by additions this
   // register names. A queue whose denominator grows quietly is a queue nobody
   // can audit.
-  const expectedTuples = TUPLE_BASELINE.count + TUPLE_BASELINE.additions.reduce((a, x) => a + x.tuples, 0);
+  const expectedTuples = TUPLE_BASELINE.count
+  + TUPLE_BASELINE.additions.reduce((total, addition) => total + addition.tuples, 0)
+  - TUPLE_BASELINE.departures.reduce((total, departure) => total + departure.tuples, 0);
   if (register.denominator.historicalLedgerTuples !== expectedTuples) {
-    problems.push(`ledger tuples ${register.denominator.historicalLedgerTuples}; baseline ${TUPLE_BASELINE.count} plus ${expectedTuples - TUPLE_BASELINE.count} accounted addition(s) is ${expectedTuples}`);
+    problems.push(`ledger tuples ${register.denominator.historicalLedgerTuples}; baseline ${TUPLE_BASELINE.count} plus ${TUPLE_BASELINE.additions.reduce((t, a) => t + a.tuples, 0)} accounted addition(s) less ${TUPLE_BASELINE.departures.reduce((t, d) => t + d.tuples, 0)} accounted departure(s) is ${expectedTuples}`);
   }
   for (const addition of TUPLE_BASELINE.additions) {
     const found = tuples.filter((t) => addition.pathwayKeys.includes(t.pathwayKey) && t.trackId === addition.trackId).length;

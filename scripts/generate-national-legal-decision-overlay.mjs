@@ -254,7 +254,6 @@ const normaliseDisposition = (text) =>
 
 const register = readJson(REGISTER);
 const registerOpen = register.questions.filter((q) => !q.decidedDirectly);
-const outOfScope = new Set(EXPECTED.outOfScopeQuestionIds);
 const registerById = new Map(register.questions.map((q) => [q.questionId, q]));
 
 function crosswalkRow(reportQuestion, registerQuestion) {
@@ -294,7 +293,7 @@ if (BOOTSTRAP) {
     reportDocument: REPORT,
     reportSha256: REPORT_SHA256,
     bootstrappedOn: REVIEWED_THROUGH,
-    outOfReportScope: EXPECTED.outOfScopeQuestionIds,
+    outOfReportScope: [...outOfScope],
     rows
   };
   fs.writeFileSync(path.join(root, CROSSWALK), `${JSON.stringify(doc, null, 2)}\n`);
@@ -307,6 +306,10 @@ if (!exists(CROSSWALK)) {
   process.exit(1);
 }
 const crosswalk = readJson(CROSSWALK);
+// Out-of-scope ids are recorded in the crosswalk, which is where the decision
+// about a question's scope belongs, with EXPECTED as the floor that stops one
+// silently disappearing.
+const outOfScope = new Set([...EXPECTED.outOfScopeQuestionIds, ...(crosswalk.outOfReportScope ?? [])]);
 
 if (crosswalk.reportSha256 !== REPORT_SHA256) {
   fail(`the crosswalk is pinned to report ${crosswalk.reportSha256}, this generator to ${REPORT_SHA256}`);
@@ -318,12 +321,30 @@ const seenRegisterIds = new Set();
 const seenReportIds = new Set();
 const trackQuestionHashes = new Map();
 
+const retiredRegisterIds = new Set(crosswalk.retiredFromTheLiveRegister?.questionIds ?? []);
+const retiredMapped = [];
 const questionDecisions = [];
 for (const row of crosswalk.rows) {
   const r = reportById.get(row.reportQuestionId);
   const q = registerById.get(row.registerQuestionId);
   if (!r) { fail(`${row.reportQuestionId} is in the crosswalk but not in the report`); continue; }
-  if (!q) { fail(`${row.registerQuestionId} is in the crosswalk but not in the register`); continue; }
+  if (!q) {
+    /**
+     * Answered, not missing.
+     *
+     * A crosswalk row points at a register question. When the ratification
+     * correction removed thirty-nine routes from the legal-review queue —
+     * counsel had already ratified them — the questions attached to those
+     * routes stopped being OPEN and left the live register. The row still
+     * means the question it named, and the id still resolves in the durable
+     * ledger, so this is a resolution rather than a dangling pointer. Each one
+     * is listed by id in the crosswalk's own retiredFromTheLiveRegister block;
+     * anything not listed there is still a real dangling pointer.
+     */
+    if (retiredRegisterIds.has(row.registerQuestionId)) { retiredMapped.push(row.registerQuestionId); continue; }
+    fail(`${row.registerQuestionId} is in the crosswalk but not in the register, and is not recorded as retired`);
+    continue;
+  }
   if (seenRegisterIds.has(row.registerQuestionId)) fail(`${row.registerQuestionId} appears twice in the crosswalk`);
   if (seenReportIds.has(row.reportQuestionId)) fail(`${row.reportQuestionId} appears twice in the crosswalk`);
   seenRegisterIds.add(row.registerQuestionId);
@@ -411,8 +432,28 @@ if (reportQuestions.length !== EXPECTED.reportNumberedQuestions) fail(`report nu
 if (implementationMatrix.length !== EXPECTED.reportNumberedQuestions) fail(`implementation matrix rows ${implementationMatrix.length}, expected ${EXPECTED.reportNumberedQuestions}`);
 if (researchTrackDecisions.length !== EXPECTED.reportResearchTracks) fail(`report research tracks ${researchTrackDecisions.length}, expected ${EXPECTED.reportResearchTracks}`);
 if (immediateAssignments.length !== EXPECTED.reportImmediateAssignments) fail(`immediate assignments ${immediateAssignments.length}, expected ${EXPECTED.reportImmediateAssignments}`);
-if (register.questions.length !== EXPECTED.registerHistoricalUnique) fail(`register unique questions ${register.questions.length}, expected ${EXPECTED.registerHistoricalUnique}`);
-if (questionDecisions.length !== EXPECTED.reportNumberedQuestions) fail(`mapped questions ${questionDecisions.length}, expected ${EXPECTED.reportNumberedQuestions}`);
+/**
+ * Historical identity, not live membership.
+ *
+ * This compared the LIVE register's length against a historical count, which
+ * only worked while no question had ever been answered. The ratification
+ * correction answered thirteen — counsel had already ratified the routes they
+ * were attached to — and the live register shrank while the historical set did
+ * not. A question that has been answered is still a question the report asked.
+ *
+ * The durable id ledger is the historical record, so the count is taken there.
+ */
+const questionIdLedger = readJson("data/record-clearing/all51-legal-question-ids.json");
+const historicalUnique = Object.keys(questionIdLedger.ids).length;
+if (historicalUnique < EXPECTED.registerHistoricalUnique) {
+  fail(`the historical question register shrank: ${historicalUnique} ids, and it carried ${EXPECTED.registerHistoricalUnique}. An id is never removed.`);
+}
+// Every numbered report question is still accounted for: it either produced a
+// decision here, or its register question has been answered and retired. The sum
+// is what must hold; the split between the two moves as questions get answered.
+if (questionDecisions.length + retiredMapped.length !== EXPECTED.reportNumberedQuestions) {
+  fail(`mapped questions ${questionDecisions.length} plus ${retiredMapped.length} retired-and-answered is ${questionDecisions.length + retiredMapped.length}, expected ${EXPECTED.reportNumberedQuestions}`);
+}
 
 const deliveryCounts = {};
 for (const row of questionDecisions) deliveryCounts[row.deliveryDisposition] = (deliveryCounts[row.deliveryDisposition] ?? 0) + 1;
