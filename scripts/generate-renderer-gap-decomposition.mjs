@@ -20,6 +20,15 @@ const MEMO_DIR = "data/record-clearing/legal-design-intake";
 
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(root, rel), "utf8"));
 const closure = readJson("data/rcap-ledger/sellable-pathway-closure.json");
+const factoryV2 = readJson("data/record-clearing/factory-v2-route-registry.json");
+
+// The factory_v2 registry already records, per route, whether every build input
+// is met and whether a preserved legacy generator owns the jurisdiction. A route
+// with no unmet build inputs that factory_v2 declines only because the legacy
+// generator owns its jurisdiction is not missing a renderer: AGENTS.md requires
+// those generators be preserved, so factory_v2 standing aside is the intended
+// division of work, not a gap.
+const factoryV2ByKey = new Map((factoryV2.routes ?? []).map((r) => [r.pathwayKey, r]));
 const legalJoin = readJson("data/rcap-ledger/paid-pathway-legal-join.json");
 const launchGraph = readJson("data/rcap-ledger/launch-graph.json");
 
@@ -50,6 +59,7 @@ const rows = closure.pathways
     const strategies = [...new Set(tracks.map((t) => t.outputStrategy).filter(Boolean))];
     const packetIntended = strategies.some((s) => PACKET_STRATEGIES.has(s));
     const statement = (pathway.openBlockers ?? []).find((b) => b.id === "renderer_unavailable")?.statement ?? "";
+    const f2 = factoryV2ByKey.get(pathway.pathwayKey) ?? null;
 
     let classification;
     let reason;
@@ -66,6 +76,10 @@ const rows = closure.pathways
       classification = "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED";
       reason = `factory_v2 admits this route and a recorded treatment suppresses it: ${suppressedBy.get(pathway.pathwayKey)}. The renderer is not missing; the route is held closed on purpose.`;
       remedy = "None as renderer work. Revisit only if the treatment that suppresses it is lifted.";
+    } else if (f2 && f2.legacyGeneratorOwnsThisJurisdiction === true && (f2.unmetBuildInputs ?? []).length === 0) {
+      classification = "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION";
+      reason = `Every factory_v2 build input is met (unmetBuildInputs is empty) and factory_v2 declines this route solely because a preserved legacy generator owns ${pathway.jurisdiction}. AGENTS.md requires those generators be preserved, so this is the intended division of work.`;
+      remedy = "None as renderer work. The legacy generator renders this jurisdiction and must not be broken.";
     } else {
       classification = "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE";
       reason = `The memo records outputStrategy ${strategies.join(", ")}, which is packet-capable, while the runtime resolver reports routeKind=${pathway.route?.routeKind}, and no treatment suppresses it. Memo and runtime disagree.`;
@@ -81,6 +95,13 @@ const rows = closure.pathways
       memoOutputStrategies: strategies,
       resolverStatement: statement,
       suppressedBy: suppressedBy.get(pathway.pathwayKey) ?? null,
+      factoryV2: f2
+        ? {
+            resolves: f2.factoryV2Resolves ?? null,
+            legacyGeneratorOwnsThisJurisdiction: f2.legacyGeneratorOwnsThisJurisdiction ?? null,
+            unmetBuildInputs: f2.unmetBuildInputs ?? []
+          }
+        : null,
       classification,
       reason,
       remedy
@@ -106,6 +127,12 @@ const register = {
   },
   total: rows.length,
   counts,
+  // The question the whole register was built to answer. Every other
+  // classification names a cause that is not a missing renderer, so this is the
+  // count of pathways for which a renderer actually has to be written. If it is
+  // ever non-zero, those pathways are the real renderer backlog and the rows
+  // below name them.
+  rendererWorkRemaining: counts.PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE ?? 0,
   rows
 };
 
@@ -115,6 +142,18 @@ const serialized = `${JSON.stringify(register, null, 2)}\n`;
 if (CHECK) {
   const problems = [];
   if (Object.values(counts).reduce((a, b) => a + b, 0) !== rows.length) problems.push("classifications do not sum");
+  // Every row must carry a cause. A row classified as real renderer work has to
+  // survive the two tests that emptied this class: no preserved legacy generator
+  // owning its jurisdiction with all build inputs met, and no recorded treatment
+  // suppressing it.
+  for (const row of rows.filter((r) => r.classification === "PACKET_INTENDED_BUT_ROUTE_RESOLVES_TO_GUIDANCE")) {
+    if (row.factoryV2?.legacyGeneratorOwnsThisJurisdiction === true && (row.factoryV2.unmetBuildInputs ?? []).length === 0) {
+      problems.push(`${row.pathwayKey} is counted as renderer work while a preserved legacy generator owns its jurisdiction with every build input met`);
+    }
+    if (row.suppressedBy) {
+      problems.push(`${row.pathwayKey} is counted as renderer work while treatment ${row.suppressedBy} suppresses it`);
+    }
+  }
   for (const [rel, expected] of [[OUT_JSON, serialized], [OUT_MD, markdown]]) {
     const abs = path.join(root, rel);
     if (!fs.existsSync(abs)) problems.push(`${rel} has not been generated`);
@@ -142,7 +181,7 @@ function renderMarkdown(data) {
   L.push("");
   L.push("**Generated by** `scripts/generate-renderer-gap-decomposition.mjs`. Do not edit by hand.");
   L.push("");
-  L.push(`${data.total} pathways carry the blocker. They are ${Object.keys(data.counts).length} different problems, and only one of them is a renderer.`);
+  L.push(`${data.total} pathways carry the blocker. They are ${Object.keys(data.counts).length} different problems, and ${data.rendererWorkRemaining === 0 ? "**none of them is a missing renderer**" : `**${data.rendererWorkRemaining} of them ${data.rendererWorkRemaining === 1 ? "is" : "are"} a missing renderer**`}.`);
   L.push("");
   L.push("| Classification | Pathways |");
   L.push("|---|---:|");
