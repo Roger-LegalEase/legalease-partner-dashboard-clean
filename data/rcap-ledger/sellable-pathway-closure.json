@@ -1928,9 +1928,7 @@
       }
     ]
   },
-  "unclassifiedPathways": [
-    "GA:retroactive-first-offender-treatment-under-42-8-66"
-  ],
+  "unclassifiedPathways": [],
   "stageSets": {
     "intendedSellablePathways": [
       "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
@@ -6439,24 +6437,22 @@
       "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
       "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
       "category": "paid_packet_intended",
-      "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+      "categoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
       "classification": {
         "category": "paid_packet_intended",
-        "categoryBasis": "No product classification evidence exists for this pathway; it is held in the paid denominator until an evidenced classification is recorded.",
+        "categoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
         "evidence": {
           "routeType": "court_filing",
-          "productRouteType": null,
-          "userFiled": null,
-          "currentlyOperative": null,
-          "paidRouteBlocker": null,
+          "productRouteType": "court_petition",
+          "userFiled": true,
+          "currentlyOperative": true,
+          "paidRouteBlocker": "artifact_generation_and_review",
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
           "tracks": [
             "ga-rfo"
           ],
           "trackTreatments": [],
-          "filingEvidence": [],
-          "unclassified": true,
-          "filingDeterminationMissing": true
+          "filingEvidence": []
         }
       },
       "route": {
@@ -6483,11 +6479,6 @@
       },
       "openBlockers": [
         {
-          "id": "unclassified_route",
-          "severity": "blocking",
-          "statement": "This compiled pathway has no row in route-product-metadata.json, so no product decision exists for it."
-        },
-        {
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
@@ -6498,7 +6489,14 @@
           "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
-      "routeMetadata": null
+      "routeMetadata": {
+        "productRouteType": "court_petition",
+        "userFiled": true,
+        "paymentProductEligible": false,
+        "packetFulfillmentStatus": "not_ready",
+        "paidRouteBlocker": "artifact_generation_and_review",
+        "checkoutEligibility": "ineligible"
+      }
     },
     {
       "pathwayKey": "GA:sb-288-misdemeanor-conviction-restriction-and-sealing",
@@ -6581,7 +6579,6 @@
           "paidRouteBlocker": "legal_reconfirmation",
           "packetPlanMode": "state_specific_custom_packet_from_source_rules",
           "tracks": [
-            "ga-rfo",
             "ga-seal-m"
           ],
           "trackTreatments": [],
@@ -6593,7 +6590,7 @@
         "rendererKind": "packet_document_v1",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "GA youthful-first-offender-restriction-route builds through the shared packet factory from packet set ga-rfo-set, ga-seal-m-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "GA youthful-first-offender-restriction-route builds through the shared packet factory from packet set ga-seal-m-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "lawrence": {
         "status": "hold_guidance",

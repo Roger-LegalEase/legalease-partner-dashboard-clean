@@ -2,11 +2,7 @@
   "schemaVersion": "2.0.0",
   "profileVersion": "2026-06-19-source-conversion-1",
   "questionLifecycle": {
-    "routeConsumers": {
-      "twenty_first_birthday": [
-        "first-minor-in-possession-alcohol-expungement-under-311-326"
-      ]
-    },
+    "routeConsumers": {},
     "exactPacketFactIds": [
       "disposition_date",
       "arrest_date",
@@ -476,6 +472,15 @@
       "required": false,
       "source": "shared_filing_identity",
       "helperText": "also called a docket, cause, or arrest number — it's on your court paperwork"
+    },
+    {
+      "id": "twenty_first_birthday",
+      "stage": "packet_information",
+      "prompt": "What is your date of birth?",
+      "type": "date",
+      "required": false,
+      "source": "mo_311_326_eligibility_clock",
+      "helperText": "Asked once, after you claim your matter. The § 311.326 one-year eligibility date is worked out from it; you are never asked for the same date twice."
     }
   ],
   "caseOutcomeOptions": [
@@ -1334,7 +1339,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "not less than one year after the person's twenty-first birthday"
+        "not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication."
       ],
       "exclusionRules": [
         "Wilma must screen for statutory exclusions before giving any",
@@ -1384,12 +1389,13 @@
           "value": 1,
           "unit": "years",
           "anchorFactId": "twenty_first_birthday",
-          "anchorText": "not less than one year after the person's twenty-first birthday"
+          "anchorText": "not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication."
         },
         "requiredFacts": [
           "Is the judgment expressly under Mo. Rev. Stat. § 311.325, or under a county or municipal ordinance?",
           "If an ordinance, does it expressly adopt the § 311.326 remedy, or does it merely mirror the substantive offence?",
-          "Date of birth and date the person turned twenty-one?",
+          "Free screening: was the person's twenty-first birthday at least one year ago? (approximate threshold, never an exact date)",
+          "After authentication: date of birth, collected once, from which the twenty-first birthday and the one-year eligibility date are derived server-side",
           "Which circuit court sentenced the person, and in which division?",
           "What is the original criminal case number and judgment?",
           "Any later alcohol-related offence?",
@@ -1397,8 +1403,7 @@
         ],
         "screeningFactIds": [
           "case_outcome",
-          "offense_level",
-          "twenty_first_birthday"
+          "offense_level"
         ],
         "exclusions": [
           "One-time relief only",
@@ -1412,6 +1417,22 @@
           "Reference to the original criminal case, judgment and sentencing division",
           "Proposed order",
           "Certified disposition where the judgment is ambiguous"
+        ],
+        "packetReleasePreconditions": [
+          {
+            "id": "twenty_first_birthday",
+            "requires": "the twenty-first birthday, derived server-side from a date of birth collected once after authentication and bound to the participant-owned matter",
+            "satisfiedWhen": {
+              "operator": "date_before",
+              "factId": "twenty_first_birthday",
+              "value": "2025-08-28",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "whenUnsatisfied": "fail_closed_guidance",
+            "collectedAt": "final_verification",
+            "note": "The one-year clock runs from this date, so it must be exact and it must be ours rather than recalled. Free screening asks one approximate threshold question and never an exact date; after authentication the date of birth is collected ONCE and the twenty-first birthday is derived from it server-side, bound to the matter and its final-verification snapshot. The participant is never asked to type the same date twice."
+          }
         ],
         "deliveryGates": [
           {
@@ -1571,7 +1592,7 @@
           "packetCreditsConsumed": 1,
           "note": "The merits petition is a real participant filing and is sellable in principle. It stays closed today because six receiving-clerk configuration gates are open, not because the route forbids selling."
         },
-        "notes": "Report correction 2, LA-IMM-02. The merits petition is built; the clerk-confirmation gate is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were. The absence of a dedicated case-type code does not defeat the statutory remedy; it prevents releasing universal administrative instructions without a clerk-practice gate. This decision is scoped to § 311.326 and must not be extended to mo-610-130 or any other Missouri route without its own evidence."
+        "notes": "Report correction 2, LA-IMM-02. The merits petition is built; the clerk-confirmation gate is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were. The absence of a dedicated case-type code does not defeat the statutory remedy; it prevents releasing universal administrative instructions without a clerk-practice gate. This decision is scoped to § 311.326 and must not be extended to mo-610-130 or any other Missouri route without its own evidence. SCREENING: the previous anchor named twenty_first_birthday, a fact no Missouri profile publishes as a question, so the one-year clock could never evaluate against anything. Screening now turns on one approximate threshold (mo_311_326_one_year_past_twenty_first_birthday) and the exact eligibility date is a final-verification precondition derived from a single post-authentication date of birth. Zero exact date questions in free screening."
       }
     },
     {
@@ -2264,7 +2285,7 @@
           "convicted_other",
           "juvenile"
         ],
-        "sourceConditionText": "not less than one year after the person's twenty-first birthday",
+        "sourceConditionText": "not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication.",
         "duration": {
           "value": 1,
           "unit": "years",
@@ -2443,7 +2464,7 @@
     },
     {
       "id": "authority-first-minor-in-possession-alcohol-expungement-under-311-326",
-      "ruleText": "Mo. Rev. Stat. § 311.326 — not less than one year after the person's twenty-first birthday",
+      "ruleText": "Mo. Rev. Stat. § 311.326 — not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication.",
       "duration": {
         "value": 1,
         "unit": "years",
@@ -2452,8 +2473,7 @@
       "anchor": "twenty_first_birthday",
       "fieldsReferenced": [
         "case_outcome",
-        "offense_level",
-        "twenty_first_birthday"
+        "offense_level"
       ]
     },
     {

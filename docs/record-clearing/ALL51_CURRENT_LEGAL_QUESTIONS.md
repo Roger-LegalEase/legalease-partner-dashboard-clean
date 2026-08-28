@@ -44,7 +44,7 @@ Answered by `data/record-clearing/legal-decisions/2026-08-28-controlling-decisio
 
 ### LA-IMM-01 — GA `ga-rfo`
 
-- **PATHWAYS:** `GA:retroactive-first-offender-treatment-under-42-8-66`, `GA:youthful-first-offender-restriction-route`
+- **PATHWAYS:** `GA:retroactive-first-offender-treatment-under-42-8-66`
 - **PACKET FAMILIES:** rcap-ga-guidance-implementation
 - **QUESTION:** Whether counsel approves a distinct post-consent packet stage for the § 42-8-66 petition — that is, a custom_pleading unit that generates the petition only after the participant has obtained the prosecuting attorney's written consent. The petition itself is legally identifiable and the framework is recorded on this track. The adopted memorandum makes the stage conditional on counsel's later approval, which has not been given, so direct delivery remains disabled.
 - **CONTROLLING AUTHORITIES:** O.C.G.A. § 42-8-66(a)(1); O.C.G.A. § 42-8-66(a)(2); O.C.G.A. § 42-8-66(b); O.C.G.A. § 42-8-66(c); O.C.G.A. § 42-8-66(d); O.C.G.A. § 42-8-66(e); O.C.G.A. § 42-8-66(f); O.C.G.A. § 42-8-66(g); O.C.G.A. § 42-8-66(h)
@@ -54,7 +54,7 @@ Answered by `data/record-clearing/legal-decisions/2026-08-28-controlling-decisio
 - **OPTIONS:** (1) Approve a distinct post-consent custom_pleading stage that generates the petition only after the participant holds the prosecuting attorney's written consent. (2) Keep the route as process guidance and consent support with no generated petition. (3) Approve the petition stage with a named limitation on when it may be offered.
 - **RECOMMENDED INTERIM TREATMENT:** Continue serving process guidance and consent support, with no generated petition and no payment, until the stage is approved.
 - **EXACT DECISION REQUESTED:** Does counsel approve a distinct post-consent packet stage for the O.C.G.A. § 42-8-66 retroactive first offender petition, generated only after the participant has obtained the prosecuting attorney's written consent?
-- **AFFECTED ROUTES:** 2
+- **AFFECTED ROUTES:** 1
 - **ENGINEERING CHANGE AFTER ANSWER:** If approved: register the post-consent custom_pleading unit, bridge it to the GA family and render. If declined: record the guidance disposition and close the route to packet generation permanently.
 - **PAYMENT CURRENTLY DISABLED:** true
 - **GENERATION CURRENTLY DISABLED:** true

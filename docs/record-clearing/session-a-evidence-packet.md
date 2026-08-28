@@ -9,7 +9,7 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | working_tree | `7734642078327ce6…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `5b2bdc9fa9d8e648…` |
 | `packetFamilyBridge` | working_tree | `527fd4baa11dee8e…` |
 | `trackSourceRelationships` | working_tree | `8376337488a0e07e…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
@@ -27,11 +27,11 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 152 | **152** now carry an exact packet set |
-| `approved_by_decision_owner` | 71 | unchanged |
+| `family_bridge_missing_no_family` | 153 | **153** now carry an exact packet set |
+| `approved_by_decision_owner` | 70 | unchanged |
 | `family_bridge_missing_no_track` | 40 | unchanged |
 
-**152** pathways move from "no track-to-family bridge" to a named packet set.
+**153** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
@@ -50,7 +50,7 @@ explicitly named registry gap.
 - Adoption `EXT-ADOPT-01-standing-external-counsel-adoption`, adopted **2026-08-08**, scope `packet_family`, sha256 `7bea6b4c78cde50a…`
 - Bound families: **57** across **45** jurisdictions
 - Completed-output packet proofs read: **59**
-- Pathways carrying completed-output evidence by exact track id: **71**
+- Pathways carrying completed-output evidence by exact track id: **70**
 
 Each record carries the assembled artifact filename, sha256, page count, the verifier that
 passed it, whether its family is adopted, and whether that family carries a superseded
@@ -73,8 +73,8 @@ Approved by **Roger Roman** under `auth-2026-08-19-owner-legal-approval-complete
 
 | Basis | Pathways |
 |---|---|
-| `owner_approved_existing_legal_design_packet_set` | 152 |
-| `owner_approved_packet_family` | 71 |
+| `owner_approved_existing_legal_design_packet_set` | 153 |
+| `owner_approved_packet_family` | 70 |
 | `registry_gap_no_track` | 35 |
 | `owner_approved_exception_annex` | 5 |
 

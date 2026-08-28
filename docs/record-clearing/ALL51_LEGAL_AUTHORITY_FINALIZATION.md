@@ -187,11 +187,10 @@ This directory is an import, not a second editable source of truth. Corrections 
 
 ## 5. LA-01, validated row by row
 
-Submitted: 10. True reconfirmations: 3. Reclassified: 7.
+Submitted: 9. True reconfirmations: 2. Reclassified: 7.
 
 | Pathway | Track | Substantive trigger | Classification |
 |---|---|---|---|
-| `GA:youthful-first-offender-restriction-route` | ga-rfo, ga-seal-m | changed_or_undecided_output_strategy | LEGAL_RECONFIRMATION_REQUIRED |
 | `IN:conviction-expungement-with-records-marked-expunged` | in_conviction_felony, in_conviction_serious_felony | none found | APPROVAL_NOT_LINKED |
 | `MO:first-minor-in-possession-alcohol-expungement-under-311-326` | mo-311-326-minor-in-possession | changed_or_undecided_filing_process | LEGAL_RECONFIRMATION_REQUIRED |
 | `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | nd-nonconviction-auto-close-verify | changed_or_undecided_filing_process | LEGAL_RECONFIRMATION_REQUIRED |

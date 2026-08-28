@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6"
+    "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,7 +17,7 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6"
+      "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -67,20 +67,20 @@
   "totals": {
     "pathways": 263,
     "sessionADispositions": {
-      "family_bridge_missing_no_family": 152,
-      "approved_by_decision_owner": 71,
+      "family_bridge_missing_no_family": 153,
+      "approved_by_decision_owner": 70,
       "family_bridge_missing_no_track": 40
     },
     "registryClassifications": {
       "exact_track_and_packet_set": 223,
       "registry_gap_no_track": 40
     },
-    "bridgeImportResolved": 152,
-    "pathwaysWithCompletedOutputEvidence": 71,
+    "bridgeImportResolved": 153,
+    "pathwaysWithCompletedOutputEvidence": 70,
     "ownerApprovedLegal": 228,
     "ownerApprovalBases": {
-      "owner_approved_existing_legal_design_packet_set": 152,
-      "owner_approved_packet_family": 71,
+      "owner_approved_existing_legal_design_packet_set": 153,
+      "owner_approved_packet_family": 70,
       "registry_gap_no_track": 35,
       "owner_approved_exception_annex": 5
     },
@@ -105,7 +105,7 @@
       "trackCount": 497,
       "scope": "every registry track"
     },
-    "effect": "Session A's join reported 152 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 152 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
+    "effect": "Session A's join reported 153 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 153 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
     "stillUnbridgeable": 40
   },
   "ownerLegalDecision": {
@@ -8637,15 +8637,12 @@
       "pathwayId": "youthful-first-offender-restriction-route",
       "pathwayLabel": "Youthful / first-offender restriction route",
       "sessionAGraph": {
-        "disposition": "approved_by_decision_owner",
-        "statement": "Roger Roman approved the completed output of rcap-ga-guidance-implementation on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ga-seal-m map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [
-          "ga-rfo",
           "ga-seal-m"
         ],
-        "packetFamilies": [
-          "rcap-ga-guidance-implementation"
-        ],
+        "packetFamilies": [],
         "lawrenceRatification": "hold_guidance_only",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
@@ -8655,90 +8652,6 @@
         "scope": "all 497 registry tracks",
         "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
         "packetSets": [
-          {
-            "packetSetId": "ga-rfo-set",
-            "trackId": "ga-rfo",
-            "version": "1.0.0",
-            "components": [
-              {
-                "componentId": "ga-rfo-process-guidance-1",
-                "role": "process_guidance",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "ga-rfo-process-guidance-2",
-                "role": "process_guidance",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              }
-            ],
-            "requiredBeforeFiling": [
-              "Obtain The sentencing record and plea paperwork from the original case. Ask the clerk of the convicting court for the sentencing record, the plea transcript or plea paperwork, and the final disposition. These are what an attorney or legal-aid desk will need to assess the eligibility claim and approach the prosecuting attorney.",
-              "Check your answer to \"On what date were you sentenced?\" against The sentencing record and plea paperwork from the original case, and correct the packet if they disagree.",
-              "Not reached on this route as currently offered. No participant document is generated.",
-              "There shall be no filing fee charged for a petition filed pursuant to O.C.G.A. § 42-8-66, per § 42-8-66(h).",
-              "none needed — the statute prohibits a filing fee"
-            ],
-            "participantActionRequired": [
-              {
-                "kind": "obtain_document",
-                "description": "Obtain The sentencing record and plea paperwork from the original case. Ask the clerk of the convicting court for the sentencing record, the plea transcript or plea paperwork, and the final disposition. These are what an attorney or legal-aid desk will need to assess the eligibility claim and approach the prosecuting attorney.",
-                "obtainedFrom": "Clerk of the convicting court",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"On what date were you sentenced?\" against The sentencing record and plea paperwork from the original case, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Your own Georgia criminal history report. GBI's guidance says a Georgia criminal history record can be obtained from most sheriff's offices or police departments, with requirements varying by agency. LegalEase never collects, inspects or authenticates it.",
-                "obtainedFrom": "Most Georgia sheriff's offices and police departments, or GCIC",
-                "requirement": "conditional",
-                "conditionDescription": "Where the participant relies on it or the court expects it.",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "sign",
-                "description": "Not reached on this route as currently offered. No participant document is generated.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "pay_fee",
-                "description": "There shall be no filing fee charged for a petition filed pursuant to O.C.G.A. § 42-8-66, per § 42-8-66(h).",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "apply_fee_waiver",
-                "description": "none needed — the statute prohibits a filing fee",
-                "requirement": "conditional",
-                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "serve_party",
-                "description": "Not reached. Nothing is served because nothing is filed without consent.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "file",
-                "description": "Nothing may be filed until the prosecuting attorney's advance consent is obtained. Once it is, the petition is filed in the court in which the individual was convicted. LegalEase does not obtain consent and does not file.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              }
-            ]
-          },
           {
             "packetSetId": "ga-seal-m-set",
             "trackId": "ga-seal-m",
@@ -8889,13 +8802,14 @@
       },
       "registryClassification": {
         "kind": "exact_track_and_packet_set",
-        "statement": "Tracks ga-rfo, ga-seal-m map to this pathway and each carries an exact packet set (ga-rfo-set, ga-seal-m-set)."
+        "statement": "Tracks ga-seal-m map to this pathway and each carries an exact packet set (ga-seal-m-set)."
       },
       "bridgeImportEffect": {
-        "changed": false,
-        "sessionADisposition": "approved_by_decision_owner",
-        "sessionAReason": "Roger Roman approved the completed output of rcap-ga-guidance-implementation on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
-        "afterImport": "approved_by_decision_owner"
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ga-seal-m map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
       },
       "adoptionJoin": {
         "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
@@ -8912,32 +8826,10 @@
             "carriesSupersededTechnicalResult": false
           }
         ],
-        "sessionAAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "sessionABoundFamilyEvidence": [
-          {
-            "familyJobId": "rcap-ga-guidance-implementation",
-            "jurisdiction": "GA",
-            "packetProofSha256": "407b05a4ac9555d5f544d3c6ef19fcb61bba306629870fadd906f9a2e1079621",
-            "legalDesignMemoSha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183"
-          }
-        ]
+        "sessionAAdoptionRecordId": null,
+        "sessionABoundFamilyEvidence": []
       },
-      "completedOutput": [
-        {
-          "trackId": "ga-rfo",
-          "jobId": "rcap-ga-guidance-implementation",
-          "jurisdiction": "GA",
-          "completionCommit": "de0e2debc59aab9f82672876c42c9d542f3bcb18",
-          "authorityEdition": "1.2",
-          "verifierResult": "passed",
-          "verifierPath": "scripts/verify-rcap-georgia-guidance-implementation.mjs",
-          "assembledFileName": "ga-rfo-technical-fixture.pdf",
-          "assembledSha256": "3a2f6fed5036bafd82c8be6da990514e01722f7fc2f4b68cf6e4c11939630e46",
-          "assembledPageCount": 6,
-          "familyIsAdopted": true,
-          "familyCarriesSupersededTechnicalResult": false
-        }
-      ],
+      "completedOutput": [],
       "problematicPdfAssets": [],
       "publicWitness": {
         "publicRoute": "/expungement-ai/screening/georgia",
@@ -8982,12 +8874,12 @@
       },
       "ownerApprovedLegal": {
         "status": "approved_by_decision_owner",
-        "basis": "owner_approved_packet_family",
+        "basis": "owner_approved_existing_legal_design_packet_set",
         "escalationRequired": false,
-        "packetFamilies": [
-          "rcap-ga-guidance-implementation"
+        "packetSetIds": [
+          "ga-seal-m-set"
         ],
-        "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-ga-guidance-implementation, the packet family this pathway resolves to."
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ga-seal-m-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. GA additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {

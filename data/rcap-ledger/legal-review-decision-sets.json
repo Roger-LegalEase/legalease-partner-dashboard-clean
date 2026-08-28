@@ -18,10 +18,10 @@
   },
   "pathwayRowsReviewed": 216,
   "classificationCounts": {
-    "ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL": 130,
+    "ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL": 131,
     "EXISTING_APPROVAL_NOT_LINKED": 53,
     "IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION": 23,
-    "LEGAL_RECONFIRMATION_REQUIRED": 10
+    "LEGAL_RECONFIRMATION_REQUIRED": 9
   },
   "distinctDecisionSets": 4,
   "duplicateRowsCollapsed": 212,
@@ -32,7 +32,6 @@
       "classification": "LEGAL_RECONFIRMATION_REQUIRED",
       "title": "Reconfirm counsel ratification for routes whose ratification is no longer current",
       "jurisdictions": [
-        "GA",
         "IN",
         "MO",
         "ND",
@@ -43,8 +42,8 @@
         "TN",
         "WV"
       ],
-      "jurisdictionCount": 10,
-      "affectedPathwayRows": 10,
+      "jurisdictionCount": 9,
+      "affectedPathwayRows": 9,
       "affectedVariants": [
         "factory_v2/packet_document_v1",
         "guidance_only/none"
@@ -63,12 +62,11 @@
       "legalOwner": "Lawrence Blackmon",
       "engineeringOwner": "None until the reconfirmation lands.",
       "engineeringDeltaAfterDecision": "Record the reconfirmation in the authorization queue and regenerate the join and the closure ledger. No packet or renderer work follows from a clean reconfirmation.",
-      "packetGenerationCurrentlyDisabled": "5 of 10 rows do not render today; payment is closed for all 10.",
-      "paymentCurrentlyDisabled": "All 10 rows.",
-      "duplicateDecisionsCollapsed": 9,
+      "packetGenerationCurrentlyDisabled": "5 of 9 rows do not render today; payment is closed for all 9.",
+      "paymentCurrentlyDisabled": "All 9 rows.",
+      "duplicateDecisionsCollapsed": 8,
       "requiresLegalAssignment": true,
       "pathwayKeys": [
-        "GA:youthful-first-offender-restriction-route",
         "IN:conviction-expungement-with-records-marked-expunged",
         "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
         "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
@@ -298,7 +296,7 @@
         "WV"
       ],
       "jurisdictionCount": 38,
-      "affectedPathwayRows": 130,
+      "affectedPathwayRows": 131,
       "affectedVariants": [
         "exact_supported_deferral/none",
         "factory_v2/packet_document_v1",
@@ -318,9 +316,9 @@
       "legalOwner": "None. There is no artifact to review.",
       "engineeringOwner": "RCAP packet factory",
       "engineeringDeltaAfterDecision": "Packet family construction or a non-packet service disposition per pathway.",
-      "packetGenerationCurrentlyDisabled": "28 of 130 rows do not render today; payment is closed for all 130.",
-      "paymentCurrentlyDisabled": "All 130 rows.",
-      "duplicateDecisionsCollapsed": 129,
+      "packetGenerationCurrentlyDisabled": "28 of 131 rows do not render today; payment is closed for all 131.",
+      "paymentCurrentlyDisabled": "All 131 rows.",
+      "duplicateDecisionsCollapsed": 130,
       "requiresLegalAssignment": false,
       "pathwayKeys": [
         "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
@@ -337,6 +335,7 @@
         "FL:human-trafficking-victim-expunction-943-0583",
         "GA:non-conviction-record-restriction-through-the-agency-prosecutor-process",
         "GA:restriction-and-sealing-of-a-pardoned-felony",
+        "GA:youthful-first-offender-restriction-route",
         "HI:nonconviction-arrest-expungement",
         "IL:human-trafficking-survivor-vacatur-and-expungement",
         "IN:conviction-expungement-with-sealed-confidential-access",
@@ -1179,19 +1178,16 @@
         "successfullyRendered": true
       },
       "registryTrackIds": [
-        "ga-rfo",
         "ga-seal-m"
       ],
-      "packetFamilies": [
-        "rcap-ga-guidance-implementation"
-      ],
-      "legalStatus": "approved_by_decision_owner",
-      "disposition": "approved_by_decision_owner",
+      "packetFamilies": [],
+      "legalStatus": "owner_approval_pending",
+      "disposition": "family_bridge_missing_no_family",
       "namedLegalActionRequired": false,
-      "familyBridgePresent": true,
-      "onlyPathwayProjectionMissing": true,
-      "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-      "reason": "The decision owner's approval reaches this pathway's packet family, but counsel ratification of the route is not current."
+      "familyBridgePresent": false,
+      "onlyPathwayProjectionMissing": false,
+      "classification": "ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL",
+      "reason": "No packet family is reachable from this pathway, so no owner decision reaches it either."
     },
     {
       "pathwayKey": "HI:deferred-acceptance-one-year",

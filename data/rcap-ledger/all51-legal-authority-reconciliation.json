@@ -58,21 +58,20 @@
   },
   "pathwayRows": 216,
   "classificationCounts": {
-    "NO_TRACK_TO_FAMILY_BRIDGE": 119,
+    "NO_TRACK_TO_FAMILY_BRIDGE": 120,
     "TECHNICAL_BLOCKER": 45,
     "NO_PATHWAY_TO_TRACK_BRIDGE": 34,
-    "LEGAL_RECONFIRMATION_REQUIRED": 10,
     "APPROVAL_NOT_LINKED": 3,
-    "SOURCE_BLOCKER": 5
+    "SOURCE_BLOCKER": 5,
+    "LEGAL_RECONFIRMATION_REQUIRED": 9
   },
   "distinctLegalTeamAssignments": 1,
   "legalAssignments": [
     {
       "assignmentId": "LA-01",
       "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-      "affectedPathwayRows": 10,
+      "affectedPathwayRows": 9,
       "jurisdictions": [
-        "GA",
         "IN",
         "MO",
         "ND",
@@ -84,8 +83,6 @@
         "WV"
       ],
       "trackIds": [
-        "ga-rfo",
-        "ga-seal-m",
         "in_conviction_felony",
         "in_conviction_serious_felony",
         "mo-311-326-minor-in-possession",
@@ -99,7 +96,6 @@
       ],
       "legalOwner": "Lawrence Blackmon",
       "pathwayKeys": [
-        "GA:youthful-first-offender-restriction-route",
         "IN:conviction-expungement-with-records-marked-expunged",
         "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
         "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
@@ -1043,7 +1039,6 @@
       "pathwayKey": "GA:youthful-first-offender-restriction-route",
       "pathwayLabel": "Youthful / first-offender restriction route",
       "trackIds": [
-        "ga-rfo",
         "ga-seal-m"
       ],
       "legalMemoPaths": [
@@ -1055,37 +1050,27 @@
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-08-02",
       "controllingAuthority": [
-        "O.C.G.A. § 42-8-66(a)(1)",
-        "O.C.G.A. § 42-8-66(a)(2)",
-        "O.C.G.A. § 42-8-66(b)",
-        "O.C.G.A. § 42-8-66(c)",
-        "O.C.G.A. § 42-8-66(d)",
-        "O.C.G.A. § 42-8-66(e)",
-        "O.C.G.A. § 42-8-66(f)",
-        "O.C.G.A. § 42-8-66(g)",
-        "O.C.G.A. § 42-8-66(h)",
         "O.C.G.A. § 35-3-37(m)",
         "O.C.G.A. § 35-3-37(m)(1)",
-        "O.C.G.A. § 35-3-37(t)"
+        "O.C.G.A. § 35-3-37(t)",
+        "O.C.G.A. § 35-3-37(v)"
       ],
-      "openLegalDesignBlocker": 3,
+      "openLegalDesignBlocker": 2,
       "counselConfirmationQuestions": 0,
       "sourceAcquisitionQuestions": 2,
       "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-ga-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
+      "packetFamily": [],
+      "familyBridgePresent": false,
       "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
+      "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-08-02",
       "technicalStatus": "no technical blocker open",
       "visualStatus": "pending",
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
-      "actualRemainingBlocker": "Reconfirm that counsel ratification is current.",
-      "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-      "reason": "The legal design is adopted and the completed output is approved, but counsel ratification of this route is not current."
+      "actualRemainingBlocker": "Bridge ga-seal-m to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "HI",

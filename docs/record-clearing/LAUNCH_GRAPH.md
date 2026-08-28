@@ -20,7 +20,7 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | NON-CONVERGING WITNESSES | 0 |
 | EXACT TRACK + PACKET SET | 223 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
-| OWNER-APPROVED LEGAL | 96 |
+| OWNER-APPROVED LEGAL | 95 |
 | FACTORY_V2 RESOLVED | 171 |
 | PAYMENT ALLOWED | 31 |
 | DETERMINISTICALLY RENDERED (complete packet) | 40 |
@@ -38,8 +38,8 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 |---|---:|
 | `paymentAllowed` | 232 |
 | `deterministicArtifactProven` | 223 |
-| `technicalApprovalCurrent` | 192 |
-| `ownerApprovedLegalDesign` | 167 |
+| `technicalApprovalCurrent` | 193 |
+| `ownerApprovedLegalDesign` | 168 |
 | `rendererSelected` | 61 |
 | `packetSpecificationComplete` | 40 |
 | `noProblematicPdfHold` | 19 |

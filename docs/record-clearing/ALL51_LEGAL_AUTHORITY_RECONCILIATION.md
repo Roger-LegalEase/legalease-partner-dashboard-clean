@@ -24,10 +24,10 @@ measured against every authority layer that already exists.
 
 | Classification | Rows |
 |---|---:|
-| NO_TRACK_TO_FAMILY_BRIDGE | 119 |
+| NO_TRACK_TO_FAMILY_BRIDGE | 120 |
 | TECHNICAL_BLOCKER | 45 |
 | NO_PATHWAY_TO_TRACK_BRIDGE | 34 |
-| LEGAL_RECONFIRMATION_REQUIRED | 10 |
+| LEGAL_RECONFIRMATION_REQUIRED | 9 |
 | SOURCE_BLOCKER | 5 |
 | APPROVAL_NOT_LINKED | 3 |
 | **TOTAL** | **216** |
@@ -36,9 +36,9 @@ measured against every authority layer that already exists.
 
 ### LA-01 — LEGAL_RECONFIRMATION_REQUIRED
 
-- **Affected pathway rows:** 10
-- **Jurisdictions:** GA IN MO ND NH NV RI SD TN WV
-- **Track IDs:** ga-rfo, ga-seal-m, in_conviction_felony, in_conviction_serious_felony, mo-311-326-minor-in-possession, nd-nonconviction-auto-close-verify, nh_auto_vacated, nv_seal_deferred, ri_filed_complaints, sd_diversion, tn_judicial_diversion, wv_drug_conditional_discharge
+- **Affected pathway rows:** 9
+- **Jurisdictions:** IN MO ND NH NV RI SD TN WV
+- **Track IDs:** in_conviction_felony, in_conviction_serious_felony, mo-311-326-minor-in-possession, nd-nonconviction-auto-close-verify, nh_auto_vacated, nv_seal_deferred, ri_filed_complaints, sd_diversion, tn_judicial_diversion, wv_drug_conditional_discharge
 - **Legal owner:** Lawrence Blackmon
 
 ## Every row
@@ -70,7 +70,7 @@ measured against every authority layer that already exists.
 | GA | `non-conviction-record-restriction-through-the-agency-prosecutor-process` | ga-nonconv-pre2013 | legal_design_approved_with_limitations | 2026-08-02 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ga-nonconv-pre2013 to a packet family, or record the pathway as a non-packet service outcome. |
 | GA | `restriction-and-sealing-of-a-pardoned-felony` | ga-pardon-j7, ga-seal-m | legal_design_approved_with_limitations | 2026-08-02 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ga-pardon-j7, ga-seal-m to a packet family, or record the pathway as a non-packet service outcome. |
 | GA | `retroactive-first-offender-treatment-under-42-8-66` | ga-rfo | legal_design_approved_with_limitations | 2026-08-02 | yes | TECHNICAL_BLOCKER | renderer_unavailable |
-| GA | `youthful-first-offender-restriction-route` | ga-rfo, ga-seal-m | legal_design_approved_with_limitations | 2026-08-02 | yes | LEGAL_RECONFIRMATION_REQUIRED | Reconfirm that counsel ratification is current. |
+| GA | `youthful-first-offender-restriction-route` | ga-seal-m | legal_design_approved_with_limitations | 2026-08-02 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ga-seal-m to a packet family, or record the pathway as a non-packet service outcome. |
 | HI | `deferred-acceptance-one-year` | hi_dag_danc_expungement | legal_design_approved_with_limitations | 2026-07-30 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge hi_dag_danc_expungement to a packet family, or record the pathway as a non-packet service outcome. |
 | HI | `deferred-prostitution-three-year` | hi_712_1200_deferred_expungement | legal_design_approved_with_limitations | 2026-07-30 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge hi_712_1200_deferred_expungement to a packet family, or record the pathway as a non-packet service outcome. |
 | HI | `dui-under-21-conviction` | hi_under_21_dui_expungement | legal_design_approved_with_limitations | 2026-08-08 | yes | APPROVAL_NOT_LINKED | Project the recorded approval into the closure ledger. |

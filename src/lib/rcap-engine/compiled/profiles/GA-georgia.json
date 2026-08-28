@@ -1264,6 +1264,42 @@
             "note": "O.C.G.A. § 42-8-66 makes consent a condition that must exist BEFORE the individual files. Absence is never satisfaction: silence, refusal, an unanswered request and 'no known objection' each leave the precondition unmet, and each produces an attorney or prosecutor handoff rather than a petition. Collected at authenticated intake and proved at final verification against the document itself, never in anonymous screening."
           }
         ],
+        "deliveryGates": [
+          {
+            "id": "ga_42_8_66_petition_family_build",
+            "kind": "artifact_generation",
+            "items": [
+              "petition specification for the § 42-8-66 retroactive First Offender petition",
+              "written consent / joinder component",
+              "proposed order component",
+              "hearing-election component",
+              "service or local-notice component",
+              "supporting-record checklist component",
+              "packet-information facts",
+              "field map",
+              "renderer binding",
+              "deterministic fixture"
+            ],
+            "owner": "RCAP packet factory",
+            "statusSource": "server_artifact_record",
+            "evidenceReference": "pending: the ga-rfo packet set carries two process_guidance components and no petition. Its own text reads 'Not reached on this route as currently offered. No participant document is generated.'",
+            "note": "The § 42-8-66 petition family does not exist yet. This gate is why the route is identified and not deliverable, and it must not be closed by pointing at the guidance family."
+          },
+          {
+            "id": "ga_42_8_66_candidate_and_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "candidate artifact",
+              "artifact hash",
+              "visual review",
+              "completed-output approval"
+            ],
+            "owner": "RCAP packet factory, then artifact-level counsel review",
+            "statusSource": "server_approval_record",
+            "evidenceReference": "pending: no candidate artifact or hash exists for this family",
+            "note": "Completed-output approval must be given for THIS petition family. The route previously associated with rcap-ga-guidance-implementation, and a guidance family's approval says nothing about a petition nobody has rendered."
+          }
+        ],
         "serviceBranches": [
           {
             "id": "order_already_granted_post_2026_07_01",
@@ -1308,6 +1344,7 @@
             "note": "An order already granted is not re-petitioned whatever its date. The route is implementation and verification."
           }
         ],
+        "artifactApprovalRequired": true,
         "failureDisposition": [
           {
             "id": "ga_consent_refused",
@@ -1351,7 +1388,7 @@
           "packetCreditsConsumed": 1,
           "note": "A real participant petition, sellable once verified written consent exists. The consent precondition, not the posture, is what holds it closed."
         },
-        "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures."
+        "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures. PACKET FAMILY: this route names its own family, Georgia § 42-8-66 Retroactive First Offender Petition, and does not inherit rcap-ga-guidance-implementation. The ga-rfo packet set was written when the route was guidance-only and carries two process_guidance components; no completed-output approval from it may be carried into a petition. Both output gates are open, so the legal route is resolved, the packet path is identified, and payment, sponsorship and participant delivery are all closed."
       }
     }
   ],

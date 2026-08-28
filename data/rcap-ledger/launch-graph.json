@@ -12,14 +12,14 @@
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "d65ff17a5e37b35beacef75b28698e3eeaed3ef3e8ccb9cd8f82be17634d566c",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6",
+    "data/rcap-ledger/sellable-pathway-closure.json": "0a996b2f47c5bb5e07b040293ca75fcb84865501e1c5acfa35ee111dfc04c8ed",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4",
     "data/record-clearing/legal-design-packet-set-manifests.json": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9",
     "data/rcap-ledger/public-witness-answer-sets.json": "635119cd2bf3f66da83bb3e7c74a287508ac3a0ac91529b5ef63d31ff3f60d19",
-    "data/record-clearing/factory-v2-route-registry.json": "74bea49d6e79db12b53d3541cf3256f9650355ad02741444b46bbbbb81dc3525",
+    "data/record-clearing/factory-v2-route-registry.json": "da572e42e6592696dff41bb91c52fbeadd9fd36a5e0784cf0bc282b0899854b9",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "cd1c5f918c3df6065ee508296d4c86bce0fa5bd34b03f9f074a6e11f1bf53d9e"
+    "data/rcap-ledger/session-a-evidence-packet.json": "547469654de2cd35be473f87ee9a79f27f0eac9dbd6cd6b3fb367f94d3c78fc1"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -50,7 +50,7 @@
     "exactTrackAndPacketSet": 223,
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
-    "ownerApprovedLegal": 96,
+    "ownerApprovedLegal": 95,
     "factoryV2Selected": 171,
     "factoryV2Resolved": 171,
     "factoryV2AdmittedButSuppressed": [
@@ -74,8 +74,8 @@
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
-    "ownerApprovedLegalDesign": 167,
-    "technicalApprovalCurrent": 192,
+    "ownerApprovedLegalDesign": 168,
+    "technicalApprovalCurrent": 193,
     "deterministicArtifactProven": 223,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 232,
@@ -3974,33 +3974,25 @@
         "profileVersion": "2026-06-19-source-conversion-1"
       },
       "registryTracks": [
-        "ga-rfo",
         "ga-seal-m"
       ],
       "registryGap": false,
       "pathwayLevelPacketRecord": null,
-      "packetFamilies": [
-        "rcap-ga-guidance-implementation"
-      ],
+      "packetFamilies": [],
       "packetSets": [
-        {
-          "packetSetId": "ga-rfo-set",
-          "trackId": "ga-rfo",
-          "components": 2
-        },
         {
           "packetSetId": "ga-seal-m-set",
           "trackId": "ga-seal-m",
           "components": 6
         }
       ],
-      "ownerApprovedLegalStatus": "approved_by_decision_owner",
+      "ownerApprovedLegalStatus": "owner_approval_pending",
       "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-      "legalBasis": "owner_approved_packet_family",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
         "complete": true,
-        "componentCount": 8,
-        "participantActionsRequired": 20
+        "componentCount": 6,
+        "participantActionsRequired": 12
       },
       "sourceAssets": {
         "officialFormIdsNamed": [],
@@ -4008,10 +4000,8 @@
         "allNamedSourcesHeld": false
       },
       "technicalStatus": {
-        "completedOutputVerifierResults": [
-          "passed"
-        ],
-        "current": true
+        "completedOutputVerifierResults": [],
+        "current": false
       },
       "pdfStatus": {
         "problematicAssets": [],
@@ -4021,10 +4011,9 @@
         "routeKind": "factory_v2",
         "rendererKind": "packet_document_v1",
         "packetSetIds": [
-          "ga-rfo-set",
           "ga-seal-m-set"
         ],
-        "reason": "GA youthful-first-offender-restriction-route builds through the shared packet factory from packet set ga-rfo-set, ga-seal-m-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "GA youthful-first-offender-restriction-route builds through the shared packet factory from packet set ga-seal-m-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -4057,14 +4046,16 @@
         "authoritativeIntendedPathway": true,
         "paymentAllowed": false,
         "packetSpecificationComplete": true,
-        "ownerApprovedLegalDesign": true,
-        "technicalApprovalCurrent": true,
+        "ownerApprovedLegalDesign": false,
+        "technicalApprovalCurrent": false,
         "rendererSelected": true,
         "deterministicArtifactProven": true,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
-        "paymentAllowed"
+        "paymentAllowed",
+        "ownerApprovedLegalDesign",
+        "technicalApprovalCurrent"
       ],
       "operationallySellable": false
     },

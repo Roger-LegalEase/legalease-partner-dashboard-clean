@@ -1,18 +1,27 @@
 {
-  "schemaVersion": 1,
-  "purpose": "Canonical route identity, without renaming a stored pathway id. A pathway id appears in saved matters, witness fixtures, closure rows, crosswalk adjudications and packet render jobs, so renaming one in place breaks every stored reference to it. An alias records the correct identity beside the legacy id and leaves the legacy id resolvable until no stored or generated dependency remains.",
-  "rule": "A legacy id may be removed only when nothing references it. Until then both resolve, and the canonical id is the one shown to participants and used in new legal names.",
-  "aliases": [
+  "schemaVersion": 2,
+  "purpose": "Legacy-matter revalidation, NOT route aliasing. An alias asserts two ids name the same thing. GA:youthful-first-offender-restriction-route and GA:retroactive-first-offender-treatment-under-42-8-66 are different statutory mechanisms, so an alias between them would be false and would redirect genuine matters on one route to the other.",
+  "rule": "A legacy matter is migrated only when its own saved facts prove which mechanism it represented. Re-evaluation is deterministic and idempotent: running it twice migrates nothing new, and a matter that cannot be proven stays where it is with its history intact.",
+  "aliases": [],
+  "revalidations": [
     {
-      "legacyPathwayId": "youthful-first-offender-restriction-route",
+      "id": "GA-2026-08-28-42-8-66-SPLIT",
       "jurisdiction": "GA",
-      "canonicalPathwayId": "retroactive-first-offender-treatment-under-42-8-66",
-      "reason": "O.C.G.A. § 42-8-66 is not limited to youthful offenders, so the legacy id misdescribes the mechanism it was bound to. The national legal decision report of 2026-08-28 names the accurate identity.",
-      "legacyIdStillGoverns": "O.C.G.A. § 42-8-62.1 first-offender restriction and sealing, contracted under LD-GA-01. The legacy pathway keeps that contract; it is a different statute and is not being renamed away.",
-      "participantFacingName": "Retroactive First Offender treatment under O.C.G.A. § 42-8-66",
-      "legalName": "Petition for Retroactive First Offender Treatment, Exoneration and Discharge",
-      "removalCondition": "Remove the legacy id only when no saved matter, witness fixture, closure row, crosswalk adjudication or render job references it.",
-      "controllingDecision": "NATIONAL-2026-08-28-LA-IMM-01"
+      "legacyPathwayId": "youthful-first-offender-restriction-route",
+      "candidatePathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "controllingDecision": "NATIONAL-2026-08-28-LA-IMM-01",
+      "whyNotAnAlias": "The two routes govern different statutes. O.C.G.A. § 42-8-66 is retroactive First Offender treatment, exoneration and discharge; the legacy route's contract asserts § 42-8-62.1 first-offender restriction and sealing. Treating them as one identity would move § 42-8-62.1 matters onto a petition that does not govern them.",
+      "migrateOnlyWhen": {
+        "operator": "all",
+        "conditions": [
+          { "operator": "equals", "factId": "ga_legacy_matter_mechanism", "value": "retroactive_first_offender_42_8_66", "requiredProvenance": "verified_record" },
+          { "operator": "exists", "factId": "ga_legacy_matter_saved_facts_snapshot", "requiredProvenance": "verified_record" }
+        ]
+      },
+      "preserveWhen": "The saved facts do not prove the matter represented § 42-8-66. Those matters stay on the legacy route with their history unchanged.",
+      "neverDo": "Do not rewrite matter history. A migrated matter records both the route it was created on and the route it was revalidated to, with the evaluation that proved it.",
+      "idempotence": "Migration is keyed on the matter's recorded revalidationId. A matter already carrying GA-2026-08-28-42-8-66-SPLIT is skipped, so re-running migrates nothing new.",
+      "openRouteIdentityDefect": "No Georgia pathway's own text cites § 42-8-62.1 or § 42-8-62.2 — the only appearance is what apply-legal-authority-to-profiles writes from the LD-GA-01 contract. The three § 42-8-62 memo tracks reach no compiled pathway. Until the owner decides whether the legacy pathway is a § 42-8-62.1 route that was mis-texted or a § 42-8-66 route that was mis-contracted, no legacy matter is migrated automatically and this revalidation stays proposed."
     }
   ]
 }

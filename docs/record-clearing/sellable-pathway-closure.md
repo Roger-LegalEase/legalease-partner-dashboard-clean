@@ -91,7 +91,6 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `filing_determination_missing` | 11 |
 | `packet_spec_incomplete` | 8 |
 | `legal_action_required` | 2 |
-| `unclassified_route` | 1 |
 
 **34 of 263** intended-sellable pathways are closed with no open blocker.
 
@@ -113,9 +112,9 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `intake_fix + legal_review_pending + renderer_unavailable` | 10 | ID, NV, OH, OK, RI, SD, WI, WV |
 | `legal_reconfirmation + legal_review_pending + renderer_unavailable` | 8 | NH, NV, OK, RI, SD, WA, WI |
 | `not_paid_product` | 7 | AR, DC, IL, KY |
+| `legal_review_pending + renderer_unavailable` | 7 | GA, ID, MD, NH, NY, TN, TX |
 | `renderer_unavailable` | 6 | AR, CA, ND, NM, WI |
 | `intake_fix + legal_review_pending` | 6 | FL, KS, LA, MI, NE, WA |
-| `legal_review_pending + renderer_unavailable` | 6 | ID, MD, NH, NY, TN, TX |
 | `filing_determination_missing + legal_review_pending + not_paid_product` | 5 | DE, LA, NE, OK, WV |
 | `legal_review_pending + not_paid_product + packet_spec_incomplete + renderer_unavailable` | 4 | AK, MN, MS |
 | `legal_review_pending + renderer_unavailable + wait_anchor_fix` | 3 | CO, VT, WV |
@@ -124,7 +123,6 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `legal_review_pending + not_paid_product + renderer_unavailable` | 2 | KY, MD |
 | `gate_build + legal_review_pending + renderer_unavailable` | 2 | SD, WV |
 | `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete` | 1 | CT |
-| `legal_review_pending + renderer_unavailable + unclassified_route` | 1 | GA |
 | `filing_determination_missing + legal_review_pending + not_paid_product + renderer_unavailable` | 1 | ME |
 | `legal_reconfirmation + legal_review_pending + packet_spec_incomplete + renderer_unavailable` | 1 | ND |
 
@@ -138,9 +136,5 @@ Going the other way, **168** pathway(s) in AK, AL, AR, AZ, CO, CT, DC, DE, FL, G
 while carrying an open blocker. Every one of them carries `legal_review_pending`:
 these routes render and sell today on a compiled profile that records no counsel
 ratification for them.
-
-## Pathways with no row in route-product-metadata.json
-
-- `GA:retroactive-first-offender-treatment-under-42-8-66`
 
 Regenerate with `npm run rcap:generate-sellable-closure`; verify with `npm run rcap:verify-sellable-closure`.

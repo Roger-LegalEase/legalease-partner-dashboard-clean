@@ -25,8 +25,8 @@ measured against the closure ledger's seven-stage chain.
 
 | Gate | Pathways failing it |
 |---|---|
-| ownerApprovedLegalDesign | 167 |
-| technicalApprovalCurrent | 192 |
+| ownerApprovedLegalDesign | 168 |
+| technicalApprovalCurrent | 193 |
 | deterministicArtifactProven | 223 |
 | noProblematicPdfHold | 19 |
 | paymentAllowed | 232 |

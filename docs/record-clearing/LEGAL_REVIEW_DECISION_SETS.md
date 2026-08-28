@@ -12,10 +12,10 @@ collapses those rows against the registers that already hold decisions.
 
 | Classification | Rows |
 |---|---:|
-| ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL | 130 |
+| ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL | 131 |
 | EXISTING_APPROVAL_NOT_LINKED | 53 |
 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION | 23 |
-| LEGAL_RECONFIRMATION_REQUIRED | 10 |
+| LEGAL_RECONFIRMATION_REQUIRED | 9 |
 | **TOTAL** | **216** |
 
 ## Controlling authority already on record
@@ -29,9 +29,9 @@ collapses those rows against the registers that already hold decisions.
 ### LRD-00 — Reconfirm counsel ratification for routes whose ratification is no longer current
 
 - **CLASSIFICATION:** LEGAL_RECONFIRMATION_REQUIRED
-- **JURISDICTION:** 10 — GA IN MO ND NH NV RI SD TN WV
+- **JURISDICTION:** 9 — IN MO ND NH NV RI SD TN WV
 - **ROUTES / AFFECTED VARIANTS:** factory_v2/packet_document_v1, guidance_only/none
-- **AFFECTED PATHWAY ROWS:** 10
+- **AFFECTED PATHWAY ROWS:** 9
 - **CURRENT LEGAL REVIEW:** approved_by_decision_owner
 - **CURRENT PRIMARY AUTHORITY:** auth-2026-08-19-owner-legal-approval-completed-output (approved, authorized) plus EXT-ADOPT-01 standing external counsel adoption of 2026-08-08
 - **CURRENT PRODUCT TREATMENT:** Packet generation and payment are closed for every row in this set.
@@ -42,9 +42,9 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** Lawrence Blackmon
 - **ENGINEERING OWNER:** None until the reconfirmation lands.
 - **ENGINEERING DELTA AFTER DECISION:** Record the reconfirmation in the authorization queue and regenerate the join and the closure ledger. No packet or renderer work follows from a clean reconfirmation.
-- **PACKET GENERATION CURRENTLY DISABLED:** 5 of 10 rows do not render today; payment is closed for all 10.
-- **PAYMENT CURRENTLY DISABLED:** All 10 rows.
-- **DUPLICATE DECISIONS COLLAPSED:** 9
+- **PACKET GENERATION CURRENTLY DISABLED:** 5 of 9 rows do not render today; payment is closed for all 9.
+- **PAYMENT CURRENTLY DISABLED:** All 9 rows.
+- **DUPLICATE DECISIONS COLLAPSED:** 8
 
 ### LRD-01 — Project the existing owner approval onto the pathway rows it already covers
 
@@ -91,7 +91,7 @@ collapses those rows against the registers that already hold decisions.
 - **CLASSIFICATION:** ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL
 - **JURISDICTION:** 38 — AK CO DE FL GA HI IL IN KS KY LA MA MD ME MI MN MO MS NC ND NE NH NJ NM NV NY OH OK RI SC SD TX UT VA VT WA WI WV
 - **ROUTES / AFFECTED VARIANTS:** exact_supported_deferral/none, factory_v2/packet_document_v1, guidance_only/none, legacy_verified/packet_document_v1
-- **AFFECTED PATHWAY ROWS:** 130
+- **AFFECTED PATHWAY ROWS:** 131
 - **CURRENT LEGAL REVIEW:** owner_approval_pending
 - **CURRENT PRIMARY AUTHORITY:** auth-2026-08-19-owner-legal-approval-completed-output (approved, authorized) plus EXT-ADOPT-01 standing external counsel adoption of 2026-08-08
 - **CURRENT PRODUCT TREATMENT:** Packet generation and payment are closed for every row in this set.
@@ -102,9 +102,9 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** None. There is no artifact to review.
 - **ENGINEERING OWNER:** RCAP packet factory
 - **ENGINEERING DELTA AFTER DECISION:** Packet family construction or a non-packet service disposition per pathway.
-- **PACKET GENERATION CURRENTLY DISABLED:** 28 of 130 rows do not render today; payment is closed for all 130.
-- **PAYMENT CURRENTLY DISABLED:** All 130 rows.
-- **DUPLICATE DECISIONS COLLAPSED:** 129
+- **PACKET GENERATION CURRENTLY DISABLED:** 28 of 131 rows do not render today; payment is closed for all 131.
+- **PAYMENT CURRENTLY DISABLED:** All 131 rows.
+- **DUPLICATE DECISIONS COLLAPSED:** 130
 
 ## Every row, with its classification
 
@@ -135,7 +135,7 @@ collapses those rows against the registers that already hold decisions.
 | `GA:non-conviction-record-restriction-through-the-agency-prosecutor-process` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `GA:restriction-and-sealing-of-a-pardoned-felony` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `GA:retroactive-first-offender-treatment-under-42-8-66` | guidance_only | EXISTING_APPROVAL_NOT_LINKED |
-| `GA:youthful-first-offender-restriction-route` | factory_v2 | LEGAL_RECONFIRMATION_REQUIRED |
+| `GA:youthful-first-offender-restriction-route` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `HI:deferred-acceptance-one-year` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `HI:deferred-prostitution-three-year` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `HI:dui-under-21-conviction` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |

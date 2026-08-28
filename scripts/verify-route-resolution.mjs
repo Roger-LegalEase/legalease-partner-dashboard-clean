@@ -279,8 +279,11 @@ ok("a contested evidentiary hearing goes to retained counsel",
   gaContested.selectedFailureDisposition?.id === "ga_contested_hearing" && gaContested.serviceDisposition === "handoff");
 
 const gaConsented = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent") });
-ok("only the verified document opens the petition",
-  gaConsented.serviceDisposition === "participant_packet" && gaConsented.delivery.paymentAllowed === true);
+ok("only the verified document gets past the consent precondition",
+  gaConsented.unsatisfiedPreconditions.length === 0 && gaConsented.selectedFailureDisposition === null);
+ok("and the route is then held by its output gates rather than by consent",
+  gaConsented.serviceDisposition === "identified_not_yet_available"
+  && gaConsented.openDeliveryGateIds.length === 2);
 ok("and it names the § 42-8-66 packet family",
   gaConsented.packetFamily === "Georgia § 42-8-66 Retroactive First Offender Petition");
 
@@ -312,13 +315,8 @@ ok("the legacy Georgia pathway still exists and still carries § 42-8-62.1",
   gaLegacy.contract?.statute === "O.C.G.A. § 42-8-62.1", gaLegacy.contract?.statute ?? "absent");
 ok("the new § 42-8-66 route is a separate contract, not a rename",
   gaConsented.contract.statute === "O.C.G.A. § 42-8-66" && gaConsented.routeKey !== gaLegacy.routeKey);
-const aliases = JSON.parse(fs.readFileSync("data/rcap-ledger/route-aliases.json", "utf8"));
-const gaAlias = aliases.aliases.find((a) => a.jurisdiction === "GA");
-ok("an alias records the canonical identity without renaming the stored id",
-  gaAlias?.legacyPathwayId === "youthful-first-offender-restriction-route"
-  && gaAlias?.canonicalPathwayId === "retroactive-first-offender-treatment-under-42-8-66");
-ok("the alias states what the legacy id still governs and when it may be removed",
-  /42-8-62\.1/.test(gaAlias?.legacyIdStillGoverns ?? "") && Boolean(gaAlias?.removalCondition));
+// Route identity is checked through the revalidation record, not an alias:
+// see the product-integration block below.
 
 console.log("\nMissouri § 311.326 — scope branches and the six clerk gates:");
 
@@ -332,22 +330,26 @@ const mo = (facts, opts = {}) => resolveRoute({
 const moState = mo({ mo_311_326_conviction_origin: verified("state_311_325") });
 ok("a § 311.325 state conviction takes the state route",
   moState.selectedBranchId === "state_311_325_conviction" && moState.outcomeMode === "participant_packet");
-ok("the state route is packet-bearing but held by the clerk gates",
-  moState.serviceDisposition === "identified_not_yet_available" && moState.openDeliveryGateIds.length === 6);
+ok("the state route is packet-bearing but held",
+  moState.outcomeMode === "participant_packet" && moState.openDeliveryGateIds.length === 6);
+ok("and the derived eligibility date is required before any packet",
+  moState.missingFacts.includes("twenty_first_birthday")
+  || moState.unsatisfiedPreconditions.some((p) => p.precondition.id === "twenty_first_birthday"));
 
-const moAdopts = mo({ mo_311_326_conviction_origin: verified("ordinance_expressly_adopts_311_326") });
+const MO_DOB = { twenty_first_birthday: verified("2000-01-01") };
+const moAdopts = mo({ ...MO_DOB, mo_311_326_conviction_origin: verified("ordinance_expressly_adopts_311_326") });
 ok("an ordinance that expressly adopts the remedy is a separate local route, not this one",
   moAdopts.selectedBranchId === "ordinance_expressly_adopts_311_326"
   && moAdopts.serviceDisposition === "handoff" && moAdopts.packetFamily === null);
 
-const moMirrors = mo({ mo_311_326_conviction_origin: verified("ordinance_mirrors_offence") });
+const moMirrors = mo({ ...MO_DOB, mo_311_326_conviction_origin: verified("ordinance_mirrors_offence") });
 ok("mere municipal equivalence falls outside § 311.326",
   moMirrors.selectedBranchId === "ordinance_merely_mirrors_offence"
   && moMirrors.paymentAuthority === "closed" && moMirrors.packetFamily === null);
 ok("and routes to § 610.140 or local relief rather than selling this petition",
   /610\.140|local relief/i.test(moMirrors.selectedFailureDisposition?.note ?? moMirrors.contract.serviceBranches.find((b) => b.id === "ordinance_merely_mirrors_offence").note));
 
-const moAmbiguous = mo({ mo_311_326_conviction_origin: verified("ambiguous") });
+const moAmbiguous = mo({ ...MO_DOB, mo_311_326_conviction_origin: verified("ambiguous") });
 ok("an ambiguous judgment holds for the certified disposition",
   moAmbiguous.selectedBranchId === "judgment_ambiguous" && moAmbiguous.paymentAuthority === "closed");
 
@@ -365,7 +367,7 @@ for (let i = 0; i < MO_GATES.length; i += 1) {
     partial.generationAuthority === "closed" && partial.openDeliveryGateIds.join() === MO_GATES[i],
     partial.openDeliveryGateIds.join(", ") || "none");
 }
-const moAll = mo({ mo_311_326_conviction_origin: verified("state_311_325") }, { closedGateIds: MO_GATES });
+const moAll = mo({ ...MO_DOB, mo_311_326_conviction_origin: verified("state_311_325") }, { closedGateIds: MO_GATES });
 ok("with all six confirmed the merits petition is a real participant packet",
   moAll.serviceDisposition === "participant_packet" && moAll.generationAuthority === "open"
   && moAll.delivery.paymentAllowed === true && moAll.sponsorshipAuthority === "open");
@@ -378,6 +380,63 @@ ok("the clerk gate is operational configuration, not legal research",
   /operational configuration, NOT unresolved legal research/i.test(moContract.notes ?? ""));
 ok("the decision is scoped to § 311.326 and not extended to mo-610-130",
   /must not be extended to mo-610-130/i.test(moContract.notes ?? ""));
+
+console.log("\nProduct integration — Georgia route identity and Missouri screening:");
+
+// Free screening must not ask an exact date for the § 311.326 clock.
+const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
+const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
+const moPublic = projectPublicProfile(getProfileByJurisdiction("MO"));
+ok("Missouri free screening does not ask for the twenty-first birthday",
+  !moPublic.questions.some((q) => q.id === "twenty_first_birthday"));
+const moProfile = getProfileByJurisdiction("MO");
+ok("the twenty-first birthday is a packet_information fact, collected after the claim",
+  moProfile.questions.find((q) => q.id === "twenty_first_birthday")?.stage === "packet_information");
+ok("it collects date of birth once and derives the clock from it",
+  /date of birth/i.test(moProfile.questions.find((q) => q.id === "twenty_first_birthday")?.prompt ?? ""));
+ok("no route consumer publishes it into screening",
+  !Object.keys(moProfile.questionLifecycle?.routeConsumers ?? {}).includes("twenty_first_birthday"));
+ok("it is still an exact packet fact",
+  (moProfile.questionLifecycle?.exactPacketFactIds ?? []).includes("twenty_first_birthday"));
+
+// Georgia: two route identities, not an alias.
+const aliasDoc = JSON.parse(fs.readFileSync("data/rcap-ledger/route-aliases.json", "utf8"));
+ok("no blanket alias exists between the two Georgia routes", aliasDoc.aliases.length === 0);
+const reval = aliasDoc.revalidations.find((r) => r.jurisdiction === "GA");
+ok("a revalidation path exists instead of an alias",
+  reval?.legacyPathwayId === "youthful-first-offender-restriction-route"
+  && reval?.candidatePathwayId === "retroactive-first-offender-treatment-under-42-8-66");
+ok("it migrates only matters proven to have represented § 42-8-66",
+  reval?.migrateOnlyWhen?.operator === "all"
+  && (reval.migrateOnlyWhen.conditions ?? []).some((c) => c.value === "retroactive_first_offender_42_8_66"));
+ok("it is idempotent and does not rewrite matter history",
+  /already carrying/i.test(reval?.idempotence ?? "") && /Do not rewrite matter history/i.test(reval?.neverDo ?? ""));
+
+// ga-rfo reaches exactly one statutory route.
+const crosswalk = JSON.parse(fs.readFileSync("data/rcap-ledger/track-pathway-crosswalk.json", "utf8"));
+const gaRfo = crosswalk.registryTracks.find((t) => t.registryTrackId === "ga-rfo");
+ok("ga-rfo maps to exactly one route",
+  gaRfo.mappedCompiledPathwayIds.length === 1, gaRfo.mappedCompiledPathwayIds.join(", "));
+ok("and it is the § 42-8-66 route",
+  gaRfo.mappedCompiledPathwayIds[0] === "retroactive-first-offender-treatment-under-42-8-66");
+ok("the legacy route no longer reaches ga-rfo",
+  !gaRfo.mappedCompiledPathwayIds.includes("youthful-first-offender-restriction-route"));
+
+// The petition family is its own, and its gates hold the money closed.
+const gaPetition = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent") });
+ok("the § 42-8-66 route names its own petition family",
+  gaPetition.packetFamily === "Georgia § 42-8-66 Retroactive First Offender Petition");
+ok("with consent verified the route is identified and not deliverable",
+  gaPetition.serviceDisposition === "identified_not_yet_available");
+ok("the petition family build gate is open",
+  gaPetition.openDeliveryGateIds.includes("ga_42_8_66_petition_family_build"));
+ok("the candidate and review gate is open",
+  gaPetition.openDeliveryGateIds.includes("ga_42_8_66_candidate_and_review"));
+ok("no guidance-family approval opens payment on the petition",
+  gaPetition.delivery.paymentAllowed === false && gaPetition.sponsorshipAuthority === "closed"
+  && gaPetition.commercialDeliveryAuthority === "closed");
+ok("artifact approval is required on this route",
+  gaPetition.contract.artifactApprovalRequired === true);
 
 console.log("\nCommercial classification and service disposition are independent:");
 

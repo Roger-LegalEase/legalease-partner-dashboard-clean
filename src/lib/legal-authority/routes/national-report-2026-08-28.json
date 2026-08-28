@@ -239,12 +239,13 @@
         "value": 1,
         "unit": "years",
         "anchorFactId": "twenty_first_birthday",
-        "anchorText": "not less than one year after the person's twenty-first birthday"
+        "anchorText": "not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication."
       },
       "requiredFacts": [
         "Is the judgment expressly under Mo. Rev. Stat. § 311.325, or under a county or municipal ordinance?",
         "If an ordinance, does it expressly adopt the § 311.326 remedy, or does it merely mirror the substantive offence?",
-        "Date of birth and date the person turned twenty-one?",
+        "Free screening: was the person's twenty-first birthday at least one year ago? (approximate threshold, never an exact date)",
+        "After authentication: date of birth, collected once, from which the twenty-first birthday and the one-year eligibility date are derived server-side",
         "Which circuit court sentenced the person, and in which division?",
         "What is the original criminal case number and judgment?",
         "Any later alcohol-related offence?",
@@ -252,8 +253,7 @@
       ],
       "screeningFactIds": [
         "case_outcome",
-        "offense_level",
-        "twenty_first_birthday"
+        "offense_level"
       ],
       "exclusions": [
         "One-time relief only",
@@ -426,8 +426,24 @@
         "packetCreditsConsumed": 1,
         "note": "The merits petition is a real participant filing and is sellable in principle. It stays closed today because six receiving-clerk configuration gates are open, not because the route forbids selling."
       },
-      "notes": "Report correction 2, LA-IMM-02. The merits petition is built; the clerk-confirmation gate is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were. The absence of a dedicated case-type code does not defeat the statutory remedy; it prevents releasing universal administrative instructions without a clerk-practice gate. This decision is scoped to § 311.326 and must not be extended to mo-610-130 or any other Missouri route without its own evidence.",
-      "branchSelectionRequired": true
+      "notes": "Report correction 2, LA-IMM-02. The merits petition is built; the clerk-confirmation gate is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were. The absence of a dedicated case-type code does not defeat the statutory remedy; it prevents releasing universal administrative instructions without a clerk-practice gate. This decision is scoped to § 311.326 and must not be extended to mo-610-130 or any other Missouri route without its own evidence. SCREENING: the previous anchor named twenty_first_birthday, a fact no Missouri profile publishes as a question, so the one-year clock could never evaluate against anything. Screening now turns on one approximate threshold (mo_311_326_one_year_past_twenty_first_birthday) and the exact eligibility date is a final-verification precondition derived from a single post-authentication date of birth. Zero exact date questions in free screening.",
+      "branchSelectionRequired": true,
+      "packetReleasePreconditions": [
+        {
+          "id": "twenty_first_birthday",
+          "requires": "the twenty-first birthday, derived server-side from a date of birth collected once after authentication and bound to the participant-owned matter",
+          "satisfiedWhen": {
+            "operator": "date_before",
+            "factId": "twenty_first_birthday",
+            "value": "2025-08-28",
+            "requiredProvenance": "verified_record",
+            "requiredPhase": "FINAL_VERIFICATION"
+          },
+          "whenUnsatisfied": "fail_closed_guidance",
+          "collectedAt": "final_verification",
+          "note": "The one-year clock runs from this date, so it must be exact and it must be ours rather than recalled. Free screening asks one approximate threshold question and never an exact date; after authentication the date of birth is collected ONCE and the twenty-first birthday is derived from it server-side, bound to the matter and its final-verification snapshot. The participant is never asked to type the same date twice."
+        }
+      ]
     },
     {
       "routeKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
@@ -578,7 +594,44 @@
         "packetCreditsConsumed": 1,
         "note": "A real participant petition, sellable once verified written consent exists. The consent precondition, not the posture, is what holds it closed."
       },
-      "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures."
+      "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures. PACKET FAMILY: this route names its own family, Georgia § 42-8-66 Retroactive First Offender Petition, and does not inherit rcap-ga-guidance-implementation. The ga-rfo packet set was written when the route was guidance-only and carries two process_guidance components; no completed-output approval from it may be carried into a petition. Both output gates are open, so the legal route is resolved, the packet path is identified, and payment, sponsorship and participant delivery are all closed.",
+      "artifactApprovalRequired": true,
+      "deliveryGates": [
+        {
+          "id": "ga_42_8_66_petition_family_build",
+          "kind": "artifact_generation",
+          "items": [
+            "petition specification for the § 42-8-66 retroactive First Offender petition",
+            "written consent / joinder component",
+            "proposed order component",
+            "hearing-election component",
+            "service or local-notice component",
+            "supporting-record checklist component",
+            "packet-information facts",
+            "field map",
+            "renderer binding",
+            "deterministic fixture"
+          ],
+          "owner": "RCAP packet factory",
+          "statusSource": "server_artifact_record",
+          "evidenceReference": "pending: the ga-rfo packet set carries two process_guidance components and no petition. Its own text reads 'Not reached on this route as currently offered. No participant document is generated.'",
+          "note": "The § 42-8-66 petition family does not exist yet. This gate is why the route is identified and not deliverable, and it must not be closed by pointing at the guidance family."
+        },
+        {
+          "id": "ga_42_8_66_candidate_and_review",
+          "kind": "artifact_legal_review",
+          "items": [
+            "candidate artifact",
+            "artifact hash",
+            "visual review",
+            "completed-output approval"
+          ],
+          "owner": "RCAP packet factory, then artifact-level counsel review",
+          "statusSource": "server_approval_record",
+          "evidenceReference": "pending: no candidate artifact or hash exists for this family",
+          "note": "Completed-output approval must be given for THIS petition family. The route previously associated with rcap-ga-guidance-implementation, and a guidance family's approval says nothing about a petition nobody has rendered."
+        }
+      ]
     }
   ]
 }

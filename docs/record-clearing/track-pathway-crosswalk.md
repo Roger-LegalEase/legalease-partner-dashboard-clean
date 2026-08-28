@@ -10,8 +10,8 @@ The registry and the compiled profiles share no identifier space, and no committ
 | --- | ---: |
 | Registry tracks | 497 |
 | Compiled pathways | 337 |
-| Registry tracks with an exact compiled pathway | 258 |
-| Registry tracks represented by compiled variants | 27 |
+| Registry tracks with an exact compiled pathway | 259 |
+| Registry tracks represented by compiled variants | 26 |
 | Registry tracks represented only by superseded runtime text | 1 |
 | Registry tracks with no compiled pathway | 210 |
 | Registry tracks unresolved (ambiguous candidates) | 1 |

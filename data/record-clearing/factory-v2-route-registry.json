@@ -8,7 +8,7 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6"
+      "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -20,7 +20,7 @@
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "d65ff17a5e37b35beacef75b28698e3eeaed3ef3e8ccb9cd8f82be17634d566c"
+      "sha256": "0a996b2f47c5bb5e07b040293ca75fcb84865501e1c5acfa35ee111dfc04c8ed"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -40,7 +40,7 @@
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
       "legacy_generator_owns_this_jurisdiction": 36
     },
-    "ownerApprovedLegalDesign": 96,
+    "ownerApprovedLegalDesign": 95,
     "paymentAllowedAtTheEvaluator": 31,
     "publicWitnessReachesItsOwnPathway": 263
   },
@@ -2309,8 +2309,7 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
-          "renderer_unavailable",
-          "unclassified_route"
+          "renderer_unavailable"
         ]
       }
     },
@@ -2379,16 +2378,12 @@
       "pathwayId": "youthful-first-offender-restriction-route",
       "pathwayLabel": "Youthful / first-offender restriction route",
       "registryTrackIds": [
-        "ga-rfo",
         "ga-seal-m"
       ],
       "packetSetIds": [
-        "ga-rfo-set",
         "ga-seal-m-set"
       ],
-      "packetFamilies": [
-        "rcap-ga-guidance-implementation"
-      ],
+      "packetFamilies": [],
       "profileVersion": "2026-06-19-source-conversion-1",
       "requiredInputIds": [
         "arrest_date",
@@ -2411,7 +2406,7 @@
         "residency_or_location",
         "sentence_completion_date"
       ],
-      "componentCount": 8,
+      "componentCount": 6,
       "officialFormIds": [],
       "buildInputs": {
         "authoritativeProfile": true,
@@ -2426,7 +2421,7 @@
       "factoryV2Resolves": true,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
-        "ownerApprovedLegalDesign": true,
+        "ownerApprovedLegalDesign": false,
         "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
@@ -6691,8 +6686,7 @@
         "pending_cases",
         "prior_relief",
         "residency_or_location",
-        "sentence_completion_date",
-        "twenty_first_birthday"
+        "sentence_completion_date"
       ],
       "componentCount": 5,
       "officialFormIds": [
