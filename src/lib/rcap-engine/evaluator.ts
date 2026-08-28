@@ -12,6 +12,7 @@ import type { FactSnapshotMap } from "@/lib/legal-authority/conditions";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 import routeKindAdjudications from "@/../data/rcap-ledger/route-kind-adjudications.json";
 import routePresentationConflicts from "@/../data/rcap-ledger/route-presentation-conflicts.json";
+import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
   "hard_stop",
@@ -450,6 +451,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
       paymentAllowed: false
     });
   }
+  const preCorrection = preselectedPathway ? packetCorrectionReason(profile, preselectedPathway) : undefined;
+  if (preselectedPathway && preCorrection) {
+    const plan = packetPlanForPathway(profile, preselectedPathway.id);
+    return result(profile, request, "needs_review", [preCorrection], {
+      pathwayId: preselectedPathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
+      paymentAllowed: false
+    });
+  }
   const preConflict = preselectedPathway ? presentationConflictReason(profile, preselectedPathway) : undefined;
   if (preselectedPathway && preConflict) {
     const plan = packetPlanForPathway(profile, preselectedPathway.id);
@@ -525,6 +535,15 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     return result(profile, request, "needs_more_info", [reason(jurisdiction, "court_petition_preconditions_missing", "Required court-petition precondition facts are missing.")], {
       pathwayId: pathway.id,
       missingQuestionIds: missingProductFacts,
+      paymentAllowed: false
+    });
+  }
+  const packetCorrection = packetCorrectionReason(profile, pathway);
+  if (packetCorrection) {
+    const plan = packetPlanForPathway(profile, pathway.id);
+    return result(profile, request, "needs_review", [packetCorrection], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
     });
   }
@@ -1196,6 +1215,35 @@ const PRESENTATION_CONFLICT_ROUTE_KEYS: ReadonlySet<string> = new Set(
  * `needs_review`, not `guidance_only`. A held petition route is not guidance,
  * and describing it as guidance is the same class of error as the conflict.
  */
+/**
+ * Routes proven to generate something that is not the packet they promise.
+ *
+ * The packet route resolver already closes these for offer, render and
+ * delivery, and the payment adapter ANDs its answer with the evaluator's. That
+ * is enough to stop a sale and not enough to stop a lie: the evaluator would
+ * still report packet_ready_with_caution with paymentAllowed true, which reads
+ * to a participant as "your packet is ready" and to every downstream ledger as
+ * a sellable route. Mississippi § 99-15-59 is the proven case.
+ *
+ * `needs_review`, because the route is legally eligible and the packet is the
+ * defect. Calling it guidance would be the same error corrected for Georgia.
+ */
+const PACKET_CORRECTION_ROUTE_KEYS: ReadonlySet<string> = new Set(
+  (packetCorrectionRequired as { rows: { routeKey: string; status: string }[] }).rows
+    .filter((row) => row.status === "closed")
+    .map((row) => row.routeKey)
+);
+
+function packetCorrectionReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
+  if (!PACKET_CORRECTION_ROUTE_KEYS.has(`${profile.jurisdiction.code}:${pathway.id}`)) return undefined;
+  return reason(
+    profile.jurisdiction.code,
+    "packet_correction_required",
+    "This route is eligible, and the packet it currently produces is not the complete filing it should be, so no packet decision, checkout or sponsored generation may proceed until it is corrected.",
+    pathway.sourceRef
+  );
+}
+
 function presentationConflictReason(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
   if (!PRESENTATION_CONFLICT_ROUTE_KEYS.has(`${profile.jurisdiction.code}:${pathway.id}`)) return undefined;
   return reason(

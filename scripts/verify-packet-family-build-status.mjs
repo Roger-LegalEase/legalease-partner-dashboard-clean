@@ -41,32 +41,23 @@ const paymentAllowedByRouteKey = new Map(witnesses.map((witness) => [witness.pat
 const BUILT_STATUSES = new Set(["BUILT", "BUILT_BY_PRESERVED_LEGACY_GENERATOR"]);
 
 /**
- * One route that takes money for a family the registry cannot vouch for, and
- * why it is not simply switched off here.
+ * The Mississippi § 99-15-59 open question is answered, so the exemption is gone.
  *
- * MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 is on the
- * ratified-deployable list and its evaluator allows payment. The factory_v2
- * registry records three unmet build inputs for it — exactPacketSet,
- * packetSpecification, sourceOrApprovedComposedDocument — and zero components.
- * The four other Mississippi routes that sell have none unmet.
+ * It read: does the legacy Mississippi generator produce a § 99-15-59 packet?
+ * It was run. The consumer paid path produces a 1,165-byte plain-text status
+ * summary with no petition, no proposed order, no filing destination, no fee
+ * instruction and no service step; the legacy petition generator serves the
+ * partner documents path behind a live sponsorship, its document types cover
+ * three Mississippi pathways and not this one, and its proposed order is a
+ * placeholder. The route is closed at every commercial and delivery surface —
+ * see data/rcap-ledger/packet-correction-required.json and
+ * scripts/verify-ms-99-15-59-packet-correction.mjs.
  *
- * Mississippi is on the AGENTS.md preserved-legacy-generator list, so
- * factory_v2's view of it may be incomplete rather than correct: its packet
- * plan is indistinguishable from the neighbouring MS route that the registry
- * does vouch for — same mode, same nineteen inputs, ready by the planner's own
- * test. Closing the route here would break a preserved generator on the
- * strength of a registry that is documented as standing aside from it. Leaving
- * it silent would hide a route selling a packet nothing can confirm exists.
- *
- * So it is named. What settles it is one question this file cannot answer:
- * does the legacy Mississippi generator produce a § 99-15-59 packet? If yes,
- * the registry row is what needs fixing. If no, the route stops selling.
- * Either way this entry is removed, and the check fails if it stops matching.
+ * The map stays empty rather than being deleted, so a future exemption has to
+ * be written down and argued for in a diff.
  */
-const OPEN_QUESTIONS = new Map([
-  ["MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
-    "Preserved legacy generator owns Mississippi; the registry records three unmet build inputs and zero components. Resolve by asking whether the legacy generator produces this packet."]
-]);
+const OPEN_QUESTIONS = new Map([]);
+
 let guidanceFamilyMismatches = 0;
 let resolverWouldNotClose = 0;
 for (const row of ledger.rows) {
@@ -119,4 +110,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 for (const [routeKey, why] of OPEN_QUESTIONS) console.log(`  OPEN QUESTION  ${routeKey} — ${why}`);
-console.log("No unbuilt packet family can be sold, sponsored or generated, apart from the open questions named above.");
+console.log("No unbuilt packet family can be sold, sponsored or generated.");

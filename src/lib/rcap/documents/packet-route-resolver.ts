@@ -9,6 +9,7 @@
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
 import { legalRouteContract, routeCheckoutIsClosed } from "@/lib/legal-authority/index";
 import { factoryV2RouteFor } from "@/lib/rcap/documents/factory-v2-registry";
+import packetCorrectionRequired from "@/../data/rcap-ledger/packet-correction-required.json";
 import {
   completeGuidanceForTrack,
   componentDeferralForTrack,
@@ -25,7 +26,8 @@ export type PacketRouteKind =
   | "typed_stop"
   | "disabled"
   | "component_deferral"
-  | "exact_supported_deferral";
+  | "exact_supported_deferral"
+  | "packet_correction_required";
 
 export type PacketRouteResolution = {
   routeKind: PacketRouteKind;
@@ -92,6 +94,21 @@ export const LEGACY_VERIFIED_JURISDICTIONS = ["MS", "IL", "DC", "PA", "TX"] as c
 
 const LEGACY_VERIFIED = new Set<string>(LEGACY_VERIFIED_JURISDICTIONS);
 
+/**
+ * Only a row whose status is "closed" acts. A row is a finding, and a finding
+ * that has been corrected stays on the record with its evidence rather than
+ * being deleted; `status` is what says whether it still bites.
+ */
+const PACKET_CORRECTION_ROWS: ReadonlyMap<string, { classification: string }> = new Map(
+  (packetCorrectionRequired as { rows: { routeKey: string; status: string; classification: string }[] }).rows
+    .filter((row) => row.status === "closed")
+    .map((row) => [row.routeKey, { classification: row.classification }])
+);
+
+function packetCorrectionFor(jurisdiction: string, pathwayId: string) {
+  return PACKET_CORRECTION_ROWS.get(`${jurisdiction}:${pathwayId}`) ?? null;
+}
+
 const DISABLED: Omit<PacketRouteResolution, "jurisdiction" | "pathwayId" | "reason"> = {
   routeKind: "disabled",
   rendererKind: "none",
@@ -105,6 +122,38 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
 
   if (!jurisdiction) {
     return { ...DISABLED, jurisdiction: "", pathwayId, reason: "No jurisdiction was supplied; a packet route cannot be resolved." };
+  }
+
+  /**
+   * A proven-incomplete packet closes the route before anything else is asked.
+   *
+   * This sits above every other classification, including the legacy-verified
+   * jurisdictions, because LEGACY_VERIFIED classifies a whole STATE while this
+   * is a finding about one ROUTE: Mississippi renders through the browser-free
+   * renderer, and that says nothing about whether a particular Mississippi
+   * route produces the filing it promises. The § 99-15-59 route is
+   * payment-allowed at the evaluator and its consumer artifact is a 1,165-byte
+   * status summary with no petition, no proposed order, no filing destination,
+   * no fee instruction and no service step. A partial packet is worse than
+   * none, because it is a document a person may carry to a clerk.
+   *
+   * Distinct from component_deferral and exact_supported_deferral on purpose.
+   * Those record that a legal treatment or an official-form component is not
+   * ready. Here the legal treatment is settled and the generator runs; what it
+   * produces is not the packet. Recording it as a deferral would send a
+   * packet-construction defect to the legal queue.
+   */
+  const correction = packetCorrectionFor(jurisdiction, pathwayId);
+  if (correction) {
+    return {
+      routeKind: "packet_correction_required",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "none",
+      sellable: false,
+      creditConsumable: false,
+      reason: `${jurisdiction}:${pathwayId} generates an incomplete packet (${correction.classification}); checkout, sponsored credit, render and participant delivery are closed until it is corrected.`
+    };
   }
 
   // Component deferral has PRIORITY over every other classification,

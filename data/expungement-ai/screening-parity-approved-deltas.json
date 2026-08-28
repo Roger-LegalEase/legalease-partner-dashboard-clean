@@ -208,6 +208,14 @@
           "reason": "Projection changes for the same report: a route contract's packetReleasePreconditions now publish their facts as post-claim packet fields, because a fact deliberately kept out of screening previously had no publication path at all, and Missouri's exact birth-date question was replaced by an approximate age threshold. Maryland is untouched by both. This continues the chain after the 2026-08-26 runtime re-authorization rather than editing that authorization's newSha256, which would put a signature on bytes nobody signed for.",
           "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
           "repinnedTo": "50b74b22af960407689291f5fc1c283b11e77224568454fc0a1ecdba3a1fe0d3"
+        },
+        {
+          "path": "src/lib/rcap-engine/evaluator.ts",
+          "sha256": "57e016a785a61c8c643c38278c690104fa4731b30b2f2be344df2d7576cea733",
+          "supersededOn": "2026-08-28",
+          "reason": "Mississippi § 99-15-59 was proven to generate a status summary rather than a filing, so the evaluator now holds it at needs_review with no payment; a route recorded in data/rcap-ledger/packet-correction-required.json is closed at the evaluator as well as at the packet route resolver, because closing only the resolver stops the sale and still reports a ready packet. Maryland is untouched: no Maryland question, rule or deadline changes, and both Maryland deadlines are re-proven end to end over these bytes.",
+          "behaviouralProof": "scripts/verify-md-10-103-signed-approval.mjs",
+          "repinnedTo": "3b12e43c4c24cc851356063a0f183f290ac1a50ca849e8a681eba565fe49241c"
         }
       ],
       "projectionsNote": "The approved participant-facing counts are 35 -> 36, which is the compiled Maryland profile. The aggregate carries a reduced projection of the same single question, whose own counts are 17 -> 18. Both are recorded and both are enforced; neither is substituted for the other.",
