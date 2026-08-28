@@ -28,23 +28,50 @@
     "browserWitnessVariants": 156,
     "freeQuestions": {
       "emptyContext": 90,
-      "maxExactRoute": 90
+      "maxExactRoute": 91
     },
-    "routeConsumerFacts": 3,
-    "routeConsumerEdges": 3,
+    "routeConsumerFacts": 4,
+    "routeConsumerEdges": 4,
     "exactPacketFactIds": 60,
     "completionAliasIds": 8
   },
   "selectedQuestionCounts": {
-    "LA": { "emptyContext": 9, "maxExactRoute": 9 },
-    "ME": { "emptyContext": 11, "maxExactRoute": 11 },
-    "MD": { "emptyContext": 13, "maxExactRoute": 13 },
-    "MA": { "emptyContext": 9, "maxExactRoute": 9 },
-    "MI": { "emptyContext": 10, "maxExactRoute": 10 },
-    "MN": { "emptyContext": 9, "maxExactRoute": 9 },
-    "MS": { "emptyContext": 7, "maxExactRoute": 7 },
-    "MO": { "emptyContext": 11, "maxExactRoute": 11 },
-    "MT": { "emptyContext": 11, "maxExactRoute": 11 }
+    "LA": {
+      "emptyContext": 9,
+      "maxExactRoute": 9
+    },
+    "ME": {
+      "emptyContext": 11,
+      "maxExactRoute": 11
+    },
+    "MD": {
+      "emptyContext": 13,
+      "maxExactRoute": 13
+    },
+    "MA": {
+      "emptyContext": 9,
+      "maxExactRoute": 9
+    },
+    "MI": {
+      "emptyContext": 10,
+      "maxExactRoute": 10
+    },
+    "MN": {
+      "emptyContext": 9,
+      "maxExactRoute": 9
+    },
+    "MS": {
+      "emptyContext": 7,
+      "maxExactRoute": 7
+    },
+    "MO": {
+      "emptyContext": 11,
+      "maxExactRoute": 12
+    },
+    "MT": {
+      "emptyContext": 11,
+      "maxExactRoute": 11
+    }
   },
   "representativeSelectedFlowIds": [
     "EXPAI-MD-2ec5a936b1",
@@ -59,13 +86,18 @@
     "EXPAI-MS-c9d86d7fda"
   ],
   "packetOnlyExactRouteFacts": {
-    "MD": ["pardon_signed_date", "arrest_date"],
-    "MO": ["twenty_first_birthday"]
+    "MD": [
+      "pardon_signed_date",
+      "arrest_date"
+    ],
+    "MO": [
+      "date_of_birth"
+    ]
   },
   "authority": {
     "policy": "No legal rule was added or inferred from prose.",
-    "routeConsumers": "MD pardon_signed_date mirrors ROUTE_ESCALATION_FACT_IDS; MD arrest_date and MO twenty_first_birthday mirror existing legal-authority screeningFactIds.",
-    "exactPacketFactIds": "Existing structural/date questions plus Mississippi's unsupported projection-added exact dates and dependent fine-imposed fact. MD pardon_signed_date, MD arrest_date, and MO twenty_first_birthday are exact packet/final-verification facts on only their approved routeConsumers pathways.",
+    "routeConsumers": "MD pardon_signed_date mirrors ROUTE_ESCALATION_FACT_IDS; MD arrest_date mirrors an existing legal-authority screeningFactId. Missouri carries two: mo_at_least_twenty_two is the approximate screening threshold and appears in the \u00a7 311.326 screeningFactIds; date_of_birth is the exact clock and appears only in that contract's packetReleasePreconditions, so it is collected after the claim and never in free screening.",
+    "exactPacketFactIds": "Existing structural/date questions plus Mississippi's unsupported projection-added exact dates and dependent fine-imposed fact. MD pardon_signed_date, MD arrest_date, and MO date_of_birth are exact packet/final-verification facts on only their approved routeConsumers pathways. MO mo_at_least_twenty_two is deliberately absent: it is an approximate threshold, not an exact date, and treating it as a packet fact would put it behind the claim where screening needs it.",
     "freeTimingBoundary": "The generic resolved_timing_bucket describes time since case resolution, so it is not reused for Maryland's arrest/pardon deadlines or Missouri's age-21 clock. Those routes remain fail-closed without protected exact authority; each owning packet plan retains its exact fact and the free selector never renders it.",
     "completionAliasIds": "Existing completion aliases only where the projected profile also carries the canonical court_requirements_completed authority fact."
   },

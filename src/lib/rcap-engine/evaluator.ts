@@ -1186,8 +1186,47 @@ function specialRouteTiming(profile: EngineProfile, answers: Record<string, Scre
     };
   }
   // ---- Missouri (corrected, awaiting Lawrence reconfirmation) ----
+  // Section 311.326 runs one year from the twenty-first birthday, which is
+  // twenty-two years from the date of birth. The date of birth is an identity
+  // date, so anonymous screening never asks for it: screening answers the
+  // approximate threshold and final verification runs the exact clock. The
+  // earlier version anchored on a `twenty_first_birthday` question no Missouri
+  // profile published, so this rule could not evaluate against anything.
   if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326") {
-    return timingFromExactAnchor(profile, answers, rule, pathway, "twenty_first_birthday", { value: 1, unit: "years", raw: "1 year" }, "Mo. Rev. Stat. § 311.326 requires one year from the person's twenty-first birthday.");
+    const born = parseDateAnswer(answers.date_of_birth);
+    if (born) {
+      const earliest = addDuration(born, 22, "years");
+      if (!earliest) {
+        return {
+          status: "needs_review",
+          reason: reason(profile.jurisdiction.code, "waiting_rule_not_executed", "The source-specific waiting period needs review before a packet decision.", rule.sourceRef ?? pathway.sourceRef)
+        };
+      }
+      if (earliest > evaluationToday()) {
+        return {
+          status: "not_yet",
+          reason: reason(profile.jurisdiction.code, "waiting_period_not_satisfied", `Mo. Rev. Stat. § 311.326 requires one year from the person's twenty-first birthday. The source-specific waiting period runs until ${earliest.toISOString().slice(0, 10)}.`, rule.sourceRef ?? pathway.sourceRef)
+        };
+      }
+      return { status: "satisfied" };
+    }
+    const threshold = answers.mo_at_least_twenty_two;
+    if (isNegative(threshold)) {
+      return {
+        status: "not_yet",
+        reason: reason(profile.jurisdiction.code, "waiting_period_not_satisfied", "Mo. Rev. Stat. § 311.326 requires one year from the person's twenty-first birthday, and that year has not yet run.", rule.sourceRef ?? pathway.sourceRef)
+      };
+    }
+    if (isAffirmative(threshold)) {
+      // Preliminary only. The exact date of birth is a final-verification
+      // precondition on the route contract, not a screening fact.
+      return { status: "satisfied" };
+    }
+    return {
+      status: "missing_anchor",
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", "We need to know whether at least one year has passed since the person's twenty-first birthday before the § 311.326 clock can be evaluated.", rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: ["mo_at_least_twenty_two"]
+    };
   }
   // The compiled profile only exposes disposition_date as a date anchor; the true statutory clock is
   // completion of the authorized disposition. disposition_date is used as the available proxy anchor

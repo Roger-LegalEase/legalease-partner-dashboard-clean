@@ -48,7 +48,7 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
   HI: new Set(["hi_court_order_confirmed"]),
   IN: new Set(["in_prosecutor_consent_confirmed"]),
   MD: new Set(["arrest_date"]),
-  MO: new Set(["twenty_first_birthday"]),
+  MO: new Set(["mo_at_least_twenty_two"]),
   MS: new Set([
     "disposition_date",
     "arrest_date",
@@ -74,9 +74,11 @@ const STATE_SPECIFIC_PREPAY_WILMA_FACT_IDS: Record<string, Set<string>> = {
     "wi_no_probation_jail_prison"
   ])
 };
+// Missouri is deliberately absent. Its § 311.326 clock used to be published
+// here as an exact birth date in free screening; it is now an approximate
+// threshold prepay and an exact date of birth at final verification only.
 const STATE_SPECIFIC_EXACT_PREPAY_TIMING_FACT_IDS: Record<string, Set<string>> = {
   MD: new Set(["arrest_date"]),
-  MO: new Set(["twenty_first_birthday"]),
   MS: new Set([
     "arrest_date",
     "ms_last_conviction_date_any_court",
@@ -240,11 +242,43 @@ const LEGAL_AUTHORITY_FACT_QUESTIONS: PublicQuestion[] = [
     options: null
   },
   {
-    id: "twenty_first_birthday",
-    stage: "timing_and_completion",
-    prompt: "What was your twenty-first birthday?",
-    helperText: "Missouri's minor-in-possession route measures its waiting period from this date.",
-    type: "date_or_unknown",
+    // Section 311.326 runs one year from the twenty-first birthday. That is a
+    // birth date, and anonymous screening may not collect one, so screening
+    // asks the threshold instead and the exact clock runs at final
+    // verification from a single post-authentication date of birth.
+    id: "mo_at_least_twenty_two",
+    stage: "state_specific_eligibility",
+    prompt: "Are you at least 22 years old?",
+    helperText: "Missouri's minor-in-possession route opens one year after a person's twenty-first birthday. We only need the threshold now; we never ask for your birth date before you have an account.",
+    lifecyclePhase: "prepay_timing_gate",
+    type: "yes_no_unsure",
+    required: false,
+    contextOnly: false,
+    doesNotSelectPathway: false,
+    options: ["yes", "no", "unsure"]
+  }
+];
+
+/**
+ * Facts a route contract requires at final verification, not at screening.
+ *
+ * `LEGAL_AUTHORITY_FACT_QUESTIONS` is gated on `screeningFactIds`, so a fact
+ * deliberately kept out of screening has no publication path at all. Missouri's
+ * date of birth was exactly that: the § 311.326 precondition required it, and
+ * nothing in the flow could ever collect it, because Missouri renders from a
+ * designer profile and the compiled profile's own question is never published.
+ *
+ * These are gated on the contracts' `packetReleasePreconditions` instead, and
+ * they land behind the claim as packet fields, never in free screening.
+ */
+const PACKET_RELEASE_FACT_QUESTIONS: PublicQuestion[] = [
+  {
+    id: "date_of_birth",
+    stage: "packet_information",
+    prompt: "What is your date of birth?",
+    helperText: "Asked once, after you claim your matter. Eligibility dates that run from your age are worked out from it; you are never asked for the same date twice.",
+    lifecyclePhase: "postpay_packet_field",
+    type: "date",
     required: false,
     contextOnly: false,
     doesNotSelectPathway: true,
@@ -939,12 +973,18 @@ function withWilmaFactQuestions(
 ): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const exactPacketFacts = new Set(exactPacketFactIds);
-  const authorityFactIds = new Set(routesForJurisdiction(profile.jurisdiction.code).flatMap((route) => route.screeningFactIds ?? []));
+  const jurisdictionRoutes = routesForJurisdiction(profile.jurisdiction.code);
+  const authorityFactIds = new Set(jurisdictionRoutes.flatMap((route) => route.screeningFactIds ?? []));
+  const packetReleaseFactIds = new Set(jurisdictionRoutes.flatMap((route) => (route.packetReleasePreconditions ?? [])
+    .flatMap((precondition) => [precondition.id, precondition.satisfiedWhen?.factId])
+    .filter((id): id is string => typeof id === "string" && id.length > 0)));
   const legalAuthorityAdditions = [
     ...(authorityFactIds.has("court_requirements_completed") && !existingIds.has("court_requirements_completed")
       ? [courtRequirementsQuestion("timing_and_completion", "prepay_timing_gate", false)]
       : []),
     ...LEGAL_AUTHORITY_FACT_QUESTIONS.filter((question) => authorityFactIds.has(question.id) && !existingIds.has(question.id))
+      .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id))),
+    ...PACKET_RELEASE_FACT_QUESTIONS.filter((question) => packetReleaseFactIds.has(question.id) && !existingIds.has(question.id))
       .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma", exactPacketFacts.has(question.id)))
   ];
   const availableWilmaFactQuestions = profile.jurisdiction.code === "MS"

@@ -72,10 +72,15 @@ const expected = {
   },
   MO: {
     file: "MO-missouri.json",
+    // The § 311.326 clock is one fact in two forms: an approximate threshold in
+    // free screening and an exact date of birth behind the claim. Only the
+    // exact one is a packet fact; the threshold is a route-scoped screening
+    // question and must never be treated as an exact date.
     routeConsumers: {
-      twenty_first_birthday: ["first-minor-in-possession-alcohol-expungement-under-311-326"]
+      mo_at_least_twenty_two: ["first-minor-in-possession-alcohol-expungement-under-311-326"],
+      date_of_birth: ["first-minor-in-possession-alcohol-expungement-under-311-326"]
     },
-    exactPacketFactIds: ["disposition_date", "arrest_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier", "twenty_first_birthday"],
+    exactPacketFactIds: ["disposition_date", "arrest_date", "court", "charge", "record_documents", "county_or_filing_location", "case_identifier", "date_of_birth"],
     completionAliasIds: ["sentence_completion_date", "financial_obligations"]
   },
   MT: {
@@ -94,13 +99,16 @@ const legalSurfaceHashes = {
   MI: "525af598d6b5d72745a1a7f7e0c6b69e8f03984908898c2597eb7f4a8df3da16",
   MN: "477efc8afcbbe165c245ef5c213a52f0140ad481140d481f277294959c1b5d1e",
   MS: "df72da8788bab609702c9c32e1ea952265d925f6c68116d5ea6c63ee07d189a9",
-  MO: "9fd1f08401e2d9a547eec262e475a9a26890845b9cca9efd7dd413256765d8bd",
+  // Rehashed for the § 311.326 fact-model correction: the exact birth date
+  // moved behind the claim and an approximate threshold took its place in
+  // screening. Both questions live in the legal surface, so the hash moves.
+  MO: "69bb8e1aae46e2dd610d4d0864a19a52704c07afd49b7003b66a29093c99f857",
   MT: "3bacd63e832245f01fb94a1f34783e30e3c68362ac693349dbac7353e1fbfe97"
 };
 
 const projectionPacketFacts = new Set([
   "MD:arrest_date",
-  "MO:twenty_first_birthday",
+  "MO:date_of_birth",
   "MS:arrest_date",
   "MS:ms_last_conviction_date_any_court",
   "MS:ms_successful_sentence_completion_date",
@@ -117,15 +125,30 @@ const equal = (actual, wanted, message) => {
   try { assert.deepEqual(actual, wanted); } catch { failures.push(`${message}: got ${JSON.stringify(actual)}`); }
 };
 
+/**
+ * What this froze, and what it froze it against.
+ *
+ * The original contract was: § 311.326 runs on an exact anchor, one year from
+ * `twenty_first_birthday`, and must never be coarsened into a timing bucket.
+ * The coarsening rule still holds. The anchor does not: `twenty_first_birthday`
+ * asked an anonymous person for their birth date, and no Missouri profile
+ * published the question, so the rule it guarded could not evaluate against
+ * anything.
+ *
+ * The corrected contract keeps the clock exact and moves it behind the claim.
+ * Twenty-two years from the date of birth is one year past the twenty-first
+ * birthday. Where no date of birth exists yet, screening answers an approximate
+ * threshold and says so; it never substitutes a bucket for the clock.
+ */
 function missouriMipExactClockViolations(source) {
   const start = source.indexOf('if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326")');
-  const end = start < 0 ? -1 : source.indexOf("\n  }", start);
-  const branch = start < 0 || end < 0 ? "" : source.slice(start, end + 4);
+  const end = start < 0 ? -1 : source.indexOf("\n  }\n", start);
+  const branch = start < 0 || end < 0 ? "" : source.slice(start, end + 5);
   const violations = [];
   if (!branch) violations.push("missing exact MO §311.326 timing branch");
-  if (!branch.includes("timingFromExactAnchor(")) violations.push("MO §311.326 does not require an exact anchor");
-  if (!branch.includes('"twenty_first_birthday"')) violations.push("MO §311.326 exact anchor changed");
-  if (!branch.includes('{ value: 1, unit: "years", raw: "1 year" }')) violations.push("MO §311.326 one-year duration changed");
+  if (!branch.includes("parseDateAnswer(answers.date_of_birth)")) violations.push("MO §311.326 exact anchor changed");
+  if (!branch.includes('addDuration(born, 22, "years")')) violations.push("MO §311.326 twenty-two-year duration changed");
+  if (!branch.includes("answers.mo_at_least_twenty_two")) violations.push("MO §311.326 lost its approximate screening threshold");
   if (branch.includes("resolved_timing_bucket") || branch.includes("RESOLVED_TIMING_BUCKET_FIELD_ID")) violations.push("MO §311.326 uses a coarse timing bucket");
   return violations;
 }
@@ -133,16 +156,19 @@ function missouriMipExactClockViolations(source) {
 const evaluatorSource = fs.readFileSync(EVALUATOR_PATH, "utf8");
 equal(missouriMipExactClockViolations(evaluatorSource), [], "MO §311.326 exact-clock contract changed");
 const exactClockMutations = [
-  evaluatorSource.replace('"twenty_first_birthday"', '"resolved_timing_bucket"'),
-  evaluatorSource.replace(
-    '"twenty_first_birthday", { value: 1, unit: "years", raw: "1 year" }',
-    '"twenty_first_birthday", { value: 2, unit: "years", raw: "2 years" }'
-  ),
+  // The exact date of birth replaced by the coarse bucket.
+  evaluatorSource.replace("parseDateAnswer(answers.date_of_birth)", "parseDateAnswer(answers.resolved_timing_bucket)"),
+  // Twenty-two years silently shortened to twenty-one: eligible a year early.
+  evaluatorSource.replace('addDuration(born, 22, "years")', 'addDuration(born, 21, "years")'),
+  // The route key renamed, so the branch never runs.
   evaluatorSource.replace(
     'if (key === "MO:first-minor-in-possession-alcohol-expungement-under-311-326")',
     'if (key === "MO:mutated-minor-in-possession-route")'
   ),
-  evaluatorSource.replace("return timingFromExactAnchor(profile, answers, rule, pathway, \"twenty_first_birthday\"", "return timingFromAnchor(profile, answers, rule, pathway, \"twenty_first_birthday\"")
+  // The exact clock deleted, leaving only the approximate screening threshold.
+  evaluatorSource.replace("const born = parseDateAnswer(answers.date_of_birth);", "const born = undefined;"),
+  // The approximate threshold deleted, leaving screening unable to answer.
+  evaluatorSource.replace("const threshold = answers.mo_at_least_twenty_two;", "const threshold = undefined;")
 ];
 for (const [index, mutation] of exactClockMutations.entries()) {
   check(missouriMipExactClockViolations(mutation).length > 0, `MO §311.326 exact-clock mutation ${index + 1} survived`);
@@ -183,7 +209,15 @@ for (const [state, spec] of Object.entries(expected)) {
     for (const pathwayId of consumers) {
       check(pathwayIds.has(pathwayId), `${state}:${questionId}: unknown pathway ${pathwayId}`);
       const escalationSupport = (ROUTE_ESCALATION_FACT_IDS[`${state}:${pathwayId}`] ?? []).includes(questionId);
-      const authoritySupport = authorityRoutes.some((route) => route.pathwayId === pathwayId && (route.screeningFactIds ?? []).includes(questionId));
+      // A route fact is approved either because the contract screens on it or
+      // because the contract holds the packet until it is supplied. The second
+      // source was missing, so a fact deliberately kept out of screening — a
+      // birth date, say — read as unsupported precisely for being correct.
+      const authoritySupport = authorityRoutes.some((route) => route.pathwayId === pathwayId && (
+        (route.screeningFactIds ?? []).includes(questionId)
+        || (route.packetReleasePreconditions ?? []).some((precondition) =>
+          precondition.id === questionId || precondition.satisfiedWhen?.factId === questionId)
+      ));
       check(escalationSupport || authoritySupport, `${state}:${questionId}: ${pathwayId} lacks approved machine support`);
       if (packetOnly) {
         check(!pathwaySelections.get(pathwayId)?.has(questionId), `${state}:${questionId}: exact date leaked into free screening for ${pathwayId}`);
@@ -282,11 +316,35 @@ if (!fs.existsSync(EVIDENCE_PATH)) {
   const evidence = readJson(EVIDENCE_PATH);
   equal(evidence.states, Object.keys(expected), "evidence state order changed");
   equal(evidence.before, { flows: 80, browserWitnessVariants: 156, freeQuestions: 108, exactDateFreeCheckInputs: 9, completionOverlaps: 8, genericSpecialRouteAsks: 17, rawPacketFields: 45 }, "evidence baseline changed");
-  equal(evidence.after, { flows: 80, browserWitnessVariants: 156, freeQuestions: { emptyContext: 90, maxExactRoute: 90 }, routeConsumerFacts: 3, routeConsumerEdges: 3, exactPacketFactIds: 60, completionAliasIds: 8 }, "evidence result counts changed");
+  /**
+   * The result block is computed, not restated.
+   *
+   * It used to be a literal compared against the evidence file's copy of the
+   * same literal — two frozen numbers agreeing with each other while the lane
+   * they described moved underneath both. Adding Missouri's second route
+   * consumer changed the real totals and neither copy noticed. These are now
+   * derived from the same spec the rest of the file checks against reality, so
+   * the evidence file is checked against the lane rather than against a twin.
+   */
+  const specs = Object.values(expected);
+  const sum = (fn) => specs.reduce((total, spec) => total + fn(spec), 0);
+  const stateCounts = Object.values(selectedQuestionCounts);
+  equal(evidence.after, {
+    flows: 80,
+    browserWitnessVariants: 156,
+    freeQuestions: {
+      emptyContext: stateCounts.reduce((total, row) => total + row.emptyContext, 0),
+      maxExactRoute: stateCounts.reduce((total, row) => total + row.maxExactRoute, 0)
+    },
+    routeConsumerFacts: sum((spec) => Object.keys(spec.routeConsumers).length),
+    routeConsumerEdges: sum((spec) => Object.values(spec.routeConsumers).flat().length),
+    exactPacketFactIds: sum((spec) => spec.exactPacketFactIds.length),
+    completionAliasIds: sum((spec) => spec.completionAliasIds.length)
+  }, "evidence result counts changed");
   equal(evidence.selectedQuestionCounts, selectedQuestionCounts, "evidence selected-question counts changed");
   equal(evidence.representativeSelectedFlowIds, representativeSelectedFlowIds, "evidence selected-answer witnesses changed");
   equal(evidence.authorityLimitedNoncommercialFlowIds, authorityLimitedNoncommercialFlowIds, "evidence authority-limited route witnesses changed");
-  equal(evidence.packetOnlyExactRouteFacts, { MD: ["pardon_signed_date", "arrest_date"], MO: ["twenty_first_birthday"] }, "evidence packet-only exact route facts changed");
+  equal(evidence.packetOnlyExactRouteFacts, { MD: ["pardon_signed_date", "arrest_date"], MO: ["date_of_birth"] }, "evidence packet-only exact route facts changed");
 }
 
 if (failures.length) {
@@ -296,4 +354,13 @@ if (failures.length) {
 }
 
 console.log("Lane F screening-verification verifier passed.");
-console.log("9 states, 80 terminal/payment flow witnesses, 156 browser variants, 90 empty-context / 90 max-route questions, 60 exact packet facts, 3 route-consumer edges, 8 completion aliases.");
+// Printed from the same computation the checks ran on. The hand-written version
+// of this line said 90/90 and 3 route-consumer edges after both had moved.
+{
+  const specs = Object.values(expected);
+  const stateCounts = Object.values(selectedQuestionCounts);
+  const total = (fn) => specs.reduce((n, spec) => n + fn(spec), 0);
+  const empty = stateCounts.reduce((n, row) => n + row.emptyContext, 0);
+  const maxRoute = stateCounts.reduce((n, row) => n + row.maxExactRoute, 0);
+  console.log(`${specs.length} states, 80 terminal/payment flow witnesses, 156 browser variants, ${empty} empty-context / ${maxRoute} max-route questions, ${total((spec) => spec.exactPacketFactIds.length)} exact packet facts, ${total((spec) => Object.values(spec.routeConsumers).flat().length)} route-consumer edges, ${total((spec) => spec.completionAliasIds.length)} completion aliases.`);
+}

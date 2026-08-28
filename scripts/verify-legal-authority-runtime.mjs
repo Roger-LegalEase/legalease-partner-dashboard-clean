@@ -7,7 +7,7 @@ const requestedDate = process.argv.find((arg) => arg.startsWith("--date="))?.sli
 process.env.RCAP_EVALUATOR_TODAY = requestedDate;
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const { LEGAL_AUTHORITY, routePaymentAuthority } = await import("@/lib/legal-authority/index");
+const { LEGAL_AUTHORITY, routePaymentAuthority, SUPERSEDED_ROUTE_CONTRACTS } = await import("@/lib/legal-authority/index");
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 const { evaluateScreening } = await import("@/lib/rcap-engine/evaluator");
@@ -16,8 +16,44 @@ const failures = [];
 const assert = (condition, message) => { if (!condition) failures.push(message); };
 const decisionRouteKeys = new Set(LEGAL_AUTHORITY.decisions.flatMap((decision) => decision.routeKeys));
 
-assert(LEGAL_AUTHORITY.routes.length === 127, `expected 127 legal contracts, found ${LEGAL_AUTHORITY.routes.length}`);
-assert(decisionRouteKeys.size === 113, `expected 113 approved decision route keys, found ${decisionRouteKeys.size}`);
+/**
+ * An accounted baseline, not a magic number.
+ *
+ * A bare `=== 127` tells a reader that the count moved and nothing about
+ * whether it was allowed to. Every departure from the recorded baseline has to
+ * be named here with the batch that caused it, so the arithmetic is the
+ * evidence and an unexplained drift still fails.
+ */
+const CONTRACT_BASELINE = {
+  recorded: 127,
+  recordedDecisionRouteKeys: 113,
+  additions: [
+    {
+      batch: "NATIONAL-2026-08-28",
+      contracts: 4,
+      decisionRouteKeys: 4,
+      note: "GA § 42-8-66, MO § 311.326, ND § 12-60.1-05 and SC diversion, from the National Legal Decision Report of 2026-08-28."
+    }
+  ],
+  departures: [
+    {
+      batch: "NATIONAL-2026-08-28",
+      contracts: 1,
+      decisionRouteKeys: 1,
+      note: "The MO § 311.326 contract and its route key already existed under the P0 batch; the national report supersedes that contract rather than adding a second one for the same routeKey."
+    }
+  ]
+};
+const sum = (rows, field) => rows.reduce((total, row) => total + row[field], 0);
+const expectedContracts = CONTRACT_BASELINE.recorded
+  + sum(CONTRACT_BASELINE.additions, "contracts") - sum(CONTRACT_BASELINE.departures, "contracts");
+const expectedDecisionRouteKeys = CONTRACT_BASELINE.recordedDecisionRouteKeys
+  + sum(CONTRACT_BASELINE.additions, "decisionRouteKeys") - sum(CONTRACT_BASELINE.departures, "decisionRouteKeys");
+assert(LEGAL_AUTHORITY.routes.length === expectedContracts, `expected ${expectedContracts} legal contracts, found ${LEGAL_AUTHORITY.routes.length}`);
+assert(decisionRouteKeys.size === expectedDecisionRouteKeys, `expected ${expectedDecisionRouteKeys} approved decision route keys, found ${decisionRouteKeys.size}`);
+// The departure is only real if the supersession actually happened.
+assert(SUPERSEDED_ROUTE_CONTRACTS.length === sum(CONTRACT_BASELINE.departures, "contracts"),
+  `baseline records ${sum(CONTRACT_BASELINE.departures, "contracts")} superseded contract(s); the registry reports ${SUPERSEDED_ROUTE_CONTRACTS.length}`);
 
 for (const contract of LEGAL_AUTHORITY.routes) {
   const profile = getProfileByJurisdiction(contract.jurisdiction);
@@ -75,11 +111,29 @@ if (requestedDate === "2026-08-25") {
   assert(moPathway?.legalAuthority?.effectiveFrom === "2026-08-28", "Missouri § 610.141 automatic route must exist with the exact 2026-08-28 effective date");
   const moPublic = mo ? projectPublicProfile(mo) : undefined;
   assert(moPublic?.questions.find((question) => question.id === "possible_pathway_context")?.options?.includes(moPathway?.label), "Missouri § 610.141 route must be selectable in the public flow");
-  assert(moPublic?.questions.some((question) => question.id === "twenty_first_birthday" && question.lifecyclePhase === "prepay_timing_gate"), "Missouri MIP route must publish its approved age-21 timing anchor");
+  // The § 311.326 clock is published as a threshold, not a birth date. Both
+  // halves are asserted: the approximate question is there, and the exact
+  // identity date is not, because anonymous screening may not collect one.
+  assert(moPublic?.questions.some((question) => question.id === "mo_at_least_twenty_two" && question.lifecyclePhase === "prepay_timing_gate"), "Missouri MIP route must publish its approved approximate age threshold");
+  assert(moPublic?.questions.every((question) => question.id !== "twenty_first_birthday" && question.id !== "date_of_birth"), "Missouri free screening must not publish a birth date");
   const msPublic = projectPublicProfile(getProfileByJurisdiction("MS"));
   assert(msPublic.questions.some((question) => question.id === "arrest_date" && question.lifecyclePhase === "prepay_timing_gate"), "Mississippi no-charge route must publish its approved arrest-date timing anchor");
   const mdPublic = projectPublicProfile(getProfileByJurisdiction("MD"));
-  assert(mdPublic.questions.some((question) => question.id === "arrest_date" && question.lifecyclePhase === "prepay_timing_gate"), "Maryland § 10-103 route must publish its approved arrest-date filing-deadline anchor");
+  // This assertion used to require the exact arrest date in free screening.
+  // An arrest date is an exact record date, and anonymous screening does not
+  // collect one, so what it required was a boundary violation. Maryland now
+  // carries the date as a packet field behind the claim, and the deadline is
+  // evaluated once the date exists.
+  //
+  // KNOWN GAP, recorded not fixed here: `mdPoliceRecordDeadlineSafetyGate`
+  // returns undefined when no arrest date is present, so free screening cannot
+  // tell a participant whose incident is plainly older than eight years that
+  // the § 10-103 window has closed. Closing that needs an approximate Maryland
+  // threshold question, which is Maryland work and not this batch.
+  assert(mdPublic.questions.every((question) => question.id !== "arrest_date" || question.lifecyclePhase !== "prepay_timing_gate"),
+    "Maryland must not publish an exact arrest date as a free-screening timing gate");
+  assert(mdPublic.questions.some((question) => question.lifecyclePhase === "prepay_timing_gate"),
+    "Maryland free screening must still offer an answerable timing gate");
 }
 
 if (requestedDate === "2026-06-30") {
@@ -119,4 +173,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Legal authority runtime OK: ${LEGAL_AUTHORITY.routes.length}/127 contracts and ${decisionRouteKeys.size}/113 approved route keys affect evaluator/public runtime.`);
+console.log(`Legal authority runtime OK: ${LEGAL_AUTHORITY.routes.length}/${expectedContracts} contracts and ${decisionRouteKeys.size}/${expectedDecisionRouteKeys} approved route keys affect evaluator/public runtime.`);

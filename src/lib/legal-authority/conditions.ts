@@ -53,6 +53,17 @@ export type ConditionOperator =
   | "exists"
   | "is_true" | "is_false"
   | "date_before" | "date_on_or_after"
+  /**
+   * At least N years/months/days have passed since the fact's date, measured
+   * against the evaluation date rather than a literal.
+   *
+   * An eligibility clock written as `date_before "2025-08-28"` is only correct
+   * on the day it was written. A Missouri participant whose twenty-first
+   * birthday fell on 2025-10-01 became eligible on 2026-10-01 and would have
+   * been refused forever by that literal, because their birthday was not before
+   * the frozen cutoff and never would be.
+   */
+  | "elapsed_at_least"
   | "verified_document_status"
   | "all" | "any";
 
@@ -66,6 +77,8 @@ export type Condition = {
   values?: string[];
   /** For all / any. */
   conditions?: Condition[];
+  /** For elapsed_at_least. */
+  elapsed?: { value: number; unit: "days" | "months" | "years" };
   /**
    * The weakest provenance that may satisfy this condition. A fact whose
    * provenance is weaker fails, and says so, rather than being accepted because
@@ -115,13 +128,38 @@ const parseDate = (value: unknown) => {
 const unsatisfied = (reason: string, missingFactIds: string[] = []): ConditionResult =>
   ({ satisfied: false, missingFactIds, reason });
 
+/**
+ * Add a calendar duration to a date, in UTC.
+ *
+ * Month and year arithmetic clamps to the last valid day, so 29 February plus
+ * one year is 28 February rather than rolling into March. A leap-day birthday
+ * must not make somebody a day late for their own eligibility.
+ */
+export function addDuration(from: Date, value: number, unit: "days" | "months" | "years"): Date {
+  const at = new Date(from.getTime());
+  if (unit === "days") { at.setUTCDate(at.getUTCDate() + value); return at; }
+  const months = unit === "years" ? value * 12 : value;
+  const day = at.getUTCDate();
+  at.setUTCDate(1);
+  at.setUTCMonth(at.getUTCMonth() + months);
+  const lastDay = new Date(Date.UTC(at.getUTCFullYear(), at.getUTCMonth() + 1, 0)).getUTCDate();
+  at.setUTCDate(Math.min(day, lastDay));
+  return at;
+}
+
 export function evaluateCondition(
   condition: Condition,
   facts: FactSnapshotMap,
-  phase: LifecyclePhase
+  phase: LifecyclePhase,
+  /**
+   * The date the matter is evaluated as of. Required for elapsed_at_least: a
+   * clock with no as-of date has to invent one, and a hidden new Date() makes
+   * the same matter eligible in one caller and not another.
+   */
+  asOf?: Date
 ): ConditionResult {
   if (condition.operator === "all" || condition.operator === "any") {
-    const parts = (condition.conditions ?? []).map((child) => evaluateCondition(child, facts, phase));
+    const parts = (condition.conditions ?? []).map((child) => evaluateCondition(child, facts, phase, asOf));
     const missing = [...new Set(parts.flatMap((part) => part.missingFactIds))];
     if (condition.operator === "all") {
       const failed = parts.find((part) => !part.satisfied);
@@ -200,6 +238,16 @@ export function evaluateCondition(
       return matches
         ? { satisfied: true, missingFactIds: [], reason: null }
         : unsatisfied(`${factId} ${text} does not satisfy ${condition.operator} ${condition.value}`);
+    }
+    case "elapsed_at_least": {
+      const at = parseDate(text);
+      if (!at) return unsatisfied(`${factId} is not a readable date`, [factId]);
+      if (!condition.elapsed) return unsatisfied(`${factId}: elapsed_at_least names no duration`);
+      if (!asOf) return unsatisfied(`${factId}: elapsed_at_least needs an evaluation date and none was supplied`);
+      const due = addDuration(at, condition.elapsed.value, condition.elapsed.unit);
+      return asOf.getTime() >= due.getTime()
+        ? { satisfied: true, missingFactIds: [], reason: null }
+        : unsatisfied(`${condition.elapsed.value} ${condition.elapsed.unit} from ${text} falls due ${due.toISOString().slice(0, 10)}, which is after the evaluation date ${asOf.toISOString().slice(0, 10)}`);
     }
     case "verified_document_status": {
       // A document-backed condition demands the document, not a description of

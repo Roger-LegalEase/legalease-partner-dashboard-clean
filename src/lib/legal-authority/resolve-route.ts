@@ -124,12 +124,13 @@ function admissibleFacts(input: RouteResolutionInput) {
 function firstSatisfied<T extends { selector?: Condition }>(
   candidates: readonly T[],
   facts: FactSnapshotMap,
-  phase: LifecyclePhase
+  phase: LifecyclePhase,
+  asOf: Date
 ) {
   const missing: string[] = [];
   for (const candidate of candidates) {
     if (!candidate.selector) continue;
-    const result = evaluateCondition(candidate.selector, facts, phase);
+    const result = evaluateCondition(candidate.selector, facts, phase, asOf);
     if (result.satisfied) return { selected: candidate, missing: [] as string[] };
     for (const factId of result.missingFactIds) if (!missing.includes(factId)) missing.push(factId);
   }
@@ -156,11 +157,11 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
   }
 
   const branches = contract.serviceBranches ?? [];
-  const branchPick = firstSatisfied(branches, facts, input.phase);
+  const branchPick = firstSatisfied(branches, facts, input.phase, input.on);
   const selected: ServiceBranch | null = branchPick.selected;
 
   // The failure that is actually true, not the list of ones that could be.
-  const failurePick = firstSatisfied(contract.failureDisposition ?? [], facts, input.phase);
+  const failurePick = firstSatisfied(contract.failureDisposition ?? [], facts, input.phase, input.on);
   const selectedFailure: FailureDisposition | null = failurePick.selected;
 
   // Preconditions are truth tests. An unsatisfied one holds the packet closed
@@ -180,7 +181,7 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
       notYetApplicablePreconditions.push({ precondition, reason: `${precondition.id} is proved at ${requiredPhase}, not at ${input.phase}` });
       continue;
     }
-    const result = evaluateCondition(precondition.satisfiedWhen, facts, input.phase);
+    const result = evaluateCondition(precondition.satisfiedWhen, facts, input.phase, input.on);
     if (result.satisfied) continue;
     unsatisfiedPreconditions.push({ precondition, reason: result.reason ?? "unsatisfied" });
     for (const factId of result.missingFactIds) if (!preconditionMissing.includes(factId)) preconditionMissing.push(factId);

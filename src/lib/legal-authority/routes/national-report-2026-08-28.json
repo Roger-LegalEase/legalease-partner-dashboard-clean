@@ -238,13 +238,13 @@
         "kind": "elapsed_eligibility_clock",
         "value": 1,
         "unit": "years",
-        "anchorFactId": "twenty_first_birthday",
-        "anchorText": "not less than one year after the person's twenty-first birthday. Free screening asks only the approximate threshold; the twenty-first birthday itself is derived server-side from a date of birth collected once after authentication."
+        "anchorFactId": "date_of_birth",
+        "anchorText": "not less than one year after the person's twenty-first birthday, which is twenty-two years after the date of birth. Free screening asks only whether the participant is at least twenty-two; the exact date of birth is collected once after authentication and the eligibility date is derived from it server-side."
       },
       "requiredFacts": [
         "Is the judgment expressly under Mo. Rev. Stat. § 311.325, or under a county or municipal ordinance?",
         "If an ordinance, does it expressly adopt the § 311.326 remedy, or does it merely mirror the substantive offence?",
-        "Free screening: was the person's twenty-first birthday at least one year ago? (approximate threshold, never an exact date)",
+        "Free screening: is the person at least 22 years old? (yes / no / not sure — an approximate threshold, never an exact date)",
         "After authentication: date of birth, collected once, from which the twenty-first birthday and the one-year eligibility date are derived server-side",
         "Which circuit court sentenced the person, and in which division?",
         "What is the original criminal case number and judgment?",
@@ -253,7 +253,8 @@
       ],
       "screeningFactIds": [
         "case_outcome",
-        "offense_level"
+        "offense_level",
+        "mo_at_least_twenty_two"
       ],
       "exclusions": [
         "One-time relief only",
@@ -430,18 +431,21 @@
       "branchSelectionRequired": true,
       "packetReleasePreconditions": [
         {
-          "id": "twenty_first_birthday",
-          "requires": "the twenty-first birthday, derived server-side from a date of birth collected once after authentication and bound to the participant-owned matter",
+          "id": "date_of_birth",
+          "requires": "the date of birth, collected once after authentication, from which the twenty-first birthday and the one-year § 311.326 eligibility date are derived server-side",
           "satisfiedWhen": {
-            "operator": "date_before",
-            "factId": "twenty_first_birthday",
-            "value": "2025-08-28",
+            "operator": "elapsed_at_least",
+            "factId": "date_of_birth",
+            "elapsed": {
+              "value": 22,
+              "unit": "years"
+            },
             "requiredProvenance": "verified_record",
             "requiredPhase": "FINAL_VERIFICATION"
           },
           "whenUnsatisfied": "fail_closed_guidance",
           "collectedAt": "final_verification",
-          "note": "The one-year clock runs from this date, so it must be exact and it must be ours rather than recalled. Free screening asks one approximate threshold question and never an exact date; after authentication the date of birth is collected ONCE and the twenty-first birthday is derived from it server-side, bound to the matter and its final-verification snapshot. The participant is never asked to type the same date twice."
+          "note": "Twenty-two years from the date of birth is one year after the twenty-first birthday, which is what § 311.326 requires. The condition is measured against the resolver's explicit evaluation date, never a literal: a clock written as a fixed cutoff is correct only on the day it is written, and a participant whose twenty-first birthday falls after that cutoff would be refused forever. Free screening never sees this fact."
         }
       ]
     },

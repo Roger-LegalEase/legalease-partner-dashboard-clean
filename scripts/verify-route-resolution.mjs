@@ -333,10 +333,10 @@ ok("a § 311.325 state conviction takes the state route",
 ok("the state route is packet-bearing but held",
   moState.outcomeMode === "participant_packet" && moState.openDeliveryGateIds.length === 6);
 ok("and the derived eligibility date is required before any packet",
-  moState.missingFacts.includes("twenty_first_birthday")
-  || moState.unsatisfiedPreconditions.some((p) => p.precondition.id === "twenty_first_birthday"));
+  moState.missingFacts.includes("date_of_birth")
+  || moState.unsatisfiedPreconditions.some((p) => p.precondition.id === "date_of_birth"));
 
-const MO_DOB = { twenty_first_birthday: verified("2000-01-01") };
+const MO_DOB = { date_of_birth: verified("2000-01-01") };
 const moAdopts = mo({ ...MO_DOB, mo_311_326_conviction_origin: verified("ordinance_expressly_adopts_311_326") });
 ok("an ordinance that expressly adopts the remedy is a separate local route, not this one",
   moAdopts.selectedBranchId === "ordinance_expressly_adopts_311_326"
@@ -387,17 +387,23 @@ console.log("\nProduct integration — Georgia route identity and Missouri scree
 const { getProfileByJurisdiction } = await import("@/lib/rcap-engine/profile-registry");
 const { projectPublicProfile } = await import("@/lib/rcap-engine/public-profile-projection");
 const moPublic = projectPublicProfile(getProfileByJurisdiction("MO"));
-ok("Missouri free screening does not ask for the twenty-first birthday",
-  !moPublic.questions.some((q) => q.id === "twenty_first_birthday"));
+ok("Missouri free screening asks no exact birth date",
+  !moPublic.questions.some((q) => q.id === "date_of_birth"));
 const moProfile = getProfileByJurisdiction("MO");
-ok("the twenty-first birthday is a packet_information fact, collected after the claim",
-  moProfile.questions.find((q) => q.id === "twenty_first_birthday")?.stage === "packet_information");
+ok("the birth date is a packet_information fact, collected after the claim",
+  moProfile.questions.find((q) => q.id === "date_of_birth")?.stage === "packet_information");
 ok("it collects date of birth once and derives the clock from it",
-  /date of birth/i.test(moProfile.questions.find((q) => q.id === "twenty_first_birthday")?.prompt ?? ""));
+  /date of birth/i.test(moProfile.questions.find((q) => q.id === "date_of_birth")?.prompt ?? ""));
 ok("no route consumer publishes it into screening",
-  !Object.keys(moProfile.questionLifecycle?.routeConsumers ?? {}).includes("twenty_first_birthday"));
+  !Object.keys(moProfile.questionLifecycle?.routeConsumers ?? {}).includes("date_of_birth"));
 ok("it is still an exact packet fact",
-  (moProfile.questionLifecycle?.exactPacketFactIds ?? []).includes("twenty_first_birthday"));
+  (moProfile.questionLifecycle?.exactPacketFactIds ?? []).includes("date_of_birth"));
+// Screening carries the approximate form of the same fact, so a plainly
+// under-age person is not told to authenticate before being told no.
+ok("free screening carries the approximate age question instead",
+  moPublic.questions.some((q) => q.id === "mo_at_least_twenty_two"));
+ok("and it is a yes/no/unsure question, not a date",
+  moProfile.questions.find((q) => q.id === "mo_at_least_twenty_two")?.type === "yes_no_unsure");
 
 // Georgia: two route identities, not an alias.
 const aliasDoc = JSON.parse(fs.readFileSync("data/rcap-ledger/route-aliases.json", "utf8"));
