@@ -16,6 +16,18 @@
 
 ## ★ CURRENT CONTINUATION POINT (read this first)
 
+**Execution order to launch:** `docs/LAUNCH_SEQUENCE.md` is the controlling
+order for Track A (the participant platform), Track B (state coverage) and
+Track C (company controls), and states what "launch ready" means. It is
+subordinate to `docs/PRODUCT_CONTRACT.md`. The state-coverage detail below
+remains Track B's plan of record; the launch sequence says when it runs relative
+to everything else.
+
+**Track A status:** Phase 1 (vocabulary and invariants) complete. Phase 2
+(pending result and atomic claim service) implemented and proven against
+isolated PostgreSQL; see `docs/architecture/adr/ADR-0002-canonical-matter-and-the-shared-claim-service.md`.
+
+
 **Already done and in the working tree (do NOT rebuild):**
 - The record-clearing shadow module exists: `src/lib/record-clearing/` (types, products, jurisdictions, form-authorities, field-maps, packet-planner, qa, audit, index, and renderers: official-pdf-renderer, overlay-renderer, acroform-renderer, xfa-detector, render-utils).
 - PDF inspection + ingest scripts exist; 235 PDFs classified (4 acroform_clean, 107 dirty, 1 xfa, 3 flat, 114 scanned, 6 encrypted).
