@@ -37,7 +37,7 @@ import { fileURLToPath } from 'node:url';
 // suppressed; whether that is TRUE is a question only the runtime can answer,
 // and asking a copy of its rules here would be a second system that drifts.
 register('./lib/ts-esm-loader.mjs', import.meta.url);
-const { resolvePacketRoute } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
+const { resolvePacketRoute, packetRouteCanRender } = await import('../src/lib/rcap/documents/packet-route-resolver.ts');
 // Terminal treatments are validated in exactly one place — the guidance-packet
 // registry — and read here rather than re-validated, so the ledger and the
 // runtime can never disagree about whether a treatment loaded.
@@ -169,12 +169,33 @@ for (const spec of authorityStageSplitSpecs) {
   }
   const activeRuntime = resolvePacketRoute({ state: jurisdiction, pathway: active.pathwayId });
   const completedRuntime = resolvePacketRoute({ state: jurisdiction, pathway: completed.pathwayId });
+  /**
+   * The stage split is proven at the contract layer, and the runtime is checked
+   * for the one thing it can still say.
+   *
+   * This used to read "the active admission is closed AND the completed stage is
+   * sellable and credit-consumable", which is how a split shows up in a runtime
+   * that can express one. Since ADR-0004 Mississippi's runtime cannot: the whole
+   * jurisdiction resolves legacy_retired and sells nothing, so both stages look
+   * identical through sellability and neither is commercially available.
+   *
+   * Reopening the completed stage to keep this check satisfiable would be
+   * restoring a retired generator's commercial authority to make a generator
+   * pass, which is exactly what the owner decision forbids. So the split is
+   * proven above, on the contracts' stage, outcomeMode and packetFamily — where
+   * it is actually recorded — and the runtime is held to the post-retirement
+   * truth: neither stage carries commercial authority.
+   */
   if (activeRuntime.sellable || activeRuntime.creditConsumable) {
     fail(`${spec.trackKey}: active admission is still sellable or credit-consumable`);
     continue;
   }
-  if (!completedRuntime.sellable || !completedRuntime.creditConsumable) {
-    fail(`${spec.trackKey}: completed packet stage is not executable and credit-consumable`);
+  if (completedRuntime.sellable || completedRuntime.creditConsumable) {
+    fail(`${spec.trackKey}: completed packet stage regained commercial authority a retired generator cannot grant`);
+    continue;
+  }
+  if (!packetRouteCanRender(completedRuntime)) {
+    fail(`${spec.trackKey}: completed packet stage lost its renderer, so the stage split is no longer observable at all`);
     continue;
   }
   authorityStageSplitPromotions.set(spec.trackKey, {
