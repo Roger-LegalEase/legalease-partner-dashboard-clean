@@ -547,14 +547,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges, all charges were dismissed (not as part of a Rule 11 plea in another case), some were acquitted and the rest dismissed, or all were dismissed after a suspended entry of judgment (AS 12.55.078).",
-        "Most juvenile records are sealed within 30 days of the 18th birthday or the court's release of jurisdiction (whichever is later); juveniles charged as adults generally seal five years after completing the sentence.",
-        "Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030",
-        "Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300",
-        "jurisdiction; 5 years if charged as adult",
-        "For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first",
-        "Mechanism Trigger / waiting period Authority SIS set-aside On successful completion of the SIS probation AS 12.55.085(e) period (clean for the term, often ≈ 1 year+) Mistaken-identity sealing No fixed wait; proof beyond a reasonable doubt AS 12.62.180(b) Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030 (acquittal / dismissal) Suspended entry of judgment On completion; dismissal w/o conviction AS 12.55.078 Juvenile sealing 30 days after 18th birthday / release of AS 47.12.300 jurisdiction; 5 years if charged as adult Two timing points matter.",
-        "AGENT GUIDANCE For acquittals/dismissals, the relief should be automatic at 60 days — have the user check Courtview first and only file TF-810 if the case is still showing."
+        "where discharge occurred without a set-aside decision, Alaska appellate law permits a belated determination focused on the circumstances that existed when probation was discharged"
       ],
       "exclusionRules": [
         "Certain offenses are excluded from SIS / set-aside under AS 12.55.085(f) (see Section 3).",
@@ -583,6 +576,115 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-B-AK-01",
+        "ruleId": "AK-12-55-085-E-BELATED-SET-ASIDE-MOTION",
+        "mechanism": "Belated determination and set-aside after a suspended imposition of sentence",
+        "statute": "AS 12.55.085(e)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "where discharge occurred without a set-aside decision, Alaska appellate law permits a belated determination focused on the circumstances that existed when probation was discharged"
+        },
+        "requiredFacts": [
+          "Was the sentence a suspended imposition under AS 12.55.085?",
+          "Did discharge occur without a set-aside determination?",
+          "What were the circumstances at discharge?",
+          "Does the offense fall within the subsection (f) exclusions?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "An offense within the AS 12.55.085(f) exclusions is outside this route",
+          "A set-aside already determined at discharge is not re-litigated here"
+        ],
+        "packetFamily": "Alaska AS 12.55.085(e) Belated Set-Aside Motion",
+        "packetComponents": [
+          "Motion for Belated Determination and Set-Aside Under AS 12.55.085(e)",
+          "Discharge order and probation-completion record",
+          "Judgment and sentencing documents",
+          "Evidence concerning compliance and rehabilitation as of discharge",
+          "Statement addressing the exclusions in subsection (f)",
+          "Prosecutor service",
+          "Proposed order",
+          "Instructions explaining that a set-aside does not physically erase the historical court file"
+        ],
+        "deliveryGates": [
+          {
+            "id": "ak_12_55_085_e_motion_artifact",
+            "kind": "artifact_generation",
+            "items": [
+              "the custom motion, filed in the original sentencing criminal case and not as a new civil petition",
+              "the subsection (f) exclusions statement",
+              "the compliance-and-rehabilitation-at-discharge component",
+              "prosecutor service instructions",
+              "the proposed order",
+              "the instruction that a set-aside does not physically erase the historical court file"
+            ],
+            "owner": "RCAP packet factory",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no Alaska Court System form specific to a post-discharge request was located",
+            "note": "The report located no official form, so every component is custom. The motion belongs in the original criminal case; producing it as a new civil petition would file it in the wrong proceeding."
+          }
+        ],
+        "failureDisposition": [
+          {
+            "id": "ak_set_aside_probation_violation_alleged",
+            "when": "the State alleges probation violations",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ak_set_aside_probation_violation_alleged",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report self-help boundary. A contested compliance record is advocacy about the facts at discharge, not a form to fill in."
+          },
+          {
+            "id": "ak_set_aside_previously_denied",
+            "when": "the court previously denied set-aside relief",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ak_set_aside_previously_denied",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report self-help boundary. A second request after a denial is a different motion with a different burden."
+          },
+          {
+            "id": "ak_set_aside_discharge_disputed",
+            "when": "the discharge status is disputed",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ak_set_aside_discharge_disputed",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report self-help boundary. The whole motion turns on the circumstances at discharge; a disputed discharge has no fixed point to argue from."
+          },
+          {
+            "id": "ak_set_aside_subsection_f_offense",
+            "when": "the offense may fall within the subsection (f) exclusions",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ak_set_aside_subsection_f_possible",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report self-help boundary. Whether an offense is excluded is the merits question, and answering it wrong files a motion the statute forbids."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant motion once its custom artifact exists. The artifact gate, not the posture, is what holds it closed."
+        },
+        "notes": "Batch B. Alaska carried no route contract at all before this. The report's three Alaska tracks are ak-set-aside, ak-cannabis-seal and ak-correct-record; only ak-set-aside has a compiled pathway to attach to. The other two are recorded in data/rcap-ledger/batch-b-unattached-decisions.json rather than invented here: a contract needs a routeKey that resolves to a pathway, and creating pathways to receive contracts would let the authority file define the product's route inventory."
       }
     },
     {
@@ -2434,28 +2536,10 @@
       "when": {
         "backendPathwayId": "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "criminal_history",
-          "disposition_date",
-          "age_at_offense",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "sentence_completion_date",
-          "criminal_history",
-          "disposition_date",
-          "age_at_offense",
-          "pardon_status",
-          "identity_error",
-          "record_type",
-          "residency_or_location"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "convicted_misdemeanor",
@@ -2464,7 +2548,7 @@
           "acquitted",
           "juvenile"
         ],
-        "sourceConditionText": "Set-aside after a Suspended Imposition of Sentence (AS 12.55.085)"
+        "sourceConditionText": "where discharge occurred without a set-aside decision, Alaska appellate law permits a belated determination focused on the circumstances that existed when probation was discharged"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2474,7 +2558,13 @@
       "sourceRef": "pathways:78-118; section:381-387; section:78-118; corpus-unit:30; corpus-unit:106; section:56-77; section:119-151; section:152-186",
       "candidatePathwayIds": [
         "set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-B-AK-01",
+        "ruleId": "AK-12-55-085-E-BELATED-SET-ASIDE-MOTION",
+        "statute": "AS 12.55.085(e)",
+        "mechanism": "Belated determination and set-aside after a suspended imposition of sentence"
+      }
     },
     {
       "id": "route-sealing-for-mistaken-identity-or-false-accusation-as-12-62-180",

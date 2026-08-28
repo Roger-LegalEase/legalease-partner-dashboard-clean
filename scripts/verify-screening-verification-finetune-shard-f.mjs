@@ -92,8 +92,12 @@ const expected = {
 };
 
 const legalSurfaceHashes = {
-  LA: "c433b1664ff18fd055c31e78bf954504dac61e2453bb0f399a534c16aac5ee9e",
-  ME: "9693d48ac86d0cbc5f89b6b319558709554506838dc9a287de9cb3e97a3d78a0",
+  // Rehashed for Batch B: Louisiana gained a contract for the art. 977(D)/998
+  // route and had two ungated LD-LA-05 contracts superseded by gated ones.
+  LA: "9d83357632f526cff5ddad1d86cae1120adaf6b47eccc2f6abbbb09a37a35326",
+  // Rehashed for Batch B: Maine had no route contracts at all except juvenile
+  // sealing; § 2264, § 2264(7) and § 703(2) all gained one.
+  ME: "f8580a042af867ae055de3f1bf2d0b64201585d8a07b225f5fc4eed04c991750",
   MD: "158287d6d66fcba83112b4e81adb0d94cc9f3d0233540b89ef7cb33cbb43981c",
   MA: "b19adba173d6c36d9a15094182327e66e7d745570fcf5f7ab67ca483699f4b03",
   MI: "525af598d6b5d72745a1a7f7e0c6b69e8f03984908898c2597eb7f4a8df3da16",

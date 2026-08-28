@@ -33,6 +33,12 @@ const CONTRACT_BASELINE = {
       contracts: 4,
       decisionRouteKeys: 4,
       note: "GA § 42-8-66, MO § 311.326, ND § 12-60.1-05 and SC diversion, from the National Legal Decision Report of 2026-08-28."
+    },
+    {
+      batch: "NATIONAL-2026-08-28-BATCH-B",
+      contracts: 7,
+      decisionRouteKeys: 7,
+      note: "Louisiana art. 977(D)/998, art. 985 redaction and art. 985.3; Maine § 2264, § 2264(7) and § 703(2); Alaska AS 12.55.085(e). Five of the seven had no contract at all, so nothing carried the report's conditions on them."
     }
   ],
   departures: [
@@ -41,6 +47,12 @@ const CONTRACT_BASELINE = {
       contracts: 1,
       decisionRouteKeys: 1,
       note: "The MO § 311.326 contract and its route key already existed under the P0 batch; the national report supersedes that contract rather than adding a second one for the same routeKey."
+    },
+    {
+      batch: "NATIONAL-2026-08-28-BATCH-B",
+      contracts: 2,
+      decisionRouteKeys: 2,
+      note: "The LA art. 985 redaction and art. 985.3 contracts already existed under LD-LA-05 and are superseded rather than duplicated. LD-LA-05's decision index already named both route keys, so neither the contract count nor the route-key count moves for them. I first recorded this departure as 0 route keys on the assumption that LD-LA-05 did not index them; the count said otherwise, and the count was right."
     }
   ]
 };

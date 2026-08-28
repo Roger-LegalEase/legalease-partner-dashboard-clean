@@ -89,7 +89,9 @@ const expected = {
 
 const legalSurfaceHashes = {
   AL: "c2a2410600e944bb92c1d5a1671971597a0b517c2545622f402be53970b16ea0",
-  AK: "79aebb8a71cfe3e712a065473cca501f1d605954071bf9e1ba2ed47ba6c5a897",
+  // Rehashed for Batch B: Alaska carried no route contract of any kind before
+  // the AS 12.55.085(e) belated set-aside motion.
+  AK: "3e3800a5fe7436c2d46e8e03107d7c138540965d54a7e465677edfb521972145",
   AZ: "83959449fac7969c0996ab0649833a04bce971fb5e7fa1dbfd48ce83b002cab9",
   AR: "fe8d24a05e45534af89042ab55a676bca93385fadb6ca3cc8d4a80f4936b7438",
   CA: "26e6639ff62d65ee2d67f601a209c01c068b8d0efb2a2bc3851596826512f970",

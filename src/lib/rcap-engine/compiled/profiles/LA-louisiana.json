@@ -898,14 +898,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
-        "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
-        "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
-        "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
-        "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "Special violent-offense exception: After a contradictory hearing, the court may expunge records for aggravated battery, second degree battery, aggravated criminal damage to property, simple robbery, purse snatching, or illegal use of weapons/dangerous instrumentalities if more than ten years have passed since completion, the person has had no criminal conviction during that ten-year period, and has no pending charge. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
-        "1 Confirm ten years since completion"
+        "ninety days from the disposition that ends the first-offense marijuana matter"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -926,6 +919,62 @@
         "payment_allowed_when_engine_confirms": false,
         "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
         "lawrence_review": "hold_guidance_only"
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-B-LA-01",
+        "ruleId": "LA-977D-998-POST-SUNSET-FEE-SCHEDULE",
+        "mechanism": "First-offense marijuana expungement after the ninety-day period",
+        "statute": "La. C.Cr.P. art. 998; La. C.Cr.P. art. 977(D)",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "elapsed_eligibility_clock",
+          "value": 90,
+          "unit": "days",
+          "anchorFactId": "disposition_date",
+          "anchorText": "ninety days from the disposition that ends the first-offense marijuana matter"
+        },
+        "requiredFacts": [
+          "Which parish clerk of court receives the motion?",
+          "What fee schedule does that clerk apply to an Article 977(D) motion filed after 1 August 2026?",
+          "Has the ninety-day period run?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "This route is the first-offense marijuana branch only; an ordinary Article 977 or 978 matter takes its own route"
+        ],
+        "packetFamily": "Louisiana Article 977(D) First-Offense Marijuana Expungement Packet",
+        "packetComponents": [
+          "Motion for expungement under La. C.Cr.P. art. 998",
+          "Proposed order",
+          "Clerk fee statement for the receiving parish"
+        ],
+        "deliveryGates": [
+          {
+            "id": "la_977d_post_sunset_fee_schedule",
+            "kind": "source_acquisition",
+            "items": [
+              "the fee a parish clerk actually charges for an Article 977(D) motion filed after 1 August 2026",
+              "whether any parish still applies the terminated Article 983(M) three-hundred-dollar schedule",
+              "any parish that publishes a different collection practice for Article 977(D) motions"
+            ],
+            "owner": "RCAP source acquisition",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no parish fee-practice record exists yet",
+            "note": "Report disposition CONDITIONAL — SOURCE GATE for Q-004. The statute sunset the Article 983(M) schedule on 1 August 2026; what is unknown is whether every clerk stopped applying it. Quoting a fee that a parish does not charge is a filing failure, not a legal error, which is why this is a source gate and not a legal question."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant motion. The fee gate, not the posture, is what holds it closed."
+        },
+        "notes": "Batch B. The legal mechanism is settled; the parish-level fee practice is not. This is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were."
       }
     },
     {
@@ -1374,7 +1423,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
+        "available where the record names more than one person and only the participant's portion may be cleared"
       ],
       "exclusionRules": [],
       "frontendBranch": {
@@ -1393,37 +1442,57 @@
         "lawrence_review": "hold_guidance_only"
       },
       "legalAuthority": {
-        "decisionId": "LD-LA-05",
-        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
-        "mechanism": "Expungement by redaction for a record naming more than one person",
-        "statute": "La. Code Crim. Proc. art. 985",
+        "decisionId": "NATIONAL-2026-08-28-B-LA-02",
+        "ruleId": "LA-985-989-REDACTION-ELECTION",
+        "mechanism": "Expungement by redaction where a record names more than one person",
+        "statute": "La. C.Cr.P. art. 985; La. C.Cr.P. art. 989; La. C.Cr.P. art. 992",
         "stage": "single_stage",
         "outcomeMode": "participant_packet",
         "paymentAuthority": "packet_checkout",
         "timing": {
           "kind": "event_trigger",
-          "anchorText": "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
+          "anchorText": "available where the record names more than one person and only the participant's portion may be cleared"
         },
         "requiredFacts": [
-          "Underlying eligibility basis?",
-          "Redaction need?",
-          "Funding/automation availability?",
-          "Prosecutor trafficking certification?",
-          "Program completion?",
-          "Original felony arrest and final misdemeanor disposition?"
+          "Does the record name more than one person?",
+          "Is redaction rather than full expungement the relief sought?",
+          "Which court holds the record?"
         ],
         "screeningFactIds": [
           "case_outcome"
         ],
         "exclusions": [
-          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+          "A single-person record takes the ordinary expungement route, not redaction"
         ],
         "packetFamily": "Louisiana Article 985 Redaction Packet",
         "packetComponents": [
-          "Motion for expungement by redaction",
-          "Underlying eligibility showing"
+          "Official Article 989 motion",
+          "Redaction supplement electing Article 985 relief",
+          "Proposed Article 992 order carrying the redaction paragraph"
         ],
-        "notes": "Eligibility follows whatever underlying route the applicant qualifies for."
+        "deliveryGates": [
+          {
+            "id": "la_985_redaction_supplement_review",
+            "kind": "artifact_legal_review",
+            "items": [
+              "a rendered Article 989 motion with the redaction election",
+              "the supplement's text and its hash",
+              "counsel's reading of whether the election belongs in the motion at all"
+            ],
+            "owner": "RCAP packet factory, then artifact-level counsel review",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no candidate artifact exists yet",
+            "note": "Report disposition ARTIFACT REVIEW STILL REQUIRED for Q-007. The report's product decision is 'official motion + redaction supplement', and the open question is whether Article 989 requires a distinct pleading or election at all, given that the redaction paragraph appears in the Article 992 order rather than in the motion and Article 985(A) speaks of petitioning the court. That cannot be answered before a candidate artifact exists to read."
+          }
+        ],
+        "artifactApprovalRequired": true,
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant motion once its artifact is approved. artifactApprovalRequired closes checkout until then, with no input that can satisfy it short of that approval."
+        },
+        "notes": "Batch B. Supersedes the ungated LD-LA-05 contract for this route, which derived packet_checkout with nothing holding it while the report recorded artifact review as still required."
       }
     },
     {
@@ -1553,7 +1622,7 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action"
+        "successful completion of a court-ordered probation or alternative sentencing programme; Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible"
       ],
       "exclusionRules": [
         "Wilma status labels:likely_eligible_misdemeanor_894_set_asidelikely_eligible_misdemeanor_5_year_clean_periodlikely_eligible_first_offense_marijuana_90_dayslikely_ineligible_misdemeanor_sex_domestic_stalkingneeds_article_894_set_aside_first",
@@ -1575,39 +1644,50 @@
         "lawrence_review": "hold_guidance_only"
       },
       "legalAuthority": {
-        "decisionId": "LD-LA-05",
-        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
-        "mechanism": "Immediate expungement after successful court-program completion",
-        "statute": "La. Code Crim. Proc. art. 985.3",
-        "stage": "post_completion",
+        "decisionId": "NATIONAL-2026-08-28-B-LA-03",
+        "ruleId": "LA-985-3-IMMEDIATE-COMPLETION-BRANCH",
+        "mechanism": "Immediate expungement on successful completion of a court-ordered programme",
+        "statute": "La. C.Cr.P. art. 985.3",
+        "stage": "single_stage",
         "outcomeMode": "participant_packet",
         "paymentAuthority": "packet_checkout",
         "timing": {
           "kind": "event_trigger",
-          "anchorFactId": "court_requirements_completed",
-          "anchorText": "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action"
+          "anchorText": "successful completion of a court-ordered probation or alternative sentencing programme; Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible"
         },
         "requiredFacts": [
-          "Underlying eligibility basis?",
-          "Redaction need?",
-          "Funding/automation availability?",
-          "Prosecutor trafficking certification?",
-          "Program completion?",
-          "Original felony arrest and final misdemeanor disposition?"
+          "Was a court-ordered probation or alternative sentencing programme completed successfully?",
+          "Is completion documented by the court?",
+          "Is the timing contested by the district attorney or the court?"
         ],
         "screeningFactIds": [
           "case_outcome",
           "court_requirements_completed"
         ],
         "exclusions": [
-          "Exact Louisiana procedure and all underlying Article 976-978 or special-route predicates"
+          "Unsuccessful or partial completion leaves this branch and returns to the ordinary Article 977 or 978 wait"
         ],
         "packetFamily": "Louisiana Article 985.3 Immediate Expungement Packet",
-        "packetComponents": [
-          "Motion under art. 985.3",
-          "Program completion proof"
+        "failureDisposition": [
+          {
+            "id": "la_985_3_timing_contested",
+            "when": "the displacement of the ordinary waiting period is contested",
+            "selector": {
+              "operator": "is_true",
+              "factId": "la_985_3_timing_contested",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report disposition RELEASE — PACKET; contested timing to counsel. The packet releases on the ordinary facts; a contested displacement is individualized advocacy about whether the wait applies at all, and is not a self-help filing."
+          }
         ],
-        "notes": "Subject to court action; the person must still be otherwise eligible."
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "Released as a packet by the report. The contested-timing branch leaves the route rather than holding it."
+        },
+        "notes": "Batch B. Supersedes the ungated LD-LA-05 contract for this route by adding the contested-timing handoff the report requires. The release itself is unchanged: Article 985.3 does displace the ordinary waits for a person otherwise eligible."
       }
     },
     {
@@ -2373,17 +2453,11 @@
         "backendPathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
         "requiredFields": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_level",
-          "offense_category",
-          "disposition_date",
-          "pardon_status"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2392,7 +2466,13 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "First-offense marijuana expungement after 90 days (Art. 998)"
+        "sourceConditionText": "ninety days from the disposition that ends the first-offense marijuana matter",
+        "duration": {
+          "value": 90,
+          "unit": "days",
+          "raw": "90 days"
+        },
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2402,7 +2482,13 @@
       "sourceRef": "section:190-230; section:49-56; corpus-unit:84; corpus-unit:18; packet_logic:190-230; corpus-unit:30",
       "candidatePathwayIds": [
         "first-offense-marijuana-expungement-after-90-days-art-998"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-B-LA-01",
+        "ruleId": "LA-977D-998-POST-SUNSET-FEE-SCHEDULE",
+        "statute": "La. C.Cr.P. art. 998; La. C.Cr.P. art. 977(D)",
+        "mechanism": "First-offense marijuana expungement after the ninety-day period"
+      }
     },
     {
       "id": "route-felony-article-893-e-set-aside-followed-by-expungement",
@@ -2579,7 +2665,7 @@
         "caseOutcomes": [
           "convicted_other"
         ],
-        "sourceConditionText": "derivative of the applicant's underlying expungement eligibility; it has no independent clock"
+        "sourceConditionText": "available where the record names more than one person and only the participant's portion may be cleared"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2591,10 +2677,10 @@
         "expungement-by-redaction-for-multi-person-records"
       ],
       "legalAuthority": {
-        "decisionId": "LD-LA-05",
-        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
-        "statute": "La. Code Crim. Proc. art. 985",
-        "mechanism": "Expungement by redaction for a record naming more than one person"
+        "decisionId": "NATIONAL-2026-08-28-B-LA-02",
+        "ruleId": "LA-985-989-REDACTION-ELECTION",
+        "statute": "La. C.Cr.P. art. 985; La. C.Cr.P. art. 989; La. C.Cr.P. art. 992",
+        "mechanism": "Expungement by redaction where a record names more than one person"
       }
     },
     {
@@ -2652,8 +2738,7 @@
           "dismissed",
           "convicted_other"
         ],
-        "sourceConditionText": "immediate upon successful completion of the specified court program where the person is otherwise eligible, subject to court action",
-        "timingAnchorFactId": "court_requirements_completed"
+        "sourceConditionText": "successful completion of a court-ordered probation or alternative sentencing programme; Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -2665,10 +2750,10 @@
         "immediate-expungement-after-successful-court-program-completion-art-985-3"
       ],
       "legalAuthority": {
-        "decisionId": "LD-LA-05",
-        "ruleId": "LA-985-985.1-985.2-985.3-983H-FIVE-PROCEDURE-MAP",
-        "statute": "La. Code Crim. Proc. art. 985.3",
-        "mechanism": "Immediate expungement after successful court-program completion"
+        "decisionId": "NATIONAL-2026-08-28-B-LA-03",
+        "ruleId": "LA-985-3-IMMEDIATE-COMPLETION-BRANCH",
+        "statute": "La. C.Cr.P. art. 985.3",
+        "mechanism": "Immediate expungement on successful completion of a court-ordered programme"
       }
     },
     {
@@ -2835,6 +2920,20 @@
         "pending_cases",
         "court",
         "charge"
+      ]
+    },
+    {
+      "id": "authority-first-offense-marijuana-expungement-after-90-days-art-998",
+      "ruleText": "La. C.Cr.P. art. 998; La. C.Cr.P. art. 977(D) — ninety days from the disposition that ends the first-offense marijuana matter",
+      "duration": {
+        "value": 90,
+        "unit": "days",
+        "raw": "90 days"
+      },
+      "anchor": "disposition_date",
+      "fieldsReferenced": [
+        "case_outcome",
+        "offense_level"
       ]
     }
   ],

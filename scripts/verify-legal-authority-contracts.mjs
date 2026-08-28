@@ -65,6 +65,48 @@ const DECISION_BASELINE = {
       decisionId: "NATIONAL-2026-08-28-LA-IMM-04",
       routeKeys: 1,
       reason: "South Carolina § 17-22-150 pretrial intervention as solicitor-administered guidance, from the same report."
+    },
+    // ---- Batch B: Louisiana, Maine, Alaska ----
+    // The report's conditions on these routes existed and had never been
+    // projected into anything that runs. Eight Louisiana contracts and one
+    // Maine contract carried a derived packet_checkout with zero delivery gates
+    // while the report's own implementation matrix recorded four of these
+    // questions as CONDITIONAL — SOURCE GATE, one as ARTIFACT REVIEW STILL
+    // REQUIRED and one as a FORM-CONFLICT GATE.
+    {
+      decisionId: "NATIONAL-2026-08-28-B-LA-01",
+      routeKeys: 1,
+      reason: "Louisiana Article 977(D)/998 first-offense marijuana expungement, held on the post-sunset parish fee practice. A new route: it carried no contract at all."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-LA-02",
+      routeKeys: 1,
+      reason: "Louisiana Article 985 redaction, held on artifact review. Supersedes the ungated LD-LA-05 contract for the same route."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-LA-03",
+      routeKeys: 1,
+      reason: "Louisiana Article 985.3 immediate expungement, released as a packet with contested timing routed to counsel. Supersedes the LD-LA-05 contract for the same route, which carried no handoff."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-ME-01",
+      routeKeys: 1,
+      reason: "Maine § 2264 adult conviction sealing, held on the prosecutor-notice method. A new route: it carried no contract at all."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-ME-02",
+      routeKeys: 1,
+      reason: "Maine § 2264(7) survivor sealing, held on two independent source gates — the CR-308 form conflict and the notice method. A new route."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-ME-03",
+      routeKeys: 1,
+      reason: "Maine § 703(2) adult non-conviction relief, released as guidance that may not promise confidentiality follows automatically. A new route."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-B-AK-01",
+      routeKeys: 1,
+      reason: "Alaska AS 12.55.085(e) belated set-aside motion. Alaska carried no route contract of any kind before this."
     }
   ]
 };

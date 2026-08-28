@@ -749,6 +749,24 @@ function legalAuthorityGate(profile: EngineProfile, pathway: CompiledPathway): S
   }
   const effectiveFrom = contract?.effectiveFrom ?? authority?.effectiveFrom;
   const supersedes = contract?.supersedes ?? authority?.supersedes;
+  // `!supersedes` is not a leak, and I removed it before checking.
+  //
+  // It reads like a bug: a past effectiveFrom passes the comparison below on
+  // its own, so the exemption can only act on a contract whose date has NOT
+  // arrived, which looked like declaring a route in force before its statute.
+  // Removing it broke the pre-effective Mississippi proof, and that proof is
+  // the answer. `supersedes` means an earlier rule governed before this date
+  // and still does until it arrives — Mississippi § 99-19-71 pre-2026-07-01
+  // uses the superseded five-year clock. Refusing the route outright would
+  // deny relief that is available under the rule actually in force.
+  //
+  // The residual risk is narrower than the one I imagined and is not fixed
+  // here: this falls through to the compiled rules, so a future-effective
+  // supersession applies the OLD rule pre-effective only for as long as the
+  // compiled rules still carry it. If a contract's new rule is compiled in
+  // before its effective date, that is what a pre-effective participant gets.
+  // The resolver's own effectiveDateGate models this properly; this gate is
+  // the older parallel path.
   if (effectiveFrom && !supersedes) {
     const effective = parseIsoDate(effectiveFrom);
     if (!effective || evaluationToday().getTime() < effective.getTime()) {
