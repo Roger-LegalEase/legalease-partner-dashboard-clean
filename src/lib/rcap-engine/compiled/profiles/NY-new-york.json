@@ -582,26 +582,12 @@
         "convicted_felony",
         "convicted_other"
       ],
-      "automatic": true,
+      "automatic": false,
       "filingRequired": false,
       "routeType": "automatic",
       "suggestedResultCode": "guidance_only",
       "waitingRules": [
-        "An eligible misdemeanor conviction seals automatically 3 years",
-        "after sentencing/release (8 years for an eligible felony), with",
-        "no more than ONE of which is a felony, after at least 10 years have passed since sentencing or release",
-        "Waiting periods run from sentencing or release from incarceration, whichever is later. Time spent incarcerated",
-        "Clean Slate misdemeanor Seal (auto) 3 years From sentencing/release;",
-        "Clean Slate felony (160.57) Seal (auto) 8 years From sentencing/release;",
-        "Discretionary petition Seal 10 years ≤ 2 convictions, ≤ 1 felony;",
-        "years misdemeanor / 8 years felony) but limited to its eligible set and still phasing in. The CPL 160.59 petition",
-        "wait for the automatic system. For Clean Slate, any new conviction or pending charge during the waiting period",
-        "Mechanism / matter Remedy Waiting period Notes Non-conviction (160.50) Seal None Sealed at favorable disposition Non-criminal violation Seal None Limited sealing at disposition (160.55) Marijuana possession (MRTA) Destroy/ None Automatic; OCA destruction on request expunge Drug conviction + treatment Conditional On program Reopens on new arrest (160.58) seal completion Clean Slate misdemeanor Seal (auto) 3 years From sentencing/release; (160.57) no pending charges Clean Slate felony (160.57) Seal (auto) 8 years From sentencing/release; no pending charges Discretionary petition Seal 10 years ≤ 2 convictions, ≤ 1 felony; (160.59) eligible offense The two conviction-sealing routes differ sharply in timing and effort.",
-        "Clean Slate is automatic and faster (3 years misdemeanor / 8 years felony) but limited to its eligible set and still phasing in.",
-        "For Clean Slate, any new conviction or pending charge during the waiting period restarts or blocks the clock.",
-        "lead to conviction. This pathway is tied to treatment completion rather than a flat waiting period.",
-        "Effective Nov 16, 2024. Eligible New York State convictions seal automatically after a waiting period — 3",
-        "years for misdemeanors, 8 years for felonies — measured from sentencing or release, whichever is later, with"
+        "sealing follows the qualifying termination by operation of law unless the prosecutor or court timely establishes that the interests of justice require otherwise"
       ],
       "exclusionRules": [
         "Non-drug Class A felonies — including murder and other top-tier felonies. (Drug-related Class A felonies under Penal Law Article 220 CAN still qualify.)",
@@ -629,6 +615,66 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "guidance_only",
         "paymentAllowed": false
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-C-NY-01",
+        "ruleId": "NY-CPL-160-55-AUTOMATIC-PARTIAL-SEAL-CORRECTION",
+        "mechanism": "Automatic partial sealing on a qualifying violation or traffic-infraction termination",
+        "statute": "N.Y. Crim. Proc. Law § 160.55",
+        "stage": "single_stage",
+        "outcomeMode": "automatic_relief",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "sealing follows the qualifying termination by operation of law unless the prosecutor or court timely establishes that the interests of justice require otherwise"
+        },
+        "requiredFacts": [
+          "Did the action terminate in a qualifying violation or traffic-infraction conviction?",
+          "Was the disposition after 1991-11-01?",
+          "Did the court previously enter an interests-of-justice non-sealing order?"
+        ],
+        "screeningFactIds": [
+          "case_outcome"
+        ],
+        "exclusions": [
+          "A pre-November 1, 1991 qualifying case may require a motion under the statute's legacy branch and is not automatic",
+          "CPL § 160.57 Clean Slate is a separate mechanism and is not reached through this route"
+        ],
+        "packetFamily": null,
+        "failureDisposition": [
+          {
+            "id": "ny_160_55_interests_of_justice_order",
+            "when": "the court previously entered an interests-of-justice non-sealing order",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ny_160_55_interests_of_justice_order",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "Report correction workflow. Undoing a non-sealing order is a motion, not a correction request."
+          },
+          {
+            "id": "ny_160_55_pre_1991_disposition",
+            "when": "the qualifying disposition predates 1991-11-01",
+            "selector": {
+              "operator": "date_before",
+              "factId": "disposition_date",
+              "value": "1991-11-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "disposition": "retained_counsel",
+            "note": "The statute's legacy branch may require a motion, so the automatic description does not hold. The date is an exact record date and is confirmed at final verification, never estimated in screening."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": false,
+          "sponsoredGenerationEnabled": false,
+          "packetCreditsConsumed": 0,
+          "note": "The participant ordinarily files nothing, so there is nothing to sell."
+        },
+        "notes": "Report decision: for a post-1991-11-01 qualifying disposition the participant ordinarily files nothing and the clerk notifies DCJS and the appropriate law-enforcement agencies. The service is the correction workflow when the seal does not appear: obtain a certificate of disposition, check the official criminal-history result, ask the sentencing court to transmit or correct the sealing notice, and send the certified disposition to DCJS for correction. The product must not promise that ordinary § 160.55 violations receive full court-file sealing through this section — that is § 160.57 Clean Slate, which is separate."
       }
     },
     {
@@ -2681,20 +2727,10 @@
       "when": {
         "backendPathwayId": "automatic-non-conviction-sealing-under-cpl-160-50-160-55",
         "requiredFields": [
-          "case_outcome",
-          "disposition_date",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "pending_cases"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "disposition_date",
-          "offense_level",
-          "offense_category",
-          "sentence_completion_date",
-          "pending_cases"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
@@ -2705,7 +2741,8 @@
           "convicted_felony",
           "convicted_other"
         ],
-        "sourceConditionText": "Automatic non-conviction sealing under CPL 160.50 / 160.55"
+        "sourceConditionText": "sealing follows the qualifying termination by operation of law unless the prosecutor or court timely establishes that the interests of justice require otherwise",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "guidance_only",
@@ -2715,7 +2752,13 @@
       "sourceRef": "section:404-407; section:68-109; pathways:68-109; corpus-unit:21; corpus-unit:9; corpus-unit:108; corpus-unit:1",
       "candidatePathwayIds": [
         "automatic-non-conviction-sealing-under-cpl-160-50-160-55"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-C-NY-01",
+        "ruleId": "NY-CPL-160-55-AUTOMATIC-PARTIAL-SEAL-CORRECTION",
+        "statute": "N.Y. Crim. Proc. Law § 160.55",
+        "mechanism": "Automatic partial sealing on a qualifying violation or traffic-infraction termination"
+      }
     },
     {
       "id": "route-marijuana-record-destruction-under-the-mrta",

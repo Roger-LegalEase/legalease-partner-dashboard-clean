@@ -3,7 +3,13 @@
   "profileVersion": "2026-06-19-source-conversion-1",
   "questionLifecycle": {
     "routeConsumers": {},
-    "exactPacketFactIds": ["court", "charge", "record_documents", "county_or_filing_location", "case_identifier"],
+    "exactPacketFactIds": [
+      "court",
+      "charge",
+      "record_documents",
+      "county_or_filing_location",
+      "case_identifier"
+    ],
     "completionAliasIds": []
   },
   "jurisdiction": {
@@ -671,17 +677,8 @@
       "routeType": "court_filing",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "The hearing must be held 45-90 days after filing; the prosecutor may object; the court weighs the person\u0019s interest against legitimate government needs; if granted, the records are expunged and the person/court may reply that no record exists. The filing fee is $50 unless the applicant is indigent. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.321\")",
-        "Expungement - felony 10 years after the date the person first becomes eligible to apply for sealing for that felony",
-        "Ohio has special counting rules. Convictions connected with the same act or committed at the same time can count as one, and two or three convictions from the same indictment, plea, or official proceeding involving related acts within three months may count as one unless the court finds that is not in the public interest. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
-        "means certain Chapter 2925 violations that are M4 or minor misdemeanors, or substantially equivalent municipal ordinances. The prosecutor can file after the corresponding 2953.32 waiting period expires, and the subject person and victim may object. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.39\")",
-        "For juvenile expungement, 2151.358 requires the juvenile court to expunge records sealed under 2151.356 five years after the sealing order or upon the person\u0019s 23rd birthday, whichever comes earlier. A person with a sealed juvenile record may also apply earlier, and the court may expunge if rehabilitation is shown. (\"https://codes.ohio.gov/ohio-revised-code/section-2151.358\")",
-        "F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date",
-        "One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date",
-        "Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense",
-        "Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded",
-        "Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted",
-        "Case type Sealing wait Expungement wait Minor misdemeanor conviction 6 months after final discharge 6 months after final discharge Misdemeanor conviction 1 year after final discharge 1 year after final discharge F4/F5 conviction 1 year after final discharge 10 years after sealing eligibility date One or two F3 convictions 3 years after final discharge 10 years after sealing eligibility date 2921.43 soliciting improper compensation 7 years after final discharge Treat as felony expungement timing if felony; verify Former Chapter 2950 registration case 5 years after registration ends/terminates Verify statute and offense Not guilty / dismissal Any time after entry, subject to dismissal-without-prejudice limitations Same route under 2953.33 unless excluded Grand jury no bill 2 years after no-bill report Same route under 2953.33 unless excluded Misdemeanor bail forfeiture Any time after entry 1 year after entry, or 6 months for minor misdemeanor Marijuana/hashish 2953.321 Specific expungement route Any time on/after March 20, 2026 if statutory criteria met Human-trafficking survivor conviction Specific expungement route Any time Juvenile sealed record Juvenile sealing first Expunged 5 years after sealing or by age 23, whichever earlier, unless earlier application granted"
+        "the application may be made at any time on or after 2026-03-20 for a qualifying matter occurring before that date; there is no elapsed wait",
+        "This rule governs filings on or after 2026-03-20."
       ],
       "exclusionRules": [
         "An eligible offender may apply to the sentencing court for an Ohio conviction, or to a court of common pleas for an out-of-state or federal conviction, unless the conviction is excluded by 2953.32(A). The court must check timing, pending cases, rehabilitation, prosecutor/victim objections, and whether the person\u0019s interest in relief outweighs legitimate government needs. (\"https://codes.ohio.gov/ohio-revised-code/section-2953.32\")",
@@ -695,6 +692,65 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-C-OH-01",
+        "ruleId": "OH-2953-321-MARIJUANA-HASHISH-NOT-AGE-LIMITED",
+        "mechanism": "Expungement of marijuana or hashish possession offences",
+        "statute": "Ohio Rev. Code § 2953.321",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorFactId": "disposition_date",
+          "anchorText": "the application may be made at any time on or after 2026-03-20 for a qualifying matter occurring before that date; there is no elapsed wait"
+        },
+        "requiredFacts": [
+          "Is the offence under R.C. 2925.11(C)(3)(a), (C)(7)(a) or (b), or (C)(7)(c) or (d) involving no more than 15 grams of hashish?",
+          "Did the matter occur before 2026-03-20?",
+          "Which court sentenced the applicant?",
+          "Is the applicant indigent for the purposes of the fifty-dollar filing fee?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "This route is not limited to people under 21; the age limit belonged to the superseded track name and is not in the current statute",
+          "A matter occurring on or after 2026-03-20 is outside the retroactive scope the statute defines"
+        ],
+        "packetFamily": "Ohio R.C. 2953.321 Marijuana or Hashish Possession Expungement Application",
+        "packetComponents": [
+          "Application identifying the applicant, offence, date, court and disposition",
+          "Evidence of the qualifying statutory subsection, the amount where relevant, and pre-effective-date timing",
+          "Request for expungement under R.C. 2953.321"
+        ],
+        "effectiveFrom": "2026-03-20",
+        "deliveryGates": [
+          {
+            "id": "oh_2953_321_application_artifact",
+            "kind": "artifact_generation",
+            "items": [
+              "the application, since no statewide Supreme Court form specific to R.C. 2953.321 was located",
+              "the qualifying-subsection evidence block",
+              "the pre-effective-date timing recital",
+              "the fifty-dollar fee and indigency instruction",
+              "the 45-to-90-day hearing expectation and prosecutor notice"
+            ],
+            "owner": "RCAP packet factory",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no statewide form located, so every component is custom",
+            "note": "The court sets a hearing 45 to 90 days after filing, notifies the prosecutor, obtains any required probation inquiry, and balances the applicant's interests against legitimate governmental needs. The fee is $50 unless the applicant is indigent."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant application once its custom artifact exists."
+        },
+        "notes": "Report decision: rename the track and correct its identity. The current statute is Expungement of Marijuana or Hashish Possession Offenses and is not limited to people under 21. It took effect 2026-03-20 and reaches specified matters occurring before that date, covering a qualifying dismissed charge, conviction or guilty plea. If granted the court orders destruction, deletion and erasure of official records and index references."
       }
     },
     {
@@ -1836,17 +1892,18 @@
         "backendPathwayId": "marijuana-hashish-possession-expungement-under-2953-321",
         "requiredFields": [
           "case_outcome",
-          "offense_category"
+          "offense_level"
         ],
         "fieldsReferenced": [
           "case_outcome",
-          "offense_category"
+          "offense_level"
         ],
         "caseOutcomes": [
           "dismissed",
           "convicted_other"
         ],
-        "sourceConditionText": "Marijuana / hashish possession expungement under § 2953.321"
+        "sourceConditionText": "the application may be made at any time on or after 2026-03-20 for a qualifying matter occurring before that date; there is no elapsed wait",
+        "timingAnchorFactId": "disposition_date"
       },
       "then": {
         "suggestedResultCode": "packet_ready_with_caution",
@@ -1856,7 +1913,13 @@
       "sourceRef": "section:100-103; corpus-unit:30",
       "candidatePathwayIds": [
         "marijuana-hashish-possession-expungement-under-2953-321"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-C-OH-01",
+        "ruleId": "OH-2953-321-MARIJUANA-HASHISH-NOT-AGE-LIMITED",
+        "statute": "Ohio Rev. Code § 2953.321",
+        "mechanism": "Expungement of marijuana or hashish possession offences"
+      }
     },
     {
       "id": "route-human-trafficking-survivor-conviction-expungement-under-2953-36",
