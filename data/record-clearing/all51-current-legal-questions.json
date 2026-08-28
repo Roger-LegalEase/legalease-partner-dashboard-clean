@@ -1,0 +1,2821 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "scripts/generate-all51-current-legal-questions.mjs",
+  "createsApproval": false,
+  "controlling": "data/record-clearing/all51-current-legal-questions.json",
+  "denominator": {
+    "ledgerTuples": 53,
+    "uniqueQuestions": 49,
+    "collapsed": 4,
+    "note": "The finalization emits one tuple per (pathway, track, question). Four questions are reached by two pathways each, so 53 ledger tuples are 49 distinct questions. A lawyer answers 49."
+  },
+  "classificationCounts": {
+    "READY_FOR_LEGAL_DESIGN_RESEARCH": 19,
+    "SOURCE_ACQUISITION_REQUIRED_FIRST": 18,
+    "COMPLETED_OUTPUT_REQUIRED_FIRST": 12,
+    "EXISTING_AUTHORITY_ALREADY_ANSWERS": 0,
+    "DUPLICATE_OF_DECISION_SET": 0,
+    "STALE_OR_SUPERSEDED": 0,
+    "PRODUCT_DECISION_NOT_LEGAL": 0,
+    "ENGINEERING_QUESTION_NOT_LEGAL": 0
+  },
+  "classificationSum": 49,
+  "immediateAssignments": [
+    {
+      "decisionId": "LA-IMM-01",
+      "jurisdiction": "GA",
+      "tracks": [
+        "ga-rfo"
+      ],
+      "pathways": [
+        "GA:youthful-first-offender-restriction-route"
+      ],
+      "packetFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "question": [
+        "Whether counsel approves a distinct post-consent packet stage for the § 42-8-66 petition — that is, a custom_pleading unit that generates the petition only after the participant has obtained the prosecuting attorney's written consent. The petition itself is legally identifiable and the framework is recorded on this track. The adopted memorandum makes the stage conditional on counsel's later approval, which has not been given, so direct delivery remains disabled."
+      ],
+      "controllingAuthorities": [
+        "O.C.G.A. § 42-8-66(a)(1)",
+        "O.C.G.A. § 42-8-66(a)(2)",
+        "O.C.G.A. § 42-8-66(b)",
+        "O.C.G.A. § 42-8-66(c)",
+        "O.C.G.A. § 42-8-66(d)",
+        "O.C.G.A. § 42-8-66(e)",
+        "O.C.G.A. § 42-8-66(f)",
+        "O.C.G.A. § 42-8-66(g)",
+        "O.C.G.A. § 42-8-66(h)"
+      ],
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/GA.memo.json",
+        "sha256": "44e596a27f9aa2bc053968f6d469ae3c69ba492629af848d335b757842f42183",
+        "reviewedAsOf": "2026-08-02",
+        "designStatus": "legal_design_approved_with_limitations"
+      },
+      "existingProductTreatment": "Family bridged; packet generation and payment closed pending this answer.",
+      "affectedRoutes": [
+        "GA:youthful-first-offender-restriction-route"
+      ],
+      "paymentCurrentlyDisabled": true,
+      "generationCurrentlyDisabled": true,
+      "conflictOrMissingElement": "The adopted Batch 2 resolution matrix makes the § 42-8-66 petition stage conditional on a later counsel approval that has not been given, so direct delivery stays disabled while the petition itself is legally identifiable.",
+      "options": [
+        "Approve a distinct post-consent custom_pleading stage that generates the petition only after the participant holds the prosecuting attorney's written consent.",
+        "Keep the route as process guidance and consent support with no generated petition.",
+        "Approve the petition stage with a named limitation on when it may be offered."
+      ],
+      "recommendedInterimTreatment": "Continue serving process guidance and consent support, with no generated petition and no payment, until the stage is approved.",
+      "exactDecisionRequested": "Does counsel approve a distinct post-consent packet stage for the O.C.G.A. § 42-8-66 retroactive first offender petition, generated only after the participant has obtained the prosecuting attorney's written consent?",
+      "engineeringChangeAfterAnswer": "If approved: register the post-consent custom_pleading unit, bridge it to the GA family and render. If declined: record the guidance disposition and close the route to packet generation permanently."
+    },
+    {
+      "decisionId": "LA-IMM-02",
+      "jurisdiction": "MO",
+      "tracks": [
+        "mo-311-326-minor-in-possession"
+      ],
+      "pathways": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "packetFamilies": [
+        "rcap-mo-custom-pleading"
+      ],
+      "question": [
+        "Which FI-05 case type code a § 311.326 application takes where a new case is opened. The published Case Types List names no code for the section. The code is left blank and confirmed with the clerk.",
+        "Whether a conviction under a municipal or county underage-possession ordinance, rather than under § 311.325 itself, is within § 311.326. The section names the statute and the packet applies the narrower reading, which excludes ordinance convictions; but many Missouri underage-drinking cases are charged municipally, so the narrower reading takes a substantial population out of the route. Unresolved on the face of the section."
+      ],
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 311.326",
+        "Mo. Rev. Stat. § 311.325",
+        "Mo. Rev. Stat. § 302.525",
+        "Mo. Rev. Stat. § 302.700"
+      ],
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/MO.memo.json",
+        "sha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+        "reviewedAsOf": "2026-08-03",
+        "designStatus": "legal_design_approved_with_limitations"
+      },
+      "existingProductTreatment": "Family bridged; packet generation and payment closed pending this answer.",
+      "affectedRoutes": [
+        "MO:first-minor-in-possession-alcohol-expungement-under-311-326"
+      ],
+      "paymentCurrentlyDisabled": true,
+      "generationCurrentlyDisabled": true,
+      "conflictOrMissingElement": "The published FI-05 Case Types List names no code for § 311.326, and the section does not say whether a municipal or county underage-possession ordinance conviction is within it.",
+      "options": [
+        "Name the FI-05 case type code to use and state whether ordinance convictions are in scope.",
+        "Restrict the route to § 311.325 convictions only and serve ordinance convictions as guidance.",
+        "Serve the whole route as guidance until the Office of State Courts Administrator publishes a code."
+      ],
+      "recommendedInterimTreatment": "Restrict to § 311.325 convictions and serve ordinance convictions as guidance, with payment closed on both.",
+      "exactDecisionRequested": "Which FI-05 case type code does a § 311.326 application take where a new case is opened, and is a conviction under a municipal or county underage-possession ordinance within § 311.326?",
+      "engineeringChangeAfterAnswer": "Set the case type code in the packet and set the eligibility branch for ordinance convictions."
+    },
+    {
+      "decisionId": "LA-IMM-03",
+      "jurisdiction": "ND",
+      "tracks": [
+        "nd-nonconviction-auto-close-verify"
+      ],
+      "pathways": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "packetFamilies": [
+        "rcap-nd-guidance-implementation"
+      ],
+      "question": [
+        "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails.",
+        "Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead."
+      ],
+      "controllingAuthorities": [
+        "N.D.C.C. § 12-60.1-05(1)",
+        "N.D.C.C. § 12-60.1-05(3)",
+        "N.D.C.C. § 12-60.1-01(1)",
+        "N.D.C.C. § 12-60.1-01(5)"
+      ],
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/ND.memo.json",
+        "sha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+        "reviewedAsOf": "2026-08-06",
+        "designStatus": "legal_design_approved_with_limitations"
+      },
+      "existingProductTreatment": "Family bridged; packet generation and payment closed pending this answer.",
+      "affectedRoutes": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "paymentCurrentlyDisabled": true,
+      "generationCurrentlyDisabled": true,
+      "conflictOrMissingElement": "Neither N.D.C.C. § 12-60.1-05, the official instructions, nor the resource set states what remedy exists when the court does not close the record at day sixty-one, or whether the participant is notified that it was closed.",
+      "options": [
+        "Name the remedy (motion, letter to the clerk, or administrative request) and state the notice position.",
+        "Serve the route as a verification-and-follow-up guidance product with no filing.",
+        "Hold the route until the North Dakota courts publish a procedure."
+      ],
+      "recommendedInterimTreatment": "Serve verification guidance that tells the participant how to check the record and what to do at day sixty-one in general terms, with no generated filing and no payment.",
+      "exactDecisionRequested": "What remedy exists where the court does not close the record at day sixty-one under N.D.C.C. § 12-60.1-05, and does the participant receive any notice that the record has been closed?",
+      "engineeringChangeAfterAnswer": "Add the remedy step to the route contract and set the participant instruction on notice."
+    },
+    {
+      "decisionId": "LA-IMM-04",
+      "jurisdiction": "SC",
+      "tracks": [
+        "sc_pti_17_22_150"
+      ],
+      "pathways": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "question": [
+        "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one."
+      ],
+      "controllingAuthorities": [
+        "S.C. Code § 17-22-150(a)",
+        "S.C. Code § 17-22-110",
+        "S.C. Code § 17-22-930",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)",
+        "S.C. Code § 17-22-940(G)",
+        "S.C. Code § 17-1-40"
+      ],
+      "existingMemo": {
+        "path": "data/record-clearing/legal-design-intake/SC.memo.json",
+        "sha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+        "reviewedAsOf": "2026-08-01",
+        "designStatus": "legal_design_approved_with_limitations"
+      },
+      "existingProductTreatment": "Family bridged; packet generation and payment closed pending this answer.",
+      "affectedRoutes": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "paymentCurrentlyDisabled": true,
+      "generationCurrentlyDisabled": true,
+      "conflictOrMissingElement": "Two authorities give different single-incident fees. S.C. Code § 17-22-940(G) as amended by 2018 Act No. 254 provides that only one $250 fee may be charged where charges from a single incident are combined; the Supreme Court expungement guidance the controlling review relies on reports $150.",
+      "options": [
+        "Quote the statutory $250 figure.",
+        "Quote the Supreme Court guidance figure of $150.",
+        "Quote both with an explanation of which applies when."
+      ],
+      "recommendedInterimTreatment": "The packet already quotes the statutory figure and does not promise the lower one. Keep that until counsel decides.",
+      "exactDecisionRequested": "Does the $150 single-incident fee in the Supreme Court expungement guidance survive the 2018 amendment to S.C. Code § 17-22-940(G), and which figure does the packet quote?",
+      "engineeringChangeAfterAnswer": "Set the fee figure in the SC custom pleading and re-render the family."
+    }
+  ],
+  "readyNowDecisionSets": [
+    {
+      "decisionSetId": "RN-01",
+      "jurisdiction": "VA",
+      "affectedElement": "governing_mechanism",
+      "questionIds": [
+        "Q-038",
+        "Q-039"
+      ],
+      "trackIds": [
+        "va_exp_absolute_pardon",
+        "va_seal_ancillary_matter_only"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-038",
+          "trackId": "va_exp_absolute_pardon",
+          "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
+        },
+        {
+          "questionId": "Q-039",
+          "trackId": "va_seal_ancillary_matter_only",
+          "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": true
+    },
+    {
+      "decisionSetId": "RN-02",
+      "jurisdiction": "KY",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-001"
+      ],
+      "trackIds": [
+        "ky_felony_expungement_after_pardon"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-001",
+          "trackId": "ky_felony_expungement_after_pardon",
+          "question": "Whether the pardon instrument is a full pardon is a legal reading of a document LegalEase does not see. The packet asks the participant what their document says and routes to counsel on anything other than a plain full pardon, but the characterisation should be reviewed before release."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-03",
+      "jurisdiction": "LA",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-005"
+      ],
+      "trackIds": [
+        "la-978-felony-conviction"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-005",
+          "trackId": "la-978-felony-conviction",
+          "question": "Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-04",
+      "jurisdiction": "LA",
+      "affectedElement": "waiting_period",
+      "questionIds": [
+        "Q-006"
+      ],
+      "trackIds": [
+        "la-985-3-immediate-expungement"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-006",
+          "trackId": "la-985-3-immediate-expungement",
+          "question": "Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-05",
+      "jurisdiction": "ME",
+      "affectedElement": "legal_effect_or_warning",
+      "questionIds": [
+        "Q-008"
+      ],
+      "trackIds": [
+        "me-nonconv"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-008",
+          "trackId": "me-nonconv",
+          "question": "Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-06",
+      "jurisdiction": "ME",
+      "affectedElement": "legal_effect_or_warning",
+      "questionIds": [
+        "Q-010"
+      ],
+      "trackIds": [
+        "me-seal-survivor"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-010",
+          "trackId": "me-seal-survivor",
+          "question": "Form CR-308 page 2 carries a warning box stating that if at any time after the date of the order the defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes the order. That is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513, which now provides in terms that the subsection does not apply to records sealed pursuant to section 2262-A or 2262-B. Both the form and the amendment take effect 29 July 2026, so this is a live conflict on the face of two current official sources rather than a stale-form problem. LegalEase does not resolve it: the packet states the statutory rule, does not repeat the form's warning as advice, and carries the conflict as a release blocker."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-07",
+      "jurisdiction": "MO",
+      "affectedElement": "venue",
+      "questionIds": [
+        "Q-013"
+      ],
+      "trackIds": [
+        "mo-610-140-conviction"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-013",
+          "trackId": "mo-610-140-conviction",
+          "question": "How a participant with cases charged in more than one Missouri county obtains complete relief. § 610.140.2(2) requires every crime sought to be expunged to be listed in the one petition, while § 610.140.2(1) fixes venue by the court where the person was charged or found guilty; the two cannot both be satisfied across counties. The review records multi-county records as a referral trigger and the track treats it as a hard self-help stop rather than resolving it."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-08",
+      "jurisdiction": "MO",
+      "affectedElement": "governing_mechanism",
+      "questionIds": [
+        "Q-014"
+      ],
+      "trackIds": [
+        "mo-610-145-mistaken-identity"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-014",
+          "trackId": "mo-610-145-mistaken-identity",
+          "question": "Whether a participant may invoke § 610.145.1(2) where the prosecutor or judicial officer who ordered the dismissal did not give the required notice. The subsection imposes a duty on them and gives the participant no mechanism to enforce it; the practical answer is to petition under subdivision (1) instead, which the packet does, but whether any lesser step — a letter to the prosecutor, a request to the clerk — is the expected course is not addressed anywhere in the section."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-09",
+      "jurisdiction": "ND",
+      "affectedElement": "governing_mechanism",
+      "questionIds": [
+        "Q-015"
+      ],
+      "trackIds": [
+        "nd-dui-record-seal"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-015",
+          "trackId": "nd-dui-record-seal",
+          "question": "N.D.C.C. § 39-08-01.6(1) says the court shall seal, and states no motion or petition trigger, whereas the neighbouring marijuana provision says expressly upon motion. The petition requirement therefore rests on the official ND Courts research guide rather than on the statutory text, and participant copy must not represent the petition as statutorily mandated."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-10",
+      "jurisdiction": "ND",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-016"
+      ],
+      "trackIds": [
+        "nd-dui-record-seal"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-016",
+          "trackId": "nd-dui-record-seal",
+          "question": "The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-11",
+      "jurisdiction": "NE",
+      "affectedElement": "venue",
+      "questionIds": [
+        "Q-017"
+      ],
+      "trackIds": [
+        "ne-expunge-le-error"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-017",
+          "trackId": "ne-expunge-le-error",
+          "question": "Whether venue is the district court of the county of arrest or any district court. The review states the county of arrest; the statutory text says only the district court. This must be closed before release."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-12",
+      "jurisdiction": "NE",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-024"
+      ],
+      "trackIds": [
+        "ne-setaside-custodial"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-024",
+          "trackId": "ne-setaside-custodial",
+          "question": "Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-13",
+      "jurisdiction": "SC",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-034"
+      ],
+      "trackIds": [
+        "sc_22_5_930_drug"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-034",
+          "trackId": "sc_22_5_930_drug",
+          "question": "How the § 22-5-930(A) route interacts with § 44-53-450(b) for a participant who would now be eligible for a conditional discharge. Subsection (A) was read at source on 2026-08-06 and expressly includes 'those charges for which the person would now be eligible for a conditional discharge pursuant to Section 44-53-450', which brings some conditional-discharge-type facts inside the conviction route; subsection (D) separately bars the route where the person actually had a conditional discharge within the lookback period. Which route a participant with both features should be pointed to, and in what order, is a counselling question the statute does not answer."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-14",
+      "jurisdiction": "WV",
+      "affectedElement": "waiting_period",
+      "questionIds": [
+        "Q-040"
+      ],
+      "trackIds": [
+        "wv_acc_treatment_job_readiness"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-040",
+          "trackId": "wv_acc_treatment_job_readiness",
+          "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-15",
+      "jurisdiction": "WV",
+      "affectedElement": "venue",
+      "questionIds": [
+        "Q-041"
+      ],
+      "trackIds": [
+        "wv_common_conv_procedure"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-041",
+          "trackId": "wv_common_conv_procedure",
+          "question": "Venue on a multi-county conviction petition. The controlling review states that S.B. 562 (2020) allows a person seeking expungement of convictions in more than one county to file in his or her county of residence. Section 61-11-26 was read in full at source on 2026-08-06 and the current text does not contain a residence-county venue option: subsections (a)(1) and (a)(2) both say 'petition the circuit court in which the conviction or convictions occurred', the subsection (d) proviso requires a multiple-misdemeanour petition to 'identify and group such information by circuit court, as applicable', and § 61-11-26a(a) says 'may petition the circuit court or circuit courts in which the conviction or convictions occurred'. Read together the current text supports one petition covering several counties, grouped by circuit court and served on the prosecuting attorney of each county of conviction, but it does not name a residence-county forum. Venue for the single-county case is unaffected and unambiguous. Until counsel resolves this, the packet directs a multi-county participant to the circuit court of conviction and adds a local-check instruction rather than promising a residence-county filing."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-16",
+      "jurisdiction": "WV",
+      "affectedElement": "venue",
+      "questionIds": [
+        "Q-042"
+      ],
+      "trackIds": [
+        "wv_conv_multiple_misdemeanors"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-042",
+          "trackId": "wv_conv_multiple_misdemeanors",
+          "question": "Where a multiple-misdemeanour group spans more than one county, which circuit court receives the single petition. Section 61-11-26 was read in full at source on 2026-08-06: subsection (a)(1) says 'the circuit court in which the conviction or convictions occurred', and the subsection (d) proviso requires the petition to 'identify and group such information by circuit court, as applicable'. Together those support one petition covering several counties, but the text does not say which of the several circuit courts is the forum, and it does not contain the county-of-residence option the controlling review attributes to S.B. 562. Until counsel answers, the packet directs the participant to the circuit court of conviction and, for a genuinely multi-county group, to a lawyer."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-17",
+      "jurisdiction": "WV",
+      "affectedElement": "eligibility_branch",
+      "questionIds": [
+        "Q-043"
+      ],
+      "trackIds": [
+        "wv_conv_multiple_misdemeanors"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-043",
+          "trackId": "wv_conv_multiple_misdemeanors",
+          "question": "Whether an excluded conviction sitting inside an otherwise eligible multiple-misdemeanour group can be severed, so the remaining convictions are expunged, or whether its presence in the petition risks the whole petition being summarily denied under § 61-11-26(i)(4). The burden at subsection (h)(1) is framed per conviction, which suggests severance, but the once-per-lifetime rule makes the downside of getting it wrong permanent."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    },
+    {
+      "decisionSetId": "RN-18",
+      "jurisdiction": "WV",
+      "affectedElement": "legal_effect_or_warning",
+      "questionIds": [
+        "Q-049"
+      ],
+      "trackIds": [
+        "wv_pardon_expungement"
+      ],
+      "questions": [
+        {
+          "questionId": "Q-049",
+          "trackId": "wv_pardon_expungement",
+          "question": "Whether § 5-1-16a(b) is the whole of the effect of a pardon expungement. The subsection was read at source on 2026-08-06 and provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l), it contains no general non-disclosure provision and no statement that the proceedings are considered never to have occurred. What the packet may tell a participant about disclosing the record to an ordinary employer after a § 5-1-16a expungement is therefore not settled."
+        }
+      ],
+      "oneAnswerControlsMultipleTracks": false
+    }
+  ],
+  "readyNowAssignmentBatches": [
+    {
+      "jurisdiction": "VA",
+      "affectedElement": "governing_mechanism",
+      "decisionSetIds": [
+        "RN-01"
+      ],
+      "questionCount": 2
+    },
+    {
+      "jurisdiction": "ME",
+      "affectedElement": "legal_effect_or_warning",
+      "decisionSetIds": [
+        "RN-05",
+        "RN-06"
+      ],
+      "questionCount": 2
+    },
+    {
+      "jurisdiction": "WV",
+      "affectedElement": "venue",
+      "decisionSetIds": [
+        "RN-15",
+        "RN-16"
+      ],
+      "questionCount": 2
+    },
+    {
+      "jurisdiction": "KY",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-02"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "LA",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-03"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "LA",
+      "affectedElement": "waiting_period",
+      "decisionSetIds": [
+        "RN-04"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "MO",
+      "affectedElement": "venue",
+      "decisionSetIds": [
+        "RN-07"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "MO",
+      "affectedElement": "governing_mechanism",
+      "decisionSetIds": [
+        "RN-08"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "ND",
+      "affectedElement": "governing_mechanism",
+      "decisionSetIds": [
+        "RN-09"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "ND",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-10"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "NE",
+      "affectedElement": "venue",
+      "decisionSetIds": [
+        "RN-11"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "NE",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-12"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "SC",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-13"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "WV",
+      "affectedElement": "waiting_period",
+      "decisionSetIds": [
+        "RN-14"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "WV",
+      "affectedElement": "eligibility_branch",
+      "decisionSetIds": [
+        "RN-17"
+      ],
+      "questionCount": 1
+    },
+    {
+      "jurisdiction": "WV",
+      "affectedElement": "legal_effect_or_warning",
+      "decisionSetIds": [
+        "RN-18"
+      ],
+      "questionCount": 1
+    }
+  ],
+  "trueLegalResearchTracks": [
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-set-aside",
+      "legalName": "Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085",
+      "memoPath": "data/record-clearing/legal-design-intake/AK.memo.json",
+      "memoSha256": "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "AS 12.55.085, with the set-aside at (e) and the exclusions at (f)"
+      ],
+      "affectedLegalDesignElement": "destination",
+      "exactUnresolvedQuestion": "No Alaska Court System form for a post-discharge request was located. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "court",
+        "name": "The sentencing court, in the existing criminal case",
+        "detail": "No Alaska Court System form for a post-discharge request was located."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-cannabis-seal",
+      "legalName": "Cannabis Conviction Release Restriction, HB 239 (34th Legislature, 2026)",
+      "memoPath": "data/record-clearing/legal-design-intake/AK.memo.json",
+      "memoSha256": "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "HB 239 (34th Legislature, 2026), incorporating the text of HB 81",
+        "building on HB 28 (2024), codified at AS 12.62.160(b)(8) and (f)"
+      ],
+      "affectedLegalDesignElement": "governing_mechanism_and_output_vehicle",
+      "exactUnresolvedQuestion": "The exact receiving agency and request channel remain unresolved. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "agency",
+        "name": "Unresolved",
+        "detail": "The exact receiving agency and request channel remain unresolved."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "AK",
+      "trackId": "ak-correct-record",
+      "legalName": "Correcting Criminal Justice Information",
+      "memoPath": "data/record-clearing/legal-design-intake/AK.memo.json",
+      "memoSha256": "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "Unresolved. The Department of Public Safety publishes a \"Correct Criminal Justice Information\" form alongside the seal request on its background-checks forms page."
+      ],
+      "affectedLegalDesignElement": "governing_mechanism",
+      "exactUnresolvedQuestion": "The governing mechanism and procedure are unresolved. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "agency",
+        "name": "Alaska Department of Public Safety, Criminal Records and Identification Bureau",
+        "detail": "The governing mechanism and procedure are unresolved."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-olr",
+      "legalName": "Petition for an Order of Limited Relief, Ala. Code § 12-26-1 et seq.",
+      "memoPath": "data/record-clearing/legal-design-intake/AL.memo.json",
+      "memoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "Ala. Code § 12-26-1 et seq., enacted by SB 163 (2019), substantially strengthened by SB 138 (2025)",
+        "Ala. Code § 12-26-7"
+      ],
+      "affectedLegalDesignElement": "destination",
+      "exactUnresolvedQuestion": "Special venue rules apply to federal or out-of-state convictions. Hearing mechanics under § 12-26-7 have not been read. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "court",
+        "name": "Circuit civil court in the county of conviction",
+        "detail": "Special venue rules apply to federal or out-of-state convictions. Hearing mechanics under § 12-26-7 have not been read."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "AL",
+      "trackId": "al-uncharged-arrest",
+      "legalName": "Uncharged Arrest Records",
+      "memoPath": "data/record-clearing/legal-design-intake/AL.memo.json",
+      "memoSha256": "7d484d636a1612c8a6c4648d1f070e1a21d2e3c0a0255afadd7780949e353391",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "Ala. Code § 41-9-645",
+        "Ala. Code § 41-9-646"
+      ],
+      "affectedLegalDesignElement": "governing_mechanism_and_output_vehicle",
+      "exactUnresolvedQuestion": "The forum and the practical use of §§ 41-9-645 and 41-9-646 remain unresolved. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "agency",
+        "name": "Unresolved",
+        "detail": "The forum and the practical use of §§ 41-9-645 and 41-9-646 remain unresolved."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "CA",
+      "trackId": "ca-1203-4b",
+      "legalName": "Petition for Dismissal and Set-Aside, Conservation Camp and Hand Crew, Cal. Penal Code § 1203.4b",
+      "memoPath": "data/record-clearing/legal-design-intake/CA.memo.json",
+      "memoSha256": "c9d9f7266f22df9c90ce76507b407343fc50784a715b02a69e86fc713550cbf3",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "Cal. Penal Code § 1203.4b"
+      ],
+      "affectedLegalDesignElement": "governing_mechanism_and_output_vehicle",
+      "exactUnresolvedQuestion": "The correct output vehicle is unresolved. Counsel named no approved form, no custom pleading and no guidance strategy for this track. It is not registered at runtime and is unreachable. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The correct output vehicle is unresolved. Counsel named no approved form, no custom pleading and no guidance strategy for this track. It is not registered at runtime and is unreachable."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "CO",
+      "trackId": "co_mistaken_identity_expungement",
+      "legalName": "Expungement of Records Created by Mistaken Identity, C.R.S. § 24-72-702",
+      "memoPath": "data/record-clearing/legal-design-intake/CO.memo.json",
+      "memoSha256": "40b2ce6bd30ae7b2b92c384761165716b84bfe470c22cd93e7b2ef9e3da56a50",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthorities": [
+        "C.R.S. § 24-72-702, as amended by HB24-1133, which addresses records created as a result of mistaken identity and the costs associated with expunging the record"
+      ],
+      "affectedLegalDesignElement": "governing_mechanism_and_output_vehicle",
+      "exactUnresolvedQuestion": "The governing mistaken-identity mechanism and the participant-facing output vehicle are both unresolved. Counsel named no approved form, pleading or guidance strategy. This track is not registered at runtime and is unreachable. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "court",
+        "name": "Unresolved",
+        "detail": "The governing mistaken-identity mechanism and the participant-facing output vehicle are both unresolved. Counsel named no approved form, pleading or guidance strategy. This track is not registered at runtime and is unreachable."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "NY",
+      "trackId": "ny_160_55_violation",
+      "legalName": "Sealing of a Case Terminated by a Non-Criminal Violation or Traffic Infraction Conviction (CPL § 160.55)",
+      "memoPath": "data/record-clearing/legal-design-intake/NY.memo.json",
+      "memoSha256": "fcf1ac52c65f70db988f949fe4d95336781b024066ec7edc408641f627789c10",
+      "reviewedAsOf": "2026-08-06",
+      "controllingAuthorities": [
+        "N.Y. Crim. Proc. Law § 160.55",
+        "N.Y. Crim. Proc. Law § 160.50",
+        "N.Y. Crim. Proc. Law § 160.57(1)(a)"
+      ],
+      "affectedLegalDesignElement": "destination",
+      "exactUnresolvedQuestion": "The review describes sealing at disposition with nothing to file, but does not establish what the sealing covers. Because the operative content of any guidance is exactly what is unknown, no destination or strategy is asserted here. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "automatic",
+        "name": "Not determined",
+        "detail": "The review describes sealing at disposition with nothing to file, but does not establish what the sealing covers. Because the operative content of any guidance is exactly what is unknown, no destination or strategy is asserted here."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    },
+    {
+      "jurisdiction": "OH",
+      "trackId": "oh-ls-5",
+      "legalName": "Under-21 Drug Possession Expungement (section number not captured)",
+      "memoPath": "data/record-clearing/legal-design-intake/OH.memo.json",
+      "memoSha256": "c7882683f5f8a15d47b643574240682b1cb24308203a1a71e3b36cea91b5a0d1",
+      "reviewedAsOf": "2026-08-06",
+      "controllingAuthorities": [
+        "Ohio Rev. Code ch. 2925"
+      ],
+      "affectedLegalDesignElement": "destination",
+      "exactUnresolvedQuestion": "The review states no filing actor and no destination, and expressly records that the section number was not captured. The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?",
+      "memoDestination": {
+        "kind": "court",
+        "name": "Not determined",
+        "detail": "The review states no filing actor and no destination, and expressly records that the section number was not captured."
+      },
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+    }
+  ],
+  "sourceFirst": [
+    {
+      "questionId": "Q-004",
+      "jurisdiction": "LA",
+      "trackId": "la-977d-marijuana-first-offense",
+      "missingSource": "Current official filing instructions for Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana (La. C.Cr.P. arts. 977(D), 998)",
+      "authoritativeIssuingBody": "Clerk of court for the parish of conviction",
+      "expectedSourceIdentity": [
+        "La. C.Cr.P. Art. 977 — Motion to expunge a record of arrest and conviction of a misdemeanor offense",
+        "La. C.Cr.P. Art. 998 — Motion for expungement form to be used for certain misdemeanor convictions"
+      ],
+      "questionAnswerableAfterAcquisition": "Whether any clerk of court continues to apply the terminated Article 983(M) three-hundred-dollar schedule to motions filed after 1 August 2026, and whether any parish publishes a different collection practice for Article 977(D) motions.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-009",
+      "jurisdiction": "ME",
+      "trackId": "me-seal-gen",
+      "missingSource": "Current official service and notice instructions for Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264)",
+      "authoritativeIssuingBody": "Clerk of the court in which the conviction was entered",
+      "expectedSourceIdentity": [
+        "Maine Judicial Branch Form CR-218 — Motion to Seal Criminal History",
+        "15 M.R.S. ch. 310-A — Sealing of Criminal History Record Information, section index"
+      ],
+      "questionAnswerableAfterAcquisition": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-011",
+      "jurisdiction": "ME",
+      "trackId": "me-seal-survivor",
+      "missingSource": "Current official service and notice instructions for Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)",
+      "authoritativeIssuingBody": "Clerk of the court in which the conviction was entered",
+      "expectedSourceIdentity": [
+        "Maine Judicial Branch Form CR-307 — Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation",
+        "Maine Judicial Branch Form CR-308 — Order on Motion to Seal Criminal History for Victims of Sex Trafficking or Sexual Exploitation"
+      ],
+      "questionAnswerableAfterAcquisition": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-012",
+      "jurisdiction": "MO",
+      "trackId": "mo-610-130-first-intoxication",
+      "missingSource": "Current official filing instructions for Application for Expungement of a First Intoxication-Related Traffic or Boating Offense (Mo. Rev. Stat. § 610.130)",
+      "authoritativeIssuingBody": "Clerk of the Missouri court in which the participant pled guilty or was sentenced",
+      "expectedSourceIdentity": [
+        "Mo. Rev. Stat. § 610.130 — Expungement of records of first intoxication-related traffic or boating offense, procedure (transferred 2014 from § 577.054; effective 1 January 2017)",
+        "Mo. Rev. Stat. § 302.525 — Suspension or revocation; subsection 3 defines \"alcohol-related enforcement contacts\" (as amended by 2026 H.B. 1740)"
+      ],
+      "questionAnswerableAfterAcquisition": "Which FI-05 case type code a § 610.130 application takes where a new case is opened. The official Case Types List publishes only XG, X5 and X# for expungement and none of them names this section. The code is left blank and confirmed with the clerk rather than guessed from a similar track name.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-018",
+      "jurisdiction": "NE",
+      "trackId": "ne-expunge-le-error",
+      "missingSource": "Current official service and notice instructions for Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
+      "authoritativeIssuingBody": "Clerk of the district court",
+      "expectedSourceIdentity": [
+        "Neb. Rev. Stat. § 29-3523, Criminal history record information; confidentiality; sealing; expungement"
+      ],
+      "questionAnswerableAfterAcquisition": "Whether the county attorney is the named respondent, and the method and timing of service on a political subdivision. The review asserts the respondent; the statutory text does not.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-020",
+      "jurisdiction": "NE",
+      "trackId": "ne-seal-pardoned",
+      "missingSource": "Current official filing instructions for Motion to Seal a Pardoned Conviction (Neb. Rev. Stat. § 29-3523(5))",
+      "authoritativeIssuingBody": "Clerk of the court holding the case",
+      "expectedSourceIdentity": [
+        "CC 6:12, Motion to Seal an Adult Criminal Record, Rev. 04/2024",
+        "CC 6:12a, Completing the Motion to Seal an Adult Criminal Record, Rev. 06/2024"
+      ],
+      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-022",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-custodial",
+      "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
+      "authoritativeIssuingBody": "Clerk of the sentencing court",
+      "expectedSourceIdentity": [
+        "CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024",
+        "CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020"
+      ],
+      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-025",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-noncustodial",
+      "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to Probation, Fine or Community Service (Neb. Rev. Stat. § 29-2264(2))",
+      "authoritativeIssuingBody": "Clerk of the sentencing court",
+      "expectedSourceIdentity": [
+        "CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024",
+        "CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020"
+      ],
+      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-027",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_1_40_general_sessions",
+      "missingSource": "Current official filing instructions for Solicitor Application to Destroy Arrest Records of a General Sessions Non-Conviction, S.C. Code § 17-1-40",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code § 17-1-40 — Expungement; retention of certain information by law enforcement or prosecution agencies",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-028",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_1_65_handgun",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge an Old Unlawful Handgun Possession Conviction, S.C. Code § 17-1-65",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code § 17-1-65 — Expungement of conviction for unlawful possession of a handgun",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-030",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_910",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-031",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_910",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "Whether the § 22-5-910(E) same-incident aggregation rule can be relied on in practice to bring several closely connected offences sentenced at one proceeding within a single application, given that § 17-22-940(G) permits multiple charges on one order only for § 17-1-40 and § 17-22-150(a). Both subsections were read at source on 2026-08-06 and are not obviously reconciled: § 22-5-910(E) treats such offences as one conviction 'for expungement purposes', while § 17-22-940(G) restricts what may appear on one order. The packet does not promise a single application on this route.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-032",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_920_yoa",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Youthful Offender Act Conviction, S.C. Code § 22-5-920",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-033",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_930_drug",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Drug Conviction, S.C. Code § 22-5-930",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
+        "S.C. Code Title 44, Chapter 53 — Poisons, drugs and controlled substances"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-035",
+      "jurisdiction": "SC",
+      "trackId": "sc_34_11_90e_check",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Fraudulent Check Conviction, S.C. Code § 34-11-90(e)",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 34, Chapter 11 — Fraudulent checks",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-036",
+      "jurisdiction": "SC",
+      "trackId": "sc_56_5_750f",
+      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First-Offence Failure to Stop for a Blue Light Conviction, S.C. Code § 56-5-750(F)",
+      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
+      "expectedSourceIdentity": [
+        "S.C. Code Title 56, Chapter 5 — Uniform Act Regulating Traffic on Highways",
+        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
+      ],
+      "questionAnswerableAfterAcquisition": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-037",
+      "jurisdiction": "SD",
+      "trackId": "sd_sis_sealing",
+      "missingSource": "Current official filing instructions for Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 23A-27-17)",
+      "authoritativeIssuingBody": "The court that entered the discharge and dismissal",
+      "expectedSourceIdentity": [
+        "SDCL § 23A-27-17 — Sealing of records on discharge of probationer, effect of order (official statute text, Source: SL 1975 ch 257 § 2; SL 1976 ch 158 § 43-4; SL 1978 ch 178 § 346)"
+      ],
+      "questionAnswerableAfterAcquisition": "Counsel flagged as a release blocker whether sealing under § 23A-27-17 is automatic on discharge or requires a motion, and left an official_pdf_fill fallback unresolved against the possibility that a motion is needed. The section has now been read at the official South Dakota Legislature publication: 'Upon the discharge and dismissal of a person pursuant to § 23A-27-14, a court shall order that all official records ... be sealed'. Sealing is the court's obligation on discharge and dismissal; no participant motion exists. The unresolved fallback unit is therefore not carried, and the track is modelled as process_guidance. What remains open is the remedy where a court did not do what the statute directs.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    },
+    {
+      "questionId": "Q-046",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "missingSource": "Current official service and notice instructions for Verified Petition to Expunge a Single Misdemeanour Conviction, W. Va. Code § 61-11-26(a)(1) and (b)(1)",
+      "authoritativeIssuingBody": "Clerk of the circuit court of the county of conviction",
+      "expectedSourceIdentity": [
+        "W. Va. Code § 61-11-26",
+        "W. Va. Code § 61-11-26b"
+      ],
+      "questionAnswerableAfterAcquisition": "The SCA-C900 instruction sheet, revised 04/01/2021, tells the petitioner that after a notice of opposition they 'will then have ten (10) days of being served of such notice to reply', and cites § 61-11-26(e) as the opposition provision. Section 61-11-26 was read in full at source on 2026-08-06: opposition is at subsection (g), and subsection (g)(3) gives the petitioner 30 days after service of the opposition to reply. The packet states the statutory 30 days and flags the discrepancy, but which the circuits apply in practice is not established, and a participant who relies on the form's ten days would not be prejudiced while one who relies on thirty might be.",
+      "sourceAcquisitionOwner": "RCAP source acquisition"
+    }
+  ],
+  "outputFirst": [
+    {
+      "questionId": "Q-002",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_vacatur_expungement",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "At least one circuit clerk's published page states that $300 is due at filing, which does not match KRS 431.073(10) and (11). The packet must state the statutory position and warn that a local office may ask for the whole sum at once.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-003",
+      "jurisdiction": "KY",
+      "trackId": "ky_nonconviction_expungement",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "Confirmation from the Administrative Office of the Courts of the intended completion of the AOC-497.2 eligibility checkboxes. The form instructs the filer to check all that apply and the five boxes describe mutually exclusive dispositions of a charge, so the disjunctive reading is the only workable one; the Clerks' Manual states the same periods disjunctively. Packet identity and the field map are settled and this does not stop the build.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-007",
+      "jurisdiction": "LA",
+      "trackId": "la-985-expungement-by-redaction",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion, and that Article 985(A) speaks of petitioning the court.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-019",
+      "jurisdiction": "NE",
+      "trackId": "ne-expunge-le-error",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "Whether a summons or praecipe and a proposed order accompany the petition, which decides the packet component list.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-021",
+      "jurisdiction": "NE",
+      "trackId": "ne-seal-pardoned",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-023",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-custodial",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-026",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-noncustodial",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-029",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_22_950_summary",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "What a participant does where the automatic order under § 17-22-950(A) did not issue. The section was read in full at source on 2026-08-06 and imposes the duty on the summary court in mandatory terms, with the timing fixed by subsection (C), but it describes no application, motion or remedy on the fingerprinted branch where the court simply does not act. SCCA 223E is expressly the subsection (B) application and is not drafted for this situation. Until counsel resolves it the packet directs the participant to the summary court clerk and stops there; no enforcement filing is generated.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-044",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_nonviolent_felony",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "requiredArtifact": "A rendered packet from rcap-wv-guidance-implementation with a recorded artifact hash",
+      "exactOutputLevelQuestion": "How LegalEase should present a route it may generate but on which it cannot make the central characterisation. Section 61-11-26(p)(5) was read at source on 2026-08-06 and makes two of the four limbs of 'nonviolent felony' express circuit-court findings, so the eligibility recital on SCA-C907 is one LegalEase must leave for the participant and their counsel. The controlling review calls for a manual-review gate on every felony. LegalEase operates no review queue, no staff approval and no eligibility determination, so that direction is normalized here as a printed attorney-referral notice and a self-help boundary rather than as an internal gate. Whether counsel accepts that translation, or would rather the felony route not be offered at all until a referral partner is in place, is a question for counsel.",
+      "responsibleEngineeringDependency": "Packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-045",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "requiredArtifact": "A rendered packet from rcap-wv-guidance-implementation with a recorded artifact hash",
+      "exactOutputLevelQuestion": "Which published form is the operative § 61-11-26 misdemeanour petition. The Judiciary Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms. SCA-C900, captioned 'Instructions for Expungement of Records Petition' and revised 04/01/2021, is a five-page document whose pages 2 to 5 are themselves a petition, verification and certificate of service. That embedded petition is materially stale: it requires the petitioner to have been 'between eighteen and twenty-six years of age', requires 'no prior or subsequent convictions other than minor traffic violations', recites 'W. Va. Code §61-11-26 (2009)', and cross-references the exclusion list to '§61-11-26(i)', all of which are features of the pre-2019 section. The section in force places exclusions at subsection (c) and imposes no age limit. SCA-C906 matches the current subsection (c) and (d) structure and carries the § 61-11-26a elections, and is therefore used here. The packet must not generate the SCA-C900 embedded petition. Whether the Judiciary intends SCA-C900 to remain published in that form is not established.",
+      "responsibleEngineeringDependency": "Packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-047",
+      "jurisdiction": "WV",
+      "trackId": "wv_nc_acquittal_dismissal",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "SCA-C903 was read at source on 2026-08-06. Its recital is to 'W.Va. Code § 61-11-25 (2000)', and the form's stated revision date is 04/01/2010, so the published form predates the 2010, 2012, 2022, 2023 and 2024 amendments to the section, including the H.B. 4399 (2024) text now in force. The form's operative paragraphs still track the current subsection (a) requirements for a straight acquittal or dismissal, so the fit is sound for this track, but whether the Judiciary intends the 2000 recital to be corrected, and whether any circuit rejects the form on that basis, is not established.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    },
+    {
+      "questionId": "Q-048",
+      "jurisdiction": "WV",
+      "trackId": "wv_nc_diversion_deferred",
+      "packetFamilies": [],
+      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
+      "exactOutputLevelQuestion": "Whether SCA-C903 is the right vehicle for a deferred-adjudication dismissal. The form was read at source on 2026-08-06: it is captioned 'for Reasons Other than Entry of a Plea', recites 'W.Va. Code § 61-11-25 (2000)', carries a single charge block with one free-text reason-for-dismissal field, has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph, and requires the movant to state that the dismissal 'was not in exchange for a guilty plea to another offense'. Section 61-11-22a operates on an entered guilty plea which is withdrawn on compliance, so the movant's statement is literally true — the dismissal is not in exchange for a plea to another offence — but the caption and the missing paragraphs make the fit imperfect. The packet therefore generates the official form plus a supplemental pleading carrying the statutory basis, the same-transaction recital and the carve-out recital. Whether the Judiciary regards SCA-C903 as the correct form for this route, or whether a distinct form or a full custom petition is expected, is not established.",
+      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
+    }
+  ],
+  "questions": [
+    {
+      "questionId": "Q-001",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_expungement_after_pardon",
+      "pathwayKeys": [
+        "KY:felony-conviction-431073"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "Whether the pardon instrument is a full pardon is a legal reading of a document LegalEase does not see. The packet asks the participant what their document says and routes to counsel on anything other than a plain full pardon, but the characterisation should be reviewed before release.",
+      "legalName": "Application to Vacate and Expunge a Felony Conviction After a Full Pardon (KRS 431.073(1)(c))",
+      "memoPath": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "memoSha256": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+      "controllingAuthorities": [
+        "KRS 431.073(1)(c)",
+        "KRS 431.073(2)(a)",
+        "KRS 431.073(5)",
+        "KRS 431.073(7)",
+        "KRS 431.079"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-002",
+      "jurisdiction": "KY",
+      "trackId": "ky_felony_vacatur_expungement",
+      "pathwayKeys": [
+        "KY:felony-conviction-431073"
+      ],
+      "affectedElement": "participant_instructions",
+      "question": "At least one circuit clerk's published page states that $300 is due at filing, which does not match KRS 431.073(10) and (11). The packet must state the statutory position and warn that a local office may ask for the whole sum at once.",
+      "legalName": "Application to Vacate and Expunge a Class D Felony Conviction (KRS 431.073)",
+      "memoPath": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "memoSha256": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+      "controllingAuthorities": [
+        "KRS 431.073",
+        "KRS 431.073(1)",
+        "KRS 431.073(2)(a)",
+        "KRS 431.073(4)(c)",
+        "KRS 431.073(5)",
+        "KRS 431.073(7)",
+        "KRS 431.073(8)",
+        "KRS 431.073(10)",
+        "KRS 431.074",
+        "KRS 431.079",
+        "KRS 534.020"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-003",
+      "jurisdiction": "KY",
+      "trackId": "ky_nonconviction_expungement",
+      "pathwayKeys": [
+        "KY:nonconviction-431076"
+      ],
+      "affectedElement": "packet_components",
+      "question": "Confirmation from the Administrative Office of the Courts of the intended completion of the AOC-497.2 eligibility checkboxes. The form instructs the filer to check all that apply and the five boxes describe mutually exclusive dispositions of a charge, so the disjunctive reading is the only workable one; the Clerks' Manual states the same periods disjunctively. Packet identity and the field map are settled and this does not stop the build.",
+      "legalName": "Petition for Expungement of an Acquittal, Dismissal or Failure to Indict (KRS 431.076)",
+      "memoPath": "data/record-clearing/legal-design-intake/KY.memo.json",
+      "memoSha256": "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19",
+      "controllingAuthorities": [
+        "KRS 431.076(1)(b)",
+        "KRS 431.076(1)(c)",
+        "KRS 431.076(2)",
+        "KRS 431.076(3)(a)",
+        "KRS 431.076(4)",
+        "KRS 431.076(5)(b)",
+        "KRS 431.076(6)",
+        "KRS 431.076(8)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-004",
+      "jurisdiction": "LA",
+      "trackId": "la-977d-marijuana-first-offense",
+      "pathwayKeys": [
+        "LA:first-offense-marijuana-expungement-after-90-days-art-998"
+      ],
+      "affectedElement": "filing_process",
+      "question": "Whether any clerk of court continues to apply the terminated Article 983(M) three-hundred-dollar schedule to motions filed after 1 August 2026, and whether any parish publishes a different collection practice for Article 977(D) motions.",
+      "legalName": "Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana (La. C.Cr.P. arts. 977(D), 998)",
+      "memoPath": "data/record-clearing/legal-design-intake/LA.memo.json",
+      "memoSha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+      "controllingAuthorities": [
+        "La. C.Cr.P. art. 977(D)",
+        "La. C.Cr.P. art. 998",
+        "La. C.Cr.P. art. 983",
+        "La. C.Cr.P. art. 986",
+        "La. C.Cr.P. art. 975",
+        "La. C.Cr.P. art. 979",
+        "La. C.Cr.P. art. 980",
+        "La. C.Cr.P. art. 982",
+        "La. C.Cr.P. art. 988",
+        "La. C.Cr.P. art. 990",
+        "La. C.Cr.P. art. 991",
+        "La. C.Cr.P. art. 992",
+        "La. R.S. 40:966(C)",
+        "Acts 2023, No. 342"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-005",
+      "jurisdiction": "LA",
+      "trackId": "la-978-felony-conviction",
+      "pathwayKeys": [
+        "LA:felony-article-893-e-set-aside-followed-by-expungement",
+        "LA:felony-ten-year-clean-period-expungement",
+        "LA:first-offender-pardon-felony-expungement",
+        "LA:human-trafficking-survivor-expungement-fee-exempt-route"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly.",
+      "legalName": "Motion to Expunge Record of Arrest and Conviction of a Felony Offense (La. C.Cr.P. art. 978)",
+      "memoPath": "data/record-clearing/legal-design-intake/LA.memo.json",
+      "memoSha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+      "controllingAuthorities": [
+        "La. C.Cr.P. art. 978",
+        "La. C.Cr.P. art. 893(E)",
+        "La. C.Cr.P. art. 975",
+        "La. C.Cr.P. art. 979",
+        "La. C.Cr.P. art. 980",
+        "La. C.Cr.P. art. 982",
+        "La. C.Cr.P. art. 983",
+        "La. C.Cr.P. art. 984",
+        "La. C.Cr.P. art. 986",
+        "La. C.Cr.P. art. 988",
+        "La. C.Cr.P. art. 989",
+        "La. C.Cr.P. art. 990",
+        "La. C.Cr.P. art. 991",
+        "La. C.Cr.P. art. 992",
+        "La. C.Cr.P. art. 993",
+        "La. Const. art. IV, § 5(E)(1)",
+        "La. R.S. 15:572",
+        "La. R.S. 15:541",
+        "La. R.S. 14:2(B)",
+        "Acts 2024, No. 580"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 3,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-006",
+      "jurisdiction": "LA",
+      "trackId": "la-985-3-immediate-expungement",
+      "pathwayKeys": [
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3"
+      ],
+      "affectedElement": "waiting_period",
+      "question": "Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns.",
+      "legalName": "Immediate Expungement; Judicial Discretion (La. C.Cr.P. art. 985.3)",
+      "memoPath": "data/record-clearing/legal-design-intake/LA.memo.json",
+      "memoSha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+      "controllingAuthorities": [
+        "La. C.Cr.P. art. 985.3",
+        "La. C.Cr.P. art. 982",
+        "La. C.Cr.P. art. 992",
+        "La. C.Cr.P. art. 976",
+        "La. C.Cr.P. art. 977",
+        "La. C.Cr.P. art. 978",
+        "La. C.Cr.P. art. 986",
+        "Acts 2024, No. 560",
+        "2024 H.B. 416"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [
+        "rcap-la-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-007",
+      "jurisdiction": "LA",
+      "trackId": "la-985-expungement-by-redaction",
+      "pathwayKeys": [
+        "LA:expungement-by-redaction-for-multi-person-records"
+      ],
+      "affectedElement": "packet_components",
+      "question": "Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion, and that Article 985(A) speaks of petitioning the court.",
+      "legalName": "Expungement by Redaction of Records with References to Multiple Individuals (La. C.Cr.P. art. 985)",
+      "memoPath": "data/record-clearing/legal-design-intake/LA.memo.json",
+      "memoSha256": "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10",
+      "controllingAuthorities": [
+        "La. C.Cr.P. art. 985",
+        "La. C.Cr.P. art. 972(3)",
+        "La. C.Cr.P. art. 979",
+        "La. C.Cr.P. art. 980",
+        "La. C.Cr.P. art. 982",
+        "La. C.Cr.P. art. 983",
+        "La. C.Cr.P. art. 986",
+        "La. C.Cr.P. art. 988",
+        "La. C.Cr.P. art. 989",
+        "La. C.Cr.P. art. 990",
+        "La. C.Cr.P. art. 991",
+        "La. C.Cr.P. art. 992",
+        "La. C.Cr.P. art. 993"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-008",
+      "jurisdiction": "ME",
+      "trackId": "me-nonconv",
+      "pathwayKeys": [
+        "ME:adult-non-conviction-record-relief"
+      ],
+      "affectedElement": "legal_effect_or_warning",
+      "question": "Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate.",
+      "legalName": "Confidential Criminal History Record Information for Non-Conviction Dispositions, and the § 709 Inspection and Correction Request (16 M.R.S. ch. 7)",
+      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
+      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+      "controllingAuthorities": [
+        "16 M.R.S. § 703",
+        "16 M.R.S. § 704",
+        "16 M.R.S. § 705",
+        "16 M.R.S. § 708",
+        "16 M.R.S. § 709",
+        "5 M.R.S. ch. 375, subch. 7",
+        "PL 2013, c. 267",
+        "PL 2013, c. 507",
+        "PL 2017, c. 432"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-009",
+      "jurisdiction": "ME",
+      "trackId": "me-seal-gen",
+      "pathwayKeys": [
+        "ME:adult-conviction-sealing"
+      ],
+      "affectedElement": "notice_or_service",
+      "question": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
+      "legalName": "Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264)",
+      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
+      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+      "controllingAuthorities": [
+        "15 M.R.S. § 2261",
+        "15 M.R.S. § 2262",
+        "15 M.R.S. § 2263",
+        "15 M.R.S. § 2264",
+        "15 M.R.S. § 2265",
+        "15 M.R.S. § 2266",
+        "15 M.R.S. § 2267",
+        "15 M.R.S. § 2269",
+        "16 M.R.S. § 705",
+        "16 M.R.S. § 708",
+        "17-A M.R.S. § 1502(2)",
+        "PL 2021, c. 674",
+        "PL 2023, c. 409",
+        "PL 2023, c. 666",
+        "PL 2025, c. 513",
+        "Me. Admin. Order JB-05-26 (A. 3-26)"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-010",
+      "jurisdiction": "ME",
+      "trackId": "me-seal-survivor",
+      "pathwayKeys": [
+        "ME:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ],
+      "affectedElement": "legal_effect_or_warning",
+      "question": "Form CR-308 page 2 carries a warning box stating that if at any time after the date of the order the defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes the order. That is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513, which now provides in terms that the subsection does not apply to records sealed pursuant to section 2262-A or 2262-B. Both the form and the amendment take effect 29 July 2026, so this is a live conflict on the face of two current official sources rather than a stale-form problem. LegalEase does not resolve it: the packet states the statutory rule, does not repeat the form's warning as advice, and carries the conflict as a release blocker.",
+      "legalName": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)",
+      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
+      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+      "controllingAuthorities": [
+        "15 M.R.S. § 2262-B",
+        "15 M.R.S. § 2261(6)(C)",
+        "15 M.R.S. § 2261(8)",
+        "15 M.R.S. § 2261(9)",
+        "15 M.R.S. § 2263",
+        "15 M.R.S. § 2264(1)",
+        "15 M.R.S. § 2264(4-A)",
+        "15 M.R.S. § 2264(5)",
+        "15 M.R.S. § 2264(7)",
+        "15 M.R.S. § 2265",
+        "15 M.R.S. § 2266",
+        "15 M.R.S. § 2269",
+        "PL 2025, c. 513"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-011",
+      "jurisdiction": "ME",
+      "trackId": "me-seal-survivor",
+      "pathwayKeys": [
+        "ME:sex-trafficking-sexual-exploitation-survivor-sealing"
+      ],
+      "affectedElement": "notice_or_service",
+      "question": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
+      "legalName": "Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)",
+      "memoPath": "data/record-clearing/legal-design-intake/ME.memo.json",
+      "memoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
+      "controllingAuthorities": [
+        "15 M.R.S. § 2262-B",
+        "15 M.R.S. § 2261(6)(C)",
+        "15 M.R.S. § 2261(8)",
+        "15 M.R.S. § 2261(9)",
+        "15 M.R.S. § 2263",
+        "15 M.R.S. § 2264(1)",
+        "15 M.R.S. § 2264(4-A)",
+        "15 M.R.S. § 2264(5)",
+        "15 M.R.S. § 2264(7)",
+        "15 M.R.S. § 2265",
+        "15 M.R.S. § 2266",
+        "15 M.R.S. § 2269",
+        "PL 2025, c. 513"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-012",
+      "jurisdiction": "MO",
+      "trackId": "mo-610-130-first-intoxication",
+      "pathwayKeys": [
+        "MO:first-intoxication-related-traffic-or-boating-expungement-under-610-130"
+      ],
+      "affectedElement": "filing_process",
+      "question": "Which FI-05 case type code a § 610.130 application takes where a new case is opened. The official Case Types List publishes only XG, X5 and X# for expungement and none of them names this section. The code is left blank and confirmed with the clerk rather than guessed from a similar track name.",
+      "legalName": "Application for Expungement of a First Intoxication-Related Traffic or Boating Offense (Mo. Rev. Stat. § 610.130)",
+      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 610.130",
+        "Mo. Rev. Stat. § 302.525",
+        "Mo. Rev. Stat. § 577.001",
+        "Mo. Rev. Stat. § 302.700",
+        "Mo. Rev. Stat. § 610.140.3(7)",
+        "S.S. v. Mitchell, 289 S.W.3d 797 (Mo. App. E.D. 2009)"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [
+        "rcap-mo-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-013",
+      "jurisdiction": "MO",
+      "trackId": "mo-610-140-conviction",
+      "pathwayKeys": [
+        "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140"
+      ],
+      "affectedElement": "venue",
+      "question": "How a participant with cases charged in more than one Missouri county obtains complete relief. § 610.140.2(2) requires every crime sought to be expunged to be listed in the one petition, while § 610.140.2(1) fixes venue by the court where the person was charged or found guilty; the two cannot both be satisfied across counties. The review records multi-county records as a referral trigger and the track treats it as a hard self-help stop rather than resolving it.",
+      "legalName": "Petition for Expungement of Records of Arrest, Plea, Trial or Conviction (Mo. Rev. Stat. § 610.140)",
+      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 610.140",
+        "Mo. Rev. Stat. § 610.120",
+        "Mo. Rev. Stat. § 557.011",
+        "Mo. Rev. Stat. § 488.650 (repealed effective 28 August 2023)",
+        "Mo. Rev. Stat. § 514.040",
+        "Mo. Sup. Ct. R. 155.01 to 155.05",
+        "Mo. Sup. Ct. Operating R. 4.07",
+        "2021 S.B. 26 merged with S.B. 53 & 60",
+        "2024 S.B. 754",
+        "SJRC (10-24) CR360",
+        "CR370"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-014",
+      "jurisdiction": "MO",
+      "trackId": "mo-610-145-mistaken-identity",
+      "pathwayKeys": [
+        "MO:stolen-or-mistaken-identity-expungement-under-610-145"
+      ],
+      "affectedElement": "governing_mechanism",
+      "question": "Whether a participant may invoke § 610.145.1(2) where the prosecutor or judicial officer who ordered the dismissal did not give the required notice. The subsection imposes a duty on them and gives the participant no mechanism to enforce it; the practical answer is to petition under subdivision (1) instead, which the packet does, but whether any lesser step — a letter to the prosecutor, a request to the clerk — is the expected course is not addressed anywhere in the section.",
+      "legalName": "Expungement of Records on Stolen or Mistaken Identity (Mo. Rev. Stat. § 610.145)",
+      "memoPath": "data/record-clearing/legal-design-intake/MO.memo.json",
+      "memoSha256": "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934",
+      "controllingAuthorities": [
+        "Mo. Rev. Stat. § 610.145",
+        "Mo. Rev. Stat. § 610.120",
+        "OSCA (07-17) CR301",
+        "CR311"
+      ],
+      "reviewedAsOf": "2026-08-03",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-015",
+      "jurisdiction": "ND",
+      "trackId": "nd-dui-record-seal",
+      "pathwayKeys": [
+        "ND:dui-record-sealing-under-the-separate-dui-statute"
+      ],
+      "affectedElement": "governing_mechanism",
+      "question": "N.D.C.C. § 39-08-01.6(1) says the court shall seal, and states no motion or petition trigger, whereas the neighbouring marijuana provision says expressly upon motion. The petition requirement therefore rests on the official ND Courts research guide rather than on the statutory text, and participant copy must not represent the petition as statutorily mandated.",
+      "legalName": "Petition to Seal a Driving Under the Influence Record (N.D.C.C. § 39-08-01.6)",
+      "memoPath": "data/record-clearing/legal-design-intake/ND.memo.json",
+      "memoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+      "controllingAuthorities": [
+        "N.D.C.C. § 39-08-01.6(1)",
+        "N.D.C.C. § 39-08-01.6(2)",
+        "N.D.C.C. § 12.1-32-07.1",
+        "N.D.C.C. § 12.1-32-07.2",
+        "N.D.C.C. § 39-08-01",
+        "N.D.C.C. § 39-06.2-10"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [
+        "rcap-nd-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-016",
+      "jurisdiction": "ND",
+      "trackId": "nd-dui-record-seal",
+      "pathwayKeys": [
+        "ND:dui-record-sealing-under-the-separate-dui-statute"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release.",
+      "legalName": "Petition to Seal a Driving Under the Influence Record (N.D.C.C. § 39-08-01.6)",
+      "memoPath": "data/record-clearing/legal-design-intake/ND.memo.json",
+      "memoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
+      "controllingAuthorities": [
+        "N.D.C.C. § 39-08-01.6(1)",
+        "N.D.C.C. § 39-08-01.6(2)",
+        "N.D.C.C. § 12.1-32-07.1",
+        "N.D.C.C. § 12.1-32-07.2",
+        "N.D.C.C. § 39-08-01",
+        "N.D.C.C. § 39-06.2-10"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [
+        "rcap-nd-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-017",
+      "jurisdiction": "NE",
+      "trackId": "ne-expunge-le-error",
+      "pathwayKeys": [
+        "NE:law-enforcement-error-expungement"
+      ],
+      "affectedElement": "venue",
+      "question": "Whether venue is the district court of the county of arrest or any district court. The review states the county of arrest; the statutory text says only the district court. This must be closed before release.",
+      "legalName": "Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-3523(9)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-018",
+      "jurisdiction": "NE",
+      "trackId": "ne-expunge-le-error",
+      "pathwayKeys": [
+        "NE:law-enforcement-error-expungement"
+      ],
+      "affectedElement": "notice_or_service",
+      "question": "Whether the county attorney is the named respondent, and the method and timing of service on a political subdivision. The review asserts the respondent; the statutory text does not.",
+      "legalName": "Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-3523(9)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-019",
+      "jurisdiction": "NE",
+      "trackId": "ne-expunge-le-error",
+      "pathwayKeys": [
+        "NE:law-enforcement-error-expungement"
+      ],
+      "affectedElement": "packet_components",
+      "question": "Whether a summons or praecipe and a proposed order accompany the petition, which decides the packet component list.",
+      "legalName": "Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-3523(9)"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-020",
+      "jurisdiction": "NE",
+      "trackId": "ne-seal-pardoned",
+      "pathwayKeys": [
+        "NE:pardon-then-seal"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "legalName": "Motion to Seal a Pardoned Conviction (Neb. Rev. Stat. § 29-3523(5))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-3523(5)",
+        "Neb. Rev. Stat. § 29-3523(7)",
+        "Neb. Rev. Stat. § 29-3523(8)",
+        "Neb. Const. art. IV, § 13",
+        "Neb. Rev. Stat. §§ 83-1,126 to 83-1,134"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-021",
+      "jurisdiction": "NE",
+      "trackId": "ne-seal-pardoned",
+      "pathwayKeys": [
+        "NE:pardon-then-seal"
+      ],
+      "affectedElement": "packet_components",
+      "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "legalName": "Motion to Seal a Pardoned Conviction (Neb. Rev. Stat. § 29-3523(5))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-3523(5)",
+        "Neb. Rev. Stat. § 29-3523(7)",
+        "Neb. Rev. Stat. § 29-3523(8)",
+        "Neb. Const. art. IV, § 13",
+        "Neb. Rev. Stat. §§ 83-1,126 to 83-1,134"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-022",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-custodial",
+      "pathwayKeys": [
+        "NE:set-aside-incarceration-one-year-or-less"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "legalName": "Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-2264(3)(a)",
+        "Neb. Rev. Stat. § 29-2264(3)(b)",
+        "Neb. Rev. Stat. § 29-2264(5)",
+        "Neb. Rev. Stat. § 29-2264(6)",
+        "Neb. Rev. Stat. § 29-2264(9)",
+        "Neb. Ct. R. § 2-208"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-023",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-custodial",
+      "pathwayKeys": [
+        "NE:set-aside-incarceration-one-year-or-less"
+      ],
+      "affectedElement": "packet_components",
+      "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "legalName": "Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-2264(3)(a)",
+        "Neb. Rev. Stat. § 29-2264(3)(b)",
+        "Neb. Rev. Stat. § 29-2264(5)",
+        "Neb. Rev. Stat. § 29-2264(6)",
+        "Neb. Rev. Stat. § 29-2264(9)",
+        "Neb. Ct. R. § 2-208"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-024",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-custodial",
+      "pathwayKeys": [
+        "NE:set-aside-incarceration-one-year-or-less"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground.",
+      "legalName": "Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-2264(3)(a)",
+        "Neb. Rev. Stat. § 29-2264(3)(b)",
+        "Neb. Rev. Stat. § 29-2264(5)",
+        "Neb. Rev. Stat. § 29-2264(6)",
+        "Neb. Rev. Stat. § 29-2264(9)",
+        "Neb. Ct. R. § 2-208"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-025",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-noncustodial",
+      "pathwayKeys": [
+        "NE:set-aside-probation-fine-community-service"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
+      "legalName": "Petition to Set Aside a Conviction Sentenced to Probation, Fine or Community Service (Neb. Rev. Stat. § 29-2264(2))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-2264(2)",
+        "Neb. Rev. Stat. § 29-2264(5)",
+        "Neb. Rev. Stat. § 29-2264(6)",
+        "Neb. Rev. Stat. § 29-2264(7)",
+        "Neb. Rev. Stat. § 29-2264(8)",
+        "Neb. Rev. Stat. § 29-2264(9)",
+        "Neb. Rev. Stat. § 29-2263",
+        "Neb. Ct. R. § 2-208"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-026",
+      "jurisdiction": "NE",
+      "trackId": "ne-setaside-noncustodial",
+      "pathwayKeys": [
+        "NE:set-aside-probation-fine-community-service"
+      ],
+      "affectedElement": "packet_components",
+      "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
+      "legalName": "Petition to Set Aside a Conviction Sentenced to Probation, Fine or Community Service (Neb. Rev. Stat. § 29-2264(2))",
+      "memoPath": "data/record-clearing/legal-design-intake/NE.memo.json",
+      "memoSha256": "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb",
+      "controllingAuthorities": [
+        "Neb. Rev. Stat. § 29-2264(2)",
+        "Neb. Rev. Stat. § 29-2264(5)",
+        "Neb. Rev. Stat. § 29-2264(6)",
+        "Neb. Rev. Stat. § 29-2264(7)",
+        "Neb. Rev. Stat. § 29-2264(8)",
+        "Neb. Rev. Stat. § 29-2264(9)",
+        "Neb. Rev. Stat. § 29-2263",
+        "Neb. Ct. R. § 2-208"
+      ],
+      "reviewedAsOf": "2026-08-06",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-027",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_1_40_general_sessions",
+      "pathwayKeys": [
+        "SC:general-sessions-non-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Destroy Arrest Records of a General Sessions Non-Conviction, S.C. Code § 17-1-40",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 17-1-40(A)",
+        "S.C. Code § 17-1-40(B)",
+        "S.C. Code § 17-1-40(C)",
+        "S.C. Code § 17-22-910",
+        "S.C. Code § 17-22-930",
+        "S.C. Code § 17-22-940(A)(1)",
+        "S.C. Code § 17-22-940(E)",
+        "S.C. Code § 17-22-940(G)",
+        "S.C. Code § 17-22-940(H)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-028",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_1_65_handgun",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge an Old Unlawful Handgun Possession Conviction, S.C. Code § 17-1-65",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 17-1-65",
+        "S.C. Code § 16-23-20",
+        "S.C. Code § 17-22-940(E)",
+        "2024 Act No. 111 (H.3594), § 20"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-029",
+      "jurisdiction": "SC",
+      "trackId": "sc_17_22_950_summary",
+      "pathwayKeys": [
+        "SC:juvenile-expungement",
+        "SC:summary-court-non-conviction-expungement"
+      ],
+      "affectedElement": "participant_instructions",
+      "question": "What a participant does where the automatic order under § 17-22-950(A) did not issue. The section was read in full at source on 2026-08-06 and imposes the duty on the summary court in mandatory terms, with the timing fixed by subsection (C), but it describes no application, motion or remedy on the fingerprinted branch where the court simply does not act. SCCA 223E is expressly the subsection (B) application and is not drafted for this situation. Until counsel resolves it the packet directs the participant to the summary court clerk and stops there; no enforcement filing is generated.",
+      "legalName": "Summary Court Expungement of a Non-Conviction, S.C. Code § 17-22-950",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 17-22-950(A)",
+        "S.C. Code § 17-22-950(B)",
+        "S.C. Code § 17-22-950(C)",
+        "S.C. Code § 17-22-950(D)",
+        "S.C. Code § 17-22-950(E)",
+        "S.C. Code § 17-22-950(F)",
+        "S.C. Code § 17-22-950(G)",
+        "S.C. Code § 17-1-40"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 1,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-030",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_910",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 22-5-910(A)",
+        "S.C. Code § 22-5-910(B)",
+        "S.C. Code § 22-5-910(C)",
+        "S.C. Code § 22-5-910(D)",
+        "S.C. Code § 22-5-910(E)",
+        "S.C. Code § 22-5-910(F)",
+        "S.C. Code § 16-25-20(D)",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-031",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_910",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "Whether the § 22-5-910(E) same-incident aggregation rule can be relied on in practice to bring several closely connected offences sentenced at one proceeding within a single application, given that § 17-22-940(G) permits multiple charges on one order only for § 17-1-40 and § 17-22-150(a). Both subsections were read at source on 2026-08-06 and are not obviously reconciled: § 22-5-910(E) treats such offences as one conviction 'for expungement purposes', while § 17-22-940(G) restricts what may appear on one order. The packet does not promise a single application on this route.",
+      "legalName": "Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 22-5-910(A)",
+        "S.C. Code § 22-5-910(B)",
+        "S.C. Code § 22-5-910(C)",
+        "S.C. Code § 22-5-910(D)",
+        "S.C. Code § 22-5-910(E)",
+        "S.C. Code § 22-5-910(F)",
+        "S.C. Code § 16-25-20(D)",
+        "S.C. Code § 17-22-940(D)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-032",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_920_yoa",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge a First-Offence Youthful Offender Act Conviction, S.C. Code § 22-5-920",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 22-5-920(A)",
+        "S.C. Code § 22-5-920(B)(1)",
+        "S.C. Code § 22-5-920(B)(2)",
+        "S.C. Code § 22-5-920(B)(3)",
+        "S.C. Code Title 24, Chapter 19",
+        "S.C. Code § 16-1-60",
+        "S.C. Code § 16-25-30",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-033",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_930_drug",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge a First-Offence Drug Conviction, S.C. Code § 22-5-930",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 22-5-930(A)",
+        "S.C. Code § 22-5-930(B)",
+        "S.C. Code § 22-5-930(C)",
+        "S.C. Code § 22-5-930(D)",
+        "S.C. Code § 22-5-930(E)",
+        "S.C. Code § 44-53-370(c)",
+        "S.C. Code § 40-43-86(EE)",
+        "S.C. Code § 44-53-450",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-034",
+      "jurisdiction": "SC",
+      "trackId": "sc_22_5_930_drug",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "How the § 22-5-930(A) route interacts with § 44-53-450(b) for a participant who would now be eligible for a conditional discharge. Subsection (A) was read at source on 2026-08-06 and expressly includes 'those charges for which the person would now be eligible for a conditional discharge pursuant to Section 44-53-450', which brings some conditional-discharge-type facts inside the conviction route; subsection (D) separately bars the route where the person actually had a conditional discharge within the lookback period. Which route a participant with both features should be pointed to, and in what order, is a counselling question the statute does not answer.",
+      "legalName": "Solicitor Application to Expunge a First-Offence Drug Conviction, S.C. Code § 22-5-930",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 22-5-930(A)",
+        "S.C. Code § 22-5-930(B)",
+        "S.C. Code § 22-5-930(C)",
+        "S.C. Code § 22-5-930(D)",
+        "S.C. Code § 22-5-930(E)",
+        "S.C. Code § 44-53-370(c)",
+        "S.C. Code § 40-43-86(EE)",
+        "S.C. Code § 44-53-450",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-035",
+      "jurisdiction": "SC",
+      "trackId": "sc_34_11_90e_check",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge a First-Offence Fraudulent Check Conviction, S.C. Code § 34-11-90(e)",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 34-11-90(e)",
+        "S.C. Code § 34-11-95",
+        "S.C. Code § 17-22-910",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-036",
+      "jurisdiction": "SC",
+      "trackId": "sc_56_5_750f",
+      "pathwayKeys": [
+        "SC:eligible-conviction-expungement"
+      ],
+      "affectedElement": "filing_process",
+      "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
+      "legalName": "Solicitor Application to Expunge a First-Offence Failure to Stop for a Blue Light Conviction, S.C. Code § 56-5-750(F)",
+      "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
+      "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
+      "controllingAuthorities": [
+        "S.C. Code § 56-5-750(B)(1)",
+        "S.C. Code § 56-5-750(F)",
+        "S.C. Code § 17-22-940(E)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sc-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-037",
+      "jurisdiction": "SD",
+      "trackId": "sd_sis_sealing",
+      "pathwayKeys": [
+        "SD:suspended-imposition-of-sentence-sealing"
+      ],
+      "affectedElement": "filing_process",
+      "question": "Counsel flagged as a release blocker whether sealing under § 23A-27-17 is automatic on discharge or requires a motion, and left an official_pdf_fill fallback unresolved against the possibility that a motion is needed. The section has now been read at the official South Dakota Legislature publication: 'Upon the discharge and dismissal of a person pursuant to § 23A-27-14, a court shall order that all official records ... be sealed'. Sealing is the court's obligation on discharge and dismissal; no participant motion exists. The unresolved fallback unit is therefore not carried, and the track is modelled as process_guidance. What remains open is the remedy where a court did not do what the statute directs.",
+      "legalName": "Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 23A-27-17)",
+      "memoPath": "data/record-clearing/legal-design-intake/SD.memo.json",
+      "memoSha256": "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7",
+      "controllingAuthorities": [
+        "SDCL § 23A-27-13",
+        "SDCL § 23A-27-14",
+        "SDCL § 23A-27-17"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-sd-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-038",
+      "jurisdiction": "VA",
+      "trackId": "va_exp_absolute_pardon",
+      "pathwayKeys": [
+        "VA:regime-1-expungement-available-now"
+      ],
+      "affectedElement": "governing_mechanism",
+      "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
+      "legalName": "Expungement of Police and Court Records After an Absolute Pardon, Va. Code § 19.2-392.2(I)",
+      "memoPath": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "memoSha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "controllingAuthorities": [
+        "Va. Code § 19.2-392.2(I)",
+        "Va. Code § 19.2-392.2(K)",
+        "Va. Code § 19.2-392.2(L)",
+        "Va. Code § 2.2-402"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-039",
+      "jurisdiction": "VA",
+      "trackId": "va_seal_ancillary_matter_only",
+      "pathwayKeys": [
+        "VA:petition-based-sealing"
+      ],
+      "affectedElement": "governing_mechanism",
+      "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
+      "legalName": "Petition to Seal an Ancillary Matter Left Behind by Automatic Sealing, Va. Code § 19.2-392.12:1(B) and (J)",
+      "memoPath": "data/record-clearing/legal-design-intake/VA.memo.json",
+      "memoSha256": "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66",
+      "controllingAuthorities": [
+        "Va. Code § 19.2-392.12:1(B)",
+        "Va. Code § 19.2-392.12:1(C)",
+        "Va. Code § 19.2-392.12:1(G)",
+        "Va. Code § 19.2-392.12:1(J)",
+        "Va. Code § 19.2-392.6:1",
+        "Va. Code § 19.2-392.7",
+        "Va. Code § 19.2-392.11"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-040",
+      "jurisdiction": "WV",
+      "trackId": "wv_acc_treatment_job_readiness",
+      "pathwayKeys": [
+        "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a"
+      ],
+      "affectedElement": "waiting_period",
+      "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch.",
+      "legalName": "Verified Petition for Accelerated Expungement with Approved Treatment, Recovery or Job Readiness, W. Va. Code § 61-11-26a",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26a(a)",
+        "W. Va. Code § 61-11-26a(a)(1)",
+        "W. Va. Code § 61-11-26a(a)(2)",
+        "W. Va. Code § 61-11-26a(a)(3)",
+        "W. Va. Code § 61-11-26a(b)",
+        "W. Va. Code § 61-11-26a(c)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-041",
+      "jurisdiction": "WV",
+      "trackId": "wv_common_conv_procedure",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "venue",
+      "question": "Venue on a multi-county conviction petition. The controlling review states that S.B. 562 (2020) allows a person seeking expungement of convictions in more than one county to file in his or her county of residence. Section 61-11-26 was read in full at source on 2026-08-06 and the current text does not contain a residence-county venue option: subsections (a)(1) and (a)(2) both say 'petition the circuit court in which the conviction or convictions occurred', the subsection (d) proviso requires a multiple-misdemeanour petition to 'identify and group such information by circuit court, as applicable', and § 61-11-26a(a) says 'may petition the circuit court or circuit courts in which the conviction or convictions occurred'. Read together the current text supports one petition covering several counties, grouped by circuit court and served on the prosecuting attorney of each county of conviction, but it does not name a residence-county forum. Venue for the single-county case is unaffected and unambiguous. Until counsel resolves this, the packet directs a multi-county participant to the circuit court of conviction and adds a local-check instruction rather than promising a residence-county filing.",
+      "legalName": "Shared Conviction Expungement Procedure, Exclusion Screen and Once-Per-Lifetime Bundling Node, W. Va. Code §§ 61-11-26, 61-11-26a, 61-11-26b",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)",
+        "W. Va. Code § 61-11-26(b)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(j)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26(p)",
+        "W. Va. Code § 61-11-26a",
+        "W. Va. Code § 61-11-26b",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-042",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_multiple_misdemeanors",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "venue",
+      "question": "Where a multiple-misdemeanour group spans more than one county, which circuit court receives the single petition. Section 61-11-26 was read in full at source on 2026-08-06: subsection (a)(1) says 'the circuit court in which the conviction or convictions occurred', and the subsection (d) proviso requires the petition to 'identify and group such information by circuit court, as applicable'. Together those support one petition covering several counties, but the text does not say which of the several circuit courts is the forum, and it does not contain the county-of-residence option the controlling review attributes to S.B. 562. Until counsel answers, the packet directs the participant to the circuit court of conviction and, for a genuinely multi-county group, to a lawyer.",
+      "legalName": "Verified Petition to Expunge Multiple Misdemeanour Convictions, W. Va. Code § 61-11-26(a)(1) and (b)(2)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)(1)",
+        "W. Va. Code § 61-11-26(b)(2)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26b",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-043",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_multiple_misdemeanors",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "eligibility_branch",
+      "question": "Whether an excluded conviction sitting inside an otherwise eligible multiple-misdemeanour group can be severed, so the remaining convictions are expunged, or whether its presence in the petition risks the whole petition being summarily denied under § 61-11-26(i)(4). The burden at subsection (h)(1) is framed per conviction, which suggests severance, but the once-per-lifetime rule makes the downside of getting it wrong permanent.",
+      "legalName": "Verified Petition to Expunge Multiple Misdemeanour Convictions, W. Va. Code § 61-11-26(a)(1) and (b)(2)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)(1)",
+        "W. Va. Code § 61-11-26(b)(2)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26b",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    },
+    {
+      "questionId": "Q-044",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_nonviolent_felony",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "participant_instructions",
+      "question": "How LegalEase should present a route it may generate but on which it cannot make the central characterisation. Section 61-11-26(p)(5) was read at source on 2026-08-06 and makes two of the four limbs of 'nonviolent felony' express circuit-court findings, so the eligibility recital on SCA-C907 is one LegalEase must leave for the participant and their counsel. The controlling review calls for a manual-review gate on every felony. LegalEase operates no review queue, no staff approval and no eligibility determination, so that direction is normalized here as a printed attorney-referral notice and a self-help boundary rather than as an internal gate. Whether counsel accepts that translation, or would rather the felony route not be offered at all until a referral partner is in place, is a question for counsel.",
+      "legalName": "Verified Petition to Expunge a Nonviolent Felony Conviction, W. Va. Code § 61-11-26(a)(2) and (b)(3)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)(2)",
+        "W. Va. Code § 61-11-26(b)(3)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(j)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26(p)(2)",
+        "W. Va. Code § 61-11-26(p)(3)",
+        "W. Va. Code § 61-11-26(p)(5)",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-045",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "correct_form",
+      "question": "Which published form is the operative § 61-11-26 misdemeanour petition. The Judiciary Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms. SCA-C900, captioned 'Instructions for Expungement of Records Petition' and revised 04/01/2021, is a five-page document whose pages 2 to 5 are themselves a petition, verification and certificate of service. That embedded petition is materially stale: it requires the petitioner to have been 'between eighteen and twenty-six years of age', requires 'no prior or subsequent convictions other than minor traffic violations', recites 'W. Va. Code §61-11-26 (2009)', and cross-references the exclusion list to '§61-11-26(i)', all of which are features of the pre-2019 section. The section in force places exclusions at subsection (c) and imposes no age limit. SCA-C906 matches the current subsection (c) and (d) structure and carries the § 61-11-26a elections, and is therefore used here. The packet must not generate the SCA-C900 embedded petition. Whether the Judiciary intends SCA-C900 to remain published in that form is not established.",
+      "legalName": "Verified Petition to Expunge a Single Misdemeanour Conviction, W. Va. Code § 61-11-26(a)(1) and (b)(1)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)(1)",
+        "W. Va. Code § 61-11-26(b)(1)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26b",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-046",
+      "jurisdiction": "WV",
+      "trackId": "wv_conv_single_misdemeanor",
+      "pathwayKeys": [
+        "WV:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "affectedElement": "notice_or_service",
+      "question": "The SCA-C900 instruction sheet, revised 04/01/2021, tells the petitioner that after a notice of opposition they 'will then have ten (10) days of being served of such notice to reply', and cites § 61-11-26(e) as the opposition provision. Section 61-11-26 was read in full at source on 2026-08-06: opposition is at subsection (g), and subsection (g)(3) gives the petitioner 30 days after service of the opposition to reply. The packet states the statutory 30 days and flags the discrepancy, but which the circuits apply in practice is not established, and a participant who relies on the form's ten days would not be prejudiced while one who relies on thirty might be.",
+      "legalName": "Verified Petition to Expunge a Single Misdemeanour Conviction, W. Va. Code § 61-11-26(a)(1) and (b)(1)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-26(a)(1)",
+        "W. Va. Code § 61-11-26(b)(1)",
+        "W. Va. Code § 61-11-26(c)",
+        "W. Va. Code § 61-11-26(d)",
+        "W. Va. Code § 61-11-26(e)",
+        "W. Va. Code § 61-11-26(f)",
+        "W. Va. Code § 61-11-26(g)",
+        "W. Va. Code § 61-11-26(h)",
+        "W. Va. Code § 61-11-26(i)",
+        "W. Va. Code § 61-11-26(k)",
+        "W. Va. Code § 61-11-26(l)",
+        "W. Va. Code § 61-11-26(n)",
+        "W. Va. Code § 61-11-26(o)",
+        "W. Va. Code § 61-11-26b",
+        "W. Va. Code § 59-1-11(a)(1)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-guidance-implementation"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official instructions are in hand"
+    },
+    {
+      "questionId": "Q-047",
+      "jurisdiction": "WV",
+      "trackId": "wv_nc_acquittal_dismissal",
+      "pathwayKeys": [
+        "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      ],
+      "affectedElement": "correct_form",
+      "question": "SCA-C903 was read at source on 2026-08-06. Its recital is to 'W.Va. Code § 61-11-25 (2000)', and the form's stated revision date is 04/01/2010, so the published form predates the 2010, 2012, 2022, 2023 and 2024 amendments to the section, including the H.B. 4399 (2024) text now in force. The form's operative paragraphs still track the current subsection (a) requirements for a straight acquittal or dismissal, so the fit is sound for this track, but whether the Judiciary intends the 2000 recital to be corrected, and whether any circuit rejects the form on that basis, is not established.",
+      "legalName": "Civil Petition to Expunge Records of an Acquittal or Dismissal, W. Va. Code § 61-11-25(a)",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-25(a)",
+        "W. Va. Code § 61-11-25(b)",
+        "W. Va. Code § 61-11-25(c)",
+        "W. Va. Code § 61-11-25(d)",
+        "W. Va. Code § 61-11-25(e)",
+        "W. Va. Code § 61-11-25(f)",
+        "W. Va. Code § 61-11-25(g)"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-048",
+      "jurisdiction": "WV",
+      "trackId": "wv_nc_diversion_deferred",
+      "pathwayKeys": [
+        "WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication"
+      ],
+      "affectedElement": "correct_form",
+      "question": "Whether SCA-C903 is the right vehicle for a deferred-adjudication dismissal. The form was read at source on 2026-08-06: it is captioned 'for Reasons Other than Entry of a Plea', recites 'W.Va. Code § 61-11-25 (2000)', carries a single charge block with one free-text reason-for-dismissal field, has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph, and requires the movant to state that the dismissal 'was not in exchange for a guilty plea to another offense'. Section 61-11-22a operates on an entered guilty plea which is withdrawn on compliance, so the movant's statement is literally true — the dismissal is not in exchange for a plea to another offence — but the caption and the missing paragraphs make the fit imperfect. The packet therefore generates the official form plus a supplemental pleading carrying the statutory basis, the same-transaction recital and the carve-out recital. Whether the Judiciary regards SCA-C903 as the correct form for this route, or whether a distinct form or a full custom petition is expected, is not established.",
+      "legalName": "Civil Petition to Expunge Records Following Completion of a Pretrial Diversion or Deferred Adjudication, W. Va. Code § 61-11-25(a) with §§ 61-11-22 and 61-11-22a",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 61-11-25(a)",
+        "W. Va. Code § 61-11-25(b)",
+        "W. Va. Code § 61-11-25(c)",
+        "W. Va. Code § 61-11-25(d)",
+        "W. Va. Code § 61-11-25(e)",
+        "W. Va. Code § 61-11-25(g)",
+        "W. Va. Code § 61-11-22",
+        "W. Va. Code § 61-11-22a",
+        "W. Va. Code § 48-27-204",
+        "W. Va. Code § 17C-5-2b"
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [],
+      "familyBridgePresent": false,
+      "duplicatePathwayRows": 0,
+      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
+      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
+      "owner": "RCAP packet factory",
+      "blockedUntil": "a candidate artifact and hash exist"
+    },
+    {
+      "questionId": "Q-049",
+      "jurisdiction": "WV",
+      "trackId": "wv_pardon_expungement",
+      "pathwayKeys": [
+        "WV:pardon-based-expungement"
+      ],
+      "affectedElement": "legal_effect_or_warning",
+      "question": "Whether § 5-1-16a(b) is the whole of the effect of a pardon expungement. The subsection was read at source on 2026-08-06 and provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l), it contains no general non-disclosure provision and no statement that the proceedings are considered never to have occurred. What the packet may tell a participant about disclosing the record to an ordinary employer after a § 5-1-16a expungement is therefore not settled.",
+      "legalName": "Petition to Expunge the Record of a Conviction After a Full and Unconditional Pardon, W. Va. Code § 5-1-16a",
+      "memoPath": "data/record-clearing/legal-design-intake/WV.memo.json",
+      "memoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
+      "controllingAuthorities": [
+        "W. Va. Code § 5-1-16a(a)",
+        "W. Va. Code § 5-1-16a(b)",
+        "W. Va. Code § 5-1-16a(c)",
+        "W. Va. Code § 5-1-16a(d)",
+        "W. Va. Code § 5-1-16a(e)",
+        "W. Va. Const. art. VII, § 11",
+        "W. Va. Code § 5-1-16",
+        "W. Va. Code § 59-3-1 et seq."
+      ],
+      "reviewedAsOf": "2026-08-01",
+      "packetFamilies": [
+        "rcap-wv-custom-pleading"
+      ],
+      "familyBridgePresent": true,
+      "duplicatePathwayRows": 0,
+      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
+      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
+      "owner": "Lawrence Blackmon",
+      "blockedUntil": null
+    }
+  ]
+}
