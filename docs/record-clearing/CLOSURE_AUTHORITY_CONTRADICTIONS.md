@@ -6,9 +6,9 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 
 | Authority outcome mode | Pathways |
 |---|---:|
-| referral | 2 |
+| referral | 1 |
 | automatic_relief | 1 |
-| **TOTAL** | **3** |
+| **TOTAL** | **2** |
 
 ## Deliberately not proposed
 
@@ -26,7 +26,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 | Pathway | Commercial | Service disposition | Children to keep | Decision |
 |---|---|---|---|---|
 | `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | paid_packet_intended → non_paid_service | selection_only | — | LD-MN-01 |
-| `MS:intervention-court-statutory-result-enforcement-referral` | paid_packet_intended → non_paid_service | handoff | — | LD-MS-01 |
 | `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | paid_packet_intended → branch_mixed | branch_dependent | — | NATIONAL-2026-08-28-LA-IMM-03 |
 
 ### Not ready to apply
@@ -61,35 +60,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "preservedServiceDisposition": "selection_only",
   "preservedOutcomeMode": "referral",
   "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:intervention-court-statutory-result-enforcement-referral`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Enforcement of relief the statute already granted. Never sold as an expungement packet.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Implementation effect**: Enforcement of relief the statute already granted. Its own record reads 'Never sold as an expungement packet.' The service stays a referral with implementation and correction support; it does not become ordinary guidance.
-- **Do not**: Do not silently change this referral to ordinary guidance. It is a handoff, and changing that is an owner decision, not a side effect of the denominator move.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-INTERVENTION-COURT-STATUTORY-RESULT-ENFORCEMENT-REFERRAL",
-  "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:intervention-court-statutory-result-enforcement-referral under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 9-23-23. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Enforcement of relief the statute already granted. Never sold as an expungement packet.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
 }
 ```
 

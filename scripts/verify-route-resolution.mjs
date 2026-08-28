@@ -324,7 +324,10 @@ const RECLASSIFIED = [
   "MS:nonadjudication-99-15-26-active-case-admission",
   "MS:pretrial-intervention-active-case-admission",
   "RI:path-g-decriminalized-offense-expungement",
-  "SC:diversion-or-program-completion-expungement"
+  "SC:diversion-or-program-completion-expungement",
+  // Confirmed by the owner separately: stage=enforcement is none of the five
+  // categories the original approval enumerated, so it was held until asked.
+  "MS:intervention-court-statutory-result-enforcement-referral"
 ];
 for (const key of RECLASSIFIED) {
   const pathway = closureByKey.get(key);
@@ -336,15 +339,31 @@ for (const key of RECLASSIFIED) {
 
 // The three held rows must NOT have moved. Two are conditioned by the owner and
 // one falls outside the categories the approval names.
+// Two rows remain held, each on a condition the owner's approval states: North
+// Dakota until its branches are classified separately, Minnesota until its two
+// mechanisms are separated.
 for (const key of [
   "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-  "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
-  "MS:intervention-court-statutory-result-enforcement-referral"
+  "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06"
 ]) {
   ok(`${key}: held back, still in the paid denominator`,
     closureByKey.get(key)?.category === "paid_packet_intended", closureByKey.get(key)?.category ?? "absent");
 }
-ok("three rows remain in the contradiction register", contradictions.total === 3, String(contradictions.total));
+ok("two rows remain in the contradiction register", contradictions.total === 2, String(contradictions.total));
+
+// The approval says in terms that the move does not convert a handoff into
+// ordinary guidance. The enforcement referral is the case that tests it: its
+// closure category is now non_filing_guidance and its service disposition must
+// still be a handoff.
+const enforcement = contractByKey.get("MS:intervention-court-statutory-result-enforcement-referral");
+ok("the enforcement referral keeps its referral outcome after the denominator move",
+  enforcement?.outcomeMode === "referral" && enforcement?.stage === "enforcement",
+  `${enforcement?.outcomeMode} / ${enforcement?.stage}`);
+ok("the enforcement referral is not served as ordinary guidance",
+  resolveRoute({ jurisdiction: "MS", pathwayId: "intervention-court-statutory-result-enforcement-referral",
+    facts: {}, on: TODAY, phase: "FINAL_VERIFICATION" }).serviceDisposition === "handoff");
+ok("the enforcement referral still prepares no merits petition",
+  enforcement?.packetFamily === null && /never sold as an expungement packet/i.test(enforcement?.notes ?? ""));
 
 // Applying the proposal must not change what any route does. Every row's route
 // keeps the outcome mode its contract states.

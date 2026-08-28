@@ -62,7 +62,7 @@ measured against the closure ledger's seven-stage chain.
 | MI | Michigan | REMAINING_TO_BUILD | 4 | 0 | 4 | 0 | legal_review_pending×4, wait_anchor_fix×1, intake_fix×1, gate_build×1 |
 | MN | Minnesota | REMAINING_TO_BUILD | 3 | 1 | 2 | 1 | legal_review_pending×2, not_paid_product×1, packet_spec_incomplete×1, renderer_unavailable×1, route_metadata×1 |
 | MO | Missouri | REMAINING_TO_BUILD | 5 | 0 | 5 | 0 | legal_review_pending×5, legal_reconfirmation×2, not_paid_product×1 |
-| MS | Mississippi | EXISTING_BRANCH_TO_PORT | 16 | 9 | 13 | 9 | legal_review_pending×7, route_metadata×4, not_paid_product×3, packet_spec_incomplete×3, renderer_unavailable×3 |
+| MS | Mississippi | EXISTING_BRANCH_TO_PORT | 15 | 9 | 13 | 9 | legal_review_pending×6, route_metadata×4, not_paid_product×2, packet_spec_incomplete×2, renderer_unavailable×2 |
 | MT | Montana | BLOCKED_EXACTLY | 2 | 2 | 2 | 2 | none |
 | NC | North Carolina | REMAINING_TO_BUILD | 3 | 0 | 3 | 0 | legal_review_pending×3, gate_build×1, route_metadata×1 |
 | ND | North Dakota | REMAINING_TO_BUILD | 6 | 2 | 4 | 3 | legal_review_pending×3, renderer_unavailable×2, gate_build×1, legal_reconfirmation×1, packet_spec_incomplete×1 |

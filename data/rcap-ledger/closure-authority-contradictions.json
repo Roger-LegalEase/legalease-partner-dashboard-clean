@@ -3,18 +3,17 @@
   "generatedBy": "scripts/generate-closure-authority-contradictions.mjs",
   "question": "Which pathways does the closure ledger count as paid packets while the legal-authority route layer already decided they sell nothing?",
   "governingConstraint": "data/rcap-ledger/sellable-pathway-reclassifications.json states that the only way a pathway leaves paid_packet_intended is a signed record naming the person who decided. These are prepared proposals with authority and decidedOn left null. No category is changed by this generator, and a proposal is not a reclassification.",
-  "total": 3,
+  "total": 2,
   "counts": {
-    "referral": 2,
+    "referral": 1,
     "automatic_relief": 1
   },
   "commercialClassifications": {
-    "non_paid_service": 2,
+    "non_paid_service": 1,
     "branch_mixed": 1
   },
   "serviceDispositions": {
     "selection_only": 1,
-    "handoff": 1,
     "branch_dependent": 1
   },
   "childPacketRoutesThatMustRemainActive": [],
@@ -86,51 +85,6 @@
         "preservedServiceDisposition": "selection_only",
         "preservedOutcomeMode": "referral",
         "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
-      }
-    },
-    {
-      "adjudication": {
-        "commercialClassification": "non_paid_service",
-        "serviceDisposition": "handoff",
-        "childPacketRoutesThatMustRemainActive": [],
-        "implementationEffect": "Enforcement of relief the statute already granted. Its own record reads 'Never sold as an expungement packet.' The service stays a referral with implementation and correction support; it does not become ordinary guidance.",
-        "doNotDo": "Do not silently change this referral to ordinary guidance. It is a handoff, and changing that is an owner decision, not a side effect of the denominator move."
-      },
-      "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
-      "closureCategory": "paid_packet_intended",
-      "closureCategoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
-      "authorityOutcomeMode": "referral",
-      "authorityPacketFamily": null,
-      "authorityDecisionId": "LD-MS-01",
-      "authorityRuleId": "MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01",
-      "authorityNotes": "Enforcement of relief the statute already granted. Never sold as an expungement packet.",
-      "authoritySourceFile": "src/lib/legal-authority/routes/mississippi.json",
-      "openBlockers": [
-        "not_paid_product",
-        "packet_spec_incomplete",
-        "legal_review_pending",
-        "renderer_unavailable"
-      ],
-      "unclosableBlockers": [
-        "not_paid_product",
-        "packet_spec_incomplete",
-        "renderer_unavailable"
-      ],
-      "alreadyReclassified": false,
-      "proposal": {
-        "id": "PROPOSED-MS-INTERVENTION-COURT-STATUTORY-RESULT-ENFORCEMENT-REFERRAL",
-        "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
-        "previousClassification": "paid_packet_intended",
-        "newClassification": "non_filing_guidance",
-        "reason": "no_participant_filing",
-        "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:intervention-court-statutory-result-enforcement-referral under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 9-23-23. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Enforcement of relief the statute already granted. Never sold as an expungement packet.\"",
-        "authority": null,
-        "decidedOn": null,
-        "preservedServiceDisposition": "handoff",
-        "preservedOutcomeMode": "referral",
-        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
       }
     },
     {

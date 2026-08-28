@@ -3,16 +3,16 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "96ea39d539f3f1722217259ec11d406fa1c58bf46aaf5b5e081e8c8ceb187ac2",
-    "pathways": 263
+    "sha256": "d2a128d1b093e7194e095d988ec3457be1fd42b76e33618c6eae04627c7bc598",
+    "pathways": 262
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
   "totals": {
-    "registryGapPathways": 41,
-    "withAPathwayLevelPacketSet": 41,
+    "registryGapPathways": 40,
+    "withAPathwayLevelPacketSet": 40,
     "withoutAPathwayLevelPacketSet": 0,
-    "inAJurisdictionBoundByTheAdoption": 36,
+    "inAJurisdictionBoundByTheAdoption": 35,
     "carryingACounselRatification": 12,
     "byJurisdiction": {
       "AK": 1,
@@ -23,7 +23,7 @@
       "IL": 3,
       "MD": 1,
       "ME": 2,
-      "MS": 7,
+      "MS": 6,
       "ND": 1,
       "NV": 2,
       "NY": 1,
@@ -41,7 +41,7 @@
     "packetPlanModes": {
       "state_specific_custom_packet_from_source_rules": 27,
       "official_form_overlay_or_source_form_set": 10,
-      "automatic_relief_verification_and_guidance": 4
+      "automatic_relief_verification_and_guidance": 3
     }
   },
   "records": [
@@ -2719,70 +2719,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for MS intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
-      "jurisdiction": "MS",
-      "pathwayId": "intervention-court-statutory-result-enforcement-referral",
-      "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "intervention-court-statutory-result-enforcement-referral",
-        "label": "Intervention-court completion — enforcement of the statutory result",
-        "summary": "Intervention-court completion — enforcement of the statutory result under Miss. Code Ann. § 9-23-23. used once completion is certified but the court or agency has not carried out the statutory result.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "review",
-        "suggestedResultCode": "guidance_only",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. § 9-23-23"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=intervention-court-statutory-result-enforcement-referral]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-intervention-court-statutory-result-enforcement-referral",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS intervention-court-statutory-result-enforcement-referral and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",

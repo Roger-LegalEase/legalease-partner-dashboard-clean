@@ -36,14 +36,14 @@ This directory is an import, not a second editable source of truth. Corrections 
 | counsel | 131 |
 | **SUM** | **854** |
 
-## 2. The 35 rows that reach no registry track
+## 2. The 34 rows that reach no registry track
 
 | Classification | Rows |
 |---|---:|
 | NO_LEGAL_DESIGN_TRACK_EXISTS | 17 |
-| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 10 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 9 |
 | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 8 |
-| **TOTAL** | **35** |
+| **TOTAL** | **34** |
 
 | Jurisdiction | Pathway | Candidate track | Design status | Classification |
 |---|---|---|---|---|
@@ -60,7 +60,6 @@ This directory is an import, not a second editable source of truth. Corrections 
 | MS | `human-trafficking-survivor-expungement-97-3-54-6-6` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `human-trafficking-survivor-vacatur-97-3-54-6-5` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
-| MS | `intervention-court-statutory-result-enforcement-referral` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | NV | `controlled-substance-possession-sealing-under-nrs-453-3365` | nv_seal_453_3365 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | NV | `trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | nv-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |

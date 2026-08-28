@@ -11,8 +11,7 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 | TRACK_MATCHED_BUT_DESIGN_DEFERRED | 6 |
 | BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 2 |
 | UNDECIDED_INSUFFICIENT_EVIDENCE | 2 |
-| NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET | 1 |
-| **TOTAL** | **35** |
+| **TOTAL** | **34** |
 
 ## BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION
 
@@ -117,18 +116,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Refuted on statute**: The route's statute (Juvenile-adjudication expungement under Wis. Stat. § 938.355(4m)) and wi_exp_certificate_of_discharge's controlling authority (Wis. Stat. § 973.015(1m); Wis. Stat. § 973.015(1m)(b)) share no chapter. They are different schemes.
 - **Reason**: The lexical candidate wi_exp_certificate_of_discharge is refuted by 2 tests: population, statute.
 - **Action**: Do not bind this pathway to wi_exp_certificate_of_discharge. WI carries no track for this population at all, so this is new legal design work, not a bridge.
-
-## NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET
-
-### `MS:intervention-court-statutory-result-enforcement-referral`
-
-- **Lexical candidate**: `ms-diversion` — Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23) (score undefined)
-- **Route authority**: Miss. Code Ann. § 9-23-23 · stage enforcement · outcomeMode referral · packetFamily null
-- **Track authority**: Miss. Code Ann. § 99-15-123(1); Miss. Code Ann. § 99-15-123(3); Miss. Code Ann. § 99-15-103; Miss. Code Ann. § 9-23-23; Miss. Code Ann. § 9-23-5(c); Miss. Code Ann. § 99-19-71(4); 2019 Miss. HB 1352
-- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
-- **Refuted on stage**: The route is stage=enforcement while ms-diversion accepts only post-completion dispositions (pretrial_intervention_completed_noncriminal_disposition, intervention_court_completed_dismissal, intervention_court_completed_sentenced_plea_expunged). Binding them would offer relief on a case that has not reached the disposition the track requires.
-- **Reason**: The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Enforcement of relief the statute already granted. Never sold as an expungement packet.
-- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
 
 ## NO_CANDIDATE_TRACK_EXISTS
 

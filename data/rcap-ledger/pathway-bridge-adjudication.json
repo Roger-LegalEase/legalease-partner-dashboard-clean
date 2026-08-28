@@ -3,13 +3,12 @@
   "generatedBy": "scripts/generate-pathway-bridge-adjudication.mjs",
   "question": "The authority finalization published fourteen pathways as approved-track bridges. How many of those candidates survive evidence?",
   "correction": "These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING, assigned by a lexical Jaccard candidate finder at a 0.34 threshold. A candidate finder proposes; it does not decide. This register adjudicates each candidate against the legal-authority route record's statute, stage and outcomeMode, and against the memo track's controlling authority and population.",
-  "subjectCount": 35,
+  "subjectCount": 34,
   "counts": {
     "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 6,
     "CANDIDATE_REJECTED": 9,
     "NO_CANDIDATE_TRACK_EXISTS": 15,
     "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 2,
-    "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET": 1,
     "UNDECIDED_INSUFFICIENT_EVIDENCE": 2
   },
   "rows": [
@@ -546,72 +545,6 @@
       "verdict": "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION",
       "reason": "3 tracks in MS cite the same provision as this route and none is distinguished by subsection: ms-nonconv, ms-nonadj, ms-diversion. Picking one would be an arbitrary choice presented as a finding.",
       "action": "Decide which of ms-nonconv or ms-nonadj or ms-diversion covers MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4, then bind it. The distinguishing evidence is the eligible disposition, not the citation."
-    },
-    {
-      "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
-      "candidateTrackId": "ms-diversion",
-      "candidateTrackName": "Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ms-diversion",
-      "lexicalMatchScore": 0.43,
-      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. § 9-23-23",
-        "stage": "enforcement",
-        "outcomeMode": "referral",
-        "packetFamily": null,
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 99-15-123(1)",
-        "Miss. Code Ann. § 99-15-123(3)",
-        "Miss. Code Ann. § 99-15-103",
-        "Miss. Code Ann. § 9-23-23",
-        "Miss. Code Ann. § 9-23-5(c)",
-        "Miss. Code Ann. § 99-19-71(4)",
-        "2019 Miss. HB 1352"
-      ],
-      "sharedCitationKeys": [
-        "92323",
-        "923"
-      ],
-      "sharedExactCitationKeys": [
-        "92323"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-diversion",
-          "legalName": "Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23)",
-          "sharedKeys": [
-            "92323",
-            "923"
-          ],
-          "eligibleDispositions": [
-            "pretrial_intervention_completed_noncriminal_disposition",
-            "intervention_court_completed_dismissal",
-            "intervention_court_completed_sentenced_plea_expunged"
-          ]
-        }
-      ],
-      "disqualifiers": [
-        {
-          "test": "outcome_mode",
-          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        },
-        {
-          "test": "stage",
-          "finding": "The route is stage=enforcement while ms-diversion accepts only post-completion dispositions (pretrial_intervention_completed_noncriminal_disposition, intervention_court_completed_dismissal, intervention_court_completed_sentenced_plea_expunged). Binding them would offer relief on a case that has not reached the disposition the track requires.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        }
-      ],
-      "samePopulationTracks": [],
-      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
-      "reason": "The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Enforcement of relief the statute already granted. Never sold as an expungement packet.",
-      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
     },
     {
       "pathwayKey": "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
