@@ -3,13 +3,12 @@
   "generatedBy": "scripts/generate-pathway-bridge-adjudication.mjs",
   "question": "The authority finalization published fourteen pathways as approved-track bridges. How many of those candidates survive evidence?",
   "correction": "These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING, assigned by a lexical Jaccard candidate finder at a 0.34 threshold. A candidate finder proposes; it does not decide. This register adjudicates each candidate against the legal-authority route record's statute, stage and outcomeMode, and against the memo track's controlling authority and population.",
-  "subjectCount": 40,
+  "subjectCount": 38,
   "counts": {
     "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 6,
     "CANDIDATE_REJECTED": 9,
     "NO_CANDIDATE_TRACK_EXISTS": 15,
     "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 2,
-    "BRIDGE_CONFIRMED": 2,
     "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET": 4,
     "UNDECIDED_INSUFFICIENT_EVIDENCE": 2
   },
@@ -412,106 +411,6 @@
       "verdict": "NO_CANDIDATE_TRACK_EXISTS",
       "reason": "No track in ME's memo shares a statutory citation with this route, and the lexical finder proposed none. The jurisdiction has no legal design for this pathway.",
       "action": "Write the legal design for ME:pardon-route, or record it as intentionally outside product scope through the signed reclassification register."
-    },
-    {
-      "pathwayKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Additional justice-court misdemeanor relief",
-      "candidateTrackId": "ms-misd-addl",
-      "candidateTrackName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ms-misd-addl",
-      "lexicalMatchScore": 0.75,
-      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. § 9-11-15(3)",
-        "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "packetFamily": "Petition under § 9-11-15(3)",
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 9-11-15(3)",
-        "Miss. Code Ann. § 21-23-7(6)",
-        "Miss. Code Ann. tit. 63"
-      ],
-      "sharedCitationKeys": [
-        "91115",
-        "911"
-      ],
-      "sharedExactCitationKeys": [
-        "91115"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-misd-addl",
-          "legalName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
-          "sharedKeys": [
-            "91115",
-            "911"
-          ],
-          "eligibleDispositions": [
-            "justice_court_misdemeanor_conviction",
-            "municipal_court_misdemeanor_conviction"
-          ]
-        }
-      ],
-      "disqualifiers": [],
-      "samePopulationTracks": [],
-      "verdict": "BRIDGE_CONFIRMED",
-      "reason": "The route's statute and ms-misd-addl's controlling authority cite the same provision (91115), the route is outcomeMode=participant_packet, and the track's design status is legal_design_approved_with_limitations.",
-      "action": "Bind MS:additional-justice-court-misdemeanor-relief-9-11-15-3 to ms-misd-addl in the track registry."
-    },
-    {
-      "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Additional municipal-court misdemeanor relief",
-      "candidateTrackId": "ms-misd-addl",
-      "candidateTrackName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ms-misd-addl",
-      "lexicalMatchScore": 0.75,
-      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. § 21-23-7(6)",
-        "stage": "single_stage",
-        "outcomeMode": "participant_packet",
-        "packetFamily": "Petition under § 21-23-7(6)",
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 9-11-15(3)",
-        "Miss. Code Ann. § 21-23-7(6)",
-        "Miss. Code Ann. tit. 63"
-      ],
-      "sharedCitationKeys": [
-        "21237",
-        "2123"
-      ],
-      "sharedExactCitationKeys": [
-        "21237"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-misd-addl",
-          "legalName": "Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6))",
-          "sharedKeys": [
-            "21237",
-            "2123"
-          ],
-          "eligibleDispositions": [
-            "justice_court_misdemeanor_conviction",
-            "municipal_court_misdemeanor_conviction"
-          ]
-        }
-      ],
-      "disqualifiers": [],
-      "samePopulationTracks": [],
-      "verdict": "BRIDGE_CONFIRMED",
-      "reason": "The route's statute and ms-misd-addl's controlling authority cite the same provision (21237), the route is outcomeMode=participant_packet, and the track's design status is legal_design_approved_with_limitations.",
-      "action": "Bind MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl in the track registry."
     },
     {
       "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",

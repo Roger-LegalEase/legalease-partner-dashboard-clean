@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149"
+    "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,7 +17,7 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149"
+      "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -67,21 +67,21 @@
   "totals": {
     "pathways": 271,
     "sessionADispositions": {
-      "family_bridge_missing_no_family": 152,
+      "family_bridge_missing_no_family": 154,
       "approved_by_decision_owner": 72,
-      "family_bridge_missing_no_track": 47
+      "family_bridge_missing_no_track": 45
     },
     "registryClassifications": {
-      "exact_track_and_packet_set": 224,
-      "registry_gap_no_track": 47
+      "exact_track_and_packet_set": 226,
+      "registry_gap_no_track": 45
     },
-    "bridgeImportResolved": 152,
+    "bridgeImportResolved": 154,
     "pathwaysWithCompletedOutputEvidence": 72,
-    "ownerApprovedLegal": 229,
+    "ownerApprovedLegal": 231,
     "ownerApprovalBases": {
-      "owner_approved_existing_legal_design_packet_set": 152,
+      "owner_approved_existing_legal_design_packet_set": 154,
       "owner_approved_packet_family": 72,
-      "registry_gap_no_track": 42,
+      "registry_gap_no_track": 40,
       "owner_approved_exception_annex": 5
     },
     "escalationsToTheDecisionOwner": 0,
@@ -105,8 +105,8 @@
       "trackCount": 497,
       "scope": "every registry track"
     },
-    "effect": "Session A's join reported 152 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 152 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
-    "stillUnbridgeable": 47
+    "effect": "Session A's join reported 154 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 154 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
+    "stillUnbridgeable": 45
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -27393,9 +27393,11 @@
       "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "pathwayLabel": "Additional justice-court misdemeanor relief",
       "sessionAGraph": {
-        "disposition": "family_bridge_missing_no_track",
-        "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "registryTrackIds": [],
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ms-misd-addl map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "ms-misd-addl"
+        ],
         "packetFamilies": [],
         "lawrenceRatification": null,
         "ledgerSaysLegalReviewPending": true,
@@ -27405,19 +27407,187 @@
         "source": "data/record-clearing/legal-design-packet-set-manifests.json",
         "scope": "all 497 registry tracks",
         "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
-        "packetSets": [],
+        "packetSets": [
+          {
+            "packetSetId": "ms-misd-addl-set",
+            "trackId": "ms-misd-addl",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ms-misd-addl-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-certificate-of-service-3",
+                "role": "certificate_of_service",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-attachment-4",
+                "role": "attachment",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-instructions-5",
+                "role": "instructions",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+              "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+              "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+              "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+              "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+              "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+              "The petitioner's signature and the date of signing — Petition, signature block.",
+              "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+              "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+              "The petitioner signs. LegalEase leaves the signature and date blank.",
+              "Not established. A simple truth statement is used.",
+              "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+              "Not established for these sections. The participant asks the clerk."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+                "obtainedFrom": "Mississippi Criminal Information Center",
+                "requirement": "conditional",
+                "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+                "obtainedFrom": "Clerk of the justice court or municipal court",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+                "obtainedFrom": "Clerk of the court where the case was heard",
+                "requirement": "conditional",
+                "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs. LegalEase leaves the signature and date blank.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "Not established. A simple truth statement is used.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "Not established for these sections. The participant asks the clerk.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File with the clerk of the justice court or municipal court in which the convictions were had. A participant with convictions in two courts needs two petitions. Municipal and justice courts are the least standardized courts in Mississippi; call the clerk before filing.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
         "tracksWithNoPacketSet": [],
         "sourceRelationshipCount": 0
       },
       "registryClassification": {
-        "kind": "registry_gap_no_track",
-        "statement": "No registry track maps to this compiled pathway, so there is nothing to bridge to a packet family. This is a registry gap in the track-to-pathway crosswalk, not an absence of counsel coverage."
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ms-misd-addl map to this pathway and each carries an exact packet set (ms-misd-addl-set)."
       },
       "bridgeImportEffect": {
-        "changed": false,
-        "sessionADisposition": "family_bridge_missing_no_track",
-        "sessionAReason": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "afterImport": "family_bridge_missing_no_track"
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ms-misd-addl map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
       },
       "adoptionJoin": {
         "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
@@ -27481,10 +27651,13 @@
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=MS:additional-justice-court-misdemeanor-relief-9-11-15-3]"
       },
       "ownerApprovedLegal": {
-        "status": "owner_approval_pending",
-        "basis": "registry_gap_no_track",
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
         "escalationRequired": false,
-        "statement": "No registry track maps to this compiled pathway, so there is no packet set for an approved design to be applied to. That is a registry-ownership action, not a legal decision."
+        "packetSetIds": [
+          "ms-misd-addl-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ms-misd-addl-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. MS additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {
@@ -27766,9 +27939,11 @@
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "pathwayLabel": "Additional municipal-court misdemeanor relief",
       "sessionAGraph": {
-        "disposition": "family_bridge_missing_no_track",
-        "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "registryTrackIds": [],
+        "disposition": "family_bridge_missing_no_family",
+        "statement": "Tracks ms-misd-addl map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "registryTrackIds": [
+          "ms-misd-addl"
+        ],
         "packetFamilies": [],
         "lawrenceRatification": null,
         "ledgerSaysLegalReviewPending": true,
@@ -27778,19 +27953,187 @@
         "source": "data/record-clearing/legal-design-packet-set-manifests.json",
         "scope": "all 497 registry tracks",
         "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
-        "packetSets": [],
+        "packetSets": [
+          {
+            "packetSetId": "ms-misd-addl-set",
+            "trackId": "ms-misd-addl",
+            "version": "1.0.0",
+            "components": [
+              {
+                "componentId": "ms-misd-addl-primary-filing-1",
+                "role": "primary_filing",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-proposed-order-2",
+                "role": "proposed_order",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-certificate-of-service-3",
+                "role": "certificate_of_service",
+                "requirement": "required",
+                "outputStrategy": "custom_pleading",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-attachment-4",
+                "role": "attachment",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              },
+              {
+                "componentId": "ms-misd-addl-instructions-5",
+                "role": "instructions",
+                "requirement": "required",
+                "outputStrategy": "process_guidance",
+                "officialFormId": null,
+                "officialSourceUrl": null
+              }
+            ],
+            "requiredBeforeFiling": [
+              "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+              "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+              "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+              "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+              "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+              "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+              "The petitioner's signature and the date of signing — Petition, signature block.",
+              "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+              "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+              "The petitioner signs. LegalEase leaves the signature and date blank.",
+              "Not established. A simple truth statement is used.",
+              "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+              "Not established for these sections. The participant asks the clerk."
+            ],
+            "participantActionRequired": [
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Mississippi criminal history record. Obtain your own Mississippi criminal history so you can see every case on your record before you file. It is the only reliable way to check first-offender status or good conduct across all courts, and self-report is not enough.",
+                "obtainedFrom": "Mississippi Criminal Information Center",
+                "requirement": "conditional",
+                "conditionDescription": "Advisable on every track and effectively necessary wherever first-offender status or a multi-court good-conduct period is in issue.",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Certified copies of each judgment of conviction in that court. Ask the clerk of that court for a certified copy of each conviction you want expunged.",
+                "obtainedFrom": "Clerk of the justice court or municipal court",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "confirm_answer",
+                "description": "Check your answer to \"List every misdemeanour conviction in THAT court that you want expunged: the charge, the cause number and the conviction date. This route reaches any or all misdemeanours in that one court.\" against Certified copies of each judgment of conviction in that court, and correct the packet if they disagree.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "obtain_document",
+                "description": "Obtain Docket sheet for the case. Ask the clerk for the docket sheet. It shows every court-imposed term and whether each was satisfied.",
+                "obtainedFrom": "Clerk of the court where the case was heard",
+                "requirement": "conditional",
+                "conditionDescription": "Required in practice on conviction tracks; advisable on every track.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The finding that the petitioner meets the criteria for expungement — Proposed order, findings paragraph.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The judge's signature, the date, and the order's entry — Proposed order, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The APPROVED AS TO FORM signature for the prosecuting authority — Proposed order, approval block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The petitioner's signature and the date of signing — Petition, signature block.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The cause number where the court assigns a new one — Petition, proposed order and certificate of service captions.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "complete_field",
+                "description": "The open-court showing on rehabilitation, good conduct and the best interest of society — Not generated; the participant makes it in open court.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "sign",
+                "description": "The petitioner signs. LegalEase leaves the signature and date blank.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "notarize",
+                "description": "Not established. A simple truth statement is used.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "pay_fee",
+                "description": "No amount is published here. Section 99-19-72's fee applies by its terms to petitions to expunge an offence under § 99-19-71 and does not reach §§ 9-11-15(3) or 21-23-7(6). Whether these courts charge any fee is unresolved and the participant confirms with the clerk.",
+                "requirement": "required",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "apply_fee_waiver",
+                "description": "Not established for these sections. The participant asks the clerk.",
+                "requirement": "conditional",
+                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+                "requiredBeforeFiling": true
+              },
+              {
+                "kind": "serve_party",
+                "description": "United States mail or hand delivery to the prosecuting authority, evidenced by the certificate of service.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              },
+              {
+                "kind": "file",
+                "description": "File with the clerk of the justice court or municipal court in which the convictions were had. A participant with convictions in two courts needs two petitions. Municipal and justice courts are the least standardized courts in Mississippi; call the clerk before filing.",
+                "requirement": "required",
+                "requiredBeforeFiling": false
+              }
+            ]
+          }
+        ],
         "tracksWithNoPacketSet": [],
         "sourceRelationshipCount": 0
       },
       "registryClassification": {
-        "kind": "registry_gap_no_track",
-        "statement": "No registry track maps to this compiled pathway, so there is nothing to bridge to a packet family. This is a registry gap in the track-to-pathway crosswalk, not an absence of counsel coverage."
+        "kind": "exact_track_and_packet_set",
+        "statement": "Tracks ms-misd-addl map to this pathway and each carries an exact packet set (ms-misd-addl-set)."
       },
       "bridgeImportEffect": {
-        "changed": false,
-        "sessionADisposition": "family_bridge_missing_no_track",
-        "sessionAReason": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "afterImport": "family_bridge_missing_no_track"
+        "changed": true,
+        "sessionADisposition": "family_bridge_missing_no_family",
+        "sessionAReason": "Tracks ms-misd-addl map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
+        "afterImport": "packet_set_bridge_present",
+        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
       },
       "adoptionJoin": {
         "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
@@ -27854,10 +28197,13 @@
         "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=MS:additional-municipal-court-misdemeanor-relief-21-23-7-6]"
       },
       "ownerApprovedLegal": {
-        "status": "owner_approval_pending",
-        "basis": "registry_gap_no_track",
+        "status": "approved_by_decision_owner",
+        "basis": "owner_approved_existing_legal_design_packet_set",
         "escalationRequired": false,
-        "statement": "No registry track maps to this compiled pathway, so there is no packet set for an approved design to be applied to. That is a registry-ownership action, not a legal decision."
+        "packetSetIds": [
+          "ms-misd-addl-set"
+        ],
+        "statement": "Every track on this pathway carries an exact legal-design packet set (ms-misd-addl-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. MS additionally carries 1 bound family in EXT-ADOPT-01."
       }
     },
     {

@@ -11,9 +11,8 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 | TRACK_MATCHED_BUT_DESIGN_DEFERRED | 6 |
 | NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET | 4 |
 | BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 2 |
-| BRIDGE_CONFIRMED | 2 |
 | UNDECIDED_INSUFFICIENT_EVIDENCE | 2 |
-| **TOTAL** | **40** |
+| **TOTAL** | **38** |
 
 ## BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION
 
@@ -32,24 +31,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Track authority**: Miss. Code Ann. § 99-19-71(4); Miss. Code Ann. § 99-19-71(3); Miss. Code Ann. § 99-19-72; 2026 Miss. HB 1546; 2019 Miss. HB 1352, § 34
 - **Reason**: 3 tracks in MS cite the same provision as this route and none is distinguished by subsection: ms-nonconv, ms-nonadj, ms-diversion. Picking one would be an arbitrary choice presented as a finding.
 - **Action**: Decide which of ms-nonconv or ms-nonadj or ms-diversion covers MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4, then bind it. The distinguishing evidence is the eligible disposition, not the citation.
-
-## BRIDGE_CONFIRMED
-
-### `MS:additional-justice-court-misdemeanor-relief-9-11-15-3`
-
-- **Lexical candidate**: `ms-misd-addl` — Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6)) (score undefined)
-- **Route authority**: Miss. Code Ann. § 9-11-15(3) · stage single_stage · outcomeMode participant_packet · packetFamily "Petition under § 9-11-15(3)"
-- **Track authority**: Miss. Code Ann. § 9-11-15(3); Miss. Code Ann. § 21-23-7(6); Miss. Code Ann. tit. 63
-- **Reason**: The route's statute and ms-misd-addl's controlling authority cite the same provision (91115), the route is outcomeMode=participant_packet, and the track's design status is legal_design_approved_with_limitations.
-- **Action**: Bind MS:additional-justice-court-misdemeanor-relief-9-11-15-3 to ms-misd-addl in the track registry.
-
-### `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6`
-
-- **Lexical candidate**: `ms-misd-addl` — Discretionary Expungement of Additional Justice Court or Municipal Court Misdemeanors (Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6)) (score undefined)
-- **Route authority**: Miss. Code Ann. § 21-23-7(6) · stage single_stage · outcomeMode participant_packet · packetFamily "Petition under § 21-23-7(6)"
-- **Track authority**: Miss. Code Ann. § 9-11-15(3); Miss. Code Ann. § 21-23-7(6); Miss. Code Ann. tit. 63
-- **Reason**: The route's statute and ms-misd-addl's controlling authority cite the same provision (21237), the route is outcomeMode=participant_packet, and the track's design status is legal_design_approved_with_limitations.
-- **Action**: Bind MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl in the track registry.
 
 ## CANDIDATE_REJECTED
 

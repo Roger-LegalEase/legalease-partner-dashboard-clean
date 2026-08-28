@@ -41,9 +41,9 @@ This directory is an import, not a second editable source of truth. Corrections 
 | Classification | Rows |
 |---|---:|
 | NO_LEGAL_DESIGN_TRACK_EXISTS | 18 |
-| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 14 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 12 |
 | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 8 |
-| **TOTAL** | **40** |
+| **TOTAL** | **38** |
 
 | Jurisdiction | Pathway | Candidate track | Design status | Classification |
 |---|---|---|---|---|
@@ -57,8 +57,6 @@ This directory is an import, not a second editable source of truth. Corrections 
 | MD | `juvenile-expungement` | md_10105_favorable | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `juvenile-sealing` | me-seal-gen | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `pardon-route` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `additional-justice-court-misdemeanor-relief-9-11-15-3` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
-| MS | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `controlled-substance-conditional-discharge-active-case-admission` | ms-drug-cd | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `human-trafficking-survivor-expungement-97-3-54-6-6` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `human-trafficking-survivor-vacatur-97-3-54-6-5` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
@@ -225,7 +223,7 @@ Submitted: 10. True reconfirmations: 3. Reclassified: 7.
 | Classification | Questions |
 |---|---:|
 | LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 22 |
-| SOURCE_REQUIRED_BEFORE_COUNSEL | 18 |
+| SOURCE_REQUIRED_BEFORE_COUNSEL | 20 |
 | COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 13 |
-| **TOTAL** | **53** |
+| **TOTAL** | **55** |
 

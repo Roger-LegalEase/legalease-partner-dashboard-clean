@@ -1,6 +1,6 @@
 # Witness divergence diagnosis
 
-All **271** intended-paid pathways from Session A's canonical graph (`20c283c99cabf53c…`).
+All **271** intended-paid pathways from Session A's canonical graph (`9f4c9234524d472f…`).
 
 | Outcome | Pathways |
 |---|---|

@@ -3,16 +3,16 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149",
+    "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab",
     "pathways": 271
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
   "totals": {
-    "registryGapPathways": 47,
-    "withAPathwayLevelPacketSet": 47,
+    "registryGapPathways": 45,
+    "withAPathwayLevelPacketSet": 45,
     "withoutAPathwayLevelPacketSet": 0,
-    "inAJurisdictionBoundByTheAdoption": 42,
+    "inAJurisdictionBoundByTheAdoption": 40,
     "carryingACounselRatification": 13,
     "byJurisdiction": {
       "AK": 1,
@@ -23,7 +23,7 @@
       "IL": 3,
       "MD": 1,
       "ME": 2,
-      "MS": 13,
+      "MS": 11,
       "ND": 1,
       "NV": 2,
       "NY": 1,
@@ -39,7 +39,7 @@
       "WY": 2
     },
     "packetPlanModes": {
-      "state_specific_custom_packet_from_source_rules": 29,
+      "state_specific_custom_packet_from_source_rules": 27,
       "official_form_overlay_or_source_form_set": 10,
       "automatic_relief_verification_and_guidance": 8
     }
@@ -2527,134 +2527,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for ME pardon-route and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-      "jurisdiction": "MS",
-      "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
-      "pathwayLabel": "Additional justice-court misdemeanor relief",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "label": "Additional justice-court misdemeanor relief",
-        "summary": "Additional justice-court misdemeanor relief under Miss. Code Ann. § 9-11-15(3). two years of good conduct measured from the date of the person's last conviction in any court.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "court_filing",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. § 9-11-15(3)"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=additional-justice-court-misdemeanor-relief-9-11-15-3]",
-        "mode": "state_specific_custom_packet_from_source_rules",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-additional-justice-court-misdemeanor-relief-9-11-15-3",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS additional-justice-court-misdemeanor-relief-9-11-15-3 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
-      "jurisdiction": "MS",
-      "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
-      "pathwayLabel": "Additional municipal-court misdemeanor relief",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
-        "label": "Additional municipal-court misdemeanor relief",
-        "summary": "Additional municipal-court misdemeanor relief under Miss. Code Ann. § 21-23-7(6). two years of good conduct measured from the date of the person's last conviction in any court.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "court_filing",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. § 21-23-7(6)"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=additional-municipal-court-misdemeanor-relief-21-23-7-6]",
-        "mode": "state_specific_custom_packet_from_source_rules",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-additional-municipal-court-misdemeanor-relief-21-23-7-6",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS additional-municipal-court-misdemeanor-relief-21-23-7-6 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",

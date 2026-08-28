@@ -1,6 +1,6 @@
 # Registry-gap dossier
 
-The **47** compiled pathways Session A's graph disposes as
+The **45** compiled pathways Session A's graph disposes as
 `family_bridge_missing_no_track`. No registry track maps to them, so no track-keyed packet
 set can be reached and no track-level adoption applies.
 
@@ -9,9 +9,9 @@ the registry, not evidence that LegalEase does not intend to sell the route.
 
 | | |
 |---|---|
-| Registry-gap pathways | 47 |
-| With a pathway-level packet set | 47 |
-| In a jurisdiction bound by EXT-ADOPT-01 | 42 |
+| Registry-gap pathways | 45 |
+| With a pathway-level packet set | 45 |
+| In a jurisdiction bound by EXT-ADOPT-01 | 40 |
 | Carrying a counsel ratification | 13 |
 
 ## What each record carries
@@ -30,7 +30,7 @@ the registry, not evidence that LegalEase does not intend to sell the route.
 
 | Mode | Pathways |
 |---|---|
-| `state_specific_custom_packet_from_source_rules` | 29 |
+| `state_specific_custom_packet_from_source_rules` | 27 |
 | `official_form_overlay_or_source_form_set` | 10 |
 | `automatic_relief_verification_and_guidance` | 8 |
 
@@ -46,7 +46,7 @@ the registry, not evidence that LegalEase does not intend to sell the route.
 | IL | 3 |
 | MD | 1 |
 | ME | 2 |
-| MS | 13 |
+| MS | 11 |
 | ND | 1 |
 | NV | 2 |
 | NY | 1 |

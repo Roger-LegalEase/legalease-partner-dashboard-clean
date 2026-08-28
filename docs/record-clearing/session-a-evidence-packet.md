@@ -9,7 +9,7 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | working_tree | `20c283c99cabf53c…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `9f4c9234524d472f…` |
 | `packetFamilyBridge` | working_tree | `527fd4baa11dee8e…` |
 | `trackSourceRelationships` | working_tree | `8376337488a0e07e…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
@@ -27,11 +27,11 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 152 | **152** now carry an exact packet set |
+| `family_bridge_missing_no_family` | 154 | **154** now carry an exact packet set |
 | `approved_by_decision_owner` | 72 | unchanged |
-| `family_bridge_missing_no_track` | 47 | unchanged |
+| `family_bridge_missing_no_track` | 45 | unchanged |
 
-**152** pathways move from "no track-to-family bridge" to a named packet set.
+**154** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
@@ -39,8 +39,8 @@ family can now be named — not one an adoption has been shown to cover.
 
 | Classification | Pathways |
 |---|---|
-| `exact_track_and_packet_set` | 224 |
-| `registry_gap_no_track` | 47 |
+| `exact_track_and_packet_set` | 226 |
+| `registry_gap_no_track` | 45 |
 
 Nothing is left as "unknown": every pathway is an exact track-and-packet-set, or an
 explicitly named registry gap.
@@ -69,13 +69,13 @@ re-running reproduces the file byte for byte, and `--check` proves it.
 
 Approved by **Roger Roman** under `auth-2026-08-19-owner-legal-approval-completed-output`, effective 2026-08-19. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.
 
-**229** of 271 pathways carry owner-approved legal status.
+**231** of 271 pathways carry owner-approved legal status.
 
 | Basis | Pathways |
 |---|---|
-| `owner_approved_existing_legal_design_packet_set` | 152 |
+| `owner_approved_existing_legal_design_packet_set` | 154 |
 | `owner_approved_packet_family` | 72 |
-| `registry_gap_no_track` | 42 |
+| `registry_gap_no_track` | 40 |
 | `owner_approved_exception_annex` | 5 |
 
 Missing EXT-ADOPT-01 family metadata is **not** a new legal decision where the all-497

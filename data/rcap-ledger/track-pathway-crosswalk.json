@@ -38,7 +38,7 @@
       "rejectedRecords": 26,
       "conflictsPublished": 10
     },
-    "entries": 225
+    "entries": 227
   },
   "e4AdjudicationSource": {
     "path": "data/rcap-ledger/crosswalk-resolution-adjudication.json",
@@ -244,21 +244,21 @@
     "compiledPathways": 336,
     "registryJurisdictions": 51,
     "compiledJurisdictions": 51,
-    "tracksExactPathway": 260,
-    "tracksRepresentedByVariants": 25,
+    "tracksExactPathway": 259,
+    "tracksRepresentedByVariants": 26,
     "tracksUnresolvedAmbiguous": 1,
     "tracksMissingFromCompiledRuntime": 210,
     "tracksSupersededRuntimeText": 1,
-    "pathwaysDirect": 243,
+    "pathwaysDirect": 245,
     "pathwaysVariant": 37,
     "pathwaysComposedUnit": 2,
     "pathwaysRoutingOrSupporting": 1,
     "pathwaysRegistryGap": 33,
     "pathwaysScopedOut": 4,
-    "pathwaysAdjudicated": 254,
+    "pathwaysAdjudicated": 256,
     "pathwaysCurrencyFlagged": 1,
     "pathwaysUnresolvedAmbiguous": 2,
-    "pathwaysUnresolvedNoCandidate": 9,
+    "pathwaysUnresolvedNoCandidate": 7,
     "pathwaysCrosswalkTerminalClassified": 5,
     "e4AdjudicationsConsumed": 38,
     "e4CrosswalkTerminalClassifications": 6,
@@ -266,15 +266,13 @@
     "e4OfficialSourceGapAdjudications": 2,
     "e4StillBlocked": 0,
     "tracksWithRuntimeCoverage": 285,
-    "pathwaysMapped": 282,
+    "pathwaysMapped": 284,
     "pathwaysTerminal": 43,
-    "pathwaysUnresolved": 11,
+    "pathwaysUnresolved": 9,
     "milestone1Item2Closed": false
   },
   "unresolvedIds": {
     "compiledPathways": [
-      "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
-      "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "MS:controlled-substance-conditional-discharge-active-case-admission",
       "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
       "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
@@ -936,10 +934,10 @@
       "compiledPathways": 23,
       "delta": 14,
       "tracksMapped": 8,
-      "pathwaysMapped": 10,
+      "pathwaysMapped": 12,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 2,
-      "pathwaysUnresolved": 11
+      "pathwaysUnresolved": 9
     },
     {
       "jurisdiction": "MT",
@@ -1286,8 +1284,6 @@
         "intervention-court-statutory-result-enforcement-referral",
         "nonadjudication-99-15-26-active-case-admission",
         "pretrial-intervention-active-case-admission",
-        "additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "additional-municipal-court-misdemeanor-relief-21-23-7-6",
         "uncharged-misdemeanor-immediate-dismissal-branch-99-15-59"
       ],
       "fullyExplained": false
@@ -7155,13 +7151,15 @@
       "compositionMode": null,
       "composedUnitCount": 0,
       "mappedCompiledPathwayIds": [
-        "additional-justice-or-municipal-court-misdemeanor-relief"
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-justice-or-municipal-court-misdemeanor-relief",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
         "adjudicated_mechanism_identity"
       ],
-      "compiledCoverageDisposition": "exact_current_pathway",
+      "compiledCoverageDisposition": "represented_by_compiled_variants",
       "candidateCompiledPathwayIds": [],
       "blocker": null
     },
@@ -18927,7 +18925,10 @@
           ]
         }
       },
-      "coMappedPathwayIds": [],
+      "coMappedPathwayIds": [
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
       "contributesToRuntimeCoverage": true,
       "contributesToRegistryDenominator": false,
       "unresolvedReason": null,
@@ -19507,18 +19508,47 @@
       "routeType": "court_filing",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
-      "registryRelation": "unresolved_no_candidate",
-      "mappedRegistryTrackIds": [],
-      "mappingEvidence": [],
-      "evidenceDetail": {},
-      "coMappedPathwayIds": [],
-      "contributesToRuntimeCoverage": false,
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "mappingEvidence": [
+        "adjudicated_mechanism_identity"
+      ],
+      "evidenceDetail": {
+        "adjudication": {
+          "by": "session-bridge-adjudication",
+          "evidenceRef": {
+            "lanes": [
+              "BRIDGE-ADJ"
+            ],
+            "paths": [
+              "data/rcap-ledger/pathway-bridge-adjudication.json",
+              "src/lib/legal-authority/routes/mississippi.json",
+              "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+            ],
+            "recordKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3"
+          }
+        },
+        "license": {
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "9-11-15-3"
+          ],
+          "registryTokens": [
+            "9-11-15"
+          ]
+        }
+      },
+      "coMappedPathwayIds": [
+        "additional-justice-or-municipal-court-misdemeanor-relief",
+        "additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      "contributesToRuntimeCoverage": true,
       "contributesToRegistryDenominator": false,
-      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
-      "missingEvidence": [
-        "a statutory citation in the compiled pathway id or label",
-        "or an official form identifier shared with a registry track"
-      ]
+      "unresolvedReason": null,
+      "missingEvidence": [],
+      "adjudicated": true
     },
     {
       "jurisdiction": "MS",
@@ -19528,18 +19558,47 @@
       "routeType": "court_filing",
       "automatic": false,
       "packetMode": "state_specific_custom_packet_from_source_rules",
-      "registryRelation": "unresolved_no_candidate",
-      "mappedRegistryTrackIds": [],
-      "mappingEvidence": [],
-      "evidenceDetail": {},
-      "coMappedPathwayIds": [],
-      "contributesToRuntimeCoverage": false,
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ms-misd-addl"
+      ],
+      "mappingEvidence": [
+        "adjudicated_mechanism_identity"
+      ],
+      "evidenceDetail": {
+        "adjudication": {
+          "by": "session-bridge-adjudication",
+          "evidenceRef": {
+            "lanes": [
+              "BRIDGE-ADJ"
+            ],
+            "paths": [
+              "data/rcap-ledger/pathway-bridge-adjudication.json",
+              "src/lib/legal-authority/routes/mississippi.json",
+              "data/record-clearing/legal-design-intake/MS-mississippi.memo.json"
+            ],
+            "recordKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+          }
+        },
+        "license": {
+          "kind": "mechanism_identity",
+          "pathwayTokens": [
+            "21-23-7-6"
+          ],
+          "registryTokens": [
+            "21-23-7"
+          ]
+        }
+      },
+      "coMappedPathwayIds": [
+        "additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "additional-justice-or-municipal-court-misdemeanor-relief"
+      ],
+      "contributesToRuntimeCoverage": true,
       "contributesToRegistryDenominator": false,
-      "unresolvedReason": "no statutory citation, official form or scope restriction links this pathway to any registry track in its jurisdiction",
-      "missingEvidence": [
-        "a statutory citation in the compiled pathway id or label",
-        "or an official form identifier shared with a registry track"
-      ]
+      "unresolvedReason": null,
+      "missingEvidence": [],
+      "adjudicated": true
     },
     {
       "jurisdiction": "MS",
@@ -26418,13 +26477,13 @@
       "data/rcap-ledger/e2-evidence/E2-B3.json": "e711ed46ec07a58ff6d1808b42052a99a99f607f4f46cb1ea0d863c8105052ab",
       "data/rcap-ledger/e2-evidence/E2-C.json": "1513f0d085dd409292b23d808115dcea8ebaefe180235e868d46f3c2cfb08e07",
       "data/rcap-ledger/e2-evidence/E2-D.json": "ad41980278b151c5b585beec2ef60ba0f1bd414ed9ed57c79d91d113b8c1d5e2",
-      "data/rcap-ledger/crosswalk-adjudications.json": "950f7acc28252d6bc4ff53b2ef3c48108f01b0bba43e504b575b2ad5861b46a7",
+      "data/rcap-ledger/crosswalk-adjudications.json": "30f3f0cb949e8de600ed13166b87fd99362f26692f9f18fccdde3ca1899786dc",
       "data/rcap-crosswalk-enrichment/e2-source-support-audit.json": "bb5e51c0c54eab62145ed5e3a375479605790733d436cab80e2618bdbf35a836",
       "data/rcap-crosswalk-enrichment/final-official-sources/final-official-sources.json": "dd40053a37cc87ecfcda6fb00e1e00a5e66618ff6b944c66b384fb6bff900d81",
       "data/rcap-crosswalk-enrichment/final-official-sources/files/PA/PA_18_PaCS_3019_d-g_official_2026-08-11.txt": "0dc688b98962d565ab96c1ad4bbbf33a730dc0fdf51117765e733a4fe53c7dc4",
       "data/rcap-crosswalk-enrichment/final-official-sources/files/SC/SC_Code_16-3-2020_F_official_2026-08-11.txt": "b7f64d13388ca43175931e2b1aee357703bd99031b0b64879de690b7893dd630"
     }
   },
-  "evidenceHash": "5700fc7b9a36a07c6e1f5ac75f6afe4d41cfda84289c0dbe8cccf0a91cec905e",
-  "contentHash": "2bd18c39f20c0ae9afd33314fdcc72bf03a31b91bb556eca08a2a83df906f505"
+  "evidenceHash": "280d4753d2066cc7d8ef60cd60344dacbf4d7e6fef888c806f4f1112adc8ba44",
+  "contentHash": "10cc2a22a726e74861a918e2295020195dc104cf8e443bf37bf4854c2b4b8f5d"
 }

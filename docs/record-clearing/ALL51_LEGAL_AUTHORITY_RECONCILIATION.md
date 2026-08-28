@@ -24,9 +24,9 @@ measured against every authority layer that already exists.
 
 | Classification | Rows |
 |---|---:|
-| NO_TRACK_TO_FAMILY_BRIDGE | 118 |
+| NO_TRACK_TO_FAMILY_BRIDGE | 120 |
 | TECHNICAL_BLOCKER | 44 |
-| NO_PATHWAY_TO_TRACK_BRIDGE | 40 |
+| NO_PATHWAY_TO_TRACK_BRIDGE | 38 |
 | LEGAL_RECONFIRMATION_REQUIRED | 10 |
 | SOURCE_BLOCKER | 5 |
 | APPROVAL_NOT_LINKED | 3 |
@@ -140,8 +140,8 @@ measured against every authority layer that already exists.
 | MO | `first-minor-in-possession-alcohol-expungement-under-311-326` | mo-311-326-minor-in-possession | legal_design_approved_with_limitations | 2026-08-03 | yes | LEGAL_RECONFIRMATION_REQUIRED | Reconfirm that counsel ratification is current. |
 | MO | `general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140` | mo-610-140-conviction | legal_design_approved_with_limitations | 2026-08-03 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge mo-610-140-conviction to a packet family, or record the pathway as a non-packet service outcome. |
 | MO | `stolen-or-mistaken-identity-expungement-under-610-145` | mo-610-145-mistaken-identity | legal_design_approved_with_limitations | 2026-08-03 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge mo-610-145-mistaken-identity to a packet family, or record the pathway as a non-packet service outcome. |
-| MS | `additional-justice-court-misdemeanor-relief-9-11-15-3` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |
-| MS | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |
+| MS | `additional-justice-court-misdemeanor-relief-9-11-15-3` | ms-misd-addl | legal_design_approved_with_limitations | 2026-08-03 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ms-misd-addl to a packet family, or record the pathway as a non-packet service outcome. |
+| MS | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | ms-misd-addl | legal_design_approved_with_limitations | 2026-08-03 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ms-misd-addl to a packet family, or record the pathway as a non-packet service outcome. |
 | MS | `controlled-substance-conditional-discharge-active-case-admission` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |
 | MS | `human-trafficking-survivor-expungement-97-3-54-6-6` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |
 | MS | `human-trafficking-survivor-vacatur-97-3-54-6-5` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |
