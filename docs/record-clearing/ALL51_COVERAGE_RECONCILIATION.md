@@ -31,7 +31,7 @@ measured against the closure ledger's seven-stage chain.
 | noProblematicPdfHold | 19 |
 | paymentAllowed | 240 |
 | rendererSelected | 68 |
-| packetSpecificationComplete | 47 |
+| packetSpecificationComplete | 45 |
 
 ## Per jurisdiction
 
