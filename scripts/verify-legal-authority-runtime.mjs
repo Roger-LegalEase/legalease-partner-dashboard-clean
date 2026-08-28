@@ -115,7 +115,18 @@ if (requestedDate === "2026-08-25") {
   // halves are asserted: the approximate question is there, and the exact
   // identity date is not, because anonymous screening may not collect one.
   assert(moPublic?.questions.some((question) => question.id === "mo_at_least_twenty_two" && question.lifecyclePhase === "prepay_timing_gate"), "Missouri MIP route must publish its approved approximate age threshold");
-  assert(moPublic?.questions.every((question) => question.id !== "twenty_first_birthday" && question.id !== "date_of_birth"), "Missouri free screening must not publish a birth date");
+  // Against the screening selection, not the catalogue. `moPublic.questions` is
+  // every question Missouri defines, prepay and postpay together; the birth
+  // date is correctly in it as a packet field. What must not contain it is what
+  // free screening actually asks — in any context, including one that names the
+  // § 311.326 route.
+  const { selectScreeningQuestionIds } = await import("@/lib/rcap-engine/screening-question-selection");
+  const moAsked = new Set([
+    ...selectScreeningQuestionIds(mo, moPublic, {}),
+    ...mo.pathways.flatMap((pathway) => selectScreeningQuestionIds(mo, moPublic, { possible_pathway_context: pathway.label }))
+  ]);
+  assert(!moAsked.has("twenty_first_birthday") && !moAsked.has("date_of_birth"), "Missouri free screening must not ask for a birth date");
+  assert(moAsked.has("mo_at_least_twenty_two"), "Missouri free screening must still be able to answer the § 311.326 threshold");
   const msPublic = projectPublicProfile(getProfileByJurisdiction("MS"));
   assert(msPublic.questions.some((question) => question.id === "arrest_date" && question.lifecyclePhase === "prepay_timing_gate"), "Mississippi no-charge route must publish its approved arrest-date timing anchor");
   const mdPublic = projectPublicProfile(getProfileByJurisdiction("MD"));
