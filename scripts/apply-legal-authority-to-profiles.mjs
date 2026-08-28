@@ -117,6 +117,17 @@ function legalAuthorityBlock(contract) {
     ...(contract.packetComponents ? { packetComponents: contract.packetComponents } : {}),
     ...(contract.effectiveFrom ? { effectiveFrom: contract.effectiveFrom } : {}),
     ...(contract.supersedes ? { supersedes: contract.supersedes } : {}),
+    // The delivery fields. Projected here and nowhere else: a page or an API
+    // that reconstructed a precondition, a gate or a branch from its own
+    // reading of the contract would be a second legal engine, and the two would
+    // disagree the first time one of them was updated.
+    ...(contract.packetReleasePreconditions ? { packetReleasePreconditions: contract.packetReleasePreconditions } : {}),
+    ...(contract.deliveryGates ? { deliveryGates: contract.deliveryGates } : {}),
+    ...(contract.serviceBranches ? { serviceBranches: contract.serviceBranches } : {}),
+    ...(contract.effectiveDateGate ? { effectiveDateGate: contract.effectiveDateGate } : {}),
+    ...(contract.artifactApprovalRequired !== undefined ? { artifactApprovalRequired: contract.artifactApprovalRequired } : {}),
+    ...(contract.failureDisposition ? { failureDisposition: contract.failureDisposition } : {}),
+    ...(contract.commercialPosture ? { commercialPosture: contract.commercialPosture } : {}),
     ...(contract.notes ? { notes: contract.notes } : {})
   };
 }

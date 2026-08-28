@@ -152,14 +152,29 @@ export type RouteDeliveryAuthority = {
   commerciallyDeliverable: boolean;
   /** The first reason delivery is held, or null when nothing holds it. */
   holdReason: string | null;
+  /** Every reason, in the order found. A single reason hides the rest. */
+  holdReasons: string[];
   effectiveDateStatus: "in_force" | "future_effective" | "unknown";
 };
 
-/** Gates that stop a packet being generated at all, not merely sold. */
+/**
+ * Gates that stop a packet being generated at all, not merely sold.
+ *
+ * artifact_legal_review is deliberately NOT here. Its whole purpose is that a
+ * candidate must be rendered for counsel to review, so a gate that blocked
+ * generation would make itself impossible to close.
+ */
 const GENERATION_BLOCKING_GATES: readonly DeliveryGateKind[] = [
   "source_acquisition",
   "local_filing_configuration",
+  "artifact_generation",
   "future_effective"
+];
+
+/** Gates that permit a candidate to exist but stop it reaching a participant. */
+const DELIVERY_BLOCKING_GATES: readonly DeliveryGateKind[] = [
+  "artifact_legal_review",
+  "scheduled_legal_reread"
 ];
 
 /**
@@ -167,16 +182,33 @@ const GENERATION_BLOCKING_GATES: readonly DeliveryGateKind[] = [
  *
  * `on` is required rather than defaulted to now: a route whose availability
  * depends on a date must be evaluated against the matter's own clock, and a
- * hidden `new Date()` is how a future-effective route becomes live in one
- * caller and not another.
+ * hidden `new Date()` is how a future-effective route goes live in one caller
+ * and not another.
+ *
+ * Every flag fails closed, and each of the seven rules below exists because the
+ * opposite would ship something:
+ *
+ *   an unresolved legal question closes everything, because a route nobody has
+ *   decided is not a route anyone may sell;
+ *   a null packet family closes generation, because there is no packet to
+ *   personalise and a renderer asked for one would invent it;
+ *   a no-participant-filing outcome closes generation, because the participant
+ *   files nothing and a generated filing would be a document with no purpose;
+ *   a declared commercial posture may close what the derivation opens and never
+ *   the reverse.
  */
 export function routeDeliveryAuthority(
   route: LegalRouteContract,
   on: Date,
-  options: { legallyResolved?: boolean } = {}
+  options: { legallyResolved?: boolean; closedGateKinds?: readonly DeliveryGateKind[] } = {}
 ): RouteDeliveryAuthority {
-  const gates = route.deliveryGates ?? [];
-  const openDeliveryGates = gates.map((gate) => gate.kind);
+  const legallyResolved = options.legallyResolved ?? true;
+  const closed = new Set(options.closedGateKinds ?? []);
+  // A gate the caller reports satisfied is no longer open. Everything else
+  // declared on the contract still is: an undeclared status is not a closed one.
+  const openDeliveryGates = (route.deliveryGates ?? [])
+    .map((gate) => gate.kind)
+    .filter((kind) => !closed.has(kind));
   const payment = routePaymentAuthority(route);
 
   const notBefore = route.effectiveDateGate?.notBefore;
@@ -192,36 +224,61 @@ export function routeDeliveryAuthority(
   if (!routeRuleInForceOn(route, on)) effectiveDateStatus = "future_effective";
 
   const holds: string[] = [];
+  if (!legallyResolved) holds.push("the route's legal question is not resolved");
   if (effectiveDateStatus !== "in_force") {
     holds.push(effectiveDateStatus === "future_effective"
       ? `the rule is not operative before ${notBefore ?? route.effectiveFrom}`
       : `the effective date ${notBefore ?? route.effectiveFrom} cannot be read`);
   }
-  for (const gate of gates) holds.push(`${gate.kind} is open: ${gate.items.join("; ")}`);
+  for (const kind of openDeliveryGates) {
+    const gate = (route.deliveryGates ?? []).find((candidate) => candidate.kind === kind);
+    holds.push(`${kind} is open: ${(gate?.items ?? []).join("; ")}`);
+  }
   if (route.artifactApprovalRequired) holds.push("a rendered candidate and hash must be reviewed before release");
   if (payment !== "packet_checkout") holds.push(`payment authority is ${payment}`);
+  if (route.packetFamily === null) holds.push("the route binds no packet family, so there is nothing to personalise");
 
   const dateClear = effectiveDateStatus === "in_force";
-  const generationAllowed = dateClear && !openDeliveryGates.some((kind) => GENERATION_BLOCKING_GATES.includes(kind));
-  const paymentAllowed = dateClear && payment === "packet_checkout" && openDeliveryGates.length === 0;
-  // A sponsored generation spends a partner credit, so it needs everything a
-  // paid one does except the consumer checkout: guidance is never sponsored,
-  // and a route that cannot generate cannot be sponsored to generate.
-  const sponsoredGenerationAllowed = generationAllowed
-    && payment !== "closed"
-    && openDeliveryGates.length === 0;
+  const generationBlocked = openDeliveryGates.some((kind) => GENERATION_BLOCKING_GATES.includes(kind));
+  const deliveryBlocked = openDeliveryGates.some((kind) => DELIVERY_BLOCKING_GATES.includes(kind));
+
+  const generationAllowed = legallyResolved
+    && dateClear
+    && !generationBlocked
+    && route.packetFamily !== null
+    && !NO_PARTICIPANT_FILING_OUTCOMES.includes(route.outcomeMode);
+
+  const paymentAllowed = legallyResolved
+    && dateClear
+    && payment === "packet_checkout"
+    && !generationBlocked
+    && !deliveryBlocked;
+
+  // A sponsored generation spends a partner credit, so it needs what a paid one
+  // needs except the consumer checkout. Guidance is never sponsored.
+  const sponsoredGenerationAllowed = generationAllowed && payment !== "closed" && !deliveryBlocked;
+
   const commerciallyDeliverable = paymentAllowed
-    && !route.artifactApprovalRequired
-    && openDeliveryGates.length === 0;
+    && generationAllowed
+    && !route.artifactApprovalRequired;
+
+  // The declared posture is a one-way valve: it may close what the derivation
+  // opens, never open what the derivation closes.
+  const posture = route.commercialPosture;
+  const finalPayment = paymentAllowed && (posture ? posture.checkoutEnabled : true);
+  const finalSponsored = sponsoredGenerationAllowed && (posture ? posture.sponsoredGenerationEnabled : true);
+  const finalDeliverable = commerciallyDeliverable && (posture ? posture.checkoutEnabled : true);
+  if (posture && !posture.checkoutEnabled && paymentAllowed) holds.push(`the declared commercial posture closes checkout: ${posture.note}`);
 
   return {
-    legallyResolved: options.legallyResolved ?? true,
+    legallyResolved,
     openDeliveryGates,
     generationAllowed,
-    paymentAllowed,
-    sponsoredGenerationAllowed,
-    commerciallyDeliverable,
+    paymentAllowed: finalPayment,
+    sponsoredGenerationAllowed: finalSponsored,
+    commerciallyDeliverable: finalDeliverable,
     holdReason: holds[0] ?? null,
+    holdReasons: holds,
     effectiveDateStatus
   };
 }

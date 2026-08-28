@@ -72,6 +72,24 @@ const NON_PACKET_MODES = {
   agency_application: "An agency, not a court filing the participant prepares, controls the action."
 };
 
+/**
+ * The service disposition each outcome mode carries, preserved across the
+ * reclassification.
+ *
+ * The closure vocabulary has one non-packet category, so every proposal below
+ * moves to the same one. That is a statement about the paid-packet denominator
+ * and nothing else: a referral route is still a referral after it leaves that
+ * denominator, and an automatic-relief route is still automatic. Recording the
+ * disposition on the row is what stops the move from flattening nine handoffs
+ * and two no-filing routes into one undifferentiated bucket.
+ */
+const SERVICE_DISPOSITION_BY_MODE = {
+  referral: "handoff",
+  automatic_relief: "process_guidance",
+  guidance_status: "process_guidance",
+  agency_application: "agency_application"
+};
+
 const alreadyReclassified = new Set((reclassifications.reclassifications ?? []).map((r) => r.pathwayKey));
 
 const rows = [];
@@ -114,7 +132,10 @@ for (const pathway of closure.pathways ?? []) {
       reason: "no_participant_filing",
       evidence: `${route.sourceFile} records ${pathway.pathwayKey} under ${route.decisionId ?? "an unattributed decision"} / ${route.ruleId ?? "an unattributed rule"} as outcomeMode=${route.outcomeMode} with packetFamily=${JSON.stringify(route.packetFamily ?? null)}, citing ${route.statute ?? "no statute"}. ${NON_PACKET_MODES[route.outcomeMode]}${route.notes ? ` The record's own note: "${route.notes}"` : ""}`,
       authority: null,
-      decidedOn: null
+      decidedOn: null,
+      preservedServiceDisposition: SERVICE_DISPOSITION_BY_MODE[route.outcomeMode],
+      preservedOutcomeMode: route.outcomeMode,
+      preservationNote: `Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a ${route.outcomeMode} route serving a ${SERVICE_DISPOSITION_BY_MODE[route.outcomeMode]} outcome, and any consumer that reads the new classification must read this field with it.`
     }
   });
 }
@@ -153,6 +174,12 @@ if (CHECK) {
   const problems = [];
   if (Object.values(counts).reduce((a, b) => a + b, 0) !== rows.length) problems.push("outcome modes do not sum");
   for (const row of rows) {
+    if (!row.proposal.preservedServiceDisposition) {
+      problems.push(`${row.pathwayKey} proposes a reclassification without preserving its service disposition`);
+    }
+    if (row.proposal.preservedOutcomeMode !== row.authorityOutcomeMode) {
+      problems.push(`${row.pathwayKey} preserves ${row.proposal.preservedOutcomeMode} but the authority records ${row.authorityOutcomeMode}`);
+    }
     if (row.authorityPacketFamily) {
       problems.push(`${row.pathwayKey} is proposed for no_participant_filing while the authority names packet family ${JSON.stringify(row.authorityPacketFamily)}`);
     }
@@ -216,6 +243,7 @@ function renderMarkdown(data) {
     if (row.unclosableBlockers.length > 0) {
       L.push(`- **Cannot close while the categorisation stands**: ${row.unclosableBlockers.join(", ")} — each demands a packet the authority says this route does not produce.`);
     }
+    L.push(`- **Service disposition preserved**: ${row.proposal.preservedServiceDisposition} (outcome mode ${row.proposal.preservedOutcomeMode}). ${row.proposal.preservationNote}`);
     L.push("- **Prepared proposal** (authority and decidedOn are for the decision owner):");
     L.push("");
     L.push("```json");

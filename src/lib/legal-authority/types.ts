@@ -154,12 +154,31 @@ export type DeliveryGate = {
  * order already granted that becomes implementation tracking — never a second
  * statute. A branch that needs its own statute needs its own contract.
  */
+/**
+ * The machine-readable test that selects a branch.
+ *
+ * A branch whose condition exists only as prose is a branch nobody executes.
+ * North Dakota's pre/post-2025-08-01 split was exactly that until this existed:
+ * the note said what should happen and every participant got the same answer.
+ */
+export type ServiceBranchSelector = {
+  /** The authenticated fact the branch turns on. */
+  factId: string;
+  kind: "date_before" | "date_on_or_after";
+  /** ISO date for the date comparisons. */
+  value: string;
+};
+
 export type ServiceBranch = {
   id: string;
   /** The condition, in the approved wording. */
   when: string;
+  /** How the condition is tested. Absent means the branch is prose only. */
+  selector?: ServiceBranchSelector;
   outcomeMode: RouteOutcomeMode;
   packetFamily: string | null;
+  /** Gates that apply on this branch alone. */
+  branchDeliveryGates?: DeliveryGateKind[];
   note: string;
 };
 

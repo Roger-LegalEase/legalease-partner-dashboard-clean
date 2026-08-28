@@ -22,7 +22,10 @@
         "Has the solicitor's office issued or refused the expungement?",
         "Is eligibility contested by the solicitor?"
       ],
-      "screeningFactIds": ["case_outcome", "court_requirements_completed"],
+      "screeningFactIds": [
+        "case_outcome",
+        "court_requirements_completed"
+      ],
       "exclusions": [
         "Successful completion of the intervention program is required",
         "A solicitor denial or contested eligibility leaves the ordinary route entirely"
@@ -81,14 +84,16 @@
         }
       ],
       "requiredFacts": [
-        "What was the qualifying non-conviction disposition, and on what exact date?",
+        "What was the qualifying non-conviction disposition, and on what exact date? (nd_qualifying_disposition_date, confirmed against the authenticated record at final verification rather than recalled in screening)",
         "Was that disposition entered on or after 2025-08-01?",
         "Does the case still appear on the public index on day 62?",
         "Has the clerk of the original court been asked in writing to implement the closure?",
         "Does the criminal history held by BCI or the originating agency still show the matter?",
         "Is eligibility contested?"
       ],
-      "screeningFactIds": ["case_outcome"],
+      "screeningFactIds": [
+        "case_outcome"
+      ],
       "exclusions": [
         "A qualifying non-conviction disposition is required",
         "No individualized notice may be promised: neither the statute nor the official publications say the participant is told the record was closed",
@@ -96,22 +101,33 @@
       ],
       "packetFamily": null,
       "effectiveFrom": "2025-08-01",
-      "packetReleasePreconditions": [
-        {
-          "id": "nd_exact_disposition_date",
-          "requires": "the exact qualifying disposition date, confirmed against the authenticated record rather than recalled",
-          "whenAbsent": "fail_closed_guidance",
-          "collectedAt": "final_verification",
-          "note": "The whole route turns on which side of 2025-08-01 the disposition falls and on counting 61 complete days from it. An approximate date decides the branch wrongly, so the date is authenticated packet and final-verification information, never a screening estimate."
-        }
-      ],
       "serviceBranches": [
         {
           "id": "pre_effective_date_petition",
           "when": "the qualifying disposition was entered before 2025-08-01",
+          "selector": {
+            "factId": "nd_qualifying_disposition_date",
+            "kind": "date_before",
+            "value": "2025-08-01"
+          },
           "outcomeMode": "participant_packet",
+          "packetFamily": "North Dakota § 12-60.1-05 Petition and Proposed Order",
+          "branchDeliveryGates": [
+            "artifact_generation"
+          ],
+          "note": "Before the amendment took effect the record does not close by operation of law, so the participant files the official petition and proposed order. The artifact does not exist yet, so this branch resolves to a held state that says the petition path is identified and not yet available. It must never be served the post-2025 verification guidance as though that were the completed outcome: the record will not close on its own and the participant would wait for something that never happens."
+        },
+        {
+          "id": "post_effective_date_automatic",
+          "when": "the qualifying disposition was entered on or after 2025-08-01",
+          "selector": {
+            "factId": "nd_qualifying_disposition_date",
+            "kind": "date_on_or_after",
+            "value": "2025-08-01"
+          },
+          "outcomeMode": "automatic_relief",
           "packetFamily": null,
-          "note": "Before the amendment took effect the record does not close by operation of law, so the participant takes the official petition and proposed order instead of verification guidance. The output is not built: the artifact_generation gate on this contract is what holds it, and until that closes a pre-2025-08-01 matter is served the same verification guidance rather than the petition it should have."
+          "note": "The record closes by operation of the statute. Wait 61 complete days from the qualifying disposition, verify on day 62 or the next business day, and file nothing to obtain the closure itself."
         }
       ],
       "failureDisposition": [
@@ -138,7 +154,7 @@
             "the official pre-2025-08-01 petition and proposed order for the pre_effective_date_petition branch"
           ],
           "owner": "RCAP packet factory",
-          "note": "Only the pre-effective-date branch needs an artifact. The post-2025-08-01 default is guidance and needs none, but the gate is declared on the contract because the branch is part of this route and an undeclared branch is an unbuilt promise."
+          "note": "Scoped to the pre-effective-date branch. It must not hold the post-2025-08-01 default, which is guidance and needs no artifact."
         }
       ],
       "commercialPosture": {
@@ -147,7 +163,7 @@
         "packetCreditsConsumed": 0,
         "note": "Relief happens by operation of law on the default branch, so nothing is sold. The pre-effective-date branch is not built, so nothing is sold there either."
       },
-      "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did."
+      "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch."
     }
   ]
 }

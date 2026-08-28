@@ -7,6 +7,7 @@ import { assertProfileVersion, getProfileByJurisdiction } from "@/lib/rcap-engin
 import { isPacketPlanFulfillmentReady, packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import { legalRouteContract, routeIsAutomaticOrNoFiling as legalRouteIsAutomaticOrNoFiling, routePaymentAuthority } from "@/lib/legal-authority/index";
+import { resolveRoute } from "@/lib/legal-authority/resolve-route";
 import { relevantFactIds } from "@/lib/rcap-engine/route-fact-relevance";
 
 const SAFE_RESULT_ORDER: ScreeningResultCode[] = [
@@ -604,8 +605,17 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     && routeIsRatifiedDeployable(profile, pathway)
     && (isCourtFiledPetitionRoute(profile, pathway) || routeIsAdministrativeApplicationPacket(profile, pathway))
     && isPacketPlanFulfillmentReady(plan);
-  const legallyAuthorizedPayment = legalContract
-    ? routePaymentAuthority(legalContract) === "packet_checkout"
+  // The canonical resolver decides what this route does today. The evaluator
+  // reads its answer rather than re-deriving one: a second derivation is a
+  // second legal engine, and the two disagree the first time either changes.
+  const resolution = resolveRoute({
+    jurisdiction: profile.jurisdiction.code,
+    pathwayId: pathway.id,
+    facts: routeResolutionFacts(answers),
+    on: evaluationToday()
+  });
+  const legallyAuthorizedPayment = resolution.contract
+    ? resolution.paymentAuthority === "packet_checkout" && resolution.delivery?.paymentAllowed === true
     : pathway.legalAuthority?.paymentAuthority !== "closed" && pathway.legalAuthority?.paymentAuthority !== "attorney_review_required";
 
   return result(profile, request, selectedCode, [reason(jurisdiction, `compiled_rule_match.${route.rule.id}`, `Compiled source rule ${route.rule.id} matches ${pathway.label}.`, route.rule.sourceRef ?? pathway.sourceRef)], {
@@ -614,6 +624,32 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     paymentAllowed: paymentAllowed && legallyAuthorizedPayment
   });
 }
+
+/**
+ * The authenticated exact facts a branch selector may read.
+ *
+ * Screening answers are deliberately NOT passed through wholesale. A branch
+ * that decides which statute governs must not turn on a recalled date, so only
+ * facts the flow treats as authenticated reach the resolver, and an absent one
+ * resolves to needs-more-info rather than to a default branch.
+ */
+function routeResolutionFacts(answers: Record<string, ScreeningAnswerValue>): Record<string, string | undefined> {
+  const facts: Record<string, string | undefined> = {};
+  for (const key of AUTHENTICATED_ROUTE_FACT_IDS) {
+    const value = answerText(answers[key]).trim();
+    if (value) facts[key] = value;
+  }
+  return facts;
+}
+
+/**
+ * Fact ids a branch selector or packet-release precondition may name. Kept as
+ * an explicit list rather than "whatever the answers contain" so that adding a
+ * screening question can never silently start deciding which statute governs.
+ */
+const AUTHENTICATED_ROUTE_FACT_IDS: readonly string[] = [
+  "nd_qualifying_disposition_date"
+];
 
 function legalAuthorityGate(profile: EngineProfile, pathway: CompiledPathway): ScreeningReason | undefined {
   const contract = legalRouteContract(profile.jurisdiction.code, pathway.id);
