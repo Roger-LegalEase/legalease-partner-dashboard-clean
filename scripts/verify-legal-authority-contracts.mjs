@@ -52,6 +52,16 @@ const DECISION_BASELINE = {
       reason: "North Dakota § 12-60.1-05 automatic non-conviction closure, from the national legal decision report of 2026-08-28."
     },
     {
+      decisionId: "NATIONAL-2026-08-28-LA-IMM-01",
+      routeKeys: 1,
+      reason: "Georgia O.C.G.A. § 42-8-66 retroactive First Offender petition, gated on verified written prosecutorial consent. A new route rather than a supersession: § 42-8-66 is a different mechanism from the § 42-8-62.1 restriction contracted under LD-GA-01."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-LA-IMM-02",
+      routeKeys: 1,
+      reason: "Missouri § 311.326 merits petition with the receiving-clerk configuration gate, from the national legal decision report of 2026-08-28. Supersedes the LD-MO-01 contract for the same route."
+    },
+    {
       decisionId: "NATIONAL-2026-08-28-LA-IMM-04",
       routeKeys: 1,
       reason: "South Carolina § 17-22-150 pretrial intervention as solicitor-administered guidance, from the same report."

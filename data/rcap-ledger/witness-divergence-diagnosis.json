@@ -4,11 +4,11 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "d2a128d1b093e7194e095d988ec3457be1fd42b76e33618c6eae04627c7bc598",
-    "pathways": 262,
+    "sha256": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6",
+    "pathways": 263,
     "dispositions": {
       "family_bridge_missing_no_family": 152,
-      "approved_by_decision_owner": 70,
+      "approved_by_decision_owner": 71,
       "family_bridge_missing_no_track": 40
     }
   },
@@ -18,7 +18,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 262
+    "combosTried": 263
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -26,10 +26,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 262,
-    "correct_pathway": 262,
+    "pathways": 263,
+    "correct_pathway": 263,
     "baselineOutcomes": {
-      "correct_pathway": 262
+      "correct_pathway": 263
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -920,6 +920,29 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ga.route_gate_pending_lawrence_review"
+        ]
+      },
+      "combosTried": 1
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "sessionADisposition": "approved_by_decision_owner",
+      "outcome": "correct_pathway",
+      "reachedBy": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor"
+      },
+      "baselineOutcome": "correct_pathway",
+      "correctedByFixtureAlone": false,
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ga.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1

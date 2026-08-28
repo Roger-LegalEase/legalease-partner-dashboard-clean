@@ -34,12 +34,12 @@
   },
   "changesNothing": "Records what the deployed public evaluator does today. No runtime change, no classification, no approval.",
   "totals": {
-    "pathways": 262,
-    "settledOnATerminalEvaluation": 262,
-    "landedOnTheirOwnPathway": 262,
+    "pathways": 263,
+    "settledOnATerminalEvaluation": 263,
+    "landedOnTheirOwnPathway": 263,
     "terminalResultCodes": {
       "packet_ready_with_caution": 37,
-      "guidance_only": 91,
+      "guidance_only": 92,
       "not_covered_yet": 22,
       "needs_review": 103,
       "likely_not_eligible": 5,
@@ -3158,6 +3158,89 @@
         "selectedTrackId": null,
         "reasonCodes": [
           "ga.route_gate_pending_lawrence_review"
+        ],
+        "missingQuestionIds": []
+      },
+      "landedOnThisPathway": true,
+      "error": null
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "publicRoute": "/expungement-ai/screening/georgia",
+      "evaluationEndpoint": "POST /api/expungement-ai/screening",
+      "seedAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "state_exclusion_categories": [
+          "None of these"
+        ],
+        "pending_cases": "No",
+        "new_convictions_during_waiting_period": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "court_requirements_completed": "yes",
+        "special_preconditions_confirmed": "Yes",
+        "trafficking_status": "No",
+        "pardon_status": "No",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "possible_pathway_context": "Petition for retroactive First Offender treatment, exoneration and discharge"
+      },
+      "pathwayContextOffered": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "rounds": [
+        {
+          "round": 0,
+          "droppedAsNotEvaluatorQuestions": [
+            "trafficking_status"
+          ]
+        },
+        {
+          "round": 1,
+          "requested": [
+            "case_outcome",
+            "offense_level",
+            "prior_relief"
+          ],
+          "supplied": {
+            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+            "offense_level": "Misdemeanor",
+            "prior_relief": "Yes"
+          }
+        }
+      ],
+      "finalAnswers": {
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "court_requirements_completed": "yes",
+        "financial_obligations": "Yes",
+        "jurisdiction_scope": "State or local",
+        "new_convictions_during_waiting_period": "No",
+        "offense_level": "Misdemeanor",
+        "ownership_scope": "Yes",
+        "pardon_status": "No",
+        "pending_cases": "No",
+        "possible_pathway_context": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "prior_relief": "Yes",
+        "record_documents": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "sentence_completion_date": "Yes",
+        "special_preconditions_confirmed": "Yes",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "terminalEvaluation": {
+        "resultCode": "guidance_only",
+        "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "paymentAllowed": false,
+        "treatmentClassification": null,
+        "selectedTrackId": null,
+        "reasonCodes": [
+          "ga.guidance_only_no_user_filed_court_petition"
         ],
         "missingQuestionIds": []
       },

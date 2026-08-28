@@ -138,6 +138,24 @@ function legalAuthorityBlock(contract) {
  * `profile.pathways` in order and takes the first label match, so inserting
  * would silently re-route flows that resolve correctly today.
  */
+/**
+ * Contracts allowed to create a compiled pathway that does not exist yet.
+ *
+ * An allowlist rather than a blanket rule. Creating a pathway adds a row to the
+ * closure ledger, the witness answer sets, the launch graph and the factory
+ * registry, so a mistyped pathwayId in a contract would otherwise conjure a
+ * route nobody decided on and it would look like coverage.
+ *
+ * Mississippi is grandfathered: its stage splits created several pathways
+ * before this list existed, and narrowing it now would delete them.
+ */
+const MAY_CREATE_PATHWAY = new Set([
+  // O.C.G.A. § 42-8-66 is a different statutory mechanism from the § 42-8-62.1
+  // restriction the legacy Georgia pathway carries. It needs its own route
+  // rather than a conditional inside one that already names another statute.
+  "GA:retroactive-first-offender-treatment-under-42-8-66"
+]);
+
 function newPathway(contract) {
   const closed = routePaymentAuthority(contract) !== "packet_checkout";
   return {
@@ -334,7 +352,10 @@ for (const [code, contracts] of [...byJurisdiction].sort(([a], [b]) => a.localeC
   for (const contract of contracts) {
     let pathway = profile.pathways.find((candidate) => candidate.id === contract.pathwayId);
     if (!pathway) {
-      if (code !== "MS") { unmatched.push(`${contract.routeKey}: no compiled pathway`); continue; }
+      if (!MAY_CREATE_PATHWAY.has(contract.routeKey) && code !== "MS") {
+        unmatched.push(`${contract.routeKey}: no compiled pathway`);
+        continue;
+      }
       pathway = newPathway(contract);
       profile.pathways.push(pathway);
       summary.created += 1;

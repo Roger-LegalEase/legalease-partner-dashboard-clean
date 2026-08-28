@@ -1372,9 +1372,9 @@
         "lawrence_review": "hold_guidance_only"
       },
       "legalAuthority": {
-        "decisionId": "LD-MO-01",
-        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
-        "mechanism": "First minor-in-possession alcohol expungement",
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-02",
+        "ruleId": "MO-311-326-MERITS-PETITION-CLERK-CONFIGURATION-GATE",
+        "mechanism": "Expungement of a first § 311.325 minor-in-possession conviction, filed as a new miscellaneous civil matter",
         "statute": "Mo. Rev. Stat. § 311.326",
         "stage": "single_stage",
         "outcomeMode": "participant_packet",
@@ -1387,15 +1387,13 @@
           "anchorText": "not less than one year after the person's twenty-first birthday"
         },
         "requiredFacts": [
-          "Date of birth?",
-          "Date age 21?",
-          "Exact MIP offense?",
-          "Later alcohol offenses?",
-          "CDL/CMV facts?",
-          "Offense level?",
-          "Sentence completion?",
-          "Arrest-only/no-charge status?",
-          "Excluded offense?"
+          "Is the judgment expressly under Mo. Rev. Stat. § 311.325, or under a county or municipal ordinance?",
+          "If an ordinance, does it expressly adopt the § 311.326 remedy, or does it merely mirror the substantive offence?",
+          "Date of birth and date the person turned twenty-one?",
+          "Which circuit court sentenced the person, and in which division?",
+          "What is the original criminal case number and judgment?",
+          "Any later alcohol-related offence?",
+          "Did the person hold a commercial driver's licence or operate a commercial motor vehicle?"
         ],
         "screeningFactIds": [
           "case_outcome",
@@ -1403,15 +1401,177 @@
           "twenty_first_birthday"
         ],
         "exclusions": [
-          "Exact statute and offense level",
-          "Route-specific completion, clean-record, excluded-offense, and frequency conditions"
+          "One-time relief only",
+          "A later alcohol-related offence defeats the application",
+          "Commercial-driver conditions apply",
+          "Eligibility turns on the actual statute or ordinance of conviction, never on the shorthand offence label"
         ],
         "packetFamily": "Missouri § 311.326 Minor-in-Possession Expungement Petition",
         "packetComponents": [
-          "Petition under § 311.326",
-          "Record of the alcohol offense"
+          "Application for expungement under § 311.326",
+          "Reference to the original criminal case, judgment and sentencing division",
+          "Proposed order",
+          "Certified disposition where the judgment is ambiguous"
         ],
-        "notes": "The age-21 clock is its own rule object and must never share a rule with the § 610.140 completion clock. Subject to the first-offense, later-alcohol-record, commercial-driver and other statutory conditions."
+        "deliveryGates": [
+          {
+            "id": "mo_311_326_clerk_final_caption",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the final caption the receiving circuit clerk accepts for a § 311.326 application"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending: no receiving-clerk configuration record exists yet",
+            "note": "The configurable default is 'In the Matter of the Application of [Name] for Expungement Under § 311.326, RSMo'. It is a default, not a confirmed caption."
+          },
+          {
+            "id": "mo_311_326_clerk_filing_code",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the FI-05 case-type code the receiving clerk directs: XG provisional, X5 prohibited, X1 only on clerk direction"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending",
+            "note": "FI-05 is a confidential case-filing information sheet, not itself a case-type code. XG is the provisional generic code; X5 is never used by analogy because its published description ties it to § 610.140; X1 only where the receiving clerk directs it."
+          },
+          {
+            "id": "mo_311_326_clerk_fee",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the filing fee the receiving circuit charges for a new miscellaneous civil expungement matter"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending",
+            "note": "No statewide figure is published for this filing model."
+          },
+          {
+            "id": "mo_311_326_clerk_service",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the service documents and method the receiving circuit requires"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending",
+            "note": "Section 311.326 prescribes no statewide respondent list or service method."
+          },
+          {
+            "id": "mo_311_326_clerk_summons",
+            "kind": "local_filing_configuration",
+            "items": [
+              "whether the receiving circuit issues a summons on this filing model, and on what form"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending",
+            "note": "A new miscellaneous civil matter may or may not draw a summons depending on the circuit."
+          },
+          {
+            "id": "mo_311_326_clerk_division_instructions",
+            "kind": "local_filing_configuration",
+            "items": [
+              "the division instructions linking the new matter to the original criminal case and sentencing division"
+            ],
+            "owner": "RCAP operations",
+            "statusSource": "server_configuration_record",
+            "evidenceReference": "pending",
+            "note": "The petition identifies the original case, judgment and sentencing division; how the clerk links them is local practice."
+          }
+        ],
+        "serviceBranches": [
+          {
+            "id": "state_311_325_conviction",
+            "when": "the judgment is expressly under Mo. Rev. Stat. § 311.325",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "state_311_325",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "participant_packet",
+            "packetFamily": "Missouri § 311.326 Minor-in-Possession Expungement Petition",
+            "note": "The state route. Section 311.326 refers throughout to a violation of § 311.325 and does not carry the broader language used elsewhere to reach substantially similar county or municipal ordinances."
+          },
+          {
+            "id": "ordinance_expressly_adopts_311_326",
+            "when": "a local ordinance expressly adopts the § 311.326 remedy",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "ordinance_expressly_adopts_311_326",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "referral",
+            "packetFamily": null,
+            "note": "Express local adoption may create a separate local-law route. That is a different route under a different instrument, and this contract does not carry it: the participant is referred to local-law review rather than served the state petition."
+          },
+          {
+            "id": "ordinance_merely_mirrors_offence",
+            "when": "the ordinance merely mirrors the substantive offence without adopting the remedy",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "ordinance_mirrors_offence",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "referral",
+            "packetFamily": null,
+            "note": "Not automatically within § 311.326. Mere equivalence of the substantive offence does not bring an ordinance conviction inside a statute that names § 311.325. Assess § 610.140 or local relief instead."
+          },
+          {
+            "id": "judgment_ambiguous",
+            "when": "the judgment does not state clearly which instrument it was entered under",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "ambiguous",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "referral",
+            "packetFamily": null,
+            "note": "Obtain the certified disposition and hold for local-law review. Guessing the instrument from an offence label is the error the exclusion names."
+          }
+        ],
+        "failureDisposition": [
+          {
+            "id": "mo_311_326_ordinance_out_of_scope",
+            "when": "the conviction is under an ordinance that merely mirrors the offence",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "ordinance_mirrors_offence",
+              "requiredProvenance": "verified_record"
+            },
+            "disposition": "partner_handoff",
+            "note": "Assess § 610.140 or local relief. This route does not reach the conviction."
+          },
+          {
+            "id": "mo_311_326_judgment_ambiguous",
+            "when": "the judgment is ambiguous as to the instrument of conviction",
+            "selector": {
+              "operator": "equals",
+              "factId": "mo_311_326_conviction_origin",
+              "value": "ambiguous",
+              "requiredProvenance": "verified_record"
+            },
+            "disposition": "agency_correction",
+            "note": "Obtain the certified disposition from the sentencing court, then re-resolve."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "The merits petition is a real participant filing and is sellable in principle. It stays closed today because six receiving-clerk configuration gates are open, not because the route forbids selling."
+        },
+        "notes": "Report correction 2, LA-IMM-02. The merits petition is built; the clerk-confirmation gate is operational configuration, NOT unresolved legal research, and must never be sent to counsel as though it were. The absence of a dedicated case-type code does not defeat the statutory remedy; it prevents releasing universal administrative instructions without a clerk-practice gate. This decision is scoped to § 311.326 and must not be extended to mo-610-130 or any other Missouri route without its own evidence."
       }
     },
     {
@@ -2122,10 +2282,10 @@
         "first-minor-in-possession-alcohol-expungement-under-311-326"
       ],
       "legalAuthority": {
-        "decisionId": "LD-MO-01",
-        "ruleId": "MO-311.326-AND-610.140-SEPARATE-CLOCKS",
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-02",
+        "ruleId": "MO-311-326-MERITS-PETITION-CLERK-CONFIGURATION-GATE",
         "statute": "Mo. Rev. Stat. § 311.326",
-        "mechanism": "First minor-in-possession alcohol expungement"
+        "mechanism": "Expungement of a first § 311.325 minor-in-possession conviction, filed as a new miscellaneous civil matter"
       }
     },
     {

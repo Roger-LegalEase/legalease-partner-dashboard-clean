@@ -22,6 +22,7 @@ const ok = (name, condition, detail = "") => {
   console.log(`  FAIL ${name}${detail ? ` — ${detail}` : ""}`);
 };
 
+const fs = await import("node:fs");
 const TODAY = new Date("2026-08-28T00:00:00.000Z");
 /** A verified-record fact, the provenance a branch selector demands. */
 const verified = (value) => ({ value, provenance: "verified_record", verifiedAt: "2026-08-28T00:00:00.000Z" });
@@ -243,10 +244,144 @@ const reviewGate = routeDeliveryAuthority({ ...packetRoute, deliveryGates: [{ id
 ok("an open artifact-review gate allows generation but closes payment and delivery",
   reviewGate.generationAllowed && !reviewGate.paymentAllowed && !reviewGate.commerciallyDeliverable);
 
+console.log("\nGeorgia § 42-8-66 — consent is a truth test, not a field with something in it:");
+
+const doc = (value) => ({ value, provenance: "server_verified_document" });
+const ga = (facts, phase = "FINAL_VERIFICATION") => resolveRoute({
+  jurisdiction: "GA", pathwayId: "retroactive-first-offender-treatment-under-42-8-66",
+  facts, on: TODAY, phase
+});
+
+// Nothing short of the document opens the packet. Each of these is a value a
+// participant could plausibly give, and the report says none of them is consent.
+for (const value of ["unknown", "silence", "no known objection", "request sent", "pending", "verbal", "verified_written_consent"]) {
+  const r = ga({ ga_written_prosecutor_consent_status: stated(value) });
+  ok(`consent stated as "${value}" does not open the Georgia packet`,
+    r.serviceDisposition !== "participant_packet" && r.delivery.paymentAllowed === false,
+    `${r.serviceDisposition} / pay=${r.delivery.paymentAllowed}`);
+}
+ok("the last of those is the RIGHT value with the WRONG provenance, and still fails",
+  ga({ ga_written_prosecutor_consent_status: stated("verified_written_consent") }).serviceDisposition !== "participant_packet");
+
+const gaAbsent = ga({});
+ok("absent consent needs more info and opens nothing",
+  gaAbsent.serviceDisposition === "needs_more_info" && gaAbsent.delivery.paymentAllowed === false
+  && gaAbsent.sponsorshipAuthority === "closed");
+
+const gaRefused = ga({ ga_written_prosecutor_consent_status: stated("refused") });
+ok("refusal is a prosecutor handoff, not a defective packet",
+  gaRefused.serviceDisposition === "handoff"
+  && gaRefused.selectedFailureDisposition?.disposition === "attorney_or_prosecutor");
+const gaWithdrawn = ga({ ga_written_prosecutor_consent_status: stated("withdrawn") });
+ok("withdrawn consent is a handoff", gaWithdrawn.selectedFailureDisposition?.id === "ga_consent_withdrawn");
+const gaContested = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent"), ga_contested_evidentiary_hearing: stated("true") });
+ok("a contested evidentiary hearing goes to retained counsel",
+  gaContested.selectedFailureDisposition?.id === "ga_contested_hearing" && gaContested.serviceDisposition === "handoff");
+
+const gaConsented = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent") });
+ok("only the verified document opens the petition",
+  gaConsented.serviceDisposition === "participant_packet" && gaConsented.delivery.paymentAllowed === true);
+ok("and it names the § 42-8-66 packet family",
+  gaConsented.packetFamily === "Georgia § 42-8-66 Retroactive First Offender Petition");
+
+// Consent is never collected in anonymous screening. The route may still be
+// IDENTIFIED there; what it may not do is sell.
+const gaScreening = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent") }, "PRELIMINARY_SCREENING");
+ok("anonymous screening cannot prove consent, so it opens no payment",
+  gaScreening.delivery.paymentAllowed === false && gaScreening.sponsorshipAuthority === "closed");
+ok("but screening still identifies the route rather than reporting a refusal",
+  gaScreening.serviceDisposition !== "handoff", gaScreening.serviceDisposition);
+ok("the consent precondition is not collected in anonymous screening",
+  gaConsented.contract.packetReleasePreconditions[0].collectedAt === "authenticated_intake");
+
+// A granted order is not re-petitioned.
+const gaOrderAfter = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent"), ga_qualifying_order_date: verified("2026-07-02") });
+ok("an order granted on or after 2026-07-01 enters implementation tracking",
+  gaOrderAfter.selectedBranchId === "order_already_granted_post_2026_07_01"
+  && gaOrderAfter.serviceDisposition === "process_guidance" && gaOrderAfter.packetFamily === null);
+ok("and sells nothing, because the court has already granted the relief",
+  gaOrderAfter.delivery.paymentAllowed === false && gaOrderAfter.sponsorshipAuthority === "closed");
+const gaOrderBefore = ga({ ga_written_prosecutor_consent_status: doc("verified_written_consent"), ga_qualifying_order_date: verified("2026-06-30") });
+ok("an order granted before that date is also implementation, not a second petition",
+  gaOrderBefore.selectedBranchId === "order_already_granted_before_2026_07_01"
+  && gaOrderBefore.packetFamily === null);
+
+// Route identity: the legacy pathway keeps its own different statute.
+const gaLegacy = resolveRoute({ jurisdiction: "GA", pathwayId: "youthful-first-offender-restriction-route", facts: {}, on: TODAY, phase: "FINAL_VERIFICATION" });
+ok("the legacy Georgia pathway still exists and still carries § 42-8-62.1",
+  gaLegacy.contract?.statute === "O.C.G.A. § 42-8-62.1", gaLegacy.contract?.statute ?? "absent");
+ok("the new § 42-8-66 route is a separate contract, not a rename",
+  gaConsented.contract.statute === "O.C.G.A. § 42-8-66" && gaConsented.routeKey !== gaLegacy.routeKey);
+const aliases = JSON.parse(fs.readFileSync("data/rcap-ledger/route-aliases.json", "utf8"));
+const gaAlias = aliases.aliases.find((a) => a.jurisdiction === "GA");
+ok("an alias records the canonical identity without renaming the stored id",
+  gaAlias?.legacyPathwayId === "youthful-first-offender-restriction-route"
+  && gaAlias?.canonicalPathwayId === "retroactive-first-offender-treatment-under-42-8-66");
+ok("the alias states what the legacy id still governs and when it may be removed",
+  /42-8-62\.1/.test(gaAlias?.legacyIdStillGoverns ?? "") && Boolean(gaAlias?.removalCondition));
+
+console.log("\nMissouri § 311.326 — scope branches and the six clerk gates:");
+
+const MO_GATES = ["mo_311_326_clerk_final_caption", "mo_311_326_clerk_filing_code", "mo_311_326_clerk_fee",
+  "mo_311_326_clerk_service", "mo_311_326_clerk_summons", "mo_311_326_clerk_division_instructions"];
+const mo = (facts, opts = {}) => resolveRoute({
+  jurisdiction: "MO", pathwayId: "first-minor-in-possession-alcohol-expungement-under-311-326",
+  facts, on: TODAY, phase: "FINAL_VERIFICATION", ...opts
+});
+
+const moState = mo({ mo_311_326_conviction_origin: verified("state_311_325") });
+ok("a § 311.325 state conviction takes the state route",
+  moState.selectedBranchId === "state_311_325_conviction" && moState.outcomeMode === "participant_packet");
+ok("the state route is packet-bearing but held by the clerk gates",
+  moState.serviceDisposition === "identified_not_yet_available" && moState.openDeliveryGateIds.length === 6);
+
+const moAdopts = mo({ mo_311_326_conviction_origin: verified("ordinance_expressly_adopts_311_326") });
+ok("an ordinance that expressly adopts the remedy is a separate local route, not this one",
+  moAdopts.selectedBranchId === "ordinance_expressly_adopts_311_326"
+  && moAdopts.serviceDisposition === "handoff" && moAdopts.packetFamily === null);
+
+const moMirrors = mo({ mo_311_326_conviction_origin: verified("ordinance_mirrors_offence") });
+ok("mere municipal equivalence falls outside § 311.326",
+  moMirrors.selectedBranchId === "ordinance_merely_mirrors_offence"
+  && moMirrors.paymentAuthority === "closed" && moMirrors.packetFamily === null);
+ok("and routes to § 610.140 or local relief rather than selling this petition",
+  /610\.140|local relief/i.test(moMirrors.selectedFailureDisposition?.note ?? moMirrors.contract.serviceBranches.find((b) => b.id === "ordinance_merely_mirrors_offence").note));
+
+const moAmbiguous = mo({ mo_311_326_conviction_origin: verified("ambiguous") });
+ok("an ambiguous judgment holds for the certified disposition",
+  moAmbiguous.selectedBranchId === "judgment_ambiguous" && moAmbiguous.paymentAuthority === "closed");
+
+const moNoFact = mo({});
+ok("without the instrument of conviction the route needs more info, not a guess",
+  moNoFact.serviceDisposition === "needs_more_info"
+  && moNoFact.missingFacts.includes("mo_311_326_conviction_origin"));
+
+// The six clerk requirements are six gates, not one. Closing five must not open
+// the route: that is what gate ids exist for.
+for (let i = 0; i < MO_GATES.length; i += 1) {
+  const closed = MO_GATES.filter((_, index) => index !== i);
+  const partial = mo({ mo_311_326_conviction_origin: verified("state_311_325") }, { closedGateIds: closed });
+  ok(`closing five clerk gates leaves ${MO_GATES[i]} holding the route`,
+    partial.generationAuthority === "closed" && partial.openDeliveryGateIds.join() === MO_GATES[i],
+    partial.openDeliveryGateIds.join(", ") || "none");
+}
+const moAll = mo({ mo_311_326_conviction_origin: verified("state_311_325") }, { closedGateIds: MO_GATES });
+ok("with all six confirmed the merits petition is a real participant packet",
+  moAll.serviceDisposition === "participant_packet" && moAll.generationAuthority === "open"
+  && moAll.delivery.paymentAllowed === true && moAll.sponsorshipAuthority === "open");
+
+const moContract = mo({}).contract;
+ok("the filing-code rule is recorded: XG provisional, X5 prohibited, X1 on clerk direction",
+  /XG provisional, X5 prohibited, X1 only on clerk direction/i.test(
+    (moContract.deliveryGates.find((g) => g.id === "mo_311_326_clerk_filing_code")?.items ?? []).join(" ")));
+ok("the clerk gate is operational configuration, not legal research",
+  /operational configuration, NOT unresolved legal research/i.test(moContract.notes ?? ""));
+ok("the decision is scoped to § 311.326 and not extended to mo-610-130",
+  /must not be extended to mo-610-130/i.test(moContract.notes ?? ""));
+
 console.log("\nCommercial classification and service disposition are independent:");
 
 const { LEGAL_AUTHORITY, routePaymentAuthority } = await import("@/lib/legal-authority/index");
-const fs = await import("node:fs");
 const closure = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-closure.json", "utf8"));
 const contradictions = JSON.parse(fs.readFileSync("data/rcap-ledger/closure-authority-contradictions.json", "utf8"));
 const closureByKey = new Map(closure.pathways.map((p) => [p.pathwayKey, p]));

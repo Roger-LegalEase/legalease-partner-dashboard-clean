@@ -26,6 +26,7 @@ import {
 } from "@/lib/legal-authority/index";
 import {
   evaluateCondition,
+  PHASE_ORDER,
   type Condition,
   type FactSnapshotMap,
   type LifecyclePhase
@@ -79,6 +80,8 @@ export type RouteResolution = {
   requiredFacts: string[];
   missingFacts: string[];
   unsatisfiedPreconditions: Array<{ precondition: PacketReleasePrecondition; reason: string }>;
+  /** Preconditions that cannot yet be proved at this phase. Not failures. */
+  notYetApplicablePreconditions: Array<{ precondition: PacketReleasePrecondition; reason: string }>;
   openDeliveryGates: DeliveryGate[];
   openDeliveryGateIds: string[];
   paymentAuthority: RoutePaymentAuthority | null;
@@ -142,7 +145,7 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
     return {
       routeKey, contract: null, selectedBranchId: null,
       serviceDisposition: "needs_more_info", outcomeMode: null, packetFamily: null,
-      requiredFacts: [], missingFacts: [], unsatisfiedPreconditions: [],
+      requiredFacts: [], missingFacts: [], unsatisfiedPreconditions: [], notYetApplicablePreconditions: [],
       openDeliveryGates: [], openDeliveryGateIds: [],
       paymentAuthority: null, sponsorshipAuthority: "closed",
       generationAuthority: "closed", commercialDeliveryAuthority: "closed",
@@ -162,16 +165,32 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
 
   // Preconditions are truth tests. An unsatisfied one holds the packet closed
   // and says which fact and which value failed it.
+  //
+  // A precondition that may only decide from a later phase is a third state,
+  // neither satisfied nor failed: during anonymous screening a consent document
+  // cannot be proved, and treating that as a failure would tell every Georgia
+  // participant they had been refused. It closes commercial actions — nothing
+  // is sold before consent can be proved — without producing a handoff.
   const unsatisfiedPreconditions: Array<{ precondition: PacketReleasePrecondition; reason: string }> = [];
+  const notYetApplicablePreconditions: Array<{ precondition: PacketReleasePrecondition; reason: string }> = [];
   const preconditionMissing: string[] = [];
   for (const precondition of contract.packetReleasePreconditions ?? []) {
+    const requiredPhase = precondition.satisfiedWhen.requiredPhase;
+    if (requiredPhase && PHASE_ORDER.indexOf(input.phase) < PHASE_ORDER.indexOf(requiredPhase)) {
+      notYetApplicablePreconditions.push({ precondition, reason: `${precondition.id} is proved at ${requiredPhase}, not at ${input.phase}` });
+      continue;
+    }
     const result = evaluateCondition(precondition.satisfiedWhen, facts, input.phase);
     if (result.satisfied) continue;
     unsatisfiedPreconditions.push({ precondition, reason: result.reason ?? "unsatisfied" });
     for (const factId of result.missingFactIds) if (!preconditionMissing.includes(factId)) preconditionMissing.push(factId);
   }
 
-  const missingFacts = [...new Set([...branchPick.missing, ...preconditionMissing])];
+  // A missing branch-selector fact only blocks where the branches are
+  // exhaustive. Where they are exceptions to a default, the participant who
+  // triggers none of them is the ordinary case, not an incomplete one.
+  const branchMissing = contract.branchSelectionRequired === true && !selected ? branchPick.missing : [];
+  const missingFacts = [...new Set([...branchMissing, ...preconditionMissing])];
 
   // Gate scoping by id. A gate named by a branch belongs to that branch alone;
   // a gate no branch names applies to the route.
@@ -238,7 +257,22 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
     serviceDisposition = "identified_not_yet_available";
   }
 
-  const packetActionsClosed = packetHeld || Boolean(selectedFailure);
+  const packetActionsClosed = packetHeld
+    || Boolean(selectedFailure)
+    || notYetApplicablePreconditions.length > 0
+    || missingFacts.length > 0;
+
+  // The raw delivery view does not know about preconditions or failures, so a
+  // consumer reading delivery.paymentAllowed directly would have opened checkout
+  // on a Georgia petition with no consent. The corrected view is what callers
+  // get; the raw one is not returned.
+  const correctedDelivery: RouteDeliveryAuthority = {
+    ...delivery,
+    generationAllowed: delivery.generationAllowed && !packetActionsClosed,
+    paymentAllowed: delivery.paymentAllowed && !packetActionsClosed,
+    sponsoredGenerationAllowed: delivery.sponsoredGenerationAllowed && !packetActionsClosed,
+    commerciallyDeliverable: delivery.commerciallyDeliverable && !packetActionsClosed
+  };
 
   return {
     routeKey,
@@ -252,14 +286,15 @@ export function resolveRoute(input: RouteResolutionInput): RouteResolution {
     unsatisfiedPreconditions,
     openDeliveryGates: openGates,
     openDeliveryGateIds: openGates.map((gate) => gate.id),
-    paymentAuthority: routePaymentAuthority(effectiveContract),
-    sponsorshipAuthority: delivery.sponsoredGenerationAllowed && !packetActionsClosed ? "open" : "closed",
-    generationAuthority: delivery.generationAllowed && !packetActionsClosed ? "open" : "closed",
-    commercialDeliveryAuthority: delivery.commerciallyDeliverable && !packetActionsClosed ? "open" : "closed",
+    paymentAuthority: packetActionsClosed ? "closed" : routePaymentAuthority(effectiveContract),
+    sponsorshipAuthority: correctedDelivery.sponsoredGenerationAllowed ? "open" : "closed",
+    generationAuthority: correctedDelivery.generationAllowed ? "open" : "closed",
+    commercialDeliveryAuthority: correctedDelivery.commerciallyDeliverable ? "open" : "closed",
     selectedFailureDisposition: selectedFailure,
     failureDispositions: contract.failureDisposition ?? [],
     rejectedFacts,
-    delivery,
+    delivery: correctedDelivery,
+    notYetApplicablePreconditions,
     holdReason: selectedFailure
       ? `${selectedFailure.when} — ${selectedFailure.disposition}`
       : unsatisfiedPreconditions[0]?.reason ?? delivery.holdReason,

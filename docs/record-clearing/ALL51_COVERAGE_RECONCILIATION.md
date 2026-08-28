@@ -25,13 +25,13 @@ measured against the closure ledger's seven-stage chain.
 
 | Gate | Pathways failing it |
 |---|---|
-| ownerApprovedLegalDesign | 168 |
-| technicalApprovalCurrent | 193 |
+| ownerApprovedLegalDesign | 167 |
+| technicalApprovalCurrent | 192 |
 | deterministicArtifactProven | 223 |
 | noProblematicPdfHold | 19 |
 | paymentAllowed | 232 |
 | rendererSelected | 61 |
-| packetSpecificationComplete | 41 |
+| packetSpecificationComplete | 40 |
 
 ## Per jurisdiction
 
@@ -47,7 +47,7 @@ measured against the closure ledger's seven-stage chain.
 | DC | District of Columbia | EXISTING_BRANCH_TO_PORT | 4 | 1 | 4 | 4 | not_paid_product×3 |
 | DE | Delaware | REMAINING_TO_BUILD | 3 | 0 | 2 | 0 | legal_review_pending×3, route_metadata×1, renderer_unavailable×1, filing_determination_missing×1, not_paid_product×1 |
 | FL | Florida | REMAINING_TO_BUILD | 4 | 0 | 4 | 0 | legal_review_pending×4, gate_build×1, not_paid_product×1, intake_fix×1 |
-| GA | Georgia | EXISTING_BRANCH_TO_PORT | 4 | 1 | 4 | 1 | legal_review_pending×3, route_metadata×1, gate_build×1, legal_reconfirmation×1 |
+| GA | Georgia | EXISTING_BRANCH_TO_PORT | 5 | 1 | 4 | 1 | legal_review_pending×4, route_metadata×1, gate_build×1, unclassified_route×1, renderer_unavailable×1, legal_reconfirmation×1 |
 | HI | Hawaii | REMAINING_TO_BUILD | 5 | 0 | 5 | 0 | legal_review_pending×5, filing_determination_missing×2, legal_action_required×2 |
 | IA | Iowa | REMAINING_TO_BUILD | 5 | 1 | 5 | 1 | gate_build×4, legal_review_pending×4 |
 | ID | Idaho | REMAINING_TO_BUILD | 5 | 0 | 2 | 0 | legal_review_pending×5, renderer_unavailable×3, intake_fix×2, route_metadata×1, not_paid_product×1 |

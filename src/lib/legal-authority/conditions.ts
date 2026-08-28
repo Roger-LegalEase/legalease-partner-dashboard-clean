@@ -93,6 +93,11 @@ const PROVENANCE_RANK: Record<FactProvenance, number> = {
 };
 
 /** Phase order. A condition may not control before the phase it requires. */
+export const PHASE_ORDER: readonly LifecyclePhase[] = [
+  "PRELIMINARY_SCREENING", "FINAL_VERIFICATION", "PACKET_GENERATION",
+  "PAYMENT_OR_SPONSORSHIP", "BRIEFCASE_PRESENTATION"
+];
+
 const PHASE_RANK: Record<LifecyclePhase, number> = {
   PRELIMINARY_SCREENING: 0,
   FINAL_VERIFICATION: 1,

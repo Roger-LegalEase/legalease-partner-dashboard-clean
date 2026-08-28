@@ -17,10 +17,10 @@
     "correctPathwayPublicWitnesses": 263,
     "wrongPathwayWitnesses": 0,
     "nonConvergingWitnesses": 0,
-    "exactTrackAndPacketSet": 222,
-    "registryGapWithPathwayPacketSet": 41,
+    "exactTrackAndPacketSet": 223,
+    "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
-    "ownerApprovedLegal": 95,
+    "ownerApprovedLegal": 96,
     "factoryV2Selected": 171,
     "factoryV2Resolved": 171,
     "factoryV2AdmittedButSuppressed": [
@@ -44,13 +44,13 @@
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
-    "ownerApprovedLegalDesign": 168,
-    "technicalApprovalCurrent": 193,
+    "ownerApprovedLegalDesign": 167,
+    "technicalApprovalCurrent": 192,
     "deterministicArtifactProven": 223,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 232,
     "rendererSelected": 61,
-    "packetSpecificationComplete": 41
+    "packetSpecificationComplete": 40
   },
   "classificationCounts": {
     "REMAINING_TO_BUILD": 41,
@@ -729,7 +729,7 @@
       "profile": {
         "path": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
         "version": "2026-06-19-source-conversion-1",
-        "pathwayCount": 5
+        "pathwayCount": 6
       },
       "buildManifestStatus": "state_built",
       "reviewStatuses": {
@@ -740,19 +740,19 @@
       },
       "legacyGenerator": false,
       "pathways": {
-        "total": 5,
+        "total": 6,
         "byCategory": {
           "non_filing_guidance": 1,
-          "paid_packet_intended": 4
+          "paid_packet_intended": 5
         },
-        "paidIntended": 4,
+        "paidIntended": 5,
         "nonPacketService": 1
       },
       "stages": {
-        "intendedSellable": 4,
+        "intendedSellable": 5,
         "publiclyReachableSellable": 1,
         "authoritativePacketReady": 1,
-        "packetSpecComplete": 4,
+        "packetSpecComplete": 5,
         "technicallyApprovedPacket": 2,
         "legallyApprovedPacket": 1,
         "successfullyRendered": 4
@@ -765,7 +765,7 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable.",
-          "count": 3
+          "count": 4
         },
         {
           "id": "route_metadata",
@@ -777,6 +777,18 @@
           "id": "gate_build",
           "severity": "blocking",
           "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
+          "count": 1
+        },
+        {
+          "id": "unclassified_route",
+          "severity": "blocking",
+          "statement": "This compiled pathway has no row in route-product-metadata.json, so no product decision exists for it.",
+          "count": 1
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
           "count": 1
         },
         {

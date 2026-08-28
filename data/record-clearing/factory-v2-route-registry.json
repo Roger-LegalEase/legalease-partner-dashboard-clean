@@ -8,7 +8,7 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "d2a128d1b093e7194e095d988ec3457be1fd42b76e33618c6eae04627c7bc598"
+      "sha256": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -16,11 +16,11 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "24f5df1618d65af356a3feec2011a32ad9efa46302879690e3746fce128b0994"
+      "sha256": "635119cd2bf3f66da83bb3e7c74a287508ac3a0ac91529b5ef63d31ff3f60d19"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "da62fc8441758b754ef39b3a403739d7e1582a6b96d4d7c6ae9994a6f4262541"
+      "sha256": "d65ff17a5e37b35beacef75b28698e3eeaed3ef3e8ccb9cd8f82be17634d566c"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -32,17 +32,17 @@
   ],
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
-    "intendedPaidPathways": 262,
+    "intendedPaidPathways": 263,
     "factoryV2Admitted": 174,
-    "notAdmitted": 88,
+    "notAdmitted": 89,
     "reasonsItIsNotAdmitted": {
-      "sourceOrApprovedComposedDocument": 21,
+      "sourceOrApprovedComposedDocument": 22,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
       "legacy_generator_owns_this_jurisdiction": 36
     },
-    "ownerApprovedLegalDesign": 95,
+    "ownerApprovedLegalDesign": 96,
     "paymentAllowedAtTheEvaluator": 31,
-    "publicWitnessReachesItsOwnPathway": 262
+    "publicWitnessReachesItsOwnPathway": 263
   },
   "routes": [
     {
@@ -2246,6 +2246,71 @@
         "openBlockerIds": [
           "gate_build",
           "legal_review_pending"
+        ]
+      }
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "registryTrackIds": [
+        "ga-rfo"
+      ],
+      "packetSetIds": [
+        "ga-rfo-set"
+      ],
+      "packetFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "profileVersion": "2026-06-19-source-conversion-1",
+      "requiredInputIds": [
+        "arrest_date",
+        "case_outcome",
+        "charge",
+        "contact_information",
+        "county",
+        "court",
+        "criminal_history",
+        "disposition_date",
+        "jurisdiction",
+        "offense_category",
+        "offense_level",
+        "pardon_status",
+        "participant_full_legal_name",
+        "pathway_id",
+        "pending_cases",
+        "prior_relief",
+        "record_type",
+        "residency_or_location",
+        "sentence_completion_date"
+      ],
+      "componentCount": 2,
+      "officialFormIds": [],
+      "buildInputs": {
+        "authoritativeProfile": true,
+        "authoritativePathway": true,
+        "exactPacketSet": true,
+        "packetSpecification": true,
+        "requiredParticipantFields": true,
+        "sourceOrApprovedComposedDocument": false,
+        "deterministicFixture": true
+      },
+      "unmetBuildInputs": [
+        "sourceOrApprovedComposedDocument"
+      ],
+      "factoryV2Resolves": false,
+      "legacyGeneratorOwnsThisJurisdiction": false,
+      "separateGates": {
+        "ownerApprovedLegalDesign": true,
+        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "paymentAllowedAtTheEvaluator": false,
+        "publicWitnessReachesThisPathway": true,
+        "closureCategory": "paid_packet_intended",
+        "openBlockerIds": [
+          "legal_review_pending",
+          "renderer_unavailable",
+          "unclassified_route"
         ]
       }
     },

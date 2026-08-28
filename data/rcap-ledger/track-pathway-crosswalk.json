@@ -241,15 +241,15 @@
   "e4StillBlocked": [],
   "aggregates": {
     "registryTracks": 497,
-    "compiledPathways": 336,
+    "compiledPathways": 337,
     "registryJurisdictions": 51,
     "compiledJurisdictions": 51,
-    "tracksExactPathway": 259,
-    "tracksRepresentedByVariants": 26,
+    "tracksExactPathway": 258,
+    "tracksRepresentedByVariants": 27,
     "tracksUnresolvedAmbiguous": 1,
     "tracksMissingFromCompiledRuntime": 210,
     "tracksSupersededRuntimeText": 1,
-    "pathwaysDirect": 245,
+    "pathwaysDirect": 246,
     "pathwaysVariant": 37,
     "pathwaysComposedUnit": 2,
     "pathwaysRoutingOrSupporting": 1,
@@ -266,7 +266,7 @@
     "e4OfficialSourceGapAdjudications": 2,
     "e4StillBlocked": 0,
     "tracksWithRuntimeCoverage": 285,
-    "pathwaysMapped": 284,
+    "pathwaysMapped": 285,
     "pathwaysTerminal": 43,
     "pathwaysUnresolved": 9,
     "milestone1Item2Closed": false
@@ -766,10 +766,10 @@
     {
       "jurisdiction": "GA",
       "registryTracks": 15,
-      "compiledPathways": 5,
-      "delta": -10,
+      "compiledPathways": 6,
+      "delta": -9,
       "tracksMapped": 6,
-      "pathwaysMapped": 5,
+      "pathwaysMapped": 6,
       "pathwaysScopedOut": 0,
       "pathwaysTerminalOther": 0,
       "pathwaysUnresolved": 0
@@ -3676,13 +3676,15 @@
       "compositionMode": null,
       "composedUnitCount": 0,
       "mappedCompiledPathwayIds": [
+        "retroactive-first-offender-treatment-under-42-8-66",
         "youthful-first-offender-restriction-route"
       ],
       "relationshipType": "direct_runtime_representation",
       "mappingEvidence": [
-        "adjudicated_operative_citation_in_pathway"
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
       ],
-      "compiledCoverageDisposition": "exact_current_pathway",
+      "compiledCoverageDisposition": "represented_by_compiled_variants",
       "candidateCompiledPathwayIds": [],
       "blocker": null
     },
@@ -15363,6 +15365,34 @@
       "adjudicated": true
     },
     {
+      "jurisdiction": "GA",
+      "compiledPathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "label": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/GA-georgia.json",
+      "routeType": "court_filing",
+      "automatic": false,
+      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "registryRelation": "direct_runtime_representation",
+      "mappedRegistryTrackIds": [
+        "ga-rfo"
+      ],
+      "mappingEvidence": [
+        "shared_operative_statutory_citation",
+        "shared_supporting_statutory_citation"
+      ],
+      "evidenceDetail": {
+        "sharedStatutoryCitations": [
+          "42.8.66"
+        ],
+        "sharedOfficialForms": []
+      },
+      "coMappedPathwayIds": [],
+      "contributesToRuntimeCoverage": true,
+      "contributesToRegistryDenominator": false,
+      "unresolvedReason": null,
+      "missingEvidence": []
+    },
+    {
       "jurisdiction": "HI",
       "compiledPathwayId": "nonconviction-arrest-expungement",
       "label": "Non-conviction arrest-information expungement under HRS § 831-3.2",
@@ -19984,9 +20014,9 @@
       "compiledPathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "label": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/ND-north-dakota.json",
-      "routeType": "court_filing",
-      "automatic": false,
-      "packetMode": "official_form_overlay_or_source_form_set",
+      "routeType": "automatic",
+      "automatic": true,
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "nd-nonconviction-auto-close-verify"
@@ -23637,9 +23667,9 @@
       "compiledPathwayId": "diversion-or-program-completion-expungement",
       "label": "Diversion or program-completion expungement",
       "compiledProfilePath": "src/lib/rcap-engine/compiled/profiles/SC-south-carolina.json",
-      "routeType": "court_filing",
+      "routeType": "automatic_guidance",
       "automatic": false,
-      "packetMode": "state_specific_custom_packet_from_source_rules",
+      "packetMode": "automatic_relief_verification_and_guidance",
       "registryRelation": "direct_runtime_representation",
       "mappedRegistryTrackIds": [
         "sc_pti_17_22_150"
@@ -26485,5 +26515,5 @@
     }
   },
   "evidenceHash": "280d4753d2066cc7d8ef60cd60344dacbf4d7e6fef888c806f4f1112adc8ba44",
-  "contentHash": "10cc2a22a726e74861a918e2295020195dc104cf8e443bf37bf4854c2b4b8f5d"
+  "contentHash": "508844327e8e0987ea4b0c12c5e4447093c03056e0cad7bcc4c334d8d4b262f4"
 }

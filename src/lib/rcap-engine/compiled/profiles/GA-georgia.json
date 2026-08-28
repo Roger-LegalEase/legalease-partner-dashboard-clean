@@ -1172,6 +1172,187 @@
         "effectiveFrom": "2026-07-01",
         "notes": "The intake must branch explicitly on the July 1, 2026 statutory change; apply the new law prospectively as written."
       }
+    },
+    {
+      "id": "retroactive-first-offender-treatment-under-42-8-66",
+      "label": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "summary": "Petition for retroactive First Offender treatment, exoneration and discharge under O.C.G.A. § 42-8-66. available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee.",
+      "sourceRef": "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+      "sourceEvidenceRefs": [
+        "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+        "statute:O.C.G.A. § 42-8-66"
+      ],
+      "ruleClauses": [
+        "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+      ],
+      "triggerFields": [
+        "case_outcome",
+        "offense_level"
+      ],
+      "caseOutcomes": [],
+      "automatic": false,
+      "filingRequired": true,
+      "routeType": "court_filing",
+      "suggestedResultCode": "packet_ready_with_caution",
+      "waitingRules": [
+        "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+      ],
+      "exclusionRules": [
+        "Written prosecutorial consent is a filing prerequisite, not the relief itself",
+        "A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent",
+        "Consent withdrawn before the order is entered defeats the filing",
+        "A contested evidentiary hearing leaves self-help"
+      ],
+      "frontendBranch": "show_cautions_then_allow_packet_checkout",
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-01",
+        "ruleId": "GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED",
+        "mechanism": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "statute": "O.C.G.A. § 42-8-66",
+        "stage": "single_stage",
+        "outcomeMode": "participant_packet",
+        "paymentAuthority": "packet_checkout",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee"
+        },
+        "requiredFacts": [
+          "Does the participant hold the prosecuting attorney's WRITTEN consent, joinder or signed endorsement?",
+          "In which court was the conviction entered?",
+          "What are the original case number, judgment, sentence and disposition?",
+          "Was the participant eligible for First Offender treatment at the time?",
+          "Which § 42-8-66 branch applies?",
+          "Is there any prior felony or prior First Offender history?",
+          "Has a qualifying order already been granted, and on what date?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "exclusions": [
+          "Written prosecutorial consent is a filing prerequisite, not the relief itself",
+          "A phone call, an unanswered request, prosecutor silence or 'no known objection' is not written consent",
+          "Consent withdrawn before the order is entered defeats the filing",
+          "A contested evidentiary hearing leaves self-help"
+        ],
+        "packetFamily": "Georgia § 42-8-66 Retroactive First Offender Petition",
+        "packetComponents": [
+          "Petition for retroactive First Offender treatment, exoneration and discharge",
+          "Written prosecutor consent, joinder or signed consent endorsement",
+          "Proposed order",
+          "Hearing-request election",
+          "Certificate of service or local notice document",
+          "Judgment, sentence and disposition records",
+          "Evidence of original First Offender eligibility",
+          "Evidence supporting the applicable § 42-8-66 branch",
+          "Rehabilitation and interests-of-justice exhibits",
+          "Post-order restriction, sealing and verification instructions"
+        ],
+        "packetReleasePreconditions": [
+          {
+            "id": "ga_written_prosecutor_consent_status",
+            "requires": "verified written prosecutorial consent, joinder or signed consent endorsement, held as a document",
+            "satisfiedWhen": {
+              "operator": "verified_document_status",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "verified_written_consent",
+              "requiredProvenance": "server_verified_document",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "whenUnsatisfied": "fail_closed_handoff",
+            "collectedAt": "authenticated_intake",
+            "note": "O.C.G.A. § 42-8-66 makes consent a condition that must exist BEFORE the individual files. Absence is never satisfaction: silence, refusal, an unanswered request and 'no known objection' each leave the precondition unmet, and each produces an attorney or prosecutor handoff rather than a petition. Collected at authenticated intake and proved at final verification against the document itself, never in anonymous screening."
+          }
+        ],
+        "serviceBranches": [
+          {
+            "id": "order_already_granted_post_2026_07_01",
+            "when": "a qualifying order was granted on or after 2026-07-01",
+            "selector": {
+              "operator": "date_on_or_after",
+              "factId": "ga_qualifying_order_date",
+              "value": "2026-07-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "guidance_status",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "commercialPosture": {
+              "checkoutEnabled": false,
+              "sponsoredGenerationEnabled": false,
+              "packetCreditsConsumed": 0,
+              "note": "The court has already granted the relief. There is nothing to petition for and nothing to sell."
+            },
+            "note": "For a retroactive discharge entered on or after 1 July 2026 the proposed order expressly addresses the current restriction and court-record sealing duties. The product becomes restriction, sealing, agency distribution and verification tracking. Generating a second merits petition would ask the court to grant what it has already granted."
+          },
+          {
+            "id": "order_already_granted_before_2026_07_01",
+            "when": "a qualifying order was granted before 2026-07-01",
+            "selector": {
+              "operator": "date_before",
+              "factId": "ga_qualifying_order_date",
+              "value": "2026-07-01",
+              "requiredProvenance": "verified_record",
+              "requiredPhase": "FINAL_VERIFICATION"
+            },
+            "outcomeMode": "guidance_status",
+            "packetFamily": null,
+            "stage": "single_stage",
+            "commercialPosture": {
+              "checkoutEnabled": false,
+              "sponsoredGenerationEnabled": false,
+              "packetCreditsConsumed": 0,
+              "note": "Relief already granted. Implementation and verification only."
+            },
+            "note": "An order already granted is not re-petitioned whatever its date. The route is implementation and verification."
+          }
+        ],
+        "failureDisposition": [
+          {
+            "id": "ga_consent_refused",
+            "when": "the prosecuting attorney refused consent",
+            "selector": {
+              "operator": "equals",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "refused",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "attorney_or_prosecutor",
+            "note": "Refusal is not a defect in the packet; it is the absence of the statutory prerequisite. The matter goes to an attorney or back to the prosecutor."
+          },
+          {
+            "id": "ga_consent_withdrawn",
+            "when": "the prosecuting attorney withdrew consent",
+            "selector": {
+              "operator": "equals",
+              "factId": "ga_written_prosecutor_consent_status",
+              "value": "withdrawn",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "attorney_or_prosecutor",
+            "note": "Consent withdrawn before the order is entered defeats the filing."
+          },
+          {
+            "id": "ga_contested_hearing",
+            "when": "the court requires a contested evidentiary hearing",
+            "selector": {
+              "operator": "is_true",
+              "factId": "ga_contested_evidentiary_hearing",
+              "requiredProvenance": "participant_authenticated"
+            },
+            "disposition": "retained_counsel",
+            "note": "A contested evidentiary hearing is advocacy, not document preparation."
+          }
+        ],
+        "commercialPosture": {
+          "checkoutEnabled": true,
+          "sponsoredGenerationEnabled": true,
+          "packetCreditsConsumed": 1,
+          "note": "A real participant petition, sellable once verified written consent exists. The consent precondition, not the posture, is what holds it closed."
+        },
+        "notes": "Report correction 1, LA-IMM-01. Venue is the court of conviction; the default docket is the original criminal case, preserved unless the receiving clerk requires an ancillary number. The statute imposes no filing fee. The route name matters: § 42-8-66 is NOT limited to youthful offenders, so the legacy pathway id youthful-first-offender-restriction-route misdescribes it. That legacy id is preserved and aliased rather than renamed, because renaming a stored pathway identifier without a complete dependency migration would break saved matters and fixtures."
+      }
     }
   ],
   "orderedDecisionRules": [
@@ -3073,6 +3254,37 @@
       },
       "sourceRef": "frontend-contract:no-generic-legal-fallback",
       "candidatePathwayIds": []
+    },
+    {
+      "id": "route-retroactive-first-offender-treatment-under-42-8-66",
+      "priority": 10,
+      "stage": "pathway_routing",
+      "when": {
+        "backendPathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "fieldsReferenced": [
+          "case_outcome",
+          "offense_level"
+        ],
+        "sourceConditionText": "available once written prosecutorial consent exists; § 42-8-66 imposes no elapsed wait and no filing fee",
+        "requiredFields": [
+          "case_outcome",
+          "offense_level"
+        ]
+      },
+      "then": {
+        "suggestedResultCode": "packet_ready_with_caution",
+        "frontendAction": "show_cautions_then_allow_packet_checkout"
+      },
+      "sourceRef": "legal-authority:NATIONAL-2026-08-28-LA-IMM-01",
+      "candidatePathwayIds": [
+        "retroactive-first-offender-treatment-under-42-8-66"
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-01",
+        "ruleId": "GA-42-8-66-RETROACTIVE-FIRST-OFFENDER-CONSENT-GATED",
+        "statute": "O.C.G.A. § 42-8-66",
+        "mechanism": "Petition for retroactive First Offender treatment, exoneration and discharge"
+      }
     }
   ],
   "waitingPeriodRules": [
@@ -3625,6 +3837,32 @@
           "pathways:68-115",
           "section:68-115",
           "corpus-unit:29"
+        ],
+        "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
+        "packetReadyWhen": [
+          "backend result is packet_ready or packet_ready_with_caution",
+          "every source-defined pathway fact is answered",
+          "all waiting and completion conditions are satisfied",
+          "no exclusion, ambiguity, or required-review flag remains",
+          "the selected form revision and filing location pass source-freshness checks"
+        ],
+        "noPacketWhen": [
+          "automatic or no-filing route",
+          "needs_more_info",
+          "not_yet",
+          "needs_review",
+          "likely_not_eligible",
+          "hard_stop"
+        ]
+      },
+      {
+        "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+        "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+        "mode": "state_specific_custom_packet_from_source_rules",
+        "formCandidates": [],
+        "formMappingStatus": "custom_or_manual_mapping_required",
+        "sourceRuleRefs": [
+          "legal-authority:NATIONAL-2026-08-28-LA-IMM-01"
         ],
         "selectionRule": "Use only the source documents and assembly rules tied to the backend-returned jurisdiction pathway. Never substitute another state or an old MVP generator.",
         "packetReadyWhen": [

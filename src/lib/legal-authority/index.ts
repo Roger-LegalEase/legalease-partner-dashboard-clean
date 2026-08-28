@@ -32,9 +32,35 @@ const ROUTE_FILES = [p0Routes, mississippiRoutes, routeSplitRoutes, singleRoutes
   routes: LegalRouteContract[];
 }>;
 
+/**
+ * Later files supersede earlier ones for the same routeKey.
+ *
+ * This used to be true only of the lookup map, built by Map insertion, while
+ * LEGAL_AUTHORITY.routes stayed a flat concatenation carrying both. So a
+ * superseded contract was invisible to every caller and visible to the
+ * invariants, which reported it as a duplicate route key. Deduplicating here
+ * makes the documented behaviour the actual behaviour, and records what was
+ * replaced so a supersession is auditable rather than silent.
+ */
+const supersededRoutes: Array<{ routeKey: string; supersededByDecisionId: string }> = [];
+const dedupedRoutes = (() => {
+  const byKey = new Map<string, LegalRouteContract>();
+  for (const file of ROUTE_FILES) {
+    for (const route of file.routes) {
+      const previous = byKey.get(route.routeKey);
+      if (previous) supersededRoutes.push({ routeKey: route.routeKey, supersededByDecisionId: route.decisionId });
+      byKey.set(route.routeKey, route);
+    }
+  }
+  return [...byKey.values()];
+})();
+
+/** Contracts replaced by a later batch, with the decision that replaced them. */
+export const SUPERSEDED_ROUTE_CONTRACTS: ReadonlyArray<{ routeKey: string; supersededByDecisionId: string }> = supersededRoutes;
+
 export const LEGAL_AUTHORITY: LegalAuthorityBundle = {
   ...(authority as unknown as Omit<LegalAuthorityBundle, "routes">),
-  routes: ROUTE_FILES.flatMap((file) => file.routes)
+  routes: dedupedRoutes
 };
 
 const ROUTE_BY_KEY: ReadonlyMap<string, LegalRouteContract> = new Map(

@@ -7,19 +7,19 @@
   "oneDenominator": {
     "source": "data/rcap-ledger/sellable-pathway-closure.json",
     "category": "paid_packet_intended",
-    "pathways": 262,
-    "sha256": "dd1236141a82461bea85860bcabc77b5fe4fbd7118fa2c1558446b8f311242d5",
+    "pathways": 263,
+    "sha256": "68d275026f44f35d4bf4e2e2adbd488d6ae6849b2129590f332b29fc6eff3fe9",
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "da62fc8441758b754ef39b3a403739d7e1582a6b96d4d7c6ae9994a6f4262541",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "d2a128d1b093e7194e095d988ec3457be1fd42b76e33618c6eae04627c7bc598",
+    "data/rcap-ledger/sellable-pathway-closure.json": "d65ff17a5e37b35beacef75b28698e3eeaed3ef3e8ccb9cd8f82be17634d566c",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "7734642078327ce6454138ff3146d41ff69d07e9b8b6b045cc21c02bc57a29e6",
     "data/record-clearing/legal-design-packet-set-manifests.json": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9",
-    "data/rcap-ledger/public-witness-answer-sets.json": "24f5df1618d65af356a3feec2011a32ad9efa46302879690e3746fce128b0994",
-    "data/record-clearing/factory-v2-route-registry.json": "a3ba6be4b7f6530bed7be627d1cf4b32c7841b28dbf157a5fbb4f7cbd1d7ba6e",
+    "data/rcap-ledger/public-witness-answer-sets.json": "635119cd2bf3f66da83bb3e7c74a287508ac3a0ac91529b5ef63d31ff3f60d19",
+    "data/record-clearing/factory-v2-route-registry.json": "74bea49d6e79db12b53d3541cf3256f9650355ad02741444b46bbbbb81dc3525",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "d29ee2f58ed5b458f486d65e664176468bf9c3045f9728e9b6a67e85cf07d367"
+    "data/rcap-ledger/session-a-evidence-packet.json": "cd1c5f918c3df6065ee508296d4c86bce0fa5bd34b03f9f074a6e11f1bf53d9e"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -43,14 +43,14 @@
     "limitation": "Official-form filling cannot be exercised here: the source PDFs live under private/Nationwide Record Clearing/, which this worktree does not carry. A route whose named official forms are not held is recorded as such and is NOT counted as deterministically rendered."
   },
   "counters": {
-    "intendedPaid": 262,
-    "correctPathwayPublicWitnesses": 262,
+    "intendedPaid": 263,
+    "correctPathwayPublicWitnesses": 263,
     "wrongPathwayWitnesses": 0,
     "nonConvergingWitnesses": 0,
-    "exactTrackAndPacketSet": 222,
+    "exactTrackAndPacketSet": 223,
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
-    "ownerApprovedLegal": 95,
+    "ownerApprovedLegal": 96,
     "factoryV2Selected": 171,
     "factoryV2Resolved": 171,
     "factoryV2AdmittedButSuppressed": [
@@ -76,10 +76,10 @@
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 167,
     "technicalApprovalCurrent": 192,
-    "deterministicArtifactProven": 222,
+    "deterministicArtifactProven": 223,
     "noProblematicPdfHold": 19,
-    "paymentAllowed": 231,
-    "rendererSelected": 60,
+    "paymentAllowed": 232,
+    "rendererSelected": 61,
     "packetSpecificationComplete": 40
   },
   "rows": [
@@ -3770,6 +3770,95 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent"
+      ],
+      "operationallySellable": false
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "compiledPathway": {
+        "present": true,
+        "profileVersion": "2026-06-19-source-conversion-1"
+      },
+      "registryTracks": [
+        "ga-rfo"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
+      "packetFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "packetSets": [
+        {
+          "packetSetId": "ga-rfo-set",
+          "trackId": "ga-rfo",
+          "components": 2
+        }
+      ],
+      "ownerApprovedLegalStatus": "approved_by_decision_owner",
+      "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalBasis": "owner_approved_packet_family",
+      "packetSpecification": {
+        "complete": true,
+        "componentCount": 2,
+        "participantActionsRequired": 8
+      },
+      "sourceAssets": {
+        "officialFormIdsNamed": [],
+        "officialFormIdsHeldInThisRepository": [],
+        "allNamedSourcesHeld": false
+      },
+      "technicalStatus": {
+        "completedOutputVerifierResults": [
+          "passed"
+        ],
+        "current": true
+      },
+      "pdfStatus": {
+        "problematicAssets": [],
+        "hold": false
+      },
+      "renderer": {
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "GA has a compiled profile but no certified packet renderer, so it serves guidance."
+      },
+      "publicWitness": {
+        "reachesThisPathway": true,
+        "settled": true,
+        "resultCode": "guidance_only",
+        "rounds": 2
+      },
+      "paymentResult": {
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
+      },
+      "artifactResult": null,
+      "dtcResult": {
+        "deliverable": false
+      },
+      "rcapResult": {
+        "creditConsumable": false
+      },
+      "operationalGates": {
+        "publicWitnessReachesThisPathway": true,
+        "authoritativeIntendedPathway": true,
+        "paymentAllowed": false,
+        "packetSpecificationComplete": true,
+        "ownerApprovedLegalDesign": true,
+        "technicalApprovalCurrent": true,
+        "rendererSelected": false,
+        "deterministicArtifactProven": false,
+        "noProblematicPdfHold": true
+      },
+      "unmetOperationalGates": [
+        "paymentAllowed",
+        "rendererSelected",
+        "deterministicArtifactProven"
       ],
       "operationallySellable": false
     },

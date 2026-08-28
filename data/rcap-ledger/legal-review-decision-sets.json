@@ -16,15 +16,15 @@
       null
     ]
   },
-  "pathwayRowsReviewed": 215,
+  "pathwayRowsReviewed": 216,
   "classificationCounts": {
     "ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL": 130,
-    "EXISTING_APPROVAL_NOT_LINKED": 52,
+    "EXISTING_APPROVAL_NOT_LINKED": 53,
     "IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION": 23,
     "LEGAL_RECONFIRMATION_REQUIRED": 10
   },
   "distinctDecisionSets": 4,
-  "duplicateRowsCollapsed": 211,
+  "duplicateRowsCollapsed": 212,
   "exactLegalTeamAssignments": 1,
   "decisionSets": [
     {
@@ -87,6 +87,7 @@
       "jurisdictions": [
         "AK",
         "CT",
+        "GA",
         "HI",
         "IL",
         "LA",
@@ -109,8 +110,8 @@
         "WI",
         "WV"
       ],
-      "jurisdictionCount": 23,
-      "affectedPathwayRows": 52,
+      "jurisdictionCount": 24,
+      "affectedPathwayRows": 53,
       "affectedVariants": [
         "exact_supported_deferral/none",
         "factory_v2/packet_document_v1",
@@ -130,14 +131,15 @@
       "legalOwner": "None. No legal decision is required.",
       "engineeringOwner": "RCAP ledger generation",
       "engineeringDeltaAfterDecision": "One change in the closure-ledger generator, plus a regeneration. No legal artifact, no schema change.",
-      "packetGenerationCurrentlyDisabled": "16 of 52 rows do not render today; payment is closed for all 52.",
-      "paymentCurrentlyDisabled": "All 52 rows.",
-      "duplicateDecisionsCollapsed": 51,
+      "packetGenerationCurrentlyDisabled": "17 of 53 rows do not render today; payment is closed for all 53.",
+      "paymentCurrentlyDisabled": "All 53 rows.",
+      "duplicateDecisionsCollapsed": 52,
       "requiresLegalAssignment": false,
       "pathwayKeys": [
         "AK:executive-pardon-backstop",
         "AK:juvenile-record-sealing-as-47-12-300",
         "CT:absolute-pardon-resulting-in-erasure",
+        "GA:retroactive-first-offender-treatment-under-42-8-66",
         "HI:dui-under-21-conviction",
         "HI:first-time-drug-conviction",
         "IL:felony-prostitution-relief",
@@ -1129,6 +1131,36 @@
       "onlyPathwayProjectionMissing": false,
       "classification": "ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL",
       "reason": "No packet family is reachable from this pathway, so no owner decision reaches it either."
+    },
+    {
+      "pathwayKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "jurisdiction": "GA",
+      "pathwayId": "retroactive-first-offender-treatment-under-42-8-66",
+      "pathwayLabel": "Petition for retroactive First Offender treatment, exoneration and discharge",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "stages": {
+        "intendedSellable": true,
+        "publiclyReachableSellable": false,
+        "authoritativePacketReady": false,
+        "packetSpecComplete": true,
+        "technicallyApprovedPacket": false,
+        "legallyApprovedPacket": false,
+        "successfullyRendered": false
+      },
+      "registryTrackIds": [
+        "ga-rfo"
+      ],
+      "packetFamilies": [
+        "rcap-ga-guidance-implementation"
+      ],
+      "legalStatus": "approved_by_decision_owner",
+      "disposition": "approved_by_decision_owner",
+      "namedLegalActionRequired": false,
+      "familyBridgePresent": true,
+      "onlyPathwayProjectionMissing": true,
+      "classification": "EXISTING_APPROVAL_NOT_LINKED",
+      "reason": "The decision owner's approval already reaches this pathway's packet family. Only the projection of that approval onto the pathway row is missing, so the closure ledger still reports the gate as open."
     },
     {
       "pathwayKey": "GA:youthful-first-offender-restriction-route",

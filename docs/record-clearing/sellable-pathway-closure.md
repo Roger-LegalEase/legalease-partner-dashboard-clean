@@ -9,14 +9,14 @@ actually produce a working paid packet?**
 
 | Category | Pathways |
 |---|---|
-| `paid_packet_intended` | 262 |
+| `paid_packet_intended` | 263 |
 | `non_filing_guidance` | 56 |
 | `product_scope_exclusion` | 16 |
 | `legally_unavailable` | 2 |
 | `exact_external_deferral` | 0 |
-| **total compiled pathways** | **336** |
+| **total compiled pathways** | **337** |
 
-Frozen denominator: **262** pathways, sha256 `dd1236141a82461b…`
+Frozen denominator: **263** pathways, sha256 `68d275026f44f35d…`
 
 ## The invariant
 
@@ -32,15 +32,15 @@ intendedSellablePathways
 
 | Stage | Pathways | Shortfall against the denominator |
 |---|---|---|
-| `intendedSellablePathways` | 262 | — |
-| `publiclyReachableSellablePathways` | 79 | **183** |
-| `authoritativePacketReadyPathways` | 79 | **183** |
-| `packetSpecCompletePathways` | 254 | **8** |
-| `technicallyApprovedPacketPathways` | 116 | **146** |
-| `legallyApprovedPacketPathways` | 47 | **215** |
-| `successfullyRenderedPathways` | 202 | **60** |
+| `intendedSellablePathways` | 263 | — |
+| `publiclyReachableSellablePathways` | 79 | **184** |
+| `authoritativePacketReadyPathways` | 79 | **184** |
+| `packetSpecCompletePathways` | 255 | **8** |
+| `technicallyApprovedPacketPathways` | 116 | **147** |
+| `legallyApprovedPacketPathways` | 47 | **216** |
+| `successfullyRenderedPathways` | 202 | **61** |
 
-**The invariant does not hold.** 6 of the six downstream stages fall short of the 262-pathway denominator (publiclyReachableSellablePathways, authoritativePacketReadyPathways, packetSpecCompletePathways, technicallyApprovedPacketPathways, legallyApprovedPacketPathways, successfullyRenderedPathways). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.
+**The invariant does not hold.** 6 of the six downstream stages fall short of the 263-pathway denominator (publiclyReachableSellablePathways, authoritativePacketReadyPathways, packetSpecCompletePathways, technicallyApprovedPacketPathways, legallyApprovedPacketPathways, successfullyRenderedPathways). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.
 
 ## Do not charge for guidance
 
@@ -80,8 +80,8 @@ temporary blockers on intended paid pathways, not completed product treatments.
 
 | Blocker | Pathways |
 |---|---|
-| `legal_review_pending` | 215 |
-| `renderer_unavailable` | 60 |
+| `legal_review_pending` | 216 |
+| `renderer_unavailable` | 61 |
 | `route_metadata` | 45 |
 | `not_paid_product` | 36 |
 | `gate_build` | 36 |
@@ -91,8 +91,9 @@ temporary blockers on intended paid pathways, not completed product treatments.
 | `filing_determination_missing` | 11 |
 | `packet_spec_incomplete` | 8 |
 | `legal_action_required` | 2 |
+| `unclassified_route` | 1 |
 
-**34 of 262** intended-sellable pathways are closed with no open blocker.
+**34 of 263** intended-sellable pathways are closed with no open blocker.
 
 ## Closure map
 
@@ -123,6 +124,7 @@ carries. A pathway appears in exactly one row, so the rows are the work.
 | `legal_review_pending + not_paid_product + renderer_unavailable` | 2 | KY, MD |
 | `gate_build + legal_review_pending + renderer_unavailable` | 2 | SD, WV |
 | `filing_determination_missing + legal_review_pending + not_paid_product + packet_spec_incomplete` | 1 | CT |
+| `legal_review_pending + renderer_unavailable + unclassified_route` | 1 | GA |
 | `filing_determination_missing + legal_review_pending + not_paid_product + renderer_unavailable` | 1 | ME |
 | `legal_reconfirmation + legal_review_pending + packet_spec_incomplete + renderer_unavailable` | 1 | ND |
 
@@ -136,5 +138,9 @@ Going the other way, **168** pathway(s) in AK, AL, AR, AZ, CO, CT, DC, DE, FL, G
 while carrying an open blocker. Every one of them carries `legal_review_pending`:
 these routes render and sell today on a compiled profile that records no counsel
 ratification for them.
+
+## Pathways with no row in route-product-metadata.json
+
+- `GA:retroactive-first-offender-treatment-under-42-8-66`
 
 Regenerate with `npm run rcap:generate-sellable-closure`; verify with `npm run rcap:verify-sellable-closure`.

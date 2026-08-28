@@ -296,6 +296,16 @@ export type LegalRouteContract = {
   deliveryGates?: DeliveryGate[];
   /** Service outcomes on the same mechanism, for facts that change the outcome. */
   serviceBranches?: ServiceBranch[];
+  /**
+   * True where the branches are exhaustive and one MUST be selected before the
+   * route resolves at all. North Dakota is exhaustive: the disposition date
+   * decides which statute governs, so without it there is no answer. Georgia is
+   * not: its order-date branches are exceptions to a default petition, and a
+   * participant with no prior order is the ordinary case rather than a missing
+   * fact. Defaulting this to true would demand a fact most participants
+   * correctly do not have.
+   */
+  branchSelectionRequired?: boolean;
   /** A future effective date, a required final source check, or a scheduled re-read. */
   effectiveDateGate?: EffectiveDateGate;
   /** True where a rendered candidate and hash must be reviewed before release. */
