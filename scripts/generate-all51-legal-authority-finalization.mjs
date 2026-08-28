@@ -189,10 +189,16 @@ function classifyNoTrack(row, best, candidates) {
       action: `Complete the deferred legal research on ${best.track.trackId} before any bridge is built.`
     };
   }
+  // matchScore is a lexical overlap on names. It proposes a candidate; it does
+  // not establish that the track covers the pathway. Asserting coverage from it
+  // matched eight juvenile pathways to adult tracks because both say
+  // "expungement". The candidate is adjudicated against the route record's
+  // statute, stage and outcomeMode, and the track's controlling authority, in
+  // scripts/generate-pathway-bridge-adjudication.mjs.
   return {
-    classification: "APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING",
-    reason: `The memo track ${best.track.trackId} covers this pathway with design status ${best.track.status}. Only the pathway-to-track bridge is missing.`,
-    action: `Bind ${row.jurisdiction}:${row.pathway} to ${best.track.trackId} in the track registry.`
+    classification: "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
+    reason: `The memo track ${best.track.trackId} is the closest lexical candidate (score ${best.score.toFixed(2)}) and has design status ${best.track.status}. A name overlap is not coverage.`,
+    action: `Adjudicate ${row.jurisdiction}:${row.pathway} against ${best.track.trackId} in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything.`
   };
 }
 

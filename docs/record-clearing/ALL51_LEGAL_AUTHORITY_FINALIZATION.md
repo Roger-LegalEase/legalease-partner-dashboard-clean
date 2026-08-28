@@ -41,7 +41,7 @@ This directory is an import, not a second editable source of truth. Corrections 
 | Classification | Rows |
 |---|---:|
 | NO_LEGAL_DESIGN_TRACK_EXISTS | 18 |
-| APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING | 14 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 14 |
 | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 8 |
 | **TOTAL** | **40** |
 
@@ -49,28 +49,28 @@ This directory is an import, not a second editable source of truth. Corrections 
 |---|---|---|---|---|
 | AK | `set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085` | ak-set-aside | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | CO | `juvenile-expungement-19-1-306` | co_mistaken_identity_expungement | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
-| DE | `juvenile-expungement-under-10-del-c-1017-1019-1017a` | de_auto_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| DE | `juvenile-expungement-under-10-del-c-1017-1019-1017a` | de_auto_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ID | `human-trafficking-survivor-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| ID | `juvenile-expungement` | id_isp_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| ID | `juvenile-expungement` | id_isp_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ID | `withheld-judgment-idaho-code-19-2604-review-branch` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | IL | `human-trafficking-survivor-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MD | `juvenile-expungement` | md_10105_favorable | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
-| ME | `juvenile-sealing` | me-seal-gen | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| MD | `juvenile-expungement` | md_10105_favorable | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
+| ME | `juvenile-sealing` | me-seal-gen | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `pardon-route` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `additional-justice-court-misdemeanor-relief-9-11-15-3` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
-| MS | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
-| MS | `controlled-substance-conditional-discharge-active-case-admission` | ms-drug-cd | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| MS | `additional-justice-court-misdemeanor-relief-9-11-15-3` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
+| MS | `additional-municipal-court-misdemeanor-relief-21-23-7-6` | ms-misd-addl | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
+| MS | `controlled-substance-conditional-discharge-active-case-admission` | ms-drug-cd | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `human-trafficking-survivor-expungement-97-3-54-6-6` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `human-trafficking-survivor-vacatur-97-3-54-6-5` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
-| MS | `intervention-court-statutory-result-enforcement-referral` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| MS | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
+| MS | `intervention-court-statutory-result-enforcement-referral` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `nonadjudication-99-15-26-active-case-admission` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `pretrial-intervention-active-case-admission` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| MS | `pretrial-intervention-active-case-admission` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | NV | `controlled-substance-possession-sealing-under-nrs-453-3365` | nv_seal_453_3365 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | NV | `trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | nv-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | NY | `conditional-treatment-sealing-under-cpl-160-58` | ny_160_58_conditional | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
-| OH | `juvenile-sealing-and-expungement` | oh_2953_33_nonconviction | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| OH | `juvenile-sealing-and-expungement` | oh_2953_33_nonconviction | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | OK | `human-trafficking-survivor-relief` | ok-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | OK | `juvenile-record-expungement` | ok-ls-2 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | SC | `human-trafficking-survivor-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
@@ -78,11 +78,11 @@ This directory is an import, not a second editable source of truth. Corrections 
 | SD | `juvenile-delinquency-sealing` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | SD | `juvenile-trafficking-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | UT | `path-l-vacatur-human-trafficking-related-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| UT | `path-m-juvenile-expungement` | ut_auto_nonconviction | legal_design_approved | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
-| VT | `juvenile-sealing` | vt_seal_misdemeanor | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| UT | `path-m-juvenile-expungement` | ut_auto_nonconviction | legal_design_approved | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
+| VT | `juvenile-sealing` | vt_seal_misdemeanor | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | WA | `juvenile-record-sealing-under-rcw-13-50-260` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | WI | `executive-pardon-guidance` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| WI | `juvenile-adjudication-expungement-under-wis-stat-938-355-4m` | wi_exp_certificate_of_discharge | legal_design_approved_with_limitations | APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING |
+| WI | `juvenile-adjudication-expungement-under-wis-stat-938-355-4m` | wi_exp_certificate_of_discharge | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | WV | `juvenile-record-relief` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | WV | `sex-trafficking-victim-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | WY | `human-trafficking-victim-vacatur-w-s-6-2-708` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
