@@ -66,15 +66,15 @@ const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }
 };
 
 const DTC_RESULT_ACTIONS: Record<ResultCode, { key: string; fallback: string }> = {
-  packet_ready: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
-  packet_ready_with_caution: { key: "result.save_briefcase_continue", fallback: "Save to my Briefcase and continue" },
-  needs_more_info: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
-  needs_review: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  packet_ready: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  packet_ready_with_caution: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  needs_more_info: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  needs_review: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
   guidance_only: { key: "result.save_guidance", fallback: "Save this guidance" },
   not_covered_yet: { key: "result.save_guidance", fallback: "Save this guidance" },
-  not_yet: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
-  likely_not_eligible: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
-  hard_stop: { key: "result.save_matter_continue", fallback: "Save this matter and continue" }
+  not_yet: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  likely_not_eligible: { key: "result.save_matter_continue", fallback: "Save my result and continue" },
+  hard_stop: { key: "result.save_matter_continue", fallback: "Save my result and continue" }
 };
 
 const TONE_ACCENT: Record<Tone, { eyebrow: string; chip: string }> = {
@@ -278,7 +278,8 @@ export function ScreeningResult({
             {translate(PARTNER_RESULT_LANES[evaluation.resultCode].key, PARTNER_RESULT_LANES[evaluation.resultCode].fallback)}
           </button>
         ) : (
-          // DTC mode: every authoritative result can be saved before payment.
+          // DTC mode: every preliminary result can be saved before payment. The copy
+          // never names a matter or a Briefcase before the claim transaction wins.
           <button
             type="button"
             onClick={onPacketAction}

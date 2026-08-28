@@ -63,15 +63,15 @@ try {
     }
   });
 
-  // 1. Public landing to the anonymous state-specific free guided check.
+  // 1. Public landing to the anonymous state-specific free screening.
   const landingResponse = await page.goto(baseUrl, { waitUntil: "networkidle" });
   check(landingResponse?.ok(), `DTC landing returned ${landingResponse?.status() ?? "no response"}.`);
-  await expectText(page, "Start with a free guided check");
+  await expectText(page, "Start with a free screening");
   const landingCta = page.getByRole("link", { name: /Check my record free/i }).first();
   check(await landingCta.isVisible(), "Landing did not show the free record-check CTA.");
   await landingCta.click();
   await page.waitForURL((url) => url.origin === new URL(baseUrl).origin && url.pathname === "/expungement-ai/start");
-  await page.getByRole("link", { name: /Start free/i }).click();
+  await page.getByRole("link", { name: /Check my options/i }).click();
   await page.waitForURL((url) => url.pathname === "/expungement-ai/screening");
   await page.getByRole("link", { name: /Mississippi\s+MS/i }).click();
   await page.waitForURL((url) => url.pathname.toLowerCase() === "/expungement-ai/screening/ms");
@@ -101,7 +101,7 @@ try {
     (response) => response.request().method() === "POST" && safePath(response.url()) === "/api/expungement-ai/screening/pending/claim",
     { timeout: 20_000 }
   );
-  await page.getByRole("button", { name: "Save to my Briefcase and continue", exact: true }).click();
+  await page.getByRole("button", { name: "Save my result and continue", exact: true }).click();
   const pendingResponse = await pendingResponsePromise;
   check(pendingResponse.ok(), `DTC pending-result write returned ${pendingResponse.status()}.`);
   const unauthenticatedClaim = await unauthenticatedClaimPromise;

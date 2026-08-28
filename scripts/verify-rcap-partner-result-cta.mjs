@@ -97,10 +97,16 @@ for (const lane of PARTNER_LANES) {
   assert(partnerHtml.includes(lane.label), `Partner lane ${lane.code} must render "${lane.label}".`);
   assert(!/\$50|stripe|checkout/i.test(partnerHtml), `Partner lane ${lane.code} must never render price, Stripe, or Checkout copy.`);
   const dtcHtml = renderResultWithCode(lane.code, false, lane.pay);
+  // The partner lane is entered from an authenticated partner or Clinic context,
+  // so naming the Briefcase there is accurate. The DTC lane is anonymous until
+  // the claim transaction wins, so it may never name a matter or a Briefcase --
+  // every DTC lane saves a preliminary result instead.
+  assert(!dtcHtml.includes(lane.label), `DTC must never render the partner-only lane label "${lane.label}".`);
   if (lane.code === "packet_ready") {
-    assert(dtcHtml.includes(lane.label), "Both packet-ready modes must accurately describe the same Briefcase handoff.");
-  } else {
-    assert(!dtcHtml.includes(lane.label), `DTC must never render the partner-only lane label "${lane.label}".`);
+    assert(
+      dtcHtml.includes("Save my result and continue"),
+      "The anonymous DTC packet-ready lane must offer the approved preliminary-result action."
+    );
   }
 }
 
@@ -187,7 +193,8 @@ assert(
 // 2) No verified server prop keeps the DTC price disclosure and saves before payment.
 const noSession = renderResult(false);
 assert(noSession.includes("$50 one time when you are ready to generate this packet"), "No session must render the DTC $50 packet disclosure.");
-assert(noSession.includes("Save to my Briefcase and continue"), "No session must render the accurate DTC Briefcase handoff CTA.");
+assert(noSession.includes("Save my result and continue"), "The anonymous DTC lane must save a preliminary result, never promise a Briefcase before the claim.");
+assert(!noSession.includes("Save to my Briefcase and continue"), "The anonymous DTC lane must not name a Briefcase before the claim transaction wins.");
 assert(!noSession.includes("covered by your partner program"), "Ordinary DTC results must not claim partner coverage.");
 assert(!noSession.includes("Generate my packet - $50"), "The result must not offer immediate pay-and-generate before the builder/review gate.");
 

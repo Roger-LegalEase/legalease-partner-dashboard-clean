@@ -56,7 +56,10 @@ not be durable before a claim. Backfilling it by sequential `UPDATE` also picks
 silently between conflicting owners where a session links to records owned by
 different users.
 
-Both are retained as diagnostics. Neither is applied.
+Both are retained as diagnostics. Neither is applied. As of the containment
+commit they no longer live in `supabase/migrations/`: they were moved to
+`docs/architecture/rejected-designs/` with a `.rejected` suffix, which is not a
+valid migration filename, so no tool can pick them up by accident.
 
 ## Decision detail
 

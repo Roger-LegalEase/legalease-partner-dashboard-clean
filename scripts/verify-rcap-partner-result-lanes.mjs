@@ -70,7 +70,7 @@ const partnerBranchEnd = result.indexOf(") : (", partnerBranchStart);
 const partnerCtaBranch = result.slice(partnerBranchStart, partnerBranchEnd);
 assert(partnerBranchStart >= 0 && partnerBranchEnd > partnerBranchStart, "Partner CTA branch must be structurally identifiable.");
 assert(!/\$50|stripe|checkout/i.test(partnerCtaBranch), "Partner CTA branch must never render $50, Stripe, or Checkout copy.");
-assert(result.includes('fallback: "Save this matter and continue"'), "DTC result must save the exact matter before the later review pay gate.");
+assert(result.includes('fallback: "Save my result and continue"'), "DTC result must save the exact matter before the later review pay gate.");
 assert(result.includes("$50 one time when you are ready to generate this packet"), "DTC packet-ready result must retain the approved $50 disclosure.");
 
 // 4. A sponsored packet failure must stay in the partner vocabulary. The same

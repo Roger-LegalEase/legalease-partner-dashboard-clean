@@ -27,7 +27,7 @@ export type MatterCareState =
   | "saved";
 
 export type HumanMatterState =
-  | "Guided check saved"
+  | "Matter saved"
   | "Next steps saved"
   | "We need a little more information"
   | "You may need to wait before taking the next step"
@@ -100,7 +100,7 @@ export function humanMatterState(item: BriefcasePresentationItem): HumanMatterSt
     if (item.packetProgress === "in_progress") return "Packet details in progress";
     return "A self-help packet may be available";
   }
-  return "Guided check saved";
+  return "Matter saved";
 }
 
 const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careState">> = {

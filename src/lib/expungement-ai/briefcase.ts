@@ -771,11 +771,11 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
   const item = {
     id: consumerBriefcaseId("check", state, "started"),
     type: "eligibility_check" as const,
-    title: `${state} guided check`,
+    title: `${state} screening`,
     state,
     status: "check_saved" as const,
     createdAt: startedAt,
-    summary: "Free guided check started and saved to your Briefcase.",
+    summary: "Free screening started and saved to your Briefcase.",
     nextSteps: ["Finish the screening questions.", "Return here any time to continue."],
     paymentAllowed: false,
     packetReady: false
@@ -880,7 +880,7 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
       state: "PA",
       status: "check_saved",
       createdAt: startedAt,
-      summary: "Wilma explained what a filing checklist is and pointed back to the free guided check.",
+      summary: "Wilma explained what a filing checklist is and pointed back to the free screening.",
       nextSteps: ["Continue the check from Briefcase."],
       paymentAllowed: false,
       packetReady: false

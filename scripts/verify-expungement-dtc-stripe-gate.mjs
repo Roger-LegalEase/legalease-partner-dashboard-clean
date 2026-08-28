@@ -132,7 +132,7 @@ function stripeBoundaryViolations(input) {
   const protectedPresentationUi = usesProtectedPresentation(input);
 
   require(input.packageSource.includes('"expungement:verify-dtc-stripe-gate"'), "package.json must expose expungement:verify-dtc-stripe-gate.");
-  require(input.screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet-ready result must save the exact matter before payment.");
+  require(input.screeningResult.includes('fallback: "Save my result and continue"'), "DTC packet-ready result must save the exact matter before payment.");
   require(input.screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC result must retain its one-matter $50 disclosure.");
   require(input.screeningResult.includes('"A path may be available."') && !input.screeningResult.includes("A path may be available, with cautions"), "Packet-ready caution headline must remain conservative and not warning-led.");
 

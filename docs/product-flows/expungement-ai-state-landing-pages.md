@@ -91,7 +91,7 @@ A state page preselects a state as a convenience only. Every page:
 - Reassures the user in the FAQ that they can check as many cases as they need and start another
   free check for any state from their **Briefcase** — starting here never locks them into one state.
 - Does not create one-state-only accounts or one-state-only Briefcase logic. The Briefcase's "New
-  guided check" path (`BriefcaseShell`, → `/expungement-ai/check`) continues to support additional
+  screening" path (`BriefcaseShell`, → `/expungement-ai/check`) continues to support additional
   states and matters.
 
 ## SEO & structured data

@@ -167,7 +167,7 @@ async function checkExpungementLanding(context, viewport, label) {
     if (blank) fail(surface, "How-it-works section is mostly empty space (giant blank section regression)");
 
     const text = await visibleText(page);
-    for (const needle of ["How it works", "Pricing", "Start free"]) {
+    for (const needle of ["How it works", "Pricing", "Check my options"]) {
       if (!text.includes(needle)) fail(surface, `landing missing required text: "${needle}"`);
     }
     const signInPresent = /sign in|log in/i.test(text);
@@ -215,7 +215,7 @@ async function assertAppHeader(page, surface) {
   const logoLink = header.locator('a[href="/expungement-ai"]').first();
   if (!(await logoLink.count())) fail(surface, "app header logo does not link to /expungement-ai");
   // Must NOT contain marketing nav or Start free
-  for (const banned of ["Start free", "How it works", "Pricing"]) {
+  for (const banned of ["Check my options", "How it works", "Pricing"]) {
     if (headerText.includes(banned)) fail(surface, `app/screening header must not show "${banned}"`);
   }
 }

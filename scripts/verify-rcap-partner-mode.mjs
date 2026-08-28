@@ -166,7 +166,7 @@ function verifySourceWiring() {
   assert(partnerCtaBranch.length > 0 && !partnerCtaBranch.includes("$50"), "Partner result CTA branch must never render the $50 label.");
   assert(screeningResult.includes("Your packet is covered by your partner program.")
     && screeningResult.includes("Your saved result and next steps are covered by your partner program."), "Partner result must visibly explain verified program coverage without consumer commercial copy.");
-  assert(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC result CTA must save the exact matter before payment.");
+  assert(screeningResult.includes('fallback: "Save my result and continue"'), "DTC result CTA must save the exact matter before payment.");
   assert(screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC packet-ready result must retain its matter-level $50 disclosure.");
   assert(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate post-verification generation and Checkout decisions to PacketVerificationAction.");
   assert(verificationAction.includes("packetVerificationActions({ verified, packetReady, mode })")
@@ -174,7 +174,7 @@ function verifySourceWiring() {
     && verificationAction.includes('<ConsumerCheckoutButton briefcaseItemId={itemId} label="Pay $50 and generate my packet"'), "DTC Checkout must remain reachable only through the verified action branch.");
   assert(payPage.includes("Compatibility route") && payPage.includes("/review"), "Legacy pay links must redirect the exact matter to final review.");
   assert(packetReadyPage.includes("Compatibility return") && !packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
-  assert(dtcStartPage.includes('fallback="Start free"'), "DTC start page must retain the Start free action.");
+  assert(dtcStartPage.includes('fallback="Check my options"'), "DTC start page must retain the approved primary CTA.");
   assert(dtcStartPage.includes("/expungement-ai/screening"), "DTC start page must still link into the existing screening flow.");
   assert(checkoutRoute.includes("createConsumerPacketCheckout"), "Checkout route must invoke consumer packet checkout.");
   assert(paymentConfirmRoute.includes("recordConsumerPaymentConfirmation"), "Payment confirm route must invoke payment confirmation.");
@@ -225,7 +225,7 @@ function approvedScreeningHandoffViolations({ screeningFlow, screeningResult, pe
   require(handoff.includes("sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined"), "DTC results must never inherit partner session authority.");
   require(handoff.includes('next: "/briefcase"'), "Completed results must enter the free Briefcase before payment.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "Screening result handoff must not start payment before the free Briefcase.");
-  require(screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet-ready result must use the approved save-before-payment action.");
+  require(screeningResult.includes('fallback: "Save my result and continue"'), "DTC packet-ready result must use the approved save-before-payment action.");
   require(pendingClaimRoute.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs server-side.");
   require(pendingClaimRoute.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
   require(reviewPage.includes("<PacketVerificationAction") && !reviewPage.includes("<ConsumerCheckoutButton"), "Final review must delegate payment and generation until explicit verification.");

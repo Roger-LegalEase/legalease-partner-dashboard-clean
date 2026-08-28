@@ -141,10 +141,10 @@ for (const d of allData) {
   }
 }
 
-// Briefcase itself still offers a "check another / new guided check" path for other states.
+// Briefcase itself still offers a "check another / new screening" path for other states.
 const briefcaseShell = read("src/components/expungement-ai/BriefcaseShell.tsx");
 if (!briefcaseShell.includes("/expungement-ai/check") || !briefcaseShell.includes("briefcase.new_check")) {
-  fail("BriefcaseShell no longer offers a 'New guided check' path — multi-state Briefcase regressed.");
+  fail("BriefcaseShell no longer offers a 'New screening' path — multi-state Briefcase regressed.");
 }
 const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
 if (!briefcaseViews.includes("/expungement-ai/check")) {

@@ -66,7 +66,7 @@ export default async function PacketAccuracyReviewPage({
 
           <div className="mt-6 grid gap-5">
             {summary.screeningAnswers.length > 0 ? (
-              <AnswerSection title="Free guided check answers" itemId={item.id} rows={summary.screeningAnswers} />
+              <AnswerSection title="Free screening answers" itemId={item.id} rows={summary.screeningAnswers} />
             ) : null}
             {summary.packetAnswers.length > 0 ? (
               <AnswerSection title="Packet and verified record information" itemId={item.id} rows={summary.packetAnswers} />

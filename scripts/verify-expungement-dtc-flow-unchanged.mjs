@@ -162,7 +162,7 @@ function approvedCommercialFlowViolations(input) {
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "The result action must reach the free Briefcase before payment or Checkout.");
   require(!handoff.includes("/expungement-ai/packet-ready"), "The result action must not bypass review and payment to packet-ready.");
 
-  require(input.screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet results must use the approved save-before-payment action.");
+  require(input.screeningResult.includes('fallback: "Save my result and continue"'), "DTC packet results must use the approved save-before-payment action.");
   require(input.screeningResult.includes('fallback: "Save this guidance"'), "Non-packet guidance results must remain saveable without payment.");
   require(input.screeningResult.includes("DTC_RESULT_ACTIONS[evaluation.resultCode]"), "Every authoritative DTC result must select its approved save action by result code.");
   require(input.screeningResult.includes("$50 one time when you are ready to generate this packet"), "Packet-ready results must retain the one-matter price disclosure.");
