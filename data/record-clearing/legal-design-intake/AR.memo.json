@@ -1,0 +1,2647 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "AR",
+  "memoVersion": "2.0.0-batch-1-amended",
+  "submittedAt": "2026-07-30T00:00:00.000Z",
+  "tracks": [
+    {
+      "trackId": "ar-misdemeanor-seal",
+      "legalName": "Petition to Seal a Misdemeanor or Violation Conviction, A.C.A. § 16-90-1405",
+      "publicName": "Seal a misdemeanor conviction",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1405",
+          "Procedure: A.C.A. §§ 16-90-1413, 16-90-1414",
+          "Standard: § 16-90-1415(a)",
+          "Effect: § 16-90-1417",
+          "ACIC uniform petition and order"
+        ],
+        "summary": "The ACIC uniform petition and order pair controls. Six listed offenses and DWI/BWI route out of this track."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "misdemeanor conviction",
+        "violation conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for an eligible misdemeanor or violation"
+      ],
+      "exclusions": [
+        "The six listed offenses routed out of this track.",
+        "DWI and BWI, which route to the dedicated DWI/BWI track."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "As set by § 16-90-1405",
+          "duration": "Per the statutory schedule"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; circuit or district court in the county where the offense was committed and the person was convicted."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or district court in the county where the offense was committed and the person was convicted",
+        "detail": "One petition per county; records in more than one county fan out into separate filings."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-PETITION-TO-SEAL",
+          "notes": "ACIC uniform petition. The official pair governs; no custom pleading substitution."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-ORDER-TO-SEAL",
+          "notes": "Mandatory uniform order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, county, offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed the sentence, including all fines, costs and restitution?",
+          "requirement": "required"
+        },
+        {
+          "key": "cdlStatus",
+          "question": "Did you hold a commercial driver licence, or were you driving commercially, at the time?",
+          "requirement": "required"
+        },
+        {
+          "key": "registrationRequirement",
+          "question": "Does the offence carry any registration requirement?",
+          "requirement": "required"
+        },
+        {
+          "key": "excusedObligations",
+          "question": "Were any financial obligations excused by the court?",
+          "requirement": "required"
+        },
+        {
+          "key": "countiesInvolved",
+          "question": "Are there records in more than one county?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1405",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC uniform petition and order pair in the circuit or district court in the county where the offense was committed and the person was convicted.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The offence may be one of the six listed exclusions.",
+        "The CDL, registration or excused-obligation answer is unclear."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Authorization for Review of Criminal History Information has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        },
+        {
+          "question": "Whether local courts require additional forms is unresolved.",
+          "impact": "release_blocker",
+          "affectedElement": "filing_process",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-1 / unresolved questions",
+            "sourceStatement": "Can local courts require additional forms: unresolved",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment supersedes the instruction to resolve the fingerprint-card workflow before payment opens.",
+        "limitations": [
+          {
+            "classification": "required_before_filing",
+            "statement": "Fingerprint cards are participant filing or post-filing requirements. Remove any requirement to resolve or collect them before purchase or generation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AR-1 | Fingerprint cards are participant filing or post-filing requirements. Remove any requirement to resolve or collect them before purchase or generation."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Route the six listed offenses and DWI/BWI out of this track. Do not auto-complete the CDL, registration, or excused-obligation questions.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-1 / limitations",
+              "sourceStatement": "route the six listed offenses and DWI/BWI out of this track; do not auto-complete the CDL, registration, or excused-obligation questions; build the multi-county fan-out; resolve the fingerprint card workflow before payment opens.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Build the multi-county fan-out: records in more than one county require separate filings.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-1 / limitations",
+              "sourceStatement": "build the multi-county fan-out",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-misdemeanor-dwi-seal",
+      "legalName": "Petition to Seal a Misdemeanor DWI or BWI Conviction, A.C.A. § 16-90-1405",
+      "publicName": "Seal a DWI or BWI misdemeanor",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1405, with § 16-90-1405(b)(2) referring out to the lookback periods in § 5-65-111",
+          "Offense: A.C.A. § 5-65-103",
+          "ACIC Petition and Order to Seal Misdemeanor DWI/BWI"
+        ],
+        "summary": "A separate ACIC petition and order pair exists for misdemeanor DWI/BWI. The waiting period is unresolved: two readings are live between the 2026 Coleman appellate reading and the statutory text and existing forms and practice."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "misdemeanor DWI conviction",
+        "misdemeanor BWI conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for misdemeanor DWI or BWI under § 5-65-103"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "Unresolved. Two readings are live between the Coleman appellate reading and the statutory lookback in § 5-65-111.",
+          "duration": "Unresolved"
+        }
+      ],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; circuit or district court in the county where the offense was committed and the person was convicted."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or district court in the county where the offense was committed and the person was convicted",
+        "detail": "A separate ACIC petition and order pair governs this route. Stage 2 stays unavailable while the waiting-period conflict is open."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1. Explains both readings; selects no eligibility date."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "conditional",
+          "conditionDescription": "Only once the Coleman/statutory waiting-period conflict is resolved.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-BWI",
+          "notes": "Stage 2. Unavailable while the waiting-period blocker is open."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "conditionDescription": "Only once the waiting-period conflict is resolved.",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-BWI",
+          "notes": "Stage 2 companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the DWI or BWI conviction — which court, county, and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "priorOffences",
+          "question": "Have you had any prior DWI or BWI offences, and when?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed the sentence, including all fines, costs and restitution?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 5-65-111",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 explains the two readings and hands off. Stage 2 files the ACIC misdemeanor DWI/BWI petition and order pair in the circuit or district court in the county of conviction, once the waiting-period conflict is resolved.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The waiting-period question controls whether the participant is eligible at all.",
+        "The participant needs an Arkansas attorney to advise on which reading applies."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The DWI/BWI waiting-period conflict between the 2026 appellate reading, statutory text, and existing forms/practice is dispositive and prevents reliable routing.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "**AR-2:** the DWI/BWI waiting-period conflict between the 2026 appellate reading, statutory text, and existing forms/practice is dispositive and prevents reliable routing."
+          }
+        },
+        {
+          "question": "Confirm whether a petition for review or rehearing was filed in Coleman and whether the Arkansas Supreme Court has acted.",
+          "impact": "build_blocker",
+          "affectedElement": "waiting_period",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-2 / Required research",
+            "sourceStatement": "1. Confirm whether a petition for review or rehearing was filed in *Coleman* and whether the Arkansas",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "The ACIC Petition and Order to Seal Misdemeanor DWI/BWI has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Additional research required.\" The amendment does not flatten this route: a separate ACIC petition and order pair exists, so the packet identity is identified and the strategy is staged. Stage 1 is process guidance while the Coleman and statutory waiting-period conflict remains unresolved; stage 2 is official_pdf_fill once that legal question is resolved. The waiting-period conflict is retained as a legal-design blocker exactly as counsel stated it.",
+        "limitations": [
+          {
+            "classification": "legal_design_blocker",
+            "statement": "The Coleman/statutory waiting-period conflict prevents reliable routing.",
+            "undeterminedElement": "waiting_period",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / True blockers retained",
+              "sourceStatement": "**AR-2:** the DWI/BWI waiting-period conflict between the 2026 appellate reading, statutory text, and existing forms/practice is dispositive and prevents reliable routing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Explain both readings in plain English and tell the participant what the ACIC DWI form asks. Do not select an eligibility date.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-2 / OUTPUT STRATEGY",
+              "sourceStatement": "staged. Stage 1: process_guidance now. Explain both readings in plain English, tell the participant what the ACIC DWI form asks, and hand off to an Arkansas",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off to an Arkansas attorney or legal-aid provider while the waiting-period question is open.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-2 / OUTPUT STRATEGY",
+              "sourceStatement": "and hand off to an Arkansas",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          }
+        ]
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-misdemeanor-dwi-seal-stage-1",
+          "order": 1,
+          "label": "Explain the two live waiting-period readings",
+          "outputStrategy": "process_guidance",
+          "description": "Explain both readings in plain English, tell the participant what the ACIC DWI form asks, do not select an eligibility date, and hand off to an Arkansas attorney or legal-aid provider.",
+          "available": true
+        },
+        {
+          "unitId": "ar-misdemeanor-dwi-seal-stage-2",
+          "order": 2,
+          "label": "ACIC misdemeanor DWI/BWI petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC misdemeanor DWI/BWI petition and order pair once the waiting-period conflict is resolved.",
+          "available": false,
+          "unavailableReason": "The Coleman/statutory waiting-period conflict prevents reliable routing and keeps this stage unavailable."
+        }
+      ]
+    },
+    {
+      "trackId": "ar-felony-seal",
+      "legalName": "Petition to Seal an Eligible Felony Conviction, A.C.A. § 16-90-1406",
+      "publicName": "Seal an eligible felony conviction",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1406",
+          "Bars: A.C.A. § 16-90-1408",
+          "Standard: § 16-90-1415(b)"
+        ],
+        "summary": "Eligible felony conviction sealing on the ACIC uniform pair, subject to the § 16-90-1408 bars and the § 16-90-1415(b) interests-of-justice standard."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for an eligible felony"
+      ],
+      "exclusions": [
+        "The bars at A.C.A. § 16-90-1408."
+      ],
+      "waitingPeriods": [
+        {
+          "condition": "As set by § 16-90-1406",
+          "duration": "Per the statutory schedule"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; circuit court in the county where the offense was committed and the person was convicted."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit court in the county where the offense was committed and the person was convicted",
+        "detail": "Court-controlled, with a prosecuting-attorney objection window."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-PETITION-TO-SEAL",
+          "notes": "ACIC uniform petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-UNIFORM-ORDER-TO-SEAL",
+          "notes": "Mandatory uniform order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the felony conviction — which court, county, offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDate",
+          "question": "On what date were you convicted?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed the sentence, including all fines, costs and restitution?",
+          "requirement": "required"
+        },
+        {
+          "key": "violenceQuestion",
+          "question": "Did the offence involve violence?",
+          "requirement": "required"
+        },
+        {
+          "key": "sameEpisodeCount",
+          "question": "How many offences arose from the same criminal episode?",
+          "requirement": "required"
+        },
+        {
+          "key": "interestsOfJusticeFacts",
+          "question": "In your own words, why is sealing in the interests of justice?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "convictionDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1406",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC uniform petition and order pair in the circuit court in the county where the offense was committed and the person was convicted.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The violence determination is unclear.",
+        "The same-episode count is unclear.",
+        "The interests-of-justice showing needs individualized argument."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Authorization for Review of Criminal History Information has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        },
+        {
+          "question": "Confirm the current posted felony petition and order revisions.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-3 / missing source requirements",
+            "sourceStatement": "Confirm the current posted felony petition and order revisions.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment makes the sentencing, probation, completion, restitution and statutory-predicate facts participant questions rather than records LegalEase reviews.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask the participant to confirm the sentencing, probation, completion, restitution, and statutory-predicate facts. Any sentencing order or probation record is a participant reference or attachment, not a record LegalEase reviews.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AR-3 and AR-4 | Ask the participant to confirm the sentencing, probation, completion, restitution, and statutory-predicate facts. Any sentencing order or probation record is a participant reference or attachment, not a record LegalEase reviews."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Do not automate the violence determination or the same-episode count.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-3 / limitations",
+              "sourceStatement": "do not automate the violence determination or the same-episode count; do not generate argument on the interests-of-justice standard; hand off on any opposition; fill paragraph 8 per Lawrence's convention.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Do not generate argument on the interests-of-justice standard. Fill paragraph 8 per the approved convention.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-3 / limitations",
+              "sourceStatement": "do not generate argument on the interests-of-justice standard; hand off on any opposition; fill paragraph 8 per Lawrence's convention.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-cs-possession-seal",
+      "legalName": "Petition to Seal a Felony Controlled-Substance Possession Conviction, A.C.A. § 16-90-1407",
+      "publicName": "Seal a drug possession felony (treatment path)",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1407",
+          "Standard: § 16-90-1415(c)",
+          "ACIC Petition and Order to Seal Conviction for Possession of Controlled or Counterfeit Substance"
+        ],
+        "summary": "The treatment path for felony controlled-substance possession, on its own ACIC petition and order pair."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "felony controlled-substance possession conviction"
+      ],
+      "eligibleDispositions": [
+        "conviction for possession of a controlled or counterfeit substance within § 16-90-1407"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [
+        {
+          "condition": "As set by § 16-90-1407",
+          "duration": "Per the statutory schedule"
+        }
+      ],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; circuit court in the county where the offense was committed and the person was convicted."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit court in the county where the offense was committed and the person was convicted",
+        "detail": "Court-controlled, with a prosecuting-attorney objection window."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-CS-POSSESSION",
+          "notes": "ACIC Petition to Seal Conviction for Possession of Controlled or Counterfeit Substance."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-CS-POSSESSION",
+          "notes": "Companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, county, offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "preSentencingPredicates",
+          "question": "Did the court make the pre-sentencing findings this route requires? Tell us what the sentencing order says.",
+          "requirement": "required"
+        },
+        {
+          "key": "treatmentCompleted",
+          "question": "Did you complete the treatment or programme the sentence required?",
+          "requirement": "required"
+        },
+        {
+          "key": "sentenceComplete",
+          "question": "Have you completed the sentence, including all fines, costs and restitution?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "convictionDetails"
+        },
+        {
+          "name": "Sentencing order or an equivalent record",
+          "obtainedFrom": "The clerk of the sentencing court",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Ask the clerk for a copy of the sentencing order. It is a participant reference or attachment, not a record LegalEase reviews.",
+          "confirms": "preSentencingPredicates"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1407",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC controlled-substance petition and order pair in the circuit court in the county where the offense was committed and the person was convicted.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "Any pre-sentencing predicate is unclear; route to the ordinary felony track or to an attorney."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Petition and Order to Seal Conviction for Possession of Controlled or Counterfeit Substance has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment supersedes the instruction that intake must require the sentencing order before generating: the participant confirms each predicate, and the sentencing order is a participant reference or attachment.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask the participant to confirm the sentencing, probation, completion, restitution, and statutory-predicate facts. Any sentencing order or probation record is a participant reference or attachment, not a record LegalEase reviews.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AR-3 and AR-4 | Ask the participant to confirm the sentencing, probation, completion, restitution, and statutory-predicate facts. Any sentencing order or probation record is a participant reference or attachment, not a record LegalEase reviews."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "If any predicate is unclear, route to the ordinary felony track or to an attorney.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-4 / limitations",
+              "sourceStatement": "If any predicate is unclear, route to AR-3 or to an attorney.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-nonconviction-seal",
+      "legalName": "Petition to Seal a Non-Conviction Record, A.C.A. § 16-90-1410",
+      "publicName": "Seal a dismissed, dropped, or acquitted case",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1410",
+          "Standard: § 16-90-1415(d)"
+        ],
+        "summary": "Nolle prosequi, dismissal, acquittal, or charges never filed, on the ACIC non-conviction petition and order pair. Venue is the court where the nolle prosequi or dismissal order was entered; venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b)."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "nolle prosequi",
+        "dismissal",
+        "acquittal",
+        "charges never filed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; court where the nolle prosequi or dismissal order was entered. Venue for acquittals and never-filed charges remains unresolved."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court in which the order of nolle prosequi or the order of dismissal was entered",
+        "detail": "§ 16-90-1410(b). Venue for an acquittal and for charges never filed is not stated."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-NONCONVICTION",
+          "notes": "ACIC nolle prosequi / dismissal / acquittal / not filed petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-NONCONVICTION",
+          "notes": "Companion order. ACIC links a 2023 revision of the order while the petition is a 2020 revision; pull both."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "disposition",
+          "question": "How did the case end — nolle prosequi, dismissal, acquittal, or were charges never filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "arrestDate",
+          "question": "On what date were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingStatus",
+          "question": "Were charges ever filed?",
+          "requirement": "required"
+        },
+        {
+          "key": "county",
+          "question": "In which county did this happen?",
+          "requirement": "required"
+        },
+        {
+          "key": "refiled",
+          "question": "If the charge was nolle prossed, has it been refiled?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "disposition"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1410",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC non-conviction petition and order pair in the court where the nolle prosequi or dismissal order was entered.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The disposition is an acquittal or a never-filed charge, where venue is unresolved.",
+        "A nolle prossed charge may have been refiled."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b).",
+          "impact": "build_blocker",
+          "affectedElement": "venue",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-5 / unresolved questions",
+            "sourceStatement": "Venue: the court in which the order of nolle prosequi or the order of dismissal was entered. § 16-90-1410(b). Venue for an acquittal and for charges never filed is not stated in § 16-90-1410(b). See open questions.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "ACIC links a 2023 revision of the companion order while the petition is a 2020 revision. Pull both.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-5 / missing source requirements",
+            "sourceStatement": "Note on the order. ACIC links a 2023 revision of the companion order while the petition is a 2020 revision. Pull both.",
+            "normalizerInferred": true
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment makes disposition, arrest date, filing status and county participant questions routed from the answers.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask for disposition, arrest date, filing status, and county; route from the answers. LegalEase does not inspect a prosecutor file or docket.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AR-5 and AR-6 | Ask for disposition, arrest date, filing status, and county; route from the answers. LegalEase does not inspect a prosecutor file or docket."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Resolve venue for acquittals and uncharged matters before shipping those two dispositions; ship dismissal and nolle prosequi first.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-5 / limitations",
+              "sourceStatement": "resolve venue for acquittals and uncharged matters before shipping those two dispositions; ship dismissal and nolle prosequi first; verify with the participant that a nolle prossed charge was not refiled.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "Verify with the participant that a nolle prossed charge was not refiled.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-5 / limitations",
+              "sourceStatement": "verify with the participant that a nolle prossed charge was not refiled.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-arrest-seal",
+      "legalName": "Petition to Seal an Arrest Record, A.C.A. § 16-90-1409",
+      "publicName": "Seal an arrest record",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1409",
+          "ACIC Petition and Order to Seal Arrest"
+        ],
+        "summary": "Arrest with no charges filed, on the ACIC arrest petition and order pair. Venue is the county of arrest, which is a separate rule from the general venue rule."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "arrest"
+      ],
+      "eligibleDispositions": [
+        "arrest with no charges filed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas track; circuit or district court in the county of arrest."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "Circuit or district court in the county of arrest",
+        "detail": "The county-of-arrest venue rule is separate from the general venue rule."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-ARREST",
+          "notes": "ACIC Petition to Seal Arrest."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-ARREST",
+          "notes": "Companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "arrestDetails",
+          "question": "What was the arrest — which agency, what date, and what were you accused of?",
+          "requirement": "required"
+        },
+        {
+          "key": "countyOfArrest",
+          "question": "In which county were you arrested?",
+          "requirement": "required"
+        },
+        {
+          "key": "filingStatus",
+          "question": "Were charges ever filed?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "arrestDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1409",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC arrest petition and order pair in the circuit or district court in the county of arrest.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Petition and Order to Seal Arrest has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Approved for implementation with the limitations listed below.\" The amendment makes disposition, arrest date, filing status and county participant questions routed from the answers.",
+        "limitations": [
+          {
+            "classification": "participant_question",
+            "statement": "Ask for disposition, arrest date, filing status, and county; route from the answers. LegalEase does not inspect a prosecutor file or docket.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Limitations reclassified as participant instructions",
+              "sourceStatement": "AR-5 and AR-6 | Ask for disposition, arrest date, filing status, and county; route from the answers. LegalEase does not inspect a prosecutor file or docket."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Implement the county-of-arrest venue rule separately from the general venue rule.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-6 / limitations",
+              "sourceStatement": "pull the arrest form pair; implement the county-of-arrest venue rule separately from the general venue rule; ratify the AR-5 versus AR-6 split.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-pardon-seal",
+      "legalName": "Sealing After a Pardon, A.C.A. § 16-90-1411",
+      "publicName": "Sealing After A Pardon",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-90-1411",
+          "ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender"
+        ],
+        "summary": "The existence of an official ACIC pardoned-offender petition and order pair means the sealing stage is not guidance-only. Obtaining the pardon remains guidance."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a conviction for which a pardon has been granted"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas consequence of a pardon; sealing follows through the court/ACIC process after the pardon is granted."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The court handling the sealing after the pardon",
+        "detail": "The pardon itself is a prerequisite event. The later sealing filing is a participant packet."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: obtaining the pardon."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+          "notes": "Stage 2. ACIC Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+          "notes": "Stage 2 companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "pardonGranted",
+          "question": "Has a pardon been granted, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "convictionDetails",
+          "question": "What was the conviction — which court, county, offence and statute section?",
+          "requirement": "required"
+        },
+        {
+          "key": "youthfulFelonyOffender",
+          "question": "Was this a youthful felony offender adjudication?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "convictionDetails"
+        },
+        {
+          "name": "Pardon documentation",
+          "obtainedFrom": "The granting authority",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Attach the pardon documentation to the petition. LegalEase does not review it.",
+          "confirms": "pardonGranted"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-90-1411",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 explains how to seek the pardon. Stage 2 files the ACIC pardoned-offender petition and order pair.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The participant has not yet obtained a pardon."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Petition and Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output: \"AR-7, after pardon | staged: process_guidance for obtaining the pardon, then official_pdf_fill on the ACIC pardoned-offender petition/order pair where a participant filing is accepted | The existence of an official pair means the sealing stage is not guidance-only.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The prerequisite event may remain guidance, while the later participant filing is a packet product."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Superseded operational statements",
+              "sourceStatement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The existence of an official pair means the sealing stage is not guidance-only.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "AR-7, after pardon | `staged: process_guidance` for obtaining the pardon, then `official_pdf_fill` on the ACIC pardoned-offender petition/order pair where a participant filing is accepted | The existence of an official pair means the sealing stage is not guidance-only."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-pardon-seal-stage-1",
+          "order": 1,
+          "label": "Obtaining the pardon",
+          "outputStrategy": "process_guidance",
+          "description": "Explain how to seek a pardon. LegalEase does not generate the pardon application on this track.",
+          "available": true
+        },
+        {
+          "unitId": "ar-pardon-seal-stage-2",
+          "order": 2,
+          "label": "ACIC pardoned-offender petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC pardoned-offender petition and order pair where a participant filing is accepted.",
+          "available": true
+        }
+      ]
+    },
+    {
+      "trackId": "ar-act346",
+      "legalName": "Act 346 First Offender Dismiss and Seal, A.C.A. §§ 16-93-303 and 16-93-314",
+      "publicName": "Act 346 First Offender Dismiss And Seal",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. §§ 16-93-303, 16-93-314 (Act 346 of 1975)",
+          "ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation"
+        ],
+        "summary": "LegalEase does not recreate the plea election; it can generate the later form after the participant confirms Act 346 placement and completion."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "Act 346 first offender probation, successfully completed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas program-specific process in the underlying criminal court; local program and prosecutor concurrence requirements may apply."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The underlying criminal court",
+        "detail": "Local program and prosecutor concurrence requirements may apply at the plea stage."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: plea-stage placement."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "notes": "Stage 2. Post-completion dismiss-and-seal filing."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-DISMISS-AND-SEAL-FIRST-OFFENDERS",
+          "notes": "Stage 2 companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "act346Placement",
+          "question": "Were you placed on probation under Act 346 as a first offender?",
+          "requirement": "required"
+        },
+        {
+          "key": "probationCompleted",
+          "question": "Have you completed the probation, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseDetails",
+          "question": "Which court and county handled the case, and what was the charge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "caseDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-93-303",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 explains Act 346 placement. Stage 2 files the post-completion dismiss-and-seal petition and order in the underlying criminal court.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The participant is still on Act 346 probation.",
+        "Prosecutor concurrence is required at the plea stage, which is negotiation rather than self-help."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC Petition and Order to Dismiss and Seal First Offenders, plus the Order of Probation has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output: \"AR-8, Act 346 | staged: process_guidance for plea-stage placement, then official_pdf_fill for the post-completion dismiss-and-seal filing | LegalEase does not recreate the plea election; it can generate the later form after the participant confirms Act 346 and completion.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The prerequisite event may remain guidance, while the later participant filing is a packet product."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Superseded operational statements",
+              "sourceStatement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "participant_question",
+            "statement": "LegalEase does not recreate the plea election; it can generate the later form after the participant confirms Act 346 and completion.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "LegalEase does not recreate the plea election; it can generate the later form after the participant confirms Act 346 and completion."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-act346-stage-1",
+          "order": 1,
+          "label": "Plea-stage placement under Act 346",
+          "outputStrategy": "process_guidance",
+          "description": "Explain Act 346 placement. LegalEase does not recreate the plea election.",
+          "available": true
+        },
+        {
+          "unitId": "ar-act346-stage-2",
+          "order": 2,
+          "label": "Post-completion dismiss-and-seal filing",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC Petition and Order to Dismiss and Seal First Offenders after the participant confirms Act 346 placement and completion.",
+          "available": true
+        }
+      ]
+    },
+    {
+      "trackId": "ar-preadjudication-probation",
+      "legalName": "Pre-Adjudication Probation, A.C.A. §§ 5-4-901 to 5-4-907",
+      "publicName": "Pre-Adjudication Probation",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. §§ 5-4-901 to 5-4-907"
+        ],
+        "summary": "Prosecutor concurrence is required, which is negotiation, not self-help. Prosecutor concurrence inside an active disposition is not itself a participant packet."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge"
+      ],
+      "eligibleDispositions": [
+        "placement on pre-adjudication probation"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "process_guidance",
+      "guidanceRationales": [
+        "requires_negotiation",
+        "another_entity_decides"
+      ],
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas program-specific process in the underlying criminal court; local program and prosecutor concurrence requirements may apply."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The underlying criminal court",
+        "detail": "Prosecutor concurrence is required inside an active disposition. No independent participant-initiated post-completion filing has been confirmed."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Explanation and referral only."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "caseActive",
+          "question": "Is your criminal case still active?",
+          "requirement": "required"
+        },
+        {
+          "key": "prosecutorDiscussed",
+          "question": "Have you or your lawyer discussed pre-adjudication probation with the prosecutor?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [],
+      "manualCompletionItems": [],
+      "officialSources": [
+        {
+          "title": "A.C.A. § 5-4-901",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "none by the participant through LegalEase. Placement is negotiated inside the active case.",
+        "fees": "none",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney must concur.",
+        "service": "none",
+        "participantSignature": "none",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "Prosecutor concurrence is required, which is negotiation rather than self-help.",
+        "The participant has an active criminal case and needs defence representation."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Whether an independent participant-initiated post-completion filing exists, and the current ACIC form pair applicable to that route, is unconfirmed.",
+          "impact": "counsel_classification_required",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "counsel_confirmation_required",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / Guidance-only route retained",
+            "sourceStatement": "**AR-9:** keep as guidance unless counsel confirms an independent participant-initiated post-completion filing and the current ACIC form pair applicable to that route. Prosecutor concurrence inside an active disposition is not itself a participant packet.",
+            "counselQuestion": "Does an independent participant-initiated post-completion filing exist for pre-adjudication probation, and which ACIC form pair applies? The addendum keeps the track as guidance unless counsel confirms both, without stating whether that confirmation is build-blocking or release-blocking."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "Original review: \"Process guidance only.\" The amendment expressly retains it: keep as guidance unless counsel confirms an independent participant-initiated post-completion filing and the current ACIC form pair.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "Keep as guidance unless counsel confirms an independent participant-initiated post-completion filing and the current ACIC form pair applicable to that route. Prosecutor concurrence inside an active disposition is not itself a participant packet.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Guidance-only route retained",
+              "sourceStatement": "**AR-9:** keep as guidance unless counsel confirms an independent participant-initiated post-completion filing and the current ACIC form pair applicable to that route. Prosecutor concurrence inside an active disposition is not itself a participant packet."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "trackId": "ar-drug-court",
+      "legalName": "Drug Court Sealing, A.C.A. § 16-98-303",
+      "publicName": "Drug Court",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-98-303",
+          "ACIC drug court pre-adjudication and post-adjudication petition and order pairs"
+        ],
+        "summary": "Prosecutor concurrence or program completion is a prerequisite, not a reason to suppress the participant-facing filing."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "drug court participation, pre-adjudication or post-adjudication, completed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas program-specific process in the underlying criminal court; local program and prosecutor concurrence requirements may apply."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The underlying criminal court",
+        "detail": "Local program and prosecutor concurrence requirements may apply at admission."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: admission and completion."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-DRUG-COURT",
+          "notes": "Stage 2. The applicable pre-adjudication or post-adjudication ACIC petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-DRUG-COURT",
+          "notes": "Stage 2 companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "drugCourtCompleted",
+          "question": "Have you completed drug court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "preOrPostAdjudication",
+          "question": "Were you in drug court before adjudication, or after?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseDetails",
+          "question": "Which court and county handled the case, and what was the charge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "caseDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-98-303",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 explains admission and completion. Stage 2 files the applicable ACIC pre- or post-adjudication petition and order pair.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The participant has not completed the programme.",
+        "Prosecutor concurrence at admission is negotiation rather than self-help."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "The ACIC drug court pre-adjudication and post-adjudication petition and order pairs has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output: \"AR-10, drug court | staged: process_guidance for program admission/completion, then official_pdf_fill on the applicable pre- or post-adjudication ACIC pair | Prosecutor concurrence or program completion is a prerequisite, not a reason to suppress the participant-facing filing.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The prerequisite event may remain guidance, while the later participant filing is a packet product."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Superseded operational statements",
+              "sourceStatement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Prosecutor concurrence or program completion is a prerequisite, not a reason to suppress the participant-facing filing.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "AR-10, drug court | `staged: process_guidance` for program admission/completion, then `official_pdf_fill` on the applicable pre- or post-adjudication ACIC pair | Prosecutor concurrence or program completion is a prerequisite, not a reason to suppress the participant-facing filing."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-drug-court-stage-1",
+          "order": 1,
+          "label": "Program admission and completion",
+          "outputStrategy": "process_guidance",
+          "description": "Explain admission to drug court and what completion requires. Prosecutor concurrence is a prerequisite event.",
+          "available": true
+        },
+        {
+          "unitId": "ar-drug-court-stage-2",
+          "order": 2,
+          "label": "ACIC pre- or post-adjudication petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the applicable ACIC pre- or post-adjudication petition and order pair after completion.",
+          "available": true
+        }
+      ]
+    },
+    {
+      "trackId": "ar-veterans-court",
+      "legalName": "Veterans Treatment Court Sealing, A.C.A. § 16-101-101 et seq.",
+      "publicName": "Veterans Treatment Court",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-101-101 et seq.",
+          "ACIC form citing § 16-101-106 together with § 16-90-1401",
+          "ACIC veterans treatment court petition and order pair"
+        ],
+        "summary": "Program participation is not generated; the later sealing packet can be, once current statutory text is confirmed."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "charge",
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "veterans treatment court participation, completed"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "composed",
+      "outputStrategyStatus": "resolved",
+      "packetIdentity": "identified",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas program-specific process in the underlying criminal court; local program and prosecutor concurrence requirements may apply."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The underlying criminal court",
+        "detail": "Local program requirements may apply at admission."
+      },
+      "components": [
+        {
+          "role": "process_guidance",
+          "requirement": "required",
+          "outputStrategy": "process_guidance",
+          "notes": "Stage 1: participation and completion."
+        },
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-VETERANS-COURT",
+          "notes": "Stage 2 petition."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-VETERANS-COURT",
+          "notes": "Stage 2 companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "veteransCourtCompleted",
+          "question": "Have you completed veterans treatment court, and on what date?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseDetails",
+          "question": "Which court and county handled the case, and what was the charge?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "caseDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-101-106",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "Stage 1 explains participation and completion. Stage 2 files the ACIC veterans treatment court petition and order pair.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "The participant has not completed the programme."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current § 16-101-106 text must be confirmed before participant-facing eligibility language is released, although the post-completion packet strategy is now identified.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "**AR-11:** current § 16-101-106 text must be confirmed before participant-facing eligibility language is released, although the post-completion packet strategy is now identified."
+          }
+        },
+        {
+          "question": "The ACIC veterans treatment court petition and order pair has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output: \"AR-11, veterans treatment court | staged: process_guidance, then official_pdf_fill for the post-completion petition/order once current statutory text is confirmed | Program participation is not generated; the later sealing packet can be.\" The § 16-101-106 currency question is retained as a release gate on participant-facing eligibility language.",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The prerequisite event may remain guidance, while the later participant filing is a packet product.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "The prerequisite event may remain guidance, while the later participant filing is a packet product."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Superseded operational statements",
+              "sourceStatement": "The broad conclusion that diversion and specialty-court tracks are all guidance-only is superseded. The correct model is staged: guidance for the prerequisite event, followed by an official packet where a participant post-completion filing exists."
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Verify § 16-101-106 text before publishing any participant-facing description.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "TRACK AR-11 / limitations",
+              "sourceStatement": "Verify § 16-101-106 text before publishing any participant-facing description.",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      },
+      "compositionMode": "sequential",
+      "units": [
+        {
+          "unitId": "ar-veterans-court-stage-1",
+          "order": 1,
+          "label": "Program participation and completion",
+          "outputStrategy": "process_guidance",
+          "description": "Explain admission to veterans treatment court and what completion requires. Program participation is not generated.",
+          "available": true
+        },
+        {
+          "unitId": "ar-veterans-court-stage-2",
+          "order": 2,
+          "label": "ACIC post-completion petition and order",
+          "outputStrategy": "official_pdf_fill",
+          "description": "Generate the ACIC veterans treatment court petition and order pair after completion, once current § 16-101-106 text is confirmed.",
+          "available": true
+        }
+      ]
+    },
+    {
+      "trackId": "ar-act531",
+      "legalName": "Sealing Pursuant to Act 531 and Act 1460, A.C.A. § 16-93-1201 et seq.",
+      "publicName": "Act 531 Community Punishment Act",
+      "controllingAuthority": {
+        "citations": [
+          "A.C.A. § 16-93-1201 et seq. (Act 531 of 1993), sealed under Act 1460 procedure",
+          "ACIC Petition and Order to Seal Pursuant to Act 531 and Act 1460"
+        ],
+        "summary": "ACIC publishes a named petition and order pair. The packet identity is known even though the eligible historical population still needs legal confirmation."
+      },
+      "effectiveDates": {
+        "effectiveFrom": "2025-01-01",
+        "effectiveTo": null,
+        "reviewedAsOf": "2026-07-30"
+      },
+      "eligibleRecordTypes": [
+        "conviction"
+      ],
+      "eligibleDispositions": [
+        "a Community Punishment Act disposition within the Act 531 historical population"
+      ],
+      "exclusions": [],
+      "waitingPeriods": [],
+      "outputStrategy": "official_pdf_fill",
+      "geography": {
+        "scope": "statewide",
+        "keys": [],
+        "venue": "Statewide Arkansas program-specific process in the underlying criminal court; local program and prosecutor concurrence requirements may apply."
+      },
+      "destination": {
+        "kind": "court",
+        "name": "The underlying criminal court",
+        "detail": "A narrow historical population. Opening the route is gated on current eligibility-source review."
+      },
+      "components": [
+        {
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-PETITION-SEAL-ACT-531-ACT-1460",
+          "notes": "ACIC Petition to Seal Pursuant to Act 531 and Act 1460."
+        },
+        {
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "officialFormId": "ACIC-ORDER-SEAL-ACT-531-ACT-1460",
+          "notes": "Companion order."
+        }
+      ],
+      "participantInputs": [
+        {
+          "key": "act531Disposition",
+          "question": "Were you sentenced under the Community Punishment Act (Act 531 of 1993)?",
+          "requirement": "required"
+        },
+        {
+          "key": "caseDetails",
+          "question": "Which court and county handled the case, and what was the charge?",
+          "requirement": "required"
+        },
+        {
+          "key": "dispositionDate",
+          "question": "On what date was the case disposed of?",
+          "requirement": "required"
+        }
+      ],
+      "supportingDocuments": [
+        {
+          "name": "Fingerprint card",
+          "obtainedFrom": "A law enforcement agency or authorised fingerprint vendor",
+          "requirement": "required",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Have fingerprints taken and submit the card with the petition. Fingerprint cards are a participant filing or post-filing requirement; LegalEase does not collect them."
+        },
+        {
+          "name": "Arkansas criminal history, via the ACIC Authorization for Review of Criminal History Information",
+          "obtainedFrom": "Arkansas Crime Information Center",
+          "requirement": "conditional",
+          "conditionDescription": "The records step preceding the petition.",
+          "requiredBeforeFiling": true,
+          "howToObtain": "Submit the ACIC Authorization for Review of Criminal History Information to obtain your record.",
+          "confirms": "caseDetails"
+        }
+      ],
+      "manualCompletionItems": [
+        {
+          "item": "Signature and date",
+          "whereInPacket": "ACIC petition, signature block",
+          "why": "The petitioner signs their own petition."
+        }
+      ],
+      "officialSources": [
+        {
+          "title": "ACIC forms index, criminal history",
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "retrievedOn": "2026-07-30"
+        },
+        {
+          "title": "A.C.A. § 16-93-1201",
+          "url": "https://arkleg.state.ar.us/",
+          "retrievedOn": "2026-07-30"
+        }
+      ],
+      "rules": {
+        "filing": "File the ACIC Act 531 / Act 1460 petition and order pair in the underlying criminal court.",
+        "fees": "The source review does not state a filing fee for this petition.",
+        "feeWaiver": "The source review does not address a fee waiver.",
+        "notice": "The prosecuting attorney has 30 days to file an objection.",
+        "service": "Serve the prosecuting attorney within three days of filing. The prosecuting attorney has 30 days to object.",
+        "participantSignature": "The petitioner signs their own petition.",
+        "notarization": "The source review does not state a notarization requirement."
+      },
+      "selfHelpStopConditions": [
+        "The prosecuting attorney objects within the 30-day window.",
+        "The court sets a contested hearing.",
+        "Immigration, licensing or firearm consequences are in play.",
+        "Whether the participant falls in the covered historical population is unclear."
+      ],
+      "unresolvedQuestions": [
+        {
+          "question": "Current Act 531 statutory criteria and covered historical dispositions must be confirmed. This blocks opening the route, not identifying the ACIC packet.",
+          "impact": "release_blocker",
+          "affectedElement": "eligibility_branch",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "**AR-12:** current Act 531 statutory criteria and covered historical dispositions must be confirmed. This blocks opening the route, not identifying the ACIC packet."
+          }
+        },
+        {
+          "question": "Section 16-93-1201 et seq. was not reviewed in this pass.",
+          "impact": "release_blocker",
+          "affectedElement": "governing_mechanism",
+          "provenance": {
+            "classificationBasis": "mechanical_translation",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "TRACK AR-12 / limitations",
+            "sourceStatement": "Section 16-93-1201 et seq. was not reviewed in this pass.",
+            "normalizerInferred": true
+          }
+        },
+        {
+          "question": "The ACIC Petition and Order to Seal Pursuant to Act 531 and Act 1460 has not been acquired. Any missing current ACIC form pair is a source-release gate.",
+          "impact": "release_blocker",
+          "affectedElement": "correct_form",
+          "provenance": {
+            "classificationBasis": "explicit_state_addendum",
+            "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+            "sourceHeading": "Arkansas operational amendments / True blockers retained",
+            "sourceStatement": "Any missing current ACIC form pair is a source-release gate. It is not a basis for requiring LegalEase to review the participant's records."
+          }
+        }
+      ],
+      "legalDesignDecision": {
+        "status": "legal_design_approved_with_limitations",
+        "rationale": "The amendment expressly changes the output: \"AR-12, Act 531 | official_pdf_fill, release-gated on current eligibility-source review | ACIC publishes a named petition/order pair. The packet identity is known even though the eligible historical population still needs legal confirmation.\"",
+        "limitations": [
+          {
+            "classification": "scope_restriction",
+            "statement": "The ACIC uniform petition and order pair governs. Do not substitute a custom pleading where ACIC forms control.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / Other controlling authority",
+              "sourceStatement": "Other controlling authority: ACIC uniform petition and order",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "scope_restriction",
+            "statement": "Release-gated on current eligibility-source review. The packet identity is known even though the eligible historical population still needs legal confirmation.",
+            "provenance": {
+              "classificationBasis": "explicit_state_addendum",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "Arkansas operational amendments / Process-guidance routes that can produce a packet",
+              "sourceStatement": "AR-12, Act 531 | `official_pdf_fill`, release-gated on current eligibility-source review | ACIC publishes a named petition/order pair. The packet identity is known even though the eligible historical population still needs legal confirmation."
+            }
+          },
+          {
+            "classification": "packet_instruction",
+            "statement": "Serve the prosecuting attorney within three days of filing; the prosecuting attorney has 30 days to object.",
+            "provenance": {
+              "classificationBasis": "mechanical_translation",
+              "sourceFile": "LegalEase-Arkansas-Legal-Review.md",
+              "sourceHeading": "PART 1 / procedure §§ 16-90-1413, 1414",
+              "sourceStatement": "Controlling statute: A.C.A. § 16-90-1405; procedure §§ 16-90-1413, 1414",
+              "normalizerInferred": true
+            }
+          },
+          {
+            "classification": "post_generation_handoff",
+            "statement": "Hand off on any opposition or contested hearing.",
+            "provenance": {
+              "classificationBasis": "general_packet_only_rule",
+              "sourceFile": "00-Source-Packet-Only-Product-Model-Amendment.md",
+              "sourceHeading": "Required Operational Reclassification / 6. post_generation_handoff",
+              "sourceStatement": "A routine, automatically scheduled, or uncontested hearing is not by itself a packet-generation blocker."
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
