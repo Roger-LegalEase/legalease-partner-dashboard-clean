@@ -2,6 +2,8 @@ export type RcapBriefcaseAuthState = {
   isAuthenticated: boolean;
   userId?: string;
   userEmail?: string;
+  /** False until the account is confirmed. A claim requires it. */
+  isVerified?: boolean;
   mode: "supabase";
 };
 
@@ -20,6 +22,7 @@ export async function getRcapBriefcaseAuthState(): Promise<RcapBriefcaseAuthStat
     isAuthenticated: true,
     userId: auth.userId,
     userEmail: auth.email,
+    isVerified: auth.isVerified,
     mode: "supabase"
   };
 }

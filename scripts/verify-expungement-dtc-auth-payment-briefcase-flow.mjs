@@ -7,6 +7,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const exists = (file) => fs.existsSync(path.join(root, file));
 const readOptional = (file) => exists(file) ? read(file) : "";
 const assert = (condition, message) => { if (!condition) failures.push(message); };
+const stripComments = (source) => source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
 
 const sources = {
   screeningFlow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
@@ -14,6 +15,8 @@ const sources = {
   callback: read("src/app/auth/set-password/page.tsx"),
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
   pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
+  claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
+  claimHandoff: read("src/lib/expungement-ai/claim/claim-handoff.ts"),
   packetInformationPage: readOptional("src/app/briefcase/[packetId]/packet-information/page.tsx"),
   briefcaseDetail: read("src/app/briefcase/[packetId]/page.tsx"),
   reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
@@ -32,14 +35,29 @@ for (const message of authBriefcaseFlowViolations(sources)) failures.push(messag
 
 const genericBriefcaseRedirect = {
   ...sources,
-  pendingClaim: sources.pendingClaim.replace(
-    "redirectTo: `/briefcase/${encodeURIComponent(item.id)}`",
-    'redirectTo: "/briefcase"'
-  )
+  claimService: sources.claimService.replace("exactMatterPath(matterId)", '"/briefcase"')
 };
 assert(
   authBriefcaseFlowViolations(genericBriefcaseRedirect).some((message) => message.includes("exact saved matter")),
   "Negative control failed: a generic post-auth Briefcase redirect was not detected."
+);
+
+const browserStashedToken = {
+  ...sources,
+  claimHandoff: `${sources.claimHandoff}\nlocalStorage.setItem("claim", claimToken);`
+};
+assert(
+  authBriefcaseFlowViolations(browserStashedToken).some((message) => message.includes("browser storage")),
+  "Negative control failed: a claim token written to browser storage was not detected."
+);
+
+const idAuthorizedClaim = {
+  ...sources,
+  screeningFlow: sources.screeningFlow.replace("anonymousSessionId:", "pendingId: pending.pendingId, anonymousSessionId:")
+};
+assert(
+  authBriefcaseFlowViolations(idAuthorizedClaim).some((message) => message.includes("pending identifier")),
+  "Negative control failed: reintroducing a pending identifier into the browser handoff was not detected."
 );
 
 const partialProtectedPresentation = {
@@ -104,7 +122,11 @@ function authBriefcaseFlowViolations(input) {
   const protectedPresentationUi = usesProtectedPresentation(input);
 
   require(handoff.includes("/api/expungement-ai/screening/pending"), "Every authoritative DTC result must create a server-side pending result.");
-  require(handoff.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending result must preserve explicit DTC versus RCAP attribution.");
+  // Attribution is resolved on the server from its own record of the anonymous
+  // session. A browser that names the product is a browser that can claim
+  // sponsorship it was never granted, so it no longer gets a say.
+  require(handoff.includes("anonymousSessionId:"), "Pending result must name the anonymous session so the server can resolve attribution.");
+  require(!handoff.includes('product: isPartnerSession'), "The browser must not declare DTC versus RCAP attribution.");
   require(
     handoff.includes(protectedPresentationUi
       ? "answers: toScreeningAnswers(evaluatedAnswers ?? answers)"
@@ -113,22 +135,37 @@ function authBriefcaseFlowViolations(input) {
       ? "Pending result must persist the evaluated answer set used by the authoritative result."
       : "Pending result must persist screening inputs for server-authoritative re-evaluation."
   );
-  require(handoff.includes('next: "/briefcase"'), "DTC auth handoff must return to the free Briefcase before payment.");
+  require(handoff.includes("claimHandoffPath(pending.claimToken"), "DTC auth handoff must carry the claim token, not a pending identifier.");
+  require(!handoff.includes("pendingId"), "Possession of a pending identifier must not authorize anything.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "DTC auth handoff must not bypass packet information and final review.");
   require(!handoff.includes('/expungement-ai/packet-ready"'), "DTC result action must not bypass review and payment to packet-ready.");
 
-  require(input.signIn.includes("emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)"), "DTC sign-up must preserve the product-aware pending-result redirect.");
+  require(input.signIn.includes("emailRedirectTo: expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)"), "DTC sign-up must carry the claim token through email verification.");
   require(input.signIn.includes("absoluteExpungementAiUrl"), "DTC auth redirect must retain the Expungement.ai base URL fallback.");
-  require(input.signIn.includes("claimPendingResult(requestContext.pendingId, requestContext.nextPath)"), "Authenticated sign-in must claim the pending result before navigation.");
-  require(input.signIn.includes("isExactBriefcaseMatterPath"), "Client auth handoff must accept only an exact Briefcase matter path.");
+  require(input.signIn.includes("submitClaim(requestContext.claimToken)"), "Authenticated sign-in must claim the pending result before navigation.");
+  // Comments may name browser storage; calls into it are the violation.
+  for (const [label, source] of [["sign-in form", input.signIn], ["claim handoff", input.claimHandoff]]) {
+    require(
+      !/\b(?:local|session)Storage\s*(?:\.|\[)/.test(stripComments(source)),
+      `The claim token must never be stashed in browser storage (${label}).`
+    );
+  }
+  require(input.claimHandoff.includes("isExactMatterPath(redirectTo)"), "Client auth handoff must accept only an exact matter path.");
+  require(input.claimHandoff.includes("stripClaimTokenFromUrl"), "The claim token must be removed from the browser URL after use.");
   require(input.callback.includes("claimExpungementPending"), "Email confirmation callback must claim the pending result.");
 
   require(input.pendingCreate.includes("consumer_pending_screening_results"), "Pending create route must persist to the pending-results table.");
-  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending create route must default unknown product input to DTC.");
-  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claim must re-evaluate stored screening inputs.");
-  require(input.pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"), "Pending claim must persist the server-authoritative result.");
-  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Partner sponsorship must be validated independently during claim.");
-  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claim must route to the exact saved matter.");
+  require(input.pendingCreate.includes("claim_token_hash: claimTokenHash(claimToken)"), "Pending create route must store the claim token hashed at rest.");
+  require(!input.pendingCreate.includes("pending_id"), "Pending create route must not return a pending identifier to the browser.");
+  require(input.pendingCreate.includes("resolveScreeningAttribution"), "Pending create route must resolve attribution server-side.");
+  const claimService = input.claimService;
+  require(claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claim must re-evaluate stored screening inputs.");
+  require(claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claim must persist through the one atomic claim transaction.");
+  require(claimService.includes("clampAuthoritativeMatterInput"), "Pending claim must apply the server-authoritative matter clamps.");
+  require(claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Partner sponsorship must be read from the server's own pending record during claim.");
+  require(claimService.includes("exactMatterPath(matterId)"), "Pending claim must route to the exact saved matter.");
+  require(input.pendingClaim.includes("claimPendingScreeningResult("), "The claim route must go through the shared claim service.");
+  require(input.pendingClaim.includes("accountVerified: auth.isVerified === true"), "An unverified account must not receive a matter.");
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claim must not route directly to payment.");
 
   if (protectedPresentationUi) {

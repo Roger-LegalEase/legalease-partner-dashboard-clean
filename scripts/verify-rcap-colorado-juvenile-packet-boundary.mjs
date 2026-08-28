@@ -94,13 +94,50 @@ check(followUp?.routeDisposition === "referral", "Clinic case is not routed to r
 check(/matter is saved/i.test(followUp?.participantSafeMessage ?? ""), "Clinic follow-up does not preserve the participant matter");
 check(/no payment|no packet credit/i.test(followUp?.participantSafeMessage ?? ""), "Clinic follow-up does not disclose the zero-charge treatment");
 
+// Ordering, restated against the Product Contract.
+//
+// This used to require the Clinic follow-up to run BEFORE the matter was
+// durable, and a follow-up failure to roll the claim back. Contract SS4 and SS7
+// invert that: the ownership transaction stands alone, and "analytics and
+// follow-up creation occur only after the ownership transaction succeeds and
+// must be idempotent". The old shape was also the anti-pattern the contract
+// names directly -- it wrote the Briefcase item first and then tried to mark the
+// pending result claimed.
+//
+// The safety property is unchanged and is what these checks now measure: a
+// Colorado juvenile matter never loses its required attorney-review follow-up.
+// It is attempted after the claim, on every replay, idempotently, and an
+// unmet obligation is written to the append-only claim audit rather than
+// disappearing with the request that dropped it.
 const claimRouteSource = fs.readFileSync(path.join(root, "src/app/api/expungement-ai/screening/pending/claim/route.ts"), "utf8");
-const saveIndex = claimRouteSource.indexOf("saveAuthoritativeScreeningResultToBriefcase");
+const claimServiceSource = fs.readFileSync(path.join(root, "src/lib/expungement-ai/claim/claim-service.ts"), "utf8");
+const claimIndex = claimRouteSource.indexOf("claimPendingScreeningResult(");
 const followUpIndex = claimRouteSource.lastIndexOf("createClinicReviewFollowUpForSavedMatter");
-const claimIndex = claimRouteSource.indexOf("claimed_at:");
-check(saveIndex >= 0 && followUpIndex > saveIndex, "Clinic follow-up runs before the participant matter is durable");
-check(claimIndex > followUpIndex, "pending claim can finalize before the required Clinic follow-up");
-check(claimRouteSource.includes('error: "clinic_follow_up_failed"'), "Clinic follow-up failure does not remain safely retryable");
+check(claimIndex >= 0 && followUpIndex > claimIndex, "Clinic follow-up must run after the atomic ownership transaction");
+check(
+  claimServiceSource.includes('supabase.rpc("claim_pending_screening_result"'),
+  "the claim must be one atomic database transaction, not a sequence of writes"
+);
+check(
+  !claimRouteSource.includes('error: "clinic_follow_up_failed"'),
+  "a Clinic follow-up failure must not be reported as a failed claim once the matter is owned"
+);
+check(
+  claimRouteSource.includes("recordOutstandingClinicFollowUp"),
+  "an unmet Clinic follow-up obligation must be recorded durably"
+);
+check(
+  fs.readFileSync(path.join(root, "src/lib/expungement-ai/claim/claim-obligations.ts"), "utf8")
+    .includes('event: "clinic_follow_up_outstanding"'),
+  "the outstanding obligation must land in the append-only claim audit"
+);
+// The follow-up sits outside the `outcome === "claimed"` guard, so a replay --
+// what a returning participant produces -- retries it.
+const replayGuardIndex = claimRouteSource.indexOf('claim.outcome === "claimed"');
+check(
+  replayGuardIndex > followUpIndex,
+  "the Clinic follow-up must be retried on claim replay, not gated behind the first claim only"
+);
 
 const followUpSource = fs.readFileSync(path.join(root, "src/lib/clinic-mode/result-follow-up.ts"), "utf8");
 for (const marker of ["clinic_upsert_case", 'p_queue_status: treatment.queueStatus', 'p_route_disposition: treatment.routeDisposition', '.from("clinic_follow_ups").upsert', "stableUuid"]) {

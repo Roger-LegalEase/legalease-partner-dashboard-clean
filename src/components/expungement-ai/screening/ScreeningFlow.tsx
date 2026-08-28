@@ -40,6 +40,7 @@ import {
 import { ProgressRail } from "@/components/expungement-ai/screening/ProgressRail";
 import { QuestionField } from "@/components/expungement-ai/screening/QuestionField";
 import { useLocalization } from "@/components/expungement-ai/LocalizationProvider";
+import { claimHandoffPath, submitClaim } from "@/lib/expungement-ai/claim/claim-handoff";
 import { trackFunnelEvent } from "@/lib/analytics/client";
 import {
   EvaluatingState,
@@ -109,7 +110,7 @@ async function markScreeningSessionCompleted(sessionId: string | undefined) {
 
 export function ScreeningFlow({ state, initialSessionId }: { state: string; initialSessionId?: string }) {
   const router = useRouter();
-  const { t: translate } = useLocalization();
+  const { t: translate, locale } = useLocalization();
   // Only the server-validated active-benefit session prop enables partner
   // presentation. A syntactically valid UUID in the URL is not authority.
   const effectiveInitialSessionId = initialSessionId;
@@ -308,9 +309,11 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
     }
   }
 
-  // Every completed result is handed to the server as inputs, not as trusted
-  // route or payment identity. The pending endpoint re-evaluates those inputs;
-  // the authenticated claim does it again and lands on the exact saved matter.
+  // The completed screening is handed to the server as inputs, never as trusted
+  // route or payment identity. The server re-evaluates those inputs to write the
+  // pending result, and the claim re-evaluates them again before a matter
+  // exists. Nothing here is a matter or a Briefcase yet: this is a preliminary
+  // result and a single-use claim token.
   async function handlePacketAction() {
     if (!evaluation) return;
     setPacketActionError(null);
@@ -319,38 +322,35 @@ export function ScreeningFlow({ state, initialSessionId }: { state: string; init
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc",
         jurisdiction: profile.jurisdiction.code,
         answers: toScreeningAnswers(evaluatedAnswers ?? answers),
         profileVersion: profile.profileVersion,
-        matterId: matterIdRef.current,
-        sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined
+        screeningCorrelationId: matterIdRef.current,
+        // The server resolves partner, program, event, campaign and consent from
+        // its own record of this session. The browser only names the session.
+        anonymousSessionId: sessionId ?? effectiveInitialSessionId,
+        locale
       })
     }).catch(() => null);
-    const pending = await pendingResponse?.json().catch(() => null) as { pendingId?: string } | null;
-    if (!pendingResponse?.ok || !pending?.pendingId) {
+    const pending = await pendingResponse?.json().catch(() => null) as { claimToken?: string } | null;
+    if (!pendingResponse?.ok || !pending?.claimToken) {
       setPacketActionError(SAVE_RESULT_ERROR);
       return;
     }
 
-    const claimResponse = await fetch("/api/expungement-ai/screening/pending/claim", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })
-    }).catch(() => null);
-    const claimed = await claimResponse?.json().catch(() => null) as { redirectTo?: string } | null;
-    if (claimResponse?.ok && claimed?.redirectTo) {
-      router.push(claimed.redirectTo);
+    const claim = await submitClaim(pending.claimToken);
+    if (claim.ok) {
+      router.push(claim.redirectTo);
       return;
     }
-    if (claimResponse?.status !== 401) {
+    if (claim.status !== 401) {
       setPacketActionError(SAVE_RESULT_ERROR);
       return;
     }
 
-    const params = new URLSearchParams({ mode: "create", next: "/briefcase" });
-    params.set("pending", pending.pendingId);
-    router.push(`/expungement-ai/sign-in?${params.toString()}`);
+    // Not signed in yet. The token travels through the authentication handoff
+    // and the claim completes on the other side.
+    router.push(claimHandoffPath(pending.claimToken, "create"));
   }
 
   async function handleContinue() {

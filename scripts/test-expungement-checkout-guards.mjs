@@ -1146,8 +1146,15 @@ function sourceContracts() {
   const legacySave = read("src/app/api/expungement-ai/screening/save-result/route.ts");
   const saveIntent = read("src/components/expungement-ai/BriefcaseSaveIntent.tsx");
   const briefcase = read("src/lib/expungement-ai/briefcase.ts");
-  assert.ok(pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"));
-  assert.ok(pendingClaim.includes('error: "briefcase_persistence_failed"') && pendingClaim.includes("status: 503"));
+  const claimService = read("src/lib/expungement-ai/claim/claim-service.ts");
+  // Persistence moved into the one atomic claim transaction. The old shape wrote
+  // the Briefcase item first and then tried to mark the pending result claimed,
+  // which is the arrangement Contract SS4 forbids.
+  assert.ok(pendingClaim.includes("claimPendingScreeningResult("));
+  assert.ok(claimService.includes('supabase.rpc("claim_pending_screening_result"'));
+  assert.ok(claimService.includes("clampAuthoritativeMatterInput"));
+  assert.ok(!pendingClaim.includes('error: "briefcase_persistence_failed"'));
+  assert.ok(pendingClaim.includes('claim.reason === "storage_unavailable" ? 503'));
   assert.ok(briefcase.includes("getSupabaseAdminClient()") && briefcase.includes("user_id: input.authenticatedUserId"));
   assert.ok(briefcase.includes("direct Briefcase creation is retired"));
   assert.ok(legacySave.includes("screening_save_result_retired") && legacySave.includes("status: 410"));

@@ -80,7 +80,7 @@ export async function saveAuthoritativeScreeningResultToBriefcase(input: {
     throw new AuthoritativeBriefcasePersistenceError("authoritative screening persistence requires a source-bound result");
   }
 
-  const clamped = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input.item)));
+  const clamped = clampAuthoritativeMatterInput(input.item);
   const fallbackItem = fallbackItemFromCreateInput(clamped);
   const supabase = getSupabaseAdminClient();
 
@@ -270,6 +270,18 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
  * the committed packet in the participant's own locale, at the single write
  * path, with payment and credit closed.
  */
+/**
+ * The three release clamps every server-authoritative matter must pass before it
+ * is persisted, in the order the Briefcase persistence path has always applied
+ * them. Exported so the shared claim service applies exactly the same rules
+ * rather than growing a second, drifting copy of them.
+ */
+export function clampAuthoritativeMatterInput(
+  input: CreateConsumerBriefcaseItemInput
+): CreateConsumerBriefcaseItemInput {
+  return clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input)));
+}
+
 function clampExactDeferral(input: CreateConsumerBriefcaseItemInput): CreateConsumerBriefcaseItemInput {
   const declaredTrackId = input.selectedTrackId
     ?? (typeof input.artifactRefs?.selectedTrackId === "string" ? input.artifactRefs.selectedTrackId : null);

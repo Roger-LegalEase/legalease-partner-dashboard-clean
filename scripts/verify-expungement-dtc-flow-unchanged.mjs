@@ -39,7 +39,9 @@ const sources = {
   presentationAuthority: read("src/lib/expungement-ai/briefcase-presentation-authority.ts"),
   savePolicy: read("src/lib/expungement-ai/save-result-policy.ts"),
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
-  pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts")
+  pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
+  claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
+  claimHandoff: read("src/lib/expungement-ai/claim/claim-handoff.ts")
 };
 
 assert(sources.startPage.includes("/expungement-ai/screening"), "DTC start must route to screening, not account creation.");
@@ -54,11 +56,11 @@ for (const message of approvedCommercialFlowViolations(sources)) failures.push(m
 // catch instead of merely matching whichever source happens to be present.
 const prematurePaymentSource = {
   ...sources,
-  screeningFlow: packetAction(sources.screeningFlow).replaceAll("/briefcase", "/expungement-ai/pay")
+  screeningFlow: packetAction(sources.screeningFlow).replaceAll("submitClaim(pending.claimToken)", 'fetch("/expungement-ai/pay")')
 };
 assert(
-  approvedCommercialFlowViolations(prematurePaymentSource).some((message) => message.includes("free Briefcase before payment")),
-  "Negative control failed: a result action that routes to payment before Briefcase was not detected."
+  approvedCommercialFlowViolations(prematurePaymentSource).some((message) => message.includes("single-use token")),
+  "Negative control failed: a result action that routes to payment instead of claiming was not detected."
 );
 
 const missingReviewCheckout = {
@@ -123,10 +125,7 @@ if (sources.verificationAction && sources.verificationClient) {
 
 const crossMatterClaimRedirect = {
   ...sources,
-  pendingClaim: sources.pendingClaim.replace(
-    "redirectTo: `/briefcase/${encodeURIComponent(item.id)}`",
-    'redirectTo: "/briefcase"'
-  )
+  claimService: sources.claimService.replace("exactMatterPath(matterId)", '"/briefcase"')
 };
 assert(
   approvedCommercialFlowViolations(crossMatterClaimRedirect).some((message) => message.includes("exact saved matter")),
@@ -154,11 +153,14 @@ function approvedCommercialFlowViolations(input) {
   require(input.screeningFlow.includes("const isPartnerSession = Boolean(effectiveInitialSessionId);"), "DTC must default to non-partner when no server-validated session is present.");
   require(!input.screeningFlow.includes('type Phase = "questions" | "review"'), "The shared screening flow must not add a payment or account phase.");
   require(handoff.includes("/api/expungement-ai/screening/pending"), "Every completed result must create a server-side pending result before the auth handoff.");
-  require(handoff.includes("/api/expungement-ai/screening/pending/claim"), "An authenticated result handoff must claim the server-side pending result.");
-  require(handoff.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending results must preserve explicit DTC versus RCAP attribution.");
-  require(handoff.includes("sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined"), "DTC saves must not carry partner session authority.");
-  require(handoff.includes('body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })'), "Completed results must enter the free Briefcase before payment.");
-  require(handoff.includes('new URLSearchParams({ mode: "create", next: "/briefcase" })'), "Anonymous results must return to the free Briefcase after authentication.");
+  require(input.claimHandoff.includes("/api/expungement-ai/screening/pending/claim"), "An authenticated result handoff must claim the server-side pending result.");
+  require(handoff.includes("anonymousSessionId:"), "Pending results must name the anonymous session so attribution is resolved server-side.");
+  require(!handoff.includes("product:"), "The browser must not declare DTC versus RCAP attribution.");
+  // Sponsorship is now decided by the server from its own record of the
+  // anonymous session, so a DTC browser cannot assert partner authority at all.
+  require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "DTC saves must not carry partner session authority.");
+  require(handoff.includes("submitClaim(pending.claimToken)"), "Completed results must be claimed through the single-use token.");
+  require(handoff.includes('claimHandoffPath(pending.claimToken, "create")'), "Anonymous results must carry the claim through authentication.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "The result action must reach the free Briefcase before payment or Checkout.");
   require(!handoff.includes("/expungement-ai/packet-ready"), "The result action must not bypass review and payment to packet-ready.");
 
@@ -170,14 +172,14 @@ function approvedCommercialFlowViolations(input) {
 
   require(!input.signInForm.includes("partner_slug") && !input.signInForm.includes("programUpdatesConsent"), "Consumer sign-in must not collect or infer partner attribution.");
   require(input.signInForm.includes("save this result in your free Briefcase, complete packet information, and return later"), "DTC account creation must describe the free Briefcase handoff.");
-  require(input.signInForm.includes("expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)"), "DTC email verification must preserve the pending exact-result handoff.");
-  require(input.signInForm.includes("isExactBriefcaseMatterPath"), "A claimed pending result must accept only an exact Briefcase matter redirect.");
+  require(input.signInForm.includes("expungementAuthRedirectTo(requestContext.nextPath, requestContext.claimToken)"), "DTC email verification must preserve the pending exact-result handoff.");
+  require(input.claimHandoff.includes("isExactMatterPath(redirectTo)"), "A claimed pending result must accept only an exact matter redirect.");
 
-  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must default unknown product input to DTC.");
-  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored screening inputs server-side.");
-  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Only a validated RCAP source session may receive sponsored save posture.");
-  require(input.pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"), "Pending claims must persist the server-authoritative result.");
-  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
+  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must derive the product from server-resolved attribution.");
+  require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored screening inputs server-side.");
+  require(input.pendingCreate.includes("resolveScreeningAttribution"), "Only a validated RCAP source session may receive sponsored save posture.");
+  require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must persist through the one atomic claim transaction.");
+  require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claims must route to the exact saved matter.");
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claims must not skip the free Briefcase and packet review.");
 
   if (protectedPresentationUi) {

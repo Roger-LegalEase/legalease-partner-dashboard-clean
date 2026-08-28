@@ -24,6 +24,8 @@ const sources = {
   paymentAdapter: read("src/lib/expungement-ai/payment-adapter.ts"),
   pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
   pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
+  claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
+  claimHandoff: read("src/lib/expungement-ai/claim/claim-handoff.ts"),
   packetReadyPage: read("src/app/expungement-ai/packet-ready/page.tsx"),
   briefcaseDetail: read("src/app/briefcase/[packetId]/page.tsx"),
   briefcaseViews: read("src/components/expungement-ai/BriefcaseViews.tsx"),
@@ -108,10 +110,10 @@ if (sources.verificationAction && sources.verificationClient) {
 
 const prematurePayHandoff = {
   ...sources,
-  screeningFlow: packetAction(sources.screeningFlow).replaceAll("/briefcase", "/expungement-ai/pay")
+  screeningFlow: packetAction(sources.screeningFlow).replaceAll("submitClaim(pending.claimToken)", 'fetch("/expungement-ai/pay")')
 };
 assert(
-  stripeBoundaryViolations(prematurePayHandoff).some((message) => message.includes("before payment")),
+  stripeBoundaryViolations(prematurePayHandoff).some((message) => message.includes("claimed before payment")),
   "Negative control failed: routing a completed screening directly to payment was not detected."
 );
 
@@ -136,19 +138,19 @@ function stripeBoundaryViolations(input) {
   require(input.screeningResult.includes("$50 one time when you are ready to generate this packet"), "DTC result must retain its one-matter $50 disclosure.");
   require(input.screeningResult.includes('"A path may be available."') && !input.screeningResult.includes("A path may be available, with cautions"), "Packet-ready caution headline must remain conservative and not warning-led.");
 
-  require(handoff.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result handoff must mark DTC versus RCAP explicitly.");
+  require(handoff.includes("anonymousSessionId:") && !handoff.includes("product:"), "Attribution must be resolved server-side, never declared by the browser.");
   require(handoff.includes("/api/expungement-ai/screening/pending"), "Completed DTC results must persist server-side before authentication.");
-  require(handoff.includes('next: "/briefcase"'), "Completed DTC results must enter the free Briefcase before payment.");
-  require(handoff.includes('params.set("pending", pending.pendingId)'), "Anonymous DTC auth handoff must retain the pending result id.");
+  require(handoff.includes("submitClaim(pending.claimToken)"), "Completed DTC results must be claimed before payment.");
+  require(handoff.includes('claimHandoffPath(pending.claimToken, "create")'), "Anonymous DTC auth handoff must retain the single-use claim token.");
   require(handoff.includes("SAVE_RESULT_ERROR") && handoff.includes("setPacketActionError(SAVE_RESULT_ERROR)"), "Result persistence failures must fail closed with a safe save error.");
   require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "Screening must not start payment or Checkout before packet information and review.");
   require(!handoff.includes('/expungement-ai/packet-ready"'), "Screening must not route to packet-ready before payment.");
-  require(handoff.includes("isPartnerSession ? effectiveInitialSessionId : undefined"), "Only a validated partner session may carry partner source authority.");
+  require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a validated partner session may carry partner source authority.");
 
-  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending storage must default unknown product input to DTC.");
-  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Pending claim must validate partner sponsorship server-side.");
-  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claim must re-evaluate saved screening inputs before commercial routing.");
-  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claim must land on the exact free Briefcase matter.");
+  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending storage must derive the product from server-resolved attribution.");
+  require(input.pendingCreate.includes("resolveScreeningAttribution"), "Pending claim must validate partner sponsorship server-side.");
+  require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claim must re-evaluate saved screening inputs before commercial routing.");
+  require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claim must land on the exact free Briefcase matter.");
   require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claim must not bypass packet information and final review.");
   require(input.savePolicy.includes("return isPartnerSession ? false : evaluationPaymentAllowed;"), "Only validated partner context may suppress otherwise-allowed consumer payment.");
 

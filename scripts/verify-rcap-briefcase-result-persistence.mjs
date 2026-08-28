@@ -89,7 +89,9 @@ const sources = {
   verificationCas: read("src/lib/expungement-ai/verification-cas.ts"),
   flow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
   briefcasePage: read("src/app/briefcase/page.tsx"),
-  saveIntent: read("src/components/expungement-ai/BriefcaseSaveIntent.tsx")
+  saveIntent: read("src/components/expungement-ai/BriefcaseSaveIntent.tsx"),
+  claimService: read("src/lib/expungement-ai/claim/claim-service.ts"),
+  claimHandoff: read("src/lib/expungement-ai/claim/claim-handoff.ts")
 };
 
 for (const failure of persistenceWiringViolations(sources)) failures.push(failure);
@@ -107,7 +109,7 @@ assert(
 
 const nonAuthoritativeClaim = {
   ...sources,
-  pendingClaim: sources.pendingClaim.replaceAll("saveAuthoritativeScreeningResultToBriefcase", "saveScreeningResultToBriefcase")
+  claimService: sources.claimService.replaceAll('supabase.rpc("claim_pending_screening_result"', 'supabase.from("consumer_briefcase_items").insert(')
 };
 assert(
   persistenceWiringViolations(nonAuthoritativeClaim).some((failure) => failure.includes("server-authoritative writer")),
@@ -116,10 +118,10 @@ assert(
 
 const bypassedPendingClaim = {
   ...sources,
-  flow: sources.flow.replace('"/api/expungement-ai/screening/pending/claim"', '"/api/expungement-ai/screening/save-result"')
+  claimHandoff: sources.claimHandoff.replace('"/api/expungement-ai/screening/pending/claim"', '"/api/expungement-ai/screening/save-result"')
 };
 assert(
-  persistenceWiringViolations(bypassedPendingClaim).some((failure) => failure.includes("claim the stored inputs")),
+  persistenceWiringViolations(bypassedPendingClaim).some((failure) => failure.includes("server-verified claim boundary")),
   "Negative control failed: bypassing the server-verified pending claim was not detected."
 );
 
@@ -166,15 +168,20 @@ function persistenceWiringViolations(input) {
 
   require(input.pendingCreate.includes("evaluateAuthoritativeScreeningResult"), "Pending-result creation must evaluate submitted screening inputs server-side.");
   require(input.pendingCreate.includes("consumer_pending_screening_results") && input.pendingCreate.includes("screening_answers: body.answers"), "Pending-result creation must store the verified inputs for authenticated re-evaluation.");
-  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Unknown pending-result product input must default to DTC.");
+  // The browser no longer declares the product. The server reads sponsorship
+  // from its own record of the anonymous session, so a browser cannot elect
+  // itself into a partner posture it was never granted.
+  require(input.pendingCreate.includes('attribution.isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result product must be derived from server-resolved attribution.");
+  require(!input.pendingCreate.includes("body.product"), "The browser must not declare the pending-result product.");
 
   require(input.pendingClaim.includes("getRcapBriefcaseAuthState") && input.pendingClaim.includes('error: "auth_required"') && input.pendingClaim.includes("status: 401"), "Pending claims must require the authenticated consumer session.");
-  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs before persistence.");
-  require(input.pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"), "Pending claims must use the server-authoritative writer.");
-  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Only a server-validated partner session may receive sponsored persistence posture.");
-  require(input.pendingClaim.includes("buildSaveInput") && input.pendingClaim.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
-  require(input.pendingClaim.includes('stage: "not_started"') && input.pendingClaim.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
-  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must return the exact saved Briefcase matter.");
+  require(input.claimService.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored inputs before persistence.");
+  require(input.claimService.includes('supabase.rpc("claim_pending_screening_result"'), "Pending claims must use the server-authoritative writer.");
+  require(input.claimService.includes("clampAuthoritativeMatterInput"), "Pending claims must apply the server-authoritative matter clamps.");
+  require(input.claimService.includes('row.product === "rcap_partner" && Boolean(row.partner_slug)'), "Only a server-validated partner session may receive sponsored persistence posture.");
+  require(input.claimService.includes("buildSaveInput") && input.claimService.includes("{ isPartnerSession }"), "The verified partner posture must clamp payment during save-input construction.");
+  require(input.claimService.includes('stage: "not_started"') && input.claimService.includes("requiredInputIds"), "Packet-ready saves must attach the prepayment packet-information model.");
+  require(input.claimService.includes("exactMatterPath(matterId)"), "Pending claims must return the exact saved Briefcase matter.");
   require(!input.pendingClaim.includes("createConsumerPacketCheckout") && !input.pendingClaim.includes("stripe"), "Pending claims must not create Checkout or call Stripe.");
 
   require(input.briefcase.includes("export async function saveAuthoritativeScreeningResultToBriefcase"), "Persistence must expose the server-authoritative writer.");
@@ -220,13 +227,17 @@ function persistenceWiringViolations(input) {
     && input.verificationCas.includes("expectedPriorRevision"), "Protected packet updates must retain hash/revision compare-and-swap handoff.");
 
   require(resultAction.includes('"/api/expungement-ai/screening/pending"'), "The completed result action must create a server-side pending result.");
-  require(resultAction.includes('"/api/expungement-ai/screening/pending/claim"'), "The completed result action must claim the stored inputs through the server-verified boundary.");
+  // The result action reaches the claim through the shared handoff rather than
+  // assembling its own request, so the URL, the token shape and the
+  // exact-matter redirect check live in one place.
+  require(resultAction.includes("submitClaim("), "The completed result action must claim the stored inputs through the server-verified boundary.");
   require(resultAction.includes("answers: toScreeningAnswers(evaluatedAnswers ?? answers)"), "The pending handoff must send the evaluated screening inputs for authoritative evaluation.");
-  require(resultAction.includes('body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })'), "The result action must enter the free Briefcase before payment.");
+  require(resultAction.includes("submitClaim(pending.claimToken)"), "The result action must present the single-use claim token, not a pending identifier.");
   require(!resultAction.includes("/expungement-ai/pay") && !resultAction.includes("checkout"), "The result action must not bypass packet information and final review.");
 
   require(input.briefcasePage.includes("<BriefcaseSaveIntent"), "Briefcase home must retain the after-login pending-claim retry.");
-  require(input.saveIntent.includes('"/api/expungement-ai/screening/pending/claim"') && input.saveIntent.includes("pendingId"), "Save-intent component must replay only the stored pending claim after login.");
+  require(input.saveIntent.includes("submitClaim") && input.saveIntent.includes("readClaimTokenFromUrl"), "Save-intent component must replay only a presented claim token after login.");
+  require(input.claimHandoff.includes('"/api/expungement-ai/screening/pending/claim"'), "The claim handoff must post to the server-verified claim boundary.");
   require(!input.saveIntent.includes("pending-briefcase-save") && !input.saveIntent.includes('"/api/expungement-ai/screening/save-result"'), "Save-intent component must not replay browser-stashed result identity.");
 
   return issues;
