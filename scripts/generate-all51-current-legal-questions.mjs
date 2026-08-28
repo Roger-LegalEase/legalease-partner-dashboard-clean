@@ -110,8 +110,9 @@ const TUPLE_BASELINE = {
     {
       trackId: "sc_pti_17_22_150",
       pathwayKeys: ["SC:diversion-or-program-completion-expungement"],
-      tuples: 1,
-      reason: "Batch A of the national report gave SC:diversion-or-program-completion-expungement a legal-authority route contract, which bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join. The track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question, and that question is already answered by CLD-2026-08-28-SC-PTI, so this addition is a new tuple on a settled question rather than a new question."
+      tuples: 0,
+      reversedBy: "SC-2026-08-28-PTI-SOLICITOR-ADMINISTERED",
+      reason: "Batch A briefly added this tuple: giving SC:diversion-or-program-completion-expungement a route contract bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join, and the track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question. The signed reclassification of 2026-08-28 then removed the pathway from the paid denominator, so the join no longer reaches it and the tuple is gone. The entry is kept at zero rather than deleted: the tuple existed, and a denominator that silently returns to its old value hides the fact that it moved twice."
     }
   ]
 };
@@ -713,6 +714,10 @@ if (CHECK) {
   }
   for (const addition of TUPLE_BASELINE.additions) {
     const found = tuples.filter((t) => addition.pathwayKeys.includes(t.pathwayKey) && t.trackId === addition.trackId).length;
+    if (addition.reversedBy && found !== 0) {
+      problems.push(`${addition.trackId}: recorded as reversed by ${addition.reversedBy}, but ${found} tuple(s) are still present`);
+      continue;
+    }
     if (found !== addition.tuples) {
       problems.push(`${addition.trackId}: ${found} tuple(s) on ${addition.pathwayKeys.join(", ")}, recorded as ${addition.tuples}`);
     }

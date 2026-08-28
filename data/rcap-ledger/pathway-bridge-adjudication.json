@@ -3,13 +3,13 @@
   "generatedBy": "scripts/generate-pathway-bridge-adjudication.mjs",
   "question": "The authority finalization published fourteen pathways as approved-track bridges. How many of those candidates survive evidence?",
   "correction": "These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISSING, assigned by a lexical Jaccard candidate finder at a 0.34 threshold. A candidate finder proposes; it does not decide. This register adjudicates each candidate against the legal-authority route record's statute, stage and outcomeMode, and against the memo track's controlling authority and population.",
-  "subjectCount": 38,
+  "subjectCount": 35,
   "counts": {
     "TRACK_MATCHED_BUT_DESIGN_DEFERRED": 6,
     "CANDIDATE_REJECTED": 9,
     "NO_CANDIDATE_TRACK_EXISTS": 15,
     "BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION": 2,
-    "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET": 4,
+    "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET": 1,
     "UNDECIDED_INSUFFICIENT_EVIDENCE": 2
   },
   "rows": [
@@ -413,67 +413,6 @@
       "action": "Write the legal design for ME:pardon-route, or record it as intentionally outside product scope through the signed reclassification register."
     },
     {
-      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
-      "candidateTrackId": "ms-drug-cd",
-      "candidateTrackName": "Controlled-Substance Conditional Discharge and Expungement (Miss. Code Ann. § 41-29-150)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ms-drug-cd",
-      "lexicalMatchScore": 0.44,
-      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. § 41-29-150(d)(1)",
-        "stage": "active_case_admission",
-        "outcomeMode": "referral",
-        "packetFamily": null,
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 41-29-150(d)(1)",
-        "Miss. Code Ann. § 41-29-150(d)(2)",
-        "Miss. Code Ann. § 41-29-139(c)",
-        "Miss. Code Ann. § 41-29-139(d)"
-      ],
-      "sharedCitationKeys": [
-        "4129150",
-        "4129"
-      ],
-      "sharedExactCitationKeys": [
-        "4129150"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-drug-cd",
-          "legalName": "Controlled-Substance Conditional Discharge and Expungement (Miss. Code Ann. § 41-29-150)",
-          "sharedKeys": [
-            "4129150",
-            "4129"
-          ],
-          "eligibleDispositions": [
-            "conditional_discharge_completed_and_dismissed"
-          ]
-        }
-      ],
-      "disqualifiers": [
-        {
-          "test": "outcome_mode",
-          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        },
-        {
-          "test": "stage",
-          "finding": "The route is stage=active_case_admission while ms-drug-cd accepts only post-completion dispositions (conditional_discharge_completed_and_dismissed). Binding them would offer relief on a case that has not reached the disposition the track requires.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        }
-      ],
-      "samePopulationTracks": [],
-      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
-      "reason": "The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active.",
-      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
-    },
-    {
       "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
       "jurisdiction": "MS",
       "pathwayLabel": "Human-trafficking survivor expungement",
@@ -672,134 +611,6 @@
       "samePopulationTracks": [],
       "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
       "reason": "The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Enforcement of relief the statute already granted. Never sold as an expungement packet.",
-      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
-    },
-    {
-      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
-      "candidateTrackId": "ms-nonadj",
-      "candidateTrackName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": null,
-      "lexicalMatchScore": 0,
-      "finalizationClassification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. § 99-15-26(1)",
-        "stage": "active_case_admission",
-        "outcomeMode": "referral",
-        "packetFamily": null,
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 99-15-26",
-        "Miss. Code Ann. § 99-15-26(5)",
-        "Miss. Code Ann. § 99-19-71(4)"
-      ],
-      "sharedCitationKeys": [
-        "991526",
-        "9915"
-      ],
-      "sharedExactCitationKeys": [
-        "991526"
-      ],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-nonadj",
-          "legalName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
-          "sharedKeys": [
-            "991526",
-            "9915"
-          ],
-          "eligibleDispositions": [
-            "nonadjudication_dismissed_after_completion"
-          ]
-        }
-      ],
-      "disqualifiers": [
-        {
-          "test": "outcome_mode",
-          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        },
-        {
-          "test": "stage",
-          "finding": "The route is stage=active_case_admission while ms-nonadj accepts only post-completion dispositions (nonadjudication_dismissed_after_completion). Binding them would offer relief on a case that has not reached the disposition the track requires.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        }
-      ],
-      "samePopulationTracks": [],
-      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
-      "reason": "The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. No checkout before completion and closure.",
-      "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
-    },
-    {
-      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
-      "candidateTrackId": "ms-nonadj",
-      "candidateTrackName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
-      "candidateSource": "statutory",
-      "lexicalCandidateTrackId": "ms-diversion",
-      "lexicalMatchScore": 0.43,
-      "finalizationClassification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-      "routeAuthority": {
-        "statute": "Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109",
-        "stage": "active_case_admission",
-        "outcomeMode": "referral",
-        "packetFamily": null,
-        "decisionId": "LD-MS-01",
-        "sourceFile": "src/lib/legal-authority/routes/mississippi.json"
-      },
-      "trackCitations": [
-        "Miss. Code Ann. § 99-15-26",
-        "Miss. Code Ann. § 99-15-26(5)",
-        "Miss. Code Ann. § 99-19-71(4)"
-      ],
-      "sharedCitationKeys": [
-        "9915"
-      ],
-      "sharedExactCitationKeys": [],
-      "statutoryMatchesAtTopRank": [
-        {
-          "trackId": "ms-nonadj",
-          "legalName": "Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26)",
-          "sharedKeys": [
-            "9915"
-          ],
-          "eligibleDispositions": [
-            "nonadjudication_dismissed_after_completion"
-          ]
-        },
-        {
-          "trackId": "ms-diversion",
-          "legalName": "Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23)",
-          "sharedKeys": [
-            "9915"
-          ],
-          "eligibleDispositions": [
-            "pretrial_intervention_completed_noncriminal_disposition",
-            "intervention_court_completed_dismissal",
-            "intervention_court_completed_sentenced_plea_expunged"
-          ]
-        }
-      ],
-      "disqualifiers": [
-        {
-          "test": "outcome_mode",
-          "finding": "The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        },
-        {
-          "test": "stage",
-          "finding": "The route is stage=active_case_admission while ms-nonadj accepts only post-completion dispositions (nonadjudication_dismissed_after_completion). Binding them would offer relief on a case that has not reached the disposition the track requires.",
-          "source": "src/lib/legal-authority/routes/mississippi.json"
-        }
-      ],
-      "samePopulationTracks": [],
-      "verdict": "NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET",
-      "reason": "The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Referral and guidance only. Checkout opens only after a qualifying disposition.",
       "action": "Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed."
     },
     {

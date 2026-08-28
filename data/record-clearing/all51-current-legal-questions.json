@@ -4,7 +4,7 @@
   "createsApproval": false,
   "controlling": "data/record-clearing/all51-current-legal-questions.json",
   "denominator": {
-    "historicalLedgerTuples": 56,
+    "historicalLedgerTuples": 55,
     "historicalDeferredUniqueQuestions": 50,
     "decidedTrackQuestionTexts": 6,
     "historicalUniqueQuestions": 56,
@@ -24,11 +24,12 @@
         "pathwayKeys": [
           "SC:diversion-or-program-completion-expungement"
         ],
-        "tuples": 1,
-        "reason": "Batch A of the national report gave SC:diversion-or-program-completion-expungement a legal-authority route contract, which bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join. The track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question, and that question is already answered by CLD-2026-08-28-SC-PTI, so this addition is a new tuple on a settled question rather than a new question."
+        "tuples": 0,
+        "reversedBy": "SC-2026-08-28-PTI-SOLICITOR-ADMINISTERED",
+        "reason": "Batch A briefly added this tuple: giving SC:diversion-or-program-completion-expungement a route contract bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join, and the track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question. The signed reclassification of 2026-08-28 then removed the pathway from the paid denominator, so the join no longer reaches it and the tuple is gone. The entry is kept at zero rather than deleted: the tuple existed, and a denominator that silently returns to its old value hides the fact that it moved twice."
       }
     ],
-    "note": "Three numbers, none of them interchangeable. The finalization emits 56 (pathway, track, question) tuples, of which 53 were in the first published queue and 3 were added by bindings named in accountedAdditions. Tuples exceed questions because some questions are reached by more than one pathway, giving 50 deferred questions. The 6 question texts on the decided tracks were tracked BESIDE that figure, not inside it, so subtracting one from the other was never valid. Folding them in gives one denominator of 56 in which resolution can be counted."
+    "note": "Three numbers, none of them interchangeable. The finalization emits 55 (pathway, track, question) tuples, of which 53 were in the first published queue and 2 were added by bindings named in accountedAdditions. Tuples exceed questions because some questions are reached by more than one pathway, giving 50 deferred questions. The 6 question texts on the decided tracks were tracked BESIDE that figure, not inside it, so subtracting one from the other was never valid. Folding them in gives one denominator of 56 in which resolution can be counted."
   },
   "resolution": {
     "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
@@ -540,12 +541,8 @@
       "tracks": [
         "sc_pti_17_22_150"
       ],
-      "pathways": [
-        "SC:diversion-or-program-completion-expungement"
-      ],
-      "packetFamilies": [
-        "rcap-sc-custom-pleading"
-      ],
+      "pathways": [],
+      "packetFamilies": [],
       "question": [
         "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one."
       ],
@@ -564,10 +561,8 @@
         "reviewedAsOf": "2026-08-01",
         "designStatus": "legal_design_approved_with_limitations"
       },
-      "existingProductTreatment": "Family bridged; packet generation and payment closed pending this answer.",
-      "affectedRoutes": [
-        "SC:diversion-or-program-completion-expungement"
-      ],
+      "existingProductTreatment": "No family bridged; the route is served as guidance and payment is closed.",
+      "affectedRoutes": [],
       "paymentCurrentlyDisabled": true,
       "generationCurrentlyDisabled": true,
       "nationalReportTreatment": {
@@ -3347,10 +3342,8 @@
         "S.C. Code § 17-1-40"
       ],
       "reviewedAsOf": "2026-08-01",
-      "packetFamilies": [
-        "rcap-sc-custom-pleading"
-      ],
-      "familyBridgePresent": true,
+      "packetFamilies": [],
+      "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
       "classification": "LEGAL_DECISION_RESOLVED",
       "legalStatus": "RESOLVED",

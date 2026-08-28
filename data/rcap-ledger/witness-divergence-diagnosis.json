@@ -4,12 +4,12 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab",
-    "pathways": 271,
+    "sha256": "96ea39d539f3f1722217259ec11d406fa1c58bf46aaf5b5e081e8c8ceb187ac2",
+    "pathways": 263,
     "dispositions": {
-      "family_bridge_missing_no_family": 154,
-      "approved_by_decision_owner": 72,
-      "family_bridge_missing_no_track": 45
+      "family_bridge_missing_no_family": 152,
+      "approved_by_decision_owner": 70,
+      "family_bridge_missing_no_track": 41
     }
   },
   "createsNoDenominator": "The pathway set is Session A's graph, consumed as-is. No pathway is added, dropped or reclassified here.",
@@ -18,7 +18,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 271
+    "combosTried": 263
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -26,10 +26,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 271,
-    "correct_pathway": 271,
+    "pathways": 263,
+    "correct_pathway": 263,
     "baselineOutcomes": {
-      "correct_pathway": 271
+      "correct_pathway": 263
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -2692,29 +2692,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
-      "jurisdiction": "MS",
-      "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
-      "pathwayLabel": "Additional justice- or municipal-court misdemeanor relief",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.legal_authority_referral_required"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "jurisdiction": "MS",
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
@@ -2733,52 +2710,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ms.guidance_only_no_user_filed_court_petition"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
-      "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.selected_pathway_rule_not_matched"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MS:dui-nonadjudication",
-      "jurisdiction": "MS",
-      "pathwayId": "dui-nonadjudication",
-      "pathwayLabel": "DUI nonadjudication",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "dui-nonadjudication",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.waiting_rule_not_executed"
         ]
       },
       "combosTried": 1
@@ -2922,29 +2853,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
-      "jurisdiction": "MS",
-      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.legal_authority_referral_required"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "jurisdiction": "MS",
       "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -3037,29 +2945,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
-      "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "nonadjudication-99-15-26-active-case-admission",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.selected_pathway_rule_not_matched"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
       "pathwayId": "nonadjudication-under-99-15-26",
@@ -3078,29 +2963,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ms.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "pretrial-intervention-active-case-admission",
-      "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "pretrial-intervention-active-case-admission",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ms.selected_pathway_rule_not_matched"
         ]
       },
       "combosTried": 1
@@ -4785,29 +4647,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
-      "jurisdiction": "RI",
-      "pathwayId": "path-g-decriminalized-offense-expungement",
-      "pathwayLabel": "Path G — Decriminalized-offense expungement",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "needs_review",
-        "pathwayId": "path-g-decriminalized-offense-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "ri.legal_authority_referral_required"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "RI:path-h-commercial-sexual-activity-related-expungement",
       "jurisdiction": "RI",
       "pathwayId": "path-h-commercial-sexual-activity-related-expungement",
@@ -4826,29 +4665,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "ri.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "SC:diversion-or-program-completion-expungement",
-      "jurisdiction": "SC",
-      "pathwayId": "diversion-or-program-completion-expungement",
-      "pathwayLabel": "Diversion or program-completion expungement",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "diversion-or-program-completion-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "sc.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1

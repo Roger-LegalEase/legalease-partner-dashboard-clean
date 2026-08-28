@@ -320,11 +320,11 @@
     "correction": "The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one."
   },
   "noTrackRows": {
-    "total": 38,
+    "total": 35,
     "counts": {
       "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS": 8,
-      "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED": 12,
-      "NO_LEGAL_DESIGN_TRACK_EXISTS": 18
+      "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED": 10,
+      "NO_LEGAL_DESIGN_TRACK_EXISTS": 17
     },
     "rows": [
       {
@@ -469,20 +469,6 @@
       },
       {
         "jurisdiction": "MS",
-        "pathway": "controlled-substance-conditional-discharge-active-case-admission",
-        "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-        "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
-        "candidateTrackId": "ms-drug-cd",
-        "candidateTrackName": "Controlled-Substance Conditional Discharge and Expungement (Miss. Code Ann. § 41-29-150)",
-        "candidateMatchScore": 0.44,
-        "candidateDesignStatus": "legal_design_approved_with_limitations",
-        "candidateCount": 1,
-        "classification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-        "reason": "The memo track ms-drug-cd is the closest lexical candidate (score 0.44) and has design status legal_design_approved_with_limitations. A name overlap is not coverage.",
-        "smallestRemainingAction": "Adjudicate MS:controlled-substance-conditional-discharge-active-case-admission against ms-drug-cd in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything."
-      },
-      {
-        "jurisdiction": "MS",
         "pathway": "human-trafficking-survivor-expungement-97-3-54-6-6",
         "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
         "pathwayLabel": "Human-trafficking survivor expungement",
@@ -536,34 +522,6 @@
         "classification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
         "reason": "The memo track ms-diversion is the closest lexical candidate (score 0.43) and has design status legal_design_approved_with_limitations. A name overlap is not coverage.",
         "smallestRemainingAction": "Adjudicate MS:intervention-court-statutory-result-enforcement-referral against ms-diversion in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything."
-      },
-      {
-        "jurisdiction": "MS",
-        "pathway": "nonadjudication-99-15-26-active-case-admission",
-        "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-        "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
-        "candidateTrackId": null,
-        "candidateTrackName": null,
-        "candidateMatchScore": 0,
-        "candidateDesignStatus": null,
-        "candidateCount": 0,
-        "classification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
-        "reason": "No track in MS's memo corresponds to this pathway.",
-        "smallestRemainingAction": "Write the legal design for MS nonadjudication-99-15-26-active-case-admission, or record it as intentionally outside product scope."
-      },
-      {
-        "jurisdiction": "MS",
-        "pathway": "pretrial-intervention-active-case-admission",
-        "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-        "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
-        "candidateTrackId": "ms-diversion",
-        "candidateTrackName": "Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23)",
-        "candidateMatchScore": 0.43,
-        "candidateDesignStatus": "legal_design_approved_with_limitations",
-        "candidateCount": 1,
-        "classification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
-        "reason": "The memo track ms-diversion is the closest lexical candidate (score 0.43) and has design status legal_design_approved_with_limitations. A name overlap is not coverage.",
-        "smallestRemainingAction": "Adjudicate MS:pretrial-intervention-active-case-admission against ms-diversion in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything."
       },
       {
         "jurisdiction": "MS",
@@ -3179,31 +3137,13 @@
       }
     ]
   },
-  "la02": {
-    "assignmentId": "LA-02",
-    "jurisdiction": "SC",
-    "trackId": "sc_pti_17_22_150",
-    "pathwayKey": "SC:diversion-or-program-completion-expungement",
-    "exactUnresolvedCounselQuestion": "Does the $150 single-incident fee in the Supreme Court guidance survive the 2018 amendment to § 17-22-940(G), which says only one $250 fee may be charged in that circumstance? Which figure does the packet quote?",
-    "fullMemoStatement": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-    "affectedElement": "filing_process",
-    "packetFamily": [
-      "rcap-sc-custom-pleading"
-    ],
-    "outputUnderReview": "custom_pleading produced for Solicitor Application to Destroy Arrest Records After Successful Pretrial Intervention, S.C. Code § 17-22-150(a)",
-    "memoPath": "data/record-clearing/legal-design-intake/SC.memo.json",
-    "memoSha256": "8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f",
-    "existingAdoptedLegalDesign": "legal_design_approved_with_limitations, reviewed as of 2026-08-01; EXT-ADOPT-01 adopted the legal design on 2026-08-08.",
-    "whyNoExistingApprovalReachesTheOutput": "The completed-output approval of 2026-08-19 covers the family rcap-sc-custom-pleading as it stood then. It does not resolve a conflict between two sources of the fee figure, which is what the packet has to quote.",
-    "exactDecisionRequested": "Does the $150 single-incident fee in the Supreme Court expungement guidance survive the 2018 amendment to S.C. Code § 17-22-940(G), which provides that only one $250 fee may be charged where multiple charges from a single incident are combined? Which figure does the packet quote?",
-    "scopeLimit": "This assignment is exactly this question. It does not reopen the SC legal design, the packet family, or any other South Carolina route."
-  },
+  "la02": null,
   "deferredCounselQuestions": {
-    "total": 56,
+    "total": 55,
     "counts": {
       "LEGAL_DESIGN_DECISION_CAN_RUN_NOW": 22,
       "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL": 13,
-      "SOURCE_REQUIRED_BEFORE_COUNSEL": 21
+      "SOURCE_REQUIRED_BEFORE_COUNSEL": 20
     },
     "questions": [
       {
@@ -3484,15 +3424,6 @@
         "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
         "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
         "reason": "The question concerns packet_components, which counsel can only assess against an actual rendered output."
-      },
-      {
-        "jurisdiction": "SC",
-        "pathwayKey": "SC:diversion-or-program-completion-expungement",
-        "trackId": "sc_pti_17_22_150",
-        "affectedElement": "filing_process",
-        "question": "The single-incident fee. Section 17-22-940(G) as amended by 2018 Act No. 254 was read at source on 2026-08-06 and provides that where multiple charges from a single incident are combined under § 17-1-40 or § 17-22-150(a), 'only one two hundred fifty-dollar fee, one twenty-five dollar SLED verification fee, and one thirty-five dollar clerk of court filing fee may be charged'. The controlling review reports the single-incident solicitor fee as one hundred fifty dollars, drawn from Supreme Court expungement guidance. The current statutory figure is two hundred fifty dollars. The packet quotes the statutory figure and does not promise the lower one.",
-        "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns filing_process, which depends on the current official filing instructions."
       },
       {
         "jurisdiction": "SC",

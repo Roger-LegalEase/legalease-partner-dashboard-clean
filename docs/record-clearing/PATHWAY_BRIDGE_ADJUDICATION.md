@@ -9,10 +9,10 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 | NO_CANDIDATE_TRACK_EXISTS | 15 |
 | CANDIDATE_REJECTED | 9 |
 | TRACK_MATCHED_BUT_DESIGN_DEFERRED | 6 |
-| NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET | 4 |
 | BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION | 2 |
 | UNDECIDED_INSUFFICIENT_EVIDENCE | 2 |
-| **TOTAL** | **38** |
+| NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET | 1 |
+| **TOTAL** | **35** |
 
 ## BRIDGE_AMBIGUOUS_MULTIPLE_TRACKS_SHARE_THE_SECTION
 
@@ -120,16 +120,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 
 ## NOT_A_BRIDGE_ROUTE_IS_NOT_A_PACKET
 
-### `MS:controlled-substance-conditional-discharge-active-case-admission`
-
-- **Lexical candidate**: `ms-drug-cd` — Controlled-Substance Conditional Discharge and Expungement (Miss. Code Ann. § 41-29-150) (score undefined)
-- **Route authority**: Miss. Code Ann. § 41-29-150(d)(1) · stage active_case_admission · outcomeMode referral · packetFamily null
-- **Track authority**: Miss. Code Ann. § 41-29-150(d)(1); Miss. Code Ann. § 41-29-150(d)(2); Miss. Code Ann. § 41-29-139(c); Miss. Code Ann. § 41-29-139(d)
-- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
-- **Refuted on stage**: The route is stage=active_case_admission while ms-drug-cd accepts only post-completion dispositions (conditional_discharge_completed_and_dismissed). Binding them would offer relief on a case that has not reached the disposition the track requires.
-- **Reason**: The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active.
-- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
-
 ### `MS:intervention-court-statutory-result-enforcement-referral`
 
 - **Lexical candidate**: `ms-diversion` — Expungement After Pretrial Intervention or Intervention Court Completion (Miss. Code Ann. §§ 99-15-123, 9-23-23) (score undefined)
@@ -138,26 +128,6 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 - **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
 - **Refuted on stage**: The route is stage=enforcement while ms-diversion accepts only post-completion dispositions (pretrial_intervention_completed_noncriminal_disposition, intervention_court_completed_dismissal, intervention_court_completed_sentenced_plea_expunged). Binding them would offer relief on a case that has not reached the disposition the track requires.
 - **Reason**: The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Enforcement of relief the statute already granted. Never sold as an expungement packet.
-- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
-
-### `MS:nonadjudication-99-15-26-active-case-admission`
-
-- **Lexical candidate**: `ms-nonadj` — Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26) (score undefined)
-- **Route authority**: Miss. Code Ann. § 99-15-26(1) · stage active_case_admission · outcomeMode referral · packetFamily null
-- **Track authority**: Miss. Code Ann. § 99-15-26; Miss. Code Ann. § 99-15-26(5); Miss. Code Ann. § 99-19-71(4)
-- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
-- **Refuted on stage**: The route is stage=active_case_admission while ms-nonadj accepts only post-completion dispositions (nonadjudication_dismissed_after_completion). Binding them would offer relief on a case that has not reached the disposition the track requires.
-- **Reason**: The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. No checkout before completion and closure.
-- **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
-
-### `MS:pretrial-intervention-active-case-admission`
-
-- **Lexical candidate**: `ms-nonadj` — Expungement After Nonadjudication (Miss. Code Ann. § 99-15-26) (score undefined)
-- **Route authority**: Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109 · stage active_case_admission · outcomeMode referral · packetFamily null
-- **Track authority**: Miss. Code Ann. § 99-15-26; Miss. Code Ann. § 99-15-26(5); Miss. Code Ann. § 99-19-71(4)
-- **Refuted on outcome_mode**: The legal-authority route records outcomeMode=referral and packetFamily=null. The route does not produce a packet, so no bridge to a packet track can be correct.
-- **Refuted on stage**: The route is stage=active_case_admission while ms-nonadj accepts only post-completion dispositions (nonadjudication_dismissed_after_completion). Binding them would offer relief on a case that has not reached the disposition the track requires.
-- **Reason**: The adopted legal-authority record (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01) already decided this route is referral. Referral and guidance only. Checkout opens only after a qualifying disposition.
 - **Action**: Recategorise the pathway out of paid_packet_intended through the signed reclassification register. No engineering bridge is owed.
 
 ## NO_CANDIDATE_TRACK_EXISTS

@@ -6,10 +6,9 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 
 | Authority outcome mode | Pathways |
 |---|---:|
-| referral | 9 |
+| referral | 2 |
 | automatic_relief | 1 |
-| guidance_status | 1 |
-| **TOTAL** | **11** |
+| **TOTAL** | **3** |
 
 ## Deliberately not proposed
 
@@ -27,16 +26,8 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 | Pathway | Commercial | Service disposition | Children to keep | Decision |
 |---|---|---|---|---|
 | `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | paid_packet_intended → non_paid_service | selection_only | — | LD-MN-01 |
-| `MS:additional-justice-or-municipal-court-misdemeanor-relief` | paid_packet_intended → non_paid_service | selection_only | 2 | LD-MS-01 |
-| `MS:controlled-substance-conditional-discharge-active-case-admission` | paid_packet_intended → non_paid_service | handoff | 1 | LD-MS-01 |
-| `MS:dui-nonadjudication` | paid_packet_intended → non_paid_service | handoff | 1 | LD-MS-01 |
-| `MS:human-trafficking-survivor-vacatur-and-expungement` | paid_packet_intended → non_paid_service | selection_only | 2 | LD-MS-01 |
 | `MS:intervention-court-statutory-result-enforcement-referral` | paid_packet_intended → non_paid_service | handoff | — | LD-MS-01 |
-| `MS:nonadjudication-99-15-26-active-case-admission` | paid_packet_intended → non_paid_service | handoff | 1 | LD-MS-01 |
-| `MS:pretrial-intervention-active-case-admission` | paid_packet_intended → non_paid_service | handoff | 1 | LD-MS-01 |
 | `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | paid_packet_intended → branch_mixed | branch_dependent | — | NATIONAL-2026-08-28-LA-IMM-03 |
-| `RI:path-g-decriminalized-offense-expungement` | paid_packet_intended → non_paid_service | handoff | — | LD-RI-06 |
-| `SC:diversion-or-program-completion-expungement` | paid_packet_intended → non_paid_service | process_guidance | — | NATIONAL-2026-08-28-LA-IMM-04 |
 
 ### Not ready to apply
 
@@ -65,128 +56,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "newClassification": "non_filing_guidance",
   "reason": "no_participant_filing",
   "evidence": "src/lib/legal-authority/routes/route-splits.json records MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06 under LD-MN-01 / MN-299C.11-609A-SIX-MECHANISM-MAP as outcomeMode=referral with packetFamily=null, citing Minn. Stat. §§ 609A.055-.06. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "selection_only",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:additional-justice-or-municipal-court-misdemeanor-relief`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Retained as the selection route only; the justice-court and municipal-court variants are separate contracts under different statutes. Use the last-conviction clock, not sentence completion.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: selection_only (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:additional-justice-court-misdemeanor-relief-9-11-15-3`
-- **Child packet route that must remain active**: `MS:additional-municipal-court-misdemeanor-relief-21-23-7-6`
-- **Implementation effect**: This is the court-selection node between two terminal routes under different statutes. It never rendered and never should. Both children are participant packets bound to ms-misd-addl and must remain reachable and sellable; the parent leaving the paid denominator says nothing about them.
-- **Do not**: Do not let the parent's reclassification close either child route.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-ADDITIONAL-JUSTICE-OR-MUNICIPAL-COURT-MISDEMEANOR-RELIEF",
-  "pathwayKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:additional-justice-or-municipal-court-misdemeanor-relief under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6). The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Retained as the selection route only; the justice-court and municipal-court variants are separate contracts under different statutes. Use the last-conviction clock, not sentence completion.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "selection_only",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:controlled-substance-conditional-discharge-active-case-admission`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:first-offense-controlled-substance-conditional-discharge-relief`
-- **Implementation effect**: Admission into conditional discharge happens while the prosecution is live, so there is no disposition to expunge yet and no packet to sell. The post-completion route under § 41-29-150 is a separate participant packet and must remain reachable.
-- **Do not**: Do not treat the active-case stage and the post-completion packet as one route.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-CONTROLLED-SUBSTANCE-CONDITIONAL-DISCHARGE-ACTIVE-CASE-ADMISSION",
-  "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:controlled-substance-conditional-discharge-active-case-admission under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 41-29-150(d)(1). The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Split from the post-completion packet stage. No generic wait, and no consumer checkout while the case is active.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:dui-nonadjudication`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Never apply the five-year first-offense-DUI expungement rule to this route. Attorney-assisted motion/order only where supported.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:first-offense-dui-expungement`
-- **Implementation effect**: DUI nonadjudication is an active-case admission with an attorney-assisted motion where supported, not a self-help packet. The five-year first-offense DUI expungement is a different route with its own clock and must remain reachable.
-- **Do not**: Never apply the five-year first-offense DUI expungement rule to this route.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-DUI-NONADJUDICATION",
-  "pathwayKey": "MS:dui-nonadjudication",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:dui-nonadjudication under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 63-11-30(14). The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Never apply the five-year first-offense-DUI expungement rule to this route. Attorney-assisted motion/order only where supported.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:human-trafficking-survivor-vacatur-and-expungement`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_motion route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Retained as the selection route only. The two statutory remedies are separate contracts and each requires attorney review; this route never sells a packet on its own.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: selection_only (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:human-trafficking-survivor-vacatur-97-3-54-6-5`
-- **Child packet route that must remain active**: `MS:human-trafficking-survivor-expungement-97-3-54-6-6`
-- **Implementation effect**: The umbrella selects between vacatur and expungement. Its own record says it never sells a packet on its own. Both children are attorney_review_packet routes and stay that way: each statutory remedy requires attorney review, which is a packet-bearing outcome, not a handoff.
-- **Do not**: Do not demote the children to handoffs when the parent leaves the denominator.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-HUMAN-TRAFFICKING-SURVIVOR-VACATUR-AND-EXPUNGEMENT",
-  "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:human-trafficking-survivor-vacatur-and-expungement under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 97-3-54.6(5)-(6), as amended by 2026 Miss. H.B. 1546. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Retained as the selection route only. The two statutory remedies are separate contracts and each requires attorney review; this route never sells a packet on its own.\"",
   "authority": null,
   "decidedOn": null,
   "preservedServiceDisposition": "selection_only",
@@ -224,66 +93,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 }
 ```
 
-## `MS:nonadjudication-99-15-26-active-case-admission`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: No checkout before completion and closure.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:nonadjudication-under-99-15-26`
-- **Implementation effect**: Admission to nonadjudication is discretionary and happens while the case is active. The post-completion § 99-15-26 expungement is a separate participant packet and must remain reachable.
-- **Do not**: Do not open checkout before completion and closure.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-NONADJUDICATION-99-15-26-ACTIVE-CASE-ADMISSION",
-  "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:nonadjudication-99-15-26-active-case-admission under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 99-15-26(1). The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"No checkout before completion and closure.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `MS:pretrial-intervention-active-case-admission`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01)
-- **The record's own note**: Referral and guidance only. Checkout opens only after a qualifying disposition.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `MS:pretrial-intervention-or-diversion-expungement`
-- **Implementation effect**: Entry depends on the district attorney and the program, not on any elapsed wait. The post-completion diversion expungement is a separate participant packet and must remain reachable.
-- **Do not**: Do not open checkout until a qualifying disposition exists.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-MS-PRETRIAL-INTERVENTION-ACTIVE-CASE-ADMISSION",
-  "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:pretrial-intervention-active-case-admission under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Referral and guidance only. Checkout opens only after a qualifying disposition.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
 ## `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05`
 
 - **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
@@ -313,64 +122,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "preservedServiceDisposition": "branch_dependent",
   "preservedOutcomeMode": "automatic_relief",
   "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a branch_dependent outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `RI:path-g-decriminalized-offense-expungement`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode referral, packetFamily null (LD-RI-06 / RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT)
-- **The record's own note**: Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells.
-- **Open blockers**: not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: handoff (outcome mode referral). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Implementation effect**: The controlling statute for the specific decriminalized offence has not been identified. Until it is, the route collects the exact record and hands off to a partner or attorney. When the statute is identified it routes to a new exact packet or guidance mechanism, which is a new contract rather than a change to this one.
-- **Do not**: Do not sell a generic packet for an undefined statute, and do not merge this with the filed-complaint clock.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-RI-PATH-G-DECRIMINALIZED-OFFENSE-EXPUNGEMENT",
-  "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/route-splits.json records RI:path-g-decriminalized-offense-expungement under LD-RI-06 / RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT as outcomeMode=referral with packetFamily=null, citing R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "handoff",
-  "preservedOutcomeMode": "referral",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `SC:diversion-or-program-completion-expungement`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode guidance_status, packetFamily null (NATIONAL-2026-08-28-LA-IMM-04 / SC-17-22-150-PTI-SOLICITOR-ADMINISTERED)
-- **The record's own note**: Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.
-- **Open blockers**: packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Implementation effect**: Solicitor-administered intake. packetFamily null, checkout disabled, sponsored generation disabled, packet credits zero, and a retained-counsel handoff on solicitor denial or contested eligibility. The circuit-specific source gate stays open and holds the guidance content, not the legal answer.
-- **Do not**: Do not copy this route's fee schedule onto the other seven South Carolina routes.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-SC-DIVERSION-OR-PROGRAM-COMPLETION-EXPUNGEMENT",
-  "pathwayKey": "SC:diversion-or-program-completion-expungement",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records SC:diversion-or-program-completion-expungement under NATIONAL-2026-08-28-LA-IMM-04 / SC-17-22-150-PTI-SOLICITOR-ADMINISTERED as outcomeMode=guidance_status with packetFamily=null, citing S.C. Code Ann. § 17-22-150(a). The route reports or verifies a status; nothing is filed. The record's own note: \"Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "process_guidance",
-  "preservedOutcomeMode": "guidance_status",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
 }
 ```
 

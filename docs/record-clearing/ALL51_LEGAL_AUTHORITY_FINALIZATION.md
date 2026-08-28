@@ -36,14 +36,14 @@ This directory is an import, not a second editable source of truth. Corrections 
 | counsel | 131 |
 | **SUM** | **854** |
 
-## 2. The 38 rows that reach no registry track
+## 2. The 35 rows that reach no registry track
 
 | Classification | Rows |
 |---|---:|
-| NO_LEGAL_DESIGN_TRACK_EXISTS | 18 |
-| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 12 |
+| NO_LEGAL_DESIGN_TRACK_EXISTS | 17 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 10 |
 | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 8 |
-| **TOTAL** | **38** |
+| **TOTAL** | **35** |
 
 | Jurisdiction | Pathway | Candidate track | Design status | Classification |
 |---|---|---|---|---|
@@ -57,13 +57,10 @@ This directory is an import, not a second editable source of truth. Corrections 
 | MD | `juvenile-expungement` | md_10105_favorable | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `juvenile-sealing` | me-seal-gen | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `pardon-route` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `controlled-substance-conditional-discharge-active-case-admission` | ms-drug-cd | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `human-trafficking-survivor-expungement-97-3-54-6-6` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `human-trafficking-survivor-vacatur-97-3-54-6-5` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | MS | `intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `intervention-court-statutory-result-enforcement-referral` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
-| MS | `nonadjudication-99-15-26-active-case-admission` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
-| MS | `pretrial-intervention-active-case-admission` | ms-diversion | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MS | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | NV | `controlled-substance-possession-sealing-under-nrs-453-3365` | nv_seal_453_3365 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | NV | `trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | nv-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
@@ -206,24 +203,12 @@ Submitted: 10. True reconfirmations: 3. Reclassified: 7.
 | `TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313` | tn_judicial_diversion | none found | APPROVAL_NOT_LINKED |
 | `WV:first-offense-drug-possession-conditional-discharge-relief` | wv_drug_conditional_discharge | none found | APPROVAL_NOT_LINKED |
 
-## 6. LA-02, exactly
-
-- **Jurisdiction / track:** SC `sc_pti_17_22_150`
-- **Pathway:** `SC:diversion-or-program-completion-expungement`
-- **Packet family:** rcap-sc-custom-pleading
-- **Output under review:** custom_pleading produced for Solicitor Application to Destroy Arrest Records After Successful Pretrial Intervention, S.C. Code § 17-22-150(a)
-- **Memo:** `data/record-clearing/legal-design-intake/SC.memo.json` · sha256 `8bf45532868694d4f66b13e0da92f1650af1ec3c2fb5b8bd7d9f3c455561ad2f`
-- **Existing adopted legal design:** legal_design_approved_with_limitations, reviewed as of 2026-08-01; EXT-ADOPT-01 adopted the legal design on 2026-08-08.
-- **Why no existing approval reaches it:** The completed-output approval of 2026-08-19 covers the family rcap-sc-custom-pleading as it stood then. It does not resolve a conflict between two sources of the fee figure, which is what the packet has to quote.
-- **Exact decision requested:** Does the $150 single-incident fee in the Supreme Court expungement guidance survive the 2018 amendment to S.C. Code § 17-22-940(G), which provides that only one $250 fee may be charged where multiple charges from a single incident are combined? Which figure does the packet quote?
-- **Scope limit:** This assignment is exactly this question. It does not reopen the SC legal design, the packet family, or any other South Carolina route.
-
 ## 7. Counsel-confirmation questions behind a bridge
 
 | Classification | Questions |
 |---|---:|
 | LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 22 |
-| SOURCE_REQUIRED_BEFORE_COUNSEL | 21 |
+| SOURCE_REQUIRED_BEFORE_COUNSEL | 20 |
 | COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 13 |
-| **TOTAL** | **56** |
+| **TOTAL** | **55** |
 

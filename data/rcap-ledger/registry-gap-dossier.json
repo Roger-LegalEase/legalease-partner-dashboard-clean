@@ -3,17 +3,17 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab",
-    "pathways": 271
+    "sha256": "96ea39d539f3f1722217259ec11d406fa1c58bf46aaf5b5e081e8c8ceb187ac2",
+    "pathways": 263
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
   "totals": {
-    "registryGapPathways": 45,
-    "withAPathwayLevelPacketSet": 45,
+    "registryGapPathways": 41,
+    "withAPathwayLevelPacketSet": 41,
     "withoutAPathwayLevelPacketSet": 0,
-    "inAJurisdictionBoundByTheAdoption": 40,
-    "carryingACounselRatification": 13,
+    "inAJurisdictionBoundByTheAdoption": 36,
+    "carryingACounselRatification": 12,
     "byJurisdiction": {
       "AK": 1,
       "CA": 1,
@@ -23,7 +23,7 @@
       "IL": 3,
       "MD": 1,
       "ME": 2,
-      "MS": 11,
+      "MS": 7,
       "ND": 1,
       "NV": 2,
       "NY": 1,
@@ -41,7 +41,7 @@
     "packetPlanModes": {
       "state_specific_custom_packet_from_source_rules": 27,
       "official_form_overlay_or_source_form_set": 10,
-      "automatic_relief_verification_and_guidance": 8
+      "automatic_relief_verification_and_guidance": 4
     }
   },
   "records": [
@@ -2537,70 +2537,6 @@
       }
     },
     {
-      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
-      "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "controlled-substance-conditional-discharge-active-case-admission",
-        "label": "Controlled-substance conditional discharge — admission to deferred adjudication",
-        "summary": "Controlled-substance conditional discharge — admission to deferred adjudication under Miss. Code Ann. § 41-29-150(d)(1). admission is active-case relief sought while the prosecution is live; no elapsed wait applies.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "review",
-        "suggestedResultCode": "guidance_only",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. § 41-29-150(d)(1)"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=controlled-substance-conditional-discharge-active-case-admission]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-controlled-substance-conditional-discharge-active-case-admission",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS controlled-substance-conditional-discharge-active-case-admission and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
       "pathwayKey": "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
       "jurisdiction": "MS",
       "pathwayId": "human-trafficking-survivor-expungement-97-3-54-6-6",
@@ -2719,285 +2655,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for MS human-trafficking-survivor-vacatur-97-3-54-6-5 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
-      "jurisdiction": "MS",
-      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "human-trafficking-survivor-vacatur-and-expungement",
-        "label": "Human-trafficking-survivor vacatur and expungement",
-        "summary": "HB 1546 creates important trafficking-survivor relief effective July 1, 2026. It allows a court to vacate certain convictions or juvenile adjudications connected to victimization, and it allows expungement of a misdemeanor or felony offense not classified as a crime of violence under 97-3-2 if the court finds by a preponderance of the evidence that the person\u0019s participation occurred during trafficking and was a direct result of being trafficked. Official documentation creates a presumption but is not required. (\"https://legiscan.com/MS/text/HB1546/2026\") Wilma should handle this gently and escalate: If the charge happened while you were…",
-        "sourceRef": "pathways:15-155; section:15-155; corpus-unit:45",
-        "routeType": "review",
-        "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "Miss. Code expungement provisions for human trafficking survivor vacatur and expungement",
-          "lawrence_review": "first_pass_ratified"
-        },
-        "sourceEvidenceRefs": [
-          "pathways:15-155",
-          "section:15-155",
-          "corpus-unit:45"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=human-trafficking-survivor-vacatur-and-expungement]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "pathways:15-155",
-          "section:15-155",
-          "corpus-unit:45"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "rule-24-a-person-is-not-eligible-for-general-felony-conviction-",
-            "priority": 20,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-54-potential-discretionary-expungement-under-9-11-15-or-21",
-            "priority": 30,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-63-potential-survivor-relief-effective-july-1-2026-under-a",
-            "priority": 30,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-20-mississippi-allows-expungement-of-one-felony-conviction",
-            "priority": 50,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-77-the-felony-waiting-period-is-already-3-years-before-jul",
-            "priority": 50,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-88-felony-waiting-period-effective-july-1-2026-3-years-aft",
-            "priority": 50,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "rule-17-wilma-should-not-treat-this-as-automatic",
-            "priority": 60,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-01-mississippi-expungement-removes-qualifying-records-from",
-            "priority": 70,
-            "sourceRef": "overview:9-14"
-          },
-          {
-            "id": "rule-02-mississippi-expungement-can-remove-an-eligible-arrest-c",
-            "priority": 70,
-            "sourceRef": "overview:9-14"
-          },
-          {
-            "id": "rule-03-path-a-dismissed-dropped-no-disposition-or-not-guilty",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-04-mississippi-has-a-broad-non-conviction-pathway-upon-pet",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-05-were-you-convicted-or-was-the-case-dismissed-dropped-no",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-07-under-99-15-59-a-person-arrested-cited-or-held-for-a-mi",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-09-under-99-19-71-1-a-person-convicted-of-a-misdemeanor-th",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-10-was-this-your-first-conviction-and-was-it-a-non-traffic",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-11-misdemeanor-conviction-must-be-misdemeanor-not-felony",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-19-path-e-general-felony-conviction-expungement",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-25-trafficking-in-controlled-substances",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-26-mississippi-allows-only-one-general-felony-conviction-e",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-27-no-public-official-is-eligible-for-expungement-under-99",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-28-were-you-a-public-official-and-was-the-conviction-conne",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-29-mississippi-courts-may-withhold-acceptance-of-a-guilty-",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-30-this-may-apply-in-felony-and-misdemeanor-cases-but-ther",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-31-was-this-a-nonadjudication-deferred-plea-or-withheld-ad",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-37-was-this-a-first-time-controlled-substance-possession-o",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-42-do-not-route-a-dui-through-ordinary-misdemeanor-expunge",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-47-path-n-human-trafficking-survivor-expungement-and-vacat",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-48-hb-1546-creates-important-trafficking-survivor-relief-e",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-49-if-the-charge-happened-while-you-were-being-trafficked-",
-            "priority": 70,
-            "sourceRef": "pathways:15-155"
-          },
-          {
-            "id": "rule-50-if-dismissed-dropped-no-disposition-or-not-guilty",
-            "priority": 70,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-56-if-first-offense-dui-conviction",
-            "priority": 70,
-            "sourceRef": "decision_tree:227-287"
-          },
-          {
-            "id": "rule-65-for-a-mississippi-expungement-packet-wilma-should-prepa",
-            "priority": 70,
-            "sourceRef": "packet_logic:342-372"
-          },
-          {
-            "id": "rule-71-wilma-should-recommend-attorney-or-legal-clinic-review-",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-73-human-trafficking-survivor-relief",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-74-public-official-conviction-related-to-official-duties",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-75-prostitution-related-felony-after-july-1-2026",
-            "priority": 70,
-            "sourceRef": "referral_triggers:288-341"
-          },
-          {
-            "id": "rule-82-dismissed-dropped-no-disposition-not-guilty-petition-co",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "rule-86-felony-conviction-one-felony-conviction-sentence-comple",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "rule-89-general-felony-exclusions-violence-first-degree-arson-d",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "rule-90-public-official-bar-no-expungement-for-conviction-relat",
-            "priority": 70,
-            "sourceRef": "summary:414-437"
-          },
-          {
-            "id": "route-human-trafficking-survivor-vacatur-and-expungement",
-            "priority": 92,
-            "sourceRef": "pathways:15-155; section:15-155; corpus-unit:45"
-          }
-        ],
-        "counselRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
-          "legal_basis": "Miss. Code expungement provisions for human trafficking survivor vacatur and expungement",
-          "lawrence_review": "first_pass_ratified"
-        }
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS human-trafficking-survivor-vacatur-and-expungement and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
@@ -3136,70 +2793,6 @@
       }
     },
     {
-      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
-      "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "nonadjudication-99-15-26-active-case-admission",
-        "label": "Nonadjudication under § 99-15-26 — admission while the case is active",
-        "summary": "Nonadjudication under § 99-15-26 — admission while the case is active under Miss. Code Ann. § 99-15-26(1). admission is active-case and discretionary; no elapsed wait applies at this stage.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "review",
-        "suggestedResultCode": "guidance_only",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. § 99-15-26(1)"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=nonadjudication-99-15-26-active-case-admission]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-nonadjudication-99-15-26-active-case-admission",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS nonadjudication-99-15-26-active-case-admission and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
       "pathwayKey": "MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
       "pathwayId": "nonadjudication-under-99-15-26",
@@ -3328,70 +2921,6 @@
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
         "action": "Create a registry track for MS nonadjudication-under-99-15-26 and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
-        "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
-        "whatUnblocksWhenDone": [
-          "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",
-          "track-level counsel adoption can reach it rather than family-level inference",
-          "a composed route or official-form package can be attached to it"
-        ],
-        "doNotDoInstead": "Do not drop the pathway from the intended-paid denominator to clear the disposition. The absence of a registry track is a registry gap, not evidence that LegalEase does not intend to sell this route."
-      }
-    },
-    {
-      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "pretrial-intervention-active-case-admission",
-      "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
-      "sessionADisposition": "family_bridge_missing_no_track",
-      "stillInIntendedPaidDenominator": true,
-      "compiledPathwayPreserved": {
-        "id": "pretrial-intervention-active-case-admission",
-        "label": "Pretrial intervention or diversion — admission while the case is active",
-        "summary": "Pretrial intervention or diversion — admission while the case is active under Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109. admission is active-case; entry depends on district attorney and program acceptance, not on any elapsed wait.",
-        "sourceRef": "legal-authority:LD-MS-01",
-        "routeType": "review",
-        "suggestedResultCode": "guidance_only",
-        "lawrenceRatification": null,
-        "sourceEvidenceRefs": [
-          "legal-authority:LD-MS-01",
-          "statute:Miss. Code Ann. §§ 99-15-101, 99-15-107, 99-15-109"
-        ]
-      },
-      "pathwayLevelPacketSet": {
-        "source": "src/lib/rcap-engine/compiled/profiles/MS-*.json:packetGenerator.pathways[pathwayId=pretrial-intervention-active-case-admission]",
-        "mode": "automatic_relief_verification_and_guidance",
-        "formMappingStatus": "custom_or_manual_mapping_required",
-        "sourceFormCandidates": [],
-        "requiredInputIds": [],
-        "sourceRuleRefs": [
-          "legal-authority:LD-MS-01"
-        ]
-      },
-      "legalDesignEvidence": {
-        "jurisdictionBoundInAdoption": true,
-        "adoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptionRecordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "adoptedOn": "2026-08-08",
-        "boundFamiliesInJurisdiction": [
-          {
-            "familyJobId": "rcap-ms-custom-pleading",
-            "legalDesignMemoPath": "data/record-clearing/legal-design-intake/MS.memo.json",
-            "legalDesignMemoSha256": "6982ae0c69373c196b763c84ebd8f8ff85ce1a6954a2806953591f82ff7845f2",
-            "packetProofSha256": "6cb02b0c412788d01d7f0e6265a01bd62d9a7d7da7c0a131e1ddc2e7e1b14544"
-          }
-        ],
-        "compiledDecisionRules": [
-          {
-            "id": "route-pretrial-intervention-active-case-admission",
-            "priority": 10,
-            "sourceRef": "legal-authority:LD-MS-01"
-          }
-        ],
-        "counselRatification": null
-      },
-      "exactFutureRegistryOwnerAction": {
-        "owner": "registry owner (track-to-pathway crosswalk)",
-        "action": "Create a registry track for MS pretrial-intervention-active-case-admission and map it to this compiled pathway id in the track-to-pathway crosswalk, then give it a packet set in data/record-clearing/legal-design-packet-set-manifests.json keyed by that track.",
         "whyItIsNotSomethingThisLaneCanDo": "Minting a registry track is an authority decision about what the registry contains. Inventing one here would put a track in the denominator that no source inventory produced.",
         "whatUnblocksWhenDone": [
           "the pathway becomes bridgeable to a packet family instead of family_bridge_missing_no_track",

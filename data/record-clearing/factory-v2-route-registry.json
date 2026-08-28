@@ -8,7 +8,7 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab"
+      "sha256": "96ea39d539f3f1722217259ec11d406fa1c58bf46aaf5b5e081e8c8ceb187ac2"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -16,11 +16,11 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "c222ca2ef96091974a760791d9c4e531df2c2c3ca6310254a0ec8e0ae84f19c2"
+      "sha256": "bb16fc5dd6b8dd398c1e7a689ef51dad9058316d00cdb130b3c3f9b8e230377d"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "ba1bde117536acbb13290ca84fbd1d5653a7e2f62d6f4e4fc0ec06c1dd7b3d3f"
+      "sha256": "51dc3b08509109e79f16c941dae814e233007e6c7fefee5fe0c839ecd1a17bb6"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -32,17 +32,17 @@
   ],
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
-    "intendedPaidPathways": 271,
-    "factoryV2Admitted": 176,
-    "notAdmitted": 95,
+    "intendedPaidPathways": 263,
+    "factoryV2Admitted": 174,
+    "notAdmitted": 89,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
-      "legacy_generator_owns_this_jurisdiction": 43
+      "legacy_generator_owns_this_jurisdiction": 37
     },
-    "ownerApprovedLegalDesign": 97,
+    "ownerApprovedLegalDesign": 95,
     "paymentAllowedAtTheEvaluator": 31,
-    "publicWitnessReachesItsOwnPathway": 271
+    "publicWitnessReachesItsOwnPathway": 263
   },
   "routes": [
     {
@@ -6842,67 +6842,6 @@
       }
     },
     {
-      "pathwayKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
-      "jurisdiction": "MS",
-      "pathwayId": "additional-justice-or-municipal-court-misdemeanor-relief",
-      "pathwayLabel": "Additional justice- or municipal-court misdemeanor relief",
-      "registryTrackIds": [
-        "ms-misd-addl"
-      ],
-      "packetSetIds": [
-        "ms-misd-addl-set"
-      ],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 5,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
       "pathwayKey": "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
       "jurisdiction": "MS",
       "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
@@ -6959,131 +6898,6 @@
         "openBlockerIds": [
           "legal_review_pending",
           "route_metadata"
-        ]
-      }
-    },
-    {
-      "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "controlled-substance-conditional-discharge-active-case-admission",
-      "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
-      "registryTrackIds": [],
-      "packetSetIds": [],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 0,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": false,
-        "packetSpecification": false,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "packetSpecification",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending",
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
-      "pathwayKey": "MS:dui-nonadjudication",
-      "jurisdiction": "MS",
-      "pathwayId": "dui-nonadjudication",
-      "pathwayLabel": "DUI nonadjudication",
-      "registryTrackIds": [
-        "ms-dui"
-      ],
-      "packetSetIds": [
-        "ms-dui-set"
-      ],
-      "packetFamilies": [
-        "rcap-ms-custom-pleading"
-      ],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 5,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": true,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
         ]
       }
     },
@@ -7444,67 +7258,6 @@
       }
     },
     {
-      "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
-      "jurisdiction": "MS",
-      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
-      "registryTrackIds": [],
-      "packetSetIds": [],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 0,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": false,
-        "packetSpecification": false,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "packetSpecification",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
       "pathwayKey": "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
       "jurisdiction": "MS",
       "pathwayId": "intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
@@ -7743,68 +7496,6 @@
       }
     },
     {
-      "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "nonadjudication-99-15-26-active-case-admission",
-      "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
-      "registryTrackIds": [],
-      "packetSetIds": [],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 0,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": false,
-        "packetSpecification": false,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "packetSpecification",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending",
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
       "pathwayKey": "MS:nonadjudication-under-99-15-26",
       "jurisdiction": "MS",
       "pathwayId": "nonadjudication-under-99-15-26",
@@ -7859,68 +7550,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
-      }
-    },
-    {
-      "pathwayKey": "MS:pretrial-intervention-active-case-admission",
-      "jurisdiction": "MS",
-      "pathwayId": "pretrial-intervention-active-case-admission",
-      "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
-      "registryTrackIds": [],
-      "packetSetIds": [],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 0,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": false,
-        "packetSpecification": false,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [
-        "exactPacketSet",
-        "packetSpecification",
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": true,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending",
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
       }
     },
     {
@@ -12326,69 +11955,6 @@
       }
     },
     {
-      "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
-      "jurisdiction": "RI",
-      "pathwayId": "path-g-decriminalized-offense-expungement",
-      "pathwayLabel": "Path G — Decriminalized-offense expungement",
-      "registryTrackIds": [
-        "ri_decriminalized"
-      ],
-      "packetSetIds": [
-        "ri_decriminalized-set"
-      ],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "court",
-        "criminal_history",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date"
-      ],
-      "componentCount": 4,
-      "officialFormIds": [
-        "DC-33",
-        "DC-33-AFFIDAVIT",
-        "DC-33-ORDER"
-      ],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
-      "legacyGeneratorOwnsThisJurisdiction": false,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending",
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
       "pathwayKey": "RI:path-h-commercial-sexual-activity-related-expungement",
       "jurisdiction": "RI",
       "pathwayId": "path-h-commercial-sexual-activity-related-expungement",
@@ -12446,69 +12012,6 @@
         "openBlockerIds": [
           "intake_fix",
           "legal_review_pending",
-          "renderer_unavailable"
-        ]
-      }
-    },
-    {
-      "pathwayKey": "SC:diversion-or-program-completion-expungement",
-      "jurisdiction": "SC",
-      "pathwayId": "diversion-or-program-completion-expungement",
-      "pathwayLabel": "Diversion or program-completion expungement",
-      "registryTrackIds": [
-        "sc_pti_17_22_150"
-      ],
-      "packetSetIds": [
-        "sc_pti_17_22_150-set"
-      ],
-      "packetFamilies": [
-        "rcap-sc-custom-pleading"
-      ],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "court",
-        "criminal_history",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "pardon_status",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "prior_relief",
-        "record_type",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 6,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
-      "legacyGeneratorOwnsThisJurisdiction": false,
-      "separateGates": {
-        "ownerApprovedLegalDesign": true,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending",
-          "packet_spec_incomplete",
           "renderer_unavailable"
         ]
       }

@@ -303,8 +303,48 @@ ok("North Dakota is branch_mixed and blocked on the closure vocabulary",
   && contradictions.rowsBlockedOnVocabulary[0].pathwayKey.startsWith("ND:"));
 ok("Minnesota's two conflated mechanisms are named",
   (contradictions.rows.find((r) => r.pathwayKey.startsWith("MN:"))?.adjudication?.conflatesDistinctMechanisms ?? []).length === 2);
+// Rhode Island has left the contradiction register — it is reclassified — so the
+// claim is now checked against its contract, which is where it has to hold.
+// A route that leaves the paid denominator must not thereby become sellable.
+const riContract = contractByKey.get("RI:path-g-decriminalized-offense-expungement");
 ok("Rhode Island stays held until its statute is identified",
-  /statute .*not been identified|until it is/i.test(contradictions.rows.find((r) => r.pathwayKey.startsWith("RI:"))?.adjudication?.implementationEffect ?? ""));
+  riContract?.outcomeMode === "referral" && riContract?.packetFamily === null
+  && /until the specific statute is identified/i.test(riContract?.notes ?? ""),
+  `${riContract?.outcomeMode} / ${riContract?.packetFamily}`);
+ok("Rhode Island opens no checkout after reclassification",
+  routePaymentAuthority(riContract) === "closed");
+
+// The eight reclassified routes: their commercial classification moved and
+// nothing about their behaviour did.
+const RECLASSIFIED = [
+  "MS:additional-justice-or-municipal-court-misdemeanor-relief",
+  "MS:controlled-substance-conditional-discharge-active-case-admission",
+  "MS:dui-nonadjudication",
+  "MS:human-trafficking-survivor-vacatur-and-expungement",
+  "MS:nonadjudication-99-15-26-active-case-admission",
+  "MS:pretrial-intervention-active-case-admission",
+  "RI:path-g-decriminalized-offense-expungement",
+  "SC:diversion-or-program-completion-expungement"
+];
+for (const key of RECLASSIFIED) {
+  const pathway = closureByKey.get(key);
+  const contract = contractByKey.get(key);
+  ok(`${key}: left the paid denominator`, pathway?.category === "non_filing_guidance", pathway?.category ?? "absent");
+  ok(`${key}: its outcome mode is unchanged and still closes checkout`,
+    routePaymentAuthority(contract) === "closed" && contract.packetFamily === null);
+}
+
+// The three held rows must NOT have moved. Two are conditioned by the owner and
+// one falls outside the categories the approval names.
+for (const key of [
+  "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+  "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+  "MS:intervention-court-statutory-result-enforcement-referral"
+]) {
+  ok(`${key}: held back, still in the paid denominator`,
+    closureByKey.get(key)?.category === "paid_packet_intended", closureByKey.get(key)?.category ?? "absent");
+}
+ok("three rows remain in the contradiction register", contradictions.total === 3, String(contradictions.total));
 
 // Applying the proposal must not change what any route does. Every row's route
 // keeps the outcome mode its contract states.
