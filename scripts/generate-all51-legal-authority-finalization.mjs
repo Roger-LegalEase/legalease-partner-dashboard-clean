@@ -154,6 +154,18 @@ function matchScore(pathwayTokens, track) {
  * licenses the crosswalk generator re-verifies against live bytes on every run.
  */
 const NO_TRACK_BASELINE = {
+  /**
+   * Arrivals, named, for the same reason departures are.
+   *
+   * A row entering this set is usually a defect — a pathway that should have a
+   * track and does not. It is not a defect when the reason is that a false
+   * ratification was withdrawn, and saying which is which is the whole point of
+   * an accounted baseline.
+   */
+  arrivals: {
+    "IL:juvenile-automatic-or-petition-expungement":
+      "The compiled snapshot recorded ratified_deployable for this route. The evaluator's own sets place it in INTENTIONAL_UNSUPPORTED_ROUTES — deliberately out of scope — and never in the ratified set. So the snapshot was claiming counsel had ratified a route the runtime treats as unsupported, which is the most consequential of the three stale records the ratification registry corrected. Withdrawing that false ratification is what puts the row back in the no-track set, where an unratified trackless pathway belongs."
+  },
   publishedOn: "2026-08-28",
   keys: [
     "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
@@ -198,6 +210,14 @@ const NO_TRACK_BASELINE = {
     "WY:juvenile-minor-expungement-w-s-14-6-241",
   ],
   departures: {
+    // Three rows moved when the compiled profiles stopped carrying an
+    // independently editable ratification and started projecting the one
+    // registry. Each is a stale snapshot being corrected, and each is recorded
+    // with what the snapshot said and what counsel actually decided.
+    "ID:withheld-judgment-idaho-code-19-2604-review-branch":
+      "The compiled snapshot recorded hold_guidance; the evaluator's ratification set — counsel's own decision, recorded in docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md as part of the 2026-07-01 promotions — records ratified_deployable. The profiles were profileVersion 2026-06-19 and were never regenerated after that promotion, so the snapshot was simply behind. The row leaves the no-track set because it is no longer an unratified pathway waiting on a track.",
+    "NY:conditional-treatment-sealing-under-cpl-160-58":
+      "Same shape and the same cause: the snapshot recorded corrected_awaiting_reconfirmation and counsel had already promoted the route to ratified_deployable. CPL 160.58 conditional/treatment sealing is ratified; the compiled copy had not caught up.",
     "MS:additional-justice-court-misdemeanor-relief-9-11-15-3":
       "Bound to ms-misd-addl on Miss. Code Ann. § 9-11-15(3). The track models the justice-court and municipal-court branches as one node; the crosswalk had bound only the parent court-selection route, which the legal-authority layer records as outcomeMode=referral and which never renders.",
     "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6":
@@ -621,13 +641,17 @@ if (CHECK) {
   // The published denominator was 40. It may move, but only by pathways that
   // are named and accounted for — a denominator that drifts silently is the
   // thing this whole register exists to prevent.
-  if (noTrackClassified.length !== NO_TRACK_BASELINE.keys.length - noTrackDeparted.length) {
-    problems.push(`no-track rows ${noTrackClassified.length}; baseline ${NO_TRACK_BASELINE.keys.length} less ${noTrackDeparted.length} accounted departure(s) is ${NO_TRACK_BASELINE.keys.length - noTrackDeparted.length}`);
+  // Arrivals count as well as departures. A baseline that subtracts what left
+  // and ignores what arrived is not an accounted total, it is half of one.
+  const noTrackExpected = NO_TRACK_BASELINE.keys.length - noTrackDeparted.length + noTrackArrived.length;
+  if (noTrackClassified.length !== noTrackExpected) {
+    problems.push(`no-track rows ${noTrackClassified.length}; baseline ${NO_TRACK_BASELINE.keys.length} less ${noTrackDeparted.length} accounted departure(s) plus ${noTrackArrived.length} accounted arrival(s) is ${noTrackExpected}`);
   }
   for (const key of noTrackUnexplained) {
     problems.push(`${key} left the no-track denominator with no recorded reason`);
   }
   for (const key of noTrackArrived) {
+    if (key in NO_TRACK_BASELINE.arrivals) continue;
     problems.push(`${key} entered the no-track denominator, which the baseline does not carry`);
   }
   if (Object.values(noTrackCounts).reduce((a, b) => a + b, 0) !== noTrackClassified.length) problems.push("no-track classifications do not sum");
