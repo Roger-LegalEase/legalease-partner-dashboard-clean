@@ -11024,22 +11024,25 @@
       "pathwayId": "adult-non-conviction-record-relief",
       "pathwayLabel": "Adult non-conviction record relief",
       "category": "non_filing_guidance",
-      "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+      "categoryBasis": "Signed reclassification ME-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
       "classification": {
         "category": "non_filing_guidance",
-        "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+        "categoryBasis": "Signed reclassification ME-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
         "evidence": {
-          "routeType": "automatic_guidance",
-          "productRouteType": "automatic_relief",
-          "userFiled": false,
-          "currentlyOperative": true,
-          "paidRouteBlocker": "not_paid_product",
-          "packetPlanMode": "automatic_relief_verification_and_guidance",
+          "signedReclassification": {
+            "id": "ME-2026-08-28-NO-PARTICIPANT-FILING",
+            "pathwayKey": "ME:adult-non-conviction-record-relief",
+            "previousClassification": "paid_packet_intended",
+            "newClassification": "non_filing_guidance",
+            "reason": "no_participant_filing",
+            "evidence": "Batch B gave this route its first legal-authority contract, decision NATIONAL-2026-08-28-B-ME-03, and that contract carries outcomeMode guidance_status with packetFamily null. There is no participant filing to sell. The closure ledger had continued to count it as paid_packet_intended, and that disagreement is the row this route occupied in the closure-authority contradiction register — a register whose whole purpose is to surface a closure that sells what the route authority says is not a packet. This records the contract as controlling; it is not an implementation excuse, a missing form or a stale review.",
+            "authority": "The Batch B national report decision NATIONAL-2026-08-28-B-ME-03, recorded in src/lib/legal-authority/routes/national-report-batch-b.json",
+            "decidedOn": "2026-08-28"
+          },
+          "filingEvidence": [],
           "tracks": [
             "me-nonconv"
-          ],
-          "trackTreatments": [],
-          "filingEvidence": []
+          ]
         }
       },
       "route": {
@@ -14850,22 +14853,25 @@
       "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
       "category": "non_filing_guidance",
-      "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+      "categoryBasis": "Signed reclassification ND-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
       "classification": {
         "category": "non_filing_guidance",
-        "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+        "categoryBasis": "Signed reclassification ND-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
         "evidence": {
-          "routeType": "automatic",
-          "productRouteType": "automatic_relief",
-          "userFiled": false,
-          "currentlyOperative": true,
-          "paidRouteBlocker": "not_paid_product",
-          "packetPlanMode": "automatic_relief_verification_and_guidance",
+          "signedReclassification": {
+            "id": "ND-2026-08-28-NO-PARTICIPANT-FILING",
+            "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+            "previousClassification": "paid_packet_intended",
+            "newClassification": "non_filing_guidance",
+            "reason": "no_participant_filing",
+            "evidence": "The route's legal-authority contract carries outcomeMode automatic_relief with packetFamily null: the relief arrives without the participant filing anything, so there is no filing to sell. This was the one row the contradiction register held as blocked on the closure vocabulary, pending its branches being classified separately. The regenerated closure classifies it non_filing_guidance, which is that condition being met rather than waived.",
+            "authority": "The route's legal-authority contract, decision NATIONAL-2026-08-28-LA-IMM-03 as recorded on the route in src/lib/legal-authority/routes/",
+            "decidedOn": "2026-08-28"
+          },
+          "filingEvidence": [],
           "tracks": [
             "nd-nonconviction-auto-close-verify"
-          ],
-          "trackTreatments": [],
-          "filingEvidence": []
+          ]
         }
       },
       "route": {
@@ -24999,22 +25005,25 @@
       "pathwayId": "pardon-based-expungement",
       "pathwayLabel": "Pardon-based expungement",
       "category": "non_filing_guidance",
-      "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+      "categoryBasis": "Signed reclassification WV-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
       "classification": {
         "category": "non_filing_guidance",
-        "categoryBasis": "Route metadata records no participant filing (productRouteType=automatic_relief); relief is automatic or another actor controls the action.",
+        "categoryBasis": "Signed reclassification WV-2026-08-28-NO-PARTICIPANT-FILING: no_participant_filing",
         "evidence": {
-          "routeType": "automatic_guidance",
-          "productRouteType": "automatic_relief",
-          "userFiled": false,
-          "currentlyOperative": true,
-          "paidRouteBlocker": "not_paid_product",
-          "packetPlanMode": "automatic_relief_verification_and_guidance",
+          "signedReclassification": {
+            "id": "WV-2026-08-28-NO-PARTICIPANT-FILING",
+            "pathwayKey": "WV:pardon-based-expungement",
+            "previousClassification": "paid_packet_intended",
+            "newClassification": "non_filing_guidance",
+            "reason": "no_participant_filing",
+            "evidence": "Batch C gave this route its first legal-authority contract, decision NATIONAL-2026-08-28-C-WV-04, and that contract carries outcomeMode guidance_status with packetFamily null. W. Va. Code § 5-1-16a(b) provides only that the expunged record may not be considered by a West Virginia educational institution or in a licence application; the report disposition is RELEASE — GUIDANCE. There is no participant filing to sell, and this route occupied a row in the closure-authority contradiction register for exactly that reason.",
+            "authority": "The Batch C national report decision NATIONAL-2026-08-28-C-WV-04, recorded in src/lib/legal-authority/routes/national-report-batch-c.json",
+            "decidedOn": "2026-08-28"
+          },
+          "filingEvidence": [],
           "tracks": [
             "wv_pardon_expungement"
-          ],
-          "trackTreatments": [],
-          "filingEvidence": []
+          ]
         }
       },
       "route": {
