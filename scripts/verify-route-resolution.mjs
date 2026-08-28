@@ -575,7 +575,29 @@ for (const key of [
   ok(`${key}: held back, still in the paid denominator`,
     closureByKey.get(key)?.category === "paid_packet_intended", closureByKey.get(key)?.category ?? "absent");
 }
-ok("two rows remain in the contradiction register", contradictions.total === 2, String(contradictions.total));
+// An accounted total rather than a frozen one. A contradiction is a PROPOSAL —
+// the closure ledger sells a pathway the route authority says is not a packet —
+// so the count moves whenever a batch gives such a route its first contract,
+// and a bare number cannot tell a reader whether the movement was allowed.
+const CONTRADICTION_BASELINE = {
+  recorded: 2,
+  recordedOn: "the enforcement-referral reclassification",
+  additions: [
+    {
+      pathwayKey: "ME:adult-non-conviction-record-relief",
+      decisionId: "NATIONAL-2026-08-28-B-ME-03",
+      reason: "Batch B gave Maine § 703(2) its first route contract, and the report releases it as guidance. The closure ledger still carries it as paid_packet_intended, which is exactly the contradiction this register exists to surface. It is a proposal, not an applied reclassification: authority and decidedOn stay null."
+    }
+  ]
+};
+const expectedContradictions = CONTRADICTION_BASELINE.recorded + CONTRADICTION_BASELINE.additions.length;
+ok(`${expectedContradictions} rows remain in the contradiction register`,
+  contradictions.total === expectedContradictions, String(contradictions.total));
+for (const addition of CONTRADICTION_BASELINE.additions) {
+  ok(`${addition.pathwayKey}: the new contradiction is a proposal, not a decision`,
+    (contradictions.rows ?? contradictions.pathways ?? []).every?.((row) =>
+      row.pathwayKey !== addition.pathwayKey || (row.authority == null && row.decidedOn == null)) !== false);
+}
 
 // The approval says in terms that the move does not convert a handoff into
 // ordinary guidance. The enforcement referral is the case that tests it: its

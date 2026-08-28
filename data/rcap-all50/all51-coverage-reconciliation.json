@@ -21,8 +21,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 171,
-    "factoryV2Resolved": 171,
+    "factoryV2Selected": 170,
+    "factoryV2Resolved": 170,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -33,23 +33,27 @@
         "suppressedBy": "exact_supported_deferral"
       },
       {
+        "pathwayKey": "ME:adult-non-conviction-record-relief",
+        "suppressedBy": "guidance_only"
+      },
+      {
         "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
         "suppressedBy": "exact_supported_deferral"
       }
     ],
-    "paymentAllowed": 31,
-    "deterministicallyRenderedComposedText": 171,
-    "deterministicallyRendered": 40,
+    "paymentAllowed": 28,
+    "deterministicallyRenderedComposedText": 170,
+    "deterministicallyRendered": 39,
     "officialFormsNamedButNotHeldInThisRepository": 131,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 168,
     "technicalApprovalCurrent": 193,
-    "deterministicArtifactProven": 223,
+    "deterministicArtifactProven": 224,
     "noProblematicPdfHold": 19,
-    "paymentAllowed": 232,
-    "rendererSelected": 61,
+    "paymentAllowed": 235,
+    "rendererSelected": 63,
     "packetSpecificationComplete": 40
   },
   "classificationCounts": {
@@ -777,12 +781,6 @@
           "id": "gate_build",
           "severity": "blocking",
           "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
-          "count": 1
-        },
-        {
-          "id": "unclassified_route",
-          "severity": "blocking",
-          "statement": "This compiled pathway has no row in route-product-metadata.json, so no product decision exists for it.",
           "count": 1
         },
         {
@@ -1520,12 +1518,12 @@
         "intendedSellable": 5,
         "publiclyReachableSellable": 1,
         "authoritativePacketReady": 1,
-        "packetSpecComplete": 5,
-        "technicallyApprovedPacket": 3,
+        "packetSpecComplete": 4,
+        "technicallyApprovedPacket": 2,
         "legallyApprovedPacket": 0,
-        "successfullyRendered": 3
+        "successfullyRendered": 2
       },
-      "renderedPaidPathways": 3,
+      "renderedPaidPathways": 2,
       "paymentAllowedPathways": 0,
       "fullyClosedPaidPathways": 0,
       "openBlockers": [
@@ -1539,7 +1537,7 @@
           "id": "renderer_unavailable",
           "severity": "blocking",
           "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
-          "count": 2
+          "count": 3
         },
         {
           "id": "not_paid_product",
@@ -1551,6 +1549,12 @@
           "id": "legal_reconfirmation",
           "severity": "blocking",
           "statement": "Counsel ratification of this route is not current.",
+          "count": 1
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
           "count": 1
         },
         {
@@ -1570,7 +1574,7 @@
       "hostedAccepted": false,
       "classification": "REMAINING_TO_BUILD",
       "classificationBasis": "5 of 5 adopted participant-filed routes have an unmet engineering gate.",
-      "smallestRemainingDelta": "legal_review_pending (5); renderer_unavailable (2); not_paid_product (2); legal_reconfirmation (1); route_metadata (1); filing_determination_missing (1)"
+      "smallestRemainingDelta": "legal_review_pending (5); renderer_unavailable (3); not_paid_product (2); legal_reconfirmation (1); packet_spec_incomplete (1); route_metadata (1); filing_determination_missing (1)"
     },
     {
       "jurisdiction": "MI",
@@ -1813,13 +1817,13 @@
         "publiclyReachableSellable": 9,
         "authoritativePacketReady": 9,
         "packetSpecComplete": 13,
-        "technicallyApprovedPacket": 9,
+        "technicallyApprovedPacket": 8,
         "legallyApprovedPacket": 9,
-        "successfullyRendered": 13
+        "successfullyRendered": 12
       },
-      "renderedPaidPathways": 13,
+      "renderedPaidPathways": 12,
       "paymentAllowedPathways": 9,
-      "fullyClosedPaidPathways": 9,
+      "fullyClosedPaidPathways": 8,
       "openBlockers": [
         {
           "id": "legal_review_pending",
@@ -1834,6 +1838,12 @@
           "count": 4
         },
         {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
+        {
           "id": "not_paid_product",
           "severity": "blocking",
           "statement": "Route metadata records this as not a paid product, and committed treatment evidence records that the participant files their own document(s) on this route. The conflict is unresolved; under the controlling decision it is an open blocker, not a completed guidance treatment.",
@@ -1843,12 +1853,6 @@
           "id": "packet_spec_incomplete",
           "severity": "blocking",
           "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs.",
-          "count": 2
-        },
-        {
-          "id": "renderer_unavailable",
-          "severity": "blocking",
-          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
           "count": 2
         }
       ],

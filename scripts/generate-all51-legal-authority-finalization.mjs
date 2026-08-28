@@ -201,7 +201,20 @@ const NO_TRACK_BASELINE = {
     "MS:additional-justice-court-misdemeanor-relief-9-11-15-3":
       "Bound to ms-misd-addl on Miss. Code Ann. § 9-11-15(3). The track models the justice-court and municipal-court branches as one node; the crosswalk had bound only the parent court-selection route, which the legal-authority layer records as outcomeMode=referral and which never renders.",
     "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6":
-      "Bound to ms-misd-addl on Miss. Code Ann. § 21-23-7(6), the municipal-court half of the same track, for the same reason."
+      "Bound to ms-misd-addl on Miss. Code Ann. § 21-23-7(6), the municipal-court half of the same track, for the same reason.",
+    // These four left by a signed decision, not by acquiring a track. The
+    // reconciliation is scoped to the paid denominator, so a pathway that
+    // leaves that denominator stops having a row at all — and a pathway with no
+    // row cannot be in the no-track set. Recording them as departures says the
+    // denominator moved because someone decided it should.
+    "MS:controlled-substance-conditional-discharge-active-case-admission":
+      "Left the paid denominator by Roger Roman's signed reclassification of 2026-08-28, which removed the active-case-admission nodes from paid_packet_intended. Admission to a conditional discharge happens while the case is active and is not a participant filing; the post-completion § 41-29-150(d)(2) relief is a separate route and remains reachable.",
+    "MS:intervention-court-statutory-result-enforcement-referral":
+      "Left the paid denominator by the same signed reclassification, applied on the owner's explicit confirmation that the enforcement referral moves too. It enforces relief the statute already granted and was never sold as an expungement packet; it stays a handoff rather than becoming ordinary guidance.",
+    "MS:nonadjudication-99-15-26-active-case-admission":
+      "Left the paid denominator by the same signed reclassification. Admission to nonadjudication is discretionary and happens while the case is active; the post-completion § 99-15-26 expungement is a separate participant packet and remains reachable.",
+    "MS:pretrial-intervention-active-case-admission":
+      "Left the paid denominator by the same signed reclassification. Entry depends on the district attorney and the program rather than any elapsed wait; the post-completion diversion expungement is a separate participant packet and remains reachable."
   }
 };
 

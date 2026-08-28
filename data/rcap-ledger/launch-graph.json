@@ -12,14 +12,14 @@
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "0a996b2f47c5bb5e07b040293ca75fcb84865501e1c5acfa35ee111dfc04c8ed",
+    "data/rcap-ledger/sellable-pathway-closure.json": "c110ad01d6a208cd5c2bbd52244c27f76e9f9a3cdd20ef83f3ddc1411b8b02a1",
     "data/rcap-ledger/paid-pathway-legal-join.json": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4",
     "data/record-clearing/legal-design-packet-set-manifests.json": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9",
-    "data/rcap-ledger/public-witness-answer-sets.json": "635119cd2bf3f66da83bb3e7c74a287508ac3a0ac91529b5ef63d31ff3f60d19",
-    "data/record-clearing/factory-v2-route-registry.json": "da572e42e6592696dff41bb91c52fbeadd9fd36a5e0784cf0bc282b0899854b9",
+    "data/rcap-ledger/public-witness-answer-sets.json": "fc8d0c450ceca01e06878f60a330074cbb97e883bbf379c5c16cc428cc4f486e",
+    "data/record-clearing/factory-v2-route-registry.json": "bd659ac7ac938b870d6fb09871d7655a0cf56939862160bbdf5e990638fdefba",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "547469654de2cd35be473f87ee9a79f27f0eac9dbd6cd6b3fb367f94d3c78fc1"
+    "data/rcap-ledger/session-a-evidence-packet.json": "48557f331a4b7b931600aa3c69ef25835e4cb86a65c7d46235d9709f8bcaca27"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 95,
-    "factoryV2Selected": 171,
-    "factoryV2Resolved": 171,
+    "factoryV2Selected": 170,
+    "factoryV2Resolved": 170,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -63,23 +63,27 @@
         "suppressedBy": "exact_supported_deferral"
       },
       {
+        "pathwayKey": "ME:adult-non-conviction-record-relief",
+        "suppressedBy": "guidance_only"
+      },
+      {
         "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
         "suppressedBy": "exact_supported_deferral"
       }
     ],
-    "paymentAllowed": 31,
-    "deterministicallyRenderedComposedText": 171,
-    "deterministicallyRendered": 40,
+    "paymentAllowed": 28,
+    "deterministicallyRenderedComposedText": 170,
+    "deterministicallyRendered": 39,
     "officialFormsNamedButNotHeldInThisRepository": 131,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
     "ownerApprovedLegalDesign": 168,
     "technicalApprovalCurrent": 193,
-    "deterministicArtifactProven": 223,
+    "deterministicArtifactProven": 224,
     "noProblematicPdfHold": 19,
-    "paymentAllowed": 232,
-    "rendererSelected": 61,
+    "paymentAllowed": 235,
+    "rendererSelected": 63,
     "packetSpecificationComplete": 40
   },
   "rows": [
@@ -3829,7 +3833,7 @@
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "guidance_only",
+        "resultCode": "needs_more_info",
         "rounds": 2
       },
       "paymentResult": {
@@ -4018,7 +4022,7 @@
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "guidance_only",
+        "resultCode": "needs_review",
         "rounds": 2
       },
       "paymentResult": {
@@ -7858,11 +7862,11 @@
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_more_info",
         "rounds": 3
       },
       "paymentResult": {
-        "allowedAtTheEvaluator": true,
+        "allowedAtTheEvaluator": false,
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
@@ -7884,7 +7888,7 @@
       "operationalGates": {
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
@@ -7893,6 +7897,7 @@
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
+        "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
@@ -9846,11 +9851,11 @@
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_more_info",
         "rounds": 2
       },
       "paymentResult": {
-        "allowedAtTheEvaluator": true,
+        "allowedAtTheEvaluator": false,
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
@@ -9872,7 +9877,7 @@
       "operationalGates": {
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
@@ -9881,6 +9886,7 @@
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
+        "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
@@ -9931,12 +9937,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "me-nonconv-set"
-        ],
-        "reason": "ME adult-non-conviction-record-relief builds through the shared packet factory from packet set me-nonconv-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "ME:adult-non-conviction-record-relief is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -9949,15 +9953,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "b41033d577eef0c6a417c5a83be274f6bbad7f0bc54cc7e5f257ac6309812fdc",
-        "characters": 2568,
-        "sections": 10,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -9971,14 +9967,16 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
-        "deterministicArtifactProven": true,
+        "rendererSelected": false,
+        "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "paymentAllowed",
         "ownerApprovedLegalDesign",
-        "technicalApprovalCurrent"
+        "technicalApprovalCurrent",
+        "rendererSelected",
+        "deterministicArtifactProven"
       ],
       "operationallySellable": false
     },
@@ -12832,44 +12830,46 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "legacy_verified",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "packet_correction_required",
+        "rendererKind": "none",
         "packetSetIds": [],
-        "reason": "MS renders its packet document through the browser-free renderer."
+        "reason": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 generates an incomplete packet (PACKET_CORRECTION_REQUIRED); checkout, sponsored credit, render and participant delivery are closed until it is corrected."
       },
       "publicWitness": {
         "reachesThisPathway": true,
         "settled": true,
-        "resultCode": "packet_ready_with_caution",
+        "resultCode": "needs_review",
         "rounds": 2
       },
       "paymentResult": {
-        "allowedAtTheEvaluator": true,
-        "sellableAtTheResolver": true,
-        "creditConsumable": true
+        "allowedAtTheEvaluator": false,
+        "sellableAtTheResolver": false,
+        "creditConsumable": false
       },
       "artifactResult": null,
       "dtcResult": {
-        "deliverable": true
+        "deliverable": false
       },
       "rcapResult": {
-        "creditConsumable": true
+        "creditConsumable": false
       },
       "operationalGates": {
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
-        "paymentAllowed": true,
+        "paymentAllowed": false,
         "packetSpecificationComplete": false,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
+        "paymentAllowed",
         "packetSpecificationComplete",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false

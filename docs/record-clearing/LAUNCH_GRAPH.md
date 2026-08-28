@@ -21,10 +21,10 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | EXACT TRACK + PACKET SET | 223 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
 | OWNER-APPROVED LEGAL | 95 |
-| FACTORY_V2 RESOLVED | 171 |
-| PAYMENT ALLOWED | 31 |
-| DETERMINISTICALLY RENDERED (complete packet) | 40 |
-| — composed text proven deterministic | 171 |
+| FACTORY_V2 RESOLVED | 170 |
+| PAYMENT ALLOWED | 28 |
+| DETERMINISTICALLY RENDERED (complete packet) | 39 |
+| — composed text proven deterministic | 170 |
 | — official forms named but not held here | 131 |
 | OPERATIONALLY SELLABLE | 0 |
 
@@ -36,11 +36,11 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 
 | Unmet gate | Routes |
 |---|---:|
-| `paymentAllowed` | 232 |
-| `deterministicArtifactProven` | 223 |
+| `paymentAllowed` | 235 |
+| `deterministicArtifactProven` | 224 |
 | `technicalApprovalCurrent` | 193 |
 | `ownerApprovedLegalDesign` | 168 |
-| `rendererSelected` | 61 |
+| `rendererSelected` | 63 |
 | `packetSpecificationComplete` | 40 |
 | `noProblematicPdfHold` | 19 |
 

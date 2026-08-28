@@ -166,6 +166,13 @@ const ADJUDICATION = {
     implementationEffect: "Entry depends on the district attorney and the program, not on any elapsed wait. The post-completion diversion expungement is a separate participant packet and must remain reachable.",
     doNotDo: "Do not open checkout until a qualifying disposition exists."
   },
+  "ME:adult-non-conviction-record-relief": {
+    commercialClassification: "non_paid_service",
+    serviceDisposition: "process_guidance",
+    childPacketRoutesThatMustRemainActive: ["ME:adult-conviction-sealing", "ME:sex-trafficking-sexual-exploitation-survivor-sealing"],
+    implementationEffect: "Batch B gave this route its first contract, and the national report releases it as guidance under NATIONAL-2026-08-28-B-ME-03. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Whether a charge dismissed after a successful deferred disposition is confidential under 16 M.R.S. § 703(2) is recorded NOT ESTABLISHED against current official text, so the decision is a limit on what the guidance may say — it may not promise confidentiality follows automatically — and not a hold on saying it. Maine's two sealing motions are separate participant packets on their own gates and must remain reachable.",
+    doNotDo: "Do not read this as a hold. The route releases; what is constrained is the promise it may make. And do not let it take the two Maine sealing motions with it: those are participant packets held only by their own source gates."
+  },
   "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05": {
     commercialClassification: "branch_mixed",
     serviceDisposition: "branch_dependent",

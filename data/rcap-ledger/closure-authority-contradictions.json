@@ -3,20 +3,25 @@
   "generatedBy": "scripts/generate-closure-authority-contradictions.mjs",
   "question": "Which pathways does the closure ledger count as paid packets while the legal-authority route layer already decided they sell nothing?",
   "governingConstraint": "data/rcap-ledger/sellable-pathway-reclassifications.json states that the only way a pathway leaves paid_packet_intended is a signed record naming the person who decided. These are prepared proposals with authority and decidedOn left null. No category is changed by this generator, and a proposal is not a reclassification.",
-  "total": 2,
+  "total": 3,
   "counts": {
+    "guidance_status": 1,
     "referral": 1,
     "automatic_relief": 1
   },
   "commercialClassifications": {
-    "non_paid_service": 1,
+    "non_paid_service": 2,
     "branch_mixed": 1
   },
   "serviceDispositions": {
+    "process_guidance": 1,
     "selection_only": 1,
     "branch_dependent": 1
   },
-  "childPacketRoutesThatMustRemainActive": [],
+  "childPacketRoutesThatMustRemainActive": [
+    "ME:adult-conviction-sealing",
+    "ME:sex-trafficking-sexual-exploitation-survivor-sealing"
+  ],
   "rowsBlockedOnVocabulary": [
     {
       "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
@@ -38,6 +43,53 @@
     }
   ],
   "rows": [
+    {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "process_guidance",
+        "childPacketRoutesThatMustRemainActive": [
+          "ME:adult-conviction-sealing",
+          "ME:sex-trafficking-sexual-exploitation-survivor-sealing"
+        ],
+        "implementationEffect": "Batch B gave this route its first contract, and the national report releases it as guidance under NATIONAL-2026-08-28-B-ME-03. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Whether a charge dismissed after a successful deferred disposition is confidential under 16 M.R.S. § 703(2) is recorded NOT ESTABLISHED against current official text, so the decision is a limit on what the guidance may say — it may not promise confidentiality follows automatically — and not a hold on saying it. Maine's two sealing motions are separate participant packets on their own gates and must remain reachable.",
+        "doNotDo": "Do not read this as a hold. The route releases; what is constrained is the promise it may make. And do not let it take the two Maine sealing motions with it: those are participant packets held only by their own source gates."
+      },
+      "pathwayKey": "ME:adult-non-conviction-record-relief",
+      "jurisdiction": "ME",
+      "pathwayLabel": "Adult non-conviction record relief",
+      "closureCategory": "paid_packet_intended",
+      "closureCategoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
+      "authorityOutcomeMode": "guidance_status",
+      "authorityPacketFamily": null,
+      "authorityDecisionId": "NATIONAL-2026-08-28-B-ME-03",
+      "authorityRuleId": "ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED",
+      "authorityNotes": "Report disposition RELEASE — GUIDANCE for Q-008, product decision 'no automatic confidentiality promise'. Whether a charge dismissed after a successful deferred disposition is confidential criminal history record information under § 703(2) is recorded as NOT ESTABLISHED against current official text. The route releases as guidance and the guidance may not promise confidentiality follows automatically. This is the whole of the decision: it is a limit on what the product may say, not a hold on saying anything.",
+      "authoritySourceFile": "src/lib/legal-authority/routes/national-report-batch-b.json",
+      "openBlockers": [
+        "legal_reconfirmation",
+        "packet_spec_incomplete",
+        "legal_review_pending",
+        "renderer_unavailable"
+      ],
+      "unclosableBlockers": [
+        "packet_spec_incomplete",
+        "renderer_unavailable"
+      ],
+      "alreadyReclassified": false,
+      "proposal": {
+        "id": "PROPOSED-ME-ADULT-NON-CONVICTION-RECORD-RELIEF",
+        "pathwayKey": "ME:adult-non-conviction-record-relief",
+        "previousClassification": "paid_packet_intended",
+        "newClassification": "non_filing_guidance",
+        "reason": "no_participant_filing",
+        "evidence": "src/lib/legal-authority/routes/national-report-batch-b.json records ME:adult-non-conviction-record-relief under NATIONAL-2026-08-28-B-ME-03 / ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED as outcomeMode=guidance_status with packetFamily=null, citing 16 M.R.S. § 703(2). The route reports or verifies a status; nothing is filed. The record's own note: \"Report disposition RELEASE — GUIDANCE for Q-008, product decision 'no automatic confidentiality promise'. Whether a charge dismissed after a successful deferred disposition is confidential criminal history record information under § 703(2) is recorded as NOT ESTABLISHED against current official text. The route releases as guidance and the guidance may not promise confidentiality follows automatically. This is the whole of the decision: it is a limit on what the product may say, not a hold on saying anything.\"",
+        "authority": null,
+        "decidedOn": null,
+        "preservedServiceDisposition": "process_guidance",
+        "preservedOutcomeMode": "guidance_status",
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+      }
+    },
     {
       "adjudication": {
         "commercialClassification": "non_paid_service",

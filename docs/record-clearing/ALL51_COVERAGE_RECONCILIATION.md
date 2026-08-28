@@ -27,10 +27,10 @@ measured against the closure ledger's seven-stage chain.
 |---|---|
 | ownerApprovedLegalDesign | 168 |
 | technicalApprovalCurrent | 193 |
-| deterministicArtifactProven | 223 |
+| deterministicArtifactProven | 224 |
 | noProblematicPdfHold | 19 |
-| paymentAllowed | 232 |
-| rendererSelected | 61 |
+| paymentAllowed | 235 |
+| rendererSelected | 63 |
 | packetSpecificationComplete | 40 |
 
 ## Per jurisdiction
@@ -47,7 +47,7 @@ measured against the closure ledger's seven-stage chain.
 | DC | District of Columbia | EXISTING_BRANCH_TO_PORT | 4 | 1 | 4 | 4 | not_paid_product×3 |
 | DE | Delaware | REMAINING_TO_BUILD | 3 | 0 | 2 | 0 | legal_review_pending×3, route_metadata×1, renderer_unavailable×1, filing_determination_missing×1, not_paid_product×1 |
 | FL | Florida | REMAINING_TO_BUILD | 4 | 0 | 4 | 0 | legal_review_pending×4, gate_build×1, not_paid_product×1, intake_fix×1 |
-| GA | Georgia | EXISTING_BRANCH_TO_PORT | 5 | 1 | 4 | 1 | legal_review_pending×4, route_metadata×1, gate_build×1, unclassified_route×1, renderer_unavailable×1, legal_reconfirmation×1 |
+| GA | Georgia | EXISTING_BRANCH_TO_PORT | 5 | 1 | 4 | 1 | legal_review_pending×4, route_metadata×1, gate_build×1, renderer_unavailable×1, legal_reconfirmation×1 |
 | HI | Hawaii | REMAINING_TO_BUILD | 5 | 0 | 5 | 0 | legal_review_pending×5, filing_determination_missing×2, legal_action_required×2 |
 | IA | Iowa | REMAINING_TO_BUILD | 5 | 1 | 5 | 1 | gate_build×4, legal_review_pending×4 |
 | ID | Idaho | REMAINING_TO_BUILD | 5 | 0 | 2 | 0 | legal_review_pending×5, renderer_unavailable×3, intake_fix×2, route_metadata×1, not_paid_product×1 |
@@ -58,11 +58,11 @@ measured against the closure ledger's seven-stage chain.
 | LA | Louisiana | REMAINING_TO_BUILD | 11 | 0 | 10 | 0 | legal_review_pending×11, not_paid_product×3, legal_reconfirmation×2, filing_determination_missing×1, intake_fix×1, route_metadata×1, renderer_unavailable×1 |
 | MA | Massachusetts | REMAINING_TO_BUILD | 6 | 0 | 6 | 0 | legal_review_pending×6, not_paid_product×3, legal_reconfirmation×2, route_metadata×1 |
 | MD | Maryland | EXISTING_BRANCH_TO_PORT | 7 | 2 | 5 | 2 | legal_review_pending×5, not_paid_product×3, renderer_unavailable×2, gate_build×1 |
-| ME | Maine | REMAINING_TO_BUILD | 5 | 0 | 3 | 0 | legal_review_pending×5, renderer_unavailable×2, not_paid_product×2, legal_reconfirmation×1, route_metadata×1, filing_determination_missing×1 |
+| ME | Maine | REMAINING_TO_BUILD | 5 | 0 | 2 | 0 | legal_review_pending×5, renderer_unavailable×3, not_paid_product×2, legal_reconfirmation×1, packet_spec_incomplete×1, route_metadata×1, filing_determination_missing×1 |
 | MI | Michigan | REMAINING_TO_BUILD | 4 | 0 | 4 | 0 | legal_review_pending×4, wait_anchor_fix×1, intake_fix×1, gate_build×1 |
 | MN | Minnesota | REMAINING_TO_BUILD | 3 | 1 | 2 | 1 | legal_review_pending×2, not_paid_product×1, packet_spec_incomplete×1, renderer_unavailable×1, route_metadata×1 |
 | MO | Missouri | REMAINING_TO_BUILD | 5 | 0 | 5 | 0 | legal_review_pending×5, legal_reconfirmation×2, not_paid_product×1 |
-| MS | Mississippi | EXISTING_BRANCH_TO_PORT | 15 | 9 | 13 | 9 | legal_review_pending×6, route_metadata×4, not_paid_product×2, packet_spec_incomplete×2, renderer_unavailable×2 |
+| MS | Mississippi | EXISTING_BRANCH_TO_PORT | 15 | 8 | 12 | 9 | legal_review_pending×6, route_metadata×4, renderer_unavailable×3, not_paid_product×2, packet_spec_incomplete×2 |
 | MT | Montana | BLOCKED_EXACTLY | 2 | 2 | 2 | 2 | none |
 | NC | North Carolina | REMAINING_TO_BUILD | 3 | 0 | 3 | 0 | legal_review_pending×3, gate_build×1, route_metadata×1 |
 | ND | North Dakota | REMAINING_TO_BUILD | 6 | 2 | 4 | 3 | legal_review_pending×3, renderer_unavailable×2, gate_build×1, legal_reconfirmation×1, packet_spec_incomplete×1 |
@@ -112,7 +112,7 @@ measured against the closure ledger's seven-stage chain.
 - **LA Louisiana** — REMAINING_TO_BUILD. 11 of 11 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (11); not_paid_product (3); legal_reconfirmation (2); filing_determination_missing (1); intake_fix (1); route_metadata (1); renderer_unavailable (1)
 - **MA Massachusetts** — REMAINING_TO_BUILD. 6 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (6); not_paid_product (3); legal_reconfirmation (2); route_metadata (1)
 - **MD Maryland** — EXISTING_BRANCH_TO_PORT. Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming MD), and the controlling branch does not carry it. _Delta:_ Port the reviewed legal design, packet specification and packet-engine implementation for MD from feat/record-clearing-production-integration; do not merge the branch wholesale.
-- **ME Maine** — REMAINING_TO_BUILD. 5 of 5 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (5); renderer_unavailable (2); not_paid_product (2); legal_reconfirmation (1); route_metadata (1); filing_determination_missing (1)
+- **ME Maine** — REMAINING_TO_BUILD. 5 of 5 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (5); renderer_unavailable (3); not_paid_product (2); legal_reconfirmation (1); packet_spec_incomplete (1); route_metadata (1); filing_determination_missing (1)
 - **MI Michigan** — REMAINING_TO_BUILD. 4 of 4 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (4); wait_anchor_fix (1); intake_fix (1); gate_build (1)
 - **MN Minnesota** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (2); not_paid_product (1); packet_spec_incomplete (1); renderer_unavailable (1); route_metadata (1)
 - **MO Missouri** — REMAINING_TO_BUILD. 5 of 5 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (5); legal_reconfirmation (2); not_paid_product (1)

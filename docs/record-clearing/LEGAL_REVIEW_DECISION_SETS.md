@@ -102,7 +102,7 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** None. There is no artifact to review.
 - **ENGINEERING OWNER:** RCAP packet factory
 - **ENGINEERING DELTA AFTER DECISION:** Packet family construction or a non-packet service disposition per pathway.
-- **PACKET GENERATION CURRENTLY DISABLED:** 28 of 131 rows do not render today; payment is closed for all 131.
+- **PACKET GENERATION CURRENTLY DISABLED:** 29 of 131 rows do not render today; payment is closed for all 131.
 - **PAYMENT CURRENTLY DISABLED:** All 131 rows.
 - **DUPLICATE DECISIONS COLLAPSED:** 130
 
@@ -183,7 +183,7 @@ collapses those rows against the registers that already hold decisions.
 | `MD:police-record-expungement-when-no-charge-was-filed-under-10-103` | guidance_only | EXISTING_APPROVAL_NOT_LINKED |
 | `MD:second-chance-act-shielding` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `ME:adult-conviction-sealing` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `ME:adult-non-conviction-record-relief` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `ME:adult-non-conviction-record-relief` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `ME:juvenile-sealing` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `ME:pardon-route` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `ME:sex-trafficking-sexual-exploitation-survivor-sealing` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |

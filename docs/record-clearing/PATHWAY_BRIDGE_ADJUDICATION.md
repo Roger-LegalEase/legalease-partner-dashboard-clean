@@ -229,7 +229,7 @@ These rows were first published as APPROVED_TRACK_EXISTS_ENGINEERING_BRIDGE_MISS
 ### `AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085`
 
 - **Lexical candidate**: `ak-set-aside` — Set-Aside After a Suspended Imposition of Sentence, AS 12.55.085 (score undefined)
-- **Route authority**: no record
+- **Route authority**: AS 12.55.085(e) · stage single_stage · outcomeMode participant_packet · packetFamily "Alaska AS 12.55.085(e) Belated Set-Aside Motion"
 - **Track authority**: AS 12.55.085, with the set-aside at (e) and the exclusions at (f)
 - **Reason**: ak-set-aside cites the same provision as this route (1255085) and is the correct track, but its design status is legal_research_required.
 - **Action**: Complete the deferred legal research on ak-set-aside, then bind AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085 to it. Do not commission a new design; the track already exists.

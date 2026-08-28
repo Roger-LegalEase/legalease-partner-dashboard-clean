@@ -12,11 +12,11 @@
     ],
     "consequence": "Porting the engines would move the renderer backwards. The remaining renderer work is wiring routes to the shared factory_v2 renderer."
   },
-  "total": 61,
+  "total": 63,
   "counts": {
     "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 22,
-    "NO_TRACK_TO_RENDER_FROM": 33,
-    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 3,
+    "NO_TRACK_TO_RENDER_FROM": 34,
+    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 4,
     "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION": 3
   },
   "rendererWorkRemaining": 0,
@@ -387,6 +387,28 @@
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
     },
     {
+      "pathwayKey": "ME:adult-non-conviction-record-relief",
+      "jurisdiction": "ME",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "me-nonconv"
+      ],
+      "memoOutputStrategies": [
+        "composed"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
+    },
+    {
       "pathwayKey": "ME:juvenile-sealing",
       "jurisdiction": "ME",
       "routeKind": "guidance_only",
@@ -484,6 +506,28 @@
       "trackIds": [],
       "memoOutputStrategies": [],
       "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": null,
+      "factoryV2": {
+        "resolves": false,
+        "legacyGeneratorOwnsThisJurisdiction": true,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ]
+      },
+      "classification": "NO_TRACK_TO_RENDER_FROM",
+      "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
+      "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
+    },
+    {
+      "pathwayKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdiction": "MS",
+      "routeKind": "packet_correction_required",
+      "rendererKind": "none",
+      "trackIds": [],
+      "memoOutputStrategies": [],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=packet_correction_required).",
       "suppressedBy": null,
       "factoryV2": {
         "resolves": false,

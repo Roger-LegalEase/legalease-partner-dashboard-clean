@@ -45,10 +45,10 @@
       "intendedSellablePathways": 263,
       "publiclyReachableSellablePathways": 79,
       "authoritativePacketReadyPathways": 79,
-      "packetSpecCompletePathways": 255,
-      "technicallyApprovedPacketPathways": 116,
+      "packetSpecCompletePathways": 254,
+      "technicallyApprovedPacketPathways": 114,
       "legallyApprovedPacketPathways": 47,
-      "successfullyRenderedPathways": 202
+      "successfullyRenderedPathways": 200
     },
     "holds": false,
     "breaks": [
@@ -439,12 +439,13 @@
       {
         "stage": "packetSpecCompletePathways",
         "expected": 263,
-        "actual": 255,
-        "shortfall": 8,
+        "actual": 254,
+        "shortfall": 9,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
           "CT:absolute-pardon-resulting-in-erasure",
+          "ME:adult-non-conviction-record-relief",
           "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
           "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
           "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
@@ -455,8 +456,8 @@
       {
         "stage": "technicallyApprovedPacketPathways",
         "expected": 263,
-        "actual": 116,
-        "shortfall": 147,
+        "actual": 114,
+        "shortfall": 149,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -494,6 +495,7 @@
           "MD:eligible-conviction-expungement-under-crim-proc-10-110",
           "MD:juvenile-expungement",
           "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+          "ME:adult-non-conviction-record-relief",
           "ME:juvenile-sealing",
           "ME:pardon-route",
           "MI:first-offense-owi-set-aside-by-application",
@@ -507,6 +509,7 @@
           "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
           "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
           "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+          "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
           "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
           "NC:youthful-pre-raise-the-age-expunction-under-g-s-15a-145-8a-and-related-statutes",
           "ND:dui-record-sealing-under-the-separate-dui-statute",
@@ -834,8 +837,8 @@
       {
         "stage": "successfullyRenderedPathways",
         "expected": 263,
-        "actual": 202,
-        "shortfall": 61,
+        "actual": 200,
+        "shortfall": 63,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -853,11 +856,13 @@
           "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
           "MD:juvenile-expungement",
           "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+          "ME:adult-non-conviction-record-relief",
           "ME:juvenile-sealing",
           "ME:pardon-route",
           "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
           "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
           "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+          "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
           "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
           "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
           "NE:juvenile-petition-backstop",
@@ -930,6 +935,11 @@
         "pathwayKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
         "routeKind": "guidance_only",
         "renderReason": "resolver refused: routeKind=guidance_only"
+      },
+      {
+        "pathwayKey": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+        "routeKind": "packet_correction_required",
+        "renderReason": "resolver refused: routeKind=packet_correction_required"
       },
       {
         "pathwayKey": "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
@@ -2454,7 +2464,6 @@
       "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
       "MD:second-chance-act-shielding",
       "ME:adult-conviction-sealing",
-      "ME:adult-non-conviction-record-relief",
       "ME:juvenile-sealing",
       "ME:pardon-route",
       "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
@@ -2678,7 +2687,6 @@
       "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
       "MD:second-chance-act-shielding",
       "ME:adult-conviction-sealing",
-      "ME:adult-non-conviction-record-relief",
       "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
       "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
       "MN:petition-based-expungement-under-609a-02-03",
@@ -2695,7 +2703,6 @@
       "MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal",
       "MS:nonadjudication-under-99-15-26",
       "MS:pretrial-intervention-or-diversion-expungement",
-      "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "MT:marijuana-related-redesignation-expungement-under-mmrta",
       "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
       "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
@@ -2865,7 +2872,6 @@
       "MD:pardoned-conviction-expungement-under-crim-proc-10-105-a-8",
       "MD:second-chance-act-shielding",
       "ME:adult-conviction-sealing",
-      "ME:adult-non-conviction-record-relief",
       "ME:sex-trafficking-sexual-exploitation-survivor-sealing",
       "MI:first-offense-owi-set-aside-by-application",
       "MI:human-trafficking-related-set-aside-application",
@@ -2890,7 +2896,6 @@
       "MS:nonadjudication-under-99-15-26",
       "MS:pretrial-intervention-or-diversion-expungement",
       "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
-      "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
       "MT:marijuana-related-redesignation-expungement-under-mmrta",
       "MT:misdemeanor-conviction-expungement-under-mont-code-46-18-1104",
       "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
@@ -11113,12 +11118,12 @@
         "category": "paid_packet_intended",
         "categoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
         "evidence": {
-          "routeType": "court_filing",
+          "routeType": "automatic_guidance",
           "productRouteType": "court_petition",
           "userFiled": true,
           "currentlyOperative": true,
           "paidRouteBlocker": "legal_reconfirmation",
-          "packetPlanMode": "official_form_overlay_or_source_form_set",
+          "packetPlanMode": "automatic_relief_verification_and_guidance",
           "tracks": [
             "me-nonconv"
           ],
@@ -11127,11 +11132,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "ME adult-non-conviction-record-relief builds through the shared packet factory from packet set me-nonconv-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "ME:adult-non-conviction-record-relief is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "hold_guidance",
@@ -11144,15 +11149,15 @@
         "intendedSellable": true,
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
-        "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "packetSpecComplete": false,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2937
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -11161,9 +11166,19 @@
           "statement": "Counsel ratification of this route is not current."
         },
         {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs."
+        },
+        {
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -14074,11 +14089,11 @@
         }
       },
       "route": {
-        "routeKind": "legacy_verified",
-        "rendererKind": "packet_document_v1",
-        "sellable": true,
-        "creditConsumable": true,
-        "reason": "MS renders its packet document through the browser-free renderer."
+        "routeKind": "packet_correction_required",
+        "rendererKind": "none",
+        "sellable": false,
+        "creditConsumable": false,
+        "reason": "MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59 generates an incomplete packet (PACKET_CORRECTION_REQUIRED); checkout, sponsored credit, render and participant delivery are closed until it is corrected."
       },
       "lawrence": {
         "status": "ratified_deployable",
@@ -14092,16 +14107,22 @@
         "publiclyReachableSellable": true,
         "authoritativePacketReady": true,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": true,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 3008
+        "rendered": false,
+        "reason": "resolver refused: routeKind=packet_correction_required",
+        "bytes": 0
       },
-      "openBlockers": [],
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=packet_correction_required)."
+        }
+      ],
       "routeMetadata": {
         "productRouteType": "court_petition",
         "userFiled": true,
