@@ -1,6 +1,7 @@
 import {
   NO_PARTICIPANT_FILING_OUTCOMES,
   PACKET_BEARING_OUTCOMES,
+  type DeliveryGateKind,
   type LegalAuthorityBundle,
   type LegalAuthorityDecision,
   type LegalRouteContract,
@@ -122,6 +123,104 @@ export function routeRuleInForceOn(route: LegalRouteContract, on: Date): boolean
   return on.getTime() >= effective.getTime();
 }
 
+/**
+ * What a route may actually do today, as distinct from what the law says.
+ *
+ * The national report of 2026-08-28 is explicit that these are different
+ * questions: "A resolved legal question does not automatically make a route
+ * commercially ready." So none of the four allow-flags below is set by legal
+ * resolution. Each is derived from the payment authority, the open delivery
+ * gates and the effective-date gate, and every one of them fails closed.
+ */
+export type RouteDeliveryAuthority = {
+  /** True when an adopted authority answers this route's legal question. */
+  legallyResolved: boolean;
+  /** Gates still standing between that answer and a releasable route. */
+  openDeliveryGates: DeliveryGateKind[];
+  /** May a packet artifact be generated at all. */
+  generationAllowed: boolean;
+  /** May consumer checkout open. */
+  paymentAllowed: boolean;
+  /** May a sponsored generation consume a partner credit. */
+  sponsoredGenerationAllowed: boolean;
+  /** May a finished packet be handed to a participant. */
+  commerciallyDeliverable: boolean;
+  /** The first reason delivery is held, or null when nothing holds it. */
+  holdReason: string | null;
+  effectiveDateStatus: "in_force" | "future_effective" | "unknown";
+};
+
+/** Gates that stop a packet being generated at all, not merely sold. */
+const GENERATION_BLOCKING_GATES: readonly DeliveryGateKind[] = [
+  "source_acquisition",
+  "local_filing_configuration",
+  "future_effective"
+];
+
+/**
+ * Delivery authority for a route on a given day.
+ *
+ * `on` is required rather than defaulted to now: a route whose availability
+ * depends on a date must be evaluated against the matter's own clock, and a
+ * hidden `new Date()` is how a future-effective route becomes live in one
+ * caller and not another.
+ */
+export function routeDeliveryAuthority(
+  route: LegalRouteContract,
+  on: Date,
+  options: { legallyResolved?: boolean } = {}
+): RouteDeliveryAuthority {
+  const gates = route.deliveryGates ?? [];
+  const openDeliveryGates = gates.map((gate) => gate.kind);
+  const payment = routePaymentAuthority(route);
+
+  const notBefore = route.effectiveDateGate?.notBefore;
+  let effectiveDateStatus: RouteDeliveryAuthority["effectiveDateStatus"] = "in_force";
+  if (notBefore) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(notBefore)) effectiveDateStatus = "unknown";
+    else {
+      const at = new Date(`${notBefore}T00:00:00.000Z`);
+      effectiveDateStatus = Number.isNaN(at.getTime()) ? "unknown"
+        : on.getTime() >= at.getTime() ? "in_force" : "future_effective";
+    }
+  }
+  if (!routeRuleInForceOn(route, on)) effectiveDateStatus = "future_effective";
+
+  const holds: string[] = [];
+  if (effectiveDateStatus !== "in_force") {
+    holds.push(effectiveDateStatus === "future_effective"
+      ? `the rule is not operative before ${notBefore ?? route.effectiveFrom}`
+      : `the effective date ${notBefore ?? route.effectiveFrom} cannot be read`);
+  }
+  for (const gate of gates) holds.push(`${gate.kind} is open: ${gate.items.join("; ")}`);
+  if (route.artifactApprovalRequired) holds.push("a rendered candidate and hash must be reviewed before release");
+  if (payment !== "packet_checkout") holds.push(`payment authority is ${payment}`);
+
+  const dateClear = effectiveDateStatus === "in_force";
+  const generationAllowed = dateClear && !openDeliveryGates.some((kind) => GENERATION_BLOCKING_GATES.includes(kind));
+  const paymentAllowed = dateClear && payment === "packet_checkout" && openDeliveryGates.length === 0;
+  // A sponsored generation spends a partner credit, so it needs everything a
+  // paid one does except the consumer checkout: guidance is never sponsored,
+  // and a route that cannot generate cannot be sponsored to generate.
+  const sponsoredGenerationAllowed = generationAllowed
+    && payment !== "closed"
+    && openDeliveryGates.length === 0;
+  const commerciallyDeliverable = paymentAllowed
+    && !route.artifactApprovalRequired
+    && openDeliveryGates.length === 0;
+
+  return {
+    legallyResolved: options.legallyResolved ?? true,
+    openDeliveryGates,
+    generationAllowed,
+    paymentAllowed,
+    sponsoredGenerationAllowed,
+    commerciallyDeliverable,
+    holdReason: holds[0] ?? null,
+    effectiveDateStatus
+  };
+}
+
 export type RouteContractViolation = {
   routeKey: string;
   code: string;
@@ -177,6 +276,51 @@ export function assertRouteContractInvariants(routes: readonly LegalRouteContrac
     if (route.packetFamily === null && PACKET_BEARING_OUTCOMES.includes(route.outcomeMode)) {
       fail(routeKey, "packet_outcome_without_family", "a packet-bearing outcome must name the approved packet family");
     }
+    // A precondition collected in anonymous screening cannot gate a packet: the
+    // participant has not authenticated, so nothing said there is reliable
+    // enough to open one. The report is explicit that written prosecutor
+    // consent is not collected in anonymous screening.
+    for (const precondition of route.packetReleasePreconditions ?? []) {
+      if (precondition.collectedAt === "anonymous_screening") {
+        fail(routeKey, "precondition_in_anonymous_screening", `${precondition.id} gates packet release on an answer given before authentication`);
+      }
+      if (!precondition.requires.trim()) fail(routeKey, "precondition_without_requirement", `${precondition.id} names no condition to satisfy`);
+    }
+
+    // A declared commercial posture may close what the derived authority opens,
+    // never open what it closes. Storing "checkout enabled" on a route the
+    // outcome mode closes is the exact combination the derived-payment design
+    // exists to make unrepresentable.
+    if (route.commercialPosture?.checkoutEnabled && payment !== "packet_checkout") {
+      fail(routeKey, "declared_checkout_on_closed_route", `commercialPosture opens checkout on a route whose payment authority is ${payment}`);
+    }
+    if (route.commercialPosture && route.commercialPosture.packetCreditsConsumed > 0 && payment === "closed") {
+      fail(routeKey, "credits_on_closed_route", "a route with no packet may not consume a sponsored packet credit");
+    }
+    if (route.commercialPosture?.sponsoredGenerationEnabled && payment === "closed") {
+      fail(routeKey, "sponsored_generation_on_closed_route", "sponsored generation may not run on a route that sells no packet");
+    }
+
+    // A future effective date and an open checkout cannot both be declared.
+    if (route.effectiveDateGate?.notBefore && route.commercialPosture?.checkoutEnabled) {
+      fail(routeKey, "checkout_before_effective_date", `checkout is declared open while the rule is gated to ${route.effectiveDateGate.notBefore}`);
+    }
+
+    // A service branch records a different outcome on the same statute. One
+    // that binds a packet family its outcome mode cannot carry is the same
+    // defect the top-level check catches, one level down.
+    for (const branch of route.serviceBranches ?? []) {
+      if (branch.packetFamily !== null && !PACKET_BEARING_OUTCOMES.includes(branch.outcomeMode)) {
+        fail(routeKey, "branch_packet_on_non_packet_outcome", `service branch ${branch.id} binds a packet to a ${branch.outcomeMode} outcome`);
+      }
+      if (!branch.when.trim()) fail(routeKey, "branch_without_condition", `service branch ${branch.id} names no condition`);
+    }
+
+    for (const gate of route.deliveryGates ?? []) {
+      if (gate.items.length === 0) fail(routeKey, "delivery_gate_without_items", `${gate.kind} names nothing that would close it`);
+      if (!gate.owner.trim()) fail(routeKey, "delivery_gate_without_owner", `${gate.kind} names no owner`);
+    }
+
     for (const deadline of route.processingDeadlines ?? []) {
       if (!deadline.note.trim()) fail(routeKey, "processing_deadline_unlabelled", `${deadline.label} must say why it is not a participant wait`);
     }

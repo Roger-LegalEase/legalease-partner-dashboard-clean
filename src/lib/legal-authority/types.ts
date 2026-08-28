@@ -102,6 +102,105 @@ export type RouteProcessingDeadline = {
   note: string;
 };
 
+/**
+ * A condition that must hold before a packet may be released on this route.
+ *
+ * Not a screening question and not a page-level boolean: the condition belongs
+ * to the legal decision, so it lives on the contract and every consumer reads
+ * the same one. `whenAbsent` has no "proceed" member on purpose — the Georgia
+ * § 42-8-66 defect is precisely that silence, a refusal and an unanswered
+ * request all read as "no objection", and a precondition that can be satisfied
+ * by absence is not a precondition.
+ */
+export type PacketReleasePrecondition = {
+  id: string;
+  /** What satisfies it, in the approved wording. */
+  requires: string;
+  /** What the route does when it is absent. Absence is never release. */
+  whenAbsent: "fail_closed_guidance" | "fail_closed_handoff";
+  /**
+   * Where the answer is collected. Anonymous screening may not carry a
+   * privileged or document-bearing precondition: a participant has not
+   * authenticated, so nothing they say there can be relied on to open a packet.
+   */
+  collectedAt: "anonymous_screening" | "authenticated_intake" | "final_verification";
+  note: string;
+};
+
+/** A gate standing between a resolved legal answer and a releasable route. */
+export type DeliveryGateKind =
+  | "source_acquisition"
+  | "local_filing_configuration"
+  | "artifact_generation"
+  | "artifact_legal_review"
+  | "future_effective"
+  | "scheduled_legal_reread";
+
+export type DeliveryGate = {
+  kind: DeliveryGateKind;
+  /** Every item that must be confirmed before this gate opens. */
+  items: string[];
+  owner: string;
+  note: string;
+};
+
+/**
+ * A branch this route takes when a named fact resolves a particular way.
+ *
+ * The contract type forbids a conditional inside one contract for a reason: one
+ * grouped route covering several statutory mechanisms is the defect it exists
+ * to prevent. A service branch is not that. It records a different SERVICE
+ * OUTCOME on the same statutory mechanism — a denial that becomes a handoff, an
+ * order already granted that becomes implementation tracking — never a second
+ * statute. A branch that needs its own statute needs its own contract.
+ */
+export type ServiceBranch = {
+  id: string;
+  /** The condition, in the approved wording. */
+  when: string;
+  outcomeMode: RouteOutcomeMode;
+  packetFamily: string | null;
+  note: string;
+};
+
+/** A route enacted but not yet operative, or one that must be re-read on a date. */
+export type EffectiveDateGate = {
+  /** No launch, payment, sponsorship or delivery before this date. */
+  notBefore?: string;
+  /** What must be re-checked immediately before launch, in the approved wording. */
+  finalSourceCheck?: string;
+  /** Read again on this date even if nothing else has changed. */
+  scheduledRereadOn?: string[];
+  note: string;
+};
+
+/** Where the route sends a participant when the relief itself is unavailable. */
+export type FailureDisposition = {
+  /** The condition, in the approved wording. */
+  when: string;
+  disposition:
+    | "retained_counsel"
+    | "attorney_or_prosecutor"
+    | "agency_correction"
+    | "partner_handoff"
+    | "implementation_tracking";
+  note: string;
+};
+
+/**
+ * What the route may charge for and generate.
+ *
+ * Declared, then checked against the derived payment authority. It cannot be
+ * used to open a checkout the outcome mode closes; declaring it is a way to say
+ * "closed and here is why", and an invariant rejects the other direction.
+ */
+export type CommercialPosture = {
+  checkoutEnabled: boolean;
+  sponsoredGenerationEnabled: boolean;
+  packetCreditsConsumed: number;
+  note: string;
+};
+
 export type LegalRouteContract = {
   /** `JURISDICTION:pathwayId` — the same key the engine uses for a compiled route. */
   routeKey: string;
@@ -138,6 +237,25 @@ export type LegalRouteContract = {
   packetComponents?: string[];
   /** ISO date from which this rule governs, where the decision specifies one. */
   effectiveFrom?: string;
+  /**
+   * Conditions that must hold before a packet is released on this route. Empty
+   * or absent means the route has none, not that one was forgotten: an
+   * invariant requires a fail-closed precondition wherever a contract declares
+   * a failure disposition for a missing consent or authorisation.
+   */
+  packetReleasePreconditions?: PacketReleasePrecondition[];
+  /** Gates that hold a legally resolved route short of delivery. */
+  deliveryGates?: DeliveryGate[];
+  /** Service outcomes on the same mechanism, for facts that change the outcome. */
+  serviceBranches?: ServiceBranch[];
+  /** A future effective date, a required final source check, or a scheduled re-read. */
+  effectiveDateGate?: EffectiveDateGate;
+  /** True where a rendered candidate and hash must be reviewed before release. */
+  artifactApprovalRequired?: boolean;
+  /** Where the participant goes when the relief is unavailable to them. */
+  failureDisposition?: FailureDisposition[];
+  /** The declared commercial posture, checked against the derived authority. */
+  commercialPosture?: CommercialPosture;
   /** A rule this contract explicitly replaces, kept so a regression can name it. */
   supersedes?: {
     value?: number;
