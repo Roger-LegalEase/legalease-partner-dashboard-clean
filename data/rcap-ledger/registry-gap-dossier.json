@@ -3,8 +3,8 @@
   "generatedBy": "scripts/generate-rcap-registry-gap-dossier.mjs",
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-    "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4",
-    "pathways": 263
+    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
+    "pathways": 260
   },
   "createsNoDenominator": "Every pathway here stays in Session A's intended-paid denominator. Nothing is dropped, reclassified or invented.",
   "changesNoRuntime": true,
@@ -13,7 +13,7 @@
     "withAPathwayLevelPacketSet": 40,
     "withoutAPathwayLevelPacketSet": 0,
     "inAJurisdictionBoundByTheAdoption": 35,
-    "carryingACounselRatification": 12,
+    "carryingACounselRatification": 13,
     "byJurisdiction": {
       "AK": 1,
       "CA": 1,
@@ -299,7 +299,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Cal. Penal Code § 1203.49 / SB 731 framework",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:71-114"
@@ -600,7 +601,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Cal. Penal Code § 1203.49 / SB 731 framework",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1011,7 +1013,14 @@
         "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3",
         "routeType": "special",
         "suggestedResultCode": "packet_ready_with_caution",
-        "lawrenceRatification": null,
+        "lawrenceRatification": {
+          "status": "hold_guidance",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
+          "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
+        },
         "sourceEvidenceRefs": [
           "corpus-unit:8",
           "corpus-unit:16",
@@ -1063,7 +1072,14 @@
             "sourceRef": "corpus-unit:8; corpus-unit:16; corpus-unit:3"
           }
         ],
-        "counselRatification": null
+        "counselRatification": {
+          "status": "hold_guidance",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
+          "legal_basis": "Projected from data/record-clearing/legal-decisions/route-ratification-registry.json. Decision authority: Lawrence (counsel), recorded through docs/RCAP_HELD_ROUTE_RATIFICATION_WORKSHEET.md and the evaluator's ratification sets.",
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
+        }
       },
       "exactFutureRegistryOwnerAction": {
         "owner": "registry owner (track-to-pathway crosswalk)",
@@ -1167,11 +1183,12 @@
         "routeType": "review",
         "suggestedResultCode": "needs_review",
         "lawrenceRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "manual_source_conversion:ID",
@@ -1268,11 +1285,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hold_guidance",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1306,7 +1324,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:169-177",
@@ -1374,7 +1393,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "20 ILCS 2630/5.2 identity-theft/mistaken-identity relief",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1404,11 +1424,12 @@
         "routeType": "court_filing",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "hard_gate_pending",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence named substantive gate required before selling",
-          "lawrence_review": "gate_required"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:157-163",
@@ -1679,11 +1700,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hard_gate_pending",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence named substantive gate required before selling",
-          "lawrence_review": "gate_required"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1713,11 +1735,12 @@
         "routeType": "juvenile",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
+          "status": "intentional_unsupported",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Illinois juvenile petition expungement branch",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:178-184",
@@ -1961,11 +1984,12 @@
           }
         ],
         "counselRatification": {
-          "status": "ratified_deployable",
-          "packet_capable": true,
-          "payment_allowed_when_engine_confirms": true,
+          "status": "intentional_unsupported",
+          "packet_capable": false,
+          "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Illinois juvenile petition expungement branch",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -1995,11 +2019,12 @@
         "routeType": "juvenile",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "hold_guidance",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:171-180",
@@ -2198,11 +2223,12 @@
           }
         ],
         "counselRatification": {
-          "status": "hold_guidance",
+          "status": "intentional_unsupported",
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "intentional_unsupported",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2236,7 +2262,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:151-166",
@@ -2414,7 +2441,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2448,7 +2476,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "section:146-150",
@@ -2521,7 +2550,8 @@
           "packet_capable": false,
           "payment_allowed_when_engine_confirms": false,
           "legal_basis": "Lawrence first-pass hold; show substantive guidance only for this release",
-          "lawrence_review": "hold_guidance_only"
+          "lawrence_review": "hold_guidance",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2747,7 +2777,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for nonadjudication under 99 15 26",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:15-155",
@@ -2851,7 +2882,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for nonadjudication under 99 15 26",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -2949,7 +2981,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for uncharged or unprosecuted misdemeanor after 12 months 99 15 59",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:15-155",
@@ -3133,7 +3166,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Miss. Code expungement provisions for uncharged or unprosecuted misdemeanor after 12 months 99 15 59",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -3167,7 +3201,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "N.D.C.C. ch. 12-60.1",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:24-89",
@@ -3382,7 +3417,8 @@
           "packet_capable": true,
           "payment_allowed_when_engine_confirms": true,
           "legal_basis": "N.D.C.C. ch. 12-60.1",
-          "lawrence_review": "first_pass_ratified"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {
@@ -3702,11 +3738,12 @@
         "routeType": "court_filing",
         "suggestedResultCode": "packet_ready_with_caution",
         "lawrenceRatification": {
-          "status": "corrected_awaiting_reconfirmation",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-          "lawrence_review": "corrected_needs_reconfirm"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         },
         "sourceEvidenceRefs": [
           "pathways:68-109",
@@ -3883,11 +3920,12 @@
           }
         ],
         "counselRatification": {
-          "status": "corrected_awaiting_reconfirmation",
-          "packet_capable": false,
-          "payment_allowed_when_engine_confirms": false,
+          "status": "ratified_deployable",
+          "packet_capable": true,
+          "payment_allowed_when_engine_confirms": true,
           "legal_basis": "Lawrence first-pass correction; re-confirm required before selling",
-          "lawrence_review": "corrected_needs_reconfirm"
+          "lawrence_review": "ratified_deployable",
+          "projectedFrom": "route-ratification-registry"
         }
       },
       "exactFutureRegistryOwnerAction": {

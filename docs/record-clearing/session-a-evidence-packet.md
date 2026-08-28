@@ -1,6 +1,6 @@
 # Session A evidence packet
 
-One record for each of the **263** intended-paid pathways in Session A's canonical
+One record for each of the **260** intended-paid pathways in Session A's canonical
 pathway-family graph. The graph is consumed as-is: every pathway key, registry track list
 and disposition is Session A's. Nothing here recomputes a disposition, maintains a rival
 denominator, changes runtime, or issues an approval.
@@ -9,11 +9,11 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | working_tree | `5b2bdc9fa9d8e648…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `f2f3f06fcc5aea68…` |
 | `packetFamilyBridge` | working_tree | `527fd4baa11dee8e…` |
 | `trackSourceRelationships` | working_tree | `8376337488a0e07e…` |
 | `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
-| `publicWitnessAnswerSets` | working_tree | `a80beda9b5f2c9a9…` |
+| `publicWitnessAnswerSets` | working_tree | `d4b7096e7e1833cb…` |
 | `problematicPdfRegister` | working_tree | `e0ca5c8c7a95fb13…` |
 | `completedOutputPacketProofs` | working_tree | `ef771b3051b13e67…` |
 | `ownerLegalDecision` | working_tree | `61c7798f032ada2e…` |
@@ -27,11 +27,11 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 153 | **153** now carry an exact packet set |
-| `approved_by_decision_owner` | 70 | unchanged |
+| `family_bridge_missing_no_family` | 152 | **152** now carry an exact packet set |
+| `approved_by_decision_owner` | 68 | unchanged |
 | `family_bridge_missing_no_track` | 40 | unchanged |
 
-**153** pathways move from "no track-to-family bridge" to a named packet set.
+**152** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
@@ -39,7 +39,7 @@ family can now be named — not one an adoption has been shown to cover.
 
 | Classification | Pathways |
 |---|---|
-| `exact_track_and_packet_set` | 223 |
+| `exact_track_and_packet_set` | 220 |
 | `registry_gap_no_track` | 40 |
 
 Nothing is left as "unknown": every pathway is an exact track-and-packet-set, or an
@@ -50,7 +50,7 @@ explicitly named registry gap.
 - Adoption `EXT-ADOPT-01-standing-external-counsel-adoption`, adopted **2026-08-08**, scope `packet_family`, sha256 `7bea6b4c78cde50a…`
 - Bound families: **57** across **45** jurisdictions
 - Completed-output packet proofs read: **59**
-- Pathways carrying completed-output evidence by exact track id: **70**
+- Pathways carrying completed-output evidence by exact track id: **68**
 
 Each record carries the assembled artifact filename, sha256, page count, the verifier that
 passed it, whether its family is adopted, and whether that family carries a superseded
@@ -61,20 +61,20 @@ technical result.
 Answer sets live in `data/rcap-ledger/public-witness-answer-sets.json` — no randomness,
 re-running reproduces the file byte for byte, and `--check` proves it.
 
-- Settled on a terminal evaluation: **263** of 263
-- Landed on their own pathway: **263**
+- Settled on a terminal evaluation: **260** of 260
+- Landed on their own pathway: **260**
 - Payment allowed at the evaluator: **29**
 
 ## 5 — Owner-approved legal status
 
 Approved by **Roger Roman** under `auth-2026-08-19-owner-legal-approval-completed-output`, effective 2026-08-19. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.
 
-**228** of 263 pathways carry owner-approved legal status.
+**225** of 260 pathways carry owner-approved legal status.
 
 | Basis | Pathways |
 |---|---|
-| `owner_approved_existing_legal_design_packet_set` | 153 |
-| `owner_approved_packet_family` | 70 |
+| `owner_approved_existing_legal_design_packet_set` | 152 |
+| `owner_approved_packet_family` | 68 |
 | `registry_gap_no_track` | 35 |
 | `owner_approved_exception_annex` | 5 |
 

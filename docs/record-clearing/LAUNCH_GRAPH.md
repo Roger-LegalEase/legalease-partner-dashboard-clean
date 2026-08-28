@@ -5,7 +5,7 @@ packet family and packet set → owner-approved legal status → packet specific
 technical status → PDF status → renderer → public witness → payment result → artifact result →
 DTC result → RCAP result.
 
-**One denominator.** All 263 rows come from the `paid_packet_intended` set in
+**One denominator.** All 260 rows come from the `paid_packet_intended` set in
 `data/rcap-ledger/sellable-pathway-closure.json`. Every consumed ledger is required to describe
 exactly that set; one that adds or drops a pathway fails this generator rather than being
 reconciled quietly, so there is nothing here for a second denominator to disagree with.
@@ -14,13 +14,13 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 
 | | |
 |---|---:|
-| INTENDED PAID | 263 |
-| CORRECT-PATHWAY PUBLIC WITNESSES | 263 |
+| INTENDED PAID | 260 |
+| CORRECT-PATHWAY PUBLIC WITNESSES | 260 |
 | WRONG-PATHWAY WITNESSES | 0 |
 | NON-CONVERGING WITNESSES | 0 |
-| EXACT TRACK + PACKET SET | 223 |
+| EXACT TRACK + PACKET SET | 220 |
 | REGISTRY GAP + PATHWAY PACKET SET | 40 |
-| OWNER-APPROVED LEGAL | 95 |
+| OWNER-APPROVED LEGAL | 93 |
 | FACTORY_V2 RESOLVED | 169 |
 | PAYMENT ALLOWED | 29 |
 | DETERMINISTICALLY RENDERED (complete packet) | 38 |
@@ -36,11 +36,11 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 
 | Unmet gate | Routes |
 |---|---:|
-| `paymentAllowed` | 234 |
-| `deterministicArtifactProven` | 225 |
-| `technicalApprovalCurrent` | 193 |
-| `ownerApprovedLegalDesign` | 168 |
-| `rendererSelected` | 64 |
+| `paymentAllowed` | 231 |
+| `deterministicArtifactProven` | 222 |
+| `technicalApprovalCurrent` | 192 |
+| `ownerApprovedLegalDesign` | 167 |
+| `rendererSelected` | 61 |
 | `packetSpecificationComplete` | 40 |
 | `noProblematicPdfHold` | 19 |
 

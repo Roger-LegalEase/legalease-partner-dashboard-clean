@@ -12,7 +12,7 @@ the registry, not evidence that LegalEase does not intend to sell the route.
 | Registry-gap pathways | 40 |
 | With a pathway-level packet set | 40 |
 | In a jurisdiction bound by EXT-ADOPT-01 | 35 |
-| Carrying a counsel ratification | 12 |
+| Carrying a counsel ratification | 13 |
 
 ## What each record carries
 

@@ -34,12 +34,12 @@
   },
   "changesNothing": "Records what the deployed public evaluator does today. No runtime change, no classification, no approval.",
   "totals": {
-    "pathways": 263,
-    "settledOnATerminalEvaluation": 263,
-    "landedOnTheirOwnPathway": 263,
+    "pathways": 260,
+    "settledOnATerminalEvaluation": 260,
+    "landedOnTheirOwnPathway": 260,
     "terminalResultCodes": {
       "packet_ready_with_caution": 35,
-      "guidance_only": 91,
+      "guidance_only": 88,
       "not_covered_yet": 22,
       "needs_review": 103,
       "likely_not_eligible": 5,
@@ -8132,87 +8132,6 @@
       "error": null
     },
     {
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "jurisdiction": "ME",
-      "pathwayId": "adult-non-conviction-record-relief",
-      "pathwayLabel": "Adult non-conviction record relief",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/maine",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "seedAnswers": {
-        "ownership_scope": "Yes",
-        "jurisdiction_scope": "State or local",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "pending_cases": "No",
-        "new_convictions_during_waiting_period": "No",
-        "sentence_completion_date": "Yes",
-        "financial_obligations": "Yes",
-        "court_requirements_completed": "yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No",
-        "pardon_status": "No",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "possible_pathway_context": "Adult non-conviction record relief"
-      },
-      "pathwayContextOffered": "Adult non-conviction record relief",
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "case_outcome",
-            "offense_level"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "case_outcome": "Arrest or citation with no charge filed",
-            "offense_level": "Felony"
-          }
-        }
-      ],
-      "finalAnswers": {
-        "age_at_offense": "30",
-        "case_outcome": "Arrest or citation with no charge filed",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Felony",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Adult non-conviction record relief",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No"
-      },
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "adult-non-conviction-record-relief",
-        "pathwayLabel": "Adult non-conviction record relief",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "me.lawrence_hold_guidance_only"
-        ],
-        "missingQuestionIds": []
-      },
-      "landedOnThisPathway": true,
-      "error": null
-    },
-    {
       "pathwayKey": "ME:juvenile-sealing",
       "jurisdiction": "ME",
       "pathwayId": "juvenile-sealing",
@@ -11451,84 +11370,6 @@
         "selectedTrackId": null,
         "reasonCodes": [
           "nd.waiting_rule_not_executed"
-        ],
-        "missingQuestionIds": []
-      },
-      "landedOnThisPathway": true,
-      "error": null
-    },
-    {
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "jurisdiction": "ND",
-      "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/north-dakota",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "seedAnswers": {
-        "ownership_scope": "Yes",
-        "jurisdiction_scope": "State or local",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "pending_cases": "No",
-        "new_convictions_during_waiting_period": "No",
-        "sentence_completion_date": "Yes",
-        "financial_obligations": "Yes",
-        "court_requirements_completed": "yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No",
-        "pardon_status": "No",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "possible_pathway_context": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05"
-      },
-      "pathwayContextOffered": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "court_requirements_completed",
-            "pardon_status",
-            "record_documents",
-            "state_exclusion_categories",
-            "trafficking_status"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "case_outcome",
-            "offense_level"
-          ],
-          "supplied": {
-            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-            "offense_level": "Misdemeanor"
-          }
-        }
-      ],
-      "finalAnswers": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pending_cases": "No",
-        "possible_pathway_context": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes"
-      },
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "nd.guidance_only_no_user_filed_court_petition"
         ],
         "missingQuestionIds": []
       },
@@ -21035,90 +20876,6 @@
         "selectedTrackId": null,
         "reasonCodes": [
           "wv.waiting_rule_not_executed"
-        ],
-        "missingQuestionIds": []
-      },
-      "landedOnThisPathway": true,
-      "error": null
-    },
-    {
-      "pathwayKey": "WV:pardon-based-expungement",
-      "jurisdiction": "WV",
-      "pathwayId": "pardon-based-expungement",
-      "pathwayLabel": "Pardon-based expungement",
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "publicRoute": "/expungement-ai/screening/west-virginia",
-      "evaluationEndpoint": "POST /api/expungement-ai/screening",
-      "seedAnswers": {
-        "ownership_scope": "Yes",
-        "jurisdiction_scope": "State or local",
-        "state_exclusion_categories": [
-          "None of these"
-        ],
-        "pending_cases": "No",
-        "new_convictions_during_waiting_period": "No",
-        "sentence_completion_date": "Yes",
-        "financial_obligations": "Yes",
-        "court_requirements_completed": "yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No",
-        "pardon_status": "No",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "possible_pathway_context": "Pardon-based expungement"
-      },
-      "pathwayContextOffered": "Pardon-based expungement",
-      "rounds": [
-        {
-          "round": 0,
-          "droppedAsNotEvaluatorQuestions": [
-            "state_exclusion_categories"
-          ]
-        },
-        {
-          "round": 1,
-          "requested": [
-            "age_at_offense",
-            "case_outcome",
-            "offense_level",
-            "prior_relief"
-          ],
-          "supplied": {
-            "age_at_offense": "30",
-            "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-            "offense_level": "Misdemeanor",
-            "prior_relief": "Yes"
-          }
-        }
-      ],
-      "finalAnswers": {
-        "age_at_offense": "30",
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "court_requirements_completed": "yes",
-        "financial_obligations": "Yes",
-        "jurisdiction_scope": "State or local",
-        "new_convictions_during_waiting_period": "No",
-        "offense_level": "Misdemeanor",
-        "ownership_scope": "Yes",
-        "pardon_status": "No",
-        "pending_cases": "No",
-        "possible_pathway_context": "Pardon-based expungement",
-        "prior_relief": "Yes",
-        "record_documents": "Yes",
-        "resolved_timing_bucket": "gt_10_years",
-        "sentence_completion_date": "Yes",
-        "special_preconditions_confirmed": "Yes",
-        "trafficking_status": "No"
-      },
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "pardon-based-expungement",
-        "pathwayLabel": "Pardon-based expungement",
-        "paymentAllowed": false,
-        "treatmentClassification": null,
-        "selectedTrackId": null,
-        "reasonCodes": [
-          "wv.guidance_only_no_user_filed_court_petition"
         ],
         "missingQuestionIds": []
       },

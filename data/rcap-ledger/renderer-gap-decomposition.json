@@ -12,11 +12,11 @@
     ],
     "consequence": "Porting the engines would move the renderer backwards. The remaining renderer work is wiring routes to the shared factory_v2 renderer."
   },
-  "total": 64,
+  "total": 61,
   "counts": {
-    "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 22,
+    "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 21,
     "NO_TRACK_TO_RENDER_FROM": 34,
-    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 5,
+    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 3,
     "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION": 3
   },
   "rendererWorkRemaining": 0,
@@ -387,28 +387,6 @@
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
     },
     {
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "jurisdiction": "ME",
-      "routeKind": "guidance_only",
-      "rendererKind": "none",
-      "trackIds": [
-        "me-nonconv"
-      ],
-      "memoOutputStrategies": [
-        "composed"
-      ],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
-      "suppressedBy": "guidance_only",
-      "factoryV2": {
-        "resolves": true,
-        "legacyGeneratorOwnsThisJurisdiction": false,
-        "unmetBuildInputs": []
-      },
-      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
-      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
-      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
-    },
-    {
       "pathwayKey": "ME:juvenile-sealing",
       "jurisdiction": "ME",
       "routeKind": "guidance_only",
@@ -563,30 +541,6 @@
       "classification": "NO_TRACK_TO_RENDER_FROM",
       "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
       "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
-    },
-    {
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "jurisdiction": "ND",
-      "routeKind": "guidance_only",
-      "rendererKind": "none",
-      "trackIds": [
-        "nd-nonconviction-auto-close-verify"
-      ],
-      "memoOutputStrategies": [
-        "process_guidance"
-      ],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
-      "suppressedBy": null,
-      "factoryV2": {
-        "resolves": false,
-        "legacyGeneratorOwnsThisJurisdiction": false,
-        "unmetBuildInputs": [
-          "sourceOrApprovedComposedDocument"
-        ]
-      },
-      "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
-      "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
-      "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
     },
     {
       "pathwayKey": "NE:juvenile-petition-backstop",
@@ -1389,28 +1343,6 @@
       "classification": "NO_TRACK_TO_RENDER_FROM",
       "reason": "The pathway reaches no registry track, so there is no packet specification for any renderer to consume.",
       "remedy": "Bind the pathway to a registry track. This is the same bridge work counted elsewhere; it is not a renderer gap."
-    },
-    {
-      "pathwayKey": "WV:pardon-based-expungement",
-      "jurisdiction": "WV",
-      "routeKind": "guidance_only",
-      "rendererKind": "none",
-      "trackIds": [
-        "wv_pardon_expungement"
-      ],
-      "memoOutputStrategies": [
-        "custom_pleading"
-      ],
-      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
-      "suppressedBy": "guidance_only",
-      "factoryV2": {
-        "resolves": true,
-        "legacyGeneratorOwnsThisJurisdiction": false,
-        "unmetBuildInputs": []
-      },
-      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
-      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
-      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
     },
     {
       "pathwayKey": "WV:sex-trafficking-victim-vacatur-and-expungement",

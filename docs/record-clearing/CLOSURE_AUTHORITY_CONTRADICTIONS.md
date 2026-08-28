@@ -6,10 +6,8 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 
 | Authority outcome mode | Pathways |
 |---|---:|
-| guidance_status | 2 |
 | referral | 1 |
-| automatic_relief | 1 |
-| **TOTAL** | **4** |
+| **TOTAL** | **1** |
 
 ## Deliberately not proposed
 
@@ -26,45 +24,7 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
 
 | Pathway | Commercial | Service disposition | Children to keep | Decision |
 |---|---|---|---|---|
-| `ME:adult-non-conviction-record-relief` | paid_packet_intended → non_paid_service | process_guidance | 2 | NATIONAL-2026-08-28-B-ME-03 |
 | `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06` | paid_packet_intended → non_paid_service | selection_only | — | LD-MN-01 |
-| `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | paid_packet_intended → branch_mixed | branch_dependent | — | NATIONAL-2026-08-28-LA-IMM-03 |
-| `WV:pardon-based-expungement` | paid_packet_intended → non_paid_service | process_guidance | 2 | NATIONAL-2026-08-28-C-WV-04 |
-
-### Not ready to apply
-
-- `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` — The closure ledger has no branch_mixed category. Applying non_filing_guidance to the whole route would classify the pre-2025-08-01 participant petition as a no-filing route, which is the error this adjudication exists to prevent. This row cannot be applied until the closure generator can classify by branch, or until the two branches become child pathways with the current id retained as a selector.
-
-## `ME:adult-non-conviction-record-relief`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode guidance_status, packetFamily null (NATIONAL-2026-08-28-B-ME-03 / ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED)
-- **The record's own note**: Report disposition RELEASE — GUIDANCE for Q-008, product decision 'no automatic confidentiality promise'. Whether a charge dismissed after a successful deferred disposition is confidential criminal history record information under § 703(2) is recorded as NOT ESTABLISHED against current official text. The route releases as guidance and the guidance may not promise confidentiality follows automatically. This is the whole of the decision: it is a limit on what the product may say, not a hold on saying anything.
-- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `ME:adult-conviction-sealing`
-- **Child packet route that must remain active**: `ME:sex-trafficking-sexual-exploitation-survivor-sealing`
-- **Implementation effect**: Batch B gave this route its first contract, and the national report releases it as guidance under NATIONAL-2026-08-28-B-ME-03. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Whether a charge dismissed after a successful deferred disposition is confidential under 16 M.R.S. § 703(2) is recorded NOT ESTABLISHED against current official text, so the decision is a limit on what the guidance may say — it may not promise confidentiality follows automatically — and not a hold on saying it. Maine's two sealing motions are separate participant packets on their own gates and must remain reachable.
-- **Do not**: Do not read this as a hold. The route releases; what is constrained is the promise it may make. And do not let it take the two Maine sealing motions with it: those are participant packets held only by their own source gates.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-ME-ADULT-NON-CONVICTION-RECORD-RELIEF",
-  "pathwayKey": "ME:adult-non-conviction-record-relief",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/national-report-batch-b.json records ME:adult-non-conviction-record-relief under NATIONAL-2026-08-28-B-ME-03 / ME-703-2-DEFERRED-DISPOSITION-NOT-ESTABLISHED as outcomeMode=guidance_status with packetFamily=null, citing 16 M.R.S. § 703(2). The route reports or verifies a status; nothing is filed. The record's own note: \"Report disposition RELEASE — GUIDANCE for Q-008, product decision 'no automatic confidentiality promise'. Whether a charge dismissed after a successful deferred disposition is confidential criminal history record information under § 703(2) is recorded as NOT ESTABLISHED against current official text. The route releases as guidance and the guidance may not promise confidentiality follows automatically. This is the whole of the decision: it is a limit on what the product may say, not a hold on saying anything.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "process_guidance",
-  "preservedOutcomeMode": "guidance_status",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
 
 ## `MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06`
 
@@ -94,69 +54,6 @@ Eleven rows, adjudicated individually. The approval changes the paid-packet deno
   "preservedServiceDisposition": "selection_only",
   "preservedOutcomeMode": "referral",
   "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05`
-
-- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
-- **Route authority says**: outcomeMode automatic_relief, packetFamily null (NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY)
-- **The record's own note**: Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch. CONTRACT MODEL: option B, branch-specific stage and commercial posture, chosen over two contracts. The routeKey is JURISDICTION:pathwayId and the compiled profile models this as one pathway, so two contracts would require inventing a second pathwayId for what is one statute at two points in its legislative history. The split is temporal, not mechanistic, which is what a branch is for; a second statute would need a second contract.
-- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: branch_dependent (outcome mode automatic_relief). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a branch_dependent outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: branch_mixed
-- **Branch `pre_effective_date_petition`**: paid_packet_intended / participant_packet. Held by the artifact-generation gate until the official petition family is rendered. Packet-bearing, not sellable today.
-- **Branch `post_effective_date_automatic`**: non_paid_service / automatic_guidance. The record closes by operation of law. Day-62 verification and the clerk correction workflow; no checkout.
-- **Not ready to apply**: The closure ledger has no branch_mixed category. Applying non_filing_guidance to the whole route would classify the pre-2025-08-01 participant petition as a no-filing route, which is the error this adjudication exists to prevent. This row cannot be applied until the closure generator can classify by branch, or until the two branches become child pathways with the current id retained as a selector.
-- **Implementation effect**: No denominator change is proposed for this route yet. Its branches are already correctly resolved at runtime by the canonical resolver; only the ledger cannot express the split.
-- **Do not**: Do not reclassify the whole route as non-filing guidance.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-ND-NON-CONVICTION-COURT-RECORD-CLOSING-UNDER-N-D-C-C-12-60-1-05",
-  "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "branch_mixed",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 under NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY as outcomeMode=automatic_relief with packetFamily=null, citing N.D.C.C. § 12-60.1-05. Relief happens by operation of law with no participant filing. The record's own note: \"Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch. CONTRACT MODEL: option B, branch-specific stage and commercial posture, chosen over two contracts. The routeKey is JURISDICTION:pathwayId and the compiled profile models this as one pathway, so two contracts would require inventing a second pathwayId for what is one statute at two points in its legislative history. The split is temporal, not mechanistic, which is what a branch is for; a second statute would need a second contract.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "branch_dependent",
-  "preservedOutcomeMode": "automatic_relief",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a branch_dependent outcome, and any consumer that reads the new classification must read this field with it."
-}
-```
-
-## `WV:pardon-based-expungement`
-
-- **Closure says**: paid_packet_intended — Route metadata records productRouteType=board_or_pardon but does not answer whether the participant files something; the pathway is held in the paid denominator until an evidenced filing determination is recorded.
-- **Route authority says**: outcomeMode guidance_status, packetFamily null (NATIONAL-2026-08-28-C-WV-04 / WV-5-1-16A-NARROW-STATUTORY-EFFECT)
-- **The record's own note**: Report disposition RELEASE — GUIDANCE, narrow statutory effect, no universal nondisclosure. Subsection (b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it contains no general non-disclosure provision, so the guidance must describe the effect it actually has and may not promise the record becomes generally undisclosable.
-- **Open blockers**: filing_determination_missing, not_paid_product, packet_spec_incomplete, legal_review_pending, renderer_unavailable
-- **Cannot close while the categorisation stands**: not_paid_product, packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
-- **Service disposition preserved**: process_guidance (outcome mode guidance_status). Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it.
-- **Proposed commercial classification**: non_paid_service
-- **Child packet route that must remain active**: `WV:eligible-conviction-expungement-under-w-va-code-61-11-26`
-- **Child packet route that must remain active**: `WV:no-conviction-expungement-for-acquittal-dismissal-diversion-or-deferred-adjudication`
-- **Implementation effect**: Batch C gave this route its first contract and the national report releases it as guidance under NATIONAL-2026-08-28-C-WV-04. The closure ledger still counts it as paid_packet_intended, which is the contradiction. Section 5-1-16a(b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or for a licence required by a West Virginia professional organisation; unlike §§ 61-11-25(e) and 61-11-26(l) it carries no general non-disclosure provision. The two West Virginia petitions are separate participant packets on their own artifact-review gates and must remain reachable.
-- **Do not**: Do not describe the effect as general nondisclosure. The narrow statutory effect is the decision, and overstating it is the specific error this record exists to prevent.
-- **Prepared proposal** (authority and decidedOn are for the decision owner):
-
-```json
-{
-  "id": "PROPOSED-WV-PARDON-BASED-EXPUNGEMENT",
-  "pathwayKey": "WV:pardon-based-expungement",
-  "previousClassification": "paid_packet_intended",
-  "newClassification": "non_filing_guidance",
-  "reason": "no_participant_filing",
-  "evidence": "src/lib/legal-authority/routes/national-report-batch-c.json records WV:pardon-based-expungement under NATIONAL-2026-08-28-C-WV-04 / WV-5-1-16A-NARROW-STATUTORY-EFFECT as outcomeMode=guidance_status with packetFamily=null, citing W. Va. Code § 5-1-16a(b). The route reports or verifies a status; nothing is filed. The record's own note: \"Report disposition RELEASE — GUIDANCE, narrow statutory effect, no universal nondisclosure. Subsection (b) provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l) it contains no general non-disclosure provision, so the guidance must describe the effect it actually has and may not promise the record becomes generally undisclosable.\"",
-  "authority": null,
-  "decidedOn": null,
-  "preservedServiceDisposition": "process_guidance",
-  "preservedOutcomeMode": "guidance_status",
-  "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a guidance_status route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
 }
 ```
 

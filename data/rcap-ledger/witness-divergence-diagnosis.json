@@ -4,11 +4,11 @@
   "canonicalGraph": {
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
-    "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4",
-    "pathways": 263,
+    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
+    "pathways": 260,
     "dispositions": {
-      "family_bridge_missing_no_family": 153,
-      "approved_by_decision_owner": 70,
+      "family_bridge_missing_no_family": 152,
+      "approved_by_decision_owner": 68,
       "family_bridge_missing_no_track": 40
     }
   },
@@ -18,7 +18,7 @@
     "evaluatorToday": "2026-07-01",
     "randomness": "none",
     "routeSelectingEnumerationBound": 240,
-    "combosTried": 263
+    "combosTried": 260
   },
   "passes": {
     "baseline": "the committed first-option rule in data/rcap-ledger/public-witness-answer-sets.json",
@@ -26,10 +26,10 @@
   },
   "baselineWasWrongAboutItself": "The baseline rule answered resolved_timing_bucket with the first option, lt_1_year — the least clearable value in the list — so every route with a waiting period failed closed on an anchor it could never satisfy. Those were witness defects, not evaluator defects. Reporting them as runtime bugs would have sent Session A after roughly 92 patches that do not exist.",
   "totals": {
-    "pathways": 263,
-    "correct_pathway": 263,
+    "pathways": 260,
+    "correct_pathway": 260,
     "baselineOutcomes": {
-      "correct_pathway": 263
+      "correct_pathway": 260
     },
     "correctedByFixtureAlone": 0,
     "failing": 0,
@@ -2324,29 +2324,6 @@
       "combosTried": 1
     },
     {
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "jurisdiction": "ME",
-      "pathwayId": "adult-non-conviction-record-relief",
-      "pathwayLabel": "Adult non-conviction record relief",
-      "sessionADisposition": "family_bridge_missing_no_family",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Arrest or citation with no charge filed",
-        "offense_level": "Felony"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "adult-non-conviction-record-relief",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "me.lawrence_hold_guidance_only"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
       "pathwayKey": "ME:juvenile-sealing",
       "jurisdiction": "ME",
       "pathwayId": "juvenile-sealing",
@@ -3262,29 +3239,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "nd.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "jurisdiction": "ND",
-      "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "nd.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1
@@ -5976,29 +5930,6 @@
         "paymentAllowed": false,
         "reasonCodes": [
           "wv.waiting_rule_not_executed"
-        ]
-      },
-      "combosTried": 1
-    },
-    {
-      "pathwayKey": "WV:pardon-based-expungement",
-      "jurisdiction": "WV",
-      "pathwayId": "pardon-based-expungement",
-      "pathwayLabel": "Pardon-based expungement",
-      "sessionADisposition": "approved_by_decision_owner",
-      "outcome": "correct_pathway",
-      "reachedBy": {
-        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-        "offense_level": "Misdemeanor"
-      },
-      "baselineOutcome": "correct_pathway",
-      "correctedByFixtureAlone": false,
-      "terminalEvaluation": {
-        "resultCode": "guidance_only",
-        "pathwayId": "pardon-based-expungement",
-        "paymentAllowed": false,
-        "reasonCodes": [
-          "wv.guidance_only_no_user_filed_court_petition"
         ]
       },
       "combosTried": 1

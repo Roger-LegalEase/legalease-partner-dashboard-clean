@@ -36,14 +36,14 @@ This directory is an import, not a second editable source of truth. Corrections 
 | counsel | 131 |
 | **SUM** | **854** |
 
-## 2. The 34 rows that reach no registry track
+## 2. The 33 rows that reach no registry track
 
 | Classification | Rows |
 |---|---:|
-| NO_LEGAL_DESIGN_TRACK_EXISTS | 17 |
-| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 9 |
-| DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 8 |
-| **TOTAL** | **34** |
+| NO_LEGAL_DESIGN_TRACK_EXISTS | 16 |
+| APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED | 10 |
+| DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS | 7 |
+| **TOTAL** | **33** |
 
 | Jurisdiction | Pathway | Candidate track | Design status | Classification |
 |---|---|---|---|---|
@@ -52,8 +52,8 @@ This directory is an import, not a second editable source of truth. Corrections 
 | DE | `juvenile-expungement-under-10-del-c-1017-1019-1017a` | de_auto_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ID | `human-trafficking-survivor-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | ID | `juvenile-expungement` | id_isp_expungement | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
-| ID | `withheld-judgment-idaho-code-19-2604-review-branch` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | IL | `human-trafficking-survivor-vacatur-and-expungement` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
+| IL | `juvenile-automatic-or-petition-expungement` | il-exp-pardon | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | MD | `juvenile-expungement` | md_10105_favorable | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `juvenile-sealing` | me-seal-gen | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | ME | `pardon-route` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
@@ -63,7 +63,6 @@ This directory is an import, not a second editable source of truth. Corrections 
 | MS | `uncharged-misdemeanor-immediate-dismissal-branch-99-15-59` | — | — | NO_LEGAL_DESIGN_TRACK_EXISTS |
 | NV | `controlled-substance-possession-sealing-under-nrs-453-3365` | nv_seal_453_3365 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | NV | `trafficking-victim-vacatur-and-sealing-under-nrs-179-247` | nv-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
-| NY | `conditional-treatment-sealing-under-cpl-160-58` | ny_160_58_conditional | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | OH | `juvenile-sealing-and-expungement` | oh_2953_33_nonconviction | legal_design_approved_with_limitations | APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED |
 | OK | `human-trafficking-survivor-relief` | ok-ls-1 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
 | OK | `juvenile-record-expungement` | ok-ls-2 | legal_research_required | DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS |
@@ -187,13 +186,12 @@ This directory is an import, not a second editable source of truth. Corrections 
 
 ## 5. LA-01, validated row by row
 
-Submitted: 9. True reconfirmations: 2. Reclassified: 7.
+Submitted: 8. True reconfirmations: 1. Reclassified: 7.
 
 | Pathway | Track | Substantive trigger | Classification |
 |---|---|---|---|
 | `IN:conviction-expungement-with-records-marked-expunged` | in_conviction_felony, in_conviction_serious_felony | none found | APPROVAL_NOT_LINKED |
 | `MO:first-minor-in-possession-alcohol-expungement-under-311-326` | mo-311-326-minor-in-possession | changed_or_undecided_filing_process | LEGAL_RECONFIRMATION_REQUIRED |
-| `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05` | nd-nonconviction-auto-close-verify | changed_or_undecided_filing_process | LEGAL_RECONFIRMATION_REQUIRED |
 | `NH:annulment-of-a-vacated-conviction` | nh_auto_vacated | none found | APPROVAL_NOT_LINKED |
 | `NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211` | nv_seal_deferred | none found | APPROVAL_NOT_LINKED |
 | `RI:path-e-filed-complaint-relief-under-12-10-12` | ri_filed_complaints | none found | APPROVAL_NOT_LINKED |
@@ -205,8 +203,8 @@ Submitted: 9. True reconfirmations: 2. Reclassified: 7.
 
 | Classification | Questions |
 |---|---:|
-| LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 22 |
-| SOURCE_REQUIRED_BEFORE_COUNSEL | 20 |
-| COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 13 |
-| **TOTAL** | **55** |
+| SOURCE_REQUIRED_BEFORE_COUNSEL | 16 |
+| LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 13 |
+| COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 12 |
+| **TOTAL** | **41** |
 

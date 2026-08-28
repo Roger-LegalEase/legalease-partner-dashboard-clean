@@ -8,7 +8,7 @@
   "inputs": {
     "canonicalGraph": {
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
-      "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
+      "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -16,11 +16,11 @@
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
-      "sha256": "a80beda9b5f2c9a9b79ed7787edab26440903a00d10b50f32a69590a3d805377"
+      "sha256": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce"
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "dede54af67e3f0f28e73dfce1a651332ff0fe7f0259cbe4d7184dbd15eaa6dc8"
+      "sha256": "d6944cc472a35e601d4c69d7a4eda178d68a30cd8148c87cb2729ed9f18af59b"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -32,17 +32,17 @@
   ],
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
-    "intendedPaidPathways": 263,
-    "factoryV2Admitted": 174,
-    "notAdmitted": 89,
+    "intendedPaidPathways": 260,
+    "factoryV2Admitted": 172,
+    "notAdmitted": 88,
     "reasonsItIsNotAdmitted": {
-      "sourceOrApprovedComposedDocument": 22,
+      "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
       "legacy_generator_owns_this_jurisdiction": 36
     },
-    "ownerApprovedLegalDesign": 95,
+    "ownerApprovedLegalDesign": 93,
     "paymentAllowedAtTheEvaluator": 29,
-    "publicWitnessReachesItsOwnPathway": 263
+    "publicWitnessReachesItsOwnPathway": 260
   },
   "routes": [
     {
@@ -98,9 +98,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -647,6 +645,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -816,9 +815,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -1588,6 +1585,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -1644,6 +1642,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -1700,6 +1699,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -1755,9 +1755,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -1929,9 +1927,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -2309,7 +2305,8 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "legal_review_pending",
-          "renderer_unavailable"
+          "renderer_unavailable",
+          "route_metadata"
         ]
       }
     },
@@ -2592,9 +2589,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -2649,9 +2644,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -2702,9 +2695,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -3256,7 +3247,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -3380,6 +3370,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -3619,9 +3610,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -3733,6 +3722,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -3859,9 +3849,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -4272,6 +4260,7 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
+          "legal_review_pending",
           "not_paid_product"
         ]
       }
@@ -4458,9 +4447,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -4652,9 +4639,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -4910,9 +4895,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -5039,9 +5022,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -5751,7 +5732,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -5874,71 +5854,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
-      }
-    },
-    {
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "jurisdiction": "ME",
-      "pathwayId": "adult-non-conviction-record-relief",
-      "pathwayLabel": "Adult non-conviction record relief",
-      "registryTrackIds": [
-        "me-nonconv"
-      ],
-      "packetSetIds": [
-        "me-nonconv-set"
-      ],
-      "packetFamilies": [],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "court",
-        "criminal_history",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "pardon_status",
-        "participant_full_legal_name",
-        "pathway_id",
-        "pending_cases",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 4,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
-      "legacyGeneratorOwnsThisJurisdiction": false,
-      "separateGates": {
-        "ownerApprovedLegalDesign": false,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_reconfirmation",
-          "legal_review_pending",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -6291,9 +6207,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -6777,9 +6691,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -6838,9 +6750,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -7903,9 +7813,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -8082,9 +7990,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -8324,72 +8230,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": []
-      }
-    },
-    {
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "jurisdiction": "ND",
-      "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "registryTrackIds": [
-        "nd-nonconviction-auto-close-verify"
-      ],
-      "packetSetIds": [
-        "nd-nonconviction-auto-close-verify-set"
-      ],
-      "packetFamilies": [
-        "rcap-nd-guidance-implementation"
-      ],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "court",
-        "criminal_history",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "pardon_status",
-        "participant_full_legal_name",
-        "pathway_id",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 1,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": false,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [
-        "sourceOrApprovedComposedDocument"
-      ],
-      "factoryV2Resolves": false,
-      "legacyGeneratorOwnsThisJurisdiction": false,
-      "separateGates": {
-        "ownerApprovedLegalDesign": true,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_reconfirmation",
-          "legal_review_pending",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
-        ]
       }
     },
     {
@@ -8648,9 +8488,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -8714,9 +8552,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -8839,7 +8675,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -9636,9 +9471,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -9924,7 +9757,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -9983,9 +9815,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -10104,9 +9934,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -10406,8 +10234,8 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
-          "wait_anchor_fix"
+          "legal_reconfirmation",
+          "legal_review_pending"
         ]
       }
     },
@@ -10464,9 +10292,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -12396,9 +12222,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -12759,7 +12583,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -12993,7 +12816,6 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
           "renderer_unavailable"
         ]
       }
@@ -13728,9 +13550,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -13976,9 +13796,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -14031,9 +13849,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -14278,9 +14094,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -14870,9 +14684,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -15296,9 +15108,7 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {
@@ -15563,75 +15373,8 @@
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
-          "legal_review_pending",
-          "wait_anchor_fix"
-        ]
-      }
-    },
-    {
-      "pathwayKey": "WV:pardon-based-expungement",
-      "jurisdiction": "WV",
-      "pathwayId": "pardon-based-expungement",
-      "pathwayLabel": "Pardon-based expungement",
-      "registryTrackIds": [
-        "wv_pardon_expungement"
-      ],
-      "packetSetIds": [
-        "wv_pardon_expungement-set"
-      ],
-      "packetFamilies": [
-        "rcap-wv-custom-pleading"
-      ],
-      "profileVersion": "2026-06-19-source-conversion-1",
-      "requiredInputIds": [
-        "age_at_offense",
-        "arrest_date",
-        "case_number",
-        "case_outcome",
-        "charge",
-        "contact_information",
-        "county",
-        "court",
-        "disposition_date",
-        "financial_obligations",
-        "jurisdiction",
-        "offense_category",
-        "offense_level",
-        "pardon_status",
-        "participant_full_legal_name",
-        "pathway_id",
-        "prior_relief",
-        "record_type",
-        "residency_or_location",
-        "sentence_completion_date",
-        "trafficking_status"
-      ],
-      "componentCount": 6,
-      "officialFormIds": [],
-      "buildInputs": {
-        "authoritativeProfile": true,
-        "authoritativePathway": true,
-        "exactPacketSet": true,
-        "packetSpecification": true,
-        "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
-        "deterministicFixture": true
-      },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
-      "legacyGeneratorOwnsThisJurisdiction": false,
-      "separateGates": {
-        "ownerApprovedLegalDesign": true,
-        "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-        "paymentAllowedAtTheEvaluator": false,
-        "publicWitnessReachesThisPathway": true,
-        "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "filing_determination_missing",
-          "legal_review_pending",
-          "not_paid_product",
-          "packet_spec_incomplete",
-          "renderer_unavailable"
+          "legal_reconfirmation",
+          "legal_review_pending"
         ]
       }
     },
@@ -15750,9 +15493,7 @@
         "paymentAllowedAtTheEvaluator": false,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": [
-          "legal_review_pending"
-        ]
+        "openBlockerIds": []
       }
     },
     {

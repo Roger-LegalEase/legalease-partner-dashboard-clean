@@ -320,11 +320,11 @@
     "correction": "The previously published breakdown listed three provenance categories summing to 853 and omitted batch_decision_matrix, which has exactly one member. The total of 854 was correct; the published categories were not exhaustive. Every category is now emitted, including categories of size one."
   },
   "noTrackRows": {
-    "total": 34,
+    "total": 33,
     "counts": {
-      "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS": 8,
-      "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED": 9,
-      "NO_LEGAL_DESIGN_TRACK_EXISTS": 17
+      "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS": 7,
+      "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED": 10,
+      "NO_LEGAL_DESIGN_TRACK_EXISTS": 16
     },
     "rows": [
       {
@@ -398,20 +398,6 @@
         "smallestRemainingAction": "Adjudicate ID:juvenile-expungement against id_isp_expungement in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything."
       },
       {
-        "jurisdiction": "ID",
-        "pathway": "withheld-judgment-idaho-code-19-2604-review-branch",
-        "pathwayKey": "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-        "pathwayLabel": "Withheld-judgment / Idaho Code § 19-2604 review branch",
-        "candidateTrackId": null,
-        "candidateTrackName": null,
-        "candidateMatchScore": 0,
-        "candidateDesignStatus": null,
-        "candidateCount": 0,
-        "classification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
-        "reason": "No track in ID's memo corresponds to this pathway.",
-        "smallestRemainingAction": "Write the legal design for ID withheld-judgment-idaho-code-19-2604-review-branch, or record it as intentionally outside product scope."
-      },
-      {
         "jurisdiction": "IL",
         "pathway": "human-trafficking-survivor-vacatur-and-expungement",
         "pathwayKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
@@ -424,6 +410,20 @@
         "classification": "NO_LEGAL_DESIGN_TRACK_EXISTS",
         "reason": "No track in IL's memo corresponds to this pathway.",
         "smallestRemainingAction": "Write the legal design for IL human-trafficking-survivor-vacatur-and-expungement, or record it as intentionally outside product scope."
+      },
+      {
+        "jurisdiction": "IL",
+        "pathway": "juvenile-automatic-or-petition-expungement",
+        "pathwayKey": "IL:juvenile-automatic-or-petition-expungement",
+        "pathwayLabel": "Juvenile automatic or petition expungement",
+        "candidateTrackId": "il-exp-pardon",
+        "candidateTrackName": "Verified Petition to Expunge Following a Governor's Pardon Specifically Authorizing Expungement",
+        "candidateMatchScore": 0.5,
+        "candidateDesignStatus": "legal_design_approved_with_limitations",
+        "candidateCount": 2,
+        "classification": "APPROVED_TRACK_CANDIDATE_FOUND_ADJUDICATION_REQUIRED",
+        "reason": "The memo track il-exp-pardon is the closest lexical candidate (score 0.50) and has design status legal_design_approved_with_limitations. A name overlap is not coverage.",
+        "smallestRemainingAction": "Adjudicate IL:juvenile-automatic-or-petition-expungement against il-exp-pardon in data/rcap-ledger/pathway-bridge-adjudication.json before binding anything."
       },
       {
         "jurisdiction": "MD",
@@ -550,20 +550,6 @@
         "classification": "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS",
         "reason": "The memo track nv-ls-1 covers this pathway and deliberately records legal_research_required. This is a deferred legal decision, not a missing bridge.",
         "smallestRemainingAction": "Complete the deferred legal research on nv-ls-1 before any bridge is built."
-      },
-      {
-        "jurisdiction": "NY",
-        "pathway": "conditional-treatment-sealing-under-cpl-160-58",
-        "pathwayKey": "NY:conditional-treatment-sealing-under-cpl-160-58",
-        "pathwayLabel": "Conditional / treatment sealing under CPL 160.58",
-        "candidateTrackId": "ny_160_58_conditional",
-        "candidateTrackName": "Conditional Sealing After Judicial Diversion or Court-Approved Treatment (CPL § 160.58)",
-        "candidateMatchScore": 1,
-        "candidateDesignStatus": "legal_research_required",
-        "candidateCount": 7,
-        "classification": "DEFERRED_LEGAL_RESEARCH_REQUIRED_TRACK_EXISTS",
-        "reason": "The memo track ny_160_58_conditional covers this pathway and deliberately records legal_research_required. This is a deferred legal decision, not a missing bridge.",
-        "smallestRemainingAction": "Complete the deferred legal research on ny_160_58_conditional before any bridge is built."
       },
       {
         "jurisdiction": "OH",
@@ -2865,8 +2851,8 @@
     ]
   },
   "la01": {
-    "submittedRows": 9,
-    "trueReconfirmationRows": 2,
+    "submittedRows": 8,
+    "trueReconfirmationRows": 1,
     "reclassifiedRows": 7,
     "rows": [
       {
@@ -2919,39 +2905,6 @@
             "trackId": "mo-311-326-minor-in-possession",
             "affectedElement": "eligibility_branch",
             "question": "Whether a conviction under a municipal or county underage-possession ordinance, rather than under § 311.325 itself, is within § 311.326. The section names the statute and the packet applies the narrower reading, which excludes ordinance convictions; but many Missouri underage-drinking cases are charged municipally, so the narrower reading takes a substantial population out of the route. Unresolved on the face of the section."
-          }
-        ],
-        "substantiveTrigger": "changed_or_undecided_filing_process",
-        "triggerIsAllowed": true,
-        "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-        "ledgerStatement": "Counsel ratification of this route is not current."
-      },
-      {
-        "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "jurisdiction": "ND",
-        "pathway": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-        "trackIds": [
-          "nd-nonconviction-auto-close-verify"
-        ],
-        "memoPaths": [
-          "data/record-clearing/legal-design-intake/ND.memo.json"
-        ],
-        "reviewedAsOf": "2026-08-06",
-        "adoptionClassifications": [],
-        "tracksAbsentFromAdoptionContinuityRegister": [
-          "nd-nonconviction-auto-close-verify"
-        ],
-        "absenceIsNotATrigger": "The adoption continuity register covers 67 tracks and does not cover this one. That is a scope difference, not evidence of a lapsed ratification.",
-        "namedCounselQuestions": [
-          {
-            "trackId": "nd-nonconviction-auto-close-verify",
-            "affectedElement": "filing_process",
-            "question": "What remedy exists where the court does not close the record at day sixty-one. Neither N.D.C.C. § 12-60.1-05 nor the official instructions nor the research guide identifies one, so the packet can tell the participant to contact the clerk but cannot tell them what to do if that fails."
-          },
-          {
-            "trackId": "nd-nonconviction-auto-close-verify",
-            "affectedElement": "participant_instructions",
-            "question": "Whether the participant receives any notice that the record has been closed. Nothing in the statute or the official publications says so, which is why the packet builds the verification step around the public access search instead."
           }
         ],
         "substantiveTrigger": "changed_or_undecided_filing_process",
@@ -3095,11 +3048,11 @@
   },
   "la02": null,
   "deferredCounselQuestions": {
-    "total": 55,
+    "total": 41,
     "counts": {
-      "LEGAL_DESIGN_DECISION_CAN_RUN_NOW": 22,
-      "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL": 13,
-      "SOURCE_REQUIRED_BEFORE_COUNSEL": 20
+      "LEGAL_DESIGN_DECISION_CAN_RUN_NOW": 13,
+      "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL": 12,
+      "SOURCE_REQUIRED_BEFORE_COUNSEL": 16
     },
     "questions": [
       {
@@ -3117,6 +3070,15 @@
         "trackId": "ky_felony_vacatur_expungement",
         "affectedElement": "participant_instructions",
         "question": "At least one circuit clerk's published page states that $300 is due at filing, which does not match KRS 431.073(10) and (11). The packet must state the statutory position and warn that a local office may ask for the whole sum at once.",
+        "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
+        "reason": "The question concerns participant_instructions, which counsel can only assess against an actual rendered output."
+      },
+      {
+        "jurisdiction": "KY",
+        "pathwayKey": "KY:misdemeanor-violation-traffic-conviction",
+        "trackId": "ky_misdemeanor_expungement",
+        "affectedElement": "participant_instructions",
+        "question": "Whether the $50 refund on an unsuccessful petition is available at all. KRS 431.078(7) makes the first $50 non-refundable, the face of AOC-496 says the court shall refund $50.00, and the Clerks' Manual directs the clerk to refund the fee per the Accounting Manual. Participant-facing cost copy cannot be written until this is settled.",
         "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
         "reason": "The question concerns participant_instructions, which counsel can only assess against an actual rendered output."
       },
@@ -3140,15 +3102,6 @@
       },
       {
         "jurisdiction": "LA",
-        "pathwayKey": "LA:felony-article-893-e-set-aside-followed-by-expungement",
-        "trackId": "la-978-felony-conviction",
-        "affectedElement": "eligibility_branch",
-        "question": "Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns eligibility_branch, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "LA",
         "pathwayKey": "LA:felony-ten-year-clean-period-expungement",
         "trackId": "la-978-felony-conviction",
         "affectedElement": "eligibility_branch",
@@ -3167,15 +3120,6 @@
       },
       {
         "jurisdiction": "LA",
-        "pathwayKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-        "trackId": "la-977d-marijuana-first-offense",
-        "affectedElement": "filing_process",
-        "question": "Whether any clerk of court continues to apply the terminated Article 983(M) three-hundred-dollar schedule to motions filed after 1 August 2026, and whether any parish publishes a different collection practice for Article 977(D) motions.",
-        "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns filing_process, which depends on the current official filing instructions."
-      },
-      {
-        "jurisdiction": "LA",
         "pathwayKey": "LA:human-trafficking-survivor-expungement-fee-exempt-route",
         "trackId": "la-978-felony-conviction",
         "affectedElement": "eligibility_branch",
@@ -3191,24 +3135,6 @@
         "question": "Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns.",
         "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
         "reason": "The question concerns waiting_period, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "ME",
-        "pathwayKey": "ME:adult-conviction-sealing",
-        "trackId": "me-seal-gen",
-        "affectedElement": "notice_or_service",
-        "question": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
-        "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns notice_or_service, which depends on the current official filing instructions."
-      },
-      {
-        "jurisdiction": "ME",
-        "pathwayKey": "ME:adult-non-conviction-record-relief",
-        "trackId": "me-nonconv",
-        "affectedElement": "legal_effect_or_warning",
-        "question": "Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns legal_effect_or_warning, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
       },
       {
         "jurisdiction": "ME",
@@ -3236,24 +3162,6 @@
         "question": "Which FI-05 case type code a § 610.130 application takes where a new case is opened. The official Case Types List publishes only XG, X5 and X# for expungement and none of them names this section. The code is left blank and confirmed with the clerk rather than guessed from a similar track name.",
         "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
         "reason": "The question concerns filing_process, which depends on the current official filing instructions."
-      },
-      {
-        "jurisdiction": "MO",
-        "pathwayKey": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-        "trackId": "mo-610-140-conviction",
-        "affectedElement": "venue",
-        "question": "How a participant with cases charged in more than one Missouri county obtains complete relief. § 610.140.2(2) requires every crime sought to be expunged to be listed in the one petition, while § 610.140.2(1) fixes venue by the court where the person was charged or found guilty; the two cannot both be satisfied across counties. The review records multi-county records as a referral trigger and the track treats it as a hard self-help stop rather than resolving it.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns venue, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "MO",
-        "pathwayKey": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
-        "trackId": "mo-610-145-mistaken-identity",
-        "affectedElement": "governing_mechanism",
-        "question": "Whether a participant may invoke § 610.145.1(2) where the prosecutor or judicial officer who ordered the dismissal did not give the required notice. The subsection imposes a duty on them and gives the participant no mechanism to enforce it; the practical answer is to petition under subdivision (1) instead, which the packet does, but whether any lesser step — a letter to the prosecutor, a request to the clerk — is the expected course is not addressed anywhere in the section.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns governing_mechanism, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
       },
       {
         "jurisdiction": "MS",
@@ -3331,51 +3239,6 @@
         "jurisdiction": "NE",
         "pathwayKey": "NE:pardon-then-seal",
         "trackId": "ne-seal-pardoned",
-        "affectedElement": "packet_components",
-        "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
-        "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns packet_components, which counsel can only assess against an actual rendered output."
-      },
-      {
-        "jurisdiction": "NE",
-        "pathwayKey": "NE:set-aside-incarceration-one-year-or-less",
-        "trackId": "ne-setaside-custodial",
-        "affectedElement": "filing_process",
-        "question": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
-        "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns filing_process, which depends on the current official filing instructions."
-      },
-      {
-        "jurisdiction": "NE",
-        "pathwayKey": "NE:set-aside-incarceration-one-year-or-less",
-        "trackId": "ne-setaside-custodial",
-        "affectedElement": "packet_components",
-        "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
-        "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns packet_components, which counsel can only assess against an actual rendered output."
-      },
-      {
-        "jurisdiction": "NE",
-        "pathwayKey": "NE:set-aside-incarceration-one-year-or-less",
-        "trackId": "ne-setaside-custodial",
-        "affectedElement": "eligibility_branch",
-        "question": "Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns eligibility_branch, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "NE",
-        "pathwayKey": "NE:set-aside-probation-fine-community-service",
-        "trackId": "ne-setaside-noncustodial",
-        "affectedElement": "filing_process",
-        "question": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
-        "classification": "SOURCE_REQUIRED_BEFORE_COUNSEL",
-        "reason": "The question concerns filing_process, which depends on the current official filing instructions."
-      },
-      {
-        "jurisdiction": "NE",
-        "pathwayKey": "NE:set-aside-probation-fine-community-service",
-        "trackId": "ne-setaside-noncustodial",
         "affectedElement": "packet_components",
         "question": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
         "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
@@ -3490,33 +3353,6 @@
         "reason": "The question concerns filing_process, which depends on the current official filing instructions."
       },
       {
-        "jurisdiction": "VA",
-        "pathwayKey": "VA:petition-based-sealing",
-        "trackId": "va_seal_ancillary_matter_only",
-        "affectedElement": "governing_mechanism",
-        "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns governing_mechanism, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "VA",
-        "pathwayKey": "VA:regime-1-expungement-available-now",
-        "trackId": "va_exp_absolute_pardon",
-        "affectedElement": "governing_mechanism",
-        "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns governing_mechanism, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
-        "jurisdiction": "WV",
-        "pathwayKey": "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
-        "trackId": "wv_acc_treatment_job_readiness",
-        "affectedElement": "waiting_period",
-        "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns waiting_period, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
-      },
-      {
         "jurisdiction": "WV",
         "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
         "trackId": "wv_common_conv_procedure",
@@ -3587,15 +3423,6 @@
         "question": "Whether SCA-C903 is the right vehicle for a deferred-adjudication dismissal. The form was read at source on 2026-08-06: it is captioned 'for Reasons Other than Entry of a Plea', recites 'W.Va. Code § 61-11-25 (2000)', carries a single charge block with one free-text reason-for-dismissal field, has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph, and requires the movant to state that the dismissal 'was not in exchange for a guilty plea to another offense'. Section 61-11-22a operates on an entered guilty plea which is withdrawn on compliance, so the movant's statement is literally true — the dismissal is not in exchange for a plea to another offence — but the caption and the missing paragraphs make the fit imperfect. The packet therefore generates the official form plus a supplemental pleading carrying the statutory basis, the same-transaction recital and the carve-out recital. Whether the Judiciary regards SCA-C903 as the correct form for this route, or whether a distinct form or a full custom petition is expected, is not established.",
         "classification": "COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL",
         "reason": "The question concerns correct_form, which counsel can only assess against an actual rendered output."
-      },
-      {
-        "jurisdiction": "WV",
-        "pathwayKey": "WV:pardon-based-expungement",
-        "trackId": "wv_pardon_expungement",
-        "affectedElement": "legal_effect_or_warning",
-        "question": "Whether § 5-1-16a(b) is the whole of the effect of a pardon expungement. The subsection was read at source on 2026-08-06 and provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l), it contains no general non-disclosure provision and no statement that the proceedings are considered never to have occurred. What the packet may tell a participant about disclosing the record to an ordinary employer after a § 5-1-16a expungement is therefore not settled.",
-        "classification": "LEGAL_DESIGN_DECISION_CAN_RUN_NOW",
-        "reason": "The question concerns legal_effect_or_warning, which is decided from the statute and the memo. It needs neither a rendered packet nor a fresh source."
       }
     ]
   }

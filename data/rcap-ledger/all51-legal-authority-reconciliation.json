@@ -56,25 +56,22 @@
     "officialSourceNotAcquired": 521,
     "mechanicalTranslation": 202
   },
-  "pathwayRows": 216,
+  "pathwayRows": 181,
   "classificationCounts": {
-    "NO_TRACK_TO_FAMILY_BRIDGE": 120,
-    "TECHNICAL_BLOCKER": 45,
-    "NO_PATHWAY_TO_TRACK_BRIDGE": 34,
-    "APPROVAL_NOT_LINKED": 3,
-    "SOURCE_BLOCKER": 5,
-    "LEGAL_RECONFIRMATION_REQUIRED": 9
+    "TECHNICAL_BLOCKER": 41,
+    "NO_TRACK_TO_FAMILY_BRIDGE": 99,
+    "NO_PATHWAY_TO_TRACK_BRIDGE": 33,
+    "LEGAL_RECONFIRMATION_REQUIRED": 8
   },
   "distinctLegalTeamAssignments": 1,
   "legalAssignments": [
     {
       "assignmentId": "LA-01",
       "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-      "affectedPathwayRows": 9,
+      "affectedPathwayRows": 8,
       "jurisdictions": [
         "IN",
         "MO",
-        "ND",
         "NH",
         "NV",
         "RI",
@@ -86,7 +83,6 @@
         "in_conviction_felony",
         "in_conviction_serious_felony",
         "mo-311-326-minor-in-possession",
-        "nd-nonconviction-auto-close-verify",
         "nh_auto_vacated",
         "nv_seal_deferred",
         "ri_filed_complaints",
@@ -98,7 +94,6 @@
       "pathwayKeys": [
         "IN:conviction-expungement-with-records-marked-expunged",
         "MO:first-minor-in-possession-alcohol-expungement-under-311-326",
-        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
         "NH:annulment-of-a-vacated-conviction",
         "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
         "RI:path-e-filed-complaint-relief-under-12-10-12",
@@ -109,43 +104,6 @@
     }
   ],
   "rows": [
-    {
-      "jurisdiction": "AK",
-      "pathway": "confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-      "pathwayKey": "AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
-      "pathwayLabel": "CourtView removal / exclusion of acquittals and dismissals (TF-810 · AS 22.35.030 / Admin. R. 40)",
-      "trackIds": [
-        "ak-courtview"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/AK.memo.json"
-      ],
-      "legalMemoHashes": [
-        "21b35a397c84f96cf6ea85b2eb70a494927c819e371db02d453804f935d82098"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "AS 22.35.030",
-        "Alaska Administrative Rule 40(a)"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge ak-courtview to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
     {
       "jurisdiction": "AK",
       "pathway": "executive-pardon-backstop",
@@ -441,39 +399,39 @@
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
-      "jurisdiction": "AZ",
-      "pathway": "remedy-1-record-sealing",
-      "pathwayKey": "AZ:remedy-1-record-sealing",
-      "pathwayLabel": "Remedy 1 — Record sealing (A.R.S. § 13-911)",
+      "jurisdiction": "AR",
+      "pathway": "situation-a-non-convictions",
+      "pathwayKey": "AR:situation-a-non-convictions",
+      "pathwayLabel": "Situation A — Non-convictions (§§ 16-90-1409, 1410)",
       "trackIds": [
-        "az_record_sealing_arrest_no_charges"
+        "ar-arrest-seal"
       ],
       "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/AZ.memo.json"
+        "data/record-clearing/legal-design-intake/AR.memo.json"
       ],
       "legalMemoHashes": [
-        "b1b8972252052a400d9cd149ce8140e506702f4e2bcd7927dbd49a19e4a52477"
+        "93346ae6af2491789b6c02e925350521094a2d7720dfb5fcd53e10995bf6e5ac"
       ],
-      "legalDesignStatus": "legal_design_approved",
+      "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
       "controllingAuthority": [
-        "A.R.S. § 13-911",
-        "Ariz. R. Crim. P. 36.1"
+        "A.C.A. § 16-90-1409",
+        "ACIC Petition and Order to Seal Arrest"
       ],
-      "openLegalDesignBlocker": 2,
+      "openLegalDesignBlocker": 1,
       "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 2,
+      "sourceAcquisitionQuestions": 1,
+      "mechanicalTranslationQuestions": 0,
       "packetFamily": [],
       "familyBridgePresent": false,
       "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
+      "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
+      "technicalStatus": "not_paid_product",
       "visualStatus": "pending",
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge az_record_sealing_arrest_no_charges to a packet family, or record the pathway as a non-packet service outcome.",
+      "actualRemainingBlocker": "Bridge ar-arrest-seal to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -658,38 +616,110 @@
       "reason": "The legal design is adopted and the family is bridged. What is open is engineering: filing_determination_missing, not_paid_product, packet_spec_incomplete."
     },
     {
-      "jurisdiction": "DE",
-      "pathway": "discretionary-court-expungement-under-11-del-c-4374",
-      "pathwayKey": "DE:discretionary-court-expungement-under-11-del-c-4374",
-      "pathwayLabel": "Discretionary court expungement under 11 Del. C. § 4374",
+      "jurisdiction": "DC",
+      "pathway": "dc_motion_seal_felony_conviction_8yr_16_806",
+      "pathwayKey": "DC:dc_motion_seal_felony_conviction_8yr_16_806",
+      "pathwayLabel": "Motion to seal felony conviction after 8 years under D.C. Code § 16-806",
       "trackIds": [
-        "de_discretionary_superior_court"
+        "dc_seal_conviction"
       ],
       "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/DE.memo.json"
+        "data/record-clearing/legal-design-intake/DC.memo.json"
       ],
       "legalMemoHashes": [
-        "d966410f76a998c3933482f39d5c1b7055e595752096f738a6dbac10c32f1b81"
+        "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
       ],
       "legalDesignStatus": "legal_design_approved_with_limitations",
       "reviewedAsOf": "2026-07-30",
       "controllingAuthority": [
-        "11 Del. C. § 4374, most recently amended at 85 Del. Laws, c. 142, § 10"
+        "D.C. Code § 16-806(a)(3)"
       ],
-      "openLegalDesignBlocker": 3,
+      "openLegalDesignBlocker": 2,
       "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
+      "sourceAcquisitionQuestions": 0,
       "mechanicalTranslationQuestions": 2,
       "packetFamily": [],
       "familyBridgePresent": false,
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
+      "technicalStatus": "not_paid_product",
       "visualStatus": "pending",
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge de_discretionary_superior_court to a packet family, or record the pathway as a non-packet service outcome.",
+      "actualRemainingBlocker": "Bridge dc_seal_conviction to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "DC",
+      "pathway": "dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "pathwayKey": "DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806",
+      "pathwayLabel": "Motion to seal misdemeanor conviction after 5 years under D.C. Code § 16-806",
+      "trackIds": [
+        "dc_seal_conviction"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/DC.memo.json"
+      ],
+      "legalMemoHashes": [
+        "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "D.C. Code § 16-806(a)(3)"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 2,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "not_paid_product",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge dc_seal_conviction to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "DC",
+      "pathway": "dc_motion_seal_nonconviction_16_806",
+      "pathwayKey": "DC:dc_motion_seal_nonconviction_16_806",
+      "pathwayLabel": "Motion to seal non-conviction record under D.C. Code § 16-806",
+      "trackIds": [
+        "dc_seal_nonconviction"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/DC.memo.json"
+      ],
+      "legalMemoHashes": [
+        "4f3f614161a6f787eb516afd7d90cb21a04190e70268c1dd915173ae80494c64"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "D.C. Code § 16-806(a)(1), as amended by D.C. Law 24-284 (applicable March 1, 2025), D.C. Law 26-52 (October 28, 2025), and D.C. Law 26-81 (temporary, January 29, 2026)"
+      ],
+      "openLegalDesignBlocker": 5,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 5,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "not_paid_product",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge dc_seal_nonconviction to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -755,42 +785,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge de_pardon_expungement to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "FL",
-      "pathway": "court-ordered-expunction-943-0585",
-      "pathwayKey": "FL:court-ordered-expunction-943-0585",
-      "pathwayLabel": "Court-ordered expunction - 943.0585",
-      "trackIds": [
-        "fl-10yr-bridge"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/FL.memo.json"
-      ],
-      "legalMemoHashes": [
-        "9b497440290abd5e254b3bd9e1ff6e5dda56abf4c2bfca63dc351090d76e4065"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "§ 943.0585, Fla. Stat."
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge fl-10yr-bridge to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -1025,13 +1019,13 @@
       "standingAdoption": [],
       "completedOutputApproval": "approved_by_decision_owner",
       "sourceCurrentness": "2026-08-02",
-      "technicalStatus": "renderer_unavailable",
+      "technicalStatus": "route_metadata, renderer_unavailable",
       "visualStatus": "pending",
       "currentLaunchStatus": "does not render; payment closed",
       "terminalizationLane": [],
-      "actualRemainingBlocker": "renderer_unavailable",
+      "actualRemainingBlocker": "route_metadata, renderer_unavailable",
       "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: renderer_unavailable."
+      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: route_metadata, renderer_unavailable."
     },
     {
       "jurisdiction": "GA",
@@ -1143,121 +1137,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge hi_712_1200_deferred_expungement to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "HI",
-      "pathway": "dui-under-21-conviction",
-      "pathwayKey": "HI:dui-under-21-conviction",
-      "pathwayLabel": "DUI under age 21 conviction expungement",
-      "trackIds": [
-        "hi_under_21_dui_expungement"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/HI.memo.json"
-      ],
-      "legalMemoHashes": [
-        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-08",
-      "controllingAuthority": [
-        "HRS § 291E-64(e)"
-      ],
-      "openLegalDesignBlocker": 0,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-hi-custom-pleading"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Project the recorded approval into the closure ledger.",
-      "classification": "APPROVAL_NOT_LINKED",
-      "reason": "The legal design is adopted, the family is bridged and the completed output is approved. The closure ledger has not projected that approval onto this pathway row."
-    },
-    {
-      "jurisdiction": "HI",
-      "pathway": "first-time-drug-conviction",
-      "pathwayKey": "HI:first-time-drug-conviction",
-      "pathwayLabel": "First-time drug-offender conviction expungement",
-      "trackIds": [
-        "hi_first_time_drug_offender_expungement",
-        "hi_pre_2004_drug_offender_expungement"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/HI.memo.json"
-      ],
-      "legalMemoHashes": [
-        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-08",
-      "controllingAuthority": [
-        "HRS § 706-622.5(4)",
-        "HRS § 706-622.8"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [
-        "rcap-hi-custom-pleading"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Project the recorded approval into the closure ledger.",
-      "classification": "APPROVAL_NOT_LINKED",
-      "reason": "The legal design is adopted, the family is bridged and the completed output is approved. The closure ledger has not projected that approval onto this pathway row."
-    },
-    {
-      "jurisdiction": "HI",
-      "pathway": "nonconviction-arrest-expungement",
-      "pathwayKey": "HI:nonconviction-arrest-expungement",
-      "pathwayLabel": "Non-conviction arrest-information expungement under HRS § 831-3.2",
-      "trackIds": [
-        "hi_nonconviction_expungement"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/HI.memo.json"
-      ],
-      "legalMemoHashes": [
-        "200088e191a176e48d3a53dc111a901728100aebdfe972eeabd426e3a96048fc"
-      ],
-      "legalDesignStatus": "legal_design_approved",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "HRS § 831-3.2",
-        "Act 3, Session Laws of Hawaii 2025"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge hi_nonconviction_expungement to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -1548,10 +1427,52 @@
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
-      "jurisdiction": "ID",
-      "pathway": "withheld-judgment-idaho-code-19-2604-review-branch",
-      "pathwayKey": "ID:withheld-judgment-idaho-code-19-2604-review-branch",
-      "pathwayLabel": "Withheld-judgment / Idaho Code § 19-2604 review branch",
+      "jurisdiction": "IL",
+      "pathway": "adult-non-conviction-expungement",
+      "pathwayKey": "IL:adult-non-conviction-expungement",
+      "pathwayLabel": "Adult non-conviction expungement",
+      "trackIds": [
+        "il-exp-nonconv"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/IL.memo.json"
+      ],
+      "legalMemoHashes": [
+        "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-07-30",
+      "controllingAuthority": [
+        "20 ILCS 2630/5.2(b)(1)(i)",
+        "20 ILCS 2630/5.2(b)(1)(ii)",
+        "20 ILCS 2630/5.2(b)(2)(A)",
+        "20 ILCS 2630/5.2(a)(3)(B)",
+        "20 ILCS 2630/5.2(d)(1) through (d)(12)",
+        "Ill. S. Ct. R. 298",
+        "Ill. S. Ct. R. 9"
+      ],
+      "openLegalDesignBlocker": 2,
+      "counselConfirmationQuestions": 0,
+      "sourceAcquisitionQuestions": 2,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-07-30",
+      "technicalStatus": "not_paid_product",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge il-exp-nonconv to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "IL",
+      "pathway": "human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
       "trackIds": [],
       "legalMemoPaths": [],
       "legalMemoHashes": [],
@@ -1565,11 +1486,11 @@
       "packetFamily": [],
       "familyBridgePresent": false,
       "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
+      "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": null,
-      "technicalStatus": "renderer_unavailable",
+      "technicalStatus": "not_paid_product",
       "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
+      "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bind the pathway to a registry track.",
       "classification": "NO_PATHWAY_TO_TRACK_BRIDGE",
@@ -1577,55 +1498,9 @@
     },
     {
       "jurisdiction": "IL",
-      "pathway": "felony-prostitution-relief",
-      "pathwayKey": "IL:felony-prostitution-relief",
-      "pathwayLabel": "Felony-prostitution relief",
-      "trackIds": [
-        "il-prostitution-j-auto",
-        "il-prostitution-j-vacate"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/IL.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fc64a4b6bb182a3f77091613809b140c9f600c3512c2670ee5d2447498114106"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "20 ILCS 2630/5.2(j)(1)",
-        "20 ILCS 2630/5.2(j)(2)",
-        "20 ILCS 2630/5.2(j)(6)",
-        "20 ILCS 2630/5.2(c)(2)",
-        "20 ILCS 2630/5.2(a)(3)(C)(i)",
-        "20 ILCS 2630/5.2(j)(3)",
-        "20 ILCS 2630/5.2(j)(8)",
-        "20 ILCS 2630/5.2(d)(9)(A)"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 3,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-il-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Acquire 3 named official source(s).",
-      "classification": "SOURCE_BLOCKER",
-      "reason": "The adopted memo leaves 3 release-blocking question(s) that name an official source not yet acquired. Acquiring the source answers them; counsel is not the bottleneck."
-    },
-    {
-      "jurisdiction": "IL",
-      "pathway": "human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayKey": "IL:human-trafficking-survivor-vacatur-and-expungement",
-      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+      "pathway": "juvenile-automatic-or-petition-expungement",
+      "pathwayKey": "IL:juvenile-automatic-or-petition-expungement",
+      "pathwayLabel": "Juvenile automatic or petition expungement",
       "trackIds": [],
       "legalMemoPaths": [],
       "legalMemoHashes": [],
@@ -1692,47 +1567,6 @@
       "actualRemainingBlocker": "Reconfirm that counsel ratification is current.",
       "classification": "LEGAL_RECONFIRMATION_REQUIRED",
       "reason": "The legal design is adopted and the completed output is approved, but counsel ratification of this route is not current."
-    },
-    {
-      "jurisdiction": "IN",
-      "pathway": "conviction-expungement-with-sealed-confidential-access",
-      "pathwayKey": "IN:conviction-expungement-with-sealed-confidential-access",
-      "pathwayLabel": "Conviction expungement with sealed/confidential access",
-      "trackIds": [
-        "in_conviction_d6",
-        "in_conviction_misd"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/IN.memo.json"
-      ],
-      "legalMemoHashes": [
-        "eea7b6933c5e5a9703d7cdb59026bada6468de934dffec5ce13be7963834eccb"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "I.C. 35-38-9-3",
-        "I.C. 35-38-9-8",
-        "I.C. 35-38-9-9",
-        "I.C. 35-38-9-6",
-        "I.C. 35-38-9-2"
-      ],
-      "openLegalDesignBlocker": 5,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 5,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge in_conviction_d6, in_conviction_misd to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "IN",
@@ -1956,6 +1790,50 @@
     },
     {
       "jurisdiction": "KY",
+      "pathway": "misdemeanor-violation-traffic-conviction",
+      "pathwayKey": "KY:misdemeanor-violation-traffic-conviction",
+      "pathwayLabel": "Misdemeanor, violation, or traffic-infraction conviction expungement under KRS 431.078",
+      "trackIds": [
+        "ky_misdemeanor_expungement"
+      ],
+      "legalMemoPaths": [
+        "data/record-clearing/legal-design-intake/KY.memo.json"
+      ],
+      "legalMemoHashes": [
+        "2328bbcbf8eca7e74772761b22d79e9d99de75e8d50222c4f513e952bafeeb19"
+      ],
+      "legalDesignStatus": "legal_design_approved_with_limitations",
+      "reviewedAsOf": "2026-08-06",
+      "controllingAuthority": [
+        "KRS 431.078",
+        "KRS 431.078(2)",
+        "KRS 431.078(4)",
+        "KRS 431.078(5)",
+        "KRS 431.078(6)",
+        "KRS 431.078(7)",
+        "KRS 431.078(10)",
+        "KRS 431.079",
+        "KRS 453.190"
+      ],
+      "openLegalDesignBlocker": 1,
+      "counselConfirmationQuestions": 1,
+      "sourceAcquisitionQuestions": 0,
+      "mechanicalTranslationQuestions": 0,
+      "packetFamily": [],
+      "familyBridgePresent": false,
+      "standingAdoption": [],
+      "completedOutputApproval": "owner_approval_pending",
+      "sourceCurrentness": "2026-08-06",
+      "technicalStatus": "not_paid_product",
+      "visualStatus": "pending",
+      "currentLaunchStatus": "renders; payment closed",
+      "terminalizationLane": [],
+      "actualRemainingBlocker": "Bridge ky_misdemeanor_expungement to a packet family, or record the pathway as a non-packet service outcome.",
+      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
+      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
+    },
+    {
+      "jurisdiction": "KY",
       "pathway": "nonconviction-431076",
       "pathwayKey": "KY:nonconviction-431076",
       "pathwayLabel": "Acquittal, dismissal, or failure-to-indict expungement under KRS 431.076",
@@ -2041,53 +1919,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge la-985-expungement-by-redaction to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "LA",
-      "pathway": "felony-article-893-e-set-aside-followed-by-expungement",
-      "pathwayKey": "LA:felony-article-893-e-set-aside-followed-by-expungement",
-      "pathwayLabel": "Felony Article 893(E) set-aside followed by expungement",
-      "trackIds": [
-        "la-978-felony-conviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/LA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "La. C.Cr.P. art. 978",
-        "La. C.Cr.P. art. 893(E)",
-        "La. C.Cr.P. art. 975",
-        "La. C.Cr.P. art. 979",
-        "La. C.Cr.P. art. 980",
-        "La. C.Cr.P. art. 982",
-        "La. C.Cr.P. art. 983",
-        "La. C.Cr.P. art. 984",
-        "La. C.Cr.P. art. 986",
-        "La. C.Cr.P. art. 988",
-        "La. C.Cr.P. art. 989",
-        "La. C.Cr.P. art. 990"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 2,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "not_applicable",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge la-978-felony-conviction to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -2182,53 +2013,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge la-978-felony-conviction to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "LA",
-      "pathway": "first-offense-marijuana-expungement-after-90-days-art-998",
-      "pathwayKey": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
-      "pathwayLabel": "First-offense marijuana expungement after 90 days (Art. 998)",
-      "trackIds": [
-        "la-977d-marijuana-first-offense"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/LA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "La. C.Cr.P. art. 977(D)",
-        "La. C.Cr.P. art. 998",
-        "La. C.Cr.P. art. 983",
-        "La. C.Cr.P. art. 986",
-        "La. C.Cr.P. art. 975",
-        "La. C.Cr.P. art. 979",
-        "La. C.Cr.P. art. 980",
-        "La. C.Cr.P. art. 982",
-        "La. C.Cr.P. art. 988",
-        "La. C.Cr.P. art. 990",
-        "La. C.Cr.P. art. 991",
-        "La. C.Cr.P. art. 992"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "not_applicable",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge la-977d-marijuana-first-offense to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -2375,53 +2159,6 @@
     },
     {
       "jurisdiction": "LA",
-      "pathway": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
-      "pathwayKey": "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement",
-      "pathwayLabel": "Misdemeanor Article 894(B) set-aside followed by expungement",
-      "trackIds": [
-        "la-977-misdemeanor-conviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/LA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "La. C.Cr.P. art. 977",
-        "La. C.Cr.P. art. 894(B)",
-        "La. C.Cr.P. art. 975",
-        "La. C.Cr.P. art. 979",
-        "La. C.Cr.P. art. 980",
-        "La. C.Cr.P. art. 982",
-        "La. C.Cr.P. art. 983",
-        "La. C.Cr.P. art. 984",
-        "La. C.Cr.P. art. 986",
-        "La. C.Cr.P. art. 988",
-        "La. C.Cr.P. art. 989",
-        "La. C.Cr.P. art. 990"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "not_applicable",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge la-977-misdemeanor-conviction to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "LA",
       "pathway": "misdemeanor-five-year-clean-period-expungement",
       "pathwayKey": "LA:misdemeanor-five-year-clean-period-expungement",
       "pathwayLabel": "Misdemeanor five-year clean-period expungement",
@@ -2464,53 +2201,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge la-977-misdemeanor-conviction to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "LA",
-      "pathway": "non-conviction-arrest-expungement",
-      "pathwayKey": "LA:non-conviction-arrest-expungement",
-      "pathwayLabel": "Non-conviction arrest expungement",
-      "trackIds": [
-        "la-976-arrest-no-conviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/LA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8d834f459d38b5c7fca9d2460aa9e1665d0339f50e22466b25b07d42dd504d10"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "La. C.Cr.P. art. 976",
-        "La. C.Cr.P. art. 975",
-        "La. C.Cr.P. art. 979",
-        "La. C.Cr.P. art. 980",
-        "La. C.Cr.P. art. 982",
-        "La. C.Cr.P. art. 983",
-        "La. C.Cr.P. art. 986",
-        "La. C.Cr.P. art. 988",
-        "La. C.Cr.P. art. 989",
-        "La. C.Cr.P. art. 990",
-        "La. C.Cr.P. art. 991",
-        "La. C.Cr.P. art. 992"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "not_applicable",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge la-976-arrest-no-conviction to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -2854,46 +2544,6 @@
     },
     {
       "jurisdiction": "MD",
-      "pathway": "police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "pathwayKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
-      "pathwayLabel": "Police-record expungement when no charge was filed under § 10-103",
-      "trackIds": [
-        "md_10103_legacy_police"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/MD.memo.json"
-      ],
-      "legalMemoHashes": [
-        "4e773ffb80e152ed18294aa19545e6ec2f27d3d239188b25340d63726b7a8faf"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-02",
-      "controllingAuthority": [
-        "Md. Code, Crim. Proc. § 10-103",
-        "Md. Rule 4-503.3",
-        "Md. Rule 4-503.4"
-      ],
-      "openLegalDesignBlocker": 0,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-md-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-07-30",
-      "technicalStatus": "renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "renderer_unavailable",
-      "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: renderer_unavailable."
-    },
-    {
-      "jurisdiction": "MD",
       "pathway": "second-chance-act-shielding",
       "pathwayKey": "MD:second-chance-act-shielding",
       "pathwayLabel": "Second Chance Act shielding",
@@ -2926,97 +2576,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge md_second_chance_shielding to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "ME",
-      "pathway": "adult-conviction-sealing",
-      "pathwayKey": "ME:adult-conviction-sealing",
-      "pathwayLabel": "Adult conviction sealing",
-      "trackIds": [
-        "me-seal-gen"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/ME.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "15 M.R.S. § 2261",
-        "15 M.R.S. § 2262",
-        "15 M.R.S. § 2263",
-        "15 M.R.S. § 2264",
-        "15 M.R.S. § 2265",
-        "15 M.R.S. § 2266",
-        "15 M.R.S. § 2267",
-        "15 M.R.S. § 2269",
-        "16 M.R.S. § 705",
-        "16 M.R.S. § 708",
-        "17-A M.R.S. § 1502(2)",
-        "PL 2021, c. 674"
-      ],
-      "openLegalDesignBlocker": 6,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 4,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge me-seal-gen to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "ME",
-      "pathway": "adult-non-conviction-record-relief",
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "pathwayLabel": "Adult non-conviction record relief",
-      "trackIds": [
-        "me-nonconv"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/ME.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "16 M.R.S. § 703",
-        "16 M.R.S. § 704",
-        "16 M.R.S. § 705",
-        "16 M.R.S. § 708",
-        "16 M.R.S. § 709",
-        "5 M.R.S. ch. 375, subch. 7",
-        "PL 2013, c. 267",
-        "PL 2013, c. 507",
-        "PL 2017, c. 432"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "packet_spec_incomplete, renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge me-nonconv to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -3198,42 +2757,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge mi_setaside_trafficking to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "MI",
-      "pathway": "misdemeanor-marijuana-set-aside-under-mcl-780-621e",
-      "pathwayKey": "MI:misdemeanor-marijuana-set-aside-under-mcl-780-621e",
-      "pathwayLabel": "Misdemeanor marijuana set-aside under MCL 780.621e",
-      "trackIds": [
-        "mi_setaside_marihuana"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/MI.memo.json"
-      ],
-      "legalMemoHashes": [
-        "77a22b791f546758f860d40020a56fbf9bf0580fd2f78516973929e802c58947"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-30",
-      "controllingAuthority": [
-        "MCL 780.621e"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-02",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge mi_setaside_marihuana to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -3484,91 +3007,6 @@
       "reason": "The legal design is adopted and the completed output is approved, but counsel ratification of this route is not current."
     },
     {
-      "jurisdiction": "MO",
-      "pathway": "general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-      "pathwayKey": "MO:general-arrest-charge-plea-trial-or-conviction-expungement-under-rsmo-610-140",
-      "pathwayLabel": "General arrest, charge, plea, trial, or conviction expungement under RSMo § 610.140",
-      "trackIds": [
-        "mo-610-140-conviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/MO.memo.json"
-      ],
-      "legalMemoHashes": [
-        "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "Mo. Rev. Stat. § 610.140",
-        "Mo. Rev. Stat. § 610.120",
-        "Mo. Rev. Stat. § 557.011",
-        "Mo. Rev. Stat. § 488.650 (repealed effective 28 August 2023)",
-        "Mo. Rev. Stat. § 514.040",
-        "Mo. Sup. Ct. R. 155.01 to 155.05",
-        "Mo. Sup. Ct. Operating R. 4.07",
-        "2021 S.B. 26 merged with S.B. 53 & 60",
-        "2024 S.B. 754",
-        "SJRC (10-24) CR360",
-        "CR370"
-      ],
-      "openLegalDesignBlocker": 6,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 4,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge mo-610-140-conviction to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "MO",
-      "pathway": "stolen-or-mistaken-identity-expungement-under-610-145",
-      "pathwayKey": "MO:stolen-or-mistaken-identity-expungement-under-610-145",
-      "pathwayLabel": "Stolen- or mistaken-identity expungement under § 610.145",
-      "trackIds": [
-        "mo-610-145-mistaken-identity"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/MO.memo.json"
-      ],
-      "legalMemoHashes": [
-        "53ac576ac48571c657e29f72a005c4018f2d4e3d657ae8d25cf02fa16be84934"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-03",
-      "controllingAuthority": [
-        "Mo. Rev. Stat. § 610.145",
-        "Mo. Rev. Stat. § 610.120",
-        "OSCA (07-17) CR301",
-        "CR311"
-      ],
-      "openLegalDesignBlocker": 5,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 3,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-03",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge mo-610-145-mistaken-identity to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
       "jurisdiction": "MS",
       "pathway": "additional-justice-court-misdemeanor-relief-9-11-15-3",
       "pathwayKey": "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
@@ -3758,46 +3196,6 @@
     },
     {
       "jurisdiction": "NC",
-      "pathway": "dismissal-and-not-guilty-expunction-under-g-s-15a-146",
-      "pathwayKey": "NC:dismissal-and-not-guilty-expunction-under-g-s-15a-146",
-      "pathwayLabel": "Dismissal and not-guilty expunction under G.S. 15A-146",
-      "trackIds": [
-        "nc_146_acquittal_petition"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NC.memo.json"
-      ],
-      "legalMemoHashes": [
-        "9d9ce9f4ac2b4483dfc33e640873059d9d79755597017e819aa24f64893053c7"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-07-31",
-      "controllingAuthority": [
-        "N.C. Gen. Stat. § 15A-146(a2)",
-        "N.C. Gen. Stat. § 15A-146(a6)",
-        "N.C. Gen. Stat. § 15A-146(c)",
-        "N.C. Gen. Stat. § 15A-150",
-        "N.C. Gen. Stat. § 15A-153"
-      ],
-      "openLegalDesignBlocker": 0,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge nc_146_acquittal_petition to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "NC",
       "pathway": "nonviolent-conviction-expunction-under-g-s-15a-145-5",
       "pathwayKey": "NC:nonviolent-conviction-expunction-under-g-s-15a-145-5",
       "pathwayLabel": "Nonviolent conviction expunction under G.S. 15A-145.5",
@@ -3877,46 +3275,6 @@
     },
     {
       "jurisdiction": "ND",
-      "pathway": "deferred-imposition-dismissal-and-sealing",
-      "pathwayKey": "ND:deferred-imposition-dismissal-and-sealing",
-      "pathwayLabel": "Deferred-imposition dismissal and sealing",
-      "trackIds": [
-        "nd-deferred-imposition-records"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/ND.memo.json"
-      ],
-      "legalMemoHashes": [
-        "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "N.D.R.Crim.P. 32.1",
-        "N.D.C.C. § 12.1-32-07.1",
-        "N.D.C.C. § 12.1-32-07.2",
-        "N.D.C.C. § 12.1-32-02(4)",
-        "N.D.C.C. § 62.1-02-01(2)"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge nd-deferred-imposition-records to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "ND",
       "pathway": "dui-record-sealing-under-the-separate-dui-statute",
       "pathwayKey": "ND:dui-record-sealing-under-the-separate-dui-statute",
       "pathwayLabel": "DUI-record sealing under the separate DUI statute",
@@ -3957,47 +3315,6 @@
       "actualRemainingBlocker": "gate_build",
       "classification": "TECHNICAL_BLOCKER",
       "reason": "The legal design is adopted and the family is bridged. What is open is engineering: gate_build."
-    },
-    {
-      "jurisdiction": "ND",
-      "pathway": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "trackIds": [
-        "nd-nonconviction-auto-close-verify"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/ND.memo.json"
-      ],
-      "legalMemoHashes": [
-        "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "N.D.C.C. § 12-60.1-05(1)",
-        "N.D.C.C. § 12-60.1-05(3)",
-        "N.D.C.C. § 12-60.1-01(1)",
-        "N.D.C.C. § 12-60.1-01(5)"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 2,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-nd-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "packet_spec_incomplete, renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Reconfirm that counsel ratification is current.",
-      "classification": "LEGAL_RECONFIRMATION_REQUIRED",
-      "reason": "The legal design is adopted and the completed output is approved, but counsel ratification of this route is not current."
     },
     {
       "jurisdiction": "NE",
@@ -4117,90 +3434,6 @@
     },
     {
       "jurisdiction": "NE",
-      "pathway": "set-aside-incarceration-one-year-or-less",
-      "pathwayKey": "NE:set-aside-incarceration-one-year-or-less",
-      "pathwayLabel": "Conviction set-aside after incarceration of one year or less under § 29-2264(3)",
-      "trackIds": [
-        "ne-setaside-custodial"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NE.memo.json"
-      ],
-      "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "Neb. Rev. Stat. § 29-2264(3)(a)",
-        "Neb. Rev. Stat. § 29-2264(3)(b)",
-        "Neb. Rev. Stat. § 29-2264(5)",
-        "Neb. Rev. Stat. § 29-2264(6)",
-        "Neb. Rev. Stat. § 29-2264(9)",
-        "Neb. Ct. R. § 2-208"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 3,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge ne-setaside-custodial to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "NE",
-      "pathway": "set-aside-probation-fine-community-service",
-      "pathwayKey": "NE:set-aside-probation-fine-community-service",
-      "pathwayLabel": "Conviction set-aside after probation, fine-only sentence, or community service under § 29-2264(2)",
-      "trackIds": [
-        "ne-setaside-noncustodial"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NE.memo.json"
-      ],
-      "legalMemoHashes": [
-        "4947fbc90c3b3733175a4d4c3d8758dcc85dd47219c9d5045ae55186ea99f7eb"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "Neb. Rev. Stat. § 29-2264(2)",
-        "Neb. Rev. Stat. § 29-2264(5)",
-        "Neb. Rev. Stat. § 29-2264(6)",
-        "Neb. Rev. Stat. § 29-2264(7)",
-        "Neb. Rev. Stat. § 29-2264(8)",
-        "Neb. Rev. Stat. § 29-2264(9)",
-        "Neb. Rev. Stat. § 29-2263",
-        "Neb. Ct. R. § 2-208"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 2,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge ne-setaside-noncustodial to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "NE",
       "pathway": "trafficking-survivor-set-aside-and-seal",
       "pathwayKey": "NE:trafficking-survivor-set-aside-and-seal",
       "pathwayLabel": "Trafficking-survivor set-aside and sealing under § 29-3005",
@@ -4240,48 +3473,6 @@
       "actualRemainingBlocker": "Bridge ne-trafficking-setaside-and-seal to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "NH",
-      "pathway": "annulment-after-dismissal-acquittal-or-nonprosecution",
-      "pathwayKey": "NH:annulment-after-dismissal-acquittal-or-nonprosecution",
-      "pathwayLabel": "Annulment after dismissal, acquittal, or nonprosecution",
-      "trackIds": [
-        "nh_auto_nonconviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NH.memo.json"
-      ],
-      "legalMemoHashes": [
-        "6f85d27d53ecaaaff93fcacf069338bbb981123002636ee1e80fa98e41fe57c0"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "RSA 651:5, II-a(a)",
-        "RSA 651:5, X",
-        "RSA 651:5, XI(b)",
-        "RSA 606:10",
-        "RSA 259:39"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 3,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-nh-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "renderer_unavailable",
-      "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: renderer_unavailable."
     },
     {
       "jurisdiction": "NH",
@@ -4659,52 +3850,6 @@
     },
     {
       "jurisdiction": "NV",
-      "pathway": "general-conviction-record-sealing-under-nrs-179-245",
-      "pathwayKey": "NV:general-conviction-record-sealing-under-nrs-179-245",
-      "pathwayLabel": "General conviction-record sealing under NRS 179.245",
-      "trackIds": [
-        "nv_seal_conviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NV.memo.json"
-      ],
-      "legalMemoHashes": [
-        "113a9728c08487ad09184fdd045da4d19b532adcca2b083059dbb24e1c84c3f5"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "NRS 179.245",
-        "NRS 179.2405",
-        "NRS 179.2445",
-        "NRS 179.265",
-        "NRS 179.275",
-        "NRS 179.285",
-        "NRS 179.295",
-        "NRS 179.301",
-        "NRS 176A.850"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 3,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-nv-custom-pleading"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Acquire 3 named official source(s).",
-      "classification": "SOURCE_BLOCKER",
-      "reason": "The adopted memo leaves 3 release-blocking question(s) that name an official source not yet acquired. Acquiring the source answers them; counsel is not the bottleneck."
-    },
-    {
-      "jurisdiction": "NV",
       "pathway": "non-conviction-record-sealing",
       "pathwayKey": "NV:non-conviction-record-sealing",
       "pathwayLabel": "Non-conviction record sealing",
@@ -4864,76 +4009,6 @@
       "reason": "The pathway resolves to no registry track, so no memo, adoption record or family can attach to it."
     },
     {
-      "jurisdiction": "NY",
-      "pathway": "conditional-treatment-sealing-under-cpl-160-58",
-      "pathwayKey": "NY:conditional-treatment-sealing-under-cpl-160-58",
-      "pathwayLabel": "Conditional / treatment sealing under CPL 160.58",
-      "trackIds": [],
-      "legalMemoPaths": [],
-      "legalMemoHashes": [],
-      "legalDesignStatus": "no_memo_track_bridge",
-      "reviewedAsOf": null,
-      "controllingAuthority": [],
-      "openLegalDesignBlocker": 0,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": null,
-      "technicalStatus": "renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bind the pathway to a registry track.",
-      "classification": "NO_PATHWAY_TO_TRACK_BRIDGE",
-      "reason": "The pathway resolves to no registry track, so no memo, adoption record or family can attach to it."
-    },
-    {
-      "jurisdiction": "NY",
-      "pathway": "discretionary-conviction-sealing-by-petition-under-cpl-160-59",
-      "pathwayKey": "NY:discretionary-conviction-sealing-by-petition-under-cpl-160-59",
-      "pathwayLabel": "Discretionary conviction sealing by petition under CPL 160.59",
-      "trackIds": [
-        "ny_160_59_petition"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/NY.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fcf1ac52c65f70db988f949fe4d95336781b024066ec7edc408641f627789c10"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "N.Y. Crim. Proc. Law § 160.59",
-        "N.Y. Crim. Proc. Law § 160.59(10)",
-        "N.Y. Penal Law art. 130",
-        "N.Y. Penal Law art. 263",
-        "N.Y. Penal Law art. 125",
-        "N.Y. Penal Law § 70.02",
-        "N.Y. Correct. Law art. 6-C"
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 3,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge ny_160_59_petition to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
       "jurisdiction": "OH",
       "pathway": "adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
       "pathwayKey": "OH:adult-conviction-sealing-or-expungement-under-ohio-rev-code-2953-32",
@@ -4977,47 +4052,6 @@
       "actualRemainingBlocker": "gate_build",
       "classification": "TECHNICAL_BLOCKER",
       "reason": "The legal design is adopted and the family is bridged. What is open is engineering: gate_build."
-    },
-    {
-      "jurisdiction": "OH",
-      "pathway": "adult-non-conviction-sealing-or-expungement-under-2953-33",
-      "pathwayKey": "OH:adult-non-conviction-sealing-or-expungement-under-2953-33",
-      "pathwayLabel": "Adult non-conviction sealing or expungement under § 2953.33",
-      "trackIds": [
-        "oh_2953_33_nonconviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/OH.memo.json"
-      ],
-      "legalMemoHashes": [
-        "c7882683f5f8a15d47b643574240682b1cb24308203a1a71e3b36cea91b5a0d1"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "Ohio Rev. Code § 2953.33",
-        "Ohio Rev. Code § 2953.61",
-        "Ohio Rev. Code § 2953.31",
-        "Am. Sub. S.B. 288, 134th Gen. Assemb."
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-oh-custom-pleading-clean-tracks"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Acquire 1 named official source(s).",
-      "classification": "SOURCE_BLOCKER",
-      "reason": "The adopted memo leaves 1 release-blocking question(s) that name an official source not yet acquired. Acquiring the source answers them; counsel is not the bottleneck."
     },
     {
       "jurisdiction": "OH",
@@ -5200,56 +4234,13 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "wait_anchor_fix",
+      "technicalStatus": "no technical blocker open",
       "visualStatus": "pending",
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge oh_marijuana_expungement to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "OK",
-      "pathway": "acquittal-dismissal-or-other-no-conviction-expungement",
-      "pathwayKey": "OK:acquittal-dismissal-or-other-no-conviction-expungement",
-      "pathwayLabel": "Acquittal, dismissal, or other no-conviction expungement",
-      "trackIds": [
-        "ok_18_19_nonconviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/OK.memo.json"
-      ],
-      "legalMemoHashes": [
-        "4e0380c9738cb9c9be3747e125990d79c483afc2c31a99ac29e638ad8c94c385"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-06",
-      "controllingAuthority": [
-        "22 O.S. § 18",
-        "22 O.S. § 19",
-        "22 O.S. § 19a",
-        "22 O.S. § 60.18",
-        "22 O.S. § 991c",
-        "Senate Bill 2030 (2026)"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-ok-custom-pleading"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "not_applicable",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Acquire 2 named official source(s).",
-      "classification": "SOURCE_BLOCKER",
-      "reason": "The adopted memo leaves 2 release-blocking question(s) that name an official source not yet acquired. Acquiring the source answers them; counsel is not the bottleneck."
     },
     {
       "jurisdiction": "OK",
@@ -6444,48 +5435,6 @@
     },
     {
       "jurisdiction": "SD",
-      "pathway": "adult-arrest-record-expungement-under-sdcl-23a-3-27",
-      "pathwayKey": "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
-      "pathwayLabel": "Adult arrest-record expungement under SDCL § 23A-3-27",
-      "trackIds": [
-        "sd_arrest_expungement"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/SD.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8d088d48642f09802aa1582be9924642a36026e3721b7aa2de2c33aecac31ae7"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "SDCL § 23A-3-26",
-        "SDCL § 23A-3-27",
-        "SDCL § 23A-3-28",
-        "SDCL § 23A-3-29",
-        "SDCL § 23A-3-30",
-        "SDCL § 23A-3-31",
-        "SDCL § 23A-3-32"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-05",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge sd_arrest_expungement to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "SD",
       "pathway": "controlled-substance-deferred-disposition-route",
       "pathwayKey": "SD:controlled-substance-deferred-disposition-route",
       "pathwayLabel": "Controlled-substance deferred-disposition route",
@@ -6650,48 +5599,6 @@
     },
     {
       "jurisdiction": "TN",
-      "pathway": "pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
-      "pathwayKey": "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
-      "pathwayLabel": "Pathway 1 — Free non-conviction expunction under Tenn. Code §§ 40-32-101(a) / 40-32-106",
-      "trackIds": [
-        "tn_acquittal_immediate"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/TN.memo.json"
-      ],
-      "legalMemoHashes": [
-        "dfd8a621910fca5ed2fb57c2fc97784dc41699a57cf46d272946b8b6a64f1f48"
-      ],
-      "legalDesignStatus": "legal_design_approved",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "T.C.A. § 40-32-106",
-        "T.C.A. § 40-32-106(a)(1)(E)",
-        "T.C.A. § 40-32-106(e)(2)",
-        "T.C.A. § 40-32-102(d)",
-        "T.C.A. § 40-32-110"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-tn-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "renderer_unavailable",
-      "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: renderer_unavailable."
-    },
-    {
-      "jurisdiction": "TN",
       "pathway": "pathway-2-diversion-expunction-under-40-15-105-40-35-313",
       "pathwayKey": "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
       "pathwayLabel": "Pathway 2 — Diversion expunction under §§ 40-15-105 / 40-35-313",
@@ -6827,50 +5734,6 @@
       "actualRemainingBlocker": "gate_build",
       "classification": "TECHNICAL_BLOCKER",
       "reason": "The legal design is adopted and the family is bridged. What is open is engineering: gate_build."
-    },
-    {
-      "jurisdiction": "TX",
-      "pathway": "expunction-after-acquittal-not-guilty-disposition-chapter-55a",
-      "pathwayKey": "TX:expunction-after-acquittal-not-guilty-disposition-chapter-55a",
-      "pathwayLabel": "Expunction after acquittal / not-guilty disposition (Chapter 55A)",
-      "trackIds": [
-        "tx_exp_acquittal"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/TX.memo.json"
-      ],
-      "legalMemoHashes": [
-        "f914dfdcdb52d94cc8142d04dac49ba73f2ad3cbbab41a6f98d367eec5bb97c3"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "art. 55A.002",
-        "art. 55A.201",
-        "art. 55A.201(b)",
-        "art. 55A.201(c)",
-        "art. 55A.201(d)",
-        "art. 55A.151",
-        "art. 55A.251",
-        "art. 55A.253",
-        "art. 102.0061(c)"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge tx_exp_acquittal to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "TX",
@@ -7314,48 +6177,6 @@
     },
     {
       "jurisdiction": "UT",
-      "pathway": "path-i-traffic-offense-expungement-or-deletion",
-      "pathwayKey": "UT:path-i-traffic-offense-expungement-or-deletion",
-      "pathwayLabel": "Path I — Traffic-offense expungement or deletion",
-      "trackIds": [
-        "ut_auto_traffic",
-        "ut_pet_traffic"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/UT.memo.json"
-      ],
-      "legalMemoHashes": [
-        "cda96b6a4b448f51d03e29bbc32550ec6d9b9823d62383c9ef17802ebf08c52f"
-      ],
-      "legalDesignStatus": "legal_design_approved",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "Utah Code 77-40a-202",
-        "Utah Code 77-40a-101",
-        "Utah Code 77-40a-204",
-        "Utah Code 77-40a-305"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-ut-guidance-implementation"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Acquire 2 named official source(s).",
-      "classification": "SOURCE_BLOCKER",
-      "reason": "The adopted memo leaves 2 release-blocking question(s) that name an official source not yet acquired. Acquiring the source answers them; counsel is not the bottleneck."
-    },
-    {
-      "jurisdiction": "UT",
       "pathway": "path-j-cannabis-possession-petition-without-a-bci-certificate",
       "pathwayKey": "UT:path-j-cannabis-possession-petition-without-a-bci-certificate",
       "pathwayLabel": "Path J — Cannabis-possession petition without a BCI certificate",
@@ -7449,87 +6270,6 @@
       "actualRemainingBlocker": "Bind the pathway to a registry track.",
       "classification": "NO_PATHWAY_TO_TRACK_BRIDGE",
       "reason": "The pathway resolves to no registry track, so no memo, adoption record or family can attach to it."
-    },
-    {
-      "jurisdiction": "VA",
-      "pathway": "petition-based-sealing",
-      "pathwayKey": "VA:petition-based-sealing",
-      "pathwayLabel": "Petition-based sealing (§ 19.2-392.12 / .12:1)",
-      "trackIds": [
-        "va_seal_ancillary_matter_only"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/VA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "Va. Code § 19.2-392.12:1(B)",
-        "Va. Code § 19.2-392.12:1(C)",
-        "Va. Code § 19.2-392.12:1(G)",
-        "Va. Code § 19.2-392.12:1(J)",
-        "Va. Code § 19.2-392.6:1",
-        "Va. Code § 19.2-392.7",
-        "Va. Code § 19.2-392.11"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge va_seal_ancillary_matter_only to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "VA",
-      "pathway": "regime-1-expungement-available-now",
-      "pathwayKey": "VA:regime-1-expungement-available-now",
-      "pathwayLabel": "Regime 1 — Expungement (§ 19.2-392.2), available now",
-      "trackIds": [
-        "va_exp_absolute_pardon"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/VA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "d1900eb5282f082c0d30f78d3071c75f0ecc477c295e29e430bbb978eb9d0e66"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "Va. Code § 19.2-392.2(I)",
-        "Va. Code § 19.2-392.2(K)",
-        "Va. Code § 19.2-392.2(L)",
-        "Va. Code § 2.2-402"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge va_exp_absolute_pardon to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "VT",
@@ -7652,48 +6392,6 @@
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge vt_seal_misdemeanor to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "VT",
-      "pathway": "dui-sealing",
-      "pathwayKey": "VT:dui-sealing",
-      "pathwayLabel": "DUI sealing",
-      "trackIds": [
-        "vt_seal_dui"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/VT.memo.json"
-      ],
-      "legalMemoHashes": [
-        "4bcd3fa16e73781234c2ebaabbd24e20dc25967049a86c66b6064aaa25fab079"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "13 V.S.A. § 7602(a)(2)",
-        "13 V.S.A. § 7602(e)",
-        "13 V.S.A. § 7602(a)(5)",
-        "13 V.S.A. § 7601(4)(A)(xv)",
-        "23 V.S.A. § 1201(a)",
-        "32 V.S.A. § 1431(e)",
-        "33 V.S.A. § 5119"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge vt_seal_dui to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
@@ -8052,47 +6750,6 @@
     },
     {
       "jurisdiction": "WA",
-      "pathway": "non-conviction-record-deletion-under-rcw-10-97-060",
-      "pathwayKey": "WA:non-conviction-record-deletion-under-rcw-10-97-060",
-      "pathwayLabel": "Non-conviction record deletion under RCW 10.97.060",
-      "trackIds": [
-        "wa_del_nonconviction"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/WA.memo.json"
-      ],
-      "legalMemoHashes": [
-        "8f43ce3e1b28cb4f4848f9e3705a5d151e02015685df3cb8be6e16463f0d3bb7"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "RCW 10.97.060",
-        "RCW 10.97.030(2)",
-        "RCW 10.97.040",
-        "RCW 10.97.110"
-      ],
-      "openLegalDesignBlocker": 0,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-wa-custom-pleading-clean-tracks"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Project the recorded approval into the closure ledger.",
-      "classification": "APPROVAL_NOT_LINKED",
-      "reason": "The legal design is adopted, the family is bridged and the completed output is approved. The closure ledger has not projected that approval onto this pathway row."
-    },
-    {
-      "jurisdiction": "WA",
       "pathway": "victim-survivor-conviction-vacation-route",
       "pathwayKey": "WA:victim-survivor-conviction-vacation-route",
       "pathwayLabel": "Victim / survivor conviction-vacation route",
@@ -8272,53 +6929,6 @@
     },
     {
       "jurisdiction": "WV",
-      "pathway": "accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
-      "pathwayKey": "WV:accelerated-treatment-recovery-job-readiness-expungement-under-61-11-26a",
-      "pathwayLabel": "Accelerated treatment / recovery / job-readiness expungement under § 61-11-26a",
-      "trackIds": [
-        "wv_acc_treatment_job_readiness"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/WV.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "W. Va. Code § 61-11-26a(a)",
-        "W. Va. Code § 61-11-26a(a)(1)",
-        "W. Va. Code § 61-11-26a(a)(2)",
-        "W. Va. Code § 61-11-26a(a)(3)",
-        "W. Va. Code § 61-11-26a(b)",
-        "W. Va. Code § 61-11-26a(c)",
-        "W. Va. Code § 61-11-26(c)",
-        "W. Va. Code § 61-11-26(d)",
-        "W. Va. Code § 61-11-26(e)",
-        "W. Va. Code § 61-11-26(n)",
-        "W. Va. Code § 61-11-26(o)",
-        "W. Va. Code § 59-1-11(a)(1)"
-      ],
-      "openLegalDesignBlocker": 1,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 0,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "owner_approval_pending",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge wv_acc_treatment_job_readiness to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "WV",
       "pathway": "eligible-conviction-expungement-under-w-va-code-61-11-26",
       "pathwayKey": "WV:eligible-conviction-expungement-under-w-va-code-61-11-26",
       "pathwayLabel": "Eligible conviction expungement under W. Va. Code § 61-11-26",
@@ -8478,58 +7088,13 @@
       "standingAdoption": [],
       "completedOutputApproval": "owner_approval_pending",
       "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "wait_anchor_fix",
+      "technicalStatus": "no technical blocker open",
       "visualStatus": "pending",
       "currentLaunchStatus": "renders; payment closed",
       "terminalizationLane": [],
       "actualRemainingBlocker": "Bridge wv_nc_acquittal_dismissal, wv_nc_diversion_deferred to a packet family, or record the pathway as a non-packet service outcome.",
       "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
       "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
-    },
-    {
-      "jurisdiction": "WV",
-      "pathway": "pardon-based-expungement",
-      "pathwayKey": "WV:pardon-based-expungement",
-      "pathwayLabel": "Pardon-based expungement",
-      "trackIds": [
-        "wv_pardon_expungement"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/WV.memo.json"
-      ],
-      "legalMemoHashes": [
-        "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "W. Va. Code § 5-1-16a(a)",
-        "W. Va. Code § 5-1-16a(b)",
-        "W. Va. Code § 5-1-16a(c)",
-        "W. Va. Code § 5-1-16a(d)",
-        "W. Va. Code § 5-1-16a(e)",
-        "W. Va. Const. art. VII, § 11",
-        "W. Va. Code § 5-1-16",
-        "W. Va. Code § 59-3-1 et seq."
-      ],
-      "openLegalDesignBlocker": 3,
-      "counselConfirmationQuestions": 1,
-      "sourceAcquisitionQuestions": 2,
-      "mechanicalTranslationQuestions": 0,
-      "packetFamily": [
-        "rcap-wv-custom-pleading"
-      ],
-      "familyBridgePresent": true,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-06",
-      "technicalStatus": "filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "does not render; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable",
-      "classification": "TECHNICAL_BLOCKER",
-      "reason": "The legal design is adopted and the family is bridged. What is open is engineering: filing_determination_missing, not_paid_product, packet_spec_incomplete, renderer_unavailable."
     },
     {
       "jurisdiction": "WV",
@@ -8558,47 +7123,6 @@
       "actualRemainingBlocker": "Bind the pathway to a registry track.",
       "classification": "NO_PATHWAY_TO_TRACK_BRIDGE",
       "reason": "The pathway resolves to no registry track, so no memo, adoption record or family can attach to it."
-    },
-    {
-      "jurisdiction": "WY",
-      "pathway": "felony-conviction-expungement-w-s-7-13-1502",
-      "pathwayKey": "WY:felony-conviction-expungement-w-s-7-13-1502",
-      "pathwayLabel": "Felony conviction expungement - W.S. 7-13-1502",
-      "trackIds": [
-        "wy_fel_1502"
-      ],
-      "legalMemoPaths": [
-        "data/record-clearing/legal-design-intake/WY.memo.json"
-      ],
-      "legalMemoHashes": [
-        "de2239036a9b2fbda8f6ce7c18a85c3da67c290cf68159929bd46d8c77ddb679"
-      ],
-      "legalDesignStatus": "legal_design_approved_with_limitations",
-      "reviewedAsOf": "2026-08-01",
-      "controllingAuthority": [
-        "Wyo. Stat. § 7-13-1502",
-        "Wyo. Stat. § 7-13-1502(j) (immunity)",
-        "Wyo. Stat. § 7-13-1502(k) (one expungement per lifetime)",
-        "Wyo. Stat. § 7-13-1502(m) (restoration of rights)",
-        "Wyo. Stat. § 6-1-104(a)(xii) (violent felony definition)",
-        "Wyo. Stat. §§ 7-19-302(g) through (j) (sex offender registration)"
-      ],
-      "openLegalDesignBlocker": 2,
-      "counselConfirmationQuestions": 0,
-      "sourceAcquisitionQuestions": 1,
-      "mechanicalTranslationQuestions": 1,
-      "packetFamily": [],
-      "familyBridgePresent": false,
-      "standingAdoption": [],
-      "completedOutputApproval": "approved_by_decision_owner",
-      "sourceCurrentness": "2026-08-08",
-      "technicalStatus": "no technical blocker open",
-      "visualStatus": "pending",
-      "currentLaunchStatus": "renders; payment closed",
-      "terminalizationLane": [],
-      "actualRemainingBlocker": "Bridge wy_fel_1502 to a packet family, or record the pathway as a non-packet service outcome.",
-      "classification": "NO_TRACK_TO_FAMILY_BRIDGE",
-      "reason": "The legal design is approved in a hash-bound memo, but the track reaches no packet family, so no approval can attach to a packet."
     },
     {
       "jurisdiction": "WY",

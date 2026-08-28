@@ -7,7 +7,7 @@
     "path": "data/rcap-ledger/paid-pathway-legal-join.json",
     "source": "working_tree",
     "ref": null,
-    "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
+    "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
   },
   "doesNotMaintainASeparateDenominator": "The denominator here is Session A's graph, consumed as-is: every pathway key, registry track list and disposition comes from data/rcap-ledger/paid-pathway-legal-join.json and none is recomputed. data/rcap-ledger/sellable-pathway-closure.json remains only as the denominator input Session A already integrated; it is not a rival canonical record and nothing in this packet re-derives it.",
   "createsApproval": false,
@@ -17,7 +17,7 @@
       "path": "data/rcap-ledger/paid-pathway-legal-join.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "5b2bdc9fa9d8e64852a4662bc8d7445459fa5dfdb5a35b23e5fb413d595770d4"
+      "sha256": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f"
     },
     "packetFamilyBridge": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
@@ -41,7 +41,7 @@
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
       "source": "working_tree",
       "ref": null,
-      "sha256": "a80beda9b5f2c9a9b79ed7787edab26440903a00d10b50f32a69590a3d805377"
+      "sha256": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce"
     },
     "problematicPdfRegister": {
       "path": "data/rcap-all50/problematic-pdf-register.json",
@@ -65,29 +65,29 @@
     }
   },
   "totals": {
-    "pathways": 263,
+    "pathways": 260,
     "sessionADispositions": {
-      "family_bridge_missing_no_family": 153,
-      "approved_by_decision_owner": 70,
+      "family_bridge_missing_no_family": 152,
+      "approved_by_decision_owner": 68,
       "family_bridge_missing_no_track": 40
     },
     "registryClassifications": {
-      "exact_track_and_packet_set": 223,
+      "exact_track_and_packet_set": 220,
       "registry_gap_no_track": 40
     },
-    "bridgeImportResolved": 153,
-    "pathwaysWithCompletedOutputEvidence": 70,
-    "ownerApprovedLegal": 228,
+    "bridgeImportResolved": 152,
+    "pathwaysWithCompletedOutputEvidence": 68,
+    "ownerApprovedLegal": 225,
     "ownerApprovalBases": {
-      "owner_approved_existing_legal_design_packet_set": 153,
-      "owner_approved_packet_family": 70,
+      "owner_approved_existing_legal_design_packet_set": 152,
+      "owner_approved_packet_family": 68,
       "registry_gap_no_track": 35,
       "owner_approved_exception_annex": 5
     },
     "escalationsToTheDecisionOwner": 0,
     "publicWitness": {
-      "settled": 263,
-      "landedOnTheirOwnPathway": 263,
+      "settled": 260,
+      "landedOnTheirOwnPathway": 260,
       "paymentAllowedAtTheEvaluator": 29
     }
   },
@@ -105,7 +105,7 @@
       "trackCount": 497,
       "scope": "every registry track"
     },
-    "effect": "Session A's join reported 153 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 153 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
+    "effect": "Session A's join reported 152 pathway(s) as family_bridge_missing_no_family because the bridge it reads covers lane D only. Importing the all-497 packet-set manifest supplies an exact packet set for 152 of them. That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.",
     "stillUnbridgeable": 40
   },
   "ownerLegalDecision": {
@@ -181,8 +181,8 @@
           "ak-courtview"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -581,7 +581,7 @@
         "packetFamilies": [
           "rcap-ak-guidance-implementation"
         ],
-        "lawrenceRatification": null,
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -733,7 +733,7 @@
           "ak-mistaken-identity"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -1038,7 +1038,7 @@
           "al-pardoned-felony"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -1958,8 +1958,8 @@
           "ar-arrest-seal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -2165,7 +2165,7 @@
           "ar-misdemeanor-dwi-seal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -2380,7 +2380,7 @@
           "ar-felony-seal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -2587,8 +2587,8 @@
           "az_record_sealing_arrest_no_charges"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -3135,7 +3135,7 @@
           "ca-prop64"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "built_gate_pending_lawrence_confirmation",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -3355,7 +3355,7 @@
           "ca-prop64"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "built_gate_pending_lawrence_confirmation",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -3575,7 +3575,7 @@
           "ca-1203-4"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -3834,7 +3834,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -3938,7 +3938,7 @@
         "packetFamilies": [
           "rcap-ca-guidance-implementation"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -4234,7 +4234,7 @@
           "co_motion_seal_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -4450,7 +4450,7 @@
           "co_petition_seal_arrest"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -4958,7 +4958,7 @@
           "ct-cleanslate-petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -5195,7 +5195,7 @@
           "dc_innocence_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -5369,8 +5369,8 @@
           "dc_seal_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -5550,8 +5550,8 @@
           "dc_seal_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -5731,8 +5731,8 @@
           "dc_seal_nonconviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -5912,8 +5912,8 @@
           "de_discretionary_superior_court"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -6474,8 +6474,8 @@
           "fl-10yr-bridge"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -6695,7 +6695,7 @@
           "fl-sealing"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -6939,7 +6939,7 @@
           "fl-early-juvenile"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -7604,7 +7604,7 @@
           "ga-seal-m"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -8223,7 +8223,7 @@
           "ga-seal-m"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -8643,7 +8643,7 @@
           "ga-seal-m"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -9300,8 +9300,8 @@
         "packetFamilies": [
           "rcap-hi-custom-pleading"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -9550,8 +9550,8 @@
         "packetFamilies": [
           "rcap-hi-custom-pleading"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -9945,8 +9945,8 @@
           "hi_nonconviction_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -10144,7 +10144,7 @@
           "ia-7251"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -10318,7 +10318,7 @@
           "ia-901c3"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -10552,7 +10552,7 @@
           "ia-901c2"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -10756,7 +10756,7 @@
           "ia-12346"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -10923,7 +10923,7 @@
           "ia-12347"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -11285,7 +11285,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. Roger Roman approved ID family coverage through the exception annex under auth-2026-08-19-owner-legal-approval-completed-output. Which family this route uses is still unknown to this repository.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": null,
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -11471,7 +11471,7 @@
           "id_isp_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -11658,8 +11658,8 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. Roger Roman approved ID family coverage through the exception annex under auth-2026-08-19-owner-legal-approval-completed-output. Which family this route uses is still unknown to this repository.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -11753,7 +11753,7 @@
           "il-seal-3yr"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -12133,8 +12133,8 @@
           "il-exp-nonconv"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -12387,7 +12387,7 @@
         "packetFamilies": [
           "rcap-il-guidance-implementation"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -12724,7 +12724,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -12827,7 +12827,7 @@
           "il-exp-supervision"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -13210,8 +13210,8 @@
         "packetFamilies": [
           "rcap-il-guidance-implementation"
         ],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -13516,7 +13516,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -13616,8 +13616,8 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -13721,7 +13721,7 @@
         "packetFamilies": [
           "rcap-in-custom-pleading"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -14229,8 +14229,8 @@
           "in_conviction_misd"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "corrected_needs_reconfirm",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -14680,7 +14680,7 @@
           "in_section1_petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "corrected_needs_reconfirm",
+        "lawrenceRatification": "corrected_awaiting_reconfirmation",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -14917,7 +14917,7 @@
           "in_section1_petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "corrected_needs_reconfirm",
+        "lawrenceRatification": "corrected_awaiting_reconfirmation",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -15276,7 +15276,7 @@
           "ks-21-6614-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -15565,7 +15565,7 @@
           "ks-21-6614-prostitution-coercion"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -15832,7 +15832,7 @@
           "ks-21-6614-specialty-court"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -16108,7 +16108,7 @@
           "ky_felony_vacatur_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -16501,8 +16501,8 @@
           "ky_misdemeanor_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
-        "ledgerSaysLegalReviewPending": false,
+        "lawrenceRatification": "intentional_unsupported",
+        "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -16978,7 +16978,7 @@
           "la-985-expungement-by-redaction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -17295,8 +17295,8 @@
           "la-978-felony-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -17649,7 +17649,7 @@
           "la-978-felony-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -18003,7 +18003,7 @@
           "la-978-felony-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -18357,8 +18357,8 @@
           "la-977d-marijuana-first-offense"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -18643,7 +18643,7 @@
           "la-978-felony-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -19238,7 +19238,7 @@
         "packetFamilies": [
           "rcap-la-guidance-implementation"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -19482,7 +19482,7 @@
           "la-985-1-interim-expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -19759,8 +19759,8 @@
           "la-977-misdemeanor-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -20104,7 +20104,7 @@
           "la-977-misdemeanor-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -20449,8 +20449,8 @@
           "la-976-arrest-no-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -20777,7 +20777,7 @@
           "ma-seal-admin"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -20966,7 +20966,7 @@
           "ma-seal-court"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -21155,7 +21155,7 @@
           "ma-seal-admin"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -21344,7 +21344,7 @@
           "ma-expunge-mj"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -21541,7 +21541,7 @@
           "ma-expunge-k"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -21730,7 +21730,7 @@
           "ma-expunge-time"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -21935,7 +21935,7 @@
           "md_10105_favorable"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -22213,7 +22213,7 @@
           "md_cannabis_petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -22409,7 +22409,7 @@
           "md_10110_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -22620,7 +22620,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -22722,7 +22722,7 @@
           "md_pardon_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -22928,8 +22928,8 @@
         "packetFamilies": [
           "rcap-md-guidance-implementation"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -23102,7 +23102,7 @@
           "md_second_chance_shielding"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -23298,8 +23298,8 @@
           "me-seal-gen"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -23537,248 +23537,6 @@
       }
     },
     {
-      "pathwayKey": "ME:adult-non-conviction-record-relief",
-      "jurisdiction": "ME",
-      "pathwayId": "adult-non-conviction-record-relief",
-      "pathwayLabel": "Adult non-conviction record relief",
-      "sessionAGraph": {
-        "disposition": "family_bridge_missing_no_family",
-        "statement": "Tracks me-nonconv map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "registryTrackIds": [
-          "me-nonconv"
-        ],
-        "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
-        "consumedVerbatim": true
-      },
-      "packetFamilyBridge": {
-        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "scope": "all 497 registry tracks",
-        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
-        "packetSets": [
-          {
-            "packetSetId": "me-nonconv-set",
-            "trackId": "me-nonconv",
-            "version": "1.0.0",
-            "components": [
-              {
-                "componentId": "me-nonconv-process-guidance-1",
-                "role": "process_guidance",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "me-nonconv-primary-filing-2",
-                "role": "primary_filing",
-                "requirement": "conditional",
-                "outputStrategy": "custom_pleading",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "me-nonconv-attachment-3",
-                "role": "attachment",
-                "requirement": "conditional",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "me-nonconv-instructions-4",
-                "role": "instructions",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              }
-            ],
-            "requiredBeforeFiling": [
-              "Check your answer to \"Where is the record actually causing you a problem — on a State Bureau of Identification background check, on a court docket search, or on a private background-check company's report?\" against Maine criminal history record from the State Bureau of Identification, and correct the packet if they disagree.",
-              "Check your answer to \"If it was dismissed, does your paperwork say the dismissal was with prejudice or without prejudice?\" against Court order or docket entry showing the disposition, and correct the packet if they disagree.",
-              "The participant's signature and the date of signing — § 709 inspection and correction request, signature block.",
-              "Any assertion about whether a dismissal was with prejudice or was part of a plea agreement, where the participant's documents do not say — § 709 inspection and correction request, the paragraph identifying the disposition.",
-              "The administrative appeal to the agency head and any Superior Court filing — Not generated; described in the instructions only.",
-              "The participant signs the § 709 request. LegalEase leaves the signature and date blank.",
-              "none for the § 709 request. A notarised Bureau background check is a separate, optional record product.",
-              "None for the confidentiality itself and none for a § 709 request. The Bureau charges a fee for the participant's own criminal history record search and a higher fee for a notarised background check; confirm current amounts with the Bureau rather than publishing a figure.",
-              "none identified for a Bureau record request."
-            ],
-            "participantActionRequired": [
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Maine criminal history record from the State Bureau of Identification. Request your own Maine criminal history record. On this track it is the whole point: it is the only way to see whether the State is actually carrying the case and whether it is being treated as confidential. Order online through the Bureau's public criminal history request service or by mail to State House Station #42, Augusta, ME 04333-0042. The Bureau charges a fee for the standard record search and a higher fee for a notarised background check; confirm the current amounts with the Bureau before quoting them.",
-                "obtainedFrom": "Maine State Police, State Bureau of Identification",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"Where is the record actually causing you a problem — on a State Bureau of Identification background check, on a court docket search, or on a private background-check company's report?\" against Maine criminal history record from the State Bureau of Identification, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Court order or docket entry showing the disposition. Ask the clerk for the order or docket entry showing how each charge ended, and specifically whether a dismissal was with or without prejudice. That single word decides the § 703(2) classification.",
-                "obtainedFrom": "Clerk of the court that handled the case",
-                "requirement": "conditional",
-                "conditionDescription": "Required in practice before the § 709 correction request, because the request has to say what the record should show.",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"If it was dismissed, does your paperwork say the dismissal was with prejudice or without prejudice?\" against Court order or docket entry showing the disposition, and correct the packet if they disagree.",
-                "requirement": "conditional",
-                "conditionDescription": "Required in practice before the § 709 correction request, because the request has to say what the record should show.",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "The participant's signature and the date of signing — § 709 inspection and correction request, signature block.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Any assertion about whether a dismissal was with prejudice or was part of a plea agreement, where the participant's documents do not say — § 709 inspection and correction request, the paragraph identifying the disposition.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "The administrative appeal to the agency head and any Superior Court filing — Not generated; described in the instructions only.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "sign",
-                "description": "The participant signs the § 709 request. LegalEase leaves the signature and date blank.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "notarize",
-                "description": "none for the § 709 request. A notarised Bureau background check is a separate, optional record product.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "pay_fee",
-                "description": "None for the confidentiality itself and none for a § 709 request. The Bureau charges a fee for the participant's own criminal history record search and a higher fee for a notarised background check; confirm current amounts with the Bureau rather than publishing a figure.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "apply_fee_waiver",
-                "description": "none identified for a Bureau record request.",
-                "requirement": "conditional",
-                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "serve_party",
-                "description": "Not applicable. The participant sends the request directly to the agency and serves no one else.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "file",
-                "description": "Nothing is filed on the base branch: § 703(2) confidentiality is automatic and no court has any role. On the correction branch the participant sends the § 709 request in writing to the criminal justice agency that holds the record, principally the State Bureau of Identification, in person or by mail. There is no official form and the statute prescribes none.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              }
-            ]
-          }
-        ],
-        "tracksWithNoPacketSet": [],
-        "sourceRelationshipCount": 0
-      },
-      "registryClassification": {
-        "kind": "exact_track_and_packet_set",
-        "statement": "Tracks me-nonconv map to this pathway and each carries an exact packet set (me-nonconv-set)."
-      },
-      "bridgeImportEffect": {
-        "changed": true,
-        "sessionADisposition": "family_bridge_missing_no_family",
-        "sessionAReason": "Tracks me-nonconv map to this pathway, but this repository carries no track-to-family bridge for them. No packet family is reachable from this pathway, so no owner decision reaches it either.",
-        "afterImport": "packet_set_bridge_present",
-        "statement": "Session A's join reported no track-to-family bridge because it read the lane-D map. The all-497 packet-set manifest in this repository does carry a set for these tracks, so the bridge is present. Whether the adoption reaches it is still counsel's determination."
-      },
-      "adoptionJoin": {
-        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptedOn": "2026-08-08",
-        "scopeLevel": "packet_family",
-        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "jurisdictionIsBound": true,
-        "boundFamiliesInThisJurisdiction": [
-          {
-            "familyJobId": "rcap-me-guidance-implementation",
-            "legalDesignMemoSha256": "fadc5e312ee3f225d27359efb3c89c7eb2336d919201afd00be39f0b1c7f798b",
-            "packetProofSha256": "092e335d122f7344037bcf3fa269523843c26b0b2fe58b090692ae3e0228dd42",
-            "implementationCommit": "253ad752bf597231dd9cb797544324cd604b49ee",
-            "carriesSupersededTechnicalResult": false
-          }
-        ],
-        "sessionAAdoptionRecordId": null,
-        "sessionABoundFamilyEvidence": []
-      },
-      "completedOutput": [],
-      "problematicPdfAssets": [],
-      "publicWitness": {
-        "publicRoute": "/expungement-ai/screening/maine",
-        "evaluationEndpoint": "POST /api/expungement-ai/screening",
-        "profileVersion": "2026-06-19-source-conversion-1",
-        "pathwayContextOffered": "Adult non-conviction record relief",
-        "seedAnswers": {
-          "ownership_scope": "Yes",
-          "jurisdiction_scope": "State or local",
-          "state_exclusion_categories": [
-            "None of these"
-          ],
-          "pending_cases": "No",
-          "new_convictions_during_waiting_period": "No",
-          "sentence_completion_date": "Yes",
-          "financial_obligations": "Yes",
-          "court_requirements_completed": "yes",
-          "special_preconditions_confirmed": "Yes",
-          "trafficking_status": "No",
-          "pardon_status": "No",
-          "record_documents": "Yes",
-          "resolved_timing_bucket": "gt_10_years",
-          "possible_pathway_context": "Adult non-conviction record relief"
-        },
-        "rounds": 2,
-        "finalAnswerCount": 16,
-        "terminalEvaluation": {
-          "resultCode": "guidance_only",
-          "pathwayId": "adult-non-conviction-record-relief",
-          "pathwayLabel": "Adult non-conviction record relief",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "me.lawrence_hold_guidance_only"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
-        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=ME:adult-non-conviction-record-relief]"
-      },
-      "ownerApprovedLegal": {
-        "status": "approved_by_decision_owner",
-        "basis": "owner_approved_existing_legal_design_packet_set",
-        "escalationRequired": false,
-        "packetSetIds": [
-          "me-nonconv-set"
-        ],
-        "statement": "Every track on this pathway carries an exact legal-design packet set (me-nonconv-set). Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment. ME additionally carries 1 bound family in EXT-ADOPT-01."
-      }
-    },
-    {
       "pathwayKey": "ME:juvenile-sealing",
       "jurisdiction": "ME",
       "pathwayId": "juvenile-sealing",
@@ -23788,7 +23546,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -23888,7 +23646,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -23990,7 +23748,7 @@
           "me-seal-survivor"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -24480,7 +24238,7 @@
           "mi_setaside_trafficking"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -24684,8 +24442,8 @@
           "mi_setaside_marihuana"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -24873,7 +24631,7 @@
           "mi_setaside_application"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -25303,7 +25061,7 @@
           "mn_petition_609a02_subd3"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -25764,7 +25522,7 @@
           "mo-610-122-arrest-expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -26129,7 +25887,7 @@
         "packetFamilies": [
           "rcap-mo-custom-pleading"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "intentional_unsupported",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -26483,7 +26241,7 @@
         "packetFamilies": [
           "rcap-mo-custom-pleading"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -26828,8 +26586,8 @@
           "mo-610-140-conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -27198,8 +26956,8 @@
           "mo-610-145-mistaken-identity"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -28051,7 +27809,7 @@
           "ms-fel"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -28386,7 +28144,7 @@
           "ms-misd-1st"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -28685,7 +28443,7 @@
         "packetFamilies": [
           "rcap-ms-custom-pleading"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -29016,7 +28774,7 @@
         "packetFamilies": [
           "rcap-ms-custom-pleading"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -29648,7 +29406,7 @@
         "packetFamilies": [
           "rcap-ms-custom-pleading"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -29964,7 +29722,7 @@
           "ms-nonconv"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -30252,7 +30010,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -30354,7 +30112,7 @@
           "ms-diversion"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -30746,7 +30504,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -30848,7 +30606,7 @@
           "mt_mmrta_completed"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -31137,7 +30895,7 @@
           "mt_misdemeanor_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -31461,8 +31219,8 @@
           "nc_146_acquittal_petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -31756,7 +31514,7 @@
           "nc_145_5_felony"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -32420,8 +32178,8 @@
           "nd-deferred-imposition-records"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "corrected_needs_reconfirm",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -32669,7 +32427,7 @@
         "packetFamilies": [
           "rcap-nd-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -32954,7 +32712,7 @@
         "packetFamilies": [
           "rcap-nd-custom-pleading"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -33228,7 +32986,7 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -33337,7 +33095,7 @@
           "nd-summary-marijuana-pardon"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -33575,196 +33333,6 @@
       }
     },
     {
-      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "jurisdiction": "ND",
-      "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-      "sessionAGraph": {
-        "disposition": "approved_by_decision_owner",
-        "statement": "Roger Roman approved the completed output of rcap-nd-guidance-implementation on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
-        "registryTrackIds": [
-          "nd-nonconviction-auto-close-verify"
-        ],
-        "packetFamilies": [
-          "rcap-nd-guidance-implementation"
-        ],
-        "lawrenceRatification": "corrected_needs_reconfirm",
-        "ledgerSaysLegalReviewPending": true,
-        "consumedVerbatim": true
-      },
-      "packetFamilyBridge": {
-        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "scope": "all 497 registry tracks",
-        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
-        "packetSets": [
-          {
-            "packetSetId": "nd-nonconviction-auto-close-verify-set",
-            "trackId": "nd-nonconviction-auto-close-verify",
-            "version": "1.0.0",
-            "components": [
-              {
-                "componentId": "nd-nonconviction-auto-close-verify-process-guidance-1",
-                "role": "process_guidance",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              }
-            ],
-            "requiredBeforeFiling": [
-              "Check your answer to \"On what date did the court enter the order ending the case?\" against The order of nonconviction, and correct the packet if they disagree.",
-              "Check your answer to \"When you searched the case on the North Dakota courts public access site, was it still showing?\" against Public access search result at the sixty-one-day mark, and correct the packet if they disagree."
-            ],
-            "participantActionRequired": [
-              {
-                "kind": "obtain_document",
-                "description": "Obtain The order of nonconviction. Ask the clerk of court for the order, or find the case at ndcourts.gov public access. The entry date starts the count.",
-                "obtainedFrom": "Clerk of court of the criminal case",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"On what date did the court enter the order ending the case?\" against The order of nonconviction, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Public access search result at the sixty-one-day mark. Search your own case on the public access site once sixty-one days have passed. This is how you confirm the record closed.",
-                "obtainedFrom": "North Dakota courts public access, ndcourts.gov",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"When you searched the case on the North Dakota courts public access site, was it still showing?\" against Public access search result at the sixty-one-day mark, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "file",
-                "description": "Nothing is filed. The official instructions state that the participant does not need to do anything.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              }
-            ]
-          }
-        ],
-        "tracksWithNoPacketSet": [],
-        "sourceRelationshipCount": 0
-      },
-      "registryClassification": {
-        "kind": "exact_track_and_packet_set",
-        "statement": "Tracks nd-nonconviction-auto-close-verify map to this pathway and each carries an exact packet set (nd-nonconviction-auto-close-verify-set)."
-      },
-      "bridgeImportEffect": {
-        "changed": false,
-        "sessionADisposition": "approved_by_decision_owner",
-        "sessionAReason": "Roger Roman approved the completed output of rcap-nd-guidance-implementation on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
-        "afterImport": "approved_by_decision_owner"
-      },
-      "adoptionJoin": {
-        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptedOn": "2026-08-08",
-        "scopeLevel": "packet_family",
-        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "jurisdictionIsBound": true,
-        "boundFamiliesInThisJurisdiction": [
-          {
-            "familyJobId": "rcap-nd-custom-pleading",
-            "legalDesignMemoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
-            "packetProofSha256": "77492d67ee02c2122bb1ecca2a39f1d7225a2a6009c6cd7d8811759fa4a21623",
-            "implementationCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
-            "carriesSupersededTechnicalResult": true
-          },
-          {
-            "familyJobId": "rcap-nd-guidance-implementation",
-            "legalDesignMemoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0",
-            "packetProofSha256": "009ad3a962f4b0dd0c73c8627daf70fd31562cf01be88f42633156d6bd8255b9",
-            "implementationCommit": "16cb75fde862b6c8f88e4537ee5ce4a0a4e78ef0",
-            "carriesSupersededTechnicalResult": false
-          }
-        ],
-        "sessionAAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "sessionABoundFamilyEvidence": [
-          {
-            "familyJobId": "rcap-nd-guidance-implementation",
-            "jurisdiction": "ND",
-            "packetProofSha256": "009ad3a962f4b0dd0c73c8627daf70fd31562cf01be88f42633156d6bd8255b9",
-            "legalDesignMemoSha256": "b39b420c37ac318ca070cb13eaf402ece23d6af90755827bba0647410276e8a0"
-          }
-        ]
-      },
-      "completedOutput": [
-        {
-          "trackId": "nd-nonconviction-auto-close-verify",
-          "jobId": "rcap-nd-guidance-implementation",
-          "jurisdiction": "ND",
-          "completionCommit": "16cb75fde862b6c8f88e4537ee5ce4a0a4e78ef0",
-          "authorityEdition": "1.2",
-          "verifierResult": "passed",
-          "verifierPath": "scripts/verify-rcap-north-dakota-guidance-implementation.mjs",
-          "assembledFileName": "nd-nonconviction-auto-close-verify-technical-fixture.pdf",
-          "assembledSha256": "78974364d8569f8dc75a797b7434c4473860bf0ad1757d8f75b0a42e58bf9bf8",
-          "assembledPageCount": 3,
-          "familyIsAdopted": true,
-          "familyCarriesSupersededTechnicalResult": false
-        }
-      ],
-      "problematicPdfAssets": [],
-      "publicWitness": {
-        "publicRoute": "/expungement-ai/screening/north-dakota",
-        "evaluationEndpoint": "POST /api/expungement-ai/screening",
-        "profileVersion": "2026-06-19-source-conversion-1",
-        "pathwayContextOffered": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-        "seedAnswers": {
-          "ownership_scope": "Yes",
-          "jurisdiction_scope": "State or local",
-          "state_exclusion_categories": [
-            "None of these"
-          ],
-          "pending_cases": "No",
-          "new_convictions_during_waiting_period": "No",
-          "sentence_completion_date": "Yes",
-          "financial_obligations": "Yes",
-          "court_requirements_completed": "yes",
-          "special_preconditions_confirmed": "Yes",
-          "trafficking_status": "No",
-          "pardon_status": "No",
-          "record_documents": "Yes",
-          "resolved_timing_bucket": "gt_10_years",
-          "possible_pathway_context": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05"
-        },
-        "rounds": 2,
-        "finalAnswerCount": 11,
-        "terminalEvaluation": {
-          "resultCode": "guidance_only",
-          "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
-          "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "nd.guidance_only_no_user_filed_court_petition"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
-        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05]"
-      },
-      "ownerApprovedLegal": {
-        "status": "approved_by_decision_owner",
-        "basis": "owner_approved_packet_family",
-        "escalationRequired": false,
-        "packetFamilies": [
-          "rcap-nd-guidance-implementation"
-        ],
-        "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-nd-guidance-implementation, the packet family this pathway resolves to."
-      }
-    },
-    {
       "pathwayKey": "NE:juvenile-petition-backstop",
       "jurisdiction": "NE",
       "pathwayId": "juvenile-petition-backstop",
@@ -33778,7 +33346,7 @@
         "packetFamilies": [
           "rcap-ne-guidance-implementation"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -33930,7 +33498,7 @@
           "ne-expunge-le-error"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -34157,7 +33725,7 @@
           "ne-seal-pardoned"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -34405,8 +33973,8 @@
           "ne-setaside-custodial"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -34706,8 +34274,8 @@
           "ne-setaside-noncustodial"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -35007,7 +34575,7 @@
           "ne-trafficking-setaside-and-seal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -35260,8 +34828,8 @@
         "packetFamilies": [
           "rcap-nh-guidance-implementation"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -35734,7 +35302,7 @@
           "nh_conviction_standard"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -36593,7 +36161,7 @@
           "nj_arrest_no_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -36897,7 +36465,7 @@
           "nj_clean_slate"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -37209,7 +36777,7 @@
           "nj_disorderly_persons"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -37515,7 +37083,7 @@
         "packetFamilies": [
           "rcap-nm-guidance-implementation"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -38161,7 +37729,7 @@
           "nm_release_without_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -38840,8 +38408,8 @@
         "packetFamilies": [
           "rcap-nv-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -40130,8 +39698,8 @@
         "statement": "No registry track maps to this compiled pathway, so no packet family can be reached from it. No packet family is reachable from this pathway, so no owner decision reaches it either.",
         "registryTrackIds": [],
         "packetFamilies": [],
-        "lawrenceRatification": "corrected_needs_reconfirm",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -40232,8 +39800,8 @@
           "ny_160_59_petition"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -40546,7 +40114,7 @@
         "packetFamilies": [
           "rcap-oh-custom-pleading-clean-tracks"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -40854,8 +40422,8 @@
         "packetFamilies": [
           "rcap-oh-custom-pleading-clean-tracks"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -42259,8 +41827,8 @@
         "packetFamilies": [
           "rcap-ok-custom-pleading"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -45230,7 +44798,7 @@
         "packetFamilies": [
           "rcap-ok-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -45546,7 +45114,7 @@
         "packetFamilies": [
           "rcap-ok-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -45862,7 +45430,7 @@
         "packetFamilies": [
           "rcap-ok-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -47082,7 +46650,7 @@
           "or_conviction_setaside"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -47377,7 +46945,7 @@
           "or_acquittal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -47656,7 +47224,7 @@
           "or_contempt_setaside"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -47967,7 +47535,7 @@
           "pa_790_nonconviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "approved_release_packet",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -48325,7 +47893,7 @@
           "ri_first_offender_misdemeanor"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -48807,7 +48375,7 @@
           "ri_multiple_misdemeanors"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -50087,7 +49655,7 @@
         "packetFamilies": [
           "rcap-sc-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -52169,8 +51737,8 @@
           "sd_arrest_expungement"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -52976,7 +52544,7 @@
         "packetFamilies": [
           "rcap-sd-guidance-implementation"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -53206,8 +52774,8 @@
         "packetFamilies": [
           "rcap-tn-guidance-implementation"
         ],
-        "lawrenceRatification": "corrected_needs_reconfirm",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -53420,7 +52988,7 @@
         "packetFamilies": [
           "rcap-tn-custom-pleading"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -53692,7 +53260,7 @@
         "packetFamilies": [
           "rcap-tn-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -53995,7 +53563,7 @@
         "packetFamilies": [
           "rcap-tn-custom-pleading"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -54296,8 +53864,8 @@
           "tx_exp_acquittal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -56287,7 +55855,7 @@
           "tx_nd_deferred_other"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -56550,7 +56118,7 @@
           "tx_nd_conviction_no_supervision"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -56819,7 +56387,7 @@
           "ut_pet_special_certificate"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -58435,7 +58003,7 @@
           "ut_pet_acquittal"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -58768,7 +58336,7 @@
           "ut_pet_conviction"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -59075,8 +58643,8 @@
         "packetFamilies": [
           "rcap-ut-guidance-implementation"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -59895,8 +59463,8 @@
           "va_seal_ancillary_matter_only"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -60153,8 +59721,8 @@
           "va_exp_absolute_pardon"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "hold_guidance_only",
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -60380,7 +59948,7 @@
           "vt_exp_decriminalized"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -60672,7 +60240,7 @@
           "vt_seal_felony"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -60942,7 +60510,7 @@
           "vt_seal_misdemeanor"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -61212,8 +60780,8 @@
           "vt_seal_dui"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -62380,7 +61948,7 @@
           "wa_vac_felony"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -62667,7 +62235,7 @@
           "wa_vac_domestic_violence"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -63536,8 +63104,8 @@
         "packetFamilies": [
           "rcap-wa-custom-pleading-clean-tracks"
         ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -64205,7 +63773,7 @@
         "packetFamilies": [
           "rcap-wi-guidance-implementation"
         ],
-        "lawrenceRatification": "first_pass_ratified",
+        "lawrenceRatification": "ratified_deployable",
         "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
@@ -64783,7 +64351,7 @@
         "packetFamilies": [
           "rcap-wi-guidance-implementation"
         ],
-        "lawrenceRatification": "hold_guidance_only",
+        "lawrenceRatification": "hold_guidance",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -65116,8 +64684,8 @@
           "wv_acc_treatment_job_readiness"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
@@ -65444,7 +65012,7 @@
         "packetFamilies": [
           "rcap-wv-guidance-implementation"
         ],
-        "lawrenceRatification": "gate_required",
+        "lawrenceRatification": "hard_gate_pending",
         "ledgerSaysLegalReviewPending": true,
         "consumedVerbatim": true
       },
@@ -67067,352 +66635,6 @@
       }
     },
     {
-      "pathwayKey": "WV:pardon-based-expungement",
-      "jurisdiction": "WV",
-      "pathwayId": "pardon-based-expungement",
-      "pathwayLabel": "Pardon-based expungement",
-      "sessionAGraph": {
-        "disposition": "approved_by_decision_owner",
-        "statement": "Roger Roman approved the completed output of rcap-wv-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
-        "registryTrackIds": [
-          "wv_pardon_expungement"
-        ],
-        "packetFamilies": [
-          "rcap-wv-custom-pleading"
-        ],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
-        "consumedVerbatim": true
-      },
-      "packetFamilyBridge": {
-        "source": "data/record-clearing/legal-design-packet-set-manifests.json",
-        "scope": "all 497 registry tracks",
-        "supersedesForThisPurpose": "data/rcap-codex/d-track-terminalization/track-family-map.json",
-        "packetSets": [
-          {
-            "packetSetId": "wv_pardon_expungement-set",
-            "trackId": "wv_pardon_expungement",
-            "version": "1.0.0",
-            "components": [
-              {
-                "componentId": "wv_pardon_expungement-primary-filing-1",
-                "role": "primary_filing",
-                "requirement": "required",
-                "outputStrategy": "custom_pleading",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "wv_pardon_expungement-notice-of-hearing-2",
-                "role": "notice_of_hearing",
-                "requirement": "required",
-                "outputStrategy": "custom_pleading",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "wv_pardon_expungement-publication-instructions-3",
-                "role": "publication_instructions",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "wv_pardon_expungement-certificate-of-service-4",
-                "role": "certificate_of_service",
-                "requirement": "required",
-                "outputStrategy": "custom_pleading",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "wv_pardon_expungement-records-checklist-5",
-                "role": "records_checklist",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              },
-              {
-                "componentId": "wv_pardon_expungement-filing-instructions-6",
-                "role": "filing_instructions",
-                "requirement": "required",
-                "outputStrategy": "process_guidance",
-                "officialFormId": null,
-                "officialSourceUrl": null
-              }
-            ],
-            "requiredBeforeFiling": [
-              "Obtain The instrument of pardon. Obtain a certified copy of the pardon. The court must verify the act of pardon, and whether it is full and unconditional is the threshold question on this route.",
-              "Check your answer to \"Does the pardon document say it is full and unconditional, or does it attach any condition?\" against The instrument of pardon, and correct the packet if they disagree.",
-              "Obtain Certified judgment and sentencing orders for the pardoned conviction. Ask the circuit clerk of the county of conviction for certified copies of the judgment and sentencing orders.",
-              "Check your answer to \"On what date were you convicted?\" against Certified judgment and sentencing orders for the pardoned conviction, and correct the packet if they disagree.",
-              "Obtain Record showing the date the sentence was discharged. Ask the agency that supervised you, or the clerk, for written confirmation of the date the sentence was discharged. The five-year period runs from that date and it is usually later than the conviction date.",
-              "Check your answer to \"On what date was the sentence for that conviction discharged — the date you finished every part of it, including any supervision?\" against Record showing the date the sentence was discharged, and correct the packet if they disagree.",
-              "Obtain Publisher's affidavit of publication of the Class I legal advertisement. After the notice runs, ask the newspaper for its affidavit of publication and file it with the court. This is how the court is shown the publication requirement was met; LegalEase cannot arrange or prove publication for you.",
-              "Check your answer to \"Which county will you be filing the petition in, so the notice is published in a newspaper qualified for that county?\" against Publisher's affidavit of publication of the Class I legal advertisement, and correct the packet if they disagree.",
-              "Petitioner's signature on the petition — Petition, signature block.",
-              "Time and place the petition will be made — Notice of hearing, first paragraph, and the Class I advertisement copy.",
-              "Newspaper name and publication dates — Publication instructions worksheet.",
-              "Prosecuting attorney's street address, and the certificate of service date and signature — Certificate of service.",
-              "Case number and caption styling — Petition, caption block.",
-              "The petitioner signs the petition and the certificate of service.",
-              "none stated in § 5-1-16a. The section requires publication and a hearing rather than a verified petition.",
-              "Section 5-1-16a states no filing fee. Whether the circuit clerk charges the § 59-1-11(a)(1) civil-action fee on a petition under this section is not established by the section. The newspaper charges its own rate for the Class I legal advertisement, which the participant pays directly.",
-              "none stated in § 5-1-16a."
-            ],
-            "participantActionRequired": [
-              {
-                "kind": "obtain_document",
-                "description": "Obtain The instrument of pardon. Obtain a certified copy of the pardon. The court must verify the act of pardon, and whether it is full and unconditional is the threshold question on this route.",
-                "obtainedFrom": "The Office of the Governor, or the Secretary of State",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"Does the pardon document say it is full and unconditional, or does it attach any condition?\" against The instrument of pardon, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Certified judgment and sentencing orders for the pardoned conviction. Ask the circuit clerk of the county of conviction for certified copies of the judgment and sentencing orders.",
-                "obtainedFrom": "Circuit clerk of the county of conviction",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"On what date were you convicted?\" against Certified judgment and sentencing orders for the pardoned conviction, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Record showing the date the sentence was discharged. Ask the agency that supervised you, or the clerk, for written confirmation of the date the sentence was discharged. The five-year period runs from that date and it is usually later than the conviction date.",
-                "obtainedFrom": "The Division of Corrections and Rehabilitation, the supervising parole or probation office, or the circuit clerk",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"On what date was the sentence for that conviction discharged — the date you finished every part of it, including any supervision?\" against Record showing the date the sentence was discharged, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "obtain_document",
-                "description": "Obtain Publisher's affidavit of publication of the Class I legal advertisement. After the notice runs, ask the newspaper for its affidavit of publication and file it with the court. This is how the court is shown the publication requirement was met; LegalEase cannot arrange or prove publication for you.",
-                "obtainedFrom": "The newspaper that publishes the notice",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "confirm_answer",
-                "description": "Check your answer to \"Which county will you be filing the petition in, so the notice is published in a newspaper qualified for that county?\" against Publisher's affidavit of publication of the Class I legal advertisement, and correct the packet if they disagree.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Petitioner's signature on the petition — Petition, signature block.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Time and place the petition will be made — Notice of hearing, first paragraph, and the Class I advertisement copy.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Newspaper name and publication dates — Publication instructions worksheet.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Prosecuting attorney's street address, and the certificate of service date and signature — Certificate of service.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "complete_field",
-                "description": "Case number and caption styling — Petition, caption block.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "sign",
-                "description": "The petitioner signs the petition and the certificate of service.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "notarize",
-                "description": "none stated in § 5-1-16a. The section requires publication and a hearing rather than a verified petition.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "pay_fee",
-                "description": "Section 5-1-16a states no filing fee. Whether the circuit clerk charges the § 59-1-11(a)(1) civil-action fee on a petition under this section is not established by the section. The newspaper charges its own rate for the Class I legal advertisement, which the participant pays directly.",
-                "requirement": "required",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "apply_fee_waiver",
-                "description": "none stated in § 5-1-16a.",
-                "requirement": "conditional",
-                "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
-                "requiredBeforeFiling": true
-              },
-              {
-                "kind": "serve_party",
-                "description": "The petition is served on the prosecuting attorney of the county where the petition is filed.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              },
-              {
-                "kind": "file",
-                "description": "File the petition, with the certificate of service, with the clerk of the circuit court of the county where the conviction was had, once at least one year has run since the pardon and at least five years since the sentence was discharged. File the publisher's affidavit of publication once the notice has run.",
-                "requirement": "required",
-                "requiredBeforeFiling": false
-              }
-            ]
-          }
-        ],
-        "tracksWithNoPacketSet": [],
-        "sourceRelationshipCount": 0
-      },
-      "registryClassification": {
-        "kind": "exact_track_and_packet_set",
-        "statement": "Tracks wv_pardon_expungement map to this pathway and each carries an exact packet set (wv_pardon_expungement-set)."
-      },
-      "bridgeImportEffect": {
-        "changed": false,
-        "sessionADisposition": "approved_by_decision_owner",
-        "sessionAReason": "Roger Roman approved the completed output of rcap-wv-custom-pleading on 2026-08-19 under auth-2026-08-19-owner-legal-approval-completed-output. EXT-ADOPT-01 adopted the legal design on 2026-08-08; the owner's decision closes the completed-output gate that adoption left open.",
-        "afterImport": "approved_by_decision_owner"
-      },
-      "adoptionJoin": {
-        "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "adoptedOn": "2026-08-08",
-        "scopeLevel": "packet_family",
-        "recordSha256": "7bea6b4c78cde50a4075bb107ea08a4804f2af3d5add75b245ebc37afaef1185",
-        "jurisdictionIsBound": true,
-        "boundFamiliesInThisJurisdiction": [
-          {
-            "familyJobId": "rcap-wv-custom-pleading",
-            "legalDesignMemoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
-            "packetProofSha256": "098682331ecb99ce61ff6492df53808679b6771845de00f7fb7d3c61089618f9",
-            "implementationCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
-            "carriesSupersededTechnicalResult": false
-          },
-          {
-            "familyJobId": "rcap-wv-guidance-implementation",
-            "legalDesignMemoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f",
-            "packetProofSha256": "2d5da6497e3bbc863f626c722269ddd2d5c3f7fbf5d4f950421e07a23462cbde",
-            "implementationCommit": "07d5d840a85df8d8f74a48e2778658c7a62b50e9",
-            "carriesSupersededTechnicalResult": false
-          }
-        ],
-        "sessionAAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
-        "sessionABoundFamilyEvidence": [
-          {
-            "familyJobId": "rcap-wv-custom-pleading",
-            "jurisdiction": "WV",
-            "packetProofSha256": "098682331ecb99ce61ff6492df53808679b6771845de00f7fb7d3c61089618f9",
-            "legalDesignMemoSha256": "fe10623bba14a83fc8d14996baaf375775e1f90b916f047b5353553a4759fa5f"
-          }
-        ]
-      },
-      "completedOutput": [
-        {
-          "trackId": "wv_pardon_expungement",
-          "jobId": "rcap-wv-custom-pleading",
-          "jurisdiction": "WV",
-          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
-          "authorityEdition": "1.2",
-          "verifierResult": "passed",
-          "verifierPath": "scripts/verify-rcap-west-virginia-custom-pleading.mjs",
-          "assembledFileName": "wv-pardon-expungement-1-technical-fixture.pdf",
-          "assembledSha256": "20a21c30f3a0d99ccfa57e5ce45fff95bc331d8ec7f53413e3a8bb9a88370373",
-          "assembledPageCount": 7,
-          "familyIsAdopted": true,
-          "familyCarriesSupersededTechnicalResult": false
-        },
-        {
-          "trackId": "wv_pardon_expungement",
-          "jobId": "rcap-wv-custom-pleading",
-          "jurisdiction": "WV",
-          "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
-          "authorityEdition": "1.2",
-          "verifierResult": "passed",
-          "verifierPath": "scripts/verify-rcap-west-virginia-custom-pleading.mjs",
-          "assembledFileName": "wv-pardon-expungement-long-grounds-2-technical-fixture.pdf",
-          "assembledSha256": "e1c6ebe8b50ea32fd8ae289ccf3a1c99d3d6baf17e5f4a87848786c78142e276",
-          "assembledPageCount": 7,
-          "familyIsAdopted": true,
-          "familyCarriesSupersededTechnicalResult": false
-        }
-      ],
-      "problematicPdfAssets": [],
-      "publicWitness": {
-        "publicRoute": "/expungement-ai/screening/west-virginia",
-        "evaluationEndpoint": "POST /api/expungement-ai/screening",
-        "profileVersion": "2026-06-19-source-conversion-1",
-        "pathwayContextOffered": "Pardon-based expungement",
-        "seedAnswers": {
-          "ownership_scope": "Yes",
-          "jurisdiction_scope": "State or local",
-          "state_exclusion_categories": [
-            "None of these"
-          ],
-          "pending_cases": "No",
-          "new_convictions_during_waiting_period": "No",
-          "sentence_completion_date": "Yes",
-          "financial_obligations": "Yes",
-          "court_requirements_completed": "yes",
-          "special_preconditions_confirmed": "Yes",
-          "trafficking_status": "No",
-          "pardon_status": "No",
-          "record_documents": "Yes",
-          "resolved_timing_bucket": "gt_10_years",
-          "possible_pathway_context": "Pardon-based expungement"
-        },
-        "rounds": 2,
-        "finalAnswerCount": 17,
-        "terminalEvaluation": {
-          "resultCode": "guidance_only",
-          "pathwayId": "pardon-based-expungement",
-          "pathwayLabel": "Pardon-based expungement",
-          "paymentAllowed": false,
-          "treatmentClassification": null,
-          "selectedTrackId": null,
-          "reasonCodes": [
-            "wv.guidance_only_no_user_filed_court_petition"
-          ],
-          "missingQuestionIds": []
-        },
-        "landedOnThisPathway": true,
-        "error": null,
-        "answerSetRef": "data/rcap-ledger/public-witness-answer-sets.json#witnesses[pathwayKey=WV:pardon-based-expungement]"
-      },
-      "ownerApprovedLegal": {
-        "status": "approved_by_decision_owner",
-        "basis": "owner_approved_packet_family",
-        "escalationRequired": false,
-        "packetFamilies": [
-          "rcap-wv-custom-pleading"
-        ],
-        "statement": "Roger Roman under auth-2026-08-19-owner-legal-approval-completed-output, effective 2026-08-19 approved the completed output of rcap-wv-custom-pleading, the packet family this pathway resolves to."
-      }
-    },
-    {
       "pathwayKey": "WV:sex-trafficking-victim-vacatur-and-expungement",
       "jurisdiction": "WV",
       "pathwayId": "sex-trafficking-victim-vacatur-and-expungement",
@@ -67531,8 +66753,8 @@
           "wy_fel_1502"
         ],
         "packetFamilies": [],
-        "lawrenceRatification": null,
-        "ledgerSaysLegalReviewPending": true,
+        "lawrenceRatification": "ratified_deployable",
+        "ledgerSaysLegalReviewPending": false,
         "consumedVerbatim": true
       },
       "packetFamilyBridge": {
