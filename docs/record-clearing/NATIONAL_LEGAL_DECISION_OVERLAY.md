@@ -6,13 +6,17 @@ Controlling authority: [`docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_202
 
 Transcribed, not evaluated. The report's conclusions are controlling; this overlay adds no legal judgement of its own and edits no imported memo.
 
-## Numbering
+## The mapping is a crosswalk, not a position
 
-The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049. The mapping below is computed by position within the in-scope open questions and verified on jurisdiction and track at every pair.
+Every row is verified on jurisdiction, track, affected element, normalized question text hash and report section hash. A question inserted, reordered within a track, re-elemented, rewritten, or a report section edited, each fails this generator.
 
-- **Q-018 is out of the report's scope.** Entered the register after the report's intake. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.
+The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049.
 
-## Delivery disposition after the report
+- **Q-018 is out of the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer. Source task: `data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json`.
+
+## Legal status and delivery state are independent
+
+legalStatus and the delivery disposition are separate and neither implies the other. A question may be legally resolved and still require source acquisition, local configuration, artifact generation, artifact legal review, future-effective enforcement, a scheduled re-read, or an attorney handoff.
 
 | Disposition | Questions |
 |---|---:|
@@ -25,93 +29,134 @@ The report and the register number questions differently. The register interleav
 
 ## Question decisions
 
-| Register | Report | State | Track | Controlling product decision | Delivery disposition |
-|---|---|---|---|---|---|
-| `Q-002` | Q-001 | KY | `ky_felony_expungement_after_pardon` | Full-pardon document review | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-003` | Q-002 | KY | `ky_felony_vacatur_expungement` | $50 filing / $250 after grant | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-004` | Q-003 | KY | `ky_nonconviction_expungement` | Charge-level disjunctive checkboxes | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-005` | Q-004 | LA | `la-977d-marijuana-first-offense` | Post-sunset ordinary fee schedule | SOURCE_ACQUISITION_REQUIRED |
-| `Q-006` | Q-005 | LA | `la-978-felony-conviction` | Multiple felonies allowed if independently eligible | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-007` | Q-006 | LA | `la-985-3-immediate-expungement` | Immediate-completion branch | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-008` | Q-007 | LA | `la-985-expungement-by-redaction` | Official motion + redaction supplement | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-009` | Q-008 | ME | `me-nonconv` | No automatic confidentiality promise | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-010` | Q-009 | ME | `me-seal-gen` | Prosecutor notice; local method | SOURCE_ACQUISITION_REQUIRED |
-| `Q-011` | Q-010 | ME | `me-seal-survivor` | Statute overrides CR-308 warning | SOURCE_ACQUISITION_REQUIRED |
-| `Q-012` | Q-011 | ME | `me-seal-survivor` | Prosecutor notice; local method | SOURCE_ACQUISITION_REQUIRED |
-| `Q-015` | Q-012 | MO | `mo-610-130-first-intoxication` | XG provisional; clerk confirmation | SOURCE_ACQUISITION_REQUIRED |
-| `Q-016` | Q-013 | MO | `mo-610-140-conviction` | No promised one-court statewide petition | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-017` | Q-014 | MO | `mo-610-145-mistaken-identity` | Subdivision (1) filing remains available | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-019` | Q-015 | ND | `nd-dui-record-seal` | Original-case petition per court guide | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-020` | Q-016 | ND | `nd-dui-record-seal` | DUI-specific statute only | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-023` | Q-017 | NE | `ne-expunge-le-error` | District court, county of arrest | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-024` | Q-018 | NE | `ne-expunge-le-error` | County attorney respondent; civil service | SOURCE_ACQUISITION_REQUIRED |
-| `Q-025` | Q-019 | NE | `ne-expunge-le-error` | Petition + summons/praecipe/order | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-026` | Q-020 | NE | `ne-seal-pardoned` | No statewide existing-case fee published | SOURCE_ACQUISITION_REQUIRED |
-| `Q-027` | Q-021 | NE | `ne-seal-pardoned` | Custom criminal-case IFP papers | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-028` | Q-022 | NE | `ne-setaside-custodial` | No statewide existing-case fee published | SOURCE_ACQUISITION_REQUIRED |
-| `Q-029` | Q-023 | NE | `ne-setaside-custodial` | Custom criminal-case IFP papers | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-030` | Q-024 | NE | `ne-setaside-custodial` | State Rules offense excluded; ordinance review | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-031` | Q-025 | NE | `ne-setaside-noncustodial` | No statewide existing-case fee published | SOURCE_ACQUISITION_REQUIRED |
-| `Q-032` | Q-026 | NE | `ne-setaside-noncustodial` | Custom criminal-case IFP papers | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-033` | Q-027 | SC | `sc_17_1_40_general_sessions` | Solicitor process; statutory exemptions | SOURCE_ACQUISITION_REQUIRED |
-| `Q-034` | Q-028 | SC | `sc_17_1_65_handgun` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-035` | Q-029 | SC | `sc_17_22_950_summary` | Clerk request → original-case enforcement | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-036` | Q-030 | SC | `sc_22_5_910` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-037` | Q-031 | SC | `sc_22_5_910` | Aggregation affects eligibility, not one order | SOURCE_ACQUISITION_REQUIRED |
-| `Q-038` | Q-032 | SC | `sc_22_5_920_yoa` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-039` | Q-033 | SC | `sc_22_5_930_drug` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-040` | Q-034 | SC | `sc_22_5_930_drug` | Actual disposition controls route | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-041` | Q-035 | SC | `sc_34_11_90e_check` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-042` | Q-036 | SC | `sc_56_5_750f` | Solicitor process; ordinary $310 | SOURCE_ACQUISITION_REQUIRED |
-| `Q-044` | Q-037 | SD | `sd_sis_sealing` | Automatic sealing; enforcement if missed | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-045` | Q-038 | VA | `va_exp_absolute_pardon` | Pardon implementation, no participant petition | LEGAL_DECISION_RESOLVED_GUIDANCE |
-| `Q-046` | Q-039 | VA | `va_seal_ancillary_matter_only` | No-fee ancillary-matter petition | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-047` | Q-040 | WV | `wv_acc_treatment_job_readiness` | Job-readiness is an OR trigger for single misdemeanor only | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-048` | Q-041 | WV | `wv_common_conv_procedure` | No residence-county venue | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-049` | Q-042 | WV | `wv_conv_multiple_misdemeanors` | No single receiving court identified | ATTORNEY_OR_PARTNER_HANDOFF |
-| `Q-050` | Q-043 | WV | `wv_conv_multiple_misdemeanors` | Omit/sever excluded conviction | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-051` | Q-044 | WV | `wv_conv_nonviolent_felony` | Narrow felony self-help boundary | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-052` | Q-045 | WV | `wv_conv_single_misdemeanor` | Use SCA-C906, not SCA-C900 petition | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-053` | Q-046 | WV | `wv_conv_single_misdemeanor` | Current 30-day reply period | LEGAL_DECISION_RESOLVED_PACKET |
-| `Q-054` | Q-047 | WV | `wv_nc_acquittal_dismissal` | SCA-C903 + current-law supplement | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-055` | Q-048 | WV | `wv_nc_diversion_deferred` | Custom current-law civil petition preferred | ARTIFACT_LEGAL_REVIEW_REQUIRED |
-| `Q-056` | Q-049 | WV | `wv_pardon_expungement` | Narrow statutory effect; no universal nondisclosure | LEGAL_DECISION_RESOLVED_GUIDANCE |
+| Register | Report | State | Track | Element | Lines | Delivery disposition |
+|---|---|---|---|---|---|---|
+| `Q-002` | Q-001 | KY | `ky_felony_expungement_after_pardon` | eligibility_branch | 272–289 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-003` | Q-002 | KY | `ky_felony_vacatur_expungement` | participant_instructions | 291–308 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-004` | Q-003 | KY | `ky_nonconviction_expungement` | packet_components | 310–326 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-005` | Q-004 | LA | `la-977d-marijuana-first-offense` | filing_process | 330–345 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-006` | Q-005 | LA | `la-978-felony-conviction` | eligibility_branch | 347–364 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-007` | Q-006 | LA | `la-985-3-immediate-expungement` | waiting_period | 366–384 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-008` | Q-007 | LA | `la-985-expungement-by-redaction` | packet_components | 386–404 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-009` | Q-008 | ME | `me-nonconv` | legal_effect_or_warning | 408–431 | LEGAL_DECISION_RESOLVED_GUIDANCE |
+| `Q-010` | Q-009 | ME | `me-seal-gen` | notice_or_service | 433–448 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-011` | Q-010 | ME | `me-seal-survivor` | legal_effect_or_warning | 450–466 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-012` | Q-011 | ME | `me-seal-survivor` | notice_or_service | 468–474 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-015` | Q-012 | MO | `mo-610-130-first-intoxication` | filing_process | 478–494 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-016` | Q-013 | MO | `mo-610-140-conviction` | venue | 496–512 | ATTORNEY_OR_PARTNER_HANDOFF |
+| `Q-017` | Q-014 | MO | `mo-610-145-mistaken-identity` | governing_mechanism | 514–531 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-019` | Q-015 | ND | `nd-dui-record-seal` | governing_mechanism | 535–549 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-020` | Q-016 | ND | `nd-dui-record-seal` | eligibility_branch | 551–564 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-023` | Q-017 | NE | `ne-expunge-le-error` | venue | 568–576 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-024` | Q-018 | NE | `ne-expunge-le-error` | notice_or_service | 578–588 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-025` | Q-019 | NE | `ne-expunge-le-error` | packet_components | 590–609 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-026` | Q-020 | NE | `ne-seal-pardoned` | filing_process | 611–625 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-027` | Q-021 | NE | `ne-seal-pardoned` | packet_components | 627–635 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-028` | Q-022 | NE | `ne-setaside-custodial` | filing_process | 637–643 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-029` | Q-023 | NE | `ne-setaside-custodial` | packet_components | 645–651 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-030` | Q-024 | NE | `ne-setaside-custodial` | eligibility_branch | 653–668 | ATTORNEY_OR_PARTNER_HANDOFF |
+| `Q-031` | Q-025 | NE | `ne-setaside-noncustodial` | filing_process | 670–676 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-032` | Q-026 | NE | `ne-setaside-noncustodial` | packet_components | 678–684 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-033` | Q-027 | SC | `sc_17_1_40_general_sessions` | filing_process | 715–733 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-034` | Q-028 | SC | `sc_17_1_65_handgun` | filing_process | 735–752 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-035` | Q-029 | SC | `sc_17_22_950_summary` | participant_instructions | 754–771 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-036` | Q-030 | SC | `sc_22_5_910` | filing_process | 773–790 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-037` | Q-031 | SC | `sc_22_5_910` | filing_process | 792–807 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-038` | Q-032 | SC | `sc_22_5_920_yoa` | filing_process | 809–824 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-039` | Q-033 | SC | `sc_22_5_930_drug` | filing_process | 826–843 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-040` | Q-034 | SC | `sc_22_5_930_drug` | eligibility_branch | 845–859 | LEGAL_DECISION_RESOLVED_GUIDANCE |
+| `Q-041` | Q-035 | SC | `sc_34_11_90e_check` | filing_process | 861–876 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-042` | Q-036 | SC | `sc_56_5_750f` | filing_process | 878–893 | SOURCE_ACQUISITION_REQUIRED |
+| `Q-044` | Q-037 | SD | `sd_sis_sealing` | filing_process | 897–917 | LEGAL_DECISION_RESOLVED_GUIDANCE |
+| `Q-045` | Q-038 | VA | `va_exp_absolute_pardon` | governing_mechanism | 921–943 | LEGAL_DECISION_RESOLVED_GUIDANCE |
+| `Q-046` | Q-039 | VA | `va_seal_ancillary_matter_only` | governing_mechanism | 945–963 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-047` | Q-040 | WV | `wv_acc_treatment_job_readiness` | waiting_period | 967–988 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-048` | Q-041 | WV | `wv_common_conv_procedure` | venue | 990–1006 | ATTORNEY_OR_PARTNER_HANDOFF |
+| `Q-049` | Q-042 | WV | `wv_conv_multiple_misdemeanors` | venue | 1008–1016 | ATTORNEY_OR_PARTNER_HANDOFF |
+| `Q-050` | Q-043 | WV | `wv_conv_multiple_misdemeanors` | eligibility_branch | 1018–1035 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-051` | Q-044 | WV | `wv_conv_nonviolent_felony` | participant_instructions | 1037–1055 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-052` | Q-045 | WV | `wv_conv_single_misdemeanor` | correct_form | 1057–1067 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-053` | Q-046 | WV | `wv_conv_single_misdemeanor` | notice_or_service | 1069–1083 | LEGAL_DECISION_RESOLVED_PACKET |
+| `Q-054` | Q-047 | WV | `wv_nc_acquittal_dismissal` | correct_form | 1085–1095 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-055` | Q-048 | WV | `wv_nc_diversion_deferred` | correct_form | 1097–1116 | ARTIFACT_LEGAL_REVIEW_REQUIRED |
+| `Q-056` | Q-049 | WV | `wv_pardon_expungement` | legal_effect_or_warning | 1118–1138 | LEGAL_DECISION_RESOLVED_GUIDANCE |
 
 ## Immediate assignments
 
 ### LA-IMM-01 — GA `ga-rfo`
 
-- **eligibility screening**: 
-- **→ written prosecutorial consent**: 
-- **→ participant-filed § 42-8-66 petition**: 
-- **→ hearing if requested or ordered**: 
-- **→ judicial order granting or denying retroactive First Offender treatment**: 
-- **→ restriction, sealing, agency distribution, and verification**: 
+Report lines 49–108, section sha256 `f9e63282793e5de9`.
+
+**Product disposition** (from the `Product disposition` heading, not the first fenced block in the section):
+
+- **LEGAL HOLD**: CLEARED
+- **OUTPUT**: CUSTOM PARTICIPANT PETITION
+- **PRECONDITION**: VERIFIED WRITTEN PROSECUTOR CONSENT
+- **VENUE**: COURT OF CONVICTION
+- **DEFAULT DOCKET**: ORIGINAL CRIMINAL CASE
+- **NO CONSENT / CONTEST**: ATTORNEY OR PROSECUTOR HANDOFF
+
+- *Decision*: `Decision`, lines 51–66
+- *Filing vehicle*: `Filing vehicle`, lines 68–85
+- *Self-help boundary*: `Self-help boundary`, lines 91–93
 
 ### LA-IMM-02 — MO `mo-311-326-minor-in-possession`
 
-- **In the Matter of the Application of [Name]**: 
-- **for Expungement Under § 311.326, RSMo**: 
+Report lines 110–176, section sha256 `fc713a94e055eeee`.
+
+**Product disposition** (from the `Product disposition` heading, not the first fenced block in the section):
+
+- **SUBSTANTIVE HOLD**: CLEARED
+- **OUTPUT**: CUSTOM PETITION + LOCAL FILING MODULE
+- **FILING MODEL**: NEW MISCELLANEOUS CIVIL MATTER
+- **DEFAULT CODE**: XG, PROVISIONAL
+- **X5**: PROHIBITED
+- **MUNICIPAL SCOPE**: EXPRESS LOCAL ADOPTION REQUIRED
+- **FINAL RELEASE GATE**: RECEIVING-CLERK CONFIRMATION
+
+- *Decision*: `B. Municipal ordinance coverage`, lines 135–146
+- *Filing vehicle*: `A. Filing mechanics`, lines 112–133
+- *Packet or deliverable*: `Packet`, lines 148–162
 
 ### LA-IMM-03 — ND `nd-nonconviction-auto-close-verify`
 
-- **expected automatic closure**: 
-- **→ official case-search check on day 62**: 
-- **→ written clerk confirmation if needed**: 
-- **→ clerk implementation/correction request if still public**: 
-- **→ motion to enforce in original case if clerk cannot correct**: 
-- **→ attorney/partner handoff if eligibility is contested**: 
+Report lines 178–219, section sha256 `c0597a358429647b`.
+
+**Product disposition** (from the `Product disposition` heading, not the first fenced block in the section):
+
+- **POST-2025-08-01 INITIAL OUTPUT**: GUIDANCE
+- **WAIT**: 61 COMPLETE DAYS
+- **VERIFY**: DAY 62 / NEXT BUSINESS DAY
+- **FIRST CORRECTION**: WRITTEN CLERK REQUEST
+- **SECOND CORRECTION**: ORIGINAL-CASE ENFORCEMENT MOTION
+- **NOTICE PROMISED**: NO
+- **CONTESTED ELIGIBILITY**: ATTORNEY HANDOFF
+
+- *Decision*: `Decision`, lines 180–186
+- *Service workflow*: `Service workflow`, lines 188–205
 
 ### LA-IMM-04 — SC `sc_pti_17_22_150`
 
-- **solicitor administrative fee**: $250
-- **SLED verification fee**: $0
-- **clerk filing fee**: $35 when applicable
-- **ordinary expected total**: $285
+Report lines 221–266, section sha256 `62a6cb1b043224e0`.
+
+**Product disposition** (from the `Product disposition` heading, not the first fenced block in the section):
+
+- **LEGAL HOLD**: CLEARED
+- **ADMINISTRATIVE FEE**: $250
+- **OLD $150 GUIDANCE**: RESCINDED
+- **PTI ORDINARY TOTAL**: $285
+- **OUTPUT**: SOLICITOR-ADMINISTERED INTAKE
+- **CUSTOM PARTICIPANT PLEADING**: RETIRE
+- **SOLICITOR DENIAL**: ATTORNEY HANDOFF
+
+- *Decision*: `Decision`, lines 223–238
+- *Packet or deliverable*: `Output correction`, lines 240–252
 
 ## Research tracks
 
 ### AK `ak-set-aside`
+
+Report lines 1142–1177, section sha256 `17127e0a39123e89`.
 
 - **LEGAL RESEARCH**: COMPLETE
 - **OUTPUT**: CUSTOM ORIGINAL-CASE MOTION
@@ -121,6 +166,8 @@ The report and the register number questions differently. The register interleav
 
 ### AK `ak-cannabis-seal`
 
+Report lines 1179–1215, section sha256 `f12a170cda807760`.
+
 - **STATUS**: FUTURE EFFECTIVE
 - **LAUNCH DATE**: NOT BEFORE 2027-01-01
 - **OUTPUT AFTER EFFECTIVE DATE**: AGENCY NONDISCLOSURE REQUEST
@@ -129,12 +176,16 @@ The report and the register number questions differently. The register interleav
 
 ### AK `ak-correct-record`
 
+Report lines 1217–1247, section sha256 `0118224056ccdf0e`.
+
 - **INITIAL OUTPUT**: OFFICIAL AGENCY CORRECTION FORM + EVIDENCE CHECKLIST
 - **INITIAL DESTINATION**: DPS / RESPONSIBLE ORIGINATING AGENCY
 - **ADVERSE FINAL DECISION**: SUPERIOR-COURT ADMINISTRATIVE APPEAL
 - **APPEAL**: ATTORNEY HANDOFF
 
 ### AL `al-olr`
+
+Report lines 1249–1290, section sha256 `251bff2660464d2d`.
 
 - **LEGAL RESEARCH**: COMPLETE
 - **OUTPUT**: OFFICIAL AOC LIMITED-RELIEF PACKET
@@ -144,6 +195,8 @@ The report and the register number questions differently. The register interleav
 
 ### AL `al-uncharged-arrest`
 
+Report lines 1292–1317, section sha256 `05cd7a5aedda5f71`.
+
 - **OUTPUT**: AGENCY RECORD-CHALLENGE PACKET
 - **COURT OUTPUT**: CUSTOM APPEAL ONLY AFTER FINAL DENIAL
 - **ACCURATE UNCHARGED ARREST**: SEPARATE EXPUNGEMENT ROUTE
@@ -151,12 +204,16 @@ The report and the register number questions differently. The register interleav
 
 ### CA `ca-1203-4b`
 
+Report lines 1319–1354, section sha256 `859602de0ca1bb98`.
+
 - **LEGAL RESEARCH**: COMPLETE
 - **OUTPUT**: OFFICIAL CR-430 / CR-431 / CR-432 PACKET
 - **VENUE**: SENTENCING SUPERIOR COURT
 - **RELIEF**: DISCRETIONARY DISMISSAL / SET-ASIDE
 
 ### CO `co_mistaken_identity_expungement`
+
+Report lines 1356–1392, section sha256 `b2ea2b45ba2d6a37`.
 
 - **LEGAL RESEARCH**: COMPLETE
 - **OUTPUT**: CUSTOM NO-FEE DISTRICT-COURT PETITION
@@ -166,14 +223,16 @@ The report and the register number questions differently. The register interleav
 
 ### NY `ny_160_55_violation`
 
-- **expected automatic partial seal**: 
-- **→ obtain certificate of disposition**: 
-- **→ check official criminal-history result**: 
-- **→ ask sentencing court to transmit/correct sealing notice**: 
-- **→ send certified disposition to DCJS for correction**: 
-- **→ motion or counsel if court previously entered an interests-of-justice nonsealing order**: 
+Report lines 1394–1440, section sha256 `c4d0488a3c7a4c1e`.
+
+- **OUTPUT**: GUIDANCE + CORRECTION REQUEST
+- **INITIAL PETITION**: NONE FOR ORDINARY MODERN CASE
+- **EFFECT**: PARTIAL SEAL; COURT FILE PUBLIC
+- **CONTESTED NONSEALING**: ATTORNEY HANDOFF
 
 ### OH `oh-ls-5`
+
+Report lines 1442–1482, section sha256 `f0cd81e9f77ab608`.
 
 - **ROUTE NAME**: PRE-2026 MARIJUANA / HASHISH EXPUNGEMENT
 - **OUTPUT**: CUSTOM APPLICATION + EVIDENCE + PROPOSED ORDER

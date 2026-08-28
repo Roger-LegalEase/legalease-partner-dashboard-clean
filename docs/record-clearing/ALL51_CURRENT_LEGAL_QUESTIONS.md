@@ -15,7 +15,7 @@ Two authorities answer these questions and neither supersedes the other. The nat
 
 Open immediate assignments: 0 (4 answered by the report). Legal-research tracks still open: 0 (9 answered by the report).
 
-**Q-018 is outside the report's scope.** Entered the register after the report's intake. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.
+**Q-018 is outside the report's scope.** Entered the register after the national report's intake was taken. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer.
 
 | Classification | Questions |
 |---|---:|

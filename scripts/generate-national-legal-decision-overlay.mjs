@@ -10,56 +10,85 @@
 //
 //   1. It does not edit the imported hash-bound jurisdiction memos. Those record
 //      what the law said as of their own reviewedAsOf date. This report sits
-//      beside them as a later controlling decision layer, exactly as the
-//      2026-08-28 controlling decisions do.
+//      beside them as a later controlling decision layer.
 //   2. It does not invent coverage. The report answers 49 numbered questions.
-//      The register currently holds 50 undecided questions, because binding the
-//      two Mississippi misdemeanor routes surfaced the § 99-19-72 filing-fee
+//      The register holds 50 undecided questions, because binding the two
+//      Mississippi misdemeanor routes surfaced the § 99-19-72 filing-fee
 //      question after the report's intake was taken. That question is recorded
-//      as out of the report's scope rather than quietly folded in.
-//   3. It does not renumber anything. The report's Q-001..Q-049 and the
-//      register's Q-001..Q-056 are different numbering schemes: the register
-//      interleaves the six already-decided questions and the new Mississippi
-//      one. The mapping between them is computed and verified, never assumed.
+//      as out of scope, with its own source-acquisition task, rather than
+//      quietly folded in.
+//   3. It does not derive the report-to-register mapping. Position in an array
+//      is not identity: it survives an inserted question, a reorder within a
+//      track, a changed affected element and a rewritten question, all of which
+//      would silently re-point a holding at the wrong question. The mapping is
+//      a controlling crosswalk with a hash on both sides of every row, and this
+//      generator verifies it rather than recomputing it.
 //
-// Usage: node scripts/generate-national-legal-decision-overlay.mjs [--check]
+// Usage:
+//   node scripts/generate-national-legal-decision-overlay.mjs [--check]
+//   node scripts/generate-national-legal-decision-overlay.mjs --bootstrap-crosswalk
+//
+// --bootstrap-crosswalk writes the crosswalk from the current alignment. It is
+// a one-time act for a new report, never part of a normal run, and it refuses
+// to overwrite an existing crosswalk without --force.
 
-import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  fencedKeyValues, headingIndex, labelledBlocks, normaliseText, roleOf, sectionAt, sha256, subsections
+} from "./lib/national-report-parser.mjs";
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
+const BOOTSTRAP = process.argv.includes("--bootstrap-crosswalk");
+const FORCE = process.argv.includes("--force");
+
 const REPORT = "docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md";
+const CROSSWALK = "data/record-clearing/legal-decisions/2026-08-28-national-report-crosswalk.json";
+const SOURCE_TASK = "data/record-clearing/legal-decisions/2026-08-28-ms-99-19-72-source-task.json";
 const OUT_JSON = "data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json";
 const OUT_MD = "docs/record-clearing/NATIONAL_LEGAL_DECISION_OVERLAY.md";
 const REGISTER = "data/record-clearing/all51-current-legal-questions.json";
 
-/**
- * The report as imported. If the file changes, every transcription below is
- * suspect, so the generator refuses to run rather than emit an overlay that
- * claims to reflect a document it has not read.
- */
 const REPORT_SHA256 = "84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336";
 const REVIEWED_THROUGH = "2026-08-28";
 
+/** Required totals. Each is a fact about the report or the register, not a preference. */
+const EXPECTED = {
+  reportNumberedQuestions: 49,
+  reportResearchTracks: 9,
+  reportImmediateAssignments: 4,
+  registerHistoricalUnique: 56,
+  legallyResolved: 55,
+  legallyOpen: 1,
+  outOfScopeQuestionIds: ["Q-018"]
+};
+
 const readText = (rel) => fs.readFileSync(path.join(root, rel), "utf8");
 const readJson = (rel) => JSON.parse(readText(rel));
+const exists = (rel) => fs.existsSync(path.join(root, rel));
+
+const problems = [];
+const fail = (message) => problems.push(message);
+
+// ---------------------------------------------------------------------------
+// The report, pinned.
+// ---------------------------------------------------------------------------
 
 const reportText = readText(REPORT);
-const actualSha = crypto.createHash("sha256").update(reportText, "utf8").digest("hex");
+const actualSha = sha256(reportText);
 if (actualSha !== REPORT_SHA256) {
-  console.error(`The imported report does not match the transcribed one.`);
+  console.error("The imported report does not match the transcribed one.");
   console.error(`  expected ${REPORT_SHA256}`);
   console.error(`  found    ${actualSha}`);
   console.error(`Re-read ${REPORT} and re-derive this overlay before changing the pin.`);
   process.exit(1);
 }
 
-// ---------------------------------------------------------------------------
-// Parse the report.
-// ---------------------------------------------------------------------------
+const lines = reportText.split("\n");
+const headings = headingIndex(lines);
 
 const STATE_CODES = {
   Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR", California: "CA",
@@ -76,92 +105,123 @@ const STATE_CODES = {
   Wyoming: "WY", "District of Columbia": "DC"
 };
 
-const lines = reportText.split("\n");
-
-/** The body of a section, from its heading to the next heading at or above its level. */
-function sectionBody(startLine, level) {
-  const out = [];
-  const stop = new RegExp(`^#{1,${level}} `);
-  for (let i = startLine + 1; i < lines.length; i += 1) {
-    if (stop.test(lines[i])) break;
-    out.push(lines[i]);
+/**
+ * Turn a level-2 section into a decision record: every subsection retained
+ * verbatim, the known roles named, and the product disposition taken from the
+ * heading that says so and from nowhere else.
+ */
+function decisionRecord(headingPos, { assignmentId = null, jurisdiction, trackId }) {
+  const section = sectionAt(lines, headings, headingPos);
+  const parts = subsections(lines, headings, headingPos);
+  const roles = {};
+  const other = [];
+  for (const part of parts) {
+    const role = roleOf(part.heading);
+    const captured = {
+      heading: part.heading,
+      lineStart: part.lineStart,
+      lineEnd: part.lineEnd,
+      text: part.text,
+      sha256: part.sha256,
+      fencedKeyValues: fencedKeyValues(part.text)
+    };
+    if (!role) { other.push(captured); continue; }
+    if (!roles[role]) roles[role] = [];
+    roles[role].push(captured);
   }
-  return out.join("\n").trim();
-}
 
-/** A fenced ```text block parsed as KEY: VALUE pairs, preserving order. */
-function dispositionBlock(body) {
-  const fence = body.match(/```text\n([\s\S]*?)```/);
-  if (!fence) return null;
-  const entries = [];
-  for (const raw of fence[1].split("\n")) {
-    const line = raw.trim();
-    if (line === "") continue;
-    const at = line.indexOf(":");
-    if (at === -1) { entries.push({ key: line, value: null }); continue; }
-    entries.push({ key: line.slice(0, at).trim(), value: line.slice(at + 1).trim() });
+  const disposition = roles.productDisposition ?? [];
+  if (disposition.length === 0) {
+    fail(`${assignmentId ?? `${jurisdiction}:${trackId}`} has no "Product disposition" heading`);
+  } else if (disposition.length > 1) {
+    fail(`${assignmentId ?? `${jurisdiction}:${trackId}`} has ${disposition.length} "Product disposition" headings`);
+  } else if (!disposition[0].fencedKeyValues) {
+    fail(`${assignmentId ?? `${jurisdiction}:${trackId}`} product disposition carries no fenced block`);
   }
-  return entries;
+
+  return {
+    ...(assignmentId ? { assignmentId } : {}),
+    jurisdiction,
+    trackId,
+    reportSection: {
+      heading: section.heading,
+      lineStart: section.lineStart,
+      lineEnd: section.lineEnd,
+      sha256: section.sha256
+    },
+    // Named roles, each carrying its own line range and hash.
+    decision: roles.decision ?? [],
+    filingVehicle: roles.filingVehicle ?? [],
+    packetOrDeliverable: roles.packetOrDeliverable ?? [],
+    serviceWorkflow: roles.serviceWorkflow ?? [],
+    selfHelpBoundary: roles.selfHelpBoundary ?? [],
+    productDisposition: disposition[0] ?? null,
+    // Nothing in the report is dropped. A subsection this parser has no role
+    // for is still carried, so a later reader can see it exists.
+    otherSections: other,
+    completeSectionText: section.text
+  };
 }
 
 // Part I — the four immediate assignments.
 const immediateAssignments = [];
-lines.forEach((line, i) => {
-  const m = line.match(/^## (LA-IMM-\d+) — (.+?) `([^`]+)`\s*$/);
-  if (!m) return;
-  const body = sectionBody(i, 2);
+headings.forEach((h, i) => {
+  const m = h.title.match(/^(LA-IMM-\d+) — (.+?) `([^`]+)`$/);
+  if (!m || h.level !== 2) return;
   const jurisdiction = STATE_CODES[m[2]];
-  if (!jurisdiction) throw new Error(`unknown state name in Part I: ${m[2]}`);
-  immediateAssignments.push({
-    assignmentId: m[1],
-    jurisdiction,
-    trackId: m[3],
-    reportLine: i + 1,
-    productDisposition: dispositionBlock(body)
-  });
-});
-
-// Part II — Q-001 through Q-049.
-const reportQuestions = [];
-lines.forEach((line, i) => {
-  const m = line.match(/^### (Q-\d{3}) — `([^`]+)`\s*$/);
-  if (!m) return;
-  const body = sectionBody(i, 3);
-  const holding = body.match(/^\*\*Holding:\*\*\s*([\s\S]*?)(?=\n\n)/m);
-  const disposition = body.match(/^\*\*Disposition:\*\*\s*([\s\S]*?)(?=\n\n|$)/m);
-  reportQuestions.push({
-    reportQuestionId: m[1],
-    trackId: m[2],
-    reportLine: i + 1,
-    holding: holding ? holding[1].trim() : null,
-    dispositionText: disposition ? disposition[1].trim() : null
-  });
+  if (!jurisdiction) { fail(`unknown state name in Part I: ${m[2]}`); return; }
+  immediateAssignments.push(decisionRecord(i, { assignmentId: m[1], jurisdiction, trackId: m[3] }));
 });
 
 // Part III — the nine additional tracks.
-const partThreeStart = lines.findIndex((l) => l.startsWith("# Part III"));
-const partThreeEnd = lines.findIndex((l) => l.startsWith("# Part IV"));
-const researchTracks = [];
-lines.forEach((line, i) => {
-  if (i < partThreeStart || i > partThreeEnd) return;
-  const m = line.match(/^## (.+?) — `([^`]+)`\s*$/);
+const partThree = headings.findIndex((h) => h.level === 1 && h.title.startsWith("Part III"));
+const partFour = headings.findIndex((h) => h.level === 1 && h.title.startsWith("Part IV"));
+const researchTrackDecisions = [];
+headings.forEach((h, i) => {
+  if (i < partThree || i > partFour || h.level !== 2) return;
+  const m = h.title.match(/^(.+?) — `([^`]+)`$/);
   if (!m) return;
   const jurisdiction = STATE_CODES[m[1]];
-  if (!jurisdiction) throw new Error(`unknown state name in Part III: ${m[1]}`);
-  researchTracks.push({
-    jurisdiction,
+  if (!jurisdiction) { fail(`unknown state name in Part III: ${m[1]}`); return; }
+  researchTrackDecisions.push(decisionRecord(i, { jurisdiction, trackId: m[2] }));
+});
+
+// Part II — Q-001 through Q-049, with every labelled block retained.
+const reportQuestions = [];
+headings.forEach((h, i) => {
+  const m = h.title.match(/^(Q-\d{3}) — `([^`]+)`$/);
+  if (!m || h.level !== 3) return;
+  const section = sectionAt(lines, headings, i);
+  const blocks = labelledBlocks(section.text);
+  const holding = blocks.find((b) => /^holding$/i.test(b.label)) ?? null;
+  const disposition = blocks.find((b) => /^disposition$/i.test(b.label)) ?? null;
+  const productRules = blocks.filter((b) => !/^(holding|disposition)$/i.test(b.label));
+  if (!holding) fail(`${m[1]} has no **Holding:** block`);
+  if (!disposition) fail(`${m[1]} has no **Disposition:** block`);
+  reportQuestions.push({
+    reportQuestionId: m[1],
     trackId: m[2],
-    reportLine: i + 1,
-    productDisposition: dispositionBlock(sectionBody(i, 2))
+    lineStart: section.lineStart,
+    lineEnd: section.lineEnd,
+    sectionSha256: section.sha256,
+    // The complete holding, not its first paragraph. Several holdings state an
+    // operative condition after a paragraph break; truncating at the first one
+    // would drop the condition and keep the conclusion.
+    holding: holding?.value ?? null,
+    holdingSha256: holding?.sha256 ?? null,
+    dispositionText: disposition?.value ?? null,
+    productRuleSections: productRules,
+    completeSectionText: section.text,
+    fencedBlocks: (section.text.match(/```text\n[\s\S]*?```/g) ?? [])
   });
 });
 
 // Part IV — the implementation matrix.
-const matrix = [];
+const implementationMatrix = [];
 for (const line of lines) {
   const m = line.match(/^\| (Q-\d{3}) \| ([A-Z]{2}) \| (.+?) \| (.+?) \|\s*$/);
   if (!m) continue;
-  matrix.push({
+  implementationMatrix.push({
     reportQuestionId: m[1],
     jurisdiction: m[2],
     controllingProductDecision: m[3].trim(),
@@ -173,11 +233,6 @@ for (const line of lines) {
 // Normalise the report's dispositions onto the delivery vocabulary.
 // ---------------------------------------------------------------------------
 
-/**
- * The report writes a disposition as prose with qualifiers ("RELEASE — PACKET;
- * contested timing to counsel"). The leading term is the controlling one and the
- * qualifier is preserved verbatim beside it rather than discarded.
- */
 const DISPOSITION_RULES = [
   [/^ARTIFACT REVIEW STILL REQUIRED/i, "ARTIFACT_LEGAL_REVIEW_REQUIRED"],
   [/^CONDITIONAL — SOURCE GATE/i, "SOURCE_ACQUISITION_REQUIRED"],
@@ -190,76 +245,180 @@ const DISPOSITION_RULES = [
   [/^FUTURE EFFECTIVE/i, "FUTURE_EFFECTIVE"]
 ];
 
-function normaliseDisposition(text) {
-  for (const [pattern, code] of DISPOSITION_RULES) {
-    if (pattern.test(text)) return code;
-  }
-  return null;
-}
+const normaliseDisposition = (text) =>
+  DISPOSITION_RULES.find(([pattern]) => pattern.test(text ?? ""))?.[1] ?? null;
 
 // ---------------------------------------------------------------------------
-// Map the report's numbering onto the register's.
+// The controlling crosswalk.
 // ---------------------------------------------------------------------------
 
-// The register reads this overlay to classify its questions, so this generator
-// must read nothing from the register that the overlay itself can change. It
-// takes only question identity — id, jurisdiction, track, affected element and
-// memo hash — all of which are fixed before classification runs. Recording the
-// register's current classification here would make the two generators chase
-// each other.
 const register = readJson(REGISTER);
-
-/**
- * Questions the report does not reach, with the reason. A question may only be
- * listed here if it entered the register after the report's intake was taken.
- */
-const OUT_OF_REPORT_SCOPE = {
-  "Q-018": "Entered the register after the report's intake. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer."
-};
-
 const registerOpen = register.questions.filter((q) => !q.decidedDirectly);
-const mappable = registerOpen.filter((q) => !(q.questionId in OUT_OF_REPORT_SCOPE));
+const outOfScope = new Set(EXPECTED.outOfScopeQuestionIds);
+const registerById = new Map(register.questions.map((q) => [q.questionId, q]));
 
-const mapping = [];
-const mappingProblems = [];
-if (mappable.length !== reportQuestions.length) {
-  mappingProblems.push(`register has ${mappable.length} in-scope open questions, report answers ${reportQuestions.length}`);
-} else {
-  for (let i = 0; i < reportQuestions.length; i += 1) {
-    const r = reportQuestions[i];
-    const q = mappable[i];
-    const matrixRow = matrix.find((m) => m.reportQuestionId === r.reportQuestionId);
-    if (r.trackId !== q.trackId) {
-      mappingProblems.push(`${r.reportQuestionId} is ${r.trackId}, register ${q.questionId} is ${q.trackId}`);
-      continue;
-    }
-    if (matrixRow && matrixRow.jurisdiction !== q.jurisdiction) {
-      mappingProblems.push(`${r.reportQuestionId} is ${matrixRow.jurisdiction} in the matrix, register ${q.questionId} is ${q.jurisdiction}`);
-      continue;
-    }
-    mapping.push({
-      registerQuestionId: q.questionId,
-      reportQuestionId: r.reportQuestionId,
-      jurisdiction: q.jurisdiction,
-      trackId: q.trackId,
-      affectedElement: q.affectedElement,
-      memoPath: q.memoPath,
-      memoSha256: q.memoSha256,
-      reviewedThrough: REVIEWED_THROUGH,
-      holding: r.holding,
-      controllingProductDecision: matrixRow?.controllingProductDecision ?? null,
-      reportDisposition: matrixRow?.reportDisposition ?? r.dispositionText,
-      deliveryDisposition: normaliseDisposition(matrixRow?.reportDisposition ?? r.dispositionText ?? ""),
-      reportLine: r.reportLine
-    });
-  }
+function crosswalkRow(reportQuestion, registerQuestion) {
+  return {
+    reportQuestionId: reportQuestion.reportQuestionId,
+    registerQuestionId: registerQuestion.questionId,
+    jurisdiction: registerQuestion.jurisdiction,
+    trackId: registerQuestion.trackId,
+    affectedElement: registerQuestion.affectedElement,
+    normalizedQuestionTextHash: sha256(normaliseText(registerQuestion.question)),
+    reportSectionHash: reportQuestion.sectionSha256
+  };
 }
+
+if (BOOTSTRAP) {
+  if (exists(CROSSWALK) && !FORCE) {
+    console.error(`${CROSSWALK} already exists. Bootstrapping would replace the controlling mapping.`);
+    console.error("If a new report genuinely requires a new crosswalk, pass --force and say so in the commit.");
+    process.exit(1);
+  }
+  const mappable = registerOpen.filter((q) => !outOfScope.has(q.questionId));
+  if (mappable.length !== reportQuestions.length) {
+    console.error(`cannot bootstrap: ${mappable.length} in-scope register questions, ${reportQuestions.length} report questions`);
+    process.exit(1);
+  }
+  const rows = reportQuestions.map((r, i) => {
+    const q = mappable[i];
+    if (r.trackId !== q.trackId) {
+      console.error(`cannot bootstrap: ${r.reportQuestionId} is ${r.trackId}, ${q.questionId} is ${q.trackId}`);
+      process.exit(1);
+    }
+    return crosswalkRow(r, q);
+  });
+  const doc = {
+    schemaVersion: 1,
+    purpose: "The controlling mapping between the national report's Q-001..Q-049 and this register's question ids. Position in an array is not identity; every row is verified on jurisdiction, track, affected element, question text hash and report section hash before any holding is attached to any question.",
+    reportDocument: REPORT,
+    reportSha256: REPORT_SHA256,
+    bootstrappedOn: REVIEWED_THROUGH,
+    outOfReportScope: EXPECTED.outOfScopeQuestionIds,
+    rows
+  };
+  fs.writeFileSync(path.join(root, CROSSWALK), `${JSON.stringify(doc, null, 2)}\n`);
+  console.log(`Bootstrapped ${CROSSWALK} with ${rows.length} rows.`);
+  process.exit(0);
+}
+
+if (!exists(CROSSWALK)) {
+  console.error(`${CROSSWALK} is missing. Run --bootstrap-crosswalk once for a new report.`);
+  process.exit(1);
+}
+const crosswalk = readJson(CROSSWALK);
+
+if (crosswalk.reportSha256 !== REPORT_SHA256) {
+  fail(`the crosswalk is pinned to report ${crosswalk.reportSha256}, this generator to ${REPORT_SHA256}`);
+}
+
+const reportById = new Map(reportQuestions.map((r) => [r.reportQuestionId, r]));
+const matrixById = new Map(implementationMatrix.map((m) => [m.reportQuestionId, m]));
+const seenRegisterIds = new Set();
+const seenReportIds = new Set();
+const trackQuestionHashes = new Map();
+
+const questionDecisions = [];
+for (const row of crosswalk.rows) {
+  const r = reportById.get(row.reportQuestionId);
+  const q = registerById.get(row.registerQuestionId);
+  if (!r) { fail(`${row.reportQuestionId} is in the crosswalk but not in the report`); continue; }
+  if (!q) { fail(`${row.registerQuestionId} is in the crosswalk but not in the register`); continue; }
+  if (seenRegisterIds.has(row.registerQuestionId)) fail(`${row.registerQuestionId} appears twice in the crosswalk`);
+  if (seenReportIds.has(row.reportQuestionId)) fail(`${row.reportQuestionId} appears twice in the crosswalk`);
+  seenRegisterIds.add(row.registerQuestionId);
+  seenReportIds.add(row.reportQuestionId);
+
+  // Every recorded value must still hold. Any one of these changing means the
+  // row no longer describes the pair it was written for.
+  if (r.trackId !== row.trackId) fail(`${row.reportQuestionId}: report track is ${r.trackId}, crosswalk says ${row.trackId}`);
+  if (q.trackId !== row.trackId) fail(`${row.registerQuestionId}: register track is ${q.trackId}, crosswalk says ${row.trackId}`);
+  if (q.jurisdiction !== row.jurisdiction) fail(`${row.registerQuestionId}: register jurisdiction is ${q.jurisdiction}, crosswalk says ${row.jurisdiction}`);
+  if (q.affectedElement !== row.affectedElement) fail(`${row.registerQuestionId}: affected element is ${q.affectedElement}, crosswalk says ${row.affectedElement}`);
+  const textHash = sha256(normaliseText(q.question));
+  if (textHash !== row.normalizedQuestionTextHash) fail(`${row.registerQuestionId}: question text has changed since the crosswalk was written`);
+  if (r.sectionSha256 !== row.reportSectionHash) fail(`${row.reportQuestionId}: the report section has changed since the crosswalk was written`);
+
+  // A track that carries more than one question must carry a distinct question
+  // on each row, or two holdings could land on the same question.
+  const perTrack = trackQuestionHashes.get(row.trackId) ?? new Set();
+  if (perTrack.has(textHash)) fail(`${row.trackId} is used twice in the crosswalk for the same question text`);
+  perTrack.add(textHash);
+  trackQuestionHashes.set(row.trackId, perTrack);
+
+  const matrixRow = matrixById.get(row.reportQuestionId) ?? null;
+  if (matrixRow && matrixRow.jurisdiction !== row.jurisdiction) {
+    fail(`${row.reportQuestionId}: the matrix says ${matrixRow.jurisdiction}, the crosswalk says ${row.jurisdiction}`);
+  }
+  const deliveryDisposition = normaliseDisposition(matrixRow?.reportDisposition ?? r.dispositionText);
+  if (!deliveryDisposition) fail(`${row.reportQuestionId} has no delivery disposition for "${matrixRow?.reportDisposition ?? r.dispositionText}"`);
+
+  questionDecisions.push({
+    registerQuestionId: row.registerQuestionId,
+    reportQuestionId: row.reportQuestionId,
+    jurisdiction: row.jurisdiction,
+    trackId: row.trackId,
+    affectedElement: row.affectedElement,
+    normalizedQuestionTextHash: row.normalizedQuestionTextHash,
+    reportSectionHash: row.reportSectionHash,
+    memoPath: q.memoPath,
+    memoSha256: q.memoSha256,
+    reviewedThrough: REVIEWED_THROUGH,
+    holding: r.holding,
+    holdingSha256: r.holdingSha256,
+    productRuleSections: r.productRuleSections,
+    controllingProductDecision: matrixRow?.controllingProductDecision ?? null,
+    reportDisposition: matrixRow?.reportDisposition ?? r.dispositionText,
+    deliveryDisposition,
+    reportLineStart: r.lineStart,
+    reportLineEnd: r.lineEnd,
+    completeSectionText: r.completeSectionText
+  });
+}
+
+for (const q of registerOpen) {
+  if (seenRegisterIds.has(q.questionId)) continue;
+  if (!outOfScope.has(q.questionId)) fail(`${q.questionId} is neither in the crosswalk nor recorded as out of the report's scope`);
+}
+for (const id of outOfScope) {
+  if (seenRegisterIds.has(id)) fail(`${id} is recorded as out of the report's scope and is also in the crosswalk`);
+  if (!registerById.has(id)) fail(`${id} is recorded as out of the report's scope but is not in the register`);
+}
+
+// ---------------------------------------------------------------------------
+// The Mississippi source-acquisition task, which the report does not answer.
+// ---------------------------------------------------------------------------
+
+const sourceTask = exists(SOURCE_TASK) ? readJson(SOURCE_TASK) : null;
+if (!sourceTask) fail(`${SOURCE_TASK} is missing; Q-018 has no source-acquisition record`);
+else {
+  for (const field of [
+    "questionId", "question", "authoritativeIssuingBody", "exactExpectedSource",
+    "acquisitionOwner", "feeOrWaiverQuestion", "receivingCourtDistinction",
+    "legalEscalationIfSilentOrConflicting", "blocksOnlyTheseRoutes"
+  ]) {
+    if (sourceTask[field] === undefined || sourceTask[field] === null) fail(`${SOURCE_TASK} is missing ${field}`);
+  }
+  if (sourceTask.answered !== false) fail(`${SOURCE_TASK} must record answered:false`);
+  if (sourceTask.questionId !== "Q-018") fail(`${SOURCE_TASK} names ${sourceTask.questionId}, expected Q-018`);
+}
+
+// ---------------------------------------------------------------------------
+// Denominators.
+// ---------------------------------------------------------------------------
+
+if (reportQuestions.length !== EXPECTED.reportNumberedQuestions) fail(`report numbered questions ${reportQuestions.length}, expected ${EXPECTED.reportNumberedQuestions}`);
+if (implementationMatrix.length !== EXPECTED.reportNumberedQuestions) fail(`implementation matrix rows ${implementationMatrix.length}, expected ${EXPECTED.reportNumberedQuestions}`);
+if (researchTrackDecisions.length !== EXPECTED.reportResearchTracks) fail(`report research tracks ${researchTrackDecisions.length}, expected ${EXPECTED.reportResearchTracks}`);
+if (immediateAssignments.length !== EXPECTED.reportImmediateAssignments) fail(`immediate assignments ${immediateAssignments.length}, expected ${EXPECTED.reportImmediateAssignments}`);
+if (register.questions.length !== EXPECTED.registerHistoricalUnique) fail(`register unique questions ${register.questions.length}, expected ${EXPECTED.registerHistoricalUnique}`);
+if (questionDecisions.length !== EXPECTED.reportNumberedQuestions) fail(`mapped questions ${questionDecisions.length}, expected ${EXPECTED.reportNumberedQuestions}`);
 
 const deliveryCounts = {};
-for (const row of mapping) deliveryCounts[row.deliveryDisposition ?? "UNMAPPED"] = (deliveryCounts[row.deliveryDisposition ?? "UNMAPPED"] ?? 0) + 1;
+for (const row of questionDecisions) deliveryCounts[row.deliveryDisposition] = (deliveryCounts[row.deliveryDisposition] ?? 0) + 1;
 
 const overlay = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   generatedBy: "scripts/generate-national-legal-decision-overlay.mjs",
   createsApproval: false,
   authority: {
@@ -269,43 +428,41 @@ const overlay = {
     kind: "owner_supplied_controlling_legal_authority",
     note: "Transcribed, not evaluated. The report's conclusions are controlling; this overlay adds no legal judgement of its own and edits no imported memo."
   },
+  crosswalk: {
+    document: CROSSWALK,
+    rows: crosswalk.rows.length,
+    note: "Every row is verified on jurisdiction, track, affected element, normalized question text hash and report section hash. A question inserted, reordered within a track, re-elemented, rewritten, or a report section edited, each fails this generator."
+  },
+  independentFields: {
+    note: "legalStatus and the delivery disposition are separate and neither implies the other. A question may be legally resolved and still require source acquisition, local configuration, artifact generation, artifact legal review, future-effective enforcement, a scheduled re-read, or an attorney handoff.",
+    legalStatusLivesIn: REGISTER,
+    deliveryDispositionLivesIn: OUT_JSON
+  },
+  expected: EXPECTED,
   scope: {
     reportAnswers: reportQuestions.length,
     registerOpenQuestions: registerOpen.length,
-    registerQuestionsOutOfReportScope: Object.entries(OUT_OF_REPORT_SCOPE).map(([questionId, reason]) => ({ questionId, reason })),
-    note: "The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049. The mapping below is computed by position within the in-scope open questions and verified on jurisdiction and track at every pair."
+    registerQuestionsOutOfReportScope: [...outOfScope].map((questionId) => ({
+      questionId,
+      reason: sourceTask?.outOfReportScopeReason ?? null,
+      sourceTask: SOURCE_TASK
+    })),
+    note: "The report and the register number questions differently. The register interleaves the six already-decided questions and one that entered after the report's intake, so report Q-001..Q-049 do not align with register Q-001..Q-049."
   },
   deliveryCounts,
   immediateAssignments,
-  questionDecisions: mapping,
-  researchTrackDecisions: researchTracks,
-  implementationMatrix: matrix
+  questionDecisions,
+  researchTrackDecisions,
+  implementationMatrix
 };
 
 const serialized = `${JSON.stringify(overlay, null, 2)}\n`;
 const markdown = renderMarkdown(overlay);
 
-const problems = [...mappingProblems];
-if (reportQuestions.length !== 49) problems.push(`parsed ${reportQuestions.length} question sections, expected 49`);
-if (matrix.length !== 49) problems.push(`parsed ${matrix.length} implementation-matrix rows, expected 49`);
-if (immediateAssignments.length !== 4) problems.push(`parsed ${immediateAssignments.length} immediate assignments, expected 4`);
-if (researchTracks.length !== 9) problems.push(`parsed ${researchTracks.length} research tracks, expected 9`);
-for (const row of mapping) {
-  if (!row.deliveryDisposition) problems.push(`${row.registerQuestionId} (${row.reportQuestionId}) has no delivery disposition for "${row.reportDisposition}"`);
-  if (!row.holding) problems.push(`${row.registerQuestionId} (${row.reportQuestionId}) has no holding`);
-}
-for (const q of registerOpen) {
-  const covered = mapping.some((m) => m.registerQuestionId === q.questionId);
-  if (!covered && !(q.questionId in OUT_OF_REPORT_SCOPE)) {
-    problems.push(`${q.questionId} is neither mapped to the report nor recorded as out of its scope`);
-  }
-}
-
 if (CHECK) {
   for (const [rel, expected] of [[OUT_JSON, serialized], [OUT_MD, markdown]]) {
-    const abs = path.join(root, rel);
-    if (!fs.existsSync(abs)) problems.push(`${rel} has not been generated`);
-    else if (fs.readFileSync(abs, "utf8") !== expected) problems.push(`${rel} is stale; regenerate it`);
+    if (!exists(rel)) fail(`${rel} has not been generated`);
+    else if (readText(rel) !== expected) fail(`${rel} is stale; regenerate it`);
   }
 }
 
@@ -316,7 +473,7 @@ if (problems.length > 0) {
 }
 
 if (CHECK) {
-  console.log(`National legal decision overlay verified: ${mapping.length} questions mapped, ${immediateAssignments.length} immediate assignments, ${researchTracks.length} research tracks.`);
+  console.log(`National legal decision overlay verified: ${questionDecisions.length} questions crosswalked, ${immediateAssignments.length} immediate assignments, ${researchTrackDecisions.length} research tracks.`);
   process.exit(0);
 }
 
@@ -324,7 +481,7 @@ fs.mkdirSync(path.join(root, path.dirname(OUT_JSON)), { recursive: true });
 fs.writeFileSync(path.join(root, OUT_JSON), serialized);
 fs.writeFileSync(path.join(root, OUT_MD), markdown);
 console.log(`Wrote ${OUT_JSON} and ${OUT_MD}`);
-console.log(`questions mapped: ${mapping.length} of ${registerOpen.length} open (${Object.keys(OUT_OF_REPORT_SCOPE).length} out of report scope)`);
+console.log(`questions crosswalked: ${questionDecisions.length} of ${registerOpen.length} open (${outOfScope.size} out of report scope)`);
 for (const [k, v] of Object.entries(deliveryCounts).sort((a, b) => b[1] - a[1])) console.log(`  ${k}: ${v}`);
 
 function renderMarkdown(data) {
@@ -337,15 +494,19 @@ function renderMarkdown(data) {
   L.push("");
   L.push(data.authority.note);
   L.push("");
-  L.push("## Numbering");
+  L.push("## The mapping is a crosswalk, not a position");
+  L.push("");
+  L.push(data.crosswalk.note);
   L.push("");
   L.push(data.scope.note);
   L.push("");
   for (const row of data.scope.registerQuestionsOutOfReportScope) {
-    L.push(`- **${row.questionId} is out of the report's scope.** ${row.reason}`);
+    L.push(`- **${row.questionId} is out of the report's scope.** ${row.reason ?? ""} Source task: \`${row.sourceTask}\`.`);
   }
   L.push("");
-  L.push("## Delivery disposition after the report");
+  L.push("## Legal status and delivery state are independent");
+  L.push("");
+  L.push(data.independentFields.note);
   L.push("");
   L.push("| Disposition | Questions |");
   L.push("|---|---:|");
@@ -354,10 +515,10 @@ function renderMarkdown(data) {
   L.push("");
   L.push("## Question decisions");
   L.push("");
-  L.push("| Register | Report | State | Track | Controlling product decision | Delivery disposition |");
-  L.push("|---|---|---|---|---|---|");
+  L.push("| Register | Report | State | Track | Element | Lines | Delivery disposition |");
+  L.push("|---|---|---|---|---|---|---|");
   for (const row of data.questionDecisions) {
-    L.push(`| \`${row.registerQuestionId}\` | ${row.reportQuestionId} | ${row.jurisdiction} | \`${row.trackId}\` | ${row.controllingProductDecision} | ${row.deliveryDisposition} |`);
+    L.push(`| \`${row.registerQuestionId}\` | ${row.reportQuestionId} | ${row.jurisdiction} | \`${row.trackId}\` | ${row.affectedElement} | ${row.reportLineStart}–${row.reportLineEnd} | ${row.deliveryDisposition} |`);
   }
   L.push("");
   L.push("## Immediate assignments");
@@ -365,7 +526,15 @@ function renderMarkdown(data) {
   for (const a of data.immediateAssignments) {
     L.push(`### ${a.assignmentId} — ${a.jurisdiction} \`${a.trackId}\``);
     L.push("");
-    for (const e of a.productDisposition ?? []) L.push(`- **${e.key}**: ${e.value ?? ""}`);
+    L.push(`Report lines ${a.reportSection.lineStart}–${a.reportSection.lineEnd}, section sha256 \`${a.reportSection.sha256.slice(0, 16)}\`.`);
+    L.push("");
+    L.push("**Product disposition** (from the `Product disposition` heading, not the first fenced block in the section):");
+    L.push("");
+    for (const e of a.productDisposition?.fencedKeyValues ?? []) L.push(`- **${e.key}**${e.value === null ? "" : `: ${e.value}`}`);
+    L.push("");
+    for (const [role, label] of [["decision", "Decision"], ["filingVehicle", "Filing vehicle"], ["packetOrDeliverable", "Packet or deliverable"], ["serviceWorkflow", "Service workflow"], ["selfHelpBoundary", "Self-help boundary"]]) {
+      for (const part of a[role]) L.push(`- *${label}*: \`${part.heading}\`, lines ${part.lineStart}–${part.lineEnd}`);
+    }
     L.push("");
   }
   L.push("## Research tracks");
@@ -373,7 +542,9 @@ function renderMarkdown(data) {
   for (const t of data.researchTrackDecisions) {
     L.push(`### ${t.jurisdiction} \`${t.trackId}\``);
     L.push("");
-    for (const e of t.productDisposition ?? []) L.push(`- **${e.key}**: ${e.value ?? ""}`);
+    L.push(`Report lines ${t.reportSection.lineStart}–${t.reportSection.lineEnd}, section sha256 \`${t.reportSection.sha256.slice(0, 16)}\`.`);
+    L.push("");
+    for (const e of t.productDisposition?.fencedKeyValues ?? []) L.push(`- **${e.key}**${e.value === null ? "" : `: ${e.value}`}`);
     L.push("");
   }
   return `${L.join("\n")}\n`;
