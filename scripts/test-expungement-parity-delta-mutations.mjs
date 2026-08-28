@@ -74,6 +74,17 @@ function repin(file) {
   record.deltas[0].originallyApprovedSha256[file] = hash;
   record.deltas[0].beforeAfterEvidence.beforeSha256[file] = hash;
   record.deltas[0].beforeAfterEvidence.afterSha256[file] = hash;
+  // Re-pin entries continue the chain from authorizedSha256, so moving the pin
+  // to the live bytes strands any that pointed at the old start. Clearing them
+  // is part of simulating a clean pin, not part of the case under test: leaving
+  // them makes the schema reject the stranded hop and the mutation then proves
+  // the bookkeeping works rather than proving the parity comparison does.
+  const superseded = record.deltas[0].supersededSha256;
+  if (Array.isArray(superseded)) {
+    const kept = superseded.filter((entry) => !(entry.path === file && typeof entry.repinnedTo === "string"));
+    if (kept.length > 0) record.deltas[0].supersededSha256 = kept;
+    else delete record.deltas[0].supersededSha256;
+  }
   writeJson(RECORD, record);
 }
 
@@ -405,7 +416,18 @@ mutation(
   "a superseded entry names the live pin",
   () => {
     const record = readJson(RECORD);
-    record.deltas[0].supersededSha256[0].sha256 = record.deltas[0].authorizedSha256[EVALUATOR];
+    // The live pin is the END of the chain — authorizedSha256 plus every
+    // re-authorization and re-pin — not authorizedSha256 itself. Naming the
+    // chain's start would only prove the start was superseded, which it was.
+    const repins = (record.deltas[0].supersededSha256 ?? [])
+      .filter((entry) => entry.path === EVALUATOR && typeof entry.repinnedTo === "string");
+    const live = repins.length > 0
+      ? repins[repins.length - 1].repinnedTo
+      : record.deltas[0].authorizedSha256[EVALUATOR];
+    const target = (record.deltas[0].supersededSha256 ?? []).find(
+      (entry) => entry.path === EVALUATOR && typeof entry.repinnedTo !== "string"
+    ) ?? record.deltas[0].supersededSha256[0];
+    target.sha256 = live;
     writeJson(RECORD, record);
   },
   "records src/lib/rcap-engine/evaluator.ts as superseded at the hash it is currently pinned to"
