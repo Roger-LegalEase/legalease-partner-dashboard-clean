@@ -243,6 +243,78 @@ const reviewGate = routeDeliveryAuthority({ ...packetRoute, deliveryGates: [{ id
 ok("an open artifact-review gate allows generation but closes payment and delivery",
   reviewGate.generationAllowed && !reviewGate.paymentAllowed && !reviewGate.commerciallyDeliverable);
 
+console.log("\nCommercial classification and service disposition are independent:");
+
+const { LEGAL_AUTHORITY, routePaymentAuthority } = await import("@/lib/legal-authority/index");
+const fs = await import("node:fs");
+const closure = JSON.parse(fs.readFileSync("data/rcap-ledger/sellable-pathway-closure.json", "utf8"));
+const contradictions = JSON.parse(fs.readFileSync("data/rcap-ledger/closure-authority-contradictions.json", "utf8"));
+const closureByKey = new Map(closure.pathways.map((p) => [p.pathwayKey, p]));
+const contractByKey = new Map(LEGAL_AUTHORITY.routes.map((r) => [r.routeKey, r]));
+
+// A parent leaving the paid denominator must not disable its children. The
+// children are resolved through the real resolver, not read from a ledger.
+const CHILD_EXPECTATIONS = [
+  ["MS:additional-justice-court-misdemeanor-relief-9-11-15-3", "participant_packet"],
+  ["MS:additional-municipal-court-misdemeanor-relief-21-23-7-6", "participant_packet"],
+  ["MS:first-offense-controlled-substance-conditional-discharge-relief", "participant_packet"],
+  ["MS:first-offense-dui-expungement", "participant_packet"],
+  ["MS:nonadjudication-under-99-15-26", "participant_packet"],
+  ["MS:pretrial-intervention-or-diversion-expungement", "participant_packet"],
+  ["MS:human-trafficking-survivor-vacatur-97-3-54-6-5", "attorney_review_packet"],
+  ["MS:human-trafficking-survivor-expungement-97-3-54-6-6", "attorney_review_packet"]
+];
+for (const [key, expectedMode] of CHILD_EXPECTATIONS) {
+  const [code, pathwayId] = [key.slice(0, key.indexOf(":")), key.slice(key.indexOf(":") + 1)];
+  const child = resolveRoute({ jurisdiction: code, pathwayId, facts: {}, on: TODAY, phase: "FINAL_VERIFICATION" });
+  ok(`${key} remains ${expectedMode} and reachable`,
+    child.outcomeMode === expectedMode && child.contract !== null,
+    `${child.outcomeMode ?? "no contract"}`);
+  ok(`${key} still binds a packet family`, child.packetFamily !== null, String(child.packetFamily));
+}
+
+// The trafficking children are attorney-review packets, which is packet-bearing.
+// Demoting them to handoffs when the umbrella moves would lose two packets.
+for (const key of ["MS:human-trafficking-survivor-vacatur-97-3-54-6-5", "MS:human-trafficking-survivor-expungement-97-3-54-6-6"]) {
+  const contract = contractByKey.get(key);
+  ok(`${key} keeps attorney review rather than becoming a handoff`,
+    routePaymentAuthority(contract) === "attorney_review_required", routePaymentAuthority(contract));
+}
+
+// No route that binds no packet family may open checkout, anywhere.
+const nullFamilyWithCheckout = LEGAL_AUTHORITY.routes
+  .filter((r) => r.packetFamily === null && routePaymentAuthority(r) === "packet_checkout");
+ok("no packetFamily-null route opens checkout", nullFamilyWithCheckout.length === 0,
+  nullFamilyWithCheckout.map((r) => r.routeKey).join(", "));
+
+// Every adjudicated row keeps its service disposition regardless of what the
+// commercial classification becomes.
+for (const row of contradictions.rows) {
+  const contract = contractByKey.get(row.pathwayKey);
+  ok(`${row.pathwayKey}: service disposition is preserved beside the denominator move`,
+    row.proposal.preservedOutcomeMode === contract.outcomeMode
+    && Boolean(row.proposal.preservedServiceDisposition));
+}
+ok("the eleven rows are adjudicated individually, not as one move",
+  new Set(contradictions.rows.map((r) => r.adjudication?.serviceDisposition)).size > 1,
+  JSON.stringify(contradictions.serviceDispositions));
+ok("North Dakota is branch_mixed and blocked on the closure vocabulary",
+  contradictions.rowsBlockedOnVocabulary.length === 1
+  && contradictions.rowsBlockedOnVocabulary[0].pathwayKey.startsWith("ND:"));
+ok("Minnesota's two conflated mechanisms are named",
+  (contradictions.rows.find((r) => r.pathwayKey.startsWith("MN:"))?.adjudication?.conflatesDistinctMechanisms ?? []).length === 2);
+ok("Rhode Island stays held until its statute is identified",
+  /statute .*not been identified|until it is/i.test(contradictions.rows.find((r) => r.pathwayKey.startsWith("RI:"))?.adjudication?.implementationEffect ?? ""));
+
+// Applying the proposal must not change what any route does. Every row's route
+// keeps the outcome mode its contract states.
+for (const row of contradictions.rows) {
+  const before = closureByKey.get(row.pathwayKey);
+  ok(`${row.pathwayKey}: the ledger move does not touch the contract`,
+    before?.category === row.proposal.previousClassification
+    && contractByKey.get(row.pathwayKey)?.outcomeMode === row.authorityOutcomeMode);
+}
+
 console.log("");
 if (failures.length > 0) {
   console.error(`Route resolution FAILED — ${failures.length} of ${passed + failures.length}:`);

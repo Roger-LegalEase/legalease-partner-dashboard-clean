@@ -9,6 +9,32 @@
     "automatic_relief": 1,
     "guidance_status": 1
   },
+  "commercialClassifications": {
+    "non_paid_service": 10,
+    "branch_mixed": 1
+  },
+  "serviceDispositions": {
+    "selection_only": 3,
+    "handoff": 6,
+    "branch_dependent": 1,
+    "process_guidance": 1
+  },
+  "childPacketRoutesThatMustRemainActive": [
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "MS:first-offense-controlled-substance-conditional-discharge-relief",
+    "MS:first-offense-dui-expungement",
+    "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+    "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+    "MS:nonadjudication-under-99-15-26",
+    "MS:pretrial-intervention-or-diversion-expungement"
+  ],
+  "rowsBlockedOnVocabulary": [
+    {
+      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+      "reason": "The closure ledger has no branch_mixed category. Applying non_filing_guidance to the whole route would classify the pre-2025-08-01 participant petition as a no-filing route, which is the error this adjudication exists to prevent. This row cannot be applied until the closure generator can classify by branch, or until the two branches become child pathways with the current id retained as a selector."
+    }
+  ],
   "excludedNonCourtRoutesThatStillProduceAPacket": [
     {
       "pathwayKey": "HI:nonconviction-arrest-expungement",
@@ -25,6 +51,17 @@
   ],
   "rows": [
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "selection_only",
+        "conflatesDistinctMechanisms": [
+          "Minn. Stat. § 609A.055 automatic cannabis expungement — relief by operation of law, served as status and correction guidance",
+          "Minn. Stat. § 609A.06 Cannabis Expungement Board review — a Board process, served as Board-process guidance with a partner or attorney handoff where individualized review is needed"
+        ],
+        "childPacketRoutesThatMustRemainActive": [],
+        "implementationEffect": "The route stays reachable as a selector or legacy alias. Neither mechanism is a participant-filed court packet under the current authority, and flattening both into one generic handoff would describe the automatic category as though a person had to ask for it. Splitting them into two child routes is separate work this proposal does not do; it records that the conflation exists so the split is not lost.",
+        "doNotDo": "Do not flatten the automatic category and the Board-review category into one generic handoff."
+      },
       "pathwayKey": "MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
       "jurisdiction": "MN",
       "pathwayLabel": "Cannabis automatic or board-reviewed expungement under §§ 609A.055–.06",
@@ -57,12 +94,22 @@
         "evidence": "src/lib/legal-authority/routes/route-splits.json records MN:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06 under LD-MN-01 / MN-299C.11-609A-SIX-MECHANISM-MAP as outcomeMode=referral with packetFamily=null, citing Minn. Stat. §§ 609A.055-.06. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"The automatic cannabis category and the Board-review category are separate; neither is a participant-filed petition, so checkout stays closed on both.\"",
         "authority": null,
         "decidedOn": null,
-        "preservedServiceDisposition": "handoff",
+        "preservedServiceDisposition": "selection_only",
         "preservedOutcomeMode": "referral",
-        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "selection_only",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+          "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+        ],
+        "implementationEffect": "This is the court-selection node between two terminal routes under different statutes. It never rendered and never should. Both children are participant packets bound to ms-misd-addl and must remain reachable and sellable; the parent leaving the paid denominator says nothing about them.",
+        "doNotDo": "Do not let the parent's reclassification close either child route."
+      },
       "pathwayKey": "MS:additional-justice-or-municipal-court-misdemeanor-relief",
       "jurisdiction": "MS",
       "pathwayLabel": "Additional justice- or municipal-court misdemeanor relief",
@@ -94,12 +141,21 @@
         "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:additional-justice-or-municipal-court-misdemeanor-relief under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. §§ 9-11-15(3), 21-23-7(6). The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Retained as the selection route only; the justice-court and municipal-court variants are separate contracts under different statutes. Use the last-conviction clock, not sentence completion.\"",
         "authority": null,
         "decidedOn": null,
-        "preservedServiceDisposition": "handoff",
+        "preservedServiceDisposition": "selection_only",
         "preservedOutcomeMode": "referral",
-        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:first-offense-controlled-substance-conditional-discharge-relief"
+        ],
+        "implementationEffect": "Admission into conditional discharge happens while the prosecution is live, so there is no disposition to expunge yet and no packet to sell. The post-completion route under § 41-29-150 is a separate participant packet and must remain reachable.",
+        "doNotDo": "Do not treat the active-case stage and the post-completion packet as one route."
+      },
       "pathwayKey": "MS:controlled-substance-conditional-discharge-active-case-admission",
       "jurisdiction": "MS",
       "pathwayLabel": "Controlled-substance conditional discharge — admission to deferred adjudication",
@@ -138,6 +194,15 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:first-offense-dui-expungement"
+        ],
+        "implementationEffect": "DUI nonadjudication is an active-case admission with an attorney-assisted motion where supported, not a self-help packet. The five-year first-offense DUI expungement is a different route with its own clock and must remain reachable.",
+        "doNotDo": "Never apply the five-year first-offense DUI expungement rule to this route."
+      },
       "pathwayKey": "MS:dui-nonadjudication",
       "jurisdiction": "MS",
       "pathwayLabel": "DUI nonadjudication",
@@ -175,6 +240,16 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "selection_only",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+          "MS:human-trafficking-survivor-expungement-97-3-54-6-6"
+        ],
+        "implementationEffect": "The umbrella selects between vacatur and expungement. Its own record says it never sells a packet on its own. Both children are attorney_review_packet routes and stay that way: each statutory remedy requires attorney review, which is a packet-bearing outcome, not a handoff.",
+        "doNotDo": "Do not demote the children to handoffs when the parent leaves the denominator."
+      },
       "pathwayKey": "MS:human-trafficking-survivor-vacatur-and-expungement",
       "jurisdiction": "MS",
       "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
@@ -206,12 +281,19 @@
         "evidence": "src/lib/legal-authority/routes/mississippi.json records MS:human-trafficking-survivor-vacatur-and-expungement under LD-MS-01 / MS-DEFINITIVE-THIRTEEN-ROUTE-MAP-2026-07-01 as outcomeMode=referral with packetFamily=null, citing Miss. Code Ann. § 97-3-54.6(5)-(6), as amended by 2026 Miss. H.B. 1546. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Retained as the selection route only. The two statutory remedies are separate contracts and each requires attorney review; this route never sells a packet on its own.\"",
         "authority": null,
         "decidedOn": null,
-        "preservedServiceDisposition": "handoff",
+        "preservedServiceDisposition": "selection_only",
         "preservedOutcomeMode": "referral",
-        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a handoff outcome, and any consumer that reads the new classification must read this field with it."
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a referral route serving a selection_only outcome, and any consumer that reads the new classification must read this field with it."
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [],
+        "implementationEffect": "Enforcement of relief the statute already granted. Its own record reads 'Never sold as an expungement packet.' The service stays a referral with implementation and correction support; it does not become ordinary guidance.",
+        "doNotDo": "Do not silently change this referral to ordinary guidance. It is a handoff, and changing that is an owner decision, not a side effect of the denominator move."
+      },
       "pathwayKey": "MS:intervention-court-statutory-result-enforcement-referral",
       "jurisdiction": "MS",
       "pathwayLabel": "Intervention-court completion — enforcement of the statutory result",
@@ -250,6 +332,15 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:nonadjudication-under-99-15-26"
+        ],
+        "implementationEffect": "Admission to nonadjudication is discretionary and happens while the case is active. The post-completion § 99-15-26 expungement is a separate participant packet and must remain reachable.",
+        "doNotDo": "Do not open checkout before completion and closure."
+      },
       "pathwayKey": "MS:nonadjudication-99-15-26-active-case-admission",
       "jurisdiction": "MS",
       "pathwayLabel": "Nonadjudication under § 99-15-26 — admission while the case is active",
@@ -288,6 +379,15 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [
+          "MS:pretrial-intervention-or-diversion-expungement"
+        ],
+        "implementationEffect": "Entry depends on the district attorney and the program, not on any elapsed wait. The post-completion diversion expungement is a separate participant packet and must remain reachable.",
+        "doNotDo": "Do not open checkout until a qualifying disposition exists."
+      },
       "pathwayKey": "MS:pretrial-intervention-active-case-admission",
       "jurisdiction": "MS",
       "pathwayLabel": "Pretrial intervention or diversion — admission while the case is active",
@@ -326,6 +426,28 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "branch_mixed",
+        "serviceDisposition": "branch_dependent",
+        "branchClassification": [
+          {
+            "branchId": "pre_effective_date_petition",
+            "commercialClassification": "paid_packet_intended",
+            "serviceDisposition": "participant_packet",
+            "note": "Held by the artifact-generation gate until the official petition family is rendered. Packet-bearing, not sellable today."
+          },
+          {
+            "branchId": "post_effective_date_automatic",
+            "commercialClassification": "non_paid_service",
+            "serviceDisposition": "automatic_guidance",
+            "note": "The record closes by operation of law. Day-62 verification and the clerk correction workflow; no checkout."
+          }
+        ],
+        "childPacketRoutesThatMustRemainActive": [],
+        "blockedOnVocabulary": "The closure ledger has no branch_mixed category. Applying non_filing_guidance to the whole route would classify the pre-2025-08-01 participant petition as a no-filing route, which is the error this adjudication exists to prevent. This row cannot be applied until the closure generator can classify by branch, or until the two branches become child pathways with the current id retained as a selector.",
+        "implementationEffect": "No denominator change is proposed for this route yet. Its branches are already correctly resolved at runtime by the canonical resolver; only the ledger cannot express the split.",
+        "doNotDo": "Do not reclassify the whole route as non-filing guidance."
+      },
       "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "jurisdiction": "ND",
       "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
@@ -352,17 +474,24 @@
         "id": "PROPOSED-ND-NON-CONVICTION-COURT-RECORD-CLOSING-UNDER-N-D-C-C-12-60-1-05",
         "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
         "previousClassification": "paid_packet_intended",
-        "newClassification": "non_filing_guidance",
+        "newClassification": "branch_mixed",
         "reason": "no_participant_filing",
         "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 under NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY as outcomeMode=automatic_relief with packetFamily=null, citing N.D.C.C. § 12-60.1-05. Relief happens by operation of law with no participant filing. The record's own note: \"Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did. The exact disposition date is a route-resolution fact confirmed at final verification, not a screening estimate: it decides which statute governs, and an approximate date selects the wrong branch. With the date absent the route resolves to needs-more-info rather than defaulting to either branch. CONTRACT MODEL: option B, branch-specific stage and commercial posture, chosen over two contracts. The routeKey is JURISDICTION:pathwayId and the compiled profile models this as one pathway, so two contracts would require inventing a second pathwayId for what is one statute at two points in its legislative history. The split is temporal, not mechanistic, which is what a branch is for; a second statute would need a second contract.\"",
         "authority": null,
         "decidedOn": null,
-        "preservedServiceDisposition": "process_guidance",
+        "preservedServiceDisposition": "branch_dependent",
         "preservedOutcomeMode": "automatic_relief",
-        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a process_guidance outcome, and any consumer that reads the new classification must read this field with it."
+        "preservationNote": "Leaving paid_packet_intended changes what this route is counted as, not what it does. It remains a automatic_relief route serving a branch_dependent outcome, and any consumer that reads the new classification must read this field with it."
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "handoff",
+        "childPacketRoutesThatMustRemainActive": [],
+        "implementationEffect": "The controlling statute for the specific decriminalized offence has not been identified. Until it is, the route collects the exact record and hands off to a partner or attorney. When the statute is identified it routes to a new exact packet or guidance mechanism, which is a new contract rather than a change to this one.",
+        "doNotDo": "Do not sell a generic packet for an undefined statute, and do not merge this with the filed-complaint clock."
+      },
       "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
       "jurisdiction": "RI",
       "pathwayLabel": "Path G — Decriminalized-offense expungement",
@@ -401,6 +530,13 @@
       }
     },
     {
+      "adjudication": {
+        "commercialClassification": "non_paid_service",
+        "serviceDisposition": "process_guidance",
+        "childPacketRoutesThatMustRemainActive": [],
+        "implementationEffect": "Solicitor-administered intake. packetFamily null, checkout disabled, sponsored generation disabled, packet credits zero, and a retained-counsel handoff on solicitor denial or contested eligibility. The circuit-specific source gate stays open and holds the guidance content, not the legal answer.",
+        "doNotDo": "Do not copy this route's fee schedule onto the other seven South Carolina routes."
+      },
       "pathwayKey": "SC:diversion-or-program-completion-expungement",
       "jurisdiction": "SC",
       "pathwayLabel": "Diversion or program-completion expungement",
