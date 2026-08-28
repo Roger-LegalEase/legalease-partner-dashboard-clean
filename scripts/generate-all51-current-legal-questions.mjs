@@ -822,6 +822,14 @@ function renderMarkdown(data) {
     + Object.entries(data.resolution.deliveryGates).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} ${k}`).join(", ") + ".");
   L.push("");
   L.push(`Open immediate assignments: ${data.resolution.openImmediateAssignments} (${data.resolution.immediateAssignmentsAnsweredByNationalReport} answered by the report). Legal-research tracks still open: ${data.resolution.researchTracksStillOpen} (${data.resolution.researchTracksAnsweredByNationalReport} answered by the report).`);
+  // Say what this register does not cover, next to the number that gets
+  // compared against it. The All-51 authority reconciliation reports nine
+  // LEGAL_RECONFIRMATION_REQUIRED rows, and this register reports nine
+  // research tracks. The two nines are different nines — disjoint route sets
+  // answering different questions — and nothing said so, so a reader comparing
+  // them found a contradiction that was never there.
+  L.push("");
+  L.push(`**This register answers one question: does the law support the route.** It does not track whether counsel's ratification of a route is current. That is the All-51 authority reconciliation's LEGAL_RECONFIRMATION_REQUIRED class, and it reports nine rows on a route set disjoint from the ${data.resolution.researchTracksAnsweredByNationalReport} research tracks here. Both registers are current; neither answers the other's question. \`data/rcap-ledger/legal-authority-chain-reconciliation.json\` computes both populations and their overlap so the comparison is a fact rather than two matching integers.`);
   for (const row of data.resolution.questionsOutsideNationalReportScope) {
     L.push("");
     L.push(`**${row.questionId} is outside the report's scope.** ${row.reason}`);
