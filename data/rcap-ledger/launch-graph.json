@@ -13,13 +13,13 @@
   },
   "inputs": {
     "data/rcap-ledger/sellable-pathway-closure.json": "0bbd80aadda7b70cf4e88ccebf569ada1c5c0ed224a5fe2274f53c86e698317e",
-    "data/rcap-ledger/paid-pathway-legal-join.json": "20c283c99cabf53c12dd58b35e1185505576b859064f07825fdcd1ba0a167149",
+    "data/rcap-ledger/paid-pathway-legal-join.json": "9f4c9234524d472f92d48d189e77854646f5c82cab7fe24c4ccd0994dd1b05ab",
     "data/record-clearing/legal-design-packet-set-manifests.json": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9",
     "data/rcap-ledger/public-witness-answer-sets.json": "75140b4fad706275fb9fbdd077ffa5fd401ac1238e86daf22892d7d60344ae5a",
-    "data/record-clearing/factory-v2-route-registry.json": "eb716a88a94ee55aa75f6a4d5efb92b15f3ab4d63855da33b5c57312c1e9768d",
+    "data/record-clearing/factory-v2-route-registry.json": "e42fdaf67c07d7bc347d2819969fbc36b724a234d706665ddeb79cae834132b9",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "390609fced92dfaced535ee09bdd4768fd8b9d4d6e475fb64e1e3607f697bb4a"
+    "data/rcap-ledger/session-a-evidence-packet.json": "8c1782298d1b1b0a17bcecc6f39e200e1ecfdbbac4bda291f8661e26a69c9c30"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -47,8 +47,8 @@
     "correctPathwayPublicWitnesses": 271,
     "wrongPathwayWitnesses": 0,
     "nonConvergingWitnesses": 0,
-    "exactTrackAndPacketSet": 224,
-    "registryGapWithPathwayPacketSet": 47,
+    "exactTrackAndPacketSet": 226,
+    "registryGapWithPathwayPacketSet": 45,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 97,
     "factoryV2Selected": 172,
@@ -84,7 +84,7 @@
     "noProblematicPdfHold": 19,
     "paymentAllowed": 240,
     "rendererSelected": 68,
-    "packetSpecificationComplete": 47
+    "packetSpecificationComplete": 45
   },
   "rows": [
     {
@@ -11406,43 +11406,26 @@
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
       },
-      "registryTracks": [],
-      "registryGap": true,
-      "pathwayLevelPacketRecord": {
-        "source": "compiled_profile_packet_generator",
-        "pathwayId": "additional-justice-court-misdemeanor-relief-9-11-15-3",
-        "requiredInputIds": [
-          "age_at_offense",
-          "case_outcome",
-          "charge",
-          "contact_information",
-          "county",
-          "court",
-          "disposition_date",
-          "financial_obligations",
-          "jurisdiction",
-          "offense_category",
-          "offense_level",
-          "participant_full_legal_name",
-          "pathway_id",
-          "pending_cases",
-          "prior_relief",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date",
-          "trafficking_status"
-        ],
-        "present": true
-      },
+      "registryTracks": [
+        "ms-misd-addl"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
       "packetFamilies": [],
-      "packetSets": [],
+      "packetSets": [
+        {
+          "packetSetId": "ms-misd-addl-set",
+          "trackId": "ms-misd-addl",
+          "components": 5
+        }
+      ],
       "ownerApprovedLegalStatus": "owner_approval_pending",
       "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-      "legalBasis": "registry_gap_no_track",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
-        "complete": false,
-        "componentCount": 0,
-        "participantActionsRequired": 0
+        "complete": true,
+        "componentCount": 5,
+        "participantActionsRequired": 16
       },
       "sourceAssets": {
         "officialFormIdsNamed": [],
@@ -11485,7 +11468,7 @@
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
         "paymentAllowed": false,
-        "packetSpecificationComplete": false,
+        "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
@@ -11494,7 +11477,6 @@
       },
       "unmetOperationalGates": [
         "paymentAllowed",
-        "packetSpecificationComplete",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"
@@ -11597,43 +11579,26 @@
         "present": true,
         "profileVersion": "2026-06-19-source-conversion-1"
       },
-      "registryTracks": [],
-      "registryGap": true,
-      "pathwayLevelPacketRecord": {
-        "source": "compiled_profile_packet_generator",
-        "pathwayId": "additional-municipal-court-misdemeanor-relief-21-23-7-6",
-        "requiredInputIds": [
-          "age_at_offense",
-          "case_outcome",
-          "charge",
-          "contact_information",
-          "county",
-          "court",
-          "disposition_date",
-          "financial_obligations",
-          "jurisdiction",
-          "offense_category",
-          "offense_level",
-          "participant_full_legal_name",
-          "pathway_id",
-          "pending_cases",
-          "prior_relief",
-          "record_type",
-          "residency_or_location",
-          "sentence_completion_date",
-          "trafficking_status"
-        ],
-        "present": true
-      },
+      "registryTracks": [
+        "ms-misd-addl"
+      ],
+      "registryGap": false,
+      "pathwayLevelPacketRecord": null,
       "packetFamilies": [],
-      "packetSets": [],
+      "packetSets": [
+        {
+          "packetSetId": "ms-misd-addl-set",
+          "trackId": "ms-misd-addl",
+          "components": 5
+        }
+      ],
       "ownerApprovedLegalStatus": "owner_approval_pending",
       "ownerLegalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
-      "legalBasis": "registry_gap_no_track",
+      "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
-        "complete": false,
-        "componentCount": 0,
-        "participantActionsRequired": 0
+        "complete": true,
+        "componentCount": 5,
+        "participantActionsRequired": 16
       },
       "sourceAssets": {
         "officialFormIdsNamed": [],
@@ -11676,7 +11641,7 @@
         "publicWitnessReachesThisPathway": true,
         "authoritativeIntendedPathway": true,
         "paymentAllowed": false,
-        "packetSpecificationComplete": false,
+        "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
         "rendererSelected": true,
@@ -11685,7 +11650,6 @@
       },
       "unmetOperationalGates": [
         "paymentAllowed",
-        "packetSpecificationComplete",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
         "deterministicArtifactProven"

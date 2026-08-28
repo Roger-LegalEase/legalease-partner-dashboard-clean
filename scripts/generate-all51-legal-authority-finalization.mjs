@@ -3,7 +3,7 @@
 // Five bounded corrections on top of
 // generate-all51-legal-authority-reconciliation.mjs:
 //
-//   2. The 40 pathway rows that reach no registry track, classified against the
+//   2. The pathway rows that reach no registry track, classified against the
 //      memo corpus rather than assumed to be engineering gaps.
 //   3. All 89 legal_research_required tracks, classified against authority
 //      created after the 2026-08-02 memos.
@@ -126,7 +126,7 @@ const releaseQuestions = {
 };
 
 // ---------------------------------------------------------------------------
-// 2. The 40 pathway rows that reach no registry track.
+// 2. The pathway rows that reach no registry track (published baseline 40).
 // ---------------------------------------------------------------------------
 
 const STOP_WORDS = new Set([
@@ -147,7 +147,70 @@ function matchScore(pathwayTokens, track) {
   return pathwayTokens.size === 0 ? 0 : shared / pathwayTokens.size;
 }
 
+/**
+ * The no-track denominator as first published, and every pathway that has since
+ * left it with the reason it left. A pathway may only leave by being bound to a
+ * registry track through data/rcap-ledger/crosswalk-adjudications.json, whose
+ * licenses the crosswalk generator re-verifies against live bytes on every run.
+ */
+const NO_TRACK_BASELINE = {
+  publishedOn: "2026-08-28",
+  keys: [
+    "AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+    "CO:juvenile-expungement-19-1-306",
+    "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+    "ID:human-trafficking-survivor-vacatur-and-expungement",
+    "ID:juvenile-expungement",
+    "ID:withheld-judgment-idaho-code-19-2604-review-branch",
+    "IL:human-trafficking-survivor-vacatur-and-expungement",
+    "MD:juvenile-expungement",
+    "ME:juvenile-sealing",
+    "ME:pardon-route",
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6",
+    "MS:controlled-substance-conditional-discharge-active-case-admission",
+    "MS:human-trafficking-survivor-expungement-97-3-54-6-6",
+    "MS:human-trafficking-survivor-vacatur-97-3-54-6-5",
+    "MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+    "MS:intervention-court-statutory-result-enforcement-referral",
+    "MS:nonadjudication-99-15-26-active-case-admission",
+    "MS:pretrial-intervention-active-case-admission",
+    "MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+    "NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+    "NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+    "NY:conditional-treatment-sealing-under-cpl-160-58",
+    "OH:juvenile-sealing-and-expungement",
+    "OK:human-trafficking-survivor-relief",
+    "OK:juvenile-record-expungement",
+    "SC:human-trafficking-survivor-expungement",
+    "SD:controlled-substance-deferred-disposition-route",
+    "SD:juvenile-delinquency-sealing",
+    "SD:juvenile-trafficking-expungement",
+    "UT:path-l-vacatur-human-trafficking-related-expungement",
+    "UT:path-m-juvenile-expungement",
+    "VT:juvenile-sealing",
+    "WA:juvenile-record-sealing-under-rcw-13-50-260",
+    "WI:executive-pardon-guidance",
+    "WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+    "WV:juvenile-record-relief",
+    "WV:sex-trafficking-victim-vacatur-and-expungement",
+    "WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+    "WY:juvenile-minor-expungement-w-s-14-6-241",
+  ],
+  departures: {
+    "MS:additional-justice-court-misdemeanor-relief-9-11-15-3":
+      "Bound to ms-misd-addl on Miss. Code Ann. § 9-11-15(3). The track models the justice-court and municipal-court branches as one node; the crosswalk had bound only the parent court-selection route, which the legal-authority layer records as outcomeMode=referral and which never renders.",
+    "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6":
+      "Bound to ms-misd-addl on Miss. Code Ann. § 21-23-7(6), the municipal-court half of the same track, for the same reason."
+  }
+};
+
 const noTrackRows = reconciliation.rows.filter((r) => r.trackIds.length === 0);
+const noTrackPresent = new Set(noTrackRows.map((r) => r.pathwayKey));
+const noTrackBaselineKeys = new Set(NO_TRACK_BASELINE.keys);
+const noTrackDeparted = NO_TRACK_BASELINE.keys.filter((k) => !noTrackPresent.has(k));
+const noTrackUnexplained = noTrackDeparted.filter((k) => !(k in NO_TRACK_BASELINE.departures));
+const noTrackArrived = [...noTrackPresent].filter((k) => !noTrackBaselineKeys.has(k));
 
 const noTrackClassified = noTrackRows.map((row) => {
   const tokens = tokenize(`${row.pathway} ${row.pathwayLabel ?? ""}`);
@@ -542,7 +605,18 @@ if (CHECK) {
   if (releaseQuestions.total !== releaseQuestions.ownerSum) problems.push(`release questions ${releaseQuestions.total} != owner sum ${releaseQuestions.ownerSum}`);
   if (releaseQuestions.total !== releaseQuestions.elementSum) problems.push(`release questions ${releaseQuestions.total} != element sum ${releaseQuestions.elementSum}`);
   if (releaseQuestions.unmappedProvenance.length > 0) problems.push(`${releaseQuestions.unmappedProvenance.length} question(s) have a provenance with no owner mapping`);
-  if (noTrackClassified.length !== 40) problems.push(`no-track rows ${noTrackClassified.length}, expected 40`);
+  // The published denominator was 40. It may move, but only by pathways that
+  // are named and accounted for — a denominator that drifts silently is the
+  // thing this whole register exists to prevent.
+  if (noTrackClassified.length !== NO_TRACK_BASELINE.keys.length - noTrackDeparted.length) {
+    problems.push(`no-track rows ${noTrackClassified.length}; baseline ${NO_TRACK_BASELINE.keys.length} less ${noTrackDeparted.length} accounted departure(s) is ${NO_TRACK_BASELINE.keys.length - noTrackDeparted.length}`);
+  }
+  for (const key of noTrackUnexplained) {
+    problems.push(`${key} left the no-track denominator with no recorded reason`);
+  }
+  for (const key of noTrackArrived) {
+    problems.push(`${key} entered the no-track denominator, which the baseline does not carry`);
+  }
   if (Object.values(noTrackCounts).reduce((a, b) => a + b, 0) !== noTrackClassified.length) problems.push("no-track classifications do not sum");
   if (researchClassified.length !== 89) problems.push(`legal_research_required tracks ${researchClassified.length}, expected 89`);
   if (Object.values(researchCounts).reduce((a, b) => a + b, 0) !== researchClassified.length) problems.push("research classifications do not sum");
@@ -561,7 +635,7 @@ if (CHECK) {
     for (const problem of problems) console.error(`  - ${problem}`);
     process.exit(1);
   }
-  console.log(`All-51 legal authority finalization verified: ${releaseQuestions.total} questions reconciled, 40 no-track rows, 89 research tracks, LA-01 validated.`);
+  console.log(`All-51 legal authority finalization verified: ${releaseQuestions.total} questions reconciled, ${noTrackClassified.length} no-track rows (baseline ${NO_TRACK_BASELINE.keys.length}, ${noTrackDeparted.length} accounted departure(s)), 89 research tracks, LA-01 validated.`);
   process.exit(0);
 }
 
@@ -610,7 +684,7 @@ function renderMarkdown(data) {
   for (const [k, v] of Object.entries(data.releaseQuestions.byOwner).sort((a, b) => b[1] - a[1])) lines.push(`| ${k} | ${v} |`);
   lines.push(`| **SUM** | **${data.releaseQuestions.ownerSum}** |`);
   lines.push("");
-  lines.push("## 2. The 40 rows that reach no registry track");
+  lines.push(`## 2. The ${data.noTrackRows.rows.length} rows that reach no registry track`);
   lines.push("");
   lines.push("| Classification | Rows |");
   lines.push("|---|---:|");

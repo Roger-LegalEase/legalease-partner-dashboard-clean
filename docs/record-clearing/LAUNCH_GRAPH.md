@@ -18,8 +18,8 @@ reconciled quietly, so there is nothing here for a second denominator to disagre
 | CORRECT-PATHWAY PUBLIC WITNESSES | 271 |
 | WRONG-PATHWAY WITNESSES | 0 |
 | NON-CONVERGING WITNESSES | 0 |
-| EXACT TRACK + PACKET SET | 224 |
-| REGISTRY GAP + PATHWAY PACKET SET | 47 |
+| EXACT TRACK + PACKET SET | 226 |
+| REGISTRY GAP + PATHWAY PACKET SET | 45 |
 | OWNER-APPROVED LEGAL | 97 |
 | FACTORY_V2 RESOLVED | 172 |
 | PAYMENT ALLOWED | 31 |
@@ -41,13 +41,13 @@ technical approval; renderer selected; deterministic artifact proven; no problem
 | `technicalApprovalCurrent` | 199 |
 | `ownerApprovedLegalDesign` | 174 |
 | `rendererSelected` | 68 |
-| `packetSpecificationComplete` | 47 |
+| `packetSpecificationComplete` | 45 |
 | `noProblematicPdfHold` | 19 |
 
 ## The registry-gap routes
 
-47 intended-paid pathways have no registry track. None is dropped. Where the compiled profile
-carries a pathway-level packet record, it is used as the packet set: **47** of them do.
+45 intended-paid pathways have no registry track. None is dropped. Where the compiled profile
+carries a pathway-level packet record, it is used as the packet set: **45** of them do.
 The missing registry track is a registry-ownership action recorded against the route, not a reason
 to make the pathway unavailable — and it is never a licence to invent a track-to-family relationship.
 

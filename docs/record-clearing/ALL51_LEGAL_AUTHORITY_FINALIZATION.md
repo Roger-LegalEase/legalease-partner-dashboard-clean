@@ -36,7 +36,7 @@ This directory is an import, not a second editable source of truth. Corrections 
 | counsel | 131 |
 | **SUM** | **854** |
 
-## 2. The 40 rows that reach no registry track
+## 2. The 38 rows that reach no registry track
 
 | Classification | Rows |
 |---|---:|

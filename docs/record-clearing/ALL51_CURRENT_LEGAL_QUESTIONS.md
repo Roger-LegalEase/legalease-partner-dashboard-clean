@@ -5,7 +5,7 @@
 
 **55 ledger tuples · 50 deferred questions · 6 on decided tracks · 56 in one denominator.**
 
-Three numbers, none of them interchangeable. The finalization emits 53 (pathway, track, question) tuples; four questions are reached by two pathways each, giving 49 deferred questions. The six question texts on the four decided tracks were tracked BESIDE that 49, not inside it, so 49 minus 6 was never a valid subtraction. Folding them in gives one denominator of 55 in which resolution can be counted.
+Three numbers, none of them interchangeable. The finalization emits 55 (pathway, track, question) tuples, of which 53 were in the first published queue and 2 were added by bindings named in accountedAdditions. Tuples exceed questions because some questions are reached by more than one pathway, giving 50 deferred questions. The 6 question texts on the decided tracks were tracked BESIDE that figure, not inside it, so subtracting one from the other was never valid. Folding them in gives one denominator of 56 in which resolution can be counted.
 
 **Resolved by the 4 controlling decisions of 2026-08-28: 13** (6 answered directly, 7 by identical text on other tracks). **Active open: 43.** Open immediate assignments: 0.
 

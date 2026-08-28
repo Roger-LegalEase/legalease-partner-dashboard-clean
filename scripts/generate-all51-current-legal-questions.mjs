@@ -67,6 +67,28 @@ const COUNSEL_BASES = new Set(["counsel_confirmation_required", "batch_decision_
 // lawyer would actually answer.
 // ---------------------------------------------------------------------------
 
+/**
+ * The tuple count as first published, and every addition since. A tuple is a
+ * (pathway, track, question) triple, so binding a pathway to a track that
+ * carries an open question adds one — which is the queue working, not drifting,
+ * provided the addition is named here.
+ */
+const TUPLE_BASELINE = {
+  count: 53,
+  publishedOn: "2026-08-28",
+  additions: [
+    {
+      trackId: "ms-misd-addl",
+      pathwayKeys: [
+        "MS:additional-justice-court-misdemeanor-relief-9-11-15-3",
+        "MS:additional-municipal-court-misdemeanor-relief-21-23-7-6"
+      ],
+      tuples: 2,
+      reason: "Both terminal Mississippi misdemeanor routes were bound to ms-misd-addl, which carries the open Miss. Code Ann. § 99-19-72 filing-fee question. That question names §§ 9-11-15(3) and 21-23-7(6) directly as sections the § 99-19-71 fee does not reach by its terms, so binding the routes is what surfaced it. One question text, reached by two pathways."
+    }
+  ]
+};
+
 const tuples = finalization.deferredCounselQuestions.questions;
 const uniqueQuestions = new Map();
 for (const tuple of tuples) {
@@ -509,7 +531,9 @@ const register = {
     historicalDeferredUniqueQuestions: questions.filter((q) => !q.decidedDirectly).length,
     decidedTrackQuestionTexts: questions.filter((q) => q.decidedDirectly).length,
     historicalUniqueQuestions: questions.length,
-    note: "Three numbers, none of them interchangeable. The finalization emits 53 (pathway, track, question) tuples; four questions are reached by two pathways each, giving 49 deferred questions. The six question texts on the four decided tracks were tracked BESIDE that 49, not inside it, so 49 minus 6 was never a valid subtraction. Folding them in gives one denominator of 55 in which resolution can be counted."
+    baselineTuples: TUPLE_BASELINE.count,
+    accountedAdditions: TUPLE_BASELINE.additions,
+    note: `Three numbers, none of them interchangeable. The finalization emits ${tuples.length} (pathway, track, question) tuples, of which ${TUPLE_BASELINE.count} were in the first published queue and ${tuples.length - TUPLE_BASELINE.count} were added by bindings named in accountedAdditions. Tuples exceed questions because some questions are reached by more than one pathway, giving ${questions.filter((q) => !q.decidedDirectly).length} deferred questions. The ${questions.filter((q) => q.decidedDirectly).length} question texts on the decided tracks were tracked BESIDE that figure, not inside it, so subtracting one from the other was never valid. Folding them in gives one denominator of ${questions.length} in which resolution can be counted.`
   },
   resolution: {
     controllingDecisionRecord: "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
@@ -539,7 +563,19 @@ const markdown = renderMarkdown(register);
 if (CHECK) {
   const problems = [];
   if (register.classificationSum !== questions.length) problems.push(`classifications sum to ${register.classificationSum}, not ${questions.length}`);
-  if (register.denominator.historicalLedgerTuples !== 53) problems.push(`ledger tuples ${register.denominator.historicalLedgerTuples}, expected 53`);
+  // The published tuple count was 53. It may move, but only by additions this
+  // register names. A queue whose denominator grows quietly is a queue nobody
+  // can audit.
+  const expectedTuples = TUPLE_BASELINE.count + TUPLE_BASELINE.additions.reduce((a, x) => a + x.tuples, 0);
+  if (register.denominator.historicalLedgerTuples !== expectedTuples) {
+    problems.push(`ledger tuples ${register.denominator.historicalLedgerTuples}; baseline ${TUPLE_BASELINE.count} plus ${expectedTuples - TUPLE_BASELINE.count} accounted addition(s) is ${expectedTuples}`);
+  }
+  for (const addition of TUPLE_BASELINE.additions) {
+    const found = tuples.filter((t) => addition.pathwayKeys.includes(t.pathwayKey) && t.trackId === addition.trackId).length;
+    if (found !== addition.tuples) {
+      problems.push(`${addition.trackId}: ${found} tuple(s) on ${addition.pathwayKeys.join(", ")}, recorded as ${addition.tuples}`);
+    }
+  }
   if (register.denominator.decidedTrackQuestionTexts !== 6) problems.push(`decided question texts ${register.denominator.decidedTrackQuestionTexts}, expected 6`);
   const terminal = questions.filter((q) => TERMINAL.has(q.classification)).length;
   if (register.resolution.activeOpenQuestions + terminal !== questions.length) {
