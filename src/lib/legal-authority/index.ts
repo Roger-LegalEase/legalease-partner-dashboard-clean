@@ -14,16 +14,21 @@ import p0Routes from "@/lib/legal-authority/routes/p0.json";
 import mississippiRoutes from "@/lib/legal-authority/routes/mississippi.json";
 import routeSplitRoutes from "@/lib/legal-authority/routes/route-splits.json";
 import singleRoutes from "@/lib/legal-authority/routes/single-routes.json";
+import nationalReportRoutes from "@/lib/legal-authority/routes/national-report-2026-08-28.json";
 
 /**
  * The approved authority, assembled once.
  *
  * The route files are split along the same seams the implementation is
- * committed in — P0/effective-date, Mississippi, route splits, single routes —
- * so a batch can be reverted on its own without leaving the registry
- * half-applied.
+ * committed in — P0/effective-date, Mississippi, route splits, single routes,
+ * and the 2026-08-28 national report — so a batch can be reverted on its own
+ * without leaving the registry half-applied.
+ *
+ * Order matters. ROUTE_BY_KEY is built by Map insertion, so a later file's
+ * contract for the same routeKey replaces an earlier one. The national report
+ * is the latest authority, so it sits last and its decisions govern.
  */
-const ROUTE_FILES = [p0Routes, mississippiRoutes, routeSplitRoutes, singleRoutes] as unknown as Array<{
+const ROUTE_FILES = [p0Routes, mississippiRoutes, routeSplitRoutes, singleRoutes, nationalReportRoutes] as unknown as Array<{
   routes: LegalRouteContract[];
 }>;
 

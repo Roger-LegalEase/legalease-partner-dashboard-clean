@@ -45,10 +45,10 @@
       "intendedSellablePathways": 271,
       "publiclyReachableSellablePathways": 80,
       "authoritativePacketReadyPathways": 80,
-      "packetSpecCompletePathways": 256,
-      "technicallyApprovedPacketPathways": 117,
+      "packetSpecCompletePathways": 254,
+      "technicallyApprovedPacketPathways": 116,
       "legallyApprovedPacketPathways": 50,
-      "successfullyRenderedPathways": 203
+      "successfullyRenderedPathways": 202
     },
     "holds": false,
     "breaks": [
@@ -453,8 +453,8 @@
       {
         "stage": "packetSpecCompletePathways",
         "expected": 271,
-        "actual": 256,
-        "shortfall": 15,
+        "actual": 254,
+        "shortfall": 17,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -469,15 +469,17 @@
           "MS:intervention-court-statutory-result-enforcement-referral",
           "MS:nonadjudication-99-15-26-active-case-admission",
           "MS:pretrial-intervention-active-case-admission",
+          "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
           "RI:path-g-decriminalized-offense-expungement",
+          "SC:diversion-or-program-completion-expungement",
           "WI:executive-pardon-guidance"
         ]
       },
       {
         "stage": "technicallyApprovedPacketPathways",
         "expected": 271,
-        "actual": 117,
-        "shortfall": 154,
+        "actual": 116,
+        "shortfall": 155,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -584,6 +586,7 @@
           "RI:path-e-filed-complaint-relief-under-12-10-12",
           "RI:path-g-decriminalized-offense-expungement",
           "RI:path-h-commercial-sexual-activity-related-expungement",
+          "SC:diversion-or-program-completion-expungement",
           "SC:eligible-conviction-expungement",
           "SC:general-sessions-non-conviction-expungement",
           "SC:human-trafficking-survivor-expungement",
@@ -867,8 +870,8 @@
       {
         "stage": "successfullyRenderedPathways",
         "expected": 271,
-        "actual": 203,
-        "shortfall": 68,
+        "actual": 202,
+        "shortfall": 69,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -915,6 +918,7 @@
           "RI:path-e-filed-complaint-relief-under-12-10-12",
           "RI:path-g-decriminalized-offense-expungement",
           "RI:path-h-commercial-sexual-activity-related-expungement",
+          "SC:diversion-or-program-completion-expungement",
           "SC:human-trafficking-survivor-expungement",
           "SD:controlled-substance-deferred-disposition-route",
           "SD:diversion-expungement",
@@ -988,6 +992,11 @@
       },
       {
         "pathwayKey": "NY:conditional-treatment-sealing-under-cpl-160-58",
+        "routeKind": "guidance_only",
+        "renderReason": "resolver refused: routeKind=guidance_only"
+      },
+      {
+        "pathwayKey": "SC:diversion-or-program-completion-expungement",
         "routeKind": "guidance_only",
         "renderReason": "resolver refused: routeKind=guidance_only"
       },
@@ -2545,7 +2554,6 @@
       "ND:first-offense-possession-sealing",
       "ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
       "ND:marijuana-specific-summary-pardon-or-sealing-relief",
-      "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "NE:juvenile-petition-backstop",
       "NE:law-enforcement-error-expungement",
       "NE:pardon-then-seal",
@@ -2606,7 +2614,6 @@
       "RI:path-d-non-conviction-sealing-expungement",
       "RI:path-e-filed-complaint-relief-under-12-10-12",
       "RI:path-h-commercial-sexual-activity-related-expungement",
-      "SC:diversion-or-program-completion-expungement",
       "SC:eligible-conviction-expungement",
       "SC:general-sessions-non-conviction-expungement",
       "SC:human-trafficking-survivor-expungement",
@@ -2773,7 +2780,6 @@
       "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "PA:path-a-non-conviction-expungement",
       "RI:path-d-non-conviction-sealing-expungement",
-      "SC:diversion-or-program-completion-expungement",
       "SC:juvenile-expungement",
       "SD:adult-arrest-record-expungement-under-sdcl-23a-3-27",
       "TN:pathway-2-diversion-expunction-under-40-15-105-40-35-313",
@@ -3004,7 +3010,6 @@
       "RI:path-b-multiple-misdemeanor-expungement",
       "RI:path-c-deferred-sentence-expungement",
       "RI:path-d-non-conviction-sealing-expungement",
-      "SC:diversion-or-program-completion-expungement",
       "SC:eligible-conviction-expungement",
       "SC:general-sessions-non-conviction-expungement",
       "SC:juvenile-expungement",
@@ -15064,12 +15069,12 @@
         "category": "paid_packet_intended",
         "categoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
         "evidence": {
-          "routeType": "court_filing",
+          "routeType": "automatic",
           "productRouteType": "court_petition",
           "userFiled": true,
           "currentlyOperative": true,
           "paidRouteBlocker": "legal_reconfirmation",
-          "packetPlanMode": "official_form_overlay_or_source_form_set",
+          "packetPlanMode": "automatic_relief_verification_and_guidance",
           "tracks": [
             "nd-nonconviction-auto-close-verify"
           ],
@@ -15082,7 +15087,7 @@
         "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "ND has a compiled profile but no certified packet renderer, so it serves guidance."
+        "reason": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 is authority-closed at stage automatic; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": {
         "status": "corrected_awaiting_reconfirmation",
@@ -15095,7 +15100,7 @@
         "intendedSellable": true,
         "publiclyReachableSellable": false,
         "authoritativePacketReady": false,
-        "packetSpecComplete": true,
+        "packetSpecComplete": false,
         "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
         "successfullyRendered": false
@@ -15110,6 +15115,11 @@
           "id": "legal_reconfirmation",
           "severity": "blocking",
           "statement": "Counsel ratification of this route is not current."
+        },
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs."
         },
         {
           "id": "legal_review_pending",
@@ -20662,12 +20672,12 @@
         "category": "paid_packet_intended",
         "categoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
         "evidence": {
-          "routeType": "court_filing",
+          "routeType": "automatic_guidance",
           "productRouteType": "court_petition",
           "userFiled": true,
           "currentlyOperative": true,
           "paidRouteBlocker": "none",
-          "packetPlanMode": "state_specific_custom_packet_from_source_rules",
+          "packetPlanMode": "automatic_relief_verification_and_guidance",
           "tracks": [
             "sc_pti_17_22_150"
           ],
@@ -20676,32 +20686,42 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "SC diversion-or-program-completion-expungement builds through the shared packet factory from packet set sc_pti_17_22_150-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "SC:diversion-or-program-completion-expungement is authority-closed at stage single_stage; no participant packet is sold and no packet credit is consumed."
       },
       "lawrence": null,
       "stages": {
         "intendedSellable": true,
         "publiclyReachableSellable": true,
         "authoritativePacketReady": true,
-        "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "packetSpecComplete": false,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2938
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
+        {
+          "id": "packet_spec_incomplete",
+          "severity": "blocking",
+          "statement": "The compiled packet plan does not yet name the required inputs, source rules and source forms a packet needs."
+        },
         {
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {

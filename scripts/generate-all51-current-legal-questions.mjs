@@ -106,6 +106,12 @@ const TUPLE_BASELINE = {
       ],
       tuples: 2,
       reason: "Both terminal Mississippi misdemeanor routes were bound to ms-misd-addl, which carries the open Miss. Code Ann. § 99-19-72 filing-fee question. That question names §§ 9-11-15(3) and 21-23-7(6) directly as sections the § 99-19-71 fee does not reach by its terms, so binding the routes is what surfaced it. One question text, reached by two pathways."
+    },
+    {
+      trackId: "sc_pti_17_22_150",
+      pathwayKeys: ["SC:diversion-or-program-completion-expungement"],
+      tuples: 1,
+      reason: "Batch A of the national report gave SC:diversion-or-program-completion-expungement a legal-authority route contract, which bound the pathway to sc_pti_17_22_150 in the paid-pathway legal join. The track already carried the S.C. Code Ann. § 17-22-940(G) single-incident fee question, and that question is already answered by CLD-2026-08-28-SC-PTI, so this addition is a new tuple on a settled question rather than a new question."
     }
   ]
 };

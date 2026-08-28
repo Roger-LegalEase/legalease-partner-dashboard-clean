@@ -27,10 +27,10 @@ measured against the closure ledger's seven-stage chain.
 |---|---|
 | ownerApprovedLegalDesign | 174 |
 | technicalApprovalCurrent | 199 |
-| deterministicArtifactProven | 230 |
+| deterministicArtifactProven | 231 |
 | noProblematicPdfHold | 19 |
 | paymentAllowed | 240 |
-| rendererSelected | 68 |
+| rendererSelected | 69 |
 | packetSpecificationComplete | 45 |
 
 ## Per jurisdiction
@@ -65,7 +65,7 @@ measured against the closure ledger's seven-stage chain.
 | MS | Mississippi | EXISTING_BRANCH_TO_PORT | 22 | 9 | 13 | 12 | legal_review_pending×10, not_paid_product×9, packet_spec_incomplete×9, renderer_unavailable×9, route_metadata×4 |
 | MT | Montana | BLOCKED_EXACTLY | 2 | 2 | 2 | 2 | none |
 | NC | North Carolina | REMAINING_TO_BUILD | 3 | 0 | 3 | 0 | legal_review_pending×3, gate_build×1, route_metadata×1 |
-| ND | North Dakota | REMAINING_TO_BUILD | 6 | 2 | 4 | 3 | legal_review_pending×3, renderer_unavailable×2, gate_build×1, legal_reconfirmation×1 |
+| ND | North Dakota | REMAINING_TO_BUILD | 6 | 2 | 4 | 3 | legal_review_pending×3, renderer_unavailable×2, gate_build×1, legal_reconfirmation×1, packet_spec_incomplete×1 |
 | NE | Nebraska | REMAINING_TO_BUILD | 6 | 0 | 5 | 0 | legal_review_pending×6, route_metadata×1, renderer_unavailable×1, legal_reconfirmation×1, filing_determination_missing×1, not_paid_product×1, intake_fix×1 |
 | NH | New Hampshire | REMAINING_TO_BUILD | 5 | 0 | 3 | 0 | legal_review_pending×5, renderer_unavailable×2, legal_reconfirmation×1, gate_build×1, route_metadata×1, wait_anchor_fix×1 |
 | NJ | New Jersey | REMAINING_TO_BUILD | 3 | 1 | 3 | 1 | legal_review_pending×2, legal_reconfirmation×1, gate_build×1 |
@@ -77,7 +77,7 @@ measured against the closure ledger's seven-stage chain.
 | OR | Oregon | REMAINING_TO_BUILD | 3 | 1 | 3 | 1 | legal_review_pending×2, legal_reconfirmation×1, gate_build×1 |
 | PA | Pennsylvania | BLOCKED_EXACTLY | 1 | 1 | 1 | 1 | none |
 | RI | Rhode Island | REMAINING_TO_BUILD | 7 | 0 | 4 | 0 | legal_review_pending×7, renderer_unavailable×3, gate_build×2, legal_reconfirmation×2, wait_anchor_fix×1, not_paid_product×1, packet_spec_incomplete×1, intake_fix×1 |
-| SC | South Carolina | REMAINING_TO_BUILD | 6 | 0 | 5 | 0 | legal_review_pending×6, route_metadata×2, gate_build×1, renderer_unavailable×1, legal_reconfirmation×1, wait_anchor_fix×1 |
+| SC | South Carolina | REMAINING_TO_BUILD | 6 | 0 | 4 | 0 | legal_review_pending×6, renderer_unavailable×2, route_metadata×2, packet_spec_incomplete×1, gate_build×1, legal_reconfirmation×1, wait_anchor_fix×1 |
 | SD | South Dakota | REMAINING_TO_BUILD | 6 | 0 | 1 | 0 | legal_review_pending×6, renderer_unavailable×5, legal_reconfirmation×2, route_metadata×1, intake_fix×1, gate_build×1 |
 | TN | Tennessee | REMAINING_TO_BUILD | 4 | 0 | 3 | 0 | legal_review_pending×4, gate_build×2, renderer_unavailable×1, legal_reconfirmation×1 |
 | TX | Texas | REMAINING_TO_BUILD | 8 | 0 | 5 | 0 | legal_review_pending×8, renderer_unavailable×3, route_metadata×3, wait_anchor_fix×2, gate_build×2 |
@@ -119,7 +119,7 @@ measured against the closure ledger's seven-stage chain.
 - **MS Mississippi** — EXISTING_BRANCH_TO_PORT. Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming MS), and the controlling branch does not carry it. _Delta:_ Port the reviewed legal design, packet specification and packet-engine implementation for MS from feat/record-clearing-production-integration; do not merge the branch wholesale.
 - **MT Montana** — BLOCKED_EXACTLY. The chain closes and no blocker is open. What is missing is hosted generation acceptance, which depends on Track A Phase 8 rather than on any work in this jurisdiction. _Delta:_ Execute hosted generation acceptance for this jurisdiction once the participant platform reaches controlled hosted acceptance.
 - **NC North Carolina** — REMAINING_TO_BUILD. 3 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (3); gate_build (1); route_metadata (1)
-- **ND North Dakota** — REMAINING_TO_BUILD. 4 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (3); renderer_unavailable (2); gate_build (1); legal_reconfirmation (1)
+- **ND North Dakota** — REMAINING_TO_BUILD. 4 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (3); renderer_unavailable (2); gate_build (1); legal_reconfirmation (1); packet_spec_incomplete (1)
 - **NE Nebraska** — REMAINING_TO_BUILD. 6 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (6); route_metadata (1); renderer_unavailable (1); legal_reconfirmation (1); filing_determination_missing (1); not_paid_product (1); intake_fix (1)
 - **NH New Hampshire** — REMAINING_TO_BUILD. 5 of 5 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (5); renderer_unavailable (2); legal_reconfirmation (1); gate_build (1); route_metadata (1); wait_anchor_fix (1)
 - **NJ New Jersey** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (2); legal_reconfirmation (1); gate_build (1)
@@ -131,7 +131,7 @@ measured against the closure ledger's seven-stage chain.
 - **OR Oregon** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (2); legal_reconfirmation (1); gate_build (1)
 - **PA Pennsylvania** — BLOCKED_EXACTLY. The chain closes and no blocker is open. What is missing is hosted generation acceptance, which depends on Track A Phase 8 rather than on any work in this jurisdiction. _Delta:_ Execute hosted generation acceptance for this jurisdiction once the participant platform reaches controlled hosted acceptance.
 - **RI Rhode Island** — REMAINING_TO_BUILD. 7 of 7 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (7); renderer_unavailable (3); gate_build (2); legal_reconfirmation (2); wait_anchor_fix (1); not_paid_product (1); packet_spec_incomplete (1); intake_fix (1)
-- **SC South Carolina** — REMAINING_TO_BUILD. 6 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (6); route_metadata (2); gate_build (1); renderer_unavailable (1); legal_reconfirmation (1); wait_anchor_fix (1)
+- **SC South Carolina** — REMAINING_TO_BUILD. 6 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (6); renderer_unavailable (2); route_metadata (2); packet_spec_incomplete (1); gate_build (1); legal_reconfirmation (1); wait_anchor_fix (1)
 - **SD South Dakota** — REMAINING_TO_BUILD. 6 of 6 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (6); renderer_unavailable (5); legal_reconfirmation (2); route_metadata (1); intake_fix (1); gate_build (1)
 - **TN Tennessee** — REMAINING_TO_BUILD. 4 of 4 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (4); gate_build (2); renderer_unavailable (1); legal_reconfirmation (1)
 - **TX Texas** — REMAINING_TO_BUILD. 8 of 8 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (8); renderer_unavailable (3); route_metadata (3); wait_anchor_fix (2); gate_build (2)

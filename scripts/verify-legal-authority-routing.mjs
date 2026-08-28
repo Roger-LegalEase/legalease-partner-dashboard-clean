@@ -196,7 +196,25 @@ const FIXTURES = [
   // Unfinished court requirements must stop it too.
   ["ms-felony-requirements-open", "MS", { ...MS_BASE, court_requirements_completed: "no", case_outcome: "Felony conviction", offense_level: "Felony", possible_pathway_context: "Eligible felony-conviction expungement (§ 99-19-71)", resolved_timing_bucket: "gt_10_years" }, undefined, "no-payment"],
   // Unknown timing must never resolve to a packet.
-  ["ms-felony-timing-unknown", "MS", { ...MS_BASE, case_outcome: "Felony conviction", offense_level: "Felony", possible_pathway_context: "Eligible felony-conviction expungement (§ 99-19-71)", resolved_timing_bucket: "not_sure" }, undefined, "no-payment"]
+  ["ms-felony-timing-unknown", "MS", { ...MS_BASE, case_outcome: "Felony conviction", offense_level: "Felony", possible_pathway_context: "Eligible felony-conviction expungement (§ 99-19-71)", resolved_timing_bucket: "not_sure" }, undefined, "no-payment"],
+
+  // ── Batch A of the national legal decision report, 2026-08-28 ─────────────
+  //
+  // Both of these routes carried frontendBranch.paymentAllowed: true and a
+  // packet_ready_with_caution suggestion before the report's contracts landed.
+  // Each fixture is the proof that the contract, not the stale compiled field,
+  // decides.
+
+  // North Dakota § 12-60.1-05, report correction 3. For a disposition on or
+  // after 2025-08-01 the record closes by operation of law, so the route is
+  // verification guidance and sells nothing. Filing a petition here would ask a
+  // court to do what the statute already did.
+  ["nd-automatic-closure-sells-nothing", "ND", { ownership_scope: "Yes", jurisdiction_scope: "State or local", case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted", offense_level: "Misdemeanor", possible_pathway_context: "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05" }, "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05", "closed"],
+
+  // South Carolina § 17-22-150, report correction 4. The solicitor's office
+  // administers the expungement, so the ordinary custom participant pleading is
+  // retired and there is nothing to sell.
+  ["sc-pti-solicitor-administered-sells-nothing", "SC", { ownership_scope: "Yes", jurisdiction_scope: "State or local", pending_cases: "No", case_outcome: "Diversion, deferred disposition, supervision, or similar program", offense_level: "Misdemeanor", possible_pathway_context: "Diversion or program-completion expungement", age_at_offense: "21 or older", prior_relief: "No", trafficking_status: "No", pardon_status: "No", sentence_completion_date: "2018-01-01", financial_obligations: "Yes", resolved_timing_bucket: "gt_10_years" }, "diversion-or-program-completion-expungement", "closed"]
 ];
 
 for (const [label, code, answers, expectedPathwayId, expectation] of FIXTURES) {

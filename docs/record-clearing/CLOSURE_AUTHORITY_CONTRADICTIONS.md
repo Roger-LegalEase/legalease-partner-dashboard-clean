@@ -7,7 +7,9 @@ data/rcap-ledger/sellable-pathway-reclassifications.json states that the only wa
 | Authority outcome mode | Pathways |
 |---|---:|
 | referral | 9 |
-| **TOTAL** | **9** |
+| automatic_relief | 1 |
+| guidance_status | 1 |
+| **TOTAL** | **11** |
 
 ## Deliberately not proposed
 
@@ -192,6 +194,28 @@ These routes are also non-court, and they are **not** contradictions. The author
 }
 ```
 
+## `ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode automatic_relief, packetFamily null (NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY)
+- **The record's own note**: Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did.
+- **Open blockers**: legal_reconfirmation, packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-ND-NON-CONVICTION-COURT-RECORD-CLOSING-UNDER-N-D-C-C-12-60-1-05",
+  "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 under NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY as outcomeMode=automatic_relief with packetFamily=null, citing N.D.C.C. § 12-60.1-05. Relief happens by operation of law with no participant filing. The record's own note: \"Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did.\"",
+  "authority": null,
+  "decidedOn": null
+}
+```
+
 ## `RI:path-g-decriminalized-offense-expungement`
 
 - **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
@@ -209,6 +233,28 @@ These routes are also non-court, and they are **not** contradictions. The author
   "newClassification": "non_filing_guidance",
   "reason": "no_participant_filing",
   "evidence": "src/lib/legal-authority/routes/route-splits.json records RI:path-g-decriminalized-offense-expungement under LD-RI-06 / RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT as outcomeMode=referral with packetFamily=null, citing R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells.\"",
+  "authority": null,
+  "decidedOn": null
+}
+```
+
+## `SC:diversion-or-program-completion-expungement`
+
+- **Closure says**: paid_packet_intended — Route metadata records a participant-filed court_petition route in product scope.
+- **Route authority says**: outcomeMode guidance_status, packetFamily null (NATIONAL-2026-08-28-LA-IMM-04 / SC-17-22-150-PTI-SOLICITOR-ADMINISTERED)
+- **The record's own note**: Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.
+- **Open blockers**: packet_spec_incomplete, legal_review_pending, renderer_unavailable
+- **Cannot close while the categorisation stands**: packet_spec_incomplete, renderer_unavailable — each demands a packet the authority says this route does not produce.
+- **Prepared proposal** (authority and decidedOn are for the decision owner):
+
+```json
+{
+  "id": "PROPOSED-SC-DIVERSION-OR-PROGRAM-COMPLETION-EXPUNGEMENT",
+  "pathwayKey": "SC:diversion-or-program-completion-expungement",
+  "previousClassification": "paid_packet_intended",
+  "newClassification": "non_filing_guidance",
+  "reason": "no_participant_filing",
+  "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records SC:diversion-or-program-completion-expungement under NATIONAL-2026-08-28-LA-IMM-04 / SC-17-22-150-PTI-SOLICITOR-ADMINISTERED as outcomeMode=guidance_status with packetFamily=null, citing S.C. Code Ann. § 17-22-150(a). The route reports or verifies a status; nothing is filed. The record's own note: \"Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.\"",
   "authority": null,
   "decidedOn": null
 }

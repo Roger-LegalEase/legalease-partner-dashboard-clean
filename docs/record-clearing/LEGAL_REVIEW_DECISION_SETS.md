@@ -62,7 +62,7 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** None. No legal decision is required.
 - **ENGINEERING OWNER:** RCAP ledger generation
 - **ENGINEERING DELTA AFTER DECISION:** One change in the closure-ledger generator, plus a regeneration. No legal artifact, no schema change.
-- **PACKET GENERATION CURRENTLY DISABLED:** 16 of 53 rows do not render today; payment is closed for all 53.
+- **PACKET GENERATION CURRENTLY DISABLED:** 17 of 53 rows do not render today; payment is closed for all 53.
 - **PAYMENT CURRENTLY DISABLED:** All 53 rows.
 - **DUPLICATE DECISIONS COLLAPSED:** 52
 
@@ -269,7 +269,7 @@ collapses those rows against the registers that already hold decisions.
 | `RI:path-e-filed-complaint-relief-under-12-10-12` | guidance_only | LEGAL_RECONFIRMATION_REQUIRED |
 | `RI:path-g-decriminalized-offense-expungement` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `RI:path-h-commercial-sexual-activity-related-expungement` | guidance_only | EXISTING_APPROVAL_NOT_LINKED |
-| `SC:diversion-or-program-completion-expungement` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
+| `SC:diversion-or-program-completion-expungement` | guidance_only | EXISTING_APPROVAL_NOT_LINKED |
 | `SC:eligible-conviction-expungement` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
 | `SC:general-sessions-non-conviction-expungement` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
 | `SC:human-trafficking-survivor-expungement` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |

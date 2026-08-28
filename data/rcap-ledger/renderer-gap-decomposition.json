@@ -12,11 +12,11 @@
     ],
     "consequence": "Porting the engines would move the renderer backwards. The remaining renderer work is wiring routes to the shared factory_v2 renderer."
   },
-  "total": 68,
+  "total": 69,
   "counts": {
     "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID": 21,
     "NO_TRACK_TO_RENDER_FROM": 38,
-    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 4,
+    "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED": 5,
     "LEGACY_GENERATOR_OWNS_THIS_JURISDICTION": 5
   },
   "rendererWorkRemaining": 0,
@@ -1043,6 +1043,28 @@
       "classification": "GUIDANCE_ROUTE_MISCATEGORISED_AS_PAID",
       "reason": "The memo records outputStrategy process_guidance, which produces no packet. The resolver correctly refused; the categorisation of this pathway as paid_packet_intended is what is wrong.",
       "remedy": "Recategorise the pathway as a non-packet service outcome. No renderer is needed or wanted."
+    },
+    {
+      "pathwayKey": "SC:diversion-or-program-completion-expungement",
+      "jurisdiction": "SC",
+      "routeKind": "guidance_only",
+      "rendererKind": "none",
+      "trackIds": [
+        "sc_pti_17_22_150"
+      ],
+      "memoOutputStrategies": [
+        "custom_pleading"
+      ],
+      "resolverStatement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+      "suppressedBy": "guidance_only",
+      "factoryV2": {
+        "resolves": true,
+        "legacyGeneratorOwnsThisJurisdiction": false,
+        "unmetBuildInputs": []
+      },
+      "classification": "FACTORY_V2_ADMITTED_BUT_DELIBERATELY_SUPPRESSED",
+      "reason": "factory_v2 admits this route and a recorded treatment suppresses it: guidance_only. The renderer is not missing; the route is held closed on purpose.",
+      "remedy": "None as renderer work. Revisit only if the treatment that suppresses it is lifted."
     },
     {
       "pathwayKey": "SC:human-trafficking-survivor-expungement",

@@ -25,28 +25,20 @@ measured against every authority layer that already exists.
 | Classification | Rows |
 |---|---:|
 | NO_TRACK_TO_FAMILY_BRIDGE | 120 |
-| TECHNICAL_BLOCKER | 44 |
+| TECHNICAL_BLOCKER | 45 |
 | NO_PATHWAY_TO_TRACK_BRIDGE | 38 |
 | LEGAL_RECONFIRMATION_REQUIRED | 10 |
 | SOURCE_BLOCKER | 5 |
 | APPROVAL_NOT_LINKED | 3 |
-| TRUE_COMPLETED_OUTPUT_LEGAL_REVIEW_REQUIRED | 1 |
 | **TOTAL** | **221** |
 
-## Legal team assignments: 2
+## Legal team assignments: 1
 
 ### LA-01 — LEGAL_RECONFIRMATION_REQUIRED
 
 - **Affected pathway rows:** 10
 - **Jurisdictions:** GA IN MO ND NH NV RI SD TN WV
 - **Track IDs:** ga-rfo, ga-seal-m, in_conviction_felony, in_conviction_serious_felony, mo-311-326-minor-in-possession, nd-nonconviction-auto-close-verify, nh_auto_vacated, nv_seal_deferred, ri_filed_complaints, sd_diversion, tn_judicial_diversion, wv_drug_conditional_discharge
-- **Legal owner:** Lawrence Blackmon
-
-### LA-02 — TRUE_COMPLETED_OUTPUT_LEGAL_REVIEW_REQUIRED
-
-- **Affected pathway rows:** 1
-- **Jurisdictions:** SC
-- **Track IDs:** sc_pti_17_22_150
 - **Legal owner:** Lawrence Blackmon
 
 ## Every row
@@ -212,7 +204,7 @@ measured against every authority layer that already exists.
 | RI | `path-e-filed-complaint-relief-under-12-10-12` | ri_filed_complaints | legal_design_approved_with_limitations | 2026-08-01 | yes | LEGAL_RECONFIRMATION_REQUIRED | Reconfirm that counsel ratification is current. |
 | RI | `path-g-decriminalized-offense-expungement` | ri_decriminalized | legal_design_approved_with_limitations | 2026-08-01 | no | NO_TRACK_TO_FAMILY_BRIDGE | Bridge ri_decriminalized to a packet family, or record the pathway as a non-packet service outcome. |
 | RI | `path-h-commercial-sexual-activity-related-expungement` | ri_commercial_sexual_activity | legal_design_approved_with_limitations | 2026-08-01 | yes | TECHNICAL_BLOCKER | intake_fix, renderer_unavailable |
-| SC | `diversion-or-program-completion-expungement` | sc_pti_17_22_150 | legal_design_approved_with_limitations | 2026-08-01 | yes | TRUE_COMPLETED_OUTPUT_LEGAL_REVIEW_REQUIRED | Counsel confirmation of 1 named question(s). |
+| SC | `diversion-or-program-completion-expungement` | sc_pti_17_22_150 | legal_design_approved_with_limitations | 2026-08-01 | yes | TECHNICAL_BLOCKER | packet_spec_incomplete, renderer_unavailable |
 | SC | `eligible-conviction-expungement` | sc_17_1_65_handgun, sc_22_5_910, sc_22_5_920_yoa, sc_22_5_930_drug, sc_34_11_90e_check, sc_56_5_750f | legal_design_approved_with_limitations | 2026-08-01 | yes | TECHNICAL_BLOCKER | gate_build |
 | SC | `general-sessions-non-conviction-expungement` | sc_17_1_40_general_sessions | legal_design_approved_with_limitations | 2026-08-01 | yes | TECHNICAL_BLOCKER | route_metadata |
 | SC | `human-trafficking-survivor-expungement` | — | no_memo_track_bridge | — | no | NO_PATHWAY_TO_TRACK_BRIDGE | Bind the pathway to a registry track. |

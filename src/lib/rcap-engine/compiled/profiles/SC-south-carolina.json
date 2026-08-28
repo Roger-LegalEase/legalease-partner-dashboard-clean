@@ -826,21 +826,13 @@
         "convicted_other"
       ],
       "automatic": false,
-      "filingRequired": true,
-      "routeType": "court_filing",
+      "filingRequired": false,
+      "routeType": "automatic_guidance",
       "suggestedResultCode": "packet_ready_with_caution",
       "waitingRules": [
-        "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the trial judge signs the order no sooner than 31 days and no later than 40 days after notice. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "If the person was not fingerprinted, the defendant applies at no cost using the summary-court application process, and the court issues the appropriate order if eligible. Internet public records must remove eligible criminal charges within 30 days after disposition, and the rule applies retroactively for older cases. (\"https://www.sccourts.org/resources/general-public/expungement-application-process/for-magistrate-municipal-courts/\")",
-        "A first offense conviction under South Carolina\u0019s fraudulent-check statute may be expunged after 1 year from conviction, but only if the conviction was a misdemeanor and the person had no other conviction during that one-year period. Felony fraudulent-check cases are not eligible under this route. This route is available only once. (\"https://www.scstatehouse.gov/code/t34c011.php\")",
-        "A person convicted of a crime carrying a penalty of not more than 30 days imprisonment or a $1,000 fine may apply after 3 years from the date of conviction, if they have no other convictions during that period. This route does not apply to offenses involving operation of a motor vehicle. The statute also now includes certain first offense unlawful-possession-of-firearm-or-weapon convictions with a penalty of not more than 1 year or a $1,000 fine. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "For third-degree domestic violence, the wait is 5 years from conviction, with no other conviction during the period. Conviction includes a guilty plea, nolo contendere plea, or bail forfeiture. Pending charges can block relief unless the pending charge is older than 5 years under the statute\u0019s tolling rules. This route is only available once. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A person sentenced under the South Carolina Youthful Offender Act may apply after completing the sentence, including probation and parole, and then remaining conviction-free for 5 years. Closely connected offenses from the same incident may count as one offense. (\"https://www.scstatehouse.gov/code/t22c005.php\")",
-        "A first offense conviction under the eligible failure-to-stop provision may be expunged after 3 years from completion of all sentence terms and conditions, if the person has no other conviction during that 3-year period. This route does not apply to felony failure-to-stop cases. (\"https://www.scstatehouse.gov/code/t56c005.php\")",
-        "First offense failure to stop for blue light, non-felony route 56-5-750(F) 3 years after completing all sentence terms; no other convictions",
-        "Summary court internet public record removal Within 30 days of disposition",
-        "Failure to stop first offense, non-felony route 3 years after completing all sentence terms",
-        "Route Waiting period / timing General Sessions not guilty / dismissed / nolle / acquitted Usually no conviction wait; route under 17-1-40 Summary court dismissed / nolle / not guilty, fingerprinted Court process after appeal period / objection window Summary court internet public record removal Within 30 days of disposition PTI After successful completion AEP After successful completion TEP After successful completion Conditional discharge drug possession After successful completion and discharge/dismissal First misdemeanor fraudulent check 1 year from conviction First low-level 22-5-910 conviction 3 years from conviction Third-degree domestic violence under 22-5-910 5 years from conviction Youthful Offender Act 5 years after completing sentence/probation/parole Failure to stop first offense, non-felony route 3 years after completing all sentence terms Juvenile status/nonviolent offense Usually after age 18, completed disposition, no later adjudication/conviction, no pending charges Human trafficking survivor route No ordinary waiting-period framing; evidence-specific court motion"
+        "the solicitor's office administers the expungement on successful completion of pretrial intervention; the participant files no pleading and sits through no elapsed wait",
+        "This rule governs filings on or after 2026-08-28.",
+        "Supersedes The rescinded $150 single-incident administrative figure. It must not appear anywhere on this route.."
       ],
       "exclusionRules": [
         "AEP is generally for people who were at least 17 but under 21 at arrest, have no prior alcohol-related offense, and meet program criteria. Eligible offenses include several underage alcohol, open-container, public disorderly conduct, false-age, fake-ID, and related offenses, but DUI-type offenses are excluded. Successful completion results in a noncriminal disposition and can support expungement of official arrest records. (\"https://www.scstatehouse.gov/code/t17c022.php\")",
@@ -857,6 +849,39 @@
         "exclusionOrAmbiguityResult": "likely_not_eligible",
         "matchedResult": "packet_ready_with_caution",
         "paymentAllowed": true
+      },
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-04",
+        "ruleId": "SC-17-22-150-PTI-SOLICITOR-ADMINISTERED",
+        "mechanism": "Pretrial intervention expungement, administered by the solicitor",
+        "statute": "S.C. Code Ann. § 17-22-150(a)",
+        "stage": "single_stage",
+        "outcomeMode": "guidance_status",
+        "paymentAuthority": "closed",
+        "timing": {
+          "kind": "event_trigger",
+          "anchorText": "the solicitor's office administers the expungement on successful completion of pretrial intervention; the participant files no pleading and sits through no elapsed wait"
+        },
+        "requiredFacts": [
+          "Which solicitor's circuit administered the intervention program?",
+          "Was the program successfully completed, and is completion documented?",
+          "Has the solicitor's office issued or refused the expungement?",
+          "Is eligibility contested by the solicitor?"
+        ],
+        "screeningFactIds": [
+          "case_outcome",
+          "court_requirements_completed"
+        ],
+        "exclusions": [
+          "Successful completion of the intervention program is required",
+          "A solicitor denial or contested eligibility leaves the ordinary route entirely"
+        ],
+        "packetFamily": null,
+        "effectiveFrom": "2026-08-28",
+        "supersedes": {
+          "note": "The rescinded $150 single-incident administrative figure. It must not appear anywhere on this route."
+        },
+        "notes": "Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them."
       }
     },
     {
@@ -1874,8 +1899,8 @@
         "sourceConditionText": "PTI After successful completion"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:112-128",
       "candidatePathwayIds": [
@@ -1892,8 +1917,8 @@
         "sourceConditionText": "AEP After successful completion"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:112-128",
       "candidatePathwayIds": [
@@ -1910,8 +1935,8 @@
         "sourceConditionText": "TEP After successful completion"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
-        "frontendAction": "show_cautions_then_allow_packet_checkout"
+        "suggestedResultCode": "guidance_only",
+        "frontendAction": "save_state_guidance_no_checkout"
       },
       "sourceRef": "waiting_periods:112-128",
       "candidatePathwayIds": [
@@ -2196,39 +2221,33 @@
       "when": {
         "backendPathwayId": "diversion-or-program-completion-expungement",
         "requiredFields": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "prior_relief",
-          "age_at_offense",
-          "record_type"
+          "case_outcome"
         ],
         "fieldsReferenced": [
-          "case_outcome",
-          "offense_level",
-          "offense_category",
-          "financial_obligations",
-          "prior_relief",
-          "age_at_offense",
-          "record_type"
+          "case_outcome"
         ],
         "caseOutcomes": [
           "dismissed",
           "diversion_or_deferred",
           "convicted_other"
         ],
-        "sourceConditionText": "Diversion or program-completion expungement"
+        "sourceConditionText": "the solicitor's office administers the expungement on successful completion of pretrial intervention; the participant files no pleading and sits through no elapsed wait"
       },
       "then": {
-        "suggestedResultCode": "packet_ready_with_caution",
+        "suggestedResultCode": "guidance_only",
         "frontendAction": "render_jurisdiction_pathway_result",
         "paymentAllowed": true
       },
       "sourceRef": "section:73-83; corpus-unit:27",
       "candidatePathwayIds": [
         "diversion-or-program-completion-expungement"
-      ]
+      ],
+      "legalAuthority": {
+        "decisionId": "NATIONAL-2026-08-28-LA-IMM-04",
+        "ruleId": "SC-17-22-150-PTI-SOLICITOR-ADMINISTERED",
+        "statute": "S.C. Code Ann. § 17-22-150(a)",
+        "mechanism": "Pretrial intervention expungement, administered by the solicitor"
+      }
     },
     {
       "id": "route-eligible-conviction-expungement",
@@ -2797,7 +2816,7 @@
       {
         "pathwayId": "diversion-or-program-completion-expungement",
         "pathwayLabel": "Diversion or program-completion expungement",
-        "mode": "state_specific_custom_packet_from_source_rules",
+        "mode": "automatic_relief_verification_and_guidance",
         "formCandidates": [],
         "formMappingStatus": "custom_or_manual_mapping_required",
         "sourceRuleRefs": [

@@ -12,7 +12,7 @@
  *   3. checkout open on relief the participant does not file for.
  *
  * It also proves the registry actually covers the approved decision matrix:
- * all fifty decisions present, all 113 approved route keys claimed, and the
+ * every decision present, every approved route key claimed, and the
  * thirteen Mississippi categories plus their stage splits materialised.
  */
 import { register } from "node:module";
@@ -36,14 +36,48 @@ for (const violation of assertRouteContractInvariants(LEGAL_AUTHORITY.routes)) {
 }
 
 // ── 2. Coverage of the approved decision matrix ─────────────────────────────
-if (LEGAL_AUTHORITY.decisions.length !== 50) {
-  fail(`expected 50 approved decisions, found ${LEGAL_AUTHORITY.decisions.length}`);
+//
+// The 2026-08-24 matrix carried 50 decisions over 113 route keys. It may grow,
+// but only by decisions named here: a decision index that expands quietly is
+// one nobody can audit, and the point of a fixed denominator was never the
+// number itself.
+const DECISION_BASELINE = {
+  matrixVersion: "2026-08-24",
+  decisions: 50,
+  routeKeys: 113,
+  additions: [
+    {
+      decisionId: "NATIONAL-2026-08-28-LA-IMM-03",
+      routeKeys: 1,
+      reason: "North Dakota § 12-60.1-05 automatic non-conviction closure, from the national legal decision report of 2026-08-28."
+    },
+    {
+      decisionId: "NATIONAL-2026-08-28-LA-IMM-04",
+      routeKeys: 1,
+      reason: "South Carolina § 17-22-150 pretrial intervention as solicitor-administered guidance, from the same report."
+    }
+  ]
+};
+
+const expectedDecisions = DECISION_BASELINE.decisions + DECISION_BASELINE.additions.length;
+const expectedRouteKeys = DECISION_BASELINE.routeKeys
+  + DECISION_BASELINE.additions.reduce((total, addition) => total + addition.routeKeys, 0);
+
+if (LEGAL_AUTHORITY.decisions.length !== expectedDecisions) {
+  fail(`expected ${expectedDecisions} approved decisions (${DECISION_BASELINE.decisions} in the ${DECISION_BASELINE.matrixVersion} matrix plus ${DECISION_BASELINE.additions.length} named addition(s)), found ${LEGAL_AUTHORITY.decisions.length}`);
+}
+for (const addition of DECISION_BASELINE.additions) {
+  const decision = LEGAL_AUTHORITY.decisions.find((entry) => entry.id === addition.decisionId);
+  if (!decision) { fail(`${addition.decisionId} is recorded as an addition but is not in the decision index`); continue; }
+  if (decision.routeKeys.length !== addition.routeKeys) {
+    fail(`${addition.decisionId} claims ${decision.routeKeys.length} route key(s), recorded as ${addition.routeKeys}`);
+  }
 }
 
 const claimed = new Set(LEGAL_AUTHORITY.routes.map((route) => route.routeKey));
 const approvedKeys = LEGAL_AUTHORITY.decisions.flatMap((decision) => decision.routeKeys);
-if (approvedKeys.length !== 113) {
-  fail(`expected 113 approved route keys in the decision index, found ${approvedKeys.length}`);
+if (approvedKeys.length !== expectedRouteKeys) {
+  fail(`expected ${expectedRouteKeys} approved route keys in the decision index, found ${approvedKeys.length}`);
 }
 // The Mississippi register uses a shorter alias for one route than the compiled
 // engine does; the contract carries the engine id and records the alias.

@@ -1,0 +1,153 @@
+{
+  "batch": "national-report-2026-08-28",
+  "authority": "National Record-Clearing Legal Decision Report, current through 2026-08-28 (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md, sha256 84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336). Kept as its own batch so this authority can be reverted alone, and so a reader can tell which decisions came from the report rather than from the 2026-08-24 decision matrix.",
+  "routes": [
+    {
+      "routeKey": "SC:diversion-or-program-completion-expungement",
+      "jurisdiction": "SC",
+      "pathwayId": "diversion-or-program-completion-expungement",
+      "decisionId": "NATIONAL-2026-08-28-LA-IMM-04",
+      "ruleId": "SC-17-22-150-PTI-SOLICITOR-ADMINISTERED",
+      "mechanism": "Pretrial intervention expungement, administered by the solicitor",
+      "statute": "S.C. Code Ann. § 17-22-150(a)",
+      "stage": "single_stage",
+      "outcomeMode": "guidance_status",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorText": "the solicitor's office administers the expungement on successful completion of pretrial intervention; the participant files no pleading and sits through no elapsed wait"
+      },
+      "requiredFacts": [
+        "Which solicitor's circuit administered the intervention program?",
+        "Was the program successfully completed, and is completion documented?",
+        "Has the solicitor's office issued or refused the expungement?",
+        "Is eligibility contested by the solicitor?"
+      ],
+      "screeningFactIds": ["case_outcome", "court_requirements_completed"],
+      "exclusions": [
+        "Successful completion of the intervention program is required",
+        "A solicitor denial or contested eligibility leaves the ordinary route entirely"
+      ],
+      "packetFamily": null,
+      "effectiveFrom": "2026-08-28",
+      "deliveryGates": [
+        {
+          "kind": "source_acquisition",
+          "items": [
+            "the circuit-specific solicitor application form or intake instruction",
+            "the payee named by that circuit for the administrative fee",
+            "the delivery method and address that circuit requires"
+          ],
+          "owner": "RCAP source acquisition",
+          "note": "The statewide rule is settled; what is missing is per-circuit administrative detail. This gate holds the guidance content, not the legal answer."
+        }
+      ],
+      "failureDisposition": [
+        {
+          "when": "the solicitor denies the expungement, or eligibility is contested",
+          "disposition": "retained_counsel",
+          "note": "A contested solicitor decision is individualized advocacy, not a self-help filing. This is a service disposition, not missing statewide research."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Guidance is never sold and never consumes a sponsored credit. Declared to state the posture explicitly; the derived payment authority closes it regardless."
+      },
+      "supersedes": {
+        "note": "The rescinded $150 single-incident administrative figure. It must not appear anywhere on this route."
+      },
+      "notes": "Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them."
+    },
+    {
+      "routeKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+      "jurisdiction": "ND",
+      "pathwayId": "non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+      "decisionId": "NATIONAL-2026-08-28-LA-IMM-03",
+      "ruleId": "ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY",
+      "mechanism": "Automatic non-conviction court-record closing, with verification and correction",
+      "statute": "N.D.C.C. § 12-60.1-05",
+      "stage": "automatic",
+      "outcomeMode": "automatic_relief",
+      "timing": {
+        "kind": "event_trigger",
+        "anchorFactId": "disposition_date",
+        "anchorText": "the court closes the record by operation of the statute; the participant waits 61 complete days from the qualifying disposition, verifies on day 62 or the next business day, and files nothing to obtain the closure itself"
+      },
+      "processingDeadlines": [
+        {
+          "label": "61 complete days from the qualifying disposition, then verify on day 62 or the next business day",
+          "note": "The court's own implementation period, not a participant eligibility wait. Nothing is filed during it and nothing the participant does shortens it."
+        }
+      ],
+      "requiredFacts": [
+        "What was the qualifying non-conviction disposition, and on what exact date?",
+        "Was that disposition entered on or after 2025-08-01?",
+        "Does the case still appear on the public index on day 62?",
+        "Has the clerk of the original court been asked in writing to implement the closure?",
+        "Does the criminal history held by BCI or the originating agency still show the matter?",
+        "Is eligibility contested?"
+      ],
+      "screeningFactIds": ["case_outcome"],
+      "exclusions": [
+        "A qualifying non-conviction disposition is required",
+        "No individualized notice may be promised: neither the statute nor the official publications say the participant is told the record was closed",
+        "Contested eligibility is an attorney handoff, not a self-help filing"
+      ],
+      "packetFamily": null,
+      "effectiveFrom": "2025-08-01",
+      "packetReleasePreconditions": [
+        {
+          "id": "nd_exact_disposition_date",
+          "requires": "the exact qualifying disposition date, confirmed against the authenticated record rather than recalled",
+          "whenAbsent": "fail_closed_guidance",
+          "collectedAt": "final_verification",
+          "note": "The whole route turns on which side of 2025-08-01 the disposition falls and on counting 61 complete days from it. An approximate date decides the branch wrongly, so the date is authenticated packet and final-verification information, never a screening estimate."
+        }
+      ],
+      "serviceBranches": [
+        {
+          "id": "pre_effective_date_petition",
+          "when": "the qualifying disposition was entered before 2025-08-01",
+          "outcomeMode": "participant_packet",
+          "packetFamily": null,
+          "note": "Before the amendment took effect the record does not close by operation of law, so the participant takes the official petition and proposed order instead of verification guidance. The output is not built: the artifact_generation gate on this contract is what holds it, and until that closes a pre-2025-08-01 matter is served the same verification guidance rather than the petition it should have."
+        }
+      ],
+      "failureDisposition": [
+        {
+          "when": "the record still appears on the public index on day 62",
+          "disposition": "agency_correction",
+          "note": "First a written request to the clerk of the original court to implement the closure. If the clerk cannot correct it, a motion to enforce in the original criminal case."
+        },
+        {
+          "when": "the criminal history held by BCI or the originating agency still shows the matter after the court record is closed",
+          "disposition": "agency_correction",
+          "note": "A separate challenge to BCI or the originating agency. Closing the court record does not correct an agency history, and the two must not be presented as one step."
+        },
+        {
+          "when": "eligibility for the automatic closure is contested",
+          "disposition": "attorney_or_prosecutor",
+          "note": "A contested eligibility question is individualized advocacy."
+        }
+      ],
+      "deliveryGates": [
+        {
+          "kind": "artifact_generation",
+          "items": [
+            "the official pre-2025-08-01 petition and proposed order for the pre_effective_date_petition branch"
+          ],
+          "owner": "RCAP packet factory",
+          "note": "Only the pre-effective-date branch needs an artifact. The post-2025-08-01 default is guidance and needs none, but the gate is declared on the contract because the branch is part of this route and an undeclared branch is an unbuilt promise."
+        }
+      ],
+      "commercialPosture": {
+        "checkoutEnabled": false,
+        "sponsoredGenerationEnabled": false,
+        "packetCreditsConsumed": 0,
+        "note": "Relief happens by operation of law on the default branch, so nothing is sold. The pre-effective-date branch is not built, so nothing is sold there either."
+      },
+      "notes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did."
+    }
+  ]
+}

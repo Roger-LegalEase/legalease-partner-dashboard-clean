@@ -223,7 +223,7 @@ Submitted: 10. True reconfirmations: 3. Reclassified: 7.
 | Classification | Questions |
 |---|---:|
 | LEGAL_DESIGN_DECISION_CAN_RUN_NOW | 22 |
-| SOURCE_REQUIRED_BEFORE_COUNSEL | 20 |
+| SOURCE_REQUIRED_BEFORE_COUNSEL | 21 |
 | COMPLETED_OUTPUT_REQUIRED_BEFORE_COUNSEL | 13 |
-| **TOTAL** | **55** |
+| **TOTAL** | **56** |
 

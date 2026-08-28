@@ -3,9 +3,11 @@
   "generatedBy": "scripts/generate-closure-authority-contradictions.mjs",
   "question": "Which pathways does the closure ledger count as paid packets while the legal-authority route layer already decided they sell nothing?",
   "governingConstraint": "data/rcap-ledger/sellable-pathway-reclassifications.json states that the only way a pathway leaves paid_packet_intended is a signed record naming the person who decided. These are prepared proposals with authority and decidedOn left null. No category is changed by this generator, and a proposal is not a reclassification.",
-  "total": 9,
+  "total": 11,
   "counts": {
-    "referral": 9
+    "referral": 9,
+    "automatic_relief": 1,
+    "guidance_status": 1
   },
   "excludedNonCourtRoutesThatStillProduceAPacket": [
     {
@@ -300,6 +302,40 @@
       }
     },
     {
+      "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+      "jurisdiction": "ND",
+      "pathwayLabel": "Non-conviction court-record closing under N.D.C.C. § 12-60.1-05",
+      "closureCategory": "paid_packet_intended",
+      "closureCategoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
+      "authorityOutcomeMode": "automatic_relief",
+      "authorityPacketFamily": null,
+      "authorityDecisionId": "NATIONAL-2026-08-28-LA-IMM-03",
+      "authorityRuleId": "ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY",
+      "authorityNotes": "Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did.",
+      "authoritySourceFile": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "openBlockers": [
+        "legal_reconfirmation",
+        "packet_spec_incomplete",
+        "legal_review_pending",
+        "renderer_unavailable"
+      ],
+      "unclosableBlockers": [
+        "packet_spec_incomplete",
+        "renderer_unavailable"
+      ],
+      "alreadyReclassified": false,
+      "proposal": {
+        "id": "PROPOSED-ND-NON-CONVICTION-COURT-RECORD-CLOSING-UNDER-N-D-C-C-12-60-1-05",
+        "pathwayKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+        "previousClassification": "paid_packet_intended",
+        "newClassification": "non_filing_guidance",
+        "reason": "no_participant_filing",
+        "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 under NATIONAL-2026-08-28-LA-IMM-03 / ND-12-60-1-05-AUTOMATIC-CLOSURE-VERIFY as outcomeMode=automatic_relief with packetFamily=null, citing N.D.C.C. § 12-60.1-05. Relief happens by operation of law with no participant filing. The record's own note: \"Report correction 3. For a disposition on or after 2025-08-01 the initial output is guidance and verification, never a routine petition: the record closes by operation of law and filing a petition asks a court to do what the statute already did.\"",
+        "authority": null,
+        "decidedOn": null
+      }
+    },
+    {
       "pathwayKey": "RI:path-g-decriminalized-offense-expungement",
       "jurisdiction": "RI",
       "pathwayLabel": "Path G — Decriminalized-offense expungement",
@@ -330,6 +366,39 @@
         "newClassification": "non_filing_guidance",
         "reason": "no_participant_filing",
         "evidence": "src/lib/legal-authority/routes/route-splits.json records RI:path-g-decriminalized-offense-expungement under LD-RI-06 / RI-12-10-12-12-1.3-5-FILED-COMPLAINT-MARIJUANA-DECRIM-SPLIT as outcomeMode=referral with packetFamily=null, citing R.I. Gen. Laws § 12-1.3-5 and the statute governing the specific decriminalized offense. The route refers the participant elsewhere; it prepares no filing of its own. The record's own note: \"Must not be merged with the filed-complaint clock. Until the specific statute is identified the route refers rather than sells.\"",
+        "authority": null,
+        "decidedOn": null
+      }
+    },
+    {
+      "pathwayKey": "SC:diversion-or-program-completion-expungement",
+      "jurisdiction": "SC",
+      "pathwayLabel": "Diversion or program-completion expungement",
+      "closureCategory": "paid_packet_intended",
+      "closureCategoryBasis": "Route metadata records a participant-filed court_petition route in product scope.",
+      "authorityOutcomeMode": "guidance_status",
+      "authorityPacketFamily": null,
+      "authorityDecisionId": "NATIONAL-2026-08-28-LA-IMM-04",
+      "authorityRuleId": "SC-17-22-150-PTI-SOLICITOR-ADMINISTERED",
+      "authorityNotes": "Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.",
+      "authoritySourceFile": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+      "openBlockers": [
+        "packet_spec_incomplete",
+        "legal_review_pending",
+        "renderer_unavailable"
+      ],
+      "unclosableBlockers": [
+        "packet_spec_incomplete",
+        "renderer_unavailable"
+      ],
+      "alreadyReclassified": false,
+      "proposal": {
+        "id": "PROPOSED-SC-DIVERSION-OR-PROGRAM-COMPLETION-EXPUNGEMENT",
+        "pathwayKey": "SC:diversion-or-program-completion-expungement",
+        "previousClassification": "paid_packet_intended",
+        "newClassification": "non_filing_guidance",
+        "reason": "no_participant_filing",
+        "evidence": "src/lib/legal-authority/routes/national-report-2026-08-28.json records SC:diversion-or-program-completion-expungement under NATIONAL-2026-08-28-LA-IMM-04 / SC-17-22-150-PTI-SOLICITOR-ADMINISTERED as outcomeMode=guidance_status with packetFamily=null, citing S.C. Code Ann. § 17-22-150(a). The route reports or verifies a status; nothing is filed. The record's own note: \"Report correction 4. The ordinary PTI custom participant pleading is RETIRED: the solicitor's office administers the process, so the product's output is process guidance and intake support and never a generated pleading. The controlling figures for guidance content are a $250 solicitor administrative fee, a $0 SLED verification fee, a $35 clerk filing fee where one applies, and a $285 ordinary total on that combination. Those figures belong to THIS route only: the report resolves the obsolete-$150 question across the other seven South Carolina routes, but each of those keeps its own statutory exemptions and its own fees, and this schedule must not be copied onto them.\"",
         "authority": null,
         "decidedOn": null
       }
