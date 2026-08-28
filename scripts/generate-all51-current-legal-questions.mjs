@@ -31,6 +31,27 @@ const reconciliation = readJson("data/rcap-ledger/all51-legal-authority-reconcil
 const legalJoin = readJson("data/rcap-ledger/paid-pathway-legal-join.json");
 const controlling = readJson("data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json");
 
+// The national legal decision report of 2026-08-28, as an overlay. It is
+// owner-supplied controlling legal authority covering 49 of this register's
+// questions, and it outranks every element-based heuristic below: those
+// heuristics exist to decide what a question needs when nobody has answered it,
+// and here somebody has.
+const national = readJson("data/record-clearing/legal-decisions/2026-08-28-national-legal-decisions.json");
+const nationalByQuestionId = new Map(national.questionDecisions.map((d) => [d.registerQuestionId, d]));
+const nationalTrackById = new Map(national.researchTrackDecisions.map((t) => [t.trackId, t]));
+const nationalAssignmentByTrackId = new Map(national.immediateAssignments.map((a) => [a.trackId, a]));
+const nationalOutOfScope = new Map(
+  national.scope.registerQuestionsOutOfReportScope.map((r) => [r.questionId, r.reason])
+);
+const NATIONAL_OWNERS = {
+  LEGAL_DECISION_RESOLVED_PACKET: { owner: "RCAP packet factory", blockedUntil: null },
+  LEGAL_DECISION_RESOLVED_GUIDANCE: { owner: "RCAP packet factory", blockedUntil: null },
+  SOURCE_ACQUISITION_REQUIRED: { owner: "RCAP source acquisition", blockedUntil: "the official clerk, solicitor or agency instruction is in hand" },
+  ARTIFACT_LEGAL_REVIEW_REQUIRED: { owner: "RCAP packet factory, then artifact-level counsel review", blockedUntil: "a candidate artifact and hash exist" },
+  ATTORNEY_OR_PARTNER_HANDOFF: { owner: "Service design", blockedUntil: null },
+  FUTURE_EFFECTIVE: { owner: "RCAP engineering", blockedUntil: "the statutory effective date" }
+};
+
 // ---------------------------------------------------------------------------
 // The memo corpus, indexed by track.
 // ---------------------------------------------------------------------------
@@ -171,6 +192,8 @@ questions.forEach((entry, index) => {
 
   const result = classify(entry, track);
   entry.classification = result.classification;
+  entry.legalStatus = result.legalStatus ?? "OPEN";
+  entry.legalAuthorities = result.legalAuthorities ?? [];
   entry.reason = result.reason;
   entry.owner = result.owner;
   entry.blockedUntil = result.blockedUntil;
@@ -180,35 +203,83 @@ questions.forEach((entry, index) => {
 });
 
 function classify(entry, track) {
+  // Legal status and delivery state are two different questions, and the report
+  // is explicit that they are: "A resolved legal question does not automatically
+  // make a route commercially ready." Seven South Carolina questions are
+  // answered by CLD-2026-08-28-SC-PTI on the fee AND held by the report behind a
+  // solicitor source gate. Collapsing those into one field loses whichever half
+  // is recorded second, and a queue that showed them as resolved would show
+  // seven routes as shippable that are not.
+  const legalAuthorities = [];
+  let cascaded = false;
+
   // 1. Answered outright by a controlling decision.
   const direct = decisionByTrack.get(entry.trackId);
   if (direct && direct.originalQuestionText.includes(entry.question)) {
+    legalAuthorities.push({
+      authorityId: direct.decisionId,
+      kind: "controlling_decision",
+      statement: `Answered by ${direct.decisionId}, reviewed through ${direct.reviewedThrough}.`
+    });
+  } else {
+    // 2. The same question, asked on another track. The SC single-incident fee
+    //    question appears verbatim on eight tracks; one answer settles all of
+    //    them, and re-asking would be the duplicate research this register
+    //    exists to prevent.
+    const cascade = decidedQuestionTexts.get(entry.question);
+    if (cascade) {
+      cascaded = true;
+      legalAuthorities.push({
+        authorityId: cascade.decisionId,
+        kind: "controlling_decision_cascade",
+        statement: `Byte-identical to the question answered by ${cascade.decisionId}. One answer controls every track that asks it.`
+      });
+    }
+  }
+
+  // 3. Answered by the national legal decision report.
+  const reportDecision = nationalByQuestionId.get(entry.questionId);
+  if (reportDecision) {
+    legalAuthorities.push({
+      authorityId: `NATIONAL-2026-08-28-${reportDecision.reportQuestionId}`,
+      kind: "national_legal_decision_report",
+      statement: `${reportDecision.holding} Controlling product decision: ${reportDecision.controllingProductDecision}.`
+    });
+  }
+
+  // The report sets the delivery state wherever it reaches, because it is the
+  // later authority and the only one that speaks to delivery at all.
+  if (reportDecision) {
+    const routing = NATIONAL_OWNERS[reportDecision.deliveryDisposition];
+    if (!routing) throw new Error(`no owner routing for ${reportDecision.deliveryDisposition}`);
     return {
-      classification: "RESOLVED_BY_CONTROLLING_DECISION",
-      reason: `Answered by ${direct.decisionId}, reviewed through ${direct.reviewedThrough}.`,
-      owner: "Closed",
-      blockedUntil: null,
-      resolvedBy: direct.decisionId
+      classification: reportDecision.deliveryDisposition,
+      legalStatus: "RESOLVED",
+      legalAuthorities,
+      reason: `${legalAuthorities.map((a) => a.statement).join(" ")} (${national.authority.document} ${reportDecision.reportQuestionId}, current through ${reportDecision.reviewedThrough}.)`,
+      owner: routing.owner,
+      blockedUntil: routing.blockedUntil,
+      resolvedBy: `NATIONAL-2026-08-28-${reportDecision.reportQuestionId}`,
+      cascaded
     };
   }
 
-  // 2. The same question, asked on another track. The SC single-incident fee
-  //    question appears verbatim on eight tracks; one answer settles all of
-  //    them, and re-asking would be the duplicate research this register exists
-  //    to prevent.
-  const cascade = decidedQuestionTexts.get(entry.question);
-  if (cascade) {
+  // A controlling decision with no report row answers the question outright and
+  // names no further delivery gate.
+  if (legalAuthorities.length > 0) {
     return {
-      classification: "RESOLVED_BY_CONTROLLING_DECISION",
-      reason: `Byte-identical to the question answered by ${cascade.decisionId}. One answer controls every track that asks it.`,
+      classification: "LEGAL_DECISION_RESOLVED",
+      legalStatus: "RESOLVED",
+      legalAuthorities,
+      reason: legalAuthorities.map((a) => a.statement).join(" "),
       owner: "Closed",
       blockedUntil: null,
-      resolvedBy: cascade.decisionId,
-      cascaded: true
+      resolvedBy: legalAuthorities[0].authorityId,
+      cascaded
     };
   }
 
-  // 3. A Missouri FI-05 case type question is a receiving-clerk configuration,
+  // 4. A Missouri FI-05 case type question is a receiving-clerk configuration,
   //    not statewide legal research. The controlling decision states the FI-05
   //    rule about the published Case Types List -- XG provisional, X5
   //    prohibited, X1 only on clerk direction -- and puts the final code behind
@@ -224,7 +295,7 @@ function classify(entry, track) {
     };
   }
 
-  // 4. A question that exists only because a now-retired output was expected.
+  // 5. A question that exists only because a now-retired output was expected.
   if (entry.jurisdiction === "SC" && retiredScPleading(entry, track)) {
     return {
       classification: "STALE_OR_SUPERSEDED",
@@ -358,9 +429,17 @@ const researchTracks = finalization.legalResearchRequiredTracks.tracks
         ? named.map((q) => q.question).join(" ")
         : `${destination?.detail ?? "The memo records the route's destination as unresolved."} The question is therefore: which forum receives this request, under which mechanism, and what participant-facing output vehicle carries it?`,
       memoDestination: destination,
-      serviceDisposition: entry.serviceDisposition
+      serviceDisposition: entry.serviceDisposition,
+      // The national report gives each of these nine a complete legal treatment.
+      // The track stays listed because its memo still records the deferral, and
+      // the memos are hash-bound and never edited; what changes is that the
+      // question is answered and the work is now delivery, not research.
+      nationalReportTreatment: nationalTrackById.get(entry.trackId) ?? null,
+      legalStatus: nationalTrackById.has(entry.trackId) ? "RESOLVED" : "OPEN"
     };
   });
+
+const researchTracksStillOpen = researchTracks.filter((t) => t.legalStatus === "OPEN");
 
 // ---------------------------------------------------------------------------
 // Source-first and output-first detail.
@@ -421,6 +500,12 @@ function immediateSet(id, trackId, overrides) {
     affectedRoutes: pathways.map((p) => p.pathwayKey),
     paymentCurrentlyDisabled: true,
     generationCurrentlyDisabled: true,
+    // The national report answers all four of these. The assignment record is
+    // kept — it states what was asked, and deleting the question once it is
+    // answered destroys the ability to check that the answer addresses it — but
+    // it is no longer an open ask, and its status says so.
+    nationalReportTreatment: nationalAssignmentByTrackId.get(trackId) ?? null,
+    assignmentStatus: nationalAssignmentByTrackId.has(trackId) ? "ANSWERED_BY_NATIONAL_REPORT" : "OPEN",
     ...overrides
   };
 }
@@ -497,11 +582,32 @@ function retiredScPleading(entry, track) {
 }
 
 // Categories that close a question. Everything else is still open work.
+/**
+ * Categories in which nothing further is owed by this register. The report's
+ * own framing decides two of the additions:
+ *
+ *   ATTORNEY_OR_PARTNER_HANDOFF is terminal because the report says these "are
+ *   service dispositions, not missing statewide research" — the decision has
+ *   been made, and it was to hand the matter off.
+ *
+ *   FUTURE_EFFECTIVE is terminal here because the law is settled; what remains
+ *   is an effective-date control, which is engineering, not a question.
+ *
+ * SOURCE_ACQUISITION_REQUIRED and ARTIFACT_LEGAL_REVIEW_REQUIRED are NOT
+ * terminal. Their legal question is answered but a gate stands between the
+ * answer and a releasable route, and a queue that hid that would report thirty
+ * routes as ready that are not.
+ */
 const TERMINAL = new Set([
   "RESOLVED_BY_CONTROLLING_DECISION",
   "EXISTING_AUTHORITY_ALREADY_ANSWERS",
   "DUPLICATE_OF_DECISION_SET",
-  "STALE_OR_SUPERSEDED"
+  "STALE_OR_SUPERSEDED",
+  "LEGAL_DECISION_RESOLVED",
+  "LEGAL_DECISION_RESOLVED_PACKET",
+  "LEGAL_DECISION_RESOLVED_GUIDANCE",
+  "ATTORNEY_OR_PARTNER_HANDOFF",
+  "FUTURE_EFFECTIVE"
 ]);
 
 const ALL_CLASSIFICATIONS = [
@@ -510,6 +616,17 @@ const ALL_CLASSIFICATIONS = [
   "READY_FOR_LEGAL_DESIGN_RESEARCH",
   "SOURCE_ACQUISITION_REQUIRED_FIRST",
   "COMPLETED_OUTPUT_REQUIRED_FIRST",
+  // The delivery vocabulary the national report classifies into. The older
+  // categories above are kept and still emitted at zero: a category that
+  // disappears takes its history with it, and the point of publishing every
+  // category is that a reader can see what emptied.
+  "LEGAL_DECISION_RESOLVED",
+  "LEGAL_DECISION_RESOLVED_PACKET",
+  "LEGAL_DECISION_RESOLVED_GUIDANCE",
+  "SOURCE_ACQUISITION_REQUIRED",
+  "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+  "ATTORNEY_OR_PARTNER_HANDOFF",
+  "FUTURE_EFFECTIVE",
   "EXISTING_AUTHORITY_ALREADY_ANSWERS",
   "DUPLICATE_OF_DECISION_SET",
   "STALE_OR_SUPERSEDED",
@@ -539,11 +656,29 @@ const register = {
     controllingDecisionRecord: "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
     reviewedThrough: controlling.reviewedThrough,
     decisionsRecorded: controlling.decisions.length,
-    resolvedQuestions: questions.filter((q) => q.classification === "RESOLVED_BY_CONTROLLING_DECISION").length,
-    resolvedDirectly: questions.filter((q) => q.classification === "RESOLVED_BY_CONTROLLING_DECISION" && !q.cascaded).length,
+    nationalReportRecord: national.authority.document,
+    nationalReportSha256: national.authority.sha256,
+    nationalReportCurrentThrough: national.authority.currentThrough,
+    legallyResolvedQuestions: questions.filter((q) => q.legalStatus === "RESOLVED").length,
+    legallyOpenQuestions: questions.filter((q) => q.legalStatus === "OPEN").length,
+    resolvedByNationalReport: questions.filter((q) => q.legalAuthorities.some((a) => a.kind === "national_legal_decision_report")).length,
+    resolvedByControllingDecision: questions.filter((q) => q.legalAuthorities.some((a) => a.kind.startsWith("controlling_decision"))).length,
+    resolvedByBothAuthorities: questions.filter((q) =>
+      q.legalAuthorities.some((a) => a.kind === "national_legal_decision_report")
+      && q.legalAuthorities.some((a) => a.kind.startsWith("controlling_decision"))).length,
     resolvedByCascade: questions.filter((q) => q.cascaded).length,
-    activeOpenQuestions: questions.filter((q) => !TERMINAL.has(q.classification)).length,
-    openImmediateAssignments: 0,
+    questionsOutsideNationalReportScope: national.scope.registerQuestionsOutOfReportScope,
+    // Not "unanswered". Every one of these has its legal answer; each is held by
+    // a delivery gate the answer does not remove.
+    questionsHeldByADeliveryGate: questions.filter((q) => !TERMINAL.has(q.classification)).length,
+    deliveryGates: Object.fromEntries(
+      questions.filter((q) => !TERMINAL.has(q.classification))
+        .reduce((m, q) => m.set(q.classification, (m.get(q.classification) ?? 0) + 1), new Map())),
+    questionsWithNothingFurtherOwed: questions.filter((q) => TERMINAL.has(q.classification)).length,
+    openImmediateAssignments: immediateAssignments.filter((a) => a.assignmentStatus === "OPEN").length,
+    immediateAssignmentsAnsweredByNationalReport: immediateAssignments.filter((a) => a.assignmentStatus === "ANSWERED_BY_NATIONAL_REPORT").length,
+    researchTracksStillOpen: researchTracksStillOpen.length,
+    researchTracksAnsweredByNationalReport: researchTracks.length - researchTracksStillOpen.length,
     terminalCategories: [...TERMINAL]
   },
   classificationCounts: counts,
@@ -578,19 +713,52 @@ if (CHECK) {
   }
   if (register.denominator.decidedTrackQuestionTexts !== 6) problems.push(`decided question texts ${register.denominator.decidedTrackQuestionTexts}, expected 6`);
   const terminal = questions.filter((q) => TERMINAL.has(q.classification)).length;
-  if (register.resolution.activeOpenQuestions + terminal !== questions.length) {
-    problems.push(`active ${register.resolution.activeOpenQuestions} + terminal ${terminal} != ${questions.length}`);
+  if (register.resolution.questionsHeldByADeliveryGate + terminal !== questions.length) {
+    problems.push(`gated ${register.resolution.questionsHeldByADeliveryGate} + terminal ${terminal} != ${questions.length}`);
   }
   if (register.resolution.decisionsRecorded !== 4) problems.push(`${register.resolution.decisionsRecorded} controlling decisions, expected 4`);
   for (const decision of controlling.decisions) {
     for (const text of decision.originalQuestionText) {
       const row = questions.find((q) => q.question === text && q.trackId === decision.tracks[0]);
       if (!row) problems.push(`${decision.decisionId} names a question text with no row`);
-      else if (row.classification !== "RESOLVED_BY_CONTROLLING_DECISION") problems.push(`${decision.decisionId} question is still ${row.classification}`);
+      else if (row.legalStatus !== "RESOLVED") problems.push(`${decision.decisionId} question is legally ${row.legalStatus}`);
+      // Check the decision itself is recorded on the row, not merely that the
+      // row says "resolved". Once a later authority can also resolve a question,
+      // a label alone no longer proves this decision was the one that did it.
+      else if (!row.legalAuthorities.some((a) => a.authorityId === decision.decisionId)) {
+        problems.push(`${decision.decisionId} is not among ${row.questionId}'s legal authorities (${row.legalAuthorities.map((a) => a.authorityId).join(", ") || "none"})`);
+      }
+    }
+  }
+  // Every question the overlay maps must carry the report as an authority, and
+  // every question it does not map must be the one the overlay records as out of
+  // the report's scope. Silence in either direction would overstate coverage.
+  for (const decision of national.questionDecisions) {
+    const row = questions.find((q) => q.questionId === decision.registerQuestionId);
+    if (!row) { problems.push(`the overlay maps ${decision.registerQuestionId}, which this register does not carry`); continue; }
+    if (!row.legalAuthorities.some((a) => a.authorityId === `NATIONAL-2026-08-28-${decision.reportQuestionId}`)) {
+      problems.push(`${row.questionId} does not record ${decision.reportQuestionId} from the national report`);
+    }
+    if (row.classification !== decision.deliveryDisposition) {
+      problems.push(`${row.questionId} is ${row.classification}; the report says ${decision.deliveryDisposition}`);
+    }
+  }
+  for (const row of questions.filter((q) => q.legalStatus === "OPEN")) {
+    if (!(row.questionId in Object.fromEntries(national.scope.registerQuestionsOutOfReportScope.map((r) => [r.questionId, r.reason])))) {
+      problems.push(`${row.questionId} is legally open but is not recorded as outside the national report's scope`);
     }
   }
   if (researchTracks.length !== 9) problems.push(`${researchTracks.length} true legal-research tracks, expected 9`);
   if (immediateAssignments.length !== 4) problems.push(`${immediateAssignments.length} immediate assignments, expected 4`);
+  // Each of the nine tracks and each of the four assignments must be matched to
+  // a treatment in the report by track id. A track the report does not name
+  // stays open, and the register must say which.
+  for (const t of researchTracks) {
+    if (t.legalStatus === "RESOLVED" && !t.nationalReportTreatment) problems.push(`${t.trackId} is marked resolved with no report treatment`);
+  }
+  for (const a of immediateAssignments) {
+    if (a.assignmentStatus === "ANSWERED_BY_NATIONAL_REPORT" && !a.nationalReportTreatment) problems.push(`${a.decisionId} is marked answered with no report treatment`);
+  }
   for (const track of researchTracks) {
     if (/^legal research required$/i.test(track.exactUnresolvedQuestion.trim())) {
       problems.push(`${track.trackId} uses "legal research required" as its question`);
@@ -619,7 +787,7 @@ fs.writeFileSync(path.join(root, OUT_JSON), serialized);
 fs.writeFileSync(path.join(root, OUT_MD), markdown);
 
 console.log(`Wrote ${OUT_JSON} and ${OUT_MD}`);
-console.log(`Ledger tuples ${register.denominator.ledgerTuples} -> unique questions ${questions.length}`);
+console.log(`Ledger tuples ${register.denominator.historicalLedgerTuples} -> unique questions ${questions.length}`);
 for (const [k, v] of Object.entries(counts).sort((a, b) => b[1] - a[1])) console.log(`  ${k}: ${v}`);
 console.log(`Ready-now decision sets: ${readyDecisionSets.length}`);
 console.log(`True legal-research tracks: ${researchTracks.length}`);
@@ -635,9 +803,18 @@ function renderMarkdown(data) {
   L.push("");
   L.push(data.denominator.note);
   L.push("");
-  L.push(`**Resolved by the ${data.resolution.decisionsRecorded} controlling decisions of ${data.resolution.reviewedThrough}: ${data.resolution.resolvedQuestions}** `
-    + `(${data.resolution.resolvedDirectly} answered directly, ${data.resolution.resolvedByCascade} by identical text on other tracks). `
-    + `**Active open: ${data.resolution.activeOpenQuestions}.** Open immediate assignments: ${data.resolution.openImmediateAssignments}.`);
+  L.push(`**Legally resolved: ${data.resolution.legallyResolvedQuestions} of ${data.questions.length}. Legally open: ${data.resolution.legallyOpenQuestions}.**`);
+  L.push("");
+  L.push(`Two authorities answer these questions and neither supersedes the other. The national legal decision report of ${data.resolution.nationalReportCurrentThrough} answers ${data.resolution.resolvedByNationalReport}; the ${data.resolution.decisionsRecorded} controlling decisions of ${data.resolution.reviewedThrough} answer ${data.resolution.resolvedByControllingDecision} (${data.resolution.resolvedByCascade} of them by identical text on other tracks); ${data.resolution.resolvedByBothAuthorities} are answered by both, where the controlling decision settles the fee and the report still holds the route behind a solicitor source gate.`);
+  L.push("");
+  L.push(`**A resolved legal question is not a releasable route.** ${data.resolution.questionsWithNothingFurtherOwed} questions owe nothing further. ${data.resolution.questionsHeldByADeliveryGate} are answered and still held by a delivery gate: `
+    + Object.entries(data.resolution.deliveryGates).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${v} ${k}`).join(", ") + ".");
+  L.push("");
+  L.push(`Open immediate assignments: ${data.resolution.openImmediateAssignments} (${data.resolution.immediateAssignmentsAnsweredByNationalReport} answered by the report). Legal-research tracks still open: ${data.resolution.researchTracksStillOpen} (${data.resolution.researchTracksAnsweredByNationalReport} answered by the report).`);
+  for (const row of data.resolution.questionsOutsideNationalReportScope) {
+    L.push("");
+    L.push(`**${row.questionId} is outside the report's scope.** ${row.reason}`);
+  }
   L.push("");
   L.push("| Classification | Questions |");
   L.push("|---|---:|");

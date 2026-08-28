@@ -26,24 +26,57 @@
     "controllingDecisionRecord": "data/record-clearing/legal-decisions/2026-08-28-controlling-decisions.json",
     "reviewedThrough": "2026-08-28",
     "decisionsRecorded": 4,
-    "resolvedQuestions": 13,
-    "resolvedDirectly": 6,
+    "nationalReportRecord": "docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md",
+    "nationalReportSha256": "84ef2b61126aa26cd66dec5dfb39a112d87c5a92397ab92efd452cc1e5ad1336",
+    "nationalReportCurrentThrough": "2026-08-28",
+    "legallyResolvedQuestions": 55,
+    "legallyOpenQuestions": 1,
+    "resolvedByNationalReport": 49,
+    "resolvedByControllingDecision": 13,
+    "resolvedByBothAuthorities": 7,
     "resolvedByCascade": 7,
-    "activeOpenQuestions": 43,
+    "questionsOutsideNationalReportScope": [
+      {
+        "questionId": "Q-018",
+        "reason": "Entered the register after the report's intake. Binding MS:additional-justice-court-misdemeanor-relief-9-11-15-3 and MS:additional-municipal-court-misdemeanor-relief-21-23-7-6 to ms-misd-addl surfaced the Miss. Code Ann. § 99-19-72 filing-fee question, which the report's controlling intake did not carry and which it therefore does not answer."
+      }
+    ],
+    "questionsHeldByADeliveryGate": 30,
+    "deliveryGates": {
+      "ARTIFACT_LEGAL_REVIEW_REQUIRED": 12,
+      "SOURCE_ACQUISITION_REQUIRED": 17,
+      "SOURCE_ACQUISITION_REQUIRED_FIRST": 1
+    },
+    "questionsWithNothingFurtherOwed": 26,
     "openImmediateAssignments": 0,
+    "immediateAssignmentsAnsweredByNationalReport": 4,
+    "researchTracksStillOpen": 0,
+    "researchTracksAnsweredByNationalReport": 9,
     "terminalCategories": [
       "RESOLVED_BY_CONTROLLING_DECISION",
       "EXISTING_AUTHORITY_ALREADY_ANSWERS",
       "DUPLICATE_OF_DECISION_SET",
-      "STALE_OR_SUPERSEDED"
+      "STALE_OR_SUPERSEDED",
+      "LEGAL_DECISION_RESOLVED",
+      "LEGAL_DECISION_RESOLVED_PACKET",
+      "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "ATTORNEY_OR_PARTNER_HANDOFF",
+      "FUTURE_EFFECTIVE"
     ]
   },
   "classificationCounts": {
-    "RESOLVED_BY_CONTROLLING_DECISION": 13,
-    "OPERATIONAL_CONFIGURATION_REQUIRED": 1,
-    "READY_FOR_LEGAL_DESIGN_RESEARCH": 19,
-    "SOURCE_ACQUISITION_REQUIRED_FIRST": 11,
-    "COMPLETED_OUTPUT_REQUIRED_FIRST": 12,
+    "RESOLVED_BY_CONTROLLING_DECISION": 0,
+    "OPERATIONAL_CONFIGURATION_REQUIRED": 0,
+    "READY_FOR_LEGAL_DESIGN_RESEARCH": 0,
+    "SOURCE_ACQUISITION_REQUIRED_FIRST": 1,
+    "COMPLETED_OUTPUT_REQUIRED_FIRST": 0,
+    "LEGAL_DECISION_RESOLVED": 6,
+    "LEGAL_DECISION_RESOLVED_PACKET": 11,
+    "LEGAL_DECISION_RESOLVED_GUIDANCE": 5,
+    "SOURCE_ACQUISITION_REQUIRED": 17,
+    "ARTIFACT_LEGAL_REVIEW_REQUIRED": 12,
+    "ATTORNEY_OR_PARTNER_HANDOFF": 4,
+    "FUTURE_EFFECTIVE": 0,
     "EXISTING_AUTHORITY_ALREADY_ANSWERS": 0,
     "DUPLICATE_OF_DECISION_SET": 0,
     "STALE_OR_SUPERSEDED": 0,
@@ -90,6 +123,39 @@
       ],
       "paymentCurrentlyDisabled": true,
       "generationCurrentlyDisabled": true,
+      "nationalReportTreatment": {
+        "assignmentId": "LA-IMM-01",
+        "jurisdiction": "GA",
+        "trackId": "ga-rfo",
+        "reportLine": 49,
+        "productDisposition": [
+          {
+            "key": "eligibility screening",
+            "value": null
+          },
+          {
+            "key": "→ written prosecutorial consent",
+            "value": null
+          },
+          {
+            "key": "→ participant-filed § 42-8-66 petition",
+            "value": null
+          },
+          {
+            "key": "→ hearing if requested or ordered",
+            "value": null
+          },
+          {
+            "key": "→ judicial order granting or denying retroactive First Offender treatment",
+            "value": null
+          },
+          {
+            "key": "→ restriction, sealing, agency distribution, and verification",
+            "value": null
+          }
+        ]
+      },
+      "assignmentStatus": "ANSWERED_BY_NATIONAL_REPORT",
       "conflictOrMissingElement": "The adopted Batch 2 resolution matrix makes the § 42-8-66 petition stage conditional on a later counsel approval that has not been given, so direct delivery stays disabled while the petition itself is legally identifiable.",
       "options": [
         "Approve a distinct post-consent custom_pleading stage that generates the petition only after the participant holds the prosecuting attorney's written consent.",
@@ -134,6 +200,23 @@
       ],
       "paymentCurrentlyDisabled": true,
       "generationCurrentlyDisabled": true,
+      "nationalReportTreatment": {
+        "assignmentId": "LA-IMM-02",
+        "jurisdiction": "MO",
+        "trackId": "mo-311-326-minor-in-possession",
+        "reportLine": 110,
+        "productDisposition": [
+          {
+            "key": "In the Matter of the Application of [Name]",
+            "value": null
+          },
+          {
+            "key": "for Expungement Under § 311.326, RSMo",
+            "value": null
+          }
+        ]
+      },
+      "assignmentStatus": "ANSWERED_BY_NATIONAL_REPORT",
       "conflictOrMissingElement": "The published FI-05 Case Types List names no code for § 311.326, and the section does not say whether a municipal or county underage-possession ordinance conviction is within it.",
       "options": [
         "Name the FI-05 case type code to use and state whether ordinance convictions are in scope.",
@@ -178,6 +261,39 @@
       ],
       "paymentCurrentlyDisabled": true,
       "generationCurrentlyDisabled": true,
+      "nationalReportTreatment": {
+        "assignmentId": "LA-IMM-03",
+        "jurisdiction": "ND",
+        "trackId": "nd-nonconviction-auto-close-verify",
+        "reportLine": 178,
+        "productDisposition": [
+          {
+            "key": "expected automatic closure",
+            "value": null
+          },
+          {
+            "key": "→ official case-search check on day 62",
+            "value": null
+          },
+          {
+            "key": "→ written clerk confirmation if needed",
+            "value": null
+          },
+          {
+            "key": "→ clerk implementation/correction request if still public",
+            "value": null
+          },
+          {
+            "key": "→ motion to enforce in original case if clerk cannot correct",
+            "value": null
+          },
+          {
+            "key": "→ attorney/partner handoff if eligibility is contested",
+            "value": null
+          }
+        ]
+      },
+      "assignmentStatus": "ANSWERED_BY_NATIONAL_REPORT",
       "conflictOrMissingElement": "Neither N.D.C.C. § 12-60.1-05, the official instructions, nor the resource set states what remedy exists when the court does not close the record at day sixty-one, or whether the participant is notified that it was closed.",
       "options": [
         "Name the remedy (motion, letter to the clerk, or administrative request) and state the notice position.",
@@ -224,6 +340,31 @@
       ],
       "paymentCurrentlyDisabled": true,
       "generationCurrentlyDisabled": true,
+      "nationalReportTreatment": {
+        "assignmentId": "LA-IMM-04",
+        "jurisdiction": "SC",
+        "trackId": "sc_pti_17_22_150",
+        "reportLine": 221,
+        "productDisposition": [
+          {
+            "key": "solicitor administrative fee",
+            "value": "$250"
+          },
+          {
+            "key": "SLED verification fee",
+            "value": "$0"
+          },
+          {
+            "key": "clerk filing fee",
+            "value": "$35 when applicable"
+          },
+          {
+            "key": "ordinary expected total",
+            "value": "$285"
+          }
+        ]
+      },
+      "assignmentStatus": "ANSWERED_BY_NATIONAL_REPORT",
       "conflictOrMissingElement": "Two authorities give different single-incident fees. S.C. Code § 17-22-940(G) as amended by 2018 Act No. 254 provides that only one $250 fee may be charged where charges from a single incident are combined; the Supreme Court expungement guidance the controlling review relies on reports $150.",
       "options": [
         "Quote the statutory $250 figure.",
@@ -235,489 +376,8 @@
       "engineeringChangeAfterAnswer": "Set the fee figure in the SC custom pleading and re-render the family."
     }
   ],
-  "readyNowDecisionSets": [
-    {
-      "decisionSetId": "RN-01",
-      "jurisdiction": "VA",
-      "affectedElement": "governing_mechanism",
-      "questionIds": [
-        "Q-045",
-        "Q-046"
-      ],
-      "trackIds": [
-        "va_exp_absolute_pardon",
-        "va_seal_ancillary_matter_only"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-045",
-          "trackId": "va_exp_absolute_pardon",
-          "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
-        },
-        {
-          "questionId": "Q-046",
-          "trackId": "va_seal_ancillary_matter_only",
-          "question": "Chapter 23.2 and § 19.2-392.2 both carry future versions that the controlling review predates and does not record. Read at source on 2026-08-06: § 19.2-392.2 exists in two versions, one effective until December 1, 2026 and one effective December 1, 2026, the later of which broadens subsection A to any person 'arrested, charged, summonsed, or indicted' who 'is not ultimately convicted' provided no stipulation or judicial finding of facts sufficient to find guilt and no deferred adjudication, codifies the Dotson limit in the statute itself, and adds a new subsection C sentence permitting a single petition to cover multiple charges arising out of SEPARATE transactions or occurrences. Section 19.2-392.6 likewise carries an A subsection effective until July 1, 2027 and a second effective July 1, 2027, and its historical citation now includes 2026, Sp. Sess. I, c. 1, which the review did not have. The review's open question about a 2026 amendment is therefore answered in the affirmative. Every Virginia track must be re-read before 2026-12-01 and again before 2027-07-01."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": true
-    },
-    {
-      "decisionSetId": "RN-02",
-      "jurisdiction": "KY",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-002"
-      ],
-      "trackIds": [
-        "ky_felony_expungement_after_pardon"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-002",
-          "trackId": "ky_felony_expungement_after_pardon",
-          "question": "Whether the pardon instrument is a full pardon is a legal reading of a document LegalEase does not see. The packet asks the participant what their document says and routes to counsel on anything other than a plain full pardon, but the characterisation should be reviewed before release."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-03",
-      "jurisdiction": "LA",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-006"
-      ],
-      "trackIds": [
-        "la-978-felony-conviction"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-006",
-          "trackId": "la-978-felony-conviction",
-          "question": "Whether more than one felony conviction may be expunged within a single ten-year period, and on what showing each must independently qualify. The review states it is permitted where each is independently eligible under Article 978, and the current text does not address the point expressly."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-04",
-      "jurisdiction": "LA",
-      "affectedElement": "waiting_period",
-      "questionIds": [
-        "Q-007"
-      ],
-      "trackIds": [
-        "la-985-3-immediate-expungement"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-007",
-          "trackId": "la-985-3-immediate-expungement",
-          "question": "Whether Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme. The word 'immediate' and the completion trigger suggest it does, but unlike Article 985.1(D) — which disapplies those time limitations in terms — Article 985.3 says nothing about them, and 'otherwise eligible for an expungement' can be read either as eligible but for the waiting period or as eligible including the waiting period. The difference decides who the eligibility engine returns."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-05",
-      "jurisdiction": "ME",
-      "affectedElement": "legal_effect_or_warning",
-      "questionIds": [
-        "Q-009"
-      ],
-      "trackIds": [
-        "me-nonconv"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-009",
-          "trackId": "me-nonconv",
-          "question": "Whether a charge dismissed after successful completion of a deferred disposition under 17-A M.R.S. ch. 67 subch. 4 is confidential criminal history record information under 16 M.R.S. § 703(2). This was checked against current official text and is NOT ESTABLISHED. Section 703(2) lists paragraphs A through L and none mentions a deferred disposition. The closest is paragraph G, which reaches a charge 'dismissed with prejudice by the court or dismissed with finality by a prosecutor outside a plea agreement'. Under 17-A M.R.S. § 1903 the State dismisses the charging instrument WITH PREJUDICE on compliance, which fits the first clause, but a deferred disposition arises from a written agreement between the defendant and the State, which arguably falls inside paragraph G's outside-a-plea-agreement carve-out. Section 1903 says nothing about confidentiality or sealing. No statute, State Bureau of Identification guidance, Judicial Branch page or Law Court decision resolves it. The packet therefore fails closed: it does not promise confidentiality on the strength of the deferred-disposition label, it tells the participant to verify what the Bureau record actually shows, and it routes the correction request only where the record is demonstrably inaccurate."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-06",
-      "jurisdiction": "ME",
-      "affectedElement": "legal_effect_or_warning",
-      "questionIds": [
-        "Q-011"
-      ],
-      "trackIds": [
-        "me-seal-survivor"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-011",
-          "trackId": "me-seal-survivor",
-          "question": "Form CR-308 page 2 carries a warning box stating that if at any time after the date of the order the defendant is convicted of a new crime in Maine or in any other jurisdiction, the new conviction extinguishes the order. That is inconsistent with 15 M.R.S. § 2264(7) as amended by PL 2025, c. 513, which now provides in terms that the subsection does not apply to records sealed pursuant to section 2262-A or 2262-B. Both the form and the amendment take effect 29 July 2026, so this is a live conflict on the face of two current official sources rather than a stale-form problem. LegalEase does not resolve it: the packet states the statutory rule, does not repeat the form's warning as advice, and carries the conflict as a release blocker."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-07",
-      "jurisdiction": "MO",
-      "affectedElement": "venue",
-      "questionIds": [
-        "Q-016"
-      ],
-      "trackIds": [
-        "mo-610-140-conviction"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-016",
-          "trackId": "mo-610-140-conviction",
-          "question": "How a participant with cases charged in more than one Missouri county obtains complete relief. § 610.140.2(2) requires every crime sought to be expunged to be listed in the one petition, while § 610.140.2(1) fixes venue by the court where the person was charged or found guilty; the two cannot both be satisfied across counties. The review records multi-county records as a referral trigger and the track treats it as a hard self-help stop rather than resolving it."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-08",
-      "jurisdiction": "MO",
-      "affectedElement": "governing_mechanism",
-      "questionIds": [
-        "Q-017"
-      ],
-      "trackIds": [
-        "mo-610-145-mistaken-identity"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-017",
-          "trackId": "mo-610-145-mistaken-identity",
-          "question": "Whether a participant may invoke § 610.145.1(2) where the prosecutor or judicial officer who ordered the dismissal did not give the required notice. The subsection imposes a duty on them and gives the participant no mechanism to enforce it; the practical answer is to petition under subdivision (1) instead, which the packet does, but whether any lesser step — a letter to the prosecutor, a request to the clerk — is the expected course is not addressed anywhere in the section."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-09",
-      "jurisdiction": "ND",
-      "affectedElement": "governing_mechanism",
-      "questionIds": [
-        "Q-019"
-      ],
-      "trackIds": [
-        "nd-dui-record-seal"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-019",
-          "trackId": "nd-dui-record-seal",
-          "question": "N.D.C.C. § 39-08-01.6(1) says the court shall seal, and states no motion or petition trigger, whereas the neighbouring marijuana provision says expressly upon motion. The petition requirement therefore rests on the official ND Courts research guide rather than on the statutory text, and participant copy must not represent the petition as statutorily mandated."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-10",
-      "jurisdiction": "ND",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-020"
-      ],
-      "trackIds": [
-        "nd-dui-record-seal"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-020",
-          "trackId": "nd-dui-record-seal",
-          "question": "The exclusion of impaired-driving offences from Chapter 12-60.1 appears only in the official ND Courts research guides and not in the statutory exclusions at N.D.C.C. § 12-60.1-02(2), which list only violence-or-intimidation felonies inside the firearm-disability period and registration offences. The routing to the separate § 39-08-01.6 seal follows the official guides, but the basis should be confirmed before release."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-11",
-      "jurisdiction": "NE",
-      "affectedElement": "venue",
-      "questionIds": [
-        "Q-023"
-      ],
-      "trackIds": [
-        "ne-expunge-le-error"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-023",
-          "trackId": "ne-expunge-le-error",
-          "question": "Whether venue is the district court of the county of arrest or any district court. The review states the county of arrest; the statutory text says only the district court. This must be closed before release."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-12",
-      "jurisdiction": "NE",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-030"
-      ],
-      "trackIds": [
-        "ne-setaside-custodial"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-030",
-          "trackId": "ne-setaside-custodial",
-          "question": "Whether a motor vehicle offence under the Nebraska Rules of the Road reaches ordinance-level traffic offences, which would materially widen the mandatory-denial ground."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-13",
-      "jurisdiction": "SC",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-040"
-      ],
-      "trackIds": [
-        "sc_22_5_930_drug"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-040",
-          "trackId": "sc_22_5_930_drug",
-          "question": "How the § 22-5-930(A) route interacts with § 44-53-450(b) for a participant who would now be eligible for a conditional discharge. Subsection (A) was read at source on 2026-08-06 and expressly includes 'those charges for which the person would now be eligible for a conditional discharge pursuant to Section 44-53-450', which brings some conditional-discharge-type facts inside the conviction route; subsection (D) separately bars the route where the person actually had a conditional discharge within the lookback period. Which route a participant with both features should be pointed to, and in what order, is a counselling question the statute does not answer."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-14",
-      "jurisdiction": "WV",
-      "affectedElement": "waiting_period",
-      "questionIds": [
-        "Q-047"
-      ],
-      "trackIds": [
-        "wv_acc_treatment_job_readiness"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-047",
-          "trackId": "wv_acc_treatment_job_readiness",
-          "question": "How the § 61-11-26a(a)(1) 90-day single-misdemeanour clock interacts with the § 61-11-26(b)(1) one-year clock where the participant relies on job readiness graduation rather than 90 days of treatment compliance. Subdivision (a)(1) was read at source on 2026-08-06 and makes eligibility turn on '90 days' of programme compliance 'or upon completion of an approved job readiness adult training course, or both, if applicable, but after the completion of any sentence of incarceration or completion of any period of supervision, whichever is later in time'. On the graduation branch there is no stated period at all beyond completion of sentence and supervision, which would make the route available immediately on graduation. The packet applies the text as written and records the question rather than reading a 90-day period into the graduation branch."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-15",
-      "jurisdiction": "WV",
-      "affectedElement": "venue",
-      "questionIds": [
-        "Q-048"
-      ],
-      "trackIds": [
-        "wv_common_conv_procedure"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-048",
-          "trackId": "wv_common_conv_procedure",
-          "question": "Venue on a multi-county conviction petition. The controlling review states that S.B. 562 (2020) allows a person seeking expungement of convictions in more than one county to file in his or her county of residence. Section 61-11-26 was read in full at source on 2026-08-06 and the current text does not contain a residence-county venue option: subsections (a)(1) and (a)(2) both say 'petition the circuit court in which the conviction or convictions occurred', the subsection (d) proviso requires a multiple-misdemeanour petition to 'identify and group such information by circuit court, as applicable', and § 61-11-26a(a) says 'may petition the circuit court or circuit courts in which the conviction or convictions occurred'. Read together the current text supports one petition covering several counties, grouped by circuit court and served on the prosecuting attorney of each county of conviction, but it does not name a residence-county forum. Venue for the single-county case is unaffected and unambiguous. Until counsel resolves this, the packet directs a multi-county participant to the circuit court of conviction and adds a local-check instruction rather than promising a residence-county filing."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-16",
-      "jurisdiction": "WV",
-      "affectedElement": "venue",
-      "questionIds": [
-        "Q-049"
-      ],
-      "trackIds": [
-        "wv_conv_multiple_misdemeanors"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-049",
-          "trackId": "wv_conv_multiple_misdemeanors",
-          "question": "Where a multiple-misdemeanour group spans more than one county, which circuit court receives the single petition. Section 61-11-26 was read in full at source on 2026-08-06: subsection (a)(1) says 'the circuit court in which the conviction or convictions occurred', and the subsection (d) proviso requires the petition to 'identify and group such information by circuit court, as applicable'. Together those support one petition covering several counties, but the text does not say which of the several circuit courts is the forum, and it does not contain the county-of-residence option the controlling review attributes to S.B. 562. Until counsel answers, the packet directs the participant to the circuit court of conviction and, for a genuinely multi-county group, to a lawyer."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-17",
-      "jurisdiction": "WV",
-      "affectedElement": "eligibility_branch",
-      "questionIds": [
-        "Q-050"
-      ],
-      "trackIds": [
-        "wv_conv_multiple_misdemeanors"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-050",
-          "trackId": "wv_conv_multiple_misdemeanors",
-          "question": "Whether an excluded conviction sitting inside an otherwise eligible multiple-misdemeanour group can be severed, so the remaining convictions are expunged, or whether its presence in the petition risks the whole petition being summarily denied under § 61-11-26(i)(4). The burden at subsection (h)(1) is framed per conviction, which suggests severance, but the once-per-lifetime rule makes the downside of getting it wrong permanent."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    },
-    {
-      "decisionSetId": "RN-18",
-      "jurisdiction": "WV",
-      "affectedElement": "legal_effect_or_warning",
-      "questionIds": [
-        "Q-056"
-      ],
-      "trackIds": [
-        "wv_pardon_expungement"
-      ],
-      "questions": [
-        {
-          "questionId": "Q-056",
-          "trackId": "wv_pardon_expungement",
-          "question": "Whether § 5-1-16a(b) is the whole of the effect of a pardon expungement. The subsection was read at source on 2026-08-06 and provides only that the expunged record may not be considered in an application to a West Virginia educational institution or in an application for a licence required by a West Virginia professional organisation. Unlike §§ 61-11-25(e) and 61-11-26(l), it contains no general non-disclosure provision and no statement that the proceedings are considered never to have occurred. What the packet may tell a participant about disclosing the record to an ordinary employer after a § 5-1-16a expungement is therefore not settled."
-        }
-      ],
-      "oneAnswerControlsMultipleTracks": false
-    }
-  ],
-  "readyNowAssignmentBatches": [
-    {
-      "jurisdiction": "VA",
-      "affectedElement": "governing_mechanism",
-      "decisionSetIds": [
-        "RN-01"
-      ],
-      "questionCount": 2
-    },
-    {
-      "jurisdiction": "ME",
-      "affectedElement": "legal_effect_or_warning",
-      "decisionSetIds": [
-        "RN-05",
-        "RN-06"
-      ],
-      "questionCount": 2
-    },
-    {
-      "jurisdiction": "WV",
-      "affectedElement": "venue",
-      "decisionSetIds": [
-        "RN-15",
-        "RN-16"
-      ],
-      "questionCount": 2
-    },
-    {
-      "jurisdiction": "KY",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-02"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "LA",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-03"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "LA",
-      "affectedElement": "waiting_period",
-      "decisionSetIds": [
-        "RN-04"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "MO",
-      "affectedElement": "venue",
-      "decisionSetIds": [
-        "RN-07"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "MO",
-      "affectedElement": "governing_mechanism",
-      "decisionSetIds": [
-        "RN-08"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "ND",
-      "affectedElement": "governing_mechanism",
-      "decisionSetIds": [
-        "RN-09"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "ND",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-10"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "NE",
-      "affectedElement": "venue",
-      "decisionSetIds": [
-        "RN-11"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "NE",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-12"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "SC",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-13"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "WV",
-      "affectedElement": "waiting_period",
-      "decisionSetIds": [
-        "RN-14"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "WV",
-      "affectedElement": "eligibility_branch",
-      "decisionSetIds": [
-        "RN-17"
-      ],
-      "questionCount": 1
-    },
-    {
-      "jurisdiction": "WV",
-      "affectedElement": "legal_effect_or_warning",
-      "decisionSetIds": [
-        "RN-18"
-      ],
-      "questionCount": 1
-    }
-  ],
+  "readyNowDecisionSets": [],
+  "readyNowAssignmentBatches": [],
   "trueLegalResearchTracks": [
     {
       "jurisdiction": "AK",
@@ -736,7 +396,35 @@
         "name": "The sentencing court, in the existing criminal case",
         "detail": "No Alaska Court System form for a post-discharge request was located."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "AK",
+        "trackId": "ak-set-aside",
+        "reportLine": 1142,
+        "productDisposition": [
+          {
+            "key": "LEGAL RESEARCH",
+            "value": "COMPLETE"
+          },
+          {
+            "key": "OUTPUT",
+            "value": "CUSTOM ORIGINAL-CASE MOTION"
+          },
+          {
+            "key": "DESTINATION",
+            "value": "SENTENCING COURT"
+          },
+          {
+            "key": "SERVICE",
+            "value": "PROSECUTOR"
+          },
+          {
+            "key": "CONTESTED CASE",
+            "value": "ATTORNEY HANDOFF"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "AK",
@@ -756,7 +444,35 @@
         "name": "Unresolved",
         "detail": "The exact receiving agency and request channel remain unresolved."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "AK",
+        "trackId": "ak-cannabis-seal",
+        "reportLine": 1179,
+        "productDisposition": [
+          {
+            "key": "STATUS",
+            "value": "FUTURE EFFECTIVE"
+          },
+          {
+            "key": "LAUNCH DATE",
+            "value": "NOT BEFORE 2027-01-01"
+          },
+          {
+            "key": "OUTPUT AFTER EFFECTIVE DATE",
+            "value": "AGENCY NONDISCLOSURE REQUEST"
+          },
+          {
+            "key": "COURT PETITION",
+            "value": "NO"
+          },
+          {
+            "key": "RECHECK",
+            "value": "DPS GUIDANCE AND FORM BEFORE LAUNCH"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "AK",
@@ -775,7 +491,31 @@
         "name": "Alaska Department of Public Safety, Criminal Records and Identification Bureau",
         "detail": "The governing mechanism and procedure are unresolved."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "AK",
+        "trackId": "ak-correct-record",
+        "reportLine": 1217,
+        "productDisposition": [
+          {
+            "key": "INITIAL OUTPUT",
+            "value": "OFFICIAL AGENCY CORRECTION FORM + EVIDENCE CHECKLIST"
+          },
+          {
+            "key": "INITIAL DESTINATION",
+            "value": "DPS / RESPONSIBLE ORIGINATING AGENCY"
+          },
+          {
+            "key": "ADVERSE FINAL DECISION",
+            "value": "SUPERIOR-COURT ADMINISTRATIVE APPEAL"
+          },
+          {
+            "key": "APPEAL",
+            "value": "ATTORNEY HANDOFF"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "AL",
@@ -795,7 +535,35 @@
         "name": "Circuit civil court in the county of conviction",
         "detail": "Special venue rules apply to federal or out-of-state convictions. Hearing mechanics under § 12-26-7 have not been read."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "AL",
+        "trackId": "al-olr",
+        "reportLine": 1249,
+        "productDisposition": [
+          {
+            "key": "LEGAL RESEARCH",
+            "value": "COMPLETE"
+          },
+          {
+            "key": "OUTPUT",
+            "value": "OFFICIAL AOC LIMITED-RELIEF PACKET"
+          },
+          {
+            "key": "FORUM",
+            "value": "CIRCUIT CIVIL COURT UNDER § 12-26-3"
+          },
+          {
+            "key": "ADMINISTRATIVE FEE",
+            "value": "$100, NONWAIVABLE"
+          },
+          {
+            "key": "COMPLEX / FOREIGN",
+            "value": "ATTORNEY HANDOFF"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "AL",
@@ -815,7 +583,31 @@
         "name": "Unresolved",
         "detail": "The forum and the practical use of §§ 41-9-645 and 41-9-646 remain unresolved."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "AL",
+        "trackId": "al-uncharged-arrest",
+        "reportLine": 1292,
+        "productDisposition": [
+          {
+            "key": "OUTPUT",
+            "value": "AGENCY RECORD-CHALLENGE PACKET"
+          },
+          {
+            "key": "COURT OUTPUT",
+            "value": "CUSTOM APPEAL ONLY AFTER FINAL DENIAL"
+          },
+          {
+            "key": "ACCURATE UNCHARGED ARREST",
+            "value": "SEPARATE EXPUNGEMENT ROUTE"
+          },
+          {
+            "key": "CONTESTED APPEAL",
+            "value": "ATTORNEY HANDOFF"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "CA",
@@ -834,7 +626,31 @@
         "name": "Unresolved",
         "detail": "The correct output vehicle is unresolved. Counsel named no approved form, no custom pleading and no guidance strategy for this track. It is not registered at runtime and is unreachable."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "CA",
+        "trackId": "ca-1203-4b",
+        "reportLine": 1319,
+        "productDisposition": [
+          {
+            "key": "LEGAL RESEARCH",
+            "value": "COMPLETE"
+          },
+          {
+            "key": "OUTPUT",
+            "value": "OFFICIAL CR-430 / CR-431 / CR-432 PACKET"
+          },
+          {
+            "key": "VENUE",
+            "value": "SENTENCING SUPERIOR COURT"
+          },
+          {
+            "key": "RELIEF",
+            "value": "DISCRETIONARY DISMISSAL / SET-ASIDE"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "CO",
@@ -853,7 +669,35 @@
         "name": "Unresolved",
         "detail": "The governing mistaken-identity mechanism and the participant-facing output vehicle are both unresolved. Counsel named no approved form, pleading or guidance strategy. This track is not registered at runtime and is unreachable."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "CO",
+        "trackId": "co_mistaken_identity_expungement",
+        "reportLine": 1356,
+        "productDisposition": [
+          {
+            "key": "LEGAL RESEARCH",
+            "value": "COMPLETE"
+          },
+          {
+            "key": "OUTPUT",
+            "value": "CUSTOM NO-FEE DISTRICT-COURT PETITION"
+          },
+          {
+            "key": "PRECONDITION",
+            "value": "AGENCY MISTAKEN-IDENTITY FINDING + NO CHARGES"
+          },
+          {
+            "key": "VENUE",
+            "value": "JUDICIAL DISTRICT OF ARREST"
+          },
+          {
+            "key": "NO FINDING / DISPUTE",
+            "value": "AGENCY REQUEST, THEN ATTORNEY HANDOFF"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "NY",
@@ -874,7 +718,39 @@
         "name": "Not determined",
         "detail": "The review describes sealing at disposition with nothing to file, but does not establish what the sealing covers. Because the operative content of any guidance is exactly what is unknown, no destination or strategy is asserted here."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "NY",
+        "trackId": "ny_160_55_violation",
+        "reportLine": 1394,
+        "productDisposition": [
+          {
+            "key": "expected automatic partial seal",
+            "value": null
+          },
+          {
+            "key": "→ obtain certificate of disposition",
+            "value": null
+          },
+          {
+            "key": "→ check official criminal-history result",
+            "value": null
+          },
+          {
+            "key": "→ ask sentencing court to transmit/correct sealing notice",
+            "value": null
+          },
+          {
+            "key": "→ send certified disposition to DCJS for correction",
+            "value": null
+          },
+          {
+            "key": "→ motion or counsel if court previously entered an interests-of-justice nonsealing order",
+            "value": null
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     },
     {
       "jurisdiction": "OH",
@@ -893,49 +769,38 @@
         "name": "Not determined",
         "detail": "The review states no filing actor and no destination, and expressly records that the section number was not captured."
       },
-      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves."
+      "serviceDisposition": "No participant-facing route yet. Serve an explicit unsupported-scope outcome until the design resolves.",
+      "nationalReportTreatment": {
+        "jurisdiction": "OH",
+        "trackId": "oh-ls-5",
+        "reportLine": 1442,
+        "productDisposition": [
+          {
+            "key": "ROUTE NAME",
+            "value": "PRE-2026 MARIJUANA / HASHISH EXPUNGEMENT"
+          },
+          {
+            "key": "OUTPUT",
+            "value": "CUSTOM APPLICATION + EVIDENCE + PROPOSED ORDER"
+          },
+          {
+            "key": "VENUE",
+            "value": "SENTENCING COURT"
+          },
+          {
+            "key": "FEE",
+            "value": "$50, INDIGENCY EXCEPTION"
+          },
+          {
+            "key": "AGE LIMIT",
+            "value": "NONE"
+          }
+        ]
+      },
+      "legalStatus": "RESOLVED"
     }
   ],
   "sourceFirst": [
-    {
-      "questionId": "Q-005",
-      "jurisdiction": "LA",
-      "trackId": "la-977d-marijuana-first-offense",
-      "missingSource": "Current official filing instructions for Motion for Expungement for Misdemeanor Conviction for a First Offense Possession of Marijuana (La. C.Cr.P. arts. 977(D), 998)",
-      "authoritativeIssuingBody": "Clerk of court for the parish of conviction",
-      "expectedSourceIdentity": [
-        "La. C.Cr.P. Art. 977 — Motion to expunge a record of arrest and conviction of a misdemeanor offense",
-        "La. C.Cr.P. Art. 998 — Motion for expungement form to be used for certain misdemeanor convictions"
-      ],
-      "questionAnswerableAfterAcquisition": "Whether any clerk of court continues to apply the terminated Article 983(M) three-hundred-dollar schedule to motions filed after 1 August 2026, and whether any parish publishes a different collection practice for Article 977(D) motions.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-010",
-      "jurisdiction": "ME",
-      "trackId": "me-seal-gen",
-      "missingSource": "Current official service and notice instructions for Motion to Seal Criminal History Record Information (15 M.R.S. ch. 310-A, §§ 2262-2264)",
-      "authoritativeIssuingBody": "Clerk of the court in which the conviction was entered",
-      "expectedSourceIdentity": [
-        "Maine Judicial Branch Form CR-218 — Motion to Seal Criminal History",
-        "15 M.R.S. ch. 310-A — Sealing of Criminal History Record Information, section index"
-      ],
-      "questionAnswerableAfterAcquisition": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-012",
-      "jurisdiction": "ME",
-      "trackId": "me-seal-survivor",
-      "missingSource": "Current official service and notice instructions for Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation (15 M.R.S. § 2262-B)",
-      "authoritativeIssuingBody": "Clerk of the court in which the conviction was entered",
-      "expectedSourceIdentity": [
-        "Maine Judicial Branch Form CR-307 — Motion to Seal Conviction for Victims of Sex Trafficking or Sexual Exploitation",
-        "Maine Judicial Branch Form CR-308 — Order on Motion to Seal Criminal History for Victims of Sex Trafficking or Sexual Exploitation"
-      ],
-      "questionAnswerableAfterAcquisition": "Whether the movant must serve the prosecutorial office, or whether the court performs all notice. 15 M.R.S. § 2264(3) directs notice to the prosecutorial office that represented the State but does not assign the act to the movant, and none of CR-218, CR-289 or CR-307 carries a certificate-of-service block — unlike the juvenile form JV-043, which states on its face that the petitioner must provide a copy to the prosecuting attorney. The packet fails closed: it tells the participant that the court is understood to give notice, and that they should confirm with the clerk at filing and deliver a courtesy copy if the clerk asks.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
     {
       "questionId": "Q-018",
       "jurisdiction": "MS",
@@ -948,211 +813,9 @@
       ],
       "questionAnswerableAfterAcquisition": "Whether the Miss. Code Ann. § 99-19-72 fee reaches a given petition. The section reads: 'A filing fee of One Hundred Fifty Dollars ($150.00) is hereby levied on each petition to expunge an offense under Section 99-19-71 to be collected by the circuit clerk', distributed $100 to the Judicial System Operation Fund, $40 to the District Attorneys Operation Fund and $10 retained by the circuit clerk. Last amended by Laws, 1st Ex. Sess. 2017, ch. 7, § 12; no enacted amendment through 2026. Two things remain unresolved on its face and are NOT resolved by construction here. First, the trigger is 'each petition to expunge AN OFFENSE under Section 99-19-71': a § 99-19-71(4) non-conviction petition is a petition under § 99-19-71 but is not a petition to expunge an offence, because there is no conviction, and the statute does not settle it either way. Second, the collection mechanism names the CIRCUIT CLERK, which does not map onto § 99-19-71(1) or (4) petitions filed in justice or municipal court. Sections 9-11-15(3), 21-23-7(6), 99-15-26, 63-11-30, 41-29-150 and 67-3-70 sit outside § 99-19-71 and the fee does not reach them by its terms; none of those sections specifies a fee of its own. The packet therefore publishes NO fee amount on any track and instructs the participant to confirm the filing fee, and any pauper's-affidavit route, with the clerk of the court before filing.",
       "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-024",
-      "jurisdiction": "NE",
-      "trackId": "ne-expunge-le-error",
-      "missingSource": "Current official service and notice instructions for Petition to Expunge Criminal History Record Information After an Arrest Made in Error (Neb. Rev. Stat. § 29-3523(9))",
-      "authoritativeIssuingBody": "Clerk of the district court",
-      "expectedSourceIdentity": [
-        "Neb. Rev. Stat. § 29-3523, Criminal history record information; confidentiality; sealing; expungement"
-      ],
-      "questionAnswerableAfterAcquisition": "Whether the county attorney is the named respondent, and the method and timing of service on a political subdivision. The review asserts the respondent; the statutory text does not.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-026",
-      "jurisdiction": "NE",
-      "trackId": "ne-seal-pardoned",
-      "missingSource": "Current official filing instructions for Motion to Seal a Pardoned Conviction (Neb. Rev. Stat. § 29-3523(5))",
-      "authoritativeIssuingBody": "Clerk of the court holding the case",
-      "expectedSourceIdentity": [
-        "CC 6:12, Motion to Seal an Adult Criminal Record, Rev. 04/2024",
-        "CC 6:12a, Completing the Motion to Seal an Adult Criminal Record, Rev. 06/2024"
-      ],
-      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-028",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-custodial",
-      "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to One Year or Less (Neb. Rev. Stat. § 29-2264(3))",
-      "authoritativeIssuingBody": "Clerk of the sentencing court",
-      "expectedSourceIdentity": [
-        "CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024",
-        "CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020"
-      ],
-      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-031",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-noncustodial",
-      "missingSource": "Current official filing instructions for Petition to Set Aside a Conviction Sentenced to Probation, Fine or Community Service (Neb. Rev. Stat. § 29-2264(2))",
-      "authoritativeIssuingBody": "Clerk of the sentencing court",
-      "expectedSourceIdentity": [
-        "CC 6:11, Petition to Set Aside Criminal Conviction, Rev. 04/2024",
-        "CC 6:11.2, Order Setting Aside a Criminal Conviction, Rev. 12/2020"
-      ],
-      "questionAnswerableAfterAcquisition": "The filing fee for a petition or motion filed within an existing Nebraska criminal case is not established. The statewide Filing Fees and Court Costs schedule effective 1 July 2026 carries no line item for post-judgment petitions or motions within a criminal case. No fee figure may be displayed to a participant until a clerk-level answer is obtained from at least one county court and one district court.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-037",
-      "jurisdiction": "SC",
-      "trackId": "sc_22_5_910",
-      "missingSource": "Current official filing instructions for Solicitor Application to Expunge a First Low-Level Conviction or a Domestic Violence Third-Degree Conviction, S.C. Code § 22-5-910",
-      "authoritativeIssuingBody": "Solicitor's Office in the judicial circuit where the offence was committed",
-      "expectedSourceIdentity": [
-        "S.C. Code Title 22, Chapter 5 — Expungement of criminal records",
-        "S.C. Code Title 17, Chapter 22 — Pretrial intervention, traffic education, alcohol education and the Uniform Expungement of Criminal Records Act"
-      ],
-      "questionAnswerableAfterAcquisition": "Whether the § 22-5-910(E) same-incident aggregation rule can be relied on in practice to bring several closely connected offences sentenced at one proceeding within a single application, given that § 17-22-940(G) permits multiple charges on one order only for § 17-1-40 and § 17-22-150(a). Both subsections were read at source on 2026-08-06 and are not obviously reconciled: § 22-5-910(E) treats such offences as one conviction 'for expungement purposes', while § 17-22-940(G) restricts what may appear on one order. The packet does not promise a single application on this route.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-044",
-      "jurisdiction": "SD",
-      "trackId": "sd_sis_sealing",
-      "missingSource": "Current official filing instructions for Sealing of Records on Discharge and Dismissal after a Suspended Imposition of Sentence (SDCL §§ 23A-27-13 to 23A-27-17)",
-      "authoritativeIssuingBody": "The court that entered the discharge and dismissal",
-      "expectedSourceIdentity": [
-        "SDCL § 23A-27-17 — Sealing of records on discharge of probationer, effect of order (official statute text, Source: SL 1975 ch 257 § 2; SL 1976 ch 158 § 43-4; SL 1978 ch 178 § 346)"
-      ],
-      "questionAnswerableAfterAcquisition": "Counsel flagged as a release blocker whether sealing under § 23A-27-17 is automatic on discharge or requires a motion, and left an official_pdf_fill fallback unresolved against the possibility that a motion is needed. The section has now been read at the official South Dakota Legislature publication: 'Upon the discharge and dismissal of a person pursuant to § 23A-27-14, a court shall order that all official records ... be sealed'. Sealing is the court's obligation on discharge and dismissal; no participant motion exists. The unresolved fallback unit is therefore not carried, and the track is modelled as process_guidance. What remains open is the remedy where a court did not do what the statute directs.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
-    },
-    {
-      "questionId": "Q-053",
-      "jurisdiction": "WV",
-      "trackId": "wv_conv_single_misdemeanor",
-      "missingSource": "Current official service and notice instructions for Verified Petition to Expunge a Single Misdemeanour Conviction, W. Va. Code § 61-11-26(a)(1) and (b)(1)",
-      "authoritativeIssuingBody": "Clerk of the circuit court of the county of conviction",
-      "expectedSourceIdentity": [
-        "W. Va. Code § 61-11-26",
-        "W. Va. Code § 61-11-26b"
-      ],
-      "questionAnswerableAfterAcquisition": "The SCA-C900 instruction sheet, revised 04/01/2021, tells the petitioner that after a notice of opposition they 'will then have ten (10) days of being served of such notice to reply', and cites § 61-11-26(e) as the opposition provision. Section 61-11-26 was read in full at source on 2026-08-06: opposition is at subsection (g), and subsection (g)(3) gives the petitioner 30 days after service of the opposition to reply. The packet states the statutory 30 days and flags the discrepancy, but which the circuits apply in practice is not established, and a participant who relies on the form's ten days would not be prejudiced while one who relies on thirty might be.",
-      "sourceAcquisitionOwner": "RCAP source acquisition"
     }
   ],
-  "outputFirst": [
-    {
-      "questionId": "Q-003",
-      "jurisdiction": "KY",
-      "trackId": "ky_felony_vacatur_expungement",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "At least one circuit clerk's published page states that $300 is due at filing, which does not match KRS 431.073(10) and (11). The packet must state the statutory position and warn that a local office may ask for the whole sum at once.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-004",
-      "jurisdiction": "KY",
-      "trackId": "ky_nonconviction_expungement",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "Confirmation from the Administrative Office of the Courts of the intended completion of the AOC-497.2 eligibility checkboxes. The form instructs the filer to check all that apply and the five boxes describe mutually exclusive dispositions of a charge, so the disjunctive reading is the only workable one; the Clerks' Manual states the same periods disjunctively. Packet identity and the field map are settled and this does not stop the build.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-008",
-      "jurisdiction": "LA",
-      "trackId": "la-985-expungement-by-redaction",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "Whether the Article 989 motion requires any distinct pleading or election to request redaction relief under Article 985 rather than full expungement, given that the redaction paragraph appears in the Article 992 order rather than in the motion, and that Article 985(A) speaks of petitioning the court.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-025",
-      "jurisdiction": "NE",
-      "trackId": "ne-expunge-le-error",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "Whether a summons or praecipe and a proposed order accompany the petition, which decides the packet component list.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-027",
-      "jurisdiction": "NE",
-      "trackId": "ne-seal-pardoned",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-029",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-custodial",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-032",
-      "jurisdiction": "NE",
-      "trackId": "ne-setaside-noncustodial",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "The fee-waiver branch has no fitting official form. DC 6:7.1's case-type box offers only Civil, Name change and Emancipation, and its official title is scoped to civil, appeals and emancipation matters, while a set-aside petition or sealing motion is filed in the existing criminal case. There is no county-court in forma pauperis application form at all: CC 8:1 is the order only. Neb. Rev. Stat. § 25-2301.01 nonetheless permits proceeding in forma pauperis in a civil or criminal case in any county or state court, so the mechanism exists and the form does not fit it. A custom affidavit and application under §§ 25-2301 to 25-2310 is the resolution rather than mis-scoping DC 6:7.1.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-035",
-      "jurisdiction": "SC",
-      "trackId": "sc_17_22_950_summary",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "What a participant does where the automatic order under § 17-22-950(A) did not issue. The section was read in full at source on 2026-08-06 and imposes the duty on the summary court in mandatory terms, with the timing fixed by subsection (C), but it describes no application, motion or remedy on the fingerprinted branch where the court simply does not act. SCCA 223E is expressly the subsection (B) application and is not drafted for this situation. Until counsel resolves it the packet directs the participant to the summary court clerk and stops there; no enforcement filing is generated.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-051",
-      "jurisdiction": "WV",
-      "trackId": "wv_conv_nonviolent_felony",
-      "packetFamilies": [
-        "rcap-wv-guidance-implementation"
-      ],
-      "requiredArtifact": "A rendered packet from rcap-wv-guidance-implementation with a recorded artifact hash",
-      "exactOutputLevelQuestion": "How LegalEase should present a route it may generate but on which it cannot make the central characterisation. Section 61-11-26(p)(5) was read at source on 2026-08-06 and makes two of the four limbs of 'nonviolent felony' express circuit-court findings, so the eligibility recital on SCA-C907 is one LegalEase must leave for the participant and their counsel. The controlling review calls for a manual-review gate on every felony. LegalEase operates no review queue, no staff approval and no eligibility determination, so that direction is normalized here as a printed attorney-referral notice and a self-help boundary rather than as an internal gate. Whether counsel accepts that translation, or would rather the felony route not be offered at all until a referral partner is in place, is a question for counsel.",
-      "responsibleEngineeringDependency": "Packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-052",
-      "jurisdiction": "WV",
-      "trackId": "wv_conv_single_misdemeanor",
-      "packetFamilies": [
-        "rcap-wv-guidance-implementation"
-      ],
-      "requiredArtifact": "A rendered packet from rcap-wv-guidance-implementation with a recorded artifact hash",
-      "exactOutputLevelQuestion": "Which published form is the operative § 61-11-26 misdemeanour petition. The Judiciary Court Forms index was read at source on 2026-08-06 and publishes exactly five expungement forms. SCA-C900, captioned 'Instructions for Expungement of Records Petition' and revised 04/01/2021, is a five-page document whose pages 2 to 5 are themselves a petition, verification and certificate of service. That embedded petition is materially stale: it requires the petitioner to have been 'between eighteen and twenty-six years of age', requires 'no prior or subsequent convictions other than minor traffic violations', recites 'W. Va. Code §61-11-26 (2009)', and cross-references the exclusion list to '§61-11-26(i)', all of which are features of the pre-2019 section. The section in force places exclusions at subsection (c) and imposes no age limit. SCA-C906 matches the current subsection (c) and (d) structure and carries the § 61-11-26a elections, and is therefore used here. The packet must not generate the SCA-C900 embedded petition. Whether the Judiciary intends SCA-C900 to remain published in that form is not established.",
-      "responsibleEngineeringDependency": "Packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-054",
-      "jurisdiction": "WV",
-      "trackId": "wv_nc_acquittal_dismissal",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "SCA-C903 was read at source on 2026-08-06. Its recital is to 'W.Va. Code § 61-11-25 (2000)', and the form's stated revision date is 04/01/2010, so the published form predates the 2010, 2012, 2022, 2023 and 2024 amendments to the section, including the H.B. 4399 (2024) text now in force. The form's operative paragraphs still track the current subsection (a) requirements for a straight acquittal or dismissal, so the fit is sound for this track, but whether the Judiciary intends the 2000 recital to be corrected, and whether any circuit rejects the form on that basis, is not established.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    },
-    {
-      "questionId": "Q-055",
-      "jurisdiction": "WV",
-      "trackId": "wv_nc_diversion_deferred",
-      "packetFamilies": [],
-      "requiredArtifact": "A rendered candidate packet; no family is bridged to this track yet",
-      "exactOutputLevelQuestion": "Whether SCA-C903 is the right vehicle for a deferred-adjudication dismissal. The form was read at source on 2026-08-06: it is captioned 'for Reasons Other than Entry of a Plea', recites 'W.Va. Code § 61-11-25 (2000)', carries a single charge block with one free-text reason-for-dismissal field, has no same-transaction-or-occurrence paragraph and no diversion or deferred-adjudication paragraph, and requires the movant to state that the dismissal 'was not in exchange for a guilty plea to another offense'. Section 61-11-22a operates on an entered guilty plea which is withdrawn on compliance, so the movant's statement is literally true — the dismissal is not in exchange for a plea to another offence — but the caption and the missing paragraphs make the fit imperfect. The packet therefore generates the official form plus a supplemental pleading carrying the statutory basis, the same-transaction recital and the carve-out recital. Whether the Judiciary regards SCA-C903 as the correct form for this route, or whether a distinct form or a full custom petition is expected, is not established.",
-      "responsibleEngineeringDependency": "Track-to-family bridge, then packet render and artifact hash"
-    }
-  ],
+  "outputFirst": [],
   "questions": [
     {
       "questionId": "Q-001",
@@ -1184,7 +847,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-GA-RFO",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-GA-RFO, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-GA-RFO, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -1215,11 +886,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-001",
+          "kind": "national_legal_decision_report",
+          "statement": "Treat the pardon route as available only when the operative clemency instrument expressly grants a **full pardon** of the conviction or convictions sought to be expunged. Controlling product decision: Full-pardon document review."
+        }
+      ],
+      "reason": "Treat the pardon route as available only when the operative clemency instrument expressly grants a **full pardon** of the conviction or convictions sought to be expunged. Controlling product decision: Full-pardon document review. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-001, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-001",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1252,11 +931,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-002",
+          "kind": "national_legal_decision_report",
+          "statement": "The statewide statutory payment schedule controls: Controlling product decision: $50 filing / $250 after grant."
+        }
+      ],
+      "reason": "The statewide statutory payment schedule controls: Controlling product decision: $50 filing / $250 after grant. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-002, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-002",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1286,11 +973,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-003",
+          "kind": "national_legal_decision_report",
+          "statement": "AOC-497.2’s instruction to “check all that apply” is **disjunctive and charge-specific**. Controlling product decision: Charge-level disjunctive checkboxes."
+        }
+      ],
+      "reason": "AOC-497.2’s instruction to “check all that apply” is **disjunctive and charge-specific**. Controlling product decision: Charge-level disjunctive checkboxes. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-003, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-003",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1326,11 +1021,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-004",
+          "kind": "national_legal_decision_report",
+          "statement": "Article 983(M)’s special **$300** first-offense marijuana fee schedule became “null, void, and without effect” on **August 1, 2026**. A motion filed after that date is governed by the ordinary Article 983 schedule unless another statutory exemption, fee waiver, or in-forma-pauperis mechanism applies. Controlling product decision: Post-sunset ordinary fee schedule."
+        }
+      ],
+      "reason": "Article 983(M)’s special **$300** first-offense marijuana fee schedule became “null, void, and without effect” on **August 1, 2026**. A motion filed after that date is governed by the ordinary Article 983 schedule unless another statutory exemption, fee waiver, or in-forma-pauperis mechanism applies. Controlling product decision: Post-sunset ordinary fee schedule. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-004, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-004",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1375,11 +1078,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 3,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-005",
+          "kind": "national_legal_decision_report",
+          "statement": "More than one felony conviction may be expunged within a single ten-year period when **each conviction independently satisfies Article 978**. Controlling product decision: Multiple felonies allowed if independently eligible."
+        }
+      ],
+      "reason": "More than one felony conviction may be expunged within a single ten-year period when **each conviction independently satisfies Article 978**. Controlling product decision: Multiple felonies allowed if independently eligible. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-005, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-005",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1412,11 +1123,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-006",
+          "kind": "national_legal_decision_report",
+          "statement": "The better reading is that Article 985.3 authorizes discretionary **immediate expungement upon successful completion** of the qualifying court-ordered probation or alternative sentencing program and therefore displaces the ordinary five- and ten-year waiting clocks. Controlling product decision: Immediate-completion branch."
+        }
+      ],
+      "reason": "The better reading is that Article 985.3 authorizes discretionary **immediate expungement upon successful completion** of the qualifying court-ordered probation or alternative sentencing program and therefore displaces the ordinary five- and ten-year waiting clocks. Controlling product decision: Immediate-completion branch. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-006, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-006",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1451,11 +1170,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-007",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the official Article 989 motion **plus a supplemental redaction election**, rather than replacing the statewide motion with an entirely custom pleading. Controlling product decision: Official motion + redaction supplement."
+        }
+      ],
+      "reason": "Use the official Article 989 motion **plus a supplemental redaction election**, rather than replacing the statewide motion with an entirely custom pleading. Controlling product decision: Official motion + redaction supplement. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-007, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-007",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1486,11 +1213,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-008",
+          "kind": "national_legal_decision_report",
+          "statement": "Successful completion of a deferred disposition does **not automatically establish that the entire criminal-history record is confidential**. Controlling product decision: No automatic confidentiality promise."
+        }
+      ],
+      "reason": "Successful completion of a deferred disposition does **not automatically establish that the entire criminal-history record is confidential**. Controlling product decision: No automatic confidentiality promise. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-008, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-008",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1528,11 +1263,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-009",
+          "kind": "national_legal_decision_report",
+          "statement": "The motion is filed in the underlying criminal case and the prosecutorial office that represented the State is entitled to notice. Current statute and forms do not clearly state that the clerk performs every initial service act. Controlling product decision: Prosecutor notice; local method."
+        }
+      ],
+      "reason": "The motion is filed in the underlying criminal case and the prosecutorial office that represented the State is entitled to notice. Current statute and forms do not clearly state that the clerk performs every initial service act. Controlling product decision: Prosecutor notice; local method. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-009, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-009",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1567,11 +1310,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
-      "blockedUntil": null,
-      "resolvedBy": null,
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-010",
+          "kind": "national_legal_decision_report",
+          "statement": "The statute controls. A later conviction does **not** extinguish a sealing order entered under § 2262-A or § 2262-B. Controlling product decision: Statute overrides CR-308 warning."
+        }
+      ],
+      "reason": "The statute controls. A later conviction does **not** extinguish a sealing order entered under § 2262-A or § 2262-B. Controlling product decision: Statute overrides CR-308 warning. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-010, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-010",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1606,11 +1357,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-011",
+          "kind": "national_legal_decision_report",
+          "statement": "Apply the same service rule as Q-009. The prosecutorial office is entitled to notice, and the current official materials do not justify promising that the court completes all participant-side service. Controlling product decision: Prosecutor notice; local method."
+        }
+      ],
+      "reason": "Apply the same service rule as Q-009. The prosecutorial office is entitled to notice, and the current official materials do not justify promising that the court completes all participant-side service. Controlling product decision: Prosecutor notice; local method. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-011, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-011",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1639,7 +1398,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-MO-311-326",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -1672,7 +1439,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-MO-311-326",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-MO-311-326, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -1706,13 +1481,21 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "OPERATIONAL_CONFIGURATION_REQUIRED",
-      "reason": "The receiving clerk confirms the case type code. CLD-2026-08-28-MO-311-326 fixes the rule (XG provisional, X5 prohibited, X1 only on clerk direction) and places the final code behind the clerk gate.",
-      "owner": "RCAP operations",
-      "blockedUntil": "receiving-clerk confirmation",
-      "resolvedBy": null,
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-012",
+          "kind": "national_legal_decision_report",
+          "statement": "Section 610.130 sends the application to the court in which the person pleaded guilty or was sentenced, but the published case-type list provides no section-specific code. Controlling product decision: XG provisional; clerk confirmation."
+        }
+      ],
+      "reason": "Section 610.130 sends the application to the court in which the person pleaded guilty or was sentenced, but the published case-type list provides no section-specific code. Controlling product decision: XG provisional; clerk confirmation. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-012, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-012",
       "cascaded": false,
-      "scopeNote": "The controlling decision names mo-311-326-minor-in-possession. It is applied to this track because the FI-05 rule is stated about the published Case Types List and the clerk gate is the same."
+      "scopeNote": null
     },
     {
       "questionId": "Q-016",
@@ -1743,11 +1526,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "ATTORNEY_OR_PARTNER_HANDOFF",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-013",
+          "kind": "national_legal_decision_report",
+          "statement": "LegalEase should not promise that one circuit court can expunge unrelated cases from multiple Missouri counties. Controlling product decision: No promised one-court statewide petition."
+        }
+      ],
+      "reason": "LegalEase should not promise that one circuit court can expunge unrelated cases from multiple Missouri counties. Controlling product decision: No promised one-court statewide petition. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-013, current through 2026-08-28.)",
+      "owner": "Service design",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-013",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1773,11 +1564,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-014",
+          "kind": "national_legal_decision_report",
+          "statement": "Failure by the prosecutor or judicial officer to provide subdivision (2)’s required notice does not eliminate the participant’s independent subdivision (1) remedy. Controlling product decision: Subdivision (1) filing remains available."
+        }
+      ],
+      "reason": "Failure by the prosecutor or judicial officer to provide subdivision (2)’s required notice does not eliminate the participant’s independent subdivision (1) remedy. Controlling product decision: Subdivision (1) filing remains available. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-014, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-014",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1804,6 +1603,8 @@
       "familyBridgePresent": false,
       "duplicatePathwayRows": 1,
       "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
+      "legalStatus": "OPEN",
+      "legalAuthorities": [],
       "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
       "owner": "RCAP source acquisition",
       "blockedUntil": "the official instructions are in hand",
@@ -1837,11 +1638,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-015",
+          "kind": "national_legal_decision_report",
+          "statement": "Participant copy must accurately separate the statute from the Judicial Branch procedure. Controlling product decision: Original-case petition per court guide."
+        }
+      ],
+      "reason": "Participant copy must accurately separate the statute from the Judicial Branch procedure. Controlling product decision: Original-case petition per court guide. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-015, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-015",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1871,11 +1680,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-016",
+          "kind": "national_legal_decision_report",
+          "statement": "Route impaired-driving convictions exclusively through § 39-08-01.6. Controlling product decision: DUI-specific statute only."
+        }
+      ],
+      "reason": "Route impaired-driving convictions exclusively through § 39-08-01.6. Controlling product decision: DUI-specific statute only. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-016, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-016",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1904,7 +1721,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-ND-NONCONV",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -1937,7 +1762,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-ND-NONCONV",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-ND-NONCONV, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -1964,11 +1797,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-017",
+          "kind": "national_legal_decision_report",
+          "statement": "Venue is the **district court of the county in which the arrest occurred**. Controlling product decision: District court, county of arrest."
+        }
+      ],
+      "reason": "Venue is the **district court of the county in which the arrest occurred**. Controlling product decision: District court, county of arrest. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-017, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-017",
       "cascaded": false,
       "scopeNote": null
     },
@@ -1991,11 +1832,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-018",
+          "kind": "national_legal_decision_report",
+          "statement": "The county attorney is the respondent, and the petition must be served as a new civil action. Controlling product decision: County attorney respondent; civil service."
+        }
+      ],
+      "reason": "The county attorney is the respondent, and the petition must be served as a new civil action. Controlling product decision: County attorney respondent; civil service. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-018, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-018",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2018,11 +1867,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-019",
+          "kind": "national_legal_decision_report",
+          "statement": "The candidate packet should contain more than the petition. Controlling product decision: Petition + summons/praecipe/order."
+        }
+      ],
+      "reason": "The candidate packet should contain more than the petition. Controlling product decision: Petition + summons/praecipe/order. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-019, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-019",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2049,11 +1906,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-020",
+          "kind": "national_legal_decision_report",
+          "statement": "No statewide source establishes a filing fee for the motion filed in the existing Nebraska criminal case. Controlling product decision: No statewide existing-case fee published."
+        }
+      ],
+      "reason": "No statewide source establishes a filing fee for the motion filed in the existing Nebraska criminal case. Controlling product decision: No statewide existing-case fee published. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-020, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-020",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2080,11 +1945,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-021",
+          "kind": "national_legal_decision_report",
+          "statement": "Nebraska’s in-forma-pauperis statute applies to civil or criminal cases, but the available official application forms do not fit an existing criminal case cleanly. Controlling product decision: Custom criminal-case IFP papers."
+        }
+      ],
+      "reason": "Nebraska’s in-forma-pauperis statute applies to civil or criminal cases, but the available official application forms do not fit an existing criminal case cleanly. Controlling product decision: Custom criminal-case IFP papers. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-021, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-021",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2112,11 +1985,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-022",
+          "kind": "national_legal_decision_report",
+          "statement": "The same fee conclusion as Q-020 applies. The petition is filed in the sentencing criminal case, and no statewide published amount is established. Controlling product decision: No statewide existing-case fee published."
+        }
+      ],
+      "reason": "The same fee conclusion as Q-020 applies. The petition is filed in the sentencing criminal case, and no statewide published amount is established. Controlling product decision: No statewide existing-case fee published. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-022, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-022",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2144,11 +2025,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-023",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the custom criminal-case in-forma-pauperis application described in Q-021, not a mis-scoped civil checkbox form. Controlling product decision: Custom criminal-case IFP papers."
+        }
+      ],
+      "reason": "Use the custom criminal-case in-forma-pauperis application described in Q-021, not a mis-scoped civil checkbox form. Controlling product decision: Custom criminal-case IFP papers. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-023, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-023",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2176,11 +2065,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "ATTORNEY_OR_PARTNER_HANDOFF",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-024",
+          "kind": "national_legal_decision_report",
+          "statement": "A conviction entered under a Nebraska Rules of the Road statute falls within the custodial-route mandatory-denial provision. A municipal ordinance conviction is not automatically a conviction “under” the state Rules merely because the local ordinance is substantively similar. Controlling product decision: State Rules offense excluded; ordinance review."
+        }
+      ],
+      "reason": "A conviction entered under a Nebraska Rules of the Road statute falls within the custodial-route mandatory-denial provision. A municipal ordinance conviction is not automatically a conviction “under” the state Rules merely because the local ordinance is substantively similar. Controlling product decision: State Rules offense excluded; ordinance review. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-024, current through 2026-08-28.)",
+      "owner": "Service design",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-024",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2210,11 +2107,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-025",
+          "kind": "national_legal_decision_report",
+          "statement": "Same as Q-020 and Q-022. No statewide fee figure is established for the existing-case petition. Controlling product decision: No statewide existing-case fee published."
+        }
+      ],
+      "reason": "Same as Q-020 and Q-022. No statewide fee figure is established for the existing-case petition. Controlling product decision: No statewide existing-case fee published. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-025, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-025",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2244,11 +2149,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on packet_components, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-026",
+          "kind": "national_legal_decision_report",
+          "statement": "Same as Q-021 and Q-023. Use a custom criminal-case in-forma-pauperis affidavit/application and proposed order. Controlling product decision: Custom criminal-case IFP papers."
+        }
+      ],
+      "reason": "Same as Q-021 and Q-023. Use a custom criminal-case in-forma-pauperis affidavit/application and proposed order. Controlling product decision: Custom criminal-case IFP papers. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-026, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-026",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2281,11 +2194,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-027",
+          "kind": "national_legal_decision_report",
+          "statement": "Route the participant to the circuit solicitor for the General Sessions nonconviction application. Controlling product decision: Solicitor process; statutory exemptions."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Route the participant to the circuit solicitor for the General Sessions nonconviction application. Controlling product decision: Solicitor process; statutory exemptions. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-027, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-027",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2313,11 +2239,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-028",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the solicitor-administered application in the circuit of the offense. Section 17-1-65 is not one of the ordinary fee exemptions in § 17-22-940. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the solicitor-administered application in the circuit of the offense. Section 17-1-65 is not one of the ordinary fee exemptions in § 17-22-940. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-028, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-028",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2348,11 +2287,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 1,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-029",
+          "kind": "national_legal_decision_report",
+          "statement": "For a fingerprinted summary-court matter within § 17-22-950(A), the statute places a mandatory duty on the summary court. SCCA 223E is the subsection (B) application for the non-fingerprinted branch and should not be repurposed when the court simply failed to enter the automatic order. Controlling product decision: Clerk request → original-case enforcement."
+        }
+      ],
+      "reason": "For a fingerprinted summary-court matter within § 17-22-950(A), the statute places a mandatory duty on the summary court. SCCA 223E is the subsection (B) application for the non-fingerprinted branch and should not be repurposed when the court simply failed to enter the automatic order. Controlling product decision: Clerk request → original-case enforcement. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-029, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-029",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2385,11 +2332,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-030",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the solicitor-administered application for a first eligible low-level conviction or qualifying third-degree domestic-violence conviction. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the solicitor-administered application for a first eligible low-level conviction or qualifying third-degree domestic-violence conviction. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-030, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-030",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2422,11 +2382,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-031",
+          "kind": "national_legal_decision_report",
+          "statement": "Section 22-5-910(E)’s same-incident rule affects **eligibility and conviction counting**, not the separate statutory rule governing which charges may be combined on one expungement order and one fee set. Controlling product decision: Aggregation affects eligibility, not one order."
+        }
+      ],
+      "reason": "Section 22-5-910(E)’s same-incident rule affects **eligibility and conviction counting**, not the separate statutory rule governing which charges may be combined on one expungement order and one fee set. Controlling product decision: Aggregation affects eligibility, not one order. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-031, current through 2026-08-28.)",
       "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-031",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2458,11 +2426,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-032",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the solicitor-administered Youthful Offender Act application in the circuit of the offense. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the solicitor-administered Youthful Offender Act application in the circuit of the offense. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-032, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-032",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2495,11 +2476,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-033",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the solicitor-administered first-offense drug-conviction application. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the solicitor-administered first-offense drug-conviction application. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-033, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-033",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2532,11 +2526,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-034",
+          "kind": "national_legal_decision_report",
+          "statement": "Route by the **actual disposition**, not by the fact that the offense could have received a conditional discharge. Controlling product decision: Actual disposition controls route."
+        }
+      ],
+      "reason": "Route by the **actual disposition**, not by the fact that the offense could have received a conditional discharge. Controlling product decision: Actual disposition controls route. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-034, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-034",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2564,11 +2566,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-035",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the circuit-solicitor application for the qualifying first-offense fraudulent-check conviction. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the circuit-solicitor application for the qualifying first-offense fraudulent-check conviction. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-035, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-035",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2595,11 +2610,24 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
-      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it.",
-      "owner": "Closed",
-      "blockedUntil": null,
-      "resolvedBy": "CLD-2026-08-28-SC-PTI",
+      "classification": "SOURCE_ACQUISITION_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision_cascade",
+          "statement": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it."
+        },
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-036",
+          "kind": "national_legal_decision_report",
+          "statement": "Use the circuit-solicitor application for the qualifying first-offense failure-to-stop-for-blue-light conviction. Controlling product decision: Solicitor process; ordinary $310."
+        }
+      ],
+      "reason": "Byte-identical to the question answered by CLD-2026-08-28-SC-PTI. One answer controls every track that asks it. Use the circuit-solicitor application for the qualifying first-offense failure-to-stop-for-blue-light conviction. Controlling product decision: Solicitor process; ordinary $310. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-036, current through 2026-08-28.)",
+      "owner": "RCAP source acquisition",
+      "blockedUntil": "the official clerk, solicitor or agency instruction is in hand",
+      "resolvedBy": "NATIONAL-2026-08-28-Q-036",
       "cascaded": true,
       "scopeNote": null
     },
@@ -2631,7 +2659,15 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "RESOLVED_BY_CONTROLLING_DECISION",
+      "classification": "LEGAL_DECISION_RESOLVED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "CLD-2026-08-28-SC-PTI",
+          "kind": "controlling_decision",
+          "statement": "Answered by CLD-2026-08-28-SC-PTI, reviewed through 2026-08-28."
+        }
+      ],
       "reason": "Answered by CLD-2026-08-28-SC-PTI, reviewed through 2026-08-28.",
       "owner": "Closed",
       "blockedUntil": null,
@@ -2662,11 +2698,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on filing_process, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "classification": "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-037",
+          "kind": "national_legal_decision_report",
+          "statement": "Sealing under SDCL § 23A-27-17 is the court’s mandatory duty when a person is discharged and the matter dismissed under § 23A-27-14. There is no ordinary participant motion that triggers the initial sealing. Controlling product decision: Automatic sealing; enforcement if missed."
+        }
+      ],
+      "reason": "Sealing under SDCL § 23A-27-17 is the court’s mandatory duty when a person is discharged and the matter dismissed under § 23A-27-14. There is no ordinary participant motion that triggers the initial sealing. Controlling product decision: Automatic sealing; enforcement if missed. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-037, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
+      "blockedUntil": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-037",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2692,11 +2736,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-038",
+          "kind": "national_legal_decision_report",
+          "statement": "An absolute pardon based on innocence is implemented through a mandatory intergovernmental process, not a participant-filed expungement petition. Controlling product decision: Pardon implementation, no participant petition."
+        }
+      ],
+      "reason": "An absolute pardon based on innocence is implemented through a mandatory intergovernmental process, not a participant-filed expungement petition. Controlling product decision: Pardon implementation, no participant petition. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-038, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-038",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2725,11 +2777,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on governing_mechanism, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-039",
+          "kind": "national_legal_decision_report",
+          "statement": "Section 19.2-392.12:1(B) creates a distinct participant petition for an ancillary matter after the underlying criminal charge or conviction has already been sealed by a qualifying mechanism. Controlling product decision: No-fee ancillary-matter petition."
+        }
+      ],
+      "reason": "Section 19.2-392.12:1(B) creates a distinct participant petition for an ancillary matter after the underlying criminal charge or conviction has already been sealed by a qualifying mechanism. Controlling product decision: No-fee ancillary-matter petition. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-039, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-039",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2763,11 +2823,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on waiting_period, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-040",
+          "kind": "national_legal_decision_report",
+          "statement": "Job-readiness graduation is an independent alternative to 90 days of treatment or recovery compliance, but the accelerated timing applies only to the statute’s **single-misdemeanor** branch. Controlling product decision: Job-readiness is an OR trigger for single misdemeanor only."
+        }
+      ],
+      "reason": "Job-readiness graduation is an independent alternative to 90 days of treatment or recovery compliance, but the accelerated timing applies only to the statute’s **single-misdemeanor** branch. Controlling product decision: Job-readiness is an OR trigger for single misdemeanor only. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-040, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-040",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2809,11 +2877,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "ATTORNEY_OR_PARTNER_HANDOFF",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-041",
+          "kind": "national_legal_decision_report",
+          "statement": "Current enacted text does not contain a residence-county venue option for multi-county conviction expungement. Controlling product decision: No residence-county venue."
+        }
+      ],
+      "reason": "Current enacted text does not contain a residence-county venue option for multi-county conviction expungement. Controlling product decision: No residence-county venue. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-041, current through 2026-08-28.)",
+      "owner": "Service design",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-041",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2852,11 +2928,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on venue, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "ATTORNEY_OR_PARTNER_HANDOFF",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-042",
+          "kind": "national_legal_decision_report",
+          "statement": "The same conclusion as Q-041 applies. The statute supports grouping and disclosure of convictions by circuit court, but it does not name one receiving court for convictions spread across several circuits. Controlling product decision: No single receiving court identified."
+        }
+      ],
+      "reason": "The same conclusion as Q-041 applies. The statute supports grouping and disclosure of convictions by circuit court, but it does not name one receiving court for convictions spread across several circuits. Controlling product decision: No single receiving court identified. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-042, current through 2026-08-28.)",
+      "owner": "Service design",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-042",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2895,11 +2979,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on eligibility_branch, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-043",
+          "kind": "national_legal_decision_report",
+          "statement": "An excluded conviction should be omitted or severed rather than allowed to contaminate an otherwise eligible group. Controlling product decision: Omit/sever excluded conviction."
+        }
+      ],
+      "reason": "An excluded conviction should be omitted or severed rather than allowed to contaminate an otherwise eligible group. Controlling product decision: Omit/sever excluded conviction. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-043, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-043",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2941,11 +3033,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on participant_instructions, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-044",
+          "kind": "national_legal_decision_report",
+          "statement": "A participant may legally file the published felony petition, but LegalEase cannot certify the central judicial findings in § 61-11-26(p)(5)(C)-(D). Controlling product decision: Narrow felony self-help boundary."
+        }
+      ],
+      "reason": "A participant may legally file the published felony petition, but LegalEase cannot certify the central judicial findings in § 61-11-26(p)(5)(C)-(D). Controlling product decision: Narrow felony self-help boundary. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-044, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-044",
       "cascaded": false,
       "scopeNote": null
     },
@@ -2984,11 +3084,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-045",
+          "kind": "national_legal_decision_report",
+          "statement": "Use **SCA-C906**, not the petition embedded in SCA-C900. Controlling product decision: Use SCA-C906, not SCA-C900 petition."
+        }
+      ],
+      "reason": "Use **SCA-C906**, not the petition embedded in SCA-C900. Controlling product decision: Use SCA-C906, not SCA-C900 petition. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-045, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-045",
       "cascaded": false,
       "scopeNote": null
     },
@@ -3027,11 +3135,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "SOURCE_ACQUISITION_REQUIRED_FIRST",
-      "reason": "The question turns on notice_or_service, which depends on the current official filing or service instructions that have not been acquired.",
-      "owner": "RCAP source acquisition",
-      "blockedUntil": "the official instructions are in hand",
-      "resolvedBy": null,
+      "classification": "LEGAL_DECISION_RESOLVED_PACKET",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-046",
+          "kind": "national_legal_decision_report",
+          "statement": "The current statute controls over the stale instruction sheet. Controlling product decision: Current 30-day reply period."
+        }
+      ],
+      "reason": "The current statute controls over the stale instruction sheet. Controlling product decision: Current 30-day reply period. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-046, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
+      "blockedUntil": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-046",
       "cascaded": false,
       "scopeNote": null
     },
@@ -3060,11 +3176,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-047",
+          "kind": "national_legal_decision_report",
+          "statement": "SCA-C903 is old but remains a workable official vehicle for a straightforward acquittal or dismissal that satisfies current § 61-11-25. Controlling product decision: SCA-C903 + current-law supplement."
+        }
+      ],
+      "reason": "SCA-C903 is old but remains a workable official vehicle for a straightforward acquittal or dismissal that satisfies current § 61-11-25. Controlling product decision: SCA-C903 + current-law supplement. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-047, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-047",
       "cascaded": false,
       "scopeNote": null
     },
@@ -3096,11 +3220,19 @@
       "packetFamilies": [],
       "familyBridgePresent": false,
       "duplicatePathwayRows": 0,
-      "classification": "COMPLETED_OUTPUT_REQUIRED_FIRST",
-      "reason": "The question turns on correct_form, which counsel can only assess against an actual rendered artifact.",
-      "owner": "RCAP packet factory",
+      "classification": "ARTIFACT_LEGAL_REVIEW_REQUIRED",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-048",
+          "kind": "national_legal_decision_report",
+          "statement": "SCA-C903 alone is not the correct complete vehicle for a deferred-adjudication or diversion dismissal. Controlling product decision: Custom current-law civil petition preferred."
+        }
+      ],
+      "reason": "SCA-C903 alone is not the correct complete vehicle for a deferred-adjudication or diversion dismissal. Controlling product decision: Custom current-law civil petition preferred. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-048, current through 2026-08-28.)",
+      "owner": "RCAP packet factory, then artifact-level counsel review",
       "blockedUntil": "a candidate artifact and hash exist",
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-048",
       "cascaded": false,
       "scopeNote": null
     },
@@ -3132,11 +3264,19 @@
       ],
       "familyBridgePresent": true,
       "duplicatePathwayRows": 0,
-      "classification": "READY_FOR_LEGAL_DESIGN_RESEARCH",
-      "reason": "The question turns on legal_effect_or_warning, decidable from the cited authority and the adopted memo. It needs neither a rendered packet nor a fresh source.",
-      "owner": "Lawrence Blackmon",
+      "classification": "LEGAL_DECISION_RESOLVED_GUIDANCE",
+      "legalStatus": "RESOLVED",
+      "legalAuthorities": [
+        {
+          "authorityId": "NATIONAL-2026-08-28-Q-049",
+          "kind": "national_legal_decision_report",
+          "statement": "Section 5-1-16a(b) does not create a general “the event never occurred” rule or a universal right to deny the record to ordinary employers. Controlling product decision: Narrow statutory effect; no universal nondisclosure."
+        }
+      ],
+      "reason": "Section 5-1-16a(b) does not create a general “the event never occurred” rule or a universal right to deny the record to ordinary employers. Controlling product decision: Narrow statutory effect; no universal nondisclosure. (docs/record-clearing/NATIONAL_LEGAL_DECISION_REPORT_2026-08-28.md Q-049, current through 2026-08-28.)",
+      "owner": "RCAP packet factory",
       "blockedUntil": null,
-      "resolvedBy": null,
+      "resolvedBy": "NATIONAL-2026-08-28-Q-049",
       "cascaded": false,
       "scopeNote": null
     }

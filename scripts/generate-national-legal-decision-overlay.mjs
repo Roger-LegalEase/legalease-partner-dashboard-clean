@@ -201,6 +201,12 @@ function normaliseDisposition(text) {
 // Map the report's numbering onto the register's.
 // ---------------------------------------------------------------------------
 
+// The register reads this overlay to classify its questions, so this generator
+// must read nothing from the register that the overlay itself can change. It
+// takes only question identity — id, jurisdiction, track, affected element and
+// memo hash — all of which are fixed before classification runs. Recording the
+// register's current classification here would make the two generators chase
+// each other.
 const register = readJson(REGISTER);
 
 /**
@@ -244,7 +250,6 @@ if (mappable.length !== reportQuestions.length) {
       controllingProductDecision: matrixRow?.controllingProductDecision ?? null,
       reportDisposition: matrixRow?.reportDisposition ?? r.dispositionText,
       deliveryDisposition: normaliseDisposition(matrixRow?.reportDisposition ?? r.dispositionText ?? ""),
-      previousClassification: q.classification,
       reportLine: r.reportLine
     });
   }
