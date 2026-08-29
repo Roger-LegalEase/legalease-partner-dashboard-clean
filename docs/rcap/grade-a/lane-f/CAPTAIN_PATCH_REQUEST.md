@@ -101,3 +101,50 @@ whether it ships in this state or behind a staged registry.
 
 Nothing about this is reversible by a code change in Lane F: the way a route
 opens is a record that proves it, which is what Lanes C, D and G produce.
+
+---
+
+## 5. A residual delivery surface Lane F could not gate without breaking a required test
+
+There are two download surfaces, and only one of them is gated:
+
+| Surface | Path | Gated |
+| --- | --- | --- |
+| Consumer Grade-A packet | `/api/expungement-ai/packet/download` → `getConsumerPacketDownload` | yes — `private_download` / `repeat_download` |
+| RCAP render job artifact | `/api/rcap/packets/[jobId]/download` → `authorizePacketDownload` | **no Grade-A admission** |
+
+`authorizePacketDownload` is a strong gate on its own terms: it refuses
+anonymous, wrong-user, unclaimed-job and accounting-blocked requests, and it
+re-derives artifact integrity from the bytes — path identity, SHA-256 and the
+PDF header — so a substituted or corrupted object fails closed. What it does
+not do is ask the Grade-A authority.
+
+**Why Lane F did not add the call.** The admission for a delivery point requires
+a final-verification context, and `RenderJobRow` cannot supply one. The
+verification hash is passed *into* `enqueueVerifiedConsumerRender`
+(`src/lib/rcap/render/job-queue.ts:191`, `p_expected_verification_hash`) and is
+never read back onto the row — the migration that would surface it is the
+captain-owned handoff noted at `job-queue.ts:134`. Gating the surface without
+that context would deny every download with `participant_context_denied`,
+which breaks `node scripts/verify-rcap-packet-delivery-e2e.mjs`, a required
+test. Supplying an admitting stub through `DeliveryPorts` instead would let a
+test bypass the gate, which is worse than the gap.
+
+Adding a second `private_download` call site would also violate the envelope's
+"exactly one governed call-site treatment" invariant, which the Lane F
+acceptance verifier enforces.
+
+**Requested change**, in this order:
+
+1. Surface the job's verification binding on `RenderJobRow` — the RPC already
+   stores `p_expected_verification_hash` and `p_expected_consumer_auth_user_id`;
+   the select and `rowFromRecord` need the two columns. This is the captain-owned
+   migration handoff, not a Lane F change.
+2. Once the row carries them, Lane F (or whoever holds this file next) routes
+   both surfaces through the single governed treatment in
+   `src/lib/rcap/render/commercial-admission.ts`, so the count stays at one
+   treatment per point and both doors consult it.
+
+Until then this surface is reachable only for a job that already passed
+`provider_dispatch` — which *is* Grade-A gated — and that is the mitigation, not
+a substitute for the gate.
