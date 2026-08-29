@@ -435,10 +435,77 @@ try {
     );
   }
 
-  section("15. Concurrency: two claimants, one matter");
+  section("15. Ownership denials are measured, not declared");
+  {
+    // Section 17 reads the policies production declares. Declaring a policy and
+    // enforcing it are different facts: a permissive policy, a missing GRANT
+    // boundary, or RLS left unforced for the owner all leave the declaration
+    // intact and the denial gone. So these run as the actual Supabase roles
+    // against the matter claimed in section 4 and measure what each one sees.
+    //
+    // The SET statements share the connection with the query, so only the last
+    // line of psql output is the answer; taking the whole buffer would compare
+    // against "SET\nSET\n1" and pass or fail for the wrong reason.
+    const asRole = (role, subject, query) => {
+      const out = db.sql(
+        `set role ${role}; `
+        + `set request.jwt.claim.sub = '${subject ?? ""}'; `
+        + query
+      ).trim().split("\n");
+      return out[out.length - 1].trim();
+    };
+
+    check(
+      asRole("authenticated", ids.userA,
+        `select count(*)::int from public.consumer_briefcase_items where id = '${claimed.matter_id}'`) === "1",
+      "the owning participant can read their own matter"
+    );
+    check(
+      asRole("authenticated", ids.userB,
+        `select count(*)::int from public.consumer_briefcase_items where id = '${claimed.matter_id}'`) === "0",
+      "a different authenticated participant cannot read that matter"
+    );
+    check(
+      asRole("authenticated", ids.userB,
+        `select count(*)::int from public.consumer_briefcase_items`) === "0",
+      "a participant with no matters of their own sees an empty Briefcase, not somebody else's"
+    );
+    check(
+      asRole("anon", null,
+        `select count(*)::int from public.consumer_briefcase_items`) === "0",
+      "an anonymous caller sees no matter at all"
+    );
+
+    // A denial that only covers reads is not ownership. These are the writes
+    // that would let one participant take or corrupt another's matter. The
+    // takeover UPDATE does not error -- row level security filters it to zero
+    // rows -- so the proof is that it changed nothing.
+    const takeover = asRole("authenticated", ids.userB,
+      `update public.consumer_briefcase_items set user_id = '${ids.userB}'`
+      + ` where id = '${claimed.matter_id}'`);
+    check(takeover === "UPDATE 0", "a takeover UPDATE by another participant matches no row", takeover);
+    check(
+      db.scalar(`select user_id from public.consumer_briefcase_items where id = '${claimed.matter_id}'`) === ids.userA,
+      "the matter still belongs to the participant who claimed it"
+    );
+    const corrupt = asRole("authenticated", ids.userB,
+      `update public.consumer_briefcase_items set status = 'hard_stop'`
+      + ` where id = '${claimed.matter_id}'`);
+    check(corrupt === "UPDATE 0", "another participant cannot edit the matter either", corrupt);
+
+    const forgedInsert = db.sqlExpectError(
+      `set role authenticated; set request.jwt.claim.sub = '${ids.userB}';`
+      + ` insert into public.consumer_briefcase_items (user_id, item_type, jurisdiction, status)`
+      + ` values ('${ids.userA}', 'result', 'MS', 'check_saved')`
+    );
+    check(/row-level security/i.test(forgedInsert),
+      "a participant cannot create a matter owned by somebody else", forgedInsert.slice(0, 140));
+  }
+
+  section("16. Concurrency: two claimants, one matter");
   await concurrency(db, check, hashOf, token, ids, matterPayload);
 
-  section("16. The fixture matches the schema it stands in for");
+  section("17. The fixture matches the schema it stands in for");
   {
     // Everything above measures behaviour against baselineSchema(), which is
     // hand-transcribed from the committed production migrations. That makes the
@@ -480,7 +547,7 @@ try {
     }
   }
 
-  section("17. The conflict path re-checks ownership");
+  section("18. The conflict path re-checks ownership");
   {
     // ON CONFLICT DO NOTHING means the claimant that loses the insert race
     // re-reads the row the winner created. Section 7 never reaches that path,

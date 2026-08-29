@@ -131,6 +131,20 @@ const mutations = [
     )
   ],
 
+  // 9. The owner-scoped read policy in production. The behavioural denials in
+  //    section 15 run against the fixture, so production losing a policy is
+  //    invisible to them; only the fidelity comparison sees it. This is the
+  //    same argument as mutation 7, applied to reads rather than to the column.
+  [
+    "production drops the owner-scoped read policy: one participant can read another's matter",
+    productionSchema,
+    claimDbVerifier,
+    (source) => source.replace(
+      'CREATE POLICY "consumer briefcase select own items" ON "public"."consumer_briefcase_items" FOR SELECT USING (("auth"."uid"() = "user_id"));',
+      'CREATE POLICY "consumer briefcase select own items" ON "public"."consumer_briefcase_items" FOR SELECT USING (true);'
+    )
+  ],
+
   // 8. Payment history. Review and Edit is confined to commercialFlow, so a
   //    fact change structurally cannot reach the payment columns. Widening the
   //    patch by one payment field is the whole defect, and it is invisible to
