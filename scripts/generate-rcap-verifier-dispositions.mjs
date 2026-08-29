@@ -185,6 +185,18 @@ const OVERRIDES = {
       "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
     decidedBy: "captain"
   },
+  "verify-rcap-oregon-disposition-artifacts.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The three rendered Oregon artifacts, read out of their own content streams rather than out of the render report -- the failure it exists to catch is the one where the report is right and the document is not. The participant layer is recovered exactly: the factory appends its drawing to a page's Contents array and never edits the court's streams, so a stream the artifact carries that the pinned source does not is participant content and everything else is the court's, which makes \"nothing was written on the three instruction pages\" a fact about the file. It then requires that the configuration's own option carries exactly two strokes strictly inside the court's measured box and touching neither its line nor anything outside it, that the other two options and all seven declaration boxes carry none, that every write sits at the coordinate its anchor declares with the value the fixture supplies and fits the blank, that nothing lands on a rule the court owns, and that the never-charged artifact has an empty case-number blank with no other route's case number anywhere in its layer. Six mutations prove the recovery is not vacuous. Not wired for one reason: separating the layers needs the source bytes, and the corpus is git-ignored and behind a private release, so a chain entry would be red wherever it is not mounted. Same two-mode fix as the Colorado supplement verifier -- contract always, bytes when mounted.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-disposition-visual-review.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "The second, independent leg on the same question. A coordinate check cannot see a mark drawn in white, one hidden under a clip, or a page that renders blank, because it is the same arithmetic the renderer used, so all thirty pages are rendered and the three option boxes are cropped out of page 4 through a page-to-pixel mapping verified against stamped calibration marks before anything is cropped through it. It requires that all three boxes are still drawn and visible, that the configuration's own box carries ink, that the other two do not, and that no two configurations produce the same page 4. It reads only committed artifacts, so unlike its byte-level sibling it does not need the corpus -- what it needs is a browser and about four minutes, which is why it is not a chain entry, and it is held to the same disposition as the Oregon independent visual review it sits beside.",
+    decidedBy: "captain"
+  },
   "verify-rcap-oregon-disposition-configurations.mjs": {
     disposition: "wired",
     reason:
