@@ -171,6 +171,17 @@ until they are resolved.
 7. **Re-run** `node scripts/verify-rcap-oregon-grade-a-lane-c.mjs`. Its two
    `*-RESOLVED` checks will go red once findings 1 and 2 are fixed — that is the
    signal to retire those measurements, not a regression.
+8. **Wire the three Oregon commands into the `test` chain** in `package.json`,
+   which this lane may not edit. Append, do not replace — the chain has grown
+   since this branch was cut:
+   ```
+   && node scripts/generate-rcap-oregon-grade-a-authority-proofs.mjs --check
+   && node scripts/verify-rcap-oregon-grade-a-lane-c.mjs
+   && node scripts/verify-rcap-oregon-grade-a-lane-c.mjs --mutations
+   ```
+   The family gate `verify-rcap-oregon-official-pdf-grade-a.mjs` (and its
+   `--mutations`) is worth the same treatment. Until this is done the Oregon
+   gates are green but unenforced: nothing runs them on anyone else's change.
 
 Also outstanding, and separate from commercial authority: the independent human
 visual review and the candidate families' own production holds. Admitting the
