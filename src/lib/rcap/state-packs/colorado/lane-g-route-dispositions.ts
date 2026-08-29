@@ -105,7 +105,7 @@ const JUVENILE: ColoradoLaneGRoute = {
     { role: "PETITION", documentId: "JDF-302", familySlug: null, participantCompleted: true, presentInMountedCorpus: false },
   ],
   blockers: [
-    "The compiled Colorado profile states the juvenile remedy has its own form, JDF 302. No juvenile form of any number exists in the pinned corpus, and no Colorado overlay family covers one.",
+    "The compiled Colorado profile states the juvenile remedy has its own form, JDF 302. No juvenile form of any number exists in the pinned corpus, and no Colorado overlay family covers one. No guidance fallback is emitted in its place either: the corpus holds no juvenile material at all, so the filing destination, fees, service rule and hearing stops could only come from recollection, which AGENTS.md forbids.",
   ],
 };
 

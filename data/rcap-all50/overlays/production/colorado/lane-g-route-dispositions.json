@@ -141,8 +141,14 @@
         "ORDER JDF-435 is named by the issuing court's own filing guide and does not exist anywhere in the pinned corpus, so the filing set cannot be assembled.",
         "Fee-waiver MOTION JDF-205 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
         "Fee-waiver ORDER JDF-206 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
-        "JDF-417 binds 4 of 62 fields (6.5%). The substance the guide asks the participant to supply — the agency name and address rows, the qualification elections and the certificate of service — is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
-      ]
+        "JDF-417 binds 4 of 62 fields (6.5%). The substance the guide asks the participant to supply \u2014 the agency name and address rows, the qualification elections and the certificate of service \u2014 is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
+      ],
+      "guidanceFallbackDecision": {
+        "envelopeInstruction": "An official form is absent for an assigned route: produce a guidance fallback and record the disposition honestly. Never disguise unfinished packet work as guidance.",
+        "fallbackProduced": false,
+        "why": "This route has real, partially finished packet work: a hash-verified petition with a field census, a classification, a protected-field scan and three rendered fixtures that recompute byte for byte. Emitting a guidance packet on top of that is the substitution the envelope names \u2014 it would present as a finished product while the filings the court actually requires stay missing and the petition stays a caption fill.",
+        "whatWouldUnblockIt": "Add the missing filings to the pinned corpus, then bind the substance of the petition \u2014 the agency name and address rows, the qualification elections and the certificate of service \u2014 rather than the caption alone."
+      }
     },
     {
       "routeId": "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
@@ -275,8 +281,14 @@
         "A ORDER is required by the issuing court's own filing guide; its form number could not be read first-hand and no such form exists in the pinned corpus.",
         "Fee-waiver MOTION JDF-205 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
         "Fee-waiver ORDER JDF-206 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
-        "JDF-612 binds 6 of 63 fields (9.5%). The substance the guide asks the participant to supply — the agency name and address rows, the qualification elections and the certificate of service — is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
-      ]
+        "JDF-612 binds 6 of 63 fields (9.5%). The substance the guide asks the participant to supply \u2014 the agency name and address rows, the qualification elections and the certificate of service \u2014 is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
+      ],
+      "guidanceFallbackDecision": {
+        "envelopeInstruction": "An official form is absent for an assigned route: produce a guidance fallback and record the disposition honestly. Never disguise unfinished packet work as guidance.",
+        "fallbackProduced": false,
+        "why": "This route has real, partially finished packet work: a hash-verified petition with a field census, a classification, a protected-field scan and three rendered fixtures that recompute byte for byte. Emitting a guidance packet on top of that is the substitution the envelope names \u2014 it would present as a finished product while the filings the court actually requires stay missing and the petition stays a caption fill.",
+        "whatWouldUnblockIt": "Add the missing filings to the pinned corpus, then bind the substance of the petition \u2014 the agency name and address rows, the qualification elections and the certificate of service \u2014 rather than the caption alone."
+      }
     },
     {
       "routeId": "CO:juvenile-expungement-19-1-306",
@@ -319,8 +331,15 @@
       "checkoutProhibited": true,
       "neverDisguisedAsGuidance": "This route is recorded as blocked. No guidance packet is emitted in place of the unbuilt filing set, and no checkout is opened.",
       "blockers": [
-        "PETITION JDF-302 is named by the issuing court's own filing guide and does not exist anywhere in the pinned corpus, so the filing set cannot be assembled."
-      ]
+        "PETITION JDF-302 does not exist anywhere in the pinned corpus. Its identity comes from the compiled profile src/lib/rcap-engine/compiled/profiles/CO-colorado.json, which states the juvenile remedy has its own form JDF 302; no Colorado juvenile instruction sheet is in the corpus to confirm the filing set first-hand."
+      ],
+      "guidanceFallbackDecision": {
+        "envelopeInstruction": "An official form is absent for an assigned route: produce a guidance fallback and record the disposition honestly.",
+        "fallbackProduced": false,
+        "why": "A guidance fallback has to be built out of something. The pinned corpus contains no Colorado juvenile material of any kind \u2014 no JDF 302, no juvenile instruction sheet, no statutory extract \u2014 so the only place the filing destination, the fee treatment, the service rule and the hearing stops could come from is the model's own recollection. AGENTS.md forbids exactly that: fee, copy and service notes may be used only where the source packet or official form states them, and clerk addresses, agency addresses, local fees and service rules may not be invented. A guidance packet assembled that way would carry a participant to a courthouse on unsourced instructions, which is worse than telling the captain the source is missing.",
+        "whatWouldUnblockIt": "Add the Colorado juvenile materials to the pinned corpus \u2014 at minimum JDF 302 and its instruction sheet. With a sourced filing design in hand this route can take the same route the two petition routes take.",
+        "notASubstituteForPacketWork": "This is not a half-built packet relabelled. No juvenile packet work exists to disguise: there is no overlay family, no field census and no fixture for any Colorado juvenile form, because there is no form."
+      }
     }
   ]
 }
