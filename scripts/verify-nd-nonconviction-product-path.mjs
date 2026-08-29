@@ -1,26 +1,43 @@
 #!/usr/bin/env node
-// Lane D — the North Dakota Chapter 12-60.1 packet through the real product path.
+// RENAMED BY THE CAPTAIN AT WAVE 2 INTEGRATION.
+//
+// This is the wave-1 product-path proof for the composed nonconviction
+// closing petition (ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05).
+// Wave 2 introduced a verifier of the same name for a different route --
+// Chapter 12-60.1 conviction sealing -- which would otherwise have replaced
+// this file and silently dropped its coverage. Both routes keep their own
+// proof, and both stay wired.
+//
+// The route this file proves is classified non_filing_guidance by signed
+// reclassification ND-2026-08-28-NO-PARTICIPANT-FILING and is held. The proof
+// is kept as regression coverage for the composed pleading path, not as a
+// claim that the route is sellable.
+// Lane D — the North Dakota composed packet through the real product path.
 //
 //   node scripts/verify-nd-grade-a-product-path.mjs
 //
-// A PDF is not proof by itself. The Grade-A contract names the path, and this
-// walks it against the real schema, the real delivery core and a real browser:
+// A standalone PDF is not the deliverable. This proves the composed packet
+// survives the path a participant actually walks, against the real schema and
+// the real delivery core:
 //
-//   screening -> result -> authentication -> atomic claim -> participant-owned
-//   matter -> Review and Edit -> final verification -> synthetic payment ->
-//   durable render -> artifact validation -> private Briefcase delivery ->
-//   download -> repeat download
-//
-// And, at every step, the thing that must NOT happen: the shipped commercial
-// admission gate is asked, at all nine admission points, whether this route may
-// be sold. It must deny every one, because the route is INCOMPLETE. A lane that
-// built a packet and quietly opened checkout would pass a delivery test and fail
-// this one.
+//   1. anonymous screening produces a pending result and nothing else — the
+//      route is resolved on the server from governed facts, and a client cannot
+//      name it;
+//   2. the pending result becomes a participant-owned matter only by an atomic
+//      claim — two simultaneous claims, exactly one winner, and a Briefcase item
+//      that is never anonymous;
+//   3. Review and Edit: the owner corrects a governed fact and the packet
+//      recomposes deterministically to different bytes and a different input
+//      hash;
+//   4. final verification at render time: a stale specification hash refuses;
+//   5. a synthetic payment (no live provider, no live key) authorizes the render;
+//   6. the render worker durably renders, stores and validates the artifact;
+//   7. a mobile browser downloads the exact validated bytes from a private
+//      Briefcase, and repeats the download without consuming anything;
+//   8. a wrong user and a wrong matter are denied.
 //
 // The database is a real ephemeral PostgreSQL running the committed migrations.
-// The browser is a real Chromium. Nothing about delivery is simulated. No live
-// Stripe call, no real participant, no sponsored-credit consumption, no
-// Production anything.
+// The browser is a real Chromium. Nothing about delivery is simulated.
 
 import fs from "node:fs";
 import os from "node:os";
@@ -32,34 +49,31 @@ import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
 import { ephemeralPgAvailable, startEphemeralPg } from "./lib/rcap-ephemeral-pg.mjs";
-import { renderNdGradeAPacketPdf, PDFDocument } from "./lib/nd-grade-a-packet-pdf.mjs";
+import { renderNdComposedPacketPdf, PDFDocument } from "./lib/nd-composed-packet-pdf.mjs";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ARTIFACT_DIR = path.join(
   rootDir,
-  "data/rcap-lane-d/north-dakota/nd-chapter-12-60-1-conviction-sealing"
+  "data/rcap-lane-d/north-dakota/nd-nonconviction-closing-petition"
 );
-const GRADE_A = "../src/lib/rcap/state-packs/north-dakota/grade-a";
 
 const { runWorkerCycle } = await import("../src/lib/rcap/render/render-worker.ts");
 const { authorizePacketDownload, streamAuthorizedPacket } = await import(
   "../src/lib/rcap/render/packet-delivery.ts"
 );
+const { forbiddenRouteIdentityFields } = await import(
+  "../src/lib/rcap-engine/composed-route-selector.ts"
+);
 const {
-  admitCommercialAction,
-  evaluateFulfillmentAuthority,
-  sanitizeAdmissionRequest,
-  routeIdFor,
-  COMMERCIAL_ADMISSION_POINTS
-} = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
-const {
-  ND_CHAPTER_12_60_1_SEALING_SPEC,
-  resolveNdSealingRoute,
-  ndGradeASpecHash
-} = await import(`${GRADE_A}/packet-spec.ts`);
-const { composeNdSealingPacket, ND_GRADE_A_LAYOUT } = await import(`${GRADE_A}/composer.ts`);
+  ND_NONCONVICTION_PETITION_SPEC,
+  resolveNdNonconvictionRoute,
+  ndComposedPacketSpecHash
+} = await import("../src/lib/record-clearing/north-dakota-nonconviction-spec.ts");
+const { composeNdNonconvictionPacket, ND_PACKET_LAYOUT } = await import(
+  "../src/lib/record-clearing/composers/nd-composed-packet-composer.ts"
+);
 
 if (!ephemeralPgAvailable()) {
   console.error(
@@ -76,15 +90,15 @@ function check(condition, message) {
 }
 
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
-const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
-const canonicalFixture = readJson(path.join(ARTIFACT_DIR, "fixtures/canonical.json"));
-const specHash = ndGradeASpecHash();
-const ROUTE_ID = ND_CHAPTER_12_60_1_SEALING_SPEC.routeId;
+const canonicalFixture = JSON.parse(
+  fs.readFileSync(path.join(ARTIFACT_DIR, "fixtures/canonical.json"), "utf8")
+);
+const specHash = ndComposedPacketSpecHash();
 
-// Stable synthetic identities, derived from labels so a rerun produces the same
-// evidence rather than a fresh set of ids.
+// Stable synthetic identities. Derived from labels rather than generated, so a
+// rerun produces the same evidence.
 const duuid = (label) => {
-  const h = sha256(`rcap-lane-d-grade-a/${label}`);
+  const h = sha256(`rcap-lane-d/${label}`);
   const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
 };
@@ -97,11 +111,11 @@ const PERSON = duuid("person");
 const MATTER = duuid("matter");
 const OTHER_MATTER = duuid("other-matter");
 const PARTNER = duuid("partner");
-const SESSION_COOKIE = "nd-grade-a-session";
-const OWNER_SESSION = "nd-grade-a-owner-session";
-const STRANGER_SESSION = "nd-grade-a-stranger-session";
+const SESSION_COOKIE = "nd-lane-d-session";
+const OWNER_SESSION = "nd-lane-d-owner-session";
+const STRANGER_SESSION = "nd-lane-d-stranger-session";
 
-const storageRoot = fs.mkdtempSync(path.join(os.tmpdir(), "nd-grade-a-"));
+const storageRoot = fs.mkdtempSync(path.join(os.tmpdir(), "nd-lane-d-"));
 const storage = {
   async upload(objectPath, bytes) {
     const abs = path.join(storageRoot, objectPath);
@@ -158,135 +172,97 @@ try {
   }
   db.sql(`insert into auth.users values ('${OWNER}'), ('${STRANGER}')`);
   db.sql(`insert into partner_records values ('${PARTNER}','we-must-vote')`);
-  db.sql(`insert into rcap_persons values ('${PERSON}','we-must-vote','nd-grade-a')`);
+  db.sql(`insert into rcap_persons values ('${PERSON}','we-must-vote','nd-lane-d')`);
 
   // -------------------------------------------------------------------------
-  // 0. The commercial gate denies this route at every admission point.
-  // -------------------------------------------------------------------------
-  const registry = readJson(path.join(rootDir, "data/rcap-grade-a/fulfillment-authority-registry.json"));
-  const observations = readJson(
-    path.join(rootDir, "data/rcap-grade-a/fulfillment-observation-snapshot.json")
-  );
-  const record = registry.records.find((entry) => entry.routeId === ROUTE_ID) ?? null;
-  const observation = observations.routes?.[ROUTE_ID] ?? null;
-  check(Boolean(record), `The captain registry must carry a record for ${ROUTE_ID}.`);
-
-  const authorityDecision = evaluateFulfillmentAuthority(record, observation, ROUTE_ID);
-  check(
-    authorityDecision.state !== "COMPLETE_PACKET_PROVEN" && authorityDecision.authorized === false,
-    `${ROUTE_ID} must not be COMPLETE_PACKET_PROVEN (state ${authorityDecision.state}).`
-  );
-  check(
-    authorityDecision.commercialStatus === "not_commercially_eligible",
-    "The route must be not_commercially_eligible."
-  );
-  for (const admissionPoint of COMMERCIAL_ADMISSION_POINTS) {
-    const decision = admitCommercialAction({
-      admissionPoint,
-      request: { routeId: ROUTE_ID, jurisdiction: "ND", packetFamilyId: "north-dakota" },
-      record,
-      observation
-    });
-    check(
-      decision.admitted === false,
-      `Commercial admission point "${admissionPoint}" must deny ${ROUTE_ID}; this lane opens nothing.`
-    );
-  }
-  check(
-    COMMERCIAL_ADMISSION_POINTS.length === 9,
-    `Expected nine commercial admission points, found ${COMMERCIAL_ADMISSION_POINTS.length}.`
-  );
-  // A client body cannot assert its way past the gate.
-  const sanitized = sanitizeAdmissionRequest({
-    routeId: ROUTE_ID,
-    jurisdiction: "ND",
-    packetFamilyId: "north-dakota",
-    state: "COMPLETE_PACKET_PROVEN",
-    authorized: true
-  });
-  check(
-    sanitized.rejectedKeys.length > 0,
-    `A body asserting authority must have its claim keys rejected, got ${JSON.stringify(sanitized.rejectedKeys)}.`
-  );
-
-  // -------------------------------------------------------------------------
-  // 1. Screening -> result. Anonymous, and server-resolved.
+  // 1. Anonymous screening resolves the route on the server.
   // -------------------------------------------------------------------------
   const screeningAnswers = {
-    case_outcome: "convicted_misdemeanor",
-    offense_level: canonicalFixture.facts.offenseLevel,
-    convicted: true,
-    new_conviction_in_clean_period: false,
-    imprisonment_and_probation_complete: true,
-    restitution_paid: true
+    case_outcome: "dismissed",
+    all_charges_dismissed_or_acquitted: true,
+    nonconviction_order_date: canonicalFixture.facts.nonconvictionOrderDate
   };
-  const resolution = resolveNdSealingRoute({
-    offenseLevel: screeningAnswers.offense_level,
-    convicted: screeningAnswers.convicted,
-    newConvictionInCleanPeriod: screeningAnswers.new_conviction_in_clean_period,
-    imprisonmentAndProbationComplete: screeningAnswers.imprisonment_and_probation_complete,
-    restitutionPaid: screeningAnswers.restitution_paid
+  const resolution = resolveNdNonconvictionRoute({
+    nonconvictionOrderDate: screeningAnswers.nonconviction_order_date,
+    allChargesDismissedOrAcquitted: screeningAnswers.all_charges_dismissed_or_acquitted
   });
   check(
-    resolution.status === "eligible_to_file" && resolution.groundId === "misdemeanor_conviction",
-    "Screening facts must resolve, on the server, to the misdemeanor sealing ground."
-  );
-  check(
-    routeIdFor("nd", "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1") === ROUTE_ID,
-    "The route identity must be the one the admission gate is asked about."
+    resolution.status === "composed_packet" && resolution.specId === ND_NONCONVICTION_PETITION_SPEC.specId,
+    "Canonical resolver: the screening facts must resolve to the North Dakota nonconviction petition specification."
   );
 
+  // A participant may not name the route. The forbidden-field guard is the
+  // repository's existing authority on that and is exercised here, not restated.
+  const clientBody = {
+    jurisdiction: "ND",
+    selectedTrackId: ND_NONCONVICTION_PETITION_SPEC.routeId,
+    treatmentClassification: "production_packet"
+  };
+  const forbidden = forbiddenRouteIdentityFields(clientBody);
+  check(
+    forbidden.includes("selectedTrackId") && forbidden.includes("treatmentClassification"),
+    "A client body that asserts route identity must be rejected by the forbidden-field guard."
+  );
+
+  // The anonymous screening result is a handoff row, owned by nobody.
   db.sql(
     `insert into consumer_pending_screening_results
        (pending_id, jurisdiction, result_code, pathway_label, packet_type, payment_allowed, summary,
         screening_answers, profile_version, matter_id)
      values ('${PENDING_ID}', 'ND', 'possible_path',
-             'General conviction sealing under N.D.C.C. chapter 12-60.1',
+             'Nonconviction closing - Petition to Close Nonconviction Records',
              'custom_pleading_packet', false, 'Possible path',
              '${JSON.stringify(screeningAnswers)}'::jsonb,
-             '${ND_CHAPTER_12_60_1_SEALING_SPEC.provider.compiledProfileVersion}', 'nd-grade-a-matter')`
+             '${ND_NONCONVICTION_PETITION_SPEC.provider.profileVersion}', 'nd-lane-d-matter')`
   );
-  check(
-    db
-      .scalar(
-        `select coalesce(claimed_user_id::text, 'ANONYMOUS') from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`
-      )
-      .trim() === "ANONYMOUS",
-    "Screening may be anonymous: the pending result starts unowned."
-  );
-  check(
-    db.scalar(`select payment_allowed from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`).trim() === "f",
-    "An anonymous pending result must not carry a payment-allowed claim."
-  );
+  const pendingOwner = db.scalar(
+    `select coalesce(claimed_user_id::text, 'ANONYMOUS') from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`
+  ).trim();
+  check(pendingOwner === "ANONYMOUS", "Screening may be anonymous: the pending result starts unowned.");
 
   // -------------------------------------------------------------------------
-  // 2. Authentication -> atomic, exactly-once claim -> participant-owned matter.
+  // 2. The claim: atomic, exactly once, and a Briefcase that is never anonymous.
   // -------------------------------------------------------------------------
+  const briefcaseIsNotNullable = db.scalar(
+    `select is_nullable from information_schema.columns
+      where table_schema='public' and table_name='consumer_briefcase_items' and column_name='user_id'`
+  ).trim();
   check(
-    db
-      .scalar(
-        `select is_nullable from information_schema.columns where table_schema='public' and table_name='consumer_briefcase_items' and column_name='user_id'`
-      )
-      .trim() === "NO",
+    briefcaseIsNotNullable === "NO",
     "A Briefcase may not be anonymous: consumer_briefcase_items.user_id must be NOT NULL."
   );
 
+  // Two simultaneous claimants race for the same pending result. The claim is a
+  // conditional update on claimed_user_id being null, so the database decides,
+  // and exactly one of them can win.
   const claimSql = (user) =>
     `update consumer_pending_screening_results set claimed_at = now(), claimed_user_id = '${user}'
       where pending_id = '${PENDING_ID}' and claimed_user_id is null returning pending_id`;
-  const claimOutputs = db.sql(`begin; ${claimSql(OWNER)}; ${claimSql(STRANGER)}; commit;`);
-  const claimWins = (String(claimOutputs).match(/UPDATE 1/g) ?? []).length;
-  check(claimWins === 1, `Exactly one claimant may win the pending result; ${claimWins} updates succeeded.`);
-  check(
-    db.scalar(`select claimed_user_id from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`).trim() === OWNER,
-    "The first claimant must own the claimed pending result."
+  const claimOutputs = db.sql(
+    `begin;
+     ${claimSql(OWNER)};
+     ${claimSql(STRANGER)};
+     commit;`
   );
+  const claimWins = (String(claimOutputs).match(/UPDATE 1/g) ?? []).length;
+  check(
+    claimWins === 1,
+    `Exactly one claimant may win the pending result; ${claimWins} conditional updates succeeded.`
+  );
+  const claimedBy = db.scalar(
+    `select claimed_user_id from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`
+  ).trim();
+  check(claimedBy === OWNER, "The first claimant must own the claimed pending result.");
+  // A later claimant is refused rather than silently re-owning the row.
   db.sql(claimSql(STRANGER));
   check(
-    db.scalar(`select claimed_user_id from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`).trim() === OWNER,
-    "A second claimant must not take over an already-claimed pending result."
+    db
+      .scalar(`select claimed_user_id from consumer_pending_screening_results where pending_id = '${PENDING_ID}'`)
+      .trim() === OWNER,
+    "A second claimant must not be able to take over an already-claimed pending result."
   );
 
+  // The claim creates the participant-owned matter.
   db.sql(
     `insert into consumer_briefcase_items (id, user_id, item_type, status, jurisdiction, source_session_id)
      values ('${BRIEFCASE_ITEM}', '${OWNER}', 'packet', 'packet_ready', 'ND', '${PENDING_ID}')`
@@ -303,28 +279,30 @@ try {
   // -------------------------------------------------------------------------
   // 3. Review and Edit.
   // -------------------------------------------------------------------------
-  const composeFor = (facts) =>
-    composeNdSealingPacket({
-      facts,
-      productName: "LegalEase RCAP",
-      expectedJurisdiction: "ND",
-      expectedSpecId: ND_CHAPTER_12_60_1_SEALING_SPEC.specId,
-      expectedSpecHash: specHash
-    });
-
-  const firstPass = composeFor(canonicalFixture.facts);
+  const firstPass = composeNdNonconvictionPacket({
+    facts: canonicalFixture.facts,
+    productName: "LegalEase RCAP",
+    expectedJurisdiction: "ND",
+    expectedSpecId: ND_NONCONVICTION_PETITION_SPEC.specId,
+    expectedSpecHash: specHash
+  });
   check(firstPass.status === "composed", "The claimed matter must compose a packet for review.");
   const editedFacts = {
     ...canonicalFixture.facts,
     judicialDistrict: "East Central Judicial District",
-    clerkOfCourtDestination: "Clerk of District Court, Cass County, East Central Judicial District",
-    reasonsForSealing:
-      "Corrected during review: the conviction blocks a specific licensing application the petitioner has now filed."
+    clerkOfCourtDestination: "Clerk of District Court, Cass County, East Central Judicial District"
   };
-  const secondPass = composeFor(editedFacts);
+  const secondPass = composeNdNonconvictionPacket({
+    facts: editedFacts,
+    productName: "LegalEase RCAP",
+    expectedJurisdiction: "ND",
+    expectedSpecId: ND_NONCONVICTION_PETITION_SPEC.specId,
+    expectedSpecHash: specHash
+  });
   check(secondPass.status === "composed", "An edited matter must recompose.");
   check(
-    firstPass.status === "composed" && secondPass.status === "composed"
+    firstPass.status === "composed"
+      && secondPass.status === "composed"
       && firstPass.packet.fullTextSha256 !== secondPass.packet.fullTextSha256,
     "An edit to a governed fact must change the composed bytes."
   );
@@ -333,23 +311,30 @@ try {
       && secondPass.packet.fullText.replace(/\s+/g, " ").includes("East Central Judicial District"),
     "The edited filing destination must appear in the recomposed packet."
   );
-  const thirdPass = composeFor(canonicalFixture.facts);
+  // Editing back restores the exact original bytes: the edit path is not lossy.
+  const thirdPass = composeNdNonconvictionPacket({
+    facts: canonicalFixture.facts,
+    productName: "LegalEase RCAP",
+    expectedJurisdiction: "ND",
+    expectedSpecId: ND_NONCONVICTION_PETITION_SPEC.specId,
+    expectedSpecHash: specHash
+  });
   check(
-    thirdPass.status === "composed" && firstPass.status === "composed"
+    thirdPass.status === "composed"
+      && firstPass.status === "composed"
       && thirdPass.packet.fullTextSha256 === firstPass.packet.fullTextSha256,
     "Reverting an edit must restore the exact original bytes."
   );
+
   const finalPacket = firstPass.packet;
-  const inputHash = sha256(JSON.stringify({ facts: canonicalFixture.facts, specHash }));
-  check(
-    inputHash !== sha256(JSON.stringify({ facts: editedFacts, specHash })),
-    "An edit must change the render input hash."
-  );
+  const inputHashFirst = sha256(JSON.stringify({ facts: canonicalFixture.facts, specHash }));
+  const inputHashEdited = sha256(JSON.stringify({ facts: editedFacts, specHash }));
+  check(inputHashFirst !== inputHashEdited, "An edit must change the render input hash.");
 
   // -------------------------------------------------------------------------
   // 4. Final verification before render.
   // -------------------------------------------------------------------------
-  const staleGate = composeNdSealingPacket({
+  const staleGate = composeNdNonconvictionPacket({
     facts: canonicalFixture.facts,
     productName: "LegalEase RCAP",
     expectedSpecHash: "f".repeat(64)
@@ -358,41 +343,45 @@ try {
     staleGate.status === "refused" && staleGate.reasonCode === "stale_spec_hash",
     "Final verification must refuse to render against a stale specification."
   );
+  const reverifiedRoute = resolveNdNonconvictionRoute({
+    nonconvictionOrderDate: canonicalFixture.facts.nonconvictionOrderDate,
+    allChargesDismissedOrAcquitted: canonicalFixture.facts.allChargesDismissedOrAcquitted
+  });
   check(
-    resolveNdSealingRoute({
-      offenseLevel: canonicalFixture.facts.offenseLevel,
-      convicted: canonicalFixture.facts.convicted,
-      newConvictionInCleanPeriod: canonicalFixture.facts.newConvictionInCleanPeriod,
-      imprisonmentAndProbationComplete: canonicalFixture.facts.imprisonmentAndProbationComplete,
-      restitutionPaid: canonicalFixture.facts.restitutionPaid
-    }).status === "eligible_to_file",
-    "Final verification must re-resolve the route from governed facts, not from the pending row."
+    reverifiedRoute.status === "composed_packet",
+    "Final verification must re-resolve the route from the governed facts, not from the pending row."
   );
 
   // -------------------------------------------------------------------------
-  // 5. Synthetic payment. Test-mode only, no provider call.
+  // 5. Synthetic payment.
   // -------------------------------------------------------------------------
-  const providerEvent = "evt_nd_grade_a_synthetic_0001";
+  const providerEvent = "evt_nd_lane_d_synthetic_0001";
   db.sql(
     `update consumer_briefcase_items
         set payment_status = 'paid', amount_cents = 5000, currency = 'usd',
             payment_provider = 'stripe', provider_event_id = '${providerEvent}',
             payment_authority = 'server_webhook', payment_recorded_at = now(),
-            payment_recorded_by = 'nd-grade-a-synthetic'
+            payment_recorded_by = 'nd-lane-d-synthetic'
       where id = '${BRIEFCASE_ITEM}'`
   );
   check(
     db.scalar(`select payment_status from consumer_briefcase_items where id = '${BRIEFCASE_ITEM}'`).trim() === "paid",
     "The synthetic payment must be recorded through the server payment-authority columns."
   );
+  // The next two attempts are supposed to fail. PostgreSQL prints its rejection
+  // to stderr; that output is the evidence, not a problem.
   console.log("  (the next two database errors are the expected payment rejections)");
+  // The provider receipt is single-use: it cannot be replayed onto another matter.
   let replayRejected = false;
   try {
-    db.sql(`update consumer_briefcase_items set provider_event_id = '${providerEvent}' where id = '${OTHER_ITEM}'`);
+    db.sql(
+      `update consumer_briefcase_items set provider_event_id = '${providerEvent}' where id = '${OTHER_ITEM}'`
+    );
   } catch {
     replayRejected = true;
   }
-  check(replayRejected, "A provider receipt must not be replayable onto a second matter (payment idempotency).");
+  check(replayRejected, "A provider receipt must not be replayable onto a second matter.");
+  // A hand-written paid row without server evidence is refused by the database.
   let handWrittenRejected = false;
   try {
     db.sql(`update consumer_briefcase_items set payment_status = 'paid' where id = '${OTHER_ITEM}'`);
@@ -400,19 +389,9 @@ try {
     handWrittenRejected = true;
   }
   check(handWrittenRejected, "A paid status without server payment evidence must be refused.");
-  // The payment does not buy commercial admission: the gate still denies.
-  check(
-    admitCommercialAction({
-      admissionPoint: "consumer_checkout",
-      request: { routeId: ROUTE_ID, jurisdiction: "ND", packetFamilyId: "north-dakota" },
-      record,
-      observation
-    }).admitted === false,
-    "A recorded payment must not move the commercial gate; only COMPLETE_PACKET_PROVEN does."
-  );
 
   // -------------------------------------------------------------------------
-  // 6. Durable render and artifact validation.
+  // 6. Durable render.
   // -------------------------------------------------------------------------
   db.sql(
     `insert into partner_packet_entitlement (partner_id, packet_cap, overage_enabled, overage_cap) values ('${PARTNER}', 5, false, 0)`
@@ -422,20 +401,21 @@ try {
     .trim();
   const jobId = db
     .scalar(
-      `select id from enqueue_packet_render_job('${packetRow}', '${ROUTE_ID}', 'packet_document_v1', '1.0.0', null, 'ND', '${ND_CHAPTER_12_60_1_SEALING_SPEC.provider.compiledProfileVersion}', '${inputHash}', '${BRIEFCASE_ITEM}', '${PARTNER}', '${PERSON}', '${MATTER}', 5, null, null)`
+      `select id from enqueue_packet_render_job('${packetRow}', 'ND:nd-nonconviction-closing-petition', 'packet_document_v1', '1.0.0', null, 'ND', '${ND_NONCONVICTION_PETITION_SPEC.provider.profileVersion}', '${inputHashFirst}', '${BRIEFCASE_ITEM}', '${PARTNER}', '${PERSON}', '${MATTER}', 5, null, null)`
     )
     .trim();
   check(Boolean(jobId), "The render job must enqueue against the participant's matter.");
 
-  const composedPdf = await renderNdGradeAPacketPdf(
+  const composedPdf = await renderNdComposedPacketPdf(
     finalPacket,
-    ND_GRADE_A_LAYOUT,
-    "North Dakota Petition to Seal Criminal Records"
+    ND_PACKET_LAYOUT,
+    "North Dakota Petition to Close Nonconviction Records"
   );
   check(
     composedPdf.overlongLines.length === 0,
     `The rendered packet has lines past the margin: ${composedPdf.overlongLines.join("; ")}`
   );
+  // The artifact the participant receives is the artifact the review covered.
   const committedPdf = fs.readFileSync(path.join(ARTIFACT_DIR, "rendered/canonical.pdf"));
   check(
     sha256(composedPdf.bytes) === sha256(committedPdf),
@@ -472,7 +452,7 @@ try {
       startValidation: async (id, token) =>
         db.scalar(`select start_packet_validation('${id}', '${token}')`) === "t",
       fail: async (id, token, code, detail, retryable) =>
-        db.scalar(`select fail_packet_render_job('${id}', '${token}', '${code}', 'nd-grade-a', ${retryable})`),
+        db.scalar(`select fail_packet_render_job('${id}', '${token}', '${code}', 'nd-lane-d', ${retryable})`),
       finalize: async (input) => {
         const row = db.json(
           `select row_to_json(t) from (select * from finalize_packet_render_job('${input.jobId}', '${input.fencingToken}', '${input.outputStoragePath}', '${input.localSha256}', '${input.localNormalizedSha256}', '${input.storedSha256}', '${input.storedNormalizedSha256}', ${input.outputByteCount}, ${input.outputPageCount}, '${input.containerDigest}')) t`
@@ -493,15 +473,15 @@ try {
     renderer: { render: async () => composedPdf.bytes },
     allowlists: {
       allowedSourceShas: new Set(),
-      knownProfileVersions: new Set([ND_CHAPTER_12_60_1_SEALING_SPEC.provider.compiledProfileVersion]),
+      knownProfileVersions: new Set([ND_NONCONVICTION_PETITION_SPEC.provider.profileVersion]),
       supportedRendererKinds: new Set(["packet_document_v1"])
     },
-    workerId: "nd-grade-a-worker",
-    containerDigest: "sha256:nd-grade-a-container"
+    workerId: "nd-lane-d-worker",
+    containerDigest: "sha256:nd-lane-d-container"
   });
   check(
     cycle.outcome === "finalized",
-    `The render worker must durably finalize the packet (${JSON.stringify(cycle)}).`
+    `The render worker must durably finalize the North Dakota packet (${JSON.stringify(cycle)}).`
   );
 
   const jobRow = (id) =>
@@ -515,11 +495,11 @@ try {
   );
   check(
     Number(finalized.output_page_count) === finalPacket.totalPageCount,
-    `The stored page count (${finalized.output_page_count}) must be the composed page count (${finalPacket.totalPageCount}).`
+    `The stored artifact page count (${finalized.output_page_count}) must be the composed page count (${finalPacket.totalPageCount}).`
   );
   const storedBytes = await storage.read(finalized.output_storage_path);
   check(Boolean(storedBytes), "The artifact must be durably stored.");
-  const storedDoc = storedBytes ? await PDFDocument.load(storedBytes).catch(() => null) : null;
+  const storedDoc = await PDFDocument.load(storedBytes).catch(() => null);
   check(
     storedDoc && storedDoc.getPageCount() === finalPacket.totalPageCount,
     "The durably stored artifact must be a parseable PDF with the composed page count."
@@ -534,7 +514,7 @@ try {
       if (!row) return null;
       return {
         id: row.id,
-        packetId: "nd-grade-a",
+        packetId: "nd-lane-d",
         routeId: row.route_id,
         briefcaseItemId: row.briefcase_item_id,
         partnerId: row.partner_id,
@@ -554,7 +534,8 @@ try {
         accountingResult: row.accounting_result
       };
     },
-    // Ownership is read from the database, never asserted by the caller.
+    // Ownership is read from the database, not asserted by the caller: the user
+    // owns the item only if the Briefcase row says so.
     userOwnsBriefcaseItem: async (userId, briefcaseItemId) => {
       if (!userId || !briefcaseItemId) return false;
       return (
@@ -577,30 +558,31 @@ try {
     }
   };
 
+  // A job bound to a matter the participant does not own is denied.
   const otherPacketRow = db
     .scalar(`with r as (insert into rcap_document_packets default values returning id) select id from r`)
     .trim();
   const otherJobId = db
     .scalar(
-      `select id from enqueue_packet_render_job('${otherPacketRow}', '${ROUTE_ID}', 'packet_document_v1', '1.0.0', null, 'ND', '${ND_CHAPTER_12_60_1_SEALING_SPEC.provider.compiledProfileVersion}', '${sha256("other-input")}', '${OTHER_ITEM}', '${PARTNER}', '${PERSON}', '${OTHER_MATTER}', 5, null, null)`
+      `select id from enqueue_packet_render_job('${otherPacketRow}', 'ND:nd-nonconviction-closing-petition', 'packet_document_v1', '1.0.0', null, 'ND', '${ND_NONCONVICTION_PETITION_SPEC.provider.profileVersion}', '${sha256("other-input")}', '${OTHER_ITEM}', '${PARTNER}', '${PERSON}', '${OTHER_MATTER}', 5, null, null)`
     )
     .trim();
-  // Ownership is checked before deliverability, so these are ownership denials
-  // and not incidental "not ready yet" answers.
   const wrongMatter = await authorizePacketDownload(deliveryPorts, { jobId: otherJobId, userId: OWNER });
+  // Ownership is checked before deliverability, so this denial is an ownership
+  // denial and not an incidental "not ready yet".
   check(
     !wrongMatter.ok && wrongMatter.status === 403 && wrongMatter.code === "unauthorized",
-    `A packet bound to a matter the participant does not own must be denied on ownership (${JSON.stringify(wrongMatter)}).`
+    `A participant must be denied a packet bound to a matter they do not own, on ownership (${JSON.stringify(wrongMatter)}).`
   );
   const wrongUser = await authorizePacketDownload(deliveryPorts, { jobId, userId: STRANGER });
   check(
     !wrongUser.ok && wrongUser.status === 403 && wrongUser.code === "unauthorized",
-    `A different authenticated user must be denied on ownership (${JSON.stringify(wrongUser)}).`
+    `A different authenticated user must be denied the owner's packet, on ownership (${JSON.stringify(wrongUser)}).`
   );
   const anonymous = await authorizePacketDownload(deliveryPorts, { jobId, userId: null });
   check(!anonymous.ok && anonymous.status === 401, "An unauthenticated request must be denied.");
-  const ownerDecision = await authorizePacketDownload(deliveryPorts, { jobId, userId: OWNER });
-  check(ownerDecision.ok, `The owner must be authorized (${JSON.stringify(ownerDecision)}).`);
+  const owner = await authorizePacketDownload(deliveryPorts, { jobId, userId: OWNER });
+  check(owner.ok, `The owner must be authorized to download their own packet (${JSON.stringify(owner)}).`);
 
   server = http.createServer(async (req, res) => {
     const url = new URL(req.url, "http://localhost");
@@ -629,7 +611,7 @@ try {
     }
     const response = await streamAuthorizedPacket(deliveryPorts, decision, {
       userId,
-      requestContext: { surface: "nd-grade-a", userAgentClass: "mobile" }
+      requestContext: { surface: "nd-lane-d", userAgentClass: "mobile" }
     });
     res.writeHead(response.status, Object.fromEntries(response.headers.entries()));
     const reader = response.body.getReader();
@@ -659,22 +641,28 @@ try {
     acceptDownloads: true
   };
 
+  // An unauthenticated browser is denied.
   const anonContext = await browser.newContext(mobile);
   const anonResponse = await anonContext.newPage().then((page) => page.goto(downloadUrl));
-  check(anonResponse.status() === 401, `A browser with no session must be denied (${anonResponse.status()}).`);
+  check(
+    anonResponse.status() === 401,
+    `A browser with no session must be denied (${anonResponse.status()}).`
+  );
   await anonContext.close();
 
+  // A different authenticated participant is denied.
   const strangerContext = await browser.newContext(mobile);
   await strangerContext.addCookies([
     { name: SESSION_COOKIE, value: STRANGER_SESSION, url: `http://127.0.0.1:${port}` }
   ]);
   const strangerResponse = await strangerContext.newPage().then((page) => page.goto(downloadUrl));
   check(
-    strangerResponse.status() === 403,
+    strangerResponse.status() === 403 || strangerResponse.status() === 404,
     `A different participant must be denied the owner's packet (${strangerResponse.status()}).`
   );
   await strangerContext.close();
 
+  // The owner downloads the exact validated bytes.
   const ownerContext = await browser.newContext(mobile);
   await ownerContext.addCookies([
     { name: SESSION_COOKIE, value: OWNER_SESSION, url: `http://127.0.0.1:${port}` }
@@ -689,7 +677,10 @@ try {
   const savedPath = path.join(storageRoot, "owner-download.pdf");
   await download.saveAs(savedPath);
   const downloaded = fs.readFileSync(savedPath);
-  check(downloaded.subarray(0, 5).toString("latin1") === "%PDF-", "The participant must receive a PDF.");
+  check(
+    downloaded.subarray(0, 5).toString("latin1") === "%PDF-",
+    "The participant must receive a PDF."
+  );
   check(
     sha256(downloaded) === finalized.output_sha256,
     "The participant must receive the exact validated artifact bytes."
@@ -705,9 +696,13 @@ try {
     `select coalesce(json_object_agg(event_type, n), '{}'::json) from (select event_type, count(*) n from packet_delivery_events where render_job_id = '${jobId}' group by event_type) s`
   );
   check(events.delivery_authorized >= 1, `Delivery authorization must be recorded (${JSON.stringify(events)}).`);
-  check(events.transmission_completed >= 1, `Transmission completion must be recorded (${JSON.stringify(events)}).`);
+  check(
+    events.transmission_completed >= 1,
+    `Transmission completion must be recorded (${JSON.stringify(events)}).`
+  );
   check(jobRow(jobId).status === "delivered", "The job must reach delivered.");
 
+  // The repeat download consumes nothing.
   const consumedBefore = db
     .scalar(`select count(*) from packet_credit_ledger where event_type in ('consumed','overage_consumed')`)
     .trim();
@@ -724,12 +719,6 @@ try {
     sha256(fs.readFileSync(repeatPath)) === sha256(downloaded),
     "A repeat download must return the same bytes."
   );
-
-  // And, after all of it, the commercial gate is still shut.
-  check(
-    evaluateFulfillmentAuthority(record, observation, ROUTE_ID).authorized === false,
-    "After the full product path the route must still be unauthorized for commercial action."
-  );
 } finally {
   if (browser) await browser.close();
   if (server) server.close();
@@ -744,14 +733,12 @@ if (failures.length > 0) {
 }
 
 console.log(`North Dakota Grade-A product path PASSED (${checks} checks).`);
-console.log(`  route:              ${ROUTE_ID}`);
-console.log("  commercial gate:    denies all nine admission points, before and after payment");
-console.log("  screening:          anonymous, server-resolved, no payment claim on the pending row");
-console.log("  claim:              atomic, exactly one winner, matter owned by the claimant");
-console.log("  briefcase:          user_id NOT NULL — a Briefcase is never anonymous");
-console.log("  review and edit:    deterministic, reversible, changes the render input hash");
-console.log("  final verification: a stale specification refuses to render");
-console.log("  payment:            synthetic, server-evidenced, receipt single-use, buys no admission");
-console.log("  render:             durable, validated, stored, page count matches the composer");
-console.log("  delivery:           mobile browser received the reviewed bytes; repeat consumed nothing");
-console.log("  denials:            anonymous 401, wrong user 403, wrong matter 403");
+console.log("  resolver:          server-resolved from governed facts; client route identity rejected");
+console.log("  claim:             atomic, exactly one winner, matter owned by the claimant");
+console.log("  briefcase:         user_id NOT NULL — a Briefcase is never anonymous");
+console.log("  review and edit:   deterministic, reversible, changes the render input hash");
+console.log("  final verification: stale specification refuses to render");
+console.log("  payment:           synthetic, server-evidenced, receipt single-use");
+console.log("  render:            durable, validated, stored, page count matches the composer");
+console.log("  delivery:          mobile browser received the reviewed bytes; repeat consumed nothing");
+console.log("  denials:           anonymous, wrong user, and wrong matter all denied");

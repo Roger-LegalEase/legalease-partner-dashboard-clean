@@ -72,24 +72,23 @@ export interface PleadingPresentation {
    * Exact requested-relief clauses, replacing the default (a)/(b)/(c) set.
    *
    * The default clause (b) directs *all criminal justice agencies* holding the
-   * record to act. That is right for an expungement/sealing order that reaches
-   * agency records, and wrong for a route whose order reaches a narrower set of
-   * custodians — North Dakota's N.D.C.C. Section 12-60.1-05 closing order, for
-   * example, reaches only records controlled by the state court system. A route
-   * whose statute states a different relief scope supplies its own clauses here
-   * rather than rendering relief the statute does not grant. Strings are
-   * rendered verbatim, in order, under the WHEREFORE line; the "(a) " style
-   * labels are part of each supplied string. Omitted (the default) preserves the
-   * existing output byte for byte.
+   * record to act. That is right where the order reaches agency records, and
+   * wrong where the statute's relief is narrower — North Dakota's Chapter
+   * 12-60.1 sealing, for example, reaches court and prosecution records and
+   * does not reach BCI criminal history record information or Criminal Justice
+   * Data Information Sharing System data. A route whose statute states a
+   * narrower scope supplies its own clauses here rather than asking a court for
+   * relief the statute does not authorize. Strings render verbatim, in order,
+   * under the WHEREFORE line; the "(a) " labels are part of each string.
+   * Omitted (the default) preserves existing output byte for byte.
    */
   reliefClauses?: string[];
   /**
    * Exact operative paragraphs for the proposed order, replacing the default
    * single custodian-direction paragraph. Same rule and same reason as
-   * `reliefClauses`: a route whose order does not reach every criminal justice
-   * agency states its own operative text. Strings are rendered verbatim, in
-   * order, separated by a blank line, between the AND NOW recital and the
-   * BY THE COURT signature block. Omitted preserves the existing output.
+   * `reliefClauses`. Strings render verbatim, in order, separated by a blank
+   * line, between the AND NOW recital and the BY THE COURT block. Omitted
+   * preserves existing output byte for byte.
    */
   proposedOrderClauses?: string[];
 }
