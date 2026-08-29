@@ -273,5 +273,24 @@
     "why": "The engineering corrections changed what this packet describes: the family binding, the specification hash, the artifact the record validates, the record's schema, the producer identity, the verification contract, the visual review and the durable-render posture. Sending the earlier packet would have asked a reviewer to decide against a description that is no longer true.",
     "artifactBytesChanged": false,
     "artifactBytesChangedNote": "The PDF under review is byte-identical to the one Lane I reviewed: 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, 217271 bytes, 5 pages, recomputed from the committed file. Nothing about the document changed; what changed is what the record says about it."
+  },
+  "supersededAsFinalApprovalRequest": {
+    "on": "2026-08-29",
+    "by": [
+      "LWD-2026-08-29-OR-SUBSECTION",
+      "LWD-2026-08-29-OR-PACKET-SCOPE"
+    ],
+    "why": "This packet asks for approval of one artifact for OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c. The decision owner found that route legally overbroad and split it into three disposition-bound configurations, so both the route identity and the packet scope this request rests on have changed.",
+    "status": "SUPERSEDED_AS_A_FINAL_APPROVAL_REQUEST",
+    "retainedAs": "historical engineering evidence",
+    "doNotSend": "Do not send this as the final approval request. Separate route-specific packages are required, one per configuration, after their exact artifacts and hashes exist.",
+    "artifactDisposition": {
+      "artifactSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+      "finding": "The artifact writes county, case number, defendant name, date of birth, printed name, email and address, and selects NO option on the form. It is neither the Option 2 acquittal configuration nor the Option 3 never-charged one; it is silent on the disposition that distinguishes them.",
+      "consequence": "kept_as_historical_candidate_evidence",
+      "notRebound": "The decision permits rebinding to the (1)(d) acquittal route if and only if the artifact is exactly the Option 2 acquittal configuration. It is not, so it is not rebound. Silently reusing it for a never-charged participant is the exact failure the decision forecloses.",
+      "whyThisMattered": "An artifact that selects no disposition is how one route could appear to cover arrests, dismissals and acquittals at once: the document never said which it was."
+    },
+    "supersedingConfigurations": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json"
   }
 }

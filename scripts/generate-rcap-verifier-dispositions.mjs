@@ -173,6 +173,12 @@ const OVERRIDES = {
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
   },
+  "verify-rcap-oregon-disposition-configurations.mjs": {
+    disposition: "wired",
+    reason:
+      "The three Oregon disposition-bound configurations required by the decision owner on 2026-08-29, and the one property that decision turns on. One packet family with multiple configurations was permitted ONLY where each has a distinct stable identity and cannot be selected by the wrong disposition, so this enforces the second clause rather than asserting it: for every ordered pair it requires that what one configuration REQUIRES another explicitly REFUSES, which is what stops a never-charged participant satisfying the acquittal configuration. It also checks that Option 3 is selected by the never-charged configuration alone, that the 60-day period is required there and nowhere else, that no configuration resolves to a generic or null packet configuration, and that all three stay commercially closed with their legal sections unbound. Wired: a fourth configuration, a merged predicate or an opened route turns it red.",
+    decidedBy: "captain"
+  },
   "verify-rcap-answer-dependent-patches.mjs": {
     disposition: "wired",
     reason:
