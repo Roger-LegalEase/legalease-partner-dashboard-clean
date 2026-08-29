@@ -43,7 +43,7 @@ const productionSchema = path.join(root, PRODUCTION_SCHEMA);
 const packetInformation = path.join(root, PACKET_INFORMATION);
 
 const claimDbVerifier = path.join(root, "scripts/verify-shared-claim-boundary-db.mjs");
-const invalidationVerifier = path.join(root, "scripts/verify-screening-verification-finetune.mjs");
+const reviewEditVerifier = path.join(root, "scripts/test-lane-e-review-edit-ownership.mjs");
 
 registerTrackedMutation("test-shared-claim-boundary-mutations.mjs", [
   CLAIM_MIGRATION,
@@ -131,19 +131,54 @@ const mutations = [
     )
   ],
 
+  // 8. Payment history. Review and Edit is confined to commercialFlow, so a
+  //    fact change structurally cannot reach the payment columns. Widening the
+  //    patch by one payment field is the whole defect, and it is invisible to
+  //    every check that only reads verification state.
+  [
+    "edit patch reaches payment history: a fact change rewrites payment status",
+    packetInformation,
+    reviewEditVerifier,
+    (source) => source.replace(
+      "    patch: {\n      commercialFlow: {\n        packetInformation,\n        verification: nextVerification\n      }\n    },",
+      "    patch: {\n      paymentStatus: \"unpaid\",\n      commercialFlow: {\n        packetInformation,\n        verification: nextVerification\n      }\n    },"
+    )
+  ],
+
   // 6. Invalidation after a material edit. With no material change ever
   //    detected, Review and Edit takes the preserving branch and a verification
   //    taken against the old facts survives the edit that contradicted it.
   [
     "material edit does not invalidate: a stale verification survives a fact change",
     packetInformation,
-    invalidationVerifier,
+    reviewEditVerifier,
     (source) => source.replace(
       "  const materialFactChange = Object.keys(answerDelta).length > 0;",
       "  const materialFactChange = false;"
     )
   ]
 ];
+
+// A mutation is only evidence if the verifier judging it is green before the
+// mutation is applied. Without this gate a verifier that is already failing --
+// for an unrelated reason, on clean source -- reports every mutation as caught
+// and the whole run becomes a green light that means nothing. So each distinct
+// verifier is required to pass first, and the run stops if one does not.
+const baselineVerifiers = [...new Set(mutations.map(([, , verifier]) => verifier))];
+const notGreen = [];
+for (const verifier of baselineVerifiers) {
+  try {
+    execFileSync(process.execPath, [verifier], { cwd: root, stdio: "pipe" });
+  } catch {
+    notGreen.push(path.relative(root, verifier));
+  }
+}
+if (notGreen.length) {
+  console.error("test-shared-claim-boundary-mutations FAILED: verifier not green on clean source");
+  for (const verifier of notGreen) console.error(`  - ${verifier}`);
+  console.error("A mutation judged by an already-failing verifier is not evidence.");
+  process.exit(1);
+}
 
 const originals = new Map(mutations.map(([, file]) => [file, fs.readFileSync(file, "utf8")]));
 function restore() {
