@@ -437,6 +437,53 @@ try {
 
   section("15. Concurrency: two claimants, one matter");
   await concurrency(db, check, hashOf, token, ids, matterPayload);
+
+  section("16. The conflict path re-checks ownership");
+  {
+    // ON CONFLICT DO NOTHING means the claimant that loses the insert race
+    // re-reads the row the winner created. Section 7 never reaches that path,
+    // because an already-CLAIMED pending result is refused earlier; section 15
+    // reaches it only when the scheduler happens to interleave that way. This
+    // section constructs the state directly: a pending result still PENDING
+    // whose matter already exists and belongs to somebody else, which is what a
+    // claim that slipped the row lock sees.
+    //
+    // Without the ownership re-check the loser is handed the winner's matter as
+    // its own successful claim, so this is the difference between a race that
+    // converges and a race that transfers a matter to the wrong participant.
+    const contested = "30000000-0000-4000-8000-000000000012";
+    db.sql(seedPending(contested, hashOf(token("conflict"))));
+    db.sql(`insert into public.consumer_briefcase_items
+              (user_id, item_type, jurisdiction, status, source_pending_result_id)
+            values ('${ids.userB}', 'result', 'MS', 'check_saved', '${contested}')`);
+
+    const loser = db.json(`select to_jsonb(t) from public.claim_pending_screening_result(
+        '${token("conflict")}', '${ids.userA}'::uuid, ${matterPayload()}, 'req-16') t`);
+    check(loser.outcome === "denied_other_user",
+      "a claim whose matter already belongs to another participant is denied", JSON.stringify(loser));
+    check(loser.matter_id === null, "the denial reveals no matter id");
+    check(
+      db.scalar(`select count(*)::int from public.consumer_briefcase_items
+                   where source_pending_result_id = '${contested}'`) === "1",
+      "the denied claim created no second matter"
+    );
+    check(
+      db.scalar(`select user_id from public.consumer_briefcase_items
+                   where source_pending_result_id = '${contested}'`) === ids.userB,
+      "the existing matter still belongs to its original owner"
+    );
+    check(
+      db.scalar(`select status from public.consumer_pending_screening_results
+                   where pending_id = '${contested}'`) === "PENDING",
+      "the denied claim did not mark the pending result claimed"
+    );
+    check(
+      db.scalar(`select count(*)::int from public.participant_claim_events
+                   where pending_result_id = '${contested}'
+                     and event = 'claim_denied_other_user'`) === "1",
+      "the denial is recorded in the append-only audit"
+    );
+  }
 } finally {
   db.stop();
 }
