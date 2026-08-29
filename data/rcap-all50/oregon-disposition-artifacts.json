@@ -1,0 +1,848 @@
+{
+  "schemaVersion": "rcap-oregon-disposition-artifacts/v1",
+  "generatedBy": "scripts/render-rcap-oregon-disposition-artifacts.mjs",
+  "rendererVersion": "or-disposition-configurations-v1",
+  "source": {
+    "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+    "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf"
+  },
+  "geometryRecord": "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
+  "reusedFrom": {
+    "overlayProfile": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+    "fieldCensus": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
+    "fixturePeople": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/fixtures/",
+    "note": "The lane-C family is read for its measurements and its fixture people. It is never written to: its optionless artifact stays historical evidence and is not rebound."
+  },
+  "protectedRules": {
+    "count": 4,
+    "derivedFrom": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json"
+  },
+  "markingRule": "Mark the selected existing box with two diagonal strokes inset inside its measured bounds. Never draw a new box, and never redraw, thicken or move the court's own.",
+  "commerciallyEligible": 0,
+  "completePacketProven": 0,
+  "commercialStatus": "closed",
+  "configurations": [
+    {
+      "configurationId": "or-never-charged-137-225-1-c",
+      "routeKey": "OR:set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+      "packetSetId": "or_arrest_no_charges-set",
+      "statutoryAuthority": "ORS 137.225(1)(c)",
+      "formOptionMarked": "Option 3",
+      "optionsLeftUnmarked": [
+        "Option 1",
+        "Option 2"
+      ],
+      "caseNumber": "suppressed",
+      "caseNumberBecause": "There is no court case. Paragraph (1)(c) applies only where no accusatory instrument was filed, so the blank is left empty rather than filled with a substitute.",
+      "anchors": [
+        {
+          "label": "FOR THE COUNTY OF",
+          "page": 4,
+          "factId": "matter.county"
+        },
+        {
+          "label": "Defendant",
+          "page": 4,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "DOB:",
+          "page": 4,
+          "factId": "participant.date_of_birth"
+        },
+        {
+          "label": "Name (typed or printed)",
+          "page": 5,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "Email",
+          "page": 5,
+          "factId": "participant.email"
+        },
+        {
+          "label": "Address",
+          "page": 5,
+          "factId": "participant.street_address"
+        },
+        {
+          "label": "City, State, ZIP",
+          "page": 5,
+          "factId": "participant.city_state_zip"
+        },
+        {
+          "label": "Phone",
+          "page": 5,
+          "factId": "participant.phone"
+        },
+        {
+          "label": "Citing/arresting law enforcement agency:",
+          "page": 4,
+          "factId": "matter.citing_or_arresting_agency"
+        },
+        {
+          "label": "Arrest Date:",
+          "page": 4,
+          "factId": "matter.arrest_date"
+        },
+        {
+          "label": "Citation/Arrest Offense",
+          "page": 4,
+          "factId": "matter.charge"
+        }
+      ],
+      "selections": [
+        {
+          "control": "Option 3",
+          "page": 4,
+          "box": {
+            "x0": 128.52,
+            "y0": 151.92,
+            "x1": 138.72,
+            "y1": 162.12
+          },
+          "inset": 2,
+          "lineWidth": 1.2,
+          "mark": "two_diagonal_strokes_inset",
+          "drewANewBox": false,
+          "redrewTheCourtsBox": false
+        }
+      ],
+      "selectionsRefused": [],
+      "fixtures": {
+        "canonical": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-never-charged-137-225-1-c/fixtures/canonical-filled.pdf",
+          "sha256": "ee56b0e24f92c617efe86d30a459d06b4ea6f15c924bd21e87f5813e5008df9b",
+          "bytes": 217204,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Email",
+              "factId": "participant.email",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Address",
+              "factId": "participant.street_address",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Citing/arresting law enforcement agency:",
+              "factId": "matter.citing_or_arresting_agency",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Arrest Date:",
+              "factId": "matter.arrest_date",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Citation/Arrest Offense",
+              "factId": "matter.charge",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "Jordan A. Reyes",
+            "1991-04-17",
+            "Jordan A. Reyes",
+            "jordan.reyes@example.org",
+            "418 Larch Street Apt 12",
+            "Springfield, OR 97477",
+            "Springfield Police Department",
+            "2019-06-14",
+            "Criminal Trespass in the Second Degree, ORS 164.245"
+          ]
+        },
+        "boundary": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-never-charged-137-225-1-c/fixtures/boundary-filled.pdf",
+          "sha256": "37e81f71c446a7c17ffc9b157b5ebbc7780dee5d792af9b8df1597d24288c34a",
+          "bytes": 217217,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 9.5,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Citing/arresting law enforcement agency:",
+              "factId": "matter.citing_or_arresting_agency",
+              "fontSize": 9,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "Arrest Date:",
+              "factId": "matter.arrest_date",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Citation/Arrest Offense",
+              "factId": "matter.charge",
+              "fontSize": 9.5,
+              "outcome": "shrunk"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Email",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Address",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "1968-12-31",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "Wappingers Falls, Massachusetts 02108-3417",
+            "Clackamas County Interagency Task Force and Sheriff's Office",
+            "1998-12-31",
+            "Unlawful Possession of a Controlled Substance in the Second Degree, ORS 475.752(3)(b)"
+          ]
+        }
+      },
+      "provenance": {
+        "schemaVersion": "rcap-artifact-provenance/v1",
+        "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
+        "jurisdiction": "OR",
+        "assetId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "formFamily": null,
+        "officialFormNumber": null,
+        "officialTitle": null,
+        "sourcePublisher": null,
+        "sourceUrl": null,
+        "sourceRevision": "REV-2026-01",
+        "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "sourceMetadataFingerprint": null,
+        "fieldMapSha256": "6f5b2f9961dd20eb7394bb3921c74093dadba3a21ff6fe7827bca7c55e1de57a",
+        "classificationSha256": null,
+        "packetSpecSha256": null,
+        "factoryVersion": "d0-remediated-v2-content-stream-geometry",
+        "rendererVersion": "or-disposition-configurations-v1",
+        "generatedAt": "2026-08-29T00:00:00.000Z",
+        "activeContentResult": null,
+        "flatteningResult": null,
+        "protectedFieldResult": null,
+        "fixtureIdentity": null,
+        "artifacts": [
+          {
+            "artifact": "fixtures/canonical-filled.pdf",
+            "outputSha256": "ee56b0e24f92c617efe86d30a459d06b4ea6f15c924bd21e87f5813e5008df9b",
+            "normalizedContentSha256": "f1fe970cef4b24c19602a850b28edb7a880bb41c3ea36357cd186ed64a33f351",
+            "byteLength": 217204,
+            "pageCount": 5
+          },
+          {
+            "artifact": "fixtures/boundary-filled.pdf",
+            "outputSha256": "37e81f71c446a7c17ffc9b157b5ebbc7780dee5d792af9b8df1597d24288c34a",
+            "normalizedContentSha256": "a86ee315ed7586415d8060f218cdd3d3cf5a4a3122f26edef28d94d1de4f553f",
+            "byteLength": 217217,
+            "pageCount": 5
+          }
+        ]
+      }
+    },
+    {
+      "configurationId": "or-acquittal-137-225-1-d",
+      "routeKey": "OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+      "packetSetId": "or_acquittal-set",
+      "statutoryAuthority": "ORS 137.225(1)(d)",
+      "formOptionMarked": "Option 2",
+      "optionsLeftUnmarked": [
+        "Option 1",
+        "Option 3"
+      ],
+      "caseNumber": "required",
+      "caseNumberBecause": "The disposition followed a filed case, so the court case number identifies the matter.",
+      "anchors": [
+        {
+          "label": "FOR THE COUNTY OF",
+          "page": 4,
+          "factId": "matter.county"
+        },
+        {
+          "label": "Case No:",
+          "page": 4,
+          "factId": "matter.case_number"
+        },
+        {
+          "label": "Defendant",
+          "page": 4,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "DOB:",
+          "page": 4,
+          "factId": "participant.date_of_birth"
+        },
+        {
+          "label": "Name (typed or printed)",
+          "page": 5,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "Email",
+          "page": 5,
+          "factId": "participant.email"
+        },
+        {
+          "label": "Address",
+          "page": 5,
+          "factId": "participant.street_address"
+        },
+        {
+          "label": "City, State, ZIP",
+          "page": 5,
+          "factId": "participant.city_state_zip"
+        },
+        {
+          "label": "Phone",
+          "page": 5,
+          "factId": "participant.phone"
+        }
+      ],
+      "selections": [
+        {
+          "control": "Option 2",
+          "page": 4,
+          "box": {
+            "x0": 128.52,
+            "y0": 186.24,
+            "x1": 138.72,
+            "y1": 196.44
+          },
+          "inset": 2,
+          "lineWidth": 1.2,
+          "mark": "two_diagonal_strokes_inset",
+          "drewANewBox": false,
+          "redrewTheCourtsBox": false
+        }
+      ],
+      "selectionsRefused": [],
+      "fixtures": {
+        "canonical": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-acquittal-137-225-1-d/fixtures/canonical-filled.pdf",
+          "sha256": "da28fba3aae953c48adc0ca394e06f394a6032a0ef69d2c6d43d27db8823e00b",
+          "bytes": 217020,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Case No:",
+              "factId": "matter.case_number",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Email",
+              "factId": "participant.email",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Address",
+              "factId": "participant.street_address",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "21CR40817",
+            "Jordan A. Reyes",
+            "1991-04-17",
+            "Jordan A. Reyes",
+            "jordan.reyes@example.org",
+            "418 Larch Street Apt 12",
+            "Springfield, OR 97477"
+          ]
+        },
+        "boundary": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-acquittal-137-225-1-d/fixtures/boundary-filled.pdf",
+          "sha256": "18817813cbbc4f665a57952e35a24af39c24e361362e0969ddf79e0fc07082ac",
+          "bytes": 217000,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Case No:",
+              "factId": "matter.case_number",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 9.5,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Email",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Address",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "249900123456789-CR-ACQ",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "1968-12-31",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "Wappingers Falls, Massachusetts 02108-3417"
+          ]
+        }
+      },
+      "provenance": {
+        "schemaVersion": "rcap-artifact-provenance/v1",
+        "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
+        "jurisdiction": "OR",
+        "assetId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "formFamily": null,
+        "officialFormNumber": null,
+        "officialTitle": null,
+        "sourcePublisher": null,
+        "sourceUrl": null,
+        "sourceRevision": "REV-2026-01",
+        "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "sourceMetadataFingerprint": null,
+        "fieldMapSha256": "86bcbd3dd7320bbbd3416d561e550f8e6e34f5b202b5e56c3cfe8f7bbc087079",
+        "classificationSha256": null,
+        "packetSpecSha256": null,
+        "factoryVersion": "d0-remediated-v2-content-stream-geometry",
+        "rendererVersion": "or-disposition-configurations-v1",
+        "generatedAt": "2026-08-29T00:00:00.000Z",
+        "activeContentResult": null,
+        "flatteningResult": null,
+        "protectedFieldResult": null,
+        "fixtureIdentity": null,
+        "artifacts": [
+          {
+            "artifact": "fixtures/canonical-filled.pdf",
+            "outputSha256": "da28fba3aae953c48adc0ca394e06f394a6032a0ef69d2c6d43d27db8823e00b",
+            "normalizedContentSha256": "b5399cf71430a43fcab26cbc810e54dd8d84dbdc79ded4cbf1e1d652eb0d545e",
+            "byteLength": 217020,
+            "pageCount": 5
+          },
+          {
+            "artifact": "fixtures/boundary-filled.pdf",
+            "outputSha256": "18817813cbbc4f665a57952e35a24af39c24e361362e0969ddf79e0fc07082ac",
+            "normalizedContentSha256": "456f99867767155b95374c14f5c54a8a238308d79a377a9971f8ef652ecca55d",
+            "byteLength": 217000,
+            "pageCount": 5
+          }
+        ]
+      }
+    },
+    {
+      "configurationId": "or-ordinary-dismissal-137-225-1-d",
+      "routeKey": "OR:set-aside-of-an-ordinary-dismissal-under-ors-137-225-1-d",
+      "packetSetId": "or_dismissed_charge-set",
+      "statutoryAuthority": "ORS 137.225(1)(d)",
+      "formOptionMarked": "Option 2",
+      "optionsLeftUnmarked": [
+        "Option 1",
+        "Option 3"
+      ],
+      "caseNumber": "required",
+      "caseNumberBecause": "The disposition followed a filed case, so the court case number identifies the matter.",
+      "anchors": [
+        {
+          "label": "FOR THE COUNTY OF",
+          "page": 4,
+          "factId": "matter.county"
+        },
+        {
+          "label": "Case No:",
+          "page": 4,
+          "factId": "matter.case_number"
+        },
+        {
+          "label": "Defendant",
+          "page": 4,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "DOB:",
+          "page": 4,
+          "factId": "participant.date_of_birth"
+        },
+        {
+          "label": "Name (typed or printed)",
+          "page": 5,
+          "factId": "participant.full_legal_name"
+        },
+        {
+          "label": "Email",
+          "page": 5,
+          "factId": "participant.email"
+        },
+        {
+          "label": "Address",
+          "page": 5,
+          "factId": "participant.street_address"
+        },
+        {
+          "label": "City, State, ZIP",
+          "page": 5,
+          "factId": "participant.city_state_zip"
+        },
+        {
+          "label": "Phone",
+          "page": 5,
+          "factId": "participant.phone"
+        }
+      ],
+      "selections": [
+        {
+          "control": "Option 2",
+          "page": 4,
+          "box": {
+            "x0": 128.52,
+            "y0": 186.24,
+            "x1": 138.72,
+            "y1": 196.44
+          },
+          "inset": 2,
+          "lineWidth": 1.2,
+          "mark": "two_diagonal_strokes_inset",
+          "drewANewBox": false,
+          "redrewTheCourtsBox": false
+        }
+      ],
+      "selectionsRefused": [],
+      "fixtures": {
+        "canonical": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-ordinary-dismissal-137-225-1-d/fixtures/canonical-filled.pdf",
+          "sha256": "29b2b41e5cba5c6fe24ec99aca09a66bc4dfae62c1526c3fc1fd47e265bc2dcb",
+          "bytes": 217022,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Case No:",
+              "factId": "matter.case_number",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Email",
+              "factId": "participant.email",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Address",
+              "factId": "participant.street_address",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "22CR13094",
+            "Jordan A. Reyes",
+            "1991-04-17",
+            "Jordan A. Reyes",
+            "jordan.reyes@example.org",
+            "418 Larch Street Apt 12",
+            "Springfield, OR 97477"
+          ]
+        },
+        "boundary": {
+          "artifact": "data/rcap-all50/overlays/lane-c-candidates/oregon/disposition-configurations/or-ordinary-dismissal-137-225-1-d/fixtures/boundary-filled.pdf",
+          "sha256": "3dd4941883bb440966580ce2a62166f3f601748fa4418d14a0bf998b708ff341",
+          "bytes": 217002,
+          "written": [
+            {
+              "anchor": "FOR THE COUNTY OF",
+              "factId": "matter.county",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Case No:",
+              "factId": "matter.case_number",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Defendant",
+              "factId": "participant.full_legal_name",
+              "fontSize": 9.5,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "DOB:",
+              "factId": "participant.date_of_birth",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            },
+            {
+              "anchor": "Name (typed or printed)",
+              "factId": "participant.full_legal_name",
+              "fontSize": 10,
+              "outcome": "shrunk"
+            },
+            {
+              "anchor": "City, State, ZIP",
+              "factId": "participant.city_state_zip",
+              "fontSize": 10.5,
+              "outcome": "fit"
+            }
+          ],
+          "refused": [
+            {
+              "anchor": "Email",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Address",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            },
+            {
+              "anchor": "Phone",
+              "reason": "value_exceeds_widget_width_at_minimum_font",
+              "category": "unfittable"
+            }
+          ],
+          "expectedValues": [
+            "Lane",
+            "249900123456789-CR-DIS",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "1968-12-31",
+            "Maximiliana Konstantina Vasquez-Featherstonehaugh",
+            "Wappingers Falls, Massachusetts 02108-3417"
+          ]
+        }
+      },
+      "provenance": {
+        "schemaVersion": "rcap-artifact-provenance/v1",
+        "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
+        "jurisdiction": "OR",
+        "assetId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "documentId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "formFamily": null,
+        "officialFormNumber": null,
+        "officialTitle": null,
+        "sourcePublisher": null,
+        "sourceUrl": null,
+        "sourceRevision": "REV-2026-01",
+        "sourceSha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+        "sourceMetadataFingerprint": null,
+        "fieldMapSha256": "86bcbd3dd7320bbbd3416d561e550f8e6e34f5b202b5e56c3cfe8f7bbc087079",
+        "classificationSha256": null,
+        "packetSpecSha256": null,
+        "factoryVersion": "d0-remediated-v2-content-stream-geometry",
+        "rendererVersion": "or-disposition-configurations-v1",
+        "generatedAt": "2026-08-29T00:00:00.000Z",
+        "activeContentResult": null,
+        "flatteningResult": null,
+        "protectedFieldResult": null,
+        "fixtureIdentity": null,
+        "artifacts": [
+          {
+            "artifact": "fixtures/canonical-filled.pdf",
+            "outputSha256": "29b2b41e5cba5c6fe24ec99aca09a66bc4dfae62c1526c3fc1fd47e265bc2dcb",
+            "normalizedContentSha256": "65f476fa909ba76a48c2e8a42a0611d387d1fc48caf84d783c722c2de5b8de9b",
+            "byteLength": 217022,
+            "pageCount": 5
+          },
+          {
+            "artifact": "fixtures/boundary-filled.pdf",
+            "outputSha256": "3dd4941883bb440966580ce2a62166f3f601748fa4418d14a0bf998b708ff341",
+            "normalizedContentSha256": "db7cd30d898210dfa0eeef0346dcbe6cf8e228b6fe175f800688b4ee9578a6c4",
+            "byteLength": 217002,
+            "pageCount": 5
+          }
+        ]
+      }
+    }
+  ]
+}

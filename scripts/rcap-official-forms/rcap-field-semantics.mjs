@@ -190,7 +190,15 @@ export const FACT_DESCRIPTORS = [
   // rules stop the attorney, prosecutor and identifier cases now; this refusal
   // stops the rest, where the haystack names a slot that is plainly not a
   // person's name.
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
+  // The last clause of the refusal is a charge-table column heading. "Name of
+  // Charges" and "Name of Citation/Arrest Offenses" are the headings over the
+  // two tables on Oregon's set-aside motion, and both contain "name", so
+  // full_legal_name claimed them: a movant's name would have been printed as
+  // the offence they were cited for. The heading names what the COLUMN holds,
+  // not who is filing. It is anchored to the whole caption so that a sentence
+  // merely mentioning charges -- "the defendant was convicted of the offense(s)
+  // of" -- is untouched by it and keeps whatever it matched before.
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b|^name of [a-z ]*?(charges?|offenses?|counts?)\s*\|\|/ },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
@@ -199,7 +207,13 @@ export const FACT_DESCRIPTORS = [
   { factId: "matter.offense_date", valueType: "date", requiresExplicitMapping: true, match: /offense\s*date|date\s*of\s*offense|violation\s*date/ },
   { factId: "matter.conviction_date", valueType: "date", requiresExplicitMapping: true, match: /conviction\s*date/ },
   { factId: "matter.disposition_date", valueType: "date", requiresExplicitMapping: true, match: /disposition\s*date/ },
-  { factId: "matter.charge", valueType: "string", requiresExplicitMapping: true, match: /\bcharge\b|\boffense\b|\bstatute\b|\bviolation\b|\bcount\b/ }
+  { factId: "matter.charge", valueType: "string", requiresExplicitMapping: true, match: /\bcharge\b|\boffense\b|\bstatute\b|\bviolation\b|\bcount\b/ },
+  // The agency a movant states cited or arrested them. Deliberately the whole
+  // printed caption rather than a word: "agency" on its own is protected, and
+  // must stay protected, because a slot listing the agencies a court orders to
+  // seal is not the participant's to fill. This binds one caption, and only
+  // when a caller names the fact for it.
+  { factId: "matter.citing_or_arresting_agency", valueType: "string", requiresExplicitMapping: true, match: /citing\s*\/?\s*arresting\s+law\s+enforcement\s+agency/ }
 ];
 
 // Facts that describe one row of a charge table rather than the matter itself.
@@ -230,9 +244,52 @@ export function haystack(name) {
   return `${spaced} || ${raw.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
 }
 
+/**
+ * Captions where the protected word is the SUBJECT of the answer rather than
+ * the owner of the blank.
+ *
+ * The `agency` rule exists because a slot that lists the agencies a court is
+ * ordering to seal is not the participant's to fill; KY AOC-334 proved that by
+ * printing the petitioner's name as the list of agencies ordered. But Oregon's
+ * set-aside motion prints "Citing/arresting law enforcement agency: ______" and
+ * then, under the blank, "(Example: Salem Police Dept. or Coos County Sheriff)".
+ * That is the court instructing the movant to name the agency. Refusing it
+ * leaves a required allegation of the motion blank.
+ *
+ * So this is not a way around a protect rule and must never become one. Each
+ * entry names ONE printed caption, matched as that caption, and exempts only
+ * the categories it lists. The KY directive caption ("records in their custody",
+ * "ordered to seal") matches nothing here and stays refused.
+ */
+export const PARTICIPANT_STATED_SUBJECT = [
+  {
+    id: "or_ojd_set_aside_citing_or_arresting_agency",
+    // The exact printed caption, tolerant only of how it is spaced.
+    match: /citing\s*\/?\s*arresting\s+law\s+enforcement\s+agency/,
+    exempts: ["agency"],
+    because:
+      "The Oregon OJD set-aside motion asks the movant to name the agency that cited or arrested them, "
+      + "and prints an example under the blank. The agency does not complete it; the participant alleges it."
+  }
+];
+
+/** The categories one caption is exempt from, because it states rather than owns. */
+export function statedSubjectExemptions(name) {
+  const hay = haystack(name);
+  const out = new Set();
+  for (const rule of PARTICIPANT_STATED_SUBJECT) {
+    if (rule.match.test(hay)) for (const c of rule.exempts) out.add(c);
+  }
+  return out;
+}
+
 export function protectCategoryOf(name) {
   const hay = haystack(name);
-  for (const [category, re] of PROTECT_RULES) if (re.test(hay)) return category;
+  const exempt = statedSubjectExemptions(name);
+  for (const [category, re] of PROTECT_RULES) {
+    if (exempt.has(category)) continue;
+    if (re.test(hay)) return category;
+  }
   return null;
 }
 

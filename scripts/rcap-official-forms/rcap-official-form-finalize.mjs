@@ -162,6 +162,76 @@ export function sourceMetadataFingerprint(doc) {
   return crypto.createHash("sha256").update(parts.join("\u0000"), "utf8").digest("hex");
 }
 
+/** How far inside a control's own bounds the mark is drawn, in points. */
+export const SELECTION_INSET = 2;
+/** The mark's stroke. Heavier than the court's 0.72pt box, so it reads as a mark. */
+export const SELECTION_LINE_WIDTH = 1.2;
+
+/**
+ * Marks selection controls the document already draws.
+ *
+ * A form that offers "check one option only" is answered by marking the box the
+ * court printed. Two things this does NOT do, and the distinction is the whole
+ * point:
+ *
+ *   * It never draws a box. Adding a control to a court's form changes the form
+ *     rather than completing it, and a reader cannot tell a drawn box from a
+ *     printed one.
+ *   * It never redraws, thickens or moves the existing box. The two diagonals
+ *     are struck strictly INSIDE the measured bounds, inset far enough that the
+ *     court's own stroke is untouched.
+ *
+ * Every box passed here must have been MEASURED off the document. A derived
+ * coordinate -- one inferred from where a label sits -- is how a mark ends up
+ * in the margin next to nothing, so a selection carrying `measured: false` is
+ * refused rather than drawn.
+ */
+function markSelections({ pages, selections, protectedRules, ink, report }) {
+  report.selections = [];
+  report.selectionsRefused = [];
+  for (const selection of selections ?? []) {
+    const page = pages[selection.page - 1];
+    const refuse = (reason, detail = null) =>
+      report.selectionsRefused.push({ control: selection.label ?? null, reason, ...(detail ? { detail } : {}) });
+    if (!page) { refuse("selection_page_not_in_document"); continue; }
+    if (selection.measured !== true) { refuse("selection_box_was_not_measured_off_the_document"); continue; }
+    const box = selection.box ?? {};
+    const { x0, y0, x1, y1 } = box;
+    if (![x0, y0, x1, y1].every((n) => typeof n === "number" && Number.isFinite(n))) { refuse("selection_box_is_not_a_rectangle"); continue; }
+    const width = x1 - x0, height = y1 - y0;
+    const inset = selection.inset ?? SELECTION_INSET;
+    // Inset twice over, so a control too small to mark inside its own stroke is
+    // refused rather than marked over the court's line.
+    if (!(width > inset * 2 + 1 && height > inset * 2 + 1)) {
+      refuse("selection_box_is_too_small_to_mark_inside_its_own_bounds", `${width}x${height}pt with a ${inset}pt inset`);
+      continue;
+    }
+    const { width: pageWidth, height: pageHeight } = page.getSize();
+    if (x0 < 0 || y0 < 0 || x1 > pageWidth + 0.5 || y1 > pageHeight + 0.5) {
+      refuse("selection_box_falls_outside_the_page", `${x0},${y0} to ${x1},${y1} on a ${pageWidth}x${pageHeight} page`);
+      continue;
+    }
+    const trespass = (selection.protectedRules ?? protectedRules).find((r) =>
+      r.page === selection.page && r.y >= y0 - PROTECTED_RULE_BAND && r.y <= y1 + PROTECTED_RULE_BAND
+      && x0 < r.endX && x1 > r.x);
+    if (trespass) {
+      refuse("selection_box_lands_on_a_rule_the_court_owns",
+        `the rule at page ${trespass.page} y=${trespass.y} is owned by ${JSON.stringify(trespass.caption ?? trespass.category ?? "the court")}`);
+      continue;
+    }
+    const a = { x: x0 + inset, y: y0 + inset }, b = { x: x1 - inset, y: y1 - inset };
+    const lineWidth = selection.lineWidth ?? SELECTION_LINE_WIDTH;
+    page.drawLine({ start: a, end: b, thickness: lineWidth, color: ink });
+    page.drawLine({ start: { x: a.x, y: b.y }, end: { x: b.x, y: a.y }, thickness: lineWidth, color: ink });
+    report.selections.push({
+      control: selection.label ?? null, page: selection.page,
+      box: { x0, y0, x1, y1 }, inset, lineWidth,
+      mark: "two_diagonal_strokes_inset",
+      drewANewBox: false, redrewTheCourtsBox: false
+    });
+  }
+}
+
 /**
  * Finalizes a flat printed form by drawing values at measured anchors.
  *
@@ -175,7 +245,14 @@ export async function finalizeFlatOverlay({
   sourceBytes,
   expectedSha256,
   anchors,
+  // Existing selection controls the court already drew, and which of them this
+  // configuration marks. Never a new box: see markSelections below.
+  selections = [],
   protectedRules = [],
+  // fieldName -> factId. The only way a descriptor marked
+  // `requiresExplicitMapping` can bind, and it can override nothing: a protect
+  // rule, a type guard and a caption-only document all still refuse.
+  explicitMappings = {},
   facts,
   nonFilingNotice = null,
   // The document's own printed text. Passed so this path can hold for itself
@@ -252,7 +329,11 @@ export async function finalizeFlatOverlay({
     // around them.
     const decision = decideBinding(
       { name: anchor.label, pdfType: "text", effectiveLabel: anchor.label },
-      { captionOnly: anchor.captionOnly === true, availableChargeRows: Array.isArray(facts?.["matter.charges"]) ? facts["matter.charges"].length : 0 }
+      {
+        explicitMappings,
+        captionOnly: anchor.captionOnly === true,
+        availableChargeRows: Array.isArray(facts?.["matter.charges"]) ? facts["matter.charges"].length : 0
+      }
     );
     if (!decision.writable) {
       report.refused.push({ anchor: anchor.label, reason: decision.reason, category: decision.category ?? null });
@@ -312,6 +393,8 @@ export async function finalizeFlatOverlay({
     report.written.push({ anchor: anchor.label, factId, fontSize: fit.fontSize, outcome: fit.outcome });
     report.expectedValues.push(String(value));
   }
+
+  markSelections({ pages, selections, protectedRules, ink, report });
 
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc);
   report.sanitation = sanitation;
