@@ -97,8 +97,51 @@ check("the never-charged configuration requires the 60-day period and the others
 // ---- nothing is opened ------------------------------------------------------
 check("every configuration is commercially closed",
   configs.every((c) => c.commercialStatus === "closed"));
-check("no configuration claims bound legal sections",
-  configs.every((c) => c.legalSectionsBound === false && (c.unboundLegalSections ?? []).length === 6));
+// ---- the six legal sections -------------------------------------------------
+//
+// Bound on 2026-08-29. What is checked is not that a key exists but that the
+// content is the content the decision owner settled, and that the two sections
+// which differ by route actually differ.
+const SIX = ["filingDestination", "feeAndWaiver", "serviceAndNotice",
+  "copyRequirements", "postFilingTimeline", "hearingAndObjectionStops"];
+check("every configuration binds all six legal sections and leaves none unbound",
+  configs.every((c) => c.legalSectionsBound === true && (c.unboundLegalSections ?? []).length === 0
+    && SIX.every((k) => c.legalSections?.[k])));
+check("the filing destination and the service county are written per route, not generalised",
+  (() => {
+    const never = configs.find((c) => c.label === "NEVER CHARGED");
+    const others = configs.filter((c) => c.label !== "NEVER CHARGED");
+    return /could have been filed|arrest or citation/i.test(never.legalSections.filingDestination.statement)
+      && !/where the case happened/i.test(never.legalSections.filingDestination.statement)
+      && others.every((c) => /where the case happened/i.test(c.legalSections.filingDestination.statement))
+      && never.legalSections.serviceAndNotice.statement !== others[0].legalSections.serviceAndNotice.statement;
+  })());
+check("no court filing fee is stated and the waiver is recorded as not applicable",
+  configs.every((c) => c.legalSections.feeAndWaiver.courtFilingFee === "none"
+    && c.legalSections.feeAndWaiver.feeWaiver === "not applicable"));
+check("the certificate of mailing is never prefilled",
+  configs.every((c) => c.legalSections.serviceAndNotice.certificateOfMailing?.prefilledByThePlatform === false));
+check("two copies are required, one for the participant and one for the prosecutor",
+  configs.every((c) => c.legalSections.copyRequirements.copies === 2
+    && (c.legalSections.copyRequirements.allocation ?? []).length === 2));
+check("no court-processing deadline is promised, and the grant rests on ORS 137.225(3)(b)",
+  configs.every((c) => c.legalSections.postFilingTimeline.courtProcessingDeadlinePromised === false
+    && /137\.225\(3\)\(b\)/.test(c.legalSections.postFilingTimeline.statement)));
+check("the 120-day objection period is not applied as the ordinary rule for these routes",
+  configs.every((c) => /not applied as the ordinary rule/i.test(c.legalSections.hearingAndObjectionStops.statement)
+    && /137\.225\(1\)\(a\)/.test(c.legalSections.hearingAndObjectionStops.statement)));
+check("an objection, a hearing, a request for proof or a disputed fact each hands off",
+  configs.every((c) => {
+    const stops = c.legalSections.hearingAndObjectionStops;
+    return stops.onTrigger === "attorney or partner handoff"
+      && ["object", "hearing", "requests proof", "disputed"].every((t) =>
+        (stops.handoffTriggers ?? []).some((h) => h.includes(t)));
+  }));
+check("the packet's generic 120-day sentence is recorded as an output-review caution",
+  configs.every((c) => (c.legalSections.outputReviewCautions ?? [])
+    .some((x) => x.cautionId === "ojd-120-day-language-is-generic")));
+check("binding the sections is not treated as output-level approval",
+  configs.every((c) => c.commercialStatus === "closed") && doc.completePacketProven === 0);
 check("the superseded route is not present in the launch graph as a live Oregon route with these sets",
   true, "the launch graph is regenerated separately; the superseded route is recorded in this file");
 check("the record states commercially eligible 0 and proven 0",

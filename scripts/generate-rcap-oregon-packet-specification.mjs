@@ -203,6 +203,25 @@ const specification = {
   derivedFrom: [MANIFESTS, LAUNCH_GRAPH, FAMILY_STATUS, OVERLAY_ROOT],
   specificationNote:
     "Derived from the owner-approved legal design for or_acquittal-set. It carries no legal statement that was not already approved, and it carries no legal statement this generator would have had to write. The sections that would need one are declared unbound below.",
+  // This route was retired on 2026-08-29 and replaced by three
+  // disposition-bound configurations. The specification is kept because it is
+  // what proved the family binding for lane I, and deleting it would leave that
+  // proof with nothing behind it -- but nothing may be composed or sold from
+  // it, and a reader must not mistake it for the current Oregon design.
+  supersededBy: {
+    on: "2026-08-29",
+    by: "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+    configurations: [
+      "or-never-charged-137-225-1-c",
+      "or-acquittal-137-225-1-d",
+      "or-ordinary-dismissal-137-225-1-d"
+    ],
+    why:
+      "The legal owner found this route overbroad: it was labelled for arrests or charges without conviction under (1)(c) and delivered the acquittal packet, so a participant who was never charged and one who was acquitted resolved to the same configuration under the wrong subsection for one of them.",
+    status: "historical_only",
+    theSixSectionsAreBoundOnTheReplacement:
+      "The six legal sections are bound on the three configurations that replaced this route. They stay unbound HERE because this route is retired, and an unbound specification is one nothing can be composed from."
+  },
   legalSectionsBound: false,
   unboundLegalSections,
   legalSections,
