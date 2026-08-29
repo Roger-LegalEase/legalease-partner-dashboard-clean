@@ -3,33 +3,38 @@
 Machine-readable source: `data/rcap-grade-a/active-lane-envelopes.json`.
 Checked by: `node scripts/verify-active-lane-envelopes.mjs`.
 
-Codex is removed from this sprint. Every active lane runs Claude Opus 5.
-Historical Codex branches remain in the remote as history; they authorize
-nothing and are not active lanes. The verifier fails if an active lane names a
-Codex model or a `codex/` branch.
+Codex is removed from this sprint. Every active lane runs Claude Opus 5, and
+the verifier fails an active lane that names a Codex model or a `codex/` branch.
+Historical Codex branches remain in the remote as history and authorize nothing.
 
-| | |
-|---|---|
-| Controlling branch | `claude/legalease-sprint-captain-utucnw` |
-| Active base SHA | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
+## Declared active bases
+
+More than one base is legitimately active. A lane already running is not reset
+onto a newer base merely because one exists.
+
+**`be673158bae0f3ffdb8b4c4408f989bcf69720e4`** — Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return.
+
+**`61ee6cc359bc19d32c6c071194e62a553446ca08`** — The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base.
+
+Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 
 ## Status
 
-| Lane | Model | Status | Branch | Families | Routes |
-|---|---|---|---|---|---|
-| B | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | grade-a-fulfillment-authority | 8 |
-| C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | oregon | 3 |
-| D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | north-dakota | 5 |
-| E | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-e` | none | route-independent |
-| F | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-f` | none | route-independent |
-| G | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-g` | colorado | 3 |
-| H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | none | route-independent |
+| Lane | Model | Status | Branch | Base | Families | Routes |
+|---|---|---|---|---|---|---|
+| B | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | grade-a-fulfillment-authority | 8 |
+| C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | oregon | 3 |
+| D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | north-dakota | 5 |
+| E | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-e` | `be673158` | none | route-independent |
+| F | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-f` | `61ee6cc3` | none | route-independent |
+| G | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc3` | colorado | 3 |
+| H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | `be673158` | none | route-independent |
 
 Concurrency: Captain A plus lanes E, F, G and H. Lane G may use at most three internal subagents for genuinely independent state-family analysis; the captain, the four lanes and those subagents together must not exceed eight.
 
 ## Captain-only paths
 
-No worker writes these. A lane needing a change here returns a patch request.
+No worker writes these, and no worker may list one in its owned paths.
 
 - `package.json`
 - `package-lock.json`
@@ -38,17 +43,6 @@ No worker writes these. A lane needing a change here returns a patch request.
 - `data/rcap-grade-a/`
 - `supabase/migrations/`
 - `docs/rcap/grade-a/captain/`
-
-## Identity gate — run before the first edit
-
-```
-git remote get-url origin
-git fetch origin --prune
-git rev-parse origin/claude/legalease-sprint-captain-utucnw
-```
-
-A lane branches from `be673158bae0f3ffdb8b4c4408f989bcf69720e4`, which is where all four
-lane branches already begin. Do not reset or replace them.
 
 ## Per-lane envelopes
 
@@ -123,8 +117,8 @@ npm test
 
 | Field | Value |
 |---|---|
-| laneBranch | `claude/grade-a-68h-lane-f` |
-| baseSha / remoteBaseSha | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
+| laneBranch | `claude/grade-a-v5-lane-f` |
+| baseSha / remoteBaseSha | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
 | shardId | `S-F1` |
 | jurisdictions | applies to all 51 jurisdictions; commercial admission is jurisdiction-independent |
 | packetFamilyIds | no packet family of its own: this lane fulfills whatever the authority admits |
@@ -190,8 +184,8 @@ npm test
 
 | Field | Value |
 |---|---|
-| laneBranch | `claude/grade-a-68h-lane-g` |
-| baseSha / remoteBaseSha | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
+| laneBranch | `claude/grade-a-v5-lane-g-family-1` |
+| baseSha / remoteBaseSha | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
 | shardId | `S-G-CO` |
 | jurisdictions | CO |
 | packetFamilyIds | colorado |
@@ -221,6 +215,7 @@ npm test
 
 **Required deliverables.**
 
+- Run the committed corpus bootstrap first: bash scripts/rcap-corpus/bootstrap-private-corpus.sh
 - Recompute every Colorado official source hash from the mounted corpus at start; stop rather than reading a hash back from a record.
 - A field census, field classification and protected-field scan per official Colorado form.
 - A deterministic fixture and a rendered artifact with its SHA-256 for each packet in the family.
@@ -229,6 +224,7 @@ npm test
 **Required tests.**
 
 ```
+bash scripts/rcap-corpus/bootstrap-private-corpus.sh
 node scripts/verify-rcap-hard-form-dispositions.mjs
 node scripts/verify-rcap-hard-form-outputs.mjs
 node scripts/generate-packet-family-build-status.mjs --check
@@ -314,4 +310,4 @@ Only `COMPLETE_PACKET_PROVEN` may open checkout, sponsored entitlement,
 packet-credit consumption, generation, provider dispatch, artifact attachment,
 Briefcase Ready, private download, repeat download or commercial launch status.
 A rendered PDF, a passing synthetic payment and an existing payment record are
-not commercial authority. Commercially eligible is currently 0.
+not commercial authority. Commercially eligible is 0 and COMPLETE_PACKET_PROVEN is 0.

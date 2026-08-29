@@ -375,14 +375,14 @@
       "sprintId": "legalease-68h-grade-a-2026-08-29",
       "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
       "controllingBranch": "claude/legalease-sprint-captain-utucnw",
-      "baseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
-      "remoteBaseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "remoteBaseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
       "lane": "F",
       "model": "Claude Opus 5",
       "status": "active",
-      "laneBranch": "claude/grade-a-68h-lane-f",
+      "laneBranch": "claude/grade-a-v5-lane-f",
       "shardId": "S-F1",
       "routeIds": [
         "applies to every route id in data/rcap-ledger/launch-graph.json; every route is gated through admitCommercial and today every route is denied"
@@ -462,14 +462,14 @@
       "sprintId": "legalease-68h-grade-a-2026-08-29",
       "repository": "Roger-LegalEase/legalease-partner-dashboard-clean",
       "controllingBranch": "claude/legalease-sprint-captain-utucnw",
-      "baseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
-      "remoteBaseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+      "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+      "remoteBaseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
       "lane": "G",
       "model": "Claude Opus 5",
       "status": "active",
-      "laneBranch": "claude/grade-a-68h-lane-g",
+      "laneBranch": "claude/grade-a-v5-lane-g-family-1",
       "shardId": "S-G-CO",
       "routeIds": [
         "CO:juvenile-expungement-19-1-306",
@@ -551,12 +551,14 @@
         "data/rcap-lane-d/"
       ],
       "requiredDeliverables": [
+        "Run the committed corpus bootstrap first: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
         "Recompute every Colorado official source hash from the mounted corpus at start; stop rather than reading a hash back from a record.",
         "A field census, field classification and protected-field scan per official Colorado form.",
         "A deterministic fixture and a rendered artifact with its SHA-256 for each packet in the family.",
         "A truthful route disposition for every Colorado route id listed in this envelope."
       ],
       "requiredTests": [
+        "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
         "node scripts/verify-rcap-hard-form-dispositions.mjs",
         "node scripts/verify-rcap-hard-form-outputs.mjs",
         "node scripts/generate-packet-family-build-status.mjs --check",
@@ -667,8 +669,19 @@
   ],
   "activeDispatch": {
     "base": "all-claude-2026-08-29",
-    "activeBaseSha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
     "controllingBranch": "claude/legalease-sprint-captain-utucnw",
-    "note": "Codex is removed from this sprint. Historical Codex branches are history only; they authorize nothing and are not active lanes. Every active lane runs Claude Opus 5 and bases on activeBaseSha."
+    "note": "Codex is removed from this sprint. Historical Codex branches are history only; they authorize nothing and are not active lanes. Every active lane runs Claude Opus 5. Lanes E and H were already running from be673158 and keep that base; lanes F and G are dispatched fresh from the consolidated B/C/D base.",
+    "freshAllClaudeBase": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+    "corpusBootstrap": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "activeBases": [
+      {
+        "sha": "be673158bae0f3ffdb8b4c4408f989bcf69720e4",
+        "reason": "Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return."
+      },
+      {
+        "sha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+        "reason": "The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base."
+      }
+    ]
   }
 }

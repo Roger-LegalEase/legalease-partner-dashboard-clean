@@ -43,7 +43,16 @@ const PLACEHOLDER = [
 ];
 
 const doc = JSON.parse(fs.readFileSync(path.join(rootDir, MANIFEST), "utf8"));
-const ACTIVE_BASE = doc.activeDispatch?.activeBaseSha ?? ORIGINAL_BASE;
+// More than one base can be legitimately active at once: a lane already
+// running must not be reset onto a newer base just because one exists, while a
+// lane dispatched now should start from the newest consolidated work. Each
+// permitted base is declared with the reason it is permitted, so the set cannot
+// grow silently.
+const ACTIVE_BASES = (doc.activeDispatch?.activeBases ?? []).map((b) => b.sha);
+if (ACTIVE_BASES.length === 0) fail('activeDispatch declares no active base');
+for (const entry of doc.activeDispatch?.activeBases ?? []) {
+  if (!entry.reason || entry.reason.trim() === '') fail(`active base ${entry.sha} is declared with no reason`);
+}
 const CONTROLLING_BRANCH = doc.activeDispatch?.controllingBranch ?? "claude/legalease-sprint-captain-utucnw";
 const lanes = doc.lanes ?? [];
 if (lanes.length === 0) fail("the manifest describes no lanes");
@@ -91,9 +100,19 @@ for (const lane of lanes) {
 
   // One exact base. An active or queued lane bases on the current dispatch base;
   // an integrated lane keeps the base it was actually built against.
-  const expectedBase = lane.status === "integrated" ? ORIGINAL_BASE : ACTIVE_BASE;
-  if (lane.baseSha !== expectedBase) fail(`${id}.baseSha is ${lane.baseSha}, not ${expectedBase}`);
-  if (lane.remoteBaseSha !== expectedBase) fail(`${id}.remoteBaseSha is ${lane.remoteBaseSha}, not ${expectedBase}`);
+  if (lane.status === "integrated") {
+    if (lane.baseSha !== ORIGINAL_BASE) fail(`${id}.baseSha is ${lane.baseSha}, not the base it was integrated against`);
+    if (lane.remoteBaseSha !== ORIGINAL_BASE) fail(`${id}.remoteBaseSha is ${lane.remoteBaseSha}, not the base it was integrated against`);
+  } else {
+    if (!ACTIVE_BASES.includes(lane.baseSha)) fail(`${id}.baseSha ${lane.baseSha} is not a declared active base`);
+    if (lane.baseSha !== lane.remoteBaseSha) fail(`${id}.baseSha and remoteBaseSha disagree`);
+    // The branch must actually start where the envelope says it does.
+    try {
+      const tip = execFileSync("git", ["rev-parse", `origin/${lane.laneBranch}`], { cwd: rootDir, encoding: "utf8" }).trim();
+      const merged = execFileSync("git", ["merge-base", tip, lane.baseSha], { cwd: rootDir, encoding: "utf8" }).trim();
+      if (merged !== lane.baseSha) fail(`${id}.laneBranch ${lane.laneBranch} does not descend from its declared base ${lane.baseSha}`);
+    } catch { /* branch not fetched here; the envelope is still internally consistent */ }
+  }
   if (!gitHas(lane.baseSha)) fail(`${id}.baseSha does not resolve to a commit in this repository`);
   // Every active lane runs Claude Opus 5; Codex is removed from this sprint.
   if (ACTIVE.has(lane.status) && lane.model !== "Claude Opus 5") {
@@ -129,6 +148,19 @@ for (const lane of lanes) {
     for (const captainPath of doc.captainOnlyPaths ?? []) {
       if (!(lane.prohibitedSharedPaths ?? []).includes(captainPath)) {
         fail(`${id}.prohibitedSharedPaths omits captain-only path ${captainPath}`);
+      }
+    }
+  }
+
+  // A captain-only path may not be OWNED either. Listing it as prohibited and
+  // then claiming it is the contradiction a worker would actually write, and
+  // checking only the prohibited list misses it entirely.
+  if (ACTIVE.has(lane.status) || lane.status === "queued") {
+    for (const captainPath of doc.captainOnlyPaths ?? []) {
+      for (const owned of lane.ownedPaths ?? []) {
+        if (owned === captainPath || (captainPath.endsWith("/") && owned.startsWith(captainPath))) {
+          fail(`${id}.ownedPaths claims captain-only path ${owned}`);
+        }
       }
     }
   }
@@ -217,4 +249,4 @@ if (failures.length > 0) {
 const counts = lanes.reduce((a, l) => ((a[l.status] = (a[l.status] ?? 0) + 1), a), {});
 console.log(`Active lane envelopes verified: ${lanes.length} lane(s).`);
 console.log(`  ${Object.entries(counts).map(([k, v]) => `${k}: ${v}`).join("   ")}`);
-console.log(`  active lanes base on ${ACTIVE_BASE} and all run Claude Opus 5; owned paths are disjoint; captain-only paths are prohibited to every worker.`);
+console.log(`  active lanes base on one of ${ACTIVE_BASES.length} declared base(s) and all run Claude Opus 5; owned paths are disjoint; captain-only paths are prohibited to every worker.`);
