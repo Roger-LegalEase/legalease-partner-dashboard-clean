@@ -4,7 +4,7 @@
   "status": "BLOCKED_ON_INPUTS",
   "posture": "Readiness only. No dispatch, no publication, no deployment, no environment change, no Production action. Credential presence is recorded by name; no value is read, printed, logged or transmitted.",
   "auditedAt": {
-    "captainHead": "4348008f3fc5790e51f3dd2955e3013cf07a2a34"
+    "captainHead": "1fff2525b5c99627b57ab59869e318ab70ea3805"
   },
   "runbook": "docs/rcap/grade-a/lane-j/BLOCKER-1-WORKER-REPUBLICATION-RUNBOOK.md",
   "credentials": [
@@ -53,10 +53,10 @@
   ],
   "credentialPolicy": "Absence in this session is expected and is not a defect: these are workflow secrets and this session is not the workflow. What this audit establishes is which secrets the workflow needs and what each is scoped to, so a missing one is discovered here rather than mid-dispatch.",
   "releaseIntegrationBranch": {
-    "literal": "sprint/20260825-full-product-captain",
+    "literal": "claude/legalease-sprint-captain-utucnw",
     "pinnedIn": ".github/workflows/publish-rcap-render-worker.yml",
     "existsOnOrigin": true,
-    "candidateHead": "4348008f3fc5790e51f3dd2955e3013cf07a2a34",
+    "candidateHead": "1fff2525b5c99627b57ab59869e318ab70ea3805",
     "candidateContainedInMain": false,
     "candidateContainedInLiteral": false,
     "consequence": "The workflow would REFUSE this candidate before fetching anything. This must be corrected in the workflow before any dispatch."
@@ -107,19 +107,19 @@
       "id": "branch:literal-present",
       "status": "ready",
       "what": "the workflow pins RELEASE_INTEGRATION_BRANCH by literal name",
-      "detail": "sprint/20260825-full-product-captain"
+      "detail": "claude/legalease-sprint-captain-utucnw"
     },
     {
       "id": "branch:literal-exists",
       "status": "ready",
       "what": "the pinned branch resolves on origin",
-      "detail": "sprint/20260825-full-product-captain"
+      "detail": "claude/legalease-sprint-captain-utucnw"
     },
     {
       "id": "branch:candidate-containment",
       "status": "blocked",
       "what": "the workflow would accept the current captain head as a candidate SHA",
-      "detail": "NOT contained in main and NOT contained in sprint/20260825-full-product-captain. The workflow refuses a SHA on any other branch, so publication of this candidate would be refused before anything is fetched. Fixing it is a captain-owned workflow edit made BEFORE dispatch, not worked around at dispatch time."
+      "detail": "NOT contained in main and NOT contained in claude/legalease-sprint-captain-utucnw. The workflow refuses a SHA on any other branch, so publication of this candidate would be refused before anything is fetched. Fixing it is a captain-owned workflow edit made BEFORE dispatch, not worked around at dispatch time."
     },
     {
       "id": "rollback:current-digest",
