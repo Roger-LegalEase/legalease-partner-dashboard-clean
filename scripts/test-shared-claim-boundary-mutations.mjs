@@ -35,9 +35,11 @@ import { registerTrackedMutation } from "./lib/tracked-mutation-guard.mjs";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const CLAIM_MIGRATION = "supabase/migrations/20260828100000_shared_pending_result_and_atomic_claim.sql";
+const PRODUCTION_SCHEMA = "supabase/migrations/20260728213131_remote_schema.sql";
 const PACKET_INFORMATION = "src/lib/expungement-ai/packet-information.ts";
 
 const claimMigration = path.join(root, CLAIM_MIGRATION);
+const productionSchema = path.join(root, PRODUCTION_SCHEMA);
 const packetInformation = path.join(root, PACKET_INFORMATION);
 
 const claimDbVerifier = path.join(root, "scripts/verify-shared-claim-boundary-db.mjs");
@@ -45,6 +47,7 @@ const invalidationVerifier = path.join(root, "scripts/verify-screening-verificat
 
 registerTrackedMutation("test-shared-claim-boundary-mutations.mjs", [
   CLAIM_MIGRATION,
+  PRODUCTION_SCHEMA,
   PACKET_INFORMATION
 ]);
 
@@ -111,6 +114,20 @@ const mutations = [
     (source) => source.replace(
       "  if p_user_id is null then\n    raise exception 'claim_requires_authenticated_participant' using errcode = '28000';\n  end if;",
       "  if false then\n    raise exception 'claim_requires_authenticated_participant' using errcode = '28000';\n  end if;"
+    )
+  ],
+
+  // 7. The owner column in the schema the fixture stands in for. Every
+  //    behavioural check above runs against the transcribed fixture, so
+  //    dropping NOT NULL in production is invisible to all of them; only the
+  //    fidelity comparison can see it.
+  [
+    "production owner column made nullable: an anonymous matter becomes storable",
+    productionSchema,
+    claimDbVerifier,
+    (source) => source.replace(
+      '    "user_id" "uuid" NOT NULL,',
+      '    "user_id" "uuid",'
     )
   ],
 

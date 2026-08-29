@@ -438,7 +438,49 @@ try {
   section("15. Concurrency: two claimants, one matter");
   await concurrency(db, check, hashOf, token, ids, matterPayload);
 
-  section("16. The conflict path re-checks ownership");
+  section("16. The fixture matches the schema it stands in for");
+  {
+    // Everything above measures behaviour against baselineSchema(), which is
+    // hand-transcribed from the committed production migrations. That makes the
+    // ownership results only as trustworthy as the transcription: if production
+    // ever stopped declaring user_id NOT NULL, or dropped an owner-scoped
+    // policy, every check here would keep passing against a fixture that still
+    // did. "Enforced in the database rather than only in the application" has to
+    // mean the real database, so the two are compared rather than assumed.
+    const productionSchema = fs.readFileSync(
+      path.join(root, "supabase/migrations/20260728213131_remote_schema.sql"), "utf8"
+    );
+    const matterTable = productionSchema.slice(
+      productionSchema.indexOf('CREATE TABLE IF NOT EXISTS "public"."consumer_briefcase_items"')
+    );
+    const matterDefinition = matterTable.slice(0, matterTable.indexOf(");"));
+
+    check(
+      /"user_id"\s+"uuid"\s+NOT NULL/.test(matterDefinition),
+      "the production matter table declares user_id NOT NULL"
+    );
+    check(
+      matterColumns.user_id === "NO",
+      "the fixture agrees with production that the matter owner is NOT NULL"
+    );
+    check(
+      productionSchema.includes('ALTER TABLE "public"."consumer_briefcase_items" ENABLE ROW LEVEL SECURITY'),
+      "the production matter table has row level security enabled"
+    );
+    for (const [operation, policy] of [
+      ["SELECT", 'FOR SELECT USING (("auth"."uid"() = "user_id"))'],
+      ["INSERT", 'FOR INSERT WITH CHECK (("auth"."uid"() = "user_id"))'],
+      ["UPDATE", 'FOR UPDATE USING (("auth"."uid"() = "user_id")) WITH CHECK (("auth"."uid"() = "user_id"))'],
+      ["DELETE", 'FOR DELETE USING (("auth"."uid"() = "user_id"))']
+    ]) {
+      check(
+        productionSchema.includes(`ON "public"."consumer_briefcase_items" ${policy}`),
+        `production scopes matter ${operation} to the owning participant`
+      );
+    }
+  }
+
+  section("17. The conflict path re-checks ownership");
   {
     // ON CONFLICT DO NOTHING means the claimant that loses the insert race
     // re-reads the row the winner created. Section 7 never reaches that path,
@@ -458,7 +500,7 @@ try {
             values ('${ids.userB}', 'result', 'MS', 'check_saved', '${contested}')`);
 
     const loser = db.json(`select to_jsonb(t) from public.claim_pending_screening_result(
-        '${token("conflict")}', '${ids.userA}'::uuid, ${matterPayload()}, 'req-16') t`);
+        '${token("conflict")}', '${ids.userA}'::uuid, ${matterPayload()}, 'req-17') t`);
     check(loser.outcome === "denied_other_user",
       "a claim whose matter already belongs to another participant is denied", JSON.stringify(loser));
     check(loser.matter_id === null, "the denial reveals no matter id");
