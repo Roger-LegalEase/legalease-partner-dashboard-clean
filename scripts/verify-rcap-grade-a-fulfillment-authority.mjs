@@ -53,6 +53,7 @@ const { resolvePacketRoute, LEGACY_VERIFIED_JURISDICTIONS } = await import("../s
 
 const {
   COMPLETE_PACKET_PROVEN,
+  GRADE_A_ADMISSION_SCHEMA_VERSION,
   COMMERCIAL_ADMISSION_POINTS,
   GRADE_A_AUTHORITY_SCHEMA_VERSION,
   admitCommercialAction,
@@ -88,7 +89,9 @@ const SYNTHETIC_SPEC = stableStringify({ packetSetIds: ["zz-synthetic-set"], com
 
 function provenRecord(overrides = {}) {
   const record = {
-    schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
+    // v2: the schema that carries the fileability proof and the only one
+    // commercial admission accepts.
+    schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
     recordId: "grade-a-zz-synthetic-v1",
     routeId: "ZZ:synthetic-acceptance-route",
     jurisdiction: "ZZ",
@@ -126,6 +129,22 @@ function provenRecord(overrides = {}) {
     },
     fixture: { fixtureId: "ZZ:synthetic-acceptance-route", sha256: sha256("fixture"), deterministic: true },
     artifactValidation: { state: "validated", artifactSha256: sha256("artifact"), validatedAt: "2026-08-29" },
+    packetCompleteness: {
+      specificationId: "zz-synthetic-spec",
+      specificationVersion: "1.0.0",
+      specificationSha256: sha256("spec"),
+      filingApplication: { state: "covered", basis: "documents[0]" },
+      proposedOrder: { state: "covered", basis: "documents[1]" },
+      attachmentsAndSchedules: { state: "covered", basis: "attachments" },
+      serviceAndNotice: { state: "covered", basis: "serviceAndNotice" },
+      filingDestination: { state: "covered", basis: "filingDestination" },
+      feeAndWaiverInstructions: { state: "covered", basis: "feeAndWaiver" },
+      copyRequirements: { state: "covered", basis: "copyRequirements" },
+      postFilingSteps: { state: "covered", basis: "postFilingTimeline" },
+      hearingAndObjectionStopConditions: { state: "covered", basis: "hearingAndObjectionStops" },
+      customPleadingAuthority: { required: true, approved: true, authorityId: "synthetic-drafting-authority" },
+      filingFormatArtifact: { format: "pdf", sha256: sha256("filing.pdf"), pageCount: 4 }
+    },
     visualReview: {
       state: "passed", pagesReviewed: 4, pageCount: 4,
       evidenceSha256: sha256("contact-sheet"), reviewedBy: "synthetic reviewer", reviewedAt: "2026-08-29"
@@ -174,6 +193,40 @@ function provenObservation(record) {
   };
 }
 
+// The participant half of an admission. Server-resolved in production; built
+// here so the acceptance path exercises both halves rather than only the route.
+function provenContext(record, overrides = {}) {
+  return {
+    participantUserId: "user-synthetic-1",
+    matterId: "matter-synthetic-1",
+    matterOwnerUserId: "user-synthetic-1",
+    finalVerification: {
+      snapshotId: "snap-1",
+      outcome: "VERIFIED_PACKET_READY",
+      matterId: "matter-synthetic-1",
+      ownerUserId: "user-synthetic-1",
+      boundRouteId: record.routeId,
+      boundPacketFamilyId: record.packetFamilyId,
+      routeContractVersion: "1.0.0",
+      legalRuleVersion: "2026-08-29",
+      factSnapshotSha256: sha256("facts"),
+      formSetVersion: "1.0.0",
+      formSetSha256: sha256("form-set"),
+      verifiedAt: "2026-08-29",
+      invalidated: false,
+      invalidationReason: null
+    },
+    entitlement: {
+      kind: "consumer_payment",
+      idempotencyKey: "idem-synthetic-1",
+      alreadyConsumed: false,
+      serverVerified: true
+    },
+    storage: { privateStorage: true, artifactSha256: sha256("artifact"), repeatDownload: true },
+    ...overrides
+  };
+}
+
 const identityOf = (record) => ({
   routeId: record.routeId,
   jurisdiction: record.jurisdiction,
@@ -193,6 +246,7 @@ const MONEY_AND_DELIVERY_POINTS = [
   "artifact_commercial_attachment",
   "briefcase_ready",
   "private_download",
+  "repeat_download",
   "launch_graph_commercial_status"
 ];
 
@@ -212,7 +266,8 @@ for (const point of MONEY_AND_DELIVERY_POINTS) {
       admissionPoint: point,
       request: identityOf(incompleteRecord),
       record: incompleteRecord,
-      observation: provenObservation(incompleteRecord)
+      observation: provenObservation(incompleteRecord),
+      context: provenContext(incompleteRecord)
     });
     if (decision.admitted) return "the admission was granted";
     if (decision.authority.state !== "INCOMPLETE") return `state was ${decision.authority.state}`;
@@ -226,7 +281,7 @@ check("a complete current record admits every expected synthetic path", () => {
   const record = provenRecord();
   const observation = provenObservation(record);
   for (const point of MONEY_AND_DELIVERY_POINTS) {
-    const decision = admitCommercialAction({ admissionPoint: point, request: identityOf(record), record, observation });
+    const decision = admitCommercialAction({ admissionPoint: point, request: identityOf(record), record, observation, context: provenContext(record) });
     if (!decision.admitted) return `${point} was denied: ${decision.reason}`;
     if (decision.authority.state !== COMPLETE_PACKET_PROVEN) return `${point} reached ${decision.authority.state}`;
     if (decision.authority.commercialStatus !== "commercially_eligible") return `${point} did not report commercial eligibility`;
@@ -234,7 +289,7 @@ check("a complete current record admits every expected synthetic path", () => {
   return null;
 });
 
-check("a route with no record at all is UNSUPPORTED_ROUTE and denies", () => {
+check("a route with no record at all is NO_RECORD and denies", () => {
   const decision = admitCommercialAction({
     admissionPoint: "consumer_checkout",
     request: { routeId: "ZZ:nothing-here", jurisdiction: "ZZ", packetFamilyId: null },
@@ -242,7 +297,7 @@ check("a route with no record at all is UNSUPPORTED_ROUTE and denies", () => {
     observation: null
   });
   if (decision.admitted) return "an unknown route was admitted";
-  return decision.authority.state === "UNSUPPORTED_ROUTE" ? null : `state was ${decision.authority.state}`;
+  return decision.authority.state === "NO_RECORD" ? null : `state was ${decision.authority.state}`;
 });
 
 // ---------------------------------------------------------------------------
@@ -273,7 +328,7 @@ for (const [label, mutate] of STALENESS_CASES) {
     const observation = provenObservation(record);
     mutate(observation);
     const decision = admitCommercialAction({
-      admissionPoint: "consumer_checkout", request: identityOf(record), record, observation
+      admissionPoint: "consumer_checkout", request: identityOf(record), record, observation, context: provenContext(record)
     });
     if (decision.admitted) return "the admission was granted against a stale record";
     if (decision.authority.state !== "STALE") return `state was ${decision.authority.state}`;
@@ -333,7 +388,8 @@ check("a proven record does not admit a different jurisdiction", () => {
     admissionPoint: "consumer_checkout",
     request: { routeId: record.routeId, jurisdiction: "YY", packetFamilyId: record.packetFamilyId },
     record,
-    observation: provenObservation(record)
+    observation: provenObservation(record),
+    context: provenContext(record)
   });
   if (decision.admitted) return "a jurisdiction mismatch was admitted";
   return decision.denialCode === "route_binding_mismatch" ? null : `denialCode was ${decision.denialCode}`;
@@ -345,7 +401,8 @@ check("a proven record does not admit a different packet family", () => {
     admissionPoint: "consumer_checkout",
     request: { routeId: record.routeId, jurisdiction: record.jurisdiction, packetFamilyId: "rcap-zz-other-family" },
     record,
-    observation: provenObservation(record)
+    observation: provenObservation(record),
+    context: provenContext(record)
   });
   if (decision.admitted) return "a packet-family mismatch was admitted";
   return decision.denialCode === "route_binding_mismatch" ? null : `denialCode was ${decision.denialCode}`;
@@ -357,7 +414,8 @@ check("a proven record does not admit a different route id", () => {
     admissionPoint: "generation_admission",
     request: { routeId: "ZZ:some-other-route", jurisdiction: record.jurisdiction, packetFamilyId: record.packetFamilyId },
     record,
-    observation: provenObservation(record)
+    observation: provenObservation(record),
+    context: provenContext(record)
   });
   if (decision.admitted) return "a route mismatch was admitted";
   return decision.denialCode === "route_binding_mismatch" ? null : `denialCode was ${decision.denialCode}`;
@@ -410,9 +468,11 @@ check("the authority module reads no request, header, cookie or client flag", ()
 
 check("the admission facade takes no caller-supplied authority argument", () => {
   const source = readSource(ADMISSION_MODULE);
-  return /export function admitCommercial\(\s*admissionPoint: CommercialAdmissionPoint,\s*request: AdmissionRequestIdentity\s*\)/.test(source)
+  // Route identity, and a server-resolved participant context. No third argument
+  // through which a caller could assert a conclusion about either.
+  return /export function admitCommercial\(\s*admissionPoint: CommercialAdmissionPoint,\s*request: AdmissionRequestIdentity,\s*context\?: FulfillmentRequestContext \| null\s*\)/.test(source)
     ? null
-    : "admitCommercial no longer takes exactly (admissionPoint, routeIdentity)";
+    : "admitCommercial no longer takes exactly (admissionPoint, routeIdentity, serverContext)";
 });
 
 // ---------------------------------------------------------------------------
@@ -516,7 +576,12 @@ check("no legacy generator produces Grade-A authority, sellable at the resolver 
       failures.push(`${state}: a legacy generator's presence produced Grade-A authority`);
       continue;
     }
-    if (decision.state !== "UNSUPPORTED_ROUTE") {
+    // NO_RECORD is the right answer here: nobody has written a fulfillment
+    // record for a legacy route, and that is precisely why it may not sell.
+    // UNSUPPORTED_ROUTE is accepted too — a record this authority cannot
+    // evaluate is equally closed — but any other state would mean a legacy
+    // jurisdiction had acquired a record nobody in this lane wrote.
+    if (decision.state !== "NO_RECORD" && decision.state !== "UNSUPPORTED_ROUTE") {
       failures.push(`${state}: state was ${decision.state}`);
       continue;
     }

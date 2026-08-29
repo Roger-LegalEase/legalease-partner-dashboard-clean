@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 
 import {
   GRADE_A_AUTHORITY_SCHEMA_VERSION,
+  GRADE_A_EVALUABLE_SCHEMA_VERSIONS,
   type AuthorityHistoryEntry,
   type GradeAFulfillmentRecord
 } from "@/lib/rcap/fulfillment/grade-a-authority";
@@ -110,8 +111,8 @@ export function validateRecordStructure(candidate: unknown): string[] {
   for (const key of REQUIRED_TOP_LEVEL_KEYS) {
     if (!(key in record)) problems.push(`missing required key ${key}`);
   }
-  if (record.schemaVersion !== GRADE_A_AUTHORITY_SCHEMA_VERSION) {
-    problems.push(`schemaVersion ${String(record.schemaVersion)} is not ${GRADE_A_AUTHORITY_SCHEMA_VERSION}`);
+  if (!GRADE_A_EVALUABLE_SCHEMA_VERSIONS.includes(record.schemaVersion as (typeof GRADE_A_EVALUABLE_SCHEMA_VERSIONS)[number])) {
+    problems.push(`schemaVersion ${String(record.schemaVersion)} is not one of ${GRADE_A_EVALUABLE_SCHEMA_VERSIONS.join(", ")}`);
   }
   if (typeof record.version !== "number" || !Number.isInteger(record.version) || record.version < 1) {
     problems.push("version must be an integer >= 1");
@@ -200,7 +201,7 @@ export function buildRegistry(parsed: unknown): GradeAFulfillmentRegistry {
   if (!document || typeof document !== "object" || !Array.isArray(document.records)) {
     return EMPTY_REGISTRY;
   }
-  if (document.schemaVersion !== GRADE_A_AUTHORITY_SCHEMA_VERSION) {
+  if (!GRADE_A_EVALUABLE_SCHEMA_VERSIONS.includes(document.schemaVersion as (typeof GRADE_A_EVALUABLE_SCHEMA_VERSIONS)[number])) {
     return EMPTY_REGISTRY;
   }
 

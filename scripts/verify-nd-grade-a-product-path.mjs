@@ -192,9 +192,26 @@ try {
       `Commercial admission point "${admissionPoint}" must deny ${ROUTE_ID}; this lane opens nothing.`
     );
   }
+  // This asserted a count of nine, which broke the moment the authority gained a
+  // tenth point. A count is the wrong invariant: what matters is that no
+  // required admission point is missing from the set this loop just denied, so
+  // a new point cannot be added and left ungated. Naming the required points
+  // catches an omission; the loop above catches an addition.
+  const REQUIRED_ADMISSION_POINTS = [
+    "consumer_checkout",
+    "sponsored_entitlement",
+    "packet_credit_admission",
+    "generation_admission",
+    "provider_dispatch",
+    "artifact_commercial_attachment",
+    "briefcase_ready",
+    "private_download",
+    "launch_graph_commercial_status"
+  ];
+  const missingPoints = REQUIRED_ADMISSION_POINTS.filter((point) => !COMMERCIAL_ADMISSION_POINTS.includes(point));
   check(
-    COMMERCIAL_ADMISSION_POINTS.length === 9,
-    `Expected nine commercial admission points, found ${COMMERCIAL_ADMISSION_POINTS.length}.`
+    missingPoints.length === 0,
+    `Commercial admission points missing from the authority: ${missingPoints.join(", ")}.`
   );
   // A client body cannot assert its way past the gate.
   const sanitized = sanitizeAdmissionRequest({
