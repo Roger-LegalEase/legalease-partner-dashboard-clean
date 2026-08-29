@@ -17,7 +17,7 @@ export default async function PartnerClinicReportingPage({ params }: { params: P
       <div className="mx-auto max-w-7xl">
         <Link href={`/partner/clinic/${eventId}`} className="text-sm font-bold text-[#0F6E56]">Back to event controls</Link>
         <header className="mb-7 mt-5">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D9E75]">Authorized event summary</p>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">Authorized event summary</p>
           <h1 className="mt-3 text-4xl font-black">{report.eventName} reporting</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#5C5750]">Operational totals only. Participant and matter identities are excluded before this report is returned.</p>
         </header>

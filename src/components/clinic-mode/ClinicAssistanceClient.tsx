@@ -28,7 +28,7 @@ export function ClinicAssistanceClient({ eventSlug, staff }: { eventSlug: string
 
   return (
     <form onSubmit={start} autoComplete="off" className="rounded-2xl border border-[#E8DED3] bg-white p-6 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D9E75]">Participant-owned assistance</p>
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">Participant-owned assistance</p>
       <h1 className="mt-3 text-3xl font-black text-[#0F1E3D]">Consent to Clinic staff assistance</h1>
       <p className="mt-4 text-sm leading-6 text-[#5C5750]">You remain the owner of your account, screening, matter, documents, and Briefcase. The approved staff member may help during this time-limited session only. Ending the Clinic session removes their assistance access.</p>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">

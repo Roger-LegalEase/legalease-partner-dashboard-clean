@@ -12,7 +12,7 @@ export default async function PartnerClinicPage() {
     <main className="min-h-screen bg-[#FBF7F2] text-[#0F1E3D]">
       <div className="mx-auto max-w-7xl px-4 py-10 md:px-6">
         <header className="mb-7 max-w-4xl">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D9E75]">{access.partnerSlug}</p>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">{access.partnerSlug}</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight">Clinic Mode administration</h1>
           <p className="mt-4 max-w-3xl text-sm leading-6 text-[#5C5750]">Manage event schedules, capacity, approved staff, participant entry, and operating status. Access is permanently limited to the LegalEase partner account shown above.</p>
         </header>

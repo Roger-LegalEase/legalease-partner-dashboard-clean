@@ -12,5 +12,5 @@ export default async function InternalClinicReportingPage({ params }: { params: 
   const { eventId: rawEventId } = await params;
   const eventId = parseEventId(rawEventId);
   const report = await getClinicEventReport(eventId);
-  return <main className="min-h-screen bg-[#FBF7F2] px-4 py-10 text-[#0F1E3D]"><div className="mx-auto max-w-7xl"><Link href={`/internal/clinic/${eventId}`} className="text-sm font-bold text-[#0F6E56]">Back to internal event controls</Link><header className="mb-7 mt-5"><p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D9E75]">Internal aggregate oversight</p><h1 className="mt-3 text-4xl font-black">{report.eventName} reporting</h1></header><ClinicReportingDashboard report={report} /></div></main>;
+  return <main className="min-h-screen bg-[#FBF7F2] px-4 py-10 text-[#0F1E3D]"><div className="mx-auto max-w-7xl"><Link href={`/internal/clinic/${eventId}`} className="text-sm font-bold text-[#0F6E56]">Back to internal event controls</Link><header className="mb-7 mt-5"><p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">Internal aggregate oversight</p><h1 className="mt-3 text-4xl font-black">{report.eventName} reporting</h1></header><ClinicReportingDashboard report={report} /></div></main>;
 }
