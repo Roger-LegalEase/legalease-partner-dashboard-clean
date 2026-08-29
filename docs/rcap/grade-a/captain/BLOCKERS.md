@@ -95,6 +95,76 @@ the test chain. Recorded here so it is not rediscovered as a regression.
 
 ---
 
+## BLOCKER-4 — Terminalization provenance has drifted from the compiled profiles
+
+**Status:** open. **Origin:** pre-existing on the controlling base, not
+introduced by integration. **Owner:** legal review, not engineering.
+
+`scripts/verify-rcap-terminalize-c1.mjs` is in the test chain and fails with 18
+entries of the form `provenance.profileSha256 drifted from
+src/lib/rcap-engine/compiled/profiles/<profile>.json`. It is the first red step
+the chain reaches on this base.
+
+Verified pre-existing at the controlling base in a detached worktree: it fails
+there with the same 18 entries, and the failure set in the captain tree is
+byte-identical to the one at the base. Integration added nothing to it. No
+commit on this branch touches a compiled profile.
+
+The seven implicated profiles are West Virginia (5), Texas (4), Kentucky (3),
+Indiana (2), Connecticut (2), Vermont (1) and Illinois (1). Each was changed by
+accepted work on the controlling branch — Batch C gave several of them their
+first legal-authority contracts — so the terminalization records now pin profile
+bytes that have been superseded.
+
+**Why it is not fixed here.** This is not the same class of problem as the
+source-support audit or the crosswalk pins, which were regenerated earlier on
+this branch. Those had a generator, and regenerating them was the ledger
+following its input with no finding changing. This verifier has no write or
+re-pin mode — only `--render` — so the pins would have to be moved by hand, and
+moving a `profileSha256` by hand asserts that the terminalization decision still
+holds against the new profile bytes. For West Virginia and the other Batch C
+profiles the bytes changed *because the legal authority changed*. Whether each
+terminalization survives that change is a legal-review question about the
+decision, not a mechanical question about the hash.
+
+Re-pinning without that review would be exactly the failure the check exists to
+prevent: a provenance record that looks current and no longer describes the
+authority it claims to rest on. The pins are therefore left drifted and visibly
+red rather than quietly moved.
+
+**What it needs.** For each of the 18 entries, a reviewer confirms the
+terminalization still follows from the current profile, and the pin is moved
+with that confirmation recorded. Where it does not follow, the terminalization
+is reopened rather than re-pinned.
+
+---
+
+## Chain status on this base, stated plainly
+
+The repository chain is **not green on the controlling base**, and was not green
+before this sprint's integration. Running it in order:
+
+| Step | Status |
+|---|---|
+| `verify-rcap-e2-source-support-audit` | was red on the base; **fixed** on this branch |
+| `verify-rcap-verifier-dispositions` | was red on the base; **fixed** on this branch |
+| `verify-rcap-terminalize-c1` | red on the base and still red — BLOCKER-4 |
+| `generate-rcap-staging-action --check` | red on the base and still red — BLOCKER-1 |
+
+Two of the four pre-existing reds are cleared. The remaining two are recorded
+rather than forced, because one needs a deployment authorization this sprint
+does not hold and the other needs a legal review this sprint may not perform.
+Neither can be cleared by engineering alone, and neither was caused by the
+integration.
+
+A `NATIONAL GRADE-A RELEASE RESULT` requires a full green chain, a frozen
+candidate SHA, a pinned Preview, hosted acceptance, payment and artifact proof,
+security denial proof, mobile and accessibility proof and rollback proof. None
+of those is satisfiable while BLOCKER-1 and BLOCKER-4 stand, so no release
+result is issued.
+
+---
+
 ## Resolved during this session
 
 - **Playwright browser revision.** The pinned Playwright expected a Chromium
