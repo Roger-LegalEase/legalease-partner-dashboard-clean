@@ -1,0 +1,140 @@
+{
+  "schemaVersion": "rcap-oregon-option-selection-geometry/v1",
+  "generatedBy": "scripts/measure-rcap-oregon-option-geometry.mjs",
+  "source": {
+    "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+    "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+    "corpusPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+    "pages": 5
+  },
+  "finding": {
+    "headline": "The form has no checkbox for the three options, and no checkbox anywhere.",
+    "acroFormFields": 0,
+    "formIsFlat": true,
+    "checkboxSizedSquaresOnOptionPages": 0,
+    "whatIsThereInstead": "Three prose headings in the left margin under the printed instruction \"(choose one option only)\". A participant indicates the option by completing its section, and on paper marks it by hand.",
+    "consequenceForThePacket": "A mark cannot be placed in a box that does not exist, and drawing one would have this product add a control the court did not put on its own form. The option is instead recorded by placing a mark at a position DERIVED from the measured label origin, using the anchor-relative technique the existing Oregon overlay already uses for every value it writes.",
+    "whatThisDoesNotEstablish": "That a derived mark is the correct way to indicate an option on this form. That is a legal-design and visual-review question about the finished document, not a measurement."
+  },
+  "rectangleCensus": [
+    {
+      "page": 4,
+      "rectangles": 128,
+      "checkboxSizedSquares": 0,
+      "largestNearSquare": null,
+      "smallestRectangle": 0.48
+    },
+    {
+      "page": 5,
+      "rectangles": 42,
+      "checkboxSizedSquares": 0,
+      "largestNearSquare": null,
+      "smallestRectangle": 0.48
+    }
+  ],
+  "options": [
+    {
+      "option": "Option 1",
+      "page": 4,
+      "pageSize": {
+        "width": 612,
+        "height": 792
+      },
+      "labelOrigin": {
+        "x": 72,
+        "y": 394.68
+      },
+      "labelFontSize": 11.04,
+      "printedSentence": "Option 1: There was a court case, and I was convicted on at least one charge (or found guilty except for insanity (GEI) or in contempt of court), and: I believe all the charges in this case are eligible, and I am moving to set aside all charges, including char",
+      "derivedMarkPosition": {
+        "x": 58.2,
+        "y": 394.68,
+        "size": 9.38,
+        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
+        "inLeftMargin": true
+      }
+    },
+    {
+      "option": "Option 2",
+      "page": 4,
+      "pageSize": {
+        "width": 612,
+        "height": 792
+      },
+      "labelOrigin": {
+        "x": 72,
+        "y": 187.44
+      },
+      "labelFontSize": 11.04,
+      "printedSentence": "Option 2: There was a court case, and I am not moving to set aside any convictions. I am moving to set aside all eligible dismissed or acquitted charges only. Option 3: I was cited or arrested and there was no court case. I am moving to set aside the citation ",
+      "derivedMarkPosition": {
+        "x": 58.2,
+        "y": 187.44,
+        "size": 9.38,
+        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
+        "inLeftMargin": true
+      }
+    },
+    {
+      "option": "Option 3",
+      "page": 4,
+      "pageSize": {
+        "width": 612,
+        "height": 792
+      },
+      "labelOrigin": {
+        "x": 72,
+        "y": 153.12
+      },
+      "labelFontSize": 11.04,
+      "printedSentence": "Option 3: I was cited or arrested and there was no court case. I am moving to set aside the citation or arrest records. Name of Citation/Arrest Offenses ",
+      "derivedMarkPosition": {
+        "x": 58.2,
+        "y": 153.12,
+        "size": 9.38,
+        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
+        "inLeftMargin": true
+      }
+    },
+    {
+      "option": "Option 1",
+      "page": 5,
+      "pageSize": {
+        "width": 612,
+        "height": 792
+      },
+      "labelOrigin": {
+        "x": 144.84,
+        "y": 525.12
+      },
+      "labelFontSize": 11.04,
+      "printedSentence": "Option 1 above, all of the following must also be true. Check all that apply: I am not currently charged with a crime or contempt of court related to abuse or a person crime I have paid the Oregon State Police background check fee I have fully complied and per",
+      "derivedMarkPosition": {
+        "x": 131.04,
+        "y": 525.12,
+        "size": 9.38,
+        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
+        "inLeftMargin": true
+      }
+    }
+  ],
+  "optionToConfiguration": {
+    "Option 1": {
+      "usedByAnyConfiguration": false,
+      "why": "Option 1 is the conviction set-aside. None of the three disposition-bound configurations selects it, and all three must leave it unselected."
+    },
+    "Option 2": {
+      "usedByConfigurations": [
+        "or-acquittal-137-225-1-d",
+        "or-ordinary-dismissal-137-225-1-d"
+      ],
+      "authority": "ORS 137.225(1)(d)"
+    },
+    "Option 3": {
+      "usedByConfigurations": [
+        "or-never-charged-137-225-1-c"
+      ],
+      "authority": "ORS 137.225(1)(c)"
+    }
+  }
+}

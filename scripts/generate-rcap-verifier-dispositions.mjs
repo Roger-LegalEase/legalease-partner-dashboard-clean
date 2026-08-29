@@ -173,6 +173,12 @@ const OVERRIDES = {
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
   },
+  "measure-rcap-oregon-option-geometry.mjs": {
+    disposition: "fix_then_wire",
+    reason:
+      "Measures where the three option selections live on the official Oregon set-aside form, from the pinned binary, refusing to measure at all if the mounted bytes are not b22cc346. It was asked for checkbox geometry and found there is none: the form is flat, zero AcroForm fields, and it draws no checkbox square anywhere -- not beside the options, not beside the \"Check all that apply\" items. Every rectangle on the option page is a rule, a border or a 0.5pt dot. The three options are prose headings in the left margin under \"(choose one option only)\", and the mark position is DERIVED from the measured label origin rather than measured off a control, and is labelled as derived so nobody later mistakes it. Not wired for one reason: it requires the private corpus, which is git-ignored and behind a private release, so a chain entry would be red wherever the corpus is not mounted. The fix is the two-mode shape the Colorado supplement verifier already has -- contract always, bytes when mounted.",
+    decidedBy: "captain"
+  },
   "verify-rcap-status-currentness.mjs": {
     disposition: "wired",
     reason:
