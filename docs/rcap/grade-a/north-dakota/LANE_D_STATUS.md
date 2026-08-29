@@ -162,6 +162,12 @@ diffing the two failure lists rather than asserted.
    recorded in the specification. Both facts are stated; the captain reconciles.
 5. **Pre-existing c2/c3 failures at the base**, described above. Outside this
    lane's paths.
+6. **`verify-rcap-verifier-dispositions.mjs` is red on this branch and green at
+   the base**, because Lane D added three verifier scripts and that verifier
+   requires every script in `scripts/` to carry a recorded disposition. Both the
+   register and `package.json` are captain-owned, so the lane reports the exact
+   change rather than making it. This is the only lane-caused regression in the
+   repository's own test chain, and the patch request below closes it.
 
 None of these blocked a deliverable. Everything the lane was asked to deliver is
 delivered.
@@ -173,7 +179,17 @@ delivered.
    isolated in commit `066200df`, with a 367-check byte-preservation proof. If
    declined, this packet must not be admitted: without it the petition asks for
    agency-wide relief Chapter 12-60.1 does not grant.
-2. **Grade-A fulfillment registry record** —
+2. **Verifier-dispositions register (and, optionally, the npm test chain)** —
+   `docs/rcap/grade-a/north-dakota/CAPTAIN_PATCH_REQUEST_REGISTRY.json`,
+   machine-readable, with the exact three register entries, the counts delta,
+   and the exact npm-test-chain string and placement. It offers two options:
+   wire the four scripts (register entries plus the chain addition, which must
+   land together or the dispositions verifier stays red for the opposite
+   reason), or register them `keep_available` with no `package.json` change.
+   The lane recommends wiring, because otherwise a future edit to the shared
+   pleading renderer, the ND state pack or the specification would not be caught
+   by CI.
+3. **Grade-A fulfillment registry record** —
    `data/rcap-lane-d/north-dakota/nd-chapter-12-60-1-conviction-sealing/fulfillment-record-patch.json`,
    machine-readable, computed from what this lane actually produced. It fills
    six of the nine missing proofs, names the three it cannot, and states the
