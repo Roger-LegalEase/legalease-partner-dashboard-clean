@@ -65,6 +65,8 @@ const retiredBranch = "sprint/20260825-full-product-captain";
 const supersededRoute = "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c";
 const oregonGeometry = exists("data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json")
   ? read("data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json") : null;
+const oregonArtifacts = exists("data/rcap-all50/oregon-disposition-artifacts.json")
+  ? read("data/rcap-all50/oregon-disposition-artifacts.json") : null;
 
 /**
  * A claim is stale when its `assertsCurrently` pattern matches AND the world has
@@ -121,6 +123,20 @@ const CLAIMS = [
       /(?:contains no checkbox|draws no checkbox|has no checkbox|no checkbox square anywhere|mark position is DERIVED|"kind"\s*:\s*"derived)(?![^]{0,400}?(?:withdrawn|was false|is false|wasWrong|whatItClaimed|correctedBy|superseded|SUPERSEDED|previously|historical))/i,
     settledBy: `the measured geometry, which finds ${oregonGeometry?.finding?.checkboxShapedBoxesFound ?? 0} stroked checkbox-shaped boxes on the official form and measures three of them beside the options`,
   },
+  {
+    // The Oregon status went from "decided but not built" to "built" in one
+    // stretch of work, which is exactly the shape of the two staleness failures
+    // this file was written for.
+    id: "oregon-artifacts-pending",
+    worldHasMovedPast:
+      (oregonArtifacts?.configurations ?? []).length === 3
+      && (oregonArtifacts?.configurations ?? []).every((c) => c.fixtures?.canonical?.sha256)
+      && (configs?.configurations ?? []).every((c) => c.legalSectionsBound === true),
+    assertsCurrently:
+      /(?:no Option 2 or Option 3 artifact|artifact-pending|artifacts are missing|legal sections are unbound|sections are unbound on all three)(?![^]{0,400}?(?:withdrawn|superseded|SUPERSEDED|previously|historical|was the state))/i,
+    settledBy:
+      `the ${(oregonArtifacts?.configurations ?? []).length} rendered configurations, each with its own canonical and boundary artifact, and the six legal sections bound on all three`,
+  },
 ];
 
 const failures = [];
@@ -169,6 +185,7 @@ if (!MUTATIONS) {
     "publication-branch-stale": `"literal": "${retiredBranch}"`,
     "retired-oregon-route-current": `"selectedRoute": "${supersededRoute}"`,
     "oregon-form-has-no-checkboxes": "The official Oregon set-aside form contains no checkbox, so the mark position is DERIVED from the label origin.",
+    "oregon-artifacts-pending": "Oregon route design: configuration-complete, artifact-pending. No Option 2 or Option 3 artifact is rendered yet and all six legal sections are unbound on all three.",
   };
   let undetected = 0;
   for (const claim of CLAIMS) {

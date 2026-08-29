@@ -2,7 +2,7 @@
 
 Recorded against captain branch `claude/legalease-sprint-captain-utucnw`.
 Opened at base `0cad61625a74665db23ac64988c301e48909cf81`; reconciled against
-head `4d58b3629ba48ef4f884975ee72b55c9dee6b64a`.
+head `813c669fcf1387476df3b8ef7a3e45f8a1faf881`.
 
 Each entry states whether the blocker was introduced by this sprint's
 integration or already present on the controlling base, because the two call for
@@ -23,13 +23,28 @@ different responses and conflating them wastes a lane.
 | Commercial | `commerciallyEligible` **0**, `COMPLETE_PACKET_PROVEN` **0**. |
 | Production | untouched. |
 
-| Oregon route design | **configuration-complete, artifact-pending**. The overbroad route is retired and replaced by three disposition-bound configurations, each with its own identity, predicate and specification hash. No Option 2 or Option 3 artifact is rendered yet, all six legal sections are unbound on all three, and output-level approval is not requested. |
+| Oregon route design | **artifact-complete, approval-requested**. The overbroad route is retired and replaced by three disposition-bound configurations, each with its own identity, predicate and specification hash. Each now renders: Option 3 for never charged, Option 2 for acquittal and for ordinary dismissal, Option 1 unmarked in all three, marked inside the court's own measured boxes. All six legal sections are bound on all three. Six artifacts are verified twice over — from their content streams and from a render of every page — and three output-level approval packages are written, one per configuration. Approval is **requested, not granted**: the decision field on all three reads REQUESTED with no grantor. |
 | Colorado official bytes | 0 of 8. The governed acquirer is re-run and the session's egress policy still refuses the issuing court. |
 
-Both Oregon legal-design questions are answered and implemented. What remains
-there is engineering — geometry, bindings, artifacts, review — and a separate
-output-level approval of exact artifacts, which the legal-design answers
-expressly are not.
+Both Oregon legal-design questions are answered and implemented, and the
+engineering that followed them is done: the option geometry is measured off the
+pinned binary rather than derived, the three route-scoped bindings render, and
+both verification legs agree. What remains on Oregon is a human decision on exact
+artifacts, which is what the three packages ask for and which the legal-design
+answers expressly were not.
+
+One correction belongs in this register because it changed what the packet does.
+An earlier measurement reported that the official form contains no checkboxes and
+derived a selection mark into the left margin at x=58.2. That finding was false —
+the form draws fourteen — and it is withdrawn; the marks are struck inside the
+court's own boxes at the measured coordinates. Chasing it found a second defect
+in the shared rasteriser, which had been returning scroll positions rather than
+pages at a resolution unrelated to the caller's scale. Both are fixed, and the
+Oregon and NC visual evidence is regenerated. The pdf-finish-final canonical and
+boundary rasters are NOT regenerated: their per-family fixture PDFs are not
+committed and not reproducible in this checkout, so regenerating that manifest
+here would delete evidence rather than refresh it. Those images predate the
+correction and need a rerun where the fixtures exist.
 
 ---
 
