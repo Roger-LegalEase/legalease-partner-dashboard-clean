@@ -708,7 +708,55 @@ assert.equal(protectedOnlyPacketModel.reviewedAt, protectedVerification.snapshot
 assert.deepEqual(protectedOnlyPacketModel.missingInputIds, []);
 assert.equal(protectedOnlyPacketModel.pathwayId, protectedVerification.snapshot.pathwayId);
 assert.deepEqual(protectedOnlyPacketModel.initialAnswers.court, completePacketAnswers.court);
-assert.doesNotThrow(() => assertCheckoutAllowed(protectedVerification.snapshot));
+// This asserted that checkout was ALLOWED for the fixture's Mississippi route.
+// That expectation predates both the Grade-A fulfillment authority and
+// Mississippi's own closure -- section 99-15-59 generates a status summary, not
+// a filing -- so the route now has no packet fulfillment record and
+// assertCheckoutAllowed refuses it. Asserting the old expectation would have
+// meant either adding a Mississippi fulfillment record to satisfy a test, or
+// reading a red check as green. Both are worse than the route being closed.
+//
+// The check is inverted to assert what is actually true and what the product
+// requires: this route is commercially DENIED, and denied for the specific
+// reason that nothing proved it delivers a packet. A route sells only what it
+// can prove it delivers, and the absence of a record is a refusal rather than a
+// gap.
+//
+// This costs the file nothing it was written to protect. Its subject is the
+// protected verification machinery, and every one of those proofs is asserted
+// independently of checkout, above and below this line: that a current
+// verification record is required, that a material edit invalidates it, that a
+// stale verification cannot authorize fulfillment, and that protected
+// verification state cannot be written by a participant. Checkout was only ever
+// the last consumer of a valid snapshot, and its refusal here is a fact about
+// Mississippi rather than about verification.
+let checkoutRefusal = null;
+try {
+  assertCheckoutAllowed(protectedVerification.snapshot);
+} catch (error) {
+  checkoutRefusal = error;
+}
+assert.ok(
+  checkoutRefusal,
+  "a route with no packet fulfillment record must be refused at checkout creation"
+);
+assert.equal(
+  checkoutRefusal.name,
+  "PacketFulfillmentNotProvenError",
+  `checkout must refuse for the missing fulfillment record specifically, not for an unrelated reason; got ${checkoutRefusal.name}`
+);
+assert.match(
+  String(checkoutRefusal.message),
+  /missing fulfillment record/i,
+  "the refusal must name the missing fulfillment record"
+);
+// And the snapshot itself must still be a valid, current protected verification,
+// so the refusal above is demonstrably about commercial authority rather than
+// about a broken fixture.
+assert.doesNotThrow(
+  () => requireCurrentPacketVerificationRecord(deletedCommercialFlowItem, protectedVerification),
+  "the fixture snapshot must remain a current protected verification record"
+);
 assert.equal(
   protectedPacketInformationModelFor({
     ...protectedVerification,

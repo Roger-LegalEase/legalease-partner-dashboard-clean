@@ -65,5 +65,18 @@ export function UnsupportedDocumentPacketState({ state }: { state: string | null
 export function DocumentPacketRenderer({ packet }: { packet: RcapDocumentPacket }) {
   const Renderer = documentPacketRendererFor(packet.state);
   if (!Renderer) return <UnsupportedDocumentPacketState state={packet.state} />;
+  // react-hooks/static-components warns when a capitalized local is rendered as
+  // JSX, because a component *created* during render gets a new identity every
+  // pass and React remounts its whole subtree. That is not what happens here:
+  // `Renderer` is looked up from RENDERERS, which is a module-level `as const`
+  // map of five imported components. The identity for a given packet state is
+  // fixed for the life of the module, so there is nothing to remount.
+  //
+  // The rule cannot see that through the lookup function, and rewriting the
+  // dispatch into a switch to satisfy it would reintroduce the default branch
+  // this file exists to prevent -- a page could then fall through to another
+  // state's filing. Suppressed narrowly, with the reason, rather than removing
+  // the single dispatch.
+  // eslint-disable-next-line react-hooks/static-components
   return <Renderer packet={packet} />;
 }
