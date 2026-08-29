@@ -359,6 +359,21 @@ export const ND_NONCONVICTION_REQUIRED_FACTS: NdRequiredFact[] = [
   }
 ];
 
+/**
+ * Fidelity to the state pack, enforced at module load rather than only by a
+ * test: every field the ND state pack requires for this pathway must be a
+ * required fact here. A pack revision that adds a field breaks the build
+ * instead of quietly shipping a packet that no longer collects it.
+ */
+for (const field of ndRequiredFields.nonconviction_closing_petition) {
+  const fact = ND_NONCONVICTION_REQUIRED_FACTS.find((entry) => entry.factId === field);
+  if (!fact || fact.optional) {
+    throw new Error(
+      `North Dakota nonconviction spec: ndRequiredFields.nonconviction_closing_petition requires "${field}", which this specification does not require.`
+    );
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Document sequence
 // ---------------------------------------------------------------------------

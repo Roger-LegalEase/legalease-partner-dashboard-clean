@@ -338,7 +338,6 @@ for (const fixture of [canonicalFixture, multilineFixture, readFixture("boundary
   }
   // Long values survive: the petitioner's full name still appears, wrapped.
   const flattened = result.packet.fullText.replace(/\n\s*/g, " ");
-  void flattened;
   check(
     flattened.includes(fixture.facts.petitionerName),
     `${fixture.fixtureId}: the petitioner name must survive wrapping intact.`
