@@ -227,6 +227,17 @@ for (const row of record.configurations) {
     check(`${id}: no declaration box is marked`,
       declarationBoxes.every((d) => strokes5.every((s) => !overlapsBox(d.box, s))),
       `${declarationBoxes.length} declaration box(es) checked`);
+    // Stronger, and the form has more boxes than the three options and the seven
+    // declarations: Option 1's two sub-choices, "I have additional charges to
+    // provide" on page 4 and "I have additional offenses to provide" on page 5.
+    // Naming each would be a list to keep in step with the form. Requiring that
+    // page 4 carries exactly the two strokes of the marked option, and page 5
+    // none at all, covers every box the court draws and any it adds later.
+    check(`${id}: page 4 carries exactly the marked option's two strokes and nothing else`,
+      strokes4.length === 2 && strokes4.every((s) => inside(markedBox, s)),
+      `${strokes4.length} stroke(s) on page 4`);
+    check(`${id}: page 5 carries no participant stroke at all`, strokes5.length === 0,
+      `${strokes5.length} stroke(s) on page 5`);
 
     // ---- the writes -----------------------------------------------------------
     for (const page of INSTRUCTION_PAGES) {
