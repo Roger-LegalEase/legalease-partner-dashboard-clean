@@ -13,9 +13,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.chdir(rootDir);
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+// Imported, never restated. Lane F's coverage is compared against the authority
+// itself, so a point added there fails this file until the envelope agrees.
+const { COMMERCIAL_ADMISSION_POINTS } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
 const MANIFEST = "data/rcap-grade-a/active-lane-envelopes.json";
 // The base every ACTIVE lane must start from. Integrated lanes keep the base
 // they were actually built and integrated against, because rewriting their
@@ -175,6 +181,80 @@ for (const lane of lanes) {
   // owned paths must exist, or the lane is aimed at nothing
   for (const p of lane.ownedPaths ?? []) {
     if (!fs.existsSync(path.join(rootDir, p))) fail(`${id}.ownedPaths names a path that is not in the tree: ${p}`);
+  }
+}
+
+// ---- active-envelope sanitation -------------------------------------------
+//
+// An active envelope is what a worker reads to decide where to start and what to
+// return. A stale branch name or a stale SHA in it is not cosmetic: it sends a
+// live lane to the wrong base or tells it to push to a branch nobody reads.
+for (const lane of lanes) {
+  if (!ACTIVE.has(lane.status)) continue;
+  const id = lane.lane;
+  const envelope = JSON.stringify(lane);
+
+  // No Codex reference may survive anywhere in an active envelope.
+  if (/codex/i.test(envelope)) {
+    fail(`${id} active envelope still contains a Codex reference`);
+  }
+
+  // The return instruction must name the branch the lane actually pushes to.
+  if (!String(lane.requiredReturnCommit ?? "").includes(lane.laneBranch)) {
+    fail(`${id}.requiredReturnCommit does not name its own laneBranch ${lane.laneBranch}`);
+  }
+
+  // The identity gate a lane runs must assert that lane's own base and branch.
+  const identity = (lane.stopConditions ?? []).filter((c) => /identity gate/i.test(c));
+  if (identity.length === 0) {
+    fail(`${id} has no identity stop condition`);
+  }
+  for (const condition of identity) {
+    const shas = condition.match(/[0-9a-f]{40}/g) ?? [];
+    if (shas.length === 0) fail(`${id} identity stop condition names no SHA`);
+    for (const sha of shas) {
+      if (sha !== lane.baseSha) fail(`${id} identity stop condition expects ${sha}, not its own baseSha ${lane.baseSha}`);
+    }
+    const branches = condition.match(/origin\/([A-Za-z0-9._\/-]+?)(?=:|\s|$)/g) ?? [];
+    if (branches.length === 0) fail(`${id} identity stop condition names no branch`);
+    for (const branch of branches) {
+      const named = branch.replace(/^origin\//, "");
+      if (named !== lane.controllingBranch) {
+        fail(`${id} identity stop condition expects branch ${named}, not its own controllingBranch ${lane.controllingBranch}`);
+      }
+    }
+  }
+
+  // An active lane may not point at the historical sprint base.
+  if (doc.historicalSprintBaseSha && lane.baseSha === doc.historicalSprintBaseSha) {
+    fail(`${id} bases on the historical sprint base, which is not an active base`);
+  }
+}
+
+// The historical base must not be smuggled back in as an active one.
+if (doc.historicalSprintBaseSha && ACTIVE_BASES.includes(doc.historicalSprintBaseSha)) {
+  fail("the historical sprint base is declared as an active base");
+}
+
+// ---- Lane F covers exactly the authority's exported admission points -------
+const laneF = lanes.find((l) => l.lane === "F");
+if (laneF && ACTIVE.has(laneF.status)) {
+  const declared = laneF.requiredAdmissionPoints ?? [];
+  if (declared.length === 0) {
+    fail("F declares no required admission points");
+  } else {
+    for (const point of COMMERCIAL_ADMISSION_POINTS) {
+      if (!declared.includes(point)) fail(`F omits admission point ${point}, which the authority exports`);
+    }
+    for (const point of declared) {
+      if (!COMMERCIAL_ADMISSION_POINTS.includes(point)) fail(`F declares admission point ${point}, which the authority does not export`);
+    }
+    if (declared.length !== COMMERCIAL_ADMISSION_POINTS.length) {
+      fail(`F declares ${declared.length} admission points; the authority exports ${COMMERCIAL_ADMISSION_POINTS.length}`);
+    }
+  }
+  if (/\bnine\b/i.test(JSON.stringify(laneF))) {
+    fail("F still hard-codes a count of admission points rather than naming the exported set");
   }
 }
 

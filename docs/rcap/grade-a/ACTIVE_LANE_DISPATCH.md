@@ -3,18 +3,21 @@
 Machine-readable source: `data/rcap-grade-a/active-lane-envelopes.json`.
 Checked by: `node scripts/verify-active-lane-envelopes.mjs`.
 
-Codex is removed from this sprint. Every active lane runs Claude Opus 5, and
-the verifier fails an active lane that names a Codex model or a `codex/` branch.
-Historical Codex branches remain in the remote as history and authorize nothing.
+Every active lane runs Claude Opus 5. The verifier fails an active envelope that
+carries any reference to a retired worker family, names a return branch other than
+its own, or runs an identity gate for a base or branch that is not its own.
 
-## Declared active bases
+## Bases
 
-More than one base is legitimately active. A lane already running is not reset
-onto a newer base merely because one exists.
+| | |
+|---|---|
+| Historical sprint base | `0cad61625a74665db23ac64988c301e48909cf81` — historical only; no identity gate reads it |
+| Active base | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
+| Active base | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
 
-**`be673158bae0f3ffdb8b4c4408f989bcf69720e4`** — Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return.
+**`be673158bae0`** — Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return.
 
-**`61ee6cc359bc19d32c6c071194e62a553446ca08`** — The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base.
+**`61ee6cc359bc`** — The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base.
 
 Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 
@@ -22,13 +25,13 @@ Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 
 | Lane | Model | Status | Branch | Base | Families | Routes |
 |---|---|---|---|---|---|---|
-| B | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | grade-a-fulfillment-authority | 8 |
-| C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | oregon | 3 |
-| D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad6162` | north-dakota | 5 |
-| E | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-e` | `be673158` | none | route-independent |
-| F | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-f` | `61ee6cc3` | none | route-independent |
-| G | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc3` | colorado | 3 |
-| H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | `be673158` | none | route-independent |
+| B | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | grade-a-fulfillment-authority | 8 |
+| C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | oregon | 3 |
+| D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | north-dakota | 5 |
+| E | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-e` | `be673158bae0` | none | route-independent |
+| F | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-f` | `61ee6cc359bc` | none | route-independent |
+| G | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc359bc` | colorado | 3 |
+| H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | `be673158bae0` | none | route-independent |
 
 Concurrency: Captain A plus lanes E, F, G and H. Lane G may use at most three internal subagents for genuinely independent state-family analysis; the captain, the four lanes and those subagents together must not exceed eight.
 
@@ -44,6 +47,23 @@ No worker writes these, and no worker may list one in its owned paths.
 - `supabase/migrations/`
 - `docs/rcap/grade-a/captain/`
 
+## Commercial admission points
+
+Lane F must cover exactly the set exported as `COMMERCIAL_ADMISSION_POINTS`.
+The verifier imports that constant rather than restating it, so a point added to
+the authority fails this dispatch until the envelope agrees.
+
+- `consumer_checkout`
+- `sponsored_entitlement`
+- `packet_credit_admission`
+- `generation_admission`
+- `provider_dispatch`
+- `artifact_commercial_attachment`
+- `briefcase_ready`
+- `private_download`
+- `repeat_download`
+- `launch_graph_commercial_status`
+
 ## Per-lane envelopes
 
 ### Lane E — Claude Opus 5
@@ -51,6 +71,7 @@ No worker writes these, and no worker may list one in its owned paths.
 | Field | Value |
 |---|---|
 | laneBranch | `claude/grade-a-68h-lane-e` |
+| controllingBranch | `claude/legalease-sprint-captain-utucnw` |
 | baseSha / remoteBaseSha | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
 | shardId | `S-E1` |
 | jurisdictions | applies to all 51 jurisdictions; the claim boundary is jurisdiction-independent |
@@ -58,6 +79,7 @@ No worker writes these, and no worker may list one in its owned paths.
 | routeIds | applies to every route id in data/rcap-ledger/launch-graph.json; the claim boundary is route-independent and is asserted once for all 256 |
 | sourceIdentities | no official source document is consumed by this lane |
 | sourceHashes | not applicable: this lane consumes no official source bytes |
+| requiredReturnCommit | not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-e |
 
 **Owned paths.**
 
@@ -107,7 +129,7 @@ npm test
 
 **Stop conditions.**
 
-- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.
+- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.
 - A change is required inside a captain-only path: stop and return a patch request; do not claim the path.
 - A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.
 - Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.
@@ -118,6 +140,7 @@ npm test
 | Field | Value |
 |---|---|
 | laneBranch | `claude/grade-a-v5-lane-f` |
+| controllingBranch | `claude/legalease-sprint-captain-utucnw` |
 | baseSha / remoteBaseSha | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
 | shardId | `S-F1` |
 | jurisdictions | applies to all 51 jurisdictions; commercial admission is jurisdiction-independent |
@@ -125,6 +148,7 @@ npm test
 | routeIds | applies to every route id in data/rcap-ledger/launch-graph.json; every route is gated through admitCommercial and today every route is denied |
 | sourceIdentities | no official source document is consumed by this lane |
 | sourceHashes | not applicable: this lane consumes no official source bytes |
+| requiredReturnCommit | not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v5-lane-f |
 
 **Owned paths.**
 
@@ -154,14 +178,16 @@ npm test
 
 **Required deliverables.**
 
-- Every one of the nine commercial admission points gated through admitCommercial(point, identity), with no second commercial rule created anywhere.
+- Every value exported by COMMERCIAL_ADMISSION_POINTS gated through admitCommercial(point, identity), each with exactly one governed call-site treatment and no second commercial rule anywhere.
 - Consumer and sponsored paths admitted by the same function, not by parallel code paths.
 - Payment and sponsorship idempotency: a receipt is single-use and a repeat consumes nothing.
 - Durable render, artifact validation, private delivery, download and repeat download.
+- An acceptance verifier that imports COMMERCIAL_ADMISSION_POINTS from the authority rather than restating it, and fails if any exported point has no governed call site or more than one.
 
 **Required tests.**
 
 ```
+node scripts/verify-active-lane-envelopes.mjs
 node scripts/verify-rcap-phase52-consumer-payment-authority.mjs
 node scripts/test-rcap-phase52-mutations.mjs
 node scripts/verify-rcap-phase51-consumer-payment-security.mjs
@@ -173,7 +199,7 @@ npm test
 
 **Stop conditions.**
 
-- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.
+- The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.
 - A change is required inside a captain-only path: stop and return a patch request; do not claim the path.
 - A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.
 - Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.
@@ -185,6 +211,7 @@ npm test
 | Field | Value |
 |---|---|
 | laneBranch | `claude/grade-a-v5-lane-g-family-1` |
+| controllingBranch | `claude/legalease-sprint-captain-utucnw` |
 | baseSha / remoteBaseSha | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
 | shardId | `S-G-CO` |
 | jurisdictions | CO |
@@ -192,6 +219,7 @@ npm test
 | routeIds | CO:juvenile-expungement-19-1-306, CO:petition-based-conviction-sealing-jdf-612-24-72-706, CO:petition-based-non-conviction-sealing-jdf-417-24-72-704 |
 | sourceIdentities | 23 official source files, enumerated in the JSON |
 | sourceHashes | 23 SHA-256 digests recomputed from the mounted corpus |
+| requiredReturnCommit | not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v5-lane-g-family-1 |
 
 **Owned paths.**
 
@@ -234,7 +262,7 @@ npm test
 
 **Stop conditions.**
 
-- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.
+- The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.
 - A change is required inside a captain-only path: stop and return a patch request; do not claim the path.
 - A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.
 - Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.
@@ -246,6 +274,7 @@ npm test
 | Field | Value |
 |---|---|
 | laneBranch | `claude/grade-a-68h-lane-h` |
+| controllingBranch | `claude/legalease-sprint-captain-utucnw` |
 | baseSha / remoteBaseSha | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
 | shardId | `S-H1` |
 | jurisdictions | applies to all 51 jurisdictions through the hosted acceptance journeys |
@@ -253,6 +282,7 @@ npm test
 | routeIds | the hosted acceptance journeys enumerated in data/rcap-all50/hosted-acceptance-journeys.json |
 | sourceIdentities | no official source document is consumed by this lane |
 | sourceHashes | not applicable: this lane consumes no official source bytes |
+| requiredReturnCommit | not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-h |
 
 **Owned paths.**
 
@@ -297,7 +327,7 @@ npm test
 
 **Stop conditions.**
 
-- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.
+- The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.
 - A change is required inside a captain-only path: stop and return a patch request; do not claim the path.
 - A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.
 - Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.

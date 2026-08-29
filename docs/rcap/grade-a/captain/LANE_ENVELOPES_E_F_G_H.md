@@ -1,3 +1,17 @@
+> **SUPERSEDED — HISTORICAL RECORD ONLY.**
+>
+> This file recorded the first dispatch of lanes E, F, G and H, when the sprint
+> still routed some lanes to a second worker family. That routing is retired.
+> Every active lane now runs Claude Opus 5, and the branches named below are not
+> active lanes: they are history and authorize nothing.
+>
+> The controlling dispatch is `data/rcap-grade-a/active-lane-envelopes.json`,
+> rendered as `docs/rcap/grade-a/ACTIVE_LANE_DISPATCH.md` and checked by
+> `scripts/verify-active-lane-envelopes.mjs`. Read that, not this.
+>
+> Kept because it records what was assigned and when, which the salvage history
+> depends on.
+
 # Captain Lane Envelopes — E, F, G-CODE, G-DOC, H
 
 Issued by Captain A against controlling base

@@ -3,7 +3,6 @@
   "sprintId": "legalease-68h-grade-a-2026-08-29",
   "purpose": "The captain-issued dispatch manifest. One envelope per lane. A lane that is not described here has no assignment, and a worker may not widen its own envelope by inference.",
   "generatedBy": "scripts/verify-active-lane-envelopes.mjs is the checker; this file is captain-authored and captain-owned.",
-  "controllingBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
   "captainOnlyPaths": [
     "package.json",
     "package-lock.json",
@@ -353,7 +352,7 @@
         "npm run typecheck",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on codex/lane-e-claim-ownership-briefcase",
+      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-e",
       "dependencies": [
         "none for implementation; lane F consumes this lane's ownership boundary"
       ],
@@ -364,7 +363,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -424,12 +423,14 @@
         "data/rcap-all50/overlays/lane-c-candidates/"
       ],
       "requiredDeliverables": [
-        "Every one of the nine commercial admission points gated through admitCommercial(point, identity), with no second commercial rule created anywhere.",
+        "Every value exported by COMMERCIAL_ADMISSION_POINTS gated through admitCommercial(point, identity), each with exactly one governed call-site treatment and no second commercial rule anywhere.",
         "Consumer and sponsored paths admitted by the same function, not by parallel code paths.",
         "Payment and sponsorship idempotency: a receipt is single-use and a repeat consumes nothing.",
-        "Durable render, artifact validation, private delivery, download and repeat download."
+        "Durable render, artifact validation, private delivery, download and repeat download.",
+        "An acceptance verifier that imports COMMERCIAL_ADMISSION_POINTS from the authority rather than restating it, and fails if any exported point has no governed call site or more than one."
       ],
       "requiredTests": [
+        "node scripts/verify-active-lane-envelopes.mjs",
         "node scripts/verify-rcap-phase52-consumer-payment-authority.mjs",
         "node scripts/test-rcap-phase52-mutations.mjs",
         "node scripts/verify-rcap-phase51-consumer-payment-security.mjs",
@@ -438,7 +439,7 @@
         "npm run typecheck",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on codex/lane-f-payment-sponsorship-delivery",
+      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v5-lane-f",
       "dependencies": [
         "B: this lane consumes the Grade-A fulfillment authority and must not restate its rule",
         "E: this lane relies on the participant ownership boundary"
@@ -450,13 +451,26 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
         "A route appears to need commercial enabling: it does not. admitCommercial denies every route today because commercially eligible is zero. Do not add an override, a bypass or a second rule.",
         "Stripe live mode, a real charge, a real participant or a sponsored-credit consumption would be needed: stop. Test mode and synthetic evidence only."
-      ]
+      ],
+      "requiredAdmissionPoints": [
+        "consumer_checkout",
+        "sponsored_entitlement",
+        "packet_credit_admission",
+        "generation_admission",
+        "provider_dispatch",
+        "artifact_commercial_attachment",
+        "briefcase_ready",
+        "private_download",
+        "repeat_download",
+        "launch_graph_commercial_status"
+      ],
+      "requiredAdmissionPointsNote": "Exactly the set exported as COMMERCIAL_ADMISSION_POINTS by src/lib/rcap/fulfillment/grade-a-authority.ts. A count is the wrong invariant: it broke the moment the authority gained repeat_download. The acceptance verifier imports the constant and proves every exported point has exactly one governed call-site treatment, so an added point fails until it is gated and a removed point fails until this list agrees."
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -565,7 +579,7 @@
         "npm run typecheck",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on codex/lane-g-code-shard-1",
+      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v5-lane-g-family-1",
       "dependencies": [
         "B: any Colorado route this lane advances is admitted only through the Grade-A fulfillment authority, which denies every route today"
       ],
@@ -576,7 +590,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "The identity gate does not print 61ee6cc359bc19d32c6c071194e62a553446ca08 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -647,7 +661,7 @@
         "node scripts/test-internal-admin-rls-hardening.mjs",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on codex/lane-h-clinic-security-acceptance",
+      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-h",
       "dependencies": [
         "E: security denials are asserted against the ownership boundary E establishes"
       ],
@@ -658,7 +672,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/new-session-7rsiqq: return ENVIRONMENT MISROUTED without editing a file.",
+        "The identity gate does not print be673158bae0f3ffdb8b4c4408f989bcf69720e4 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -683,5 +697,7 @@
         "reason": "The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base."
       }
     ]
-  }
+  },
+  "historicalSprintBaseSha": "0cad61625a74665db23ac64988c301e48909cf81",
+  "historicalSprintBaseShaNote": "HISTORICAL ONLY. This is the base the sprint opened on and the base lanes B, C and D were integrated against. It is not an active worker base and no identity gate reads it. activeDispatch.activeBases is the sole authority for where an active lane starts."
 }
