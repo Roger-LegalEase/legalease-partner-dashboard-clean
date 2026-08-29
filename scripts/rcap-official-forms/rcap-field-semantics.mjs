@@ -46,7 +46,15 @@ export const PROTECT_RULES = [
   // applicant's residence state in the Drivers License State column. The state
   // that issued a licence and the state someone lives in are different facts,
   // and the field prints no caption, so nothing but its name could refuse it.
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
+  // The fingerprint number is the same class of thing and was missing. Oregon's
+  // set-aside packet prints "Fingerprint number (FPN #) if known" on both the
+  // instructions and the motion, and neither the SID pattern nor the FBI one
+  // reached it: the FPN is assigned by the state police when a card is
+  // processed, so it is theirs to state and never the platform's to supply.
+  // Nothing bound it before this, so protecting it can only refuse writes that
+  // were already impossible -- but "nothing happens to match it" is not the same
+  // guarantee as "it is refused".
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|\bfpn\b|finger\s*print\s*(number|no|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the

@@ -294,7 +294,10 @@ for (const configuration of configurations.configurations) {
     caseNumberBecause: plan.neverCharged
       ? "There is no court case. Paragraph (1)(c) applies only where no accusatory instrument was filed, so the blank is left empty rather than filled with a substitute."
       : "The disposition followed a filed case, so the court case number identifies the matter.",
-    anchors: plan.anchors.map((a) => ({ label: a.label, page: a.page, factId: a.factId ?? null })),
+    // The write box travels with the anchor so that a reader -- and the byte-level
+    // verifier -- can ask whether a value fitted the blank it was put in without
+    // having to reconstruct the profile.
+    anchors: plan.anchors.map((a) => ({ label: a.label, page: a.page, factId: a.factId ?? null, writeBox: a.writeBox })),
     selections: results.canonical.report.selections,
     selectionsRefused: results.canonical.report.selectionsRefused,
     fixtures: {
