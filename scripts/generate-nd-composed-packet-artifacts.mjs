@@ -25,12 +25,9 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
-import { createRequire } from "node:module";
-
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const require = createRequire(import.meta.url);
-const { PDFDocument, StandardFonts } = require("pdf-lib");
+import { renderNdComposedPacketPdf, PDFDocument } from "./lib/nd-composed-packet-pdf.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_DIR = path.join(
@@ -176,61 +173,6 @@ const PRODUCT_NAME = "LegalEase RCAP";
 // Deterministic PDF
 // ---------------------------------------------------------------------------
 
-const FIXED_DATE = new Date("2026-08-29T00:00:00.000Z");
-
-// WinAnsi-safe substitutions for the standard (non-embedded) PDF fonts.
-const CHAR_REPLACEMENTS = new Map([
-  [" ", " "],
-  ["‑", "-"],
-  ["–", "-"],
-  ["−", "-"]
-]);
-
-function sanitizeForPdf(text) {
-  let out = "";
-  for (const ch of text) out += CHAR_REPLACEMENTS.get(ch) ?? ch;
-  return out;
-}
-
-/**
- * One composed line is one PDF line. The composer already wrapped every line to
- * the Courier measure, so the renderer never re-wraps and the PDF page count is
- * exactly the composed page count.
- */
-async function renderPacketPdf(packet, title) {
-  const doc = await PDFDocument.create();
-  doc.setTitle(title);
-  doc.setAuthor("LegalEase RCAP");
-  doc.setSubject("North Dakota Petition to Close Nonconviction Records (N.D.C.C. 12-60.1-05)");
-  doc.setProducer("rcap-lane-d-nd-composed-packet");
-  doc.setCreator("LegalEase RCAP lane D");
-  doc.setCreationDate(FIXED_DATE);
-  doc.setModificationDate(FIXED_DATE);
-
-  const font = await doc.embedFont(StandardFonts.Courier);
-  const { fontSize, lineHeight, pageWidth, pageHeight, margin, measureChars } = ND_PACKET_LAYOUT;
-
-  for (const document of packet.documents) {
-    for (const pageLines of document.pages) {
-      const page = doc.addPage([pageWidth, pageHeight]);
-      let y = pageHeight - margin;
-      for (const rawLine of pageLines) {
-        const line = sanitizeForPdf(rawLine);
-        if (line.length > measureChars) {
-          failures.push(
-            `Composed line exceeds the ${measureChars}-character measure in ${document.documentId}: ${line.slice(0, 40)}...`
-          );
-        }
-        if (line.length > 0) {
-          page.drawText(line, { x: margin, y, size: fontSize, font });
-        }
-        y -= lineHeight;
-      }
-    }
-  }
-  return Buffer.from(await doc.save({ useObjectStreams: false }));
-}
-
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
 }
@@ -298,7 +240,15 @@ const pagedText = `${canonical.packet.documents
       .join("\n\n")
   )
   .join("\n\n")}\n`;
-const pdfBytes = await renderPacketPdf(canonical.packet, "North Dakota Petition to Close Nonconviction Records");
+const rendered = await renderNdComposedPacketPdf(
+  canonical.packet,
+  ND_PACKET_LAYOUT,
+  "North Dakota Petition to Close Nonconviction Records"
+);
+for (const overlong of rendered.overlongLines) {
+  failures.push(`Composed line exceeds the ${ND_PACKET_LAYOUT.measureChars}-character measure — ${overlong}`);
+}
+const pdfBytes = rendered.bytes;
 const parsed = await PDFDocument.load(pdfBytes);
 const pdfPageCount = parsed.getPageCount();
 if (pdfPageCount !== canonical.packet.totalPageCount) {
