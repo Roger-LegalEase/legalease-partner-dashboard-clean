@@ -717,15 +717,24 @@ export function admitCommercialAction(input: {
     denialCode: string,
     reason: string,
     contextDenials: string[] = []
-  ): CommercialAdmissionDecision => ({
-    admissionPoint,
-    admitted: false,
-    authority,
-    disposition: dispositionFor(authority),
-    contextDenials,
-    denialCode,
-    reason
-  });
+  ): CommercialAdmissionDecision => {
+    const computed = dispositionFor(authority);
+    return {
+      admissionPoint,
+      admitted: false,
+      authority,
+      // A refused admission never reports COMPLETE_PACKET_PROVEN. The state can
+      // legitimately be proven while the admission is refused — a v1 record with
+      // every v1 proof is exactly that case — but "proven" is what an operator
+      // reads on a status page, and a route nobody may sell must not appear
+      // there as one that is finished. What blocks it is the record's own
+      // configuration, so that is what it is called.
+      disposition: computed === "COMPLETE_PACKET_PROVEN" ? "SOURCE_OR_CONFIGURATION_GATE" : computed,
+      contextDenials,
+      denialCode,
+      reason
+    };
+  };
 
   if (!COMMERCIAL_ADMISSION_POINTS.includes(admissionPoint)) {
     const message = `${String(admissionPoint)} is not a recognised commercial admission point.`;
@@ -747,16 +756,20 @@ export function admitCommercialAction(input: {
     }
   }
 
-  // Evaluable is not admissible. A record below the admission schema cannot have
-  // answered the fileability question, so it is refused before its own verdict is
-  // consulted — including a v1 record whose every v1 proof is present.
+  // The authority's own verdict first, so a record this authority cannot even
+  // evaluate is refused as unsupported rather than as an old schema. Both fail
+  // closed; they send an operator to different places.
+  if (!authority.authorized) {
+    return refuse(authority, `fulfillment_${authority.state.toLowerCase()}`, `${admissionPoint} is denied: ${authority.reason}`);
+  }
+
+  // Evaluable and proven is still not admissible. A record below the admission
+  // schema cannot have answered the fileability question — a v1 record with
+  // every v1 proof is precisely the dangerous case, because nothing about it
+  // looks wrong.
   if (record && record.schemaVersion !== GRADE_A_ADMISSION_SCHEMA_VERSION) {
     const message = `${record.routeId} declares ${record.schemaVersion}; commercial admission requires ${GRADE_A_ADMISSION_SCHEMA_VERSION}, which carries the packet fileability proof.`;
     return refuse(authority, "fulfillment_schema_below_admission_minimum", `${admissionPoint} is denied: ${message}`);
-  }
-
-  if (!authority.authorized) {
-    return refuse(authority, `fulfillment_${authority.state.toLowerCase()}`, `${admissionPoint} is denied: ${authority.reason}`);
   }
 
   // The route is proven. Now the participant.
@@ -885,7 +898,8 @@ const AUTHORITY_SHAPE_EXEMPLAR = {
     state: "", authorized: false, commercialStatus: "", routeId: "", jurisdiction: "",
     packetFamilyId: "", serviceDisposition: "", recordId: "", recordVersion: 0,
     missingProof: [], stalenessReasons: [], revocationReason: "", reason: "",
-    admissionPoint: "", admitted: false, denialCode: "", authority: {}, disposition: ""
+    admissionPoint: "", admitted: false, denialCode: "", authority: {}, disposition: "",
+    contextDenials: []
   }
 } as const;
 
