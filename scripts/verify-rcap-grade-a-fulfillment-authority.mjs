@@ -25,6 +25,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 
@@ -38,6 +39,7 @@ const AUTHORITY_MODULE = "src/lib/rcap/fulfillment/grade-a-authority.ts";
 const ADMISSION_MODULE = "src/lib/rcap/fulfillment/grade-a-admission.ts";
 const REGISTRY_PATH = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const PROJECTION_PATH = "data/rcap-grade-a/fulfillment-authority-projection.json";
+const SOURCE_REGISTRY_PATH = "data/rcap-grade-a/official-source-registry.json";
 const OBSERVATION_PATH = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
 
 const readSource = (rel) => fs.readFileSync(path.join(rootDir, rel), "utf8");
@@ -79,6 +81,9 @@ function check(name, fn) {
 // ---------------------------------------------------------------------------
 
 const SYNTHETIC_SCOPE = "synthetic acceptance scope";
+const SYNTHETIC_SOURCE_DIGEST = sha256("ZZ-FORM-1-document-bytes");
+const SYNTHETIC_CORPUS_RELEASE = "source-corpus-2026-08-28";
+const SYNTHETIC_CORPUS_ARCHIVE = sha256("synthetic-corpus-archive");
 const SYNTHETIC_SPEC = stableStringify({ packetSetIds: ["zz-synthetic-set"], componentCount: 2 });
 
 function provenRecord(overrides = {}) {
@@ -103,7 +108,16 @@ function provenRecord(overrides = {}) {
       scopeSha256: sha256(SYNTHETIC_SCOPE)
     },
     packetSpecification: { specId: "zz-synthetic-set", sha256: sha256(SYNTHETIC_SPEC), complete: true },
-    officialSources: [{ sourceId: "ZZ-FORM-1", sha256: sha256("ZZ-FORM-1"), heldInRepository: true }],
+    officialSources: [{
+      sourceId: "ZZ-FORM-1",
+      sha256: SYNTHETIC_SOURCE_DIGEST,
+      expectedSha256: SYNTHETIC_SOURCE_DIGEST,
+      installedSha256: SYNTHETIC_SOURCE_DIGEST,
+      corpusReleaseId: SYNTHETIC_CORPUS_RELEASE,
+      corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE,
+      verifiedAt: "corpus-import:source-corpus-2026-08-28",
+      verificationRecord: "data/rcap-grade-a/official-source-registry.json"
+    }],
     provider: {
       providerId: "ghcr.io/example/rcap-render-worker",
       rendererKind: "packet_document_v1",
@@ -149,6 +163,8 @@ function provenObservation(record) {
     },
     packetSpecificationSha256: record.packetSpecification.sha256,
     officialSourceSha256ById: Object.fromEntries(record.officialSources.map((s) => [s.sourceId, s.sha256])),
+    corpusReleaseId: SYNTHETIC_CORPUS_RELEASE,
+    corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE,
     provider: { ...record.provider },
     fixtureSha256: record.fixture.sha256,
     artifactSha256: record.artifactValidation.artifactSha256,
@@ -236,6 +252,8 @@ check("a route with no record at all is UNSUPPORTED_ROUTE and denies", () => {
 const STALENESS_CASES = [
   ["an official source that changed", (o) => { o.officialSourceSha256ById["ZZ-FORM-1"] = sha256("changed"); }],
   ["an official source that is no longer accounted for", (o) => { delete o.officialSourceSha256ById["ZZ-FORM-1"]; }],
+  ["a corpus release the server no longer serves", (o) => { o.corpusReleaseId = "source-corpus-2027-01-01"; }],
+  ["a corpus archive republished under a different digest", (o) => { o.corpusArchiveSha256 = sha256("republished-archive"); }],
   ["a packet specification that changed", (o) => { o.packetSpecificationSha256 = sha256("changed"); }],
   ["a legal decision version that moved", (o) => { o.legalAuthority.version = "auth-later"; }],
   ["a legal decision that was withdrawn", (o) => { o.legalAuthority.status = "withdrawn"; }],
@@ -395,6 +413,80 @@ check("the admission facade takes no caller-supplied authority argument", () => 
   return /export function admitCommercial\(\s*admissionPoint: CommercialAdmissionPoint,\s*request: AdmissionRequestIdentity\s*\)/.test(source)
     ? null
     : "admitCommercial no longer takes exactly (admissionPoint, routeIdentity)";
+});
+
+// ---------------------------------------------------------------------------
+// 5b. The governed source contract, proven positively and byte-safely.
+// ---------------------------------------------------------------------------
+
+check("verified private-corpus content satisfies the source dimension without Git holding the bytes", () => {
+  // The positive half of the corrected contract. The mutations above prove the
+  // failures; this proves the success is reachable at all, which is the thing
+  // the old heldInRepository gate made impossible for every route in the
+  // product.
+  const registry = JSON.parse(readSource(REGISTRY_PATH));
+  const bound = [];
+  for (const record of registry.records ?? []) {
+    for (const source of record.officialSources ?? []) {
+      if (source.sha256) bound.push({ routeId: record.routeId, source });
+    }
+  }
+  if (bound.length === 0) return "no record binds a corroborated official source, so the source dimension is never satisfied";
+  for (const { routeId, source } of bound) {
+    if (source.expectedSha256 !== source.installedSha256) return `${routeId}/${source.sourceId}: expected and installed digests disagree`;
+    if (!source.corpusReleaseId || !source.corpusArchiveSha256) return `${routeId}/${source.sourceId}: no corpus release identity`;
+    if (!source.verificationRecord) return `${routeId}/${source.sourceId}: no verification record`;
+    if ("heldInRepository" in source) return `${routeId}/${source.sourceId}: still carries heldInRepository`;
+  }
+  // And for a route whose every bound source is corroborated, the dimension must
+  // actually be absent from the missing set. A route with an uncorroborated
+  // source -- North Dakota's SFN-61663 is not in the verified corpus -- must
+  // still report one, so this is asserted per route rather than globally.
+  const projection = JSON.parse(readSource(PROJECTION_PATH));
+  const rows = [];
+  const walk = (node) => {
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (node && typeof node === "object") {
+      if (typeof node.routeId === "string") rows.push(node);
+      Object.values(node).forEach(walk);
+    }
+  };
+  walk(projection);
+  let corroboratedRoutes = 0;
+  for (const record of registry.records ?? []) {
+    const sources = record.officialSources ?? [];
+    if (sources.length === 0 || !sources.every((source) => source.sha256)) continue;
+    corroboratedRoutes += 1;
+    for (const row of rows.filter((r) => r.routeId === record.routeId)) {
+      const missing = row.missingProof ?? row.missing ?? [];
+      const sourceGap = missing.filter((entry) => /^official_sources:/.test(entry));
+      if (sourceGap.length > 0) return `${record.routeId}: every bound source is corroborated yet it still reports ${sourceGap[0]}`;
+    }
+  }
+  if (corroboratedRoutes === 0) return "no route has all of its bound sources corroborated, so the dimension is never satisfied in practice";
+  return null;
+});
+
+check("no official source bytes are committed anywhere in this repository", () => {
+  // The corrected contract is only safe if it does not tempt anyone to commit
+  // the court's PDF to satisfy it. Two things are asserted: the corpus install
+  // root is git-ignored, and Git tracks no file underneath it.
+  const gitignore = readSource(".gitignore");
+  if (!/^private\/$/m.test(gitignore)) return "private/ is no longer git-ignored";
+  const registry = JSON.parse(readSource(SOURCE_REGISTRY_PATH));
+  const installRoot = registry.corpusRelease?.installRoot ?? "";
+  if (!installRoot) return "the source registry names no corpus install root";
+  if (!installRoot.startsWith("private/")) return `the corpus install root ${installRoot} is outside the git-ignored private/ tree`;
+  let tracked;
+  try {
+    tracked = execFileSync("git", ["ls-files", "--", installRoot], { cwd: rootDir, encoding: "utf8" }).trim();
+  } catch {
+    return null; // no git available; the gitignore assertion above still holds
+  }
+  if (tracked !== "") return `Git tracks ${tracked.split("\n").length} file(s) under the corpus install root`;
+  // Nor may the registry itself carry bytes.
+  if (/"bytes"|base64/.test(readSource(SOURCE_REGISTRY_PATH))) return "the source registry appears to carry document bytes";
+  return null;
 });
 
 // ---------------------------------------------------------------------------
@@ -628,7 +720,15 @@ if (MUTATIONS) {
     ["legal approval downgraded", { legalAuthority: { recordId: "auth-synthetic", version: "auth-synthetic", status: "pending", effectiveDate: "2026-08-29", scopeSha256: sha256(SYNTHETIC_SCOPE) } }],
     ["packet specification marked incomplete", { packetSpecification: { specId: "zz-synthetic-set", sha256: sha256(SYNTHETIC_SPEC), complete: false } }],
     ["official source dropped", { officialSources: [] }],
-    ["official source not held", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: "", heldInRepository: false }] }],
+    // The corrected source contract. "Not held in Git" is no longer a failure
+    // mode, because it was never a real one; these are.
+    ["official source absent from the verified corpus", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: "", expectedSha256: "", installedSha256: "", corpusReleaseId: "", corpusArchiveSha256: "", verifiedAt: "", verificationRecord: "" }] }],
+    ["official source expected digest missing", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: SYNTHETIC_SOURCE_DIGEST, expectedSha256: "", installedSha256: SYNTHETIC_SOURCE_DIGEST, corpusReleaseId: SYNTHETIC_CORPUS_RELEASE, corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE, verifiedAt: "v", verificationRecord: "r" }] }],
+    ["official source installed digest missing", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: SYNTHETIC_SOURCE_DIGEST, expectedSha256: SYNTHETIC_SOURCE_DIGEST, installedSha256: "", corpusReleaseId: SYNTHETIC_CORPUS_RELEASE, corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE, verifiedAt: "v", verificationRecord: "r" }] }],
+    ["official source content mismatched between the two records", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: SYNTHETIC_SOURCE_DIGEST, expectedSha256: SYNTHETIC_SOURCE_DIGEST, installedSha256: sha256("different-document-bytes"), corpusReleaseId: SYNTHETIC_CORPUS_RELEASE, corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE, verifiedAt: "v", verificationRecord: "r" }] }],
+    ["official source digest is the hash of the identifier, not the document", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: sha256("ZZ-FORM-1"), expectedSha256: SYNTHETIC_SOURCE_DIGEST, installedSha256: SYNTHETIC_SOURCE_DIGEST, corpusReleaseId: SYNTHETIC_CORPUS_RELEASE, corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE, verifiedAt: "v", verificationRecord: "r" }] }],
+    ["official source with no corpus release identity", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: SYNTHETIC_SOURCE_DIGEST, expectedSha256: SYNTHETIC_SOURCE_DIGEST, installedSha256: SYNTHETIC_SOURCE_DIGEST, corpusReleaseId: "", corpusArchiveSha256: "", verifiedAt: "v", verificationRecord: "r" }] }],
+    ["official source with no verification record", { officialSources: [{ sourceId: "ZZ-FORM-1", sha256: SYNTHETIC_SOURCE_DIGEST, expectedSha256: SYNTHETIC_SOURCE_DIGEST, installedSha256: SYNTHETIC_SOURCE_DIGEST, corpusReleaseId: SYNTHETIC_CORPUS_RELEASE, corpusArchiveSha256: SYNTHETIC_CORPUS_ARCHIVE, verifiedAt: "", verificationRecord: "" }] }],
     ["provider image digest erased", { provider: { providerId: "ghcr.io/example/rcap-render-worker", rendererKind: "packet_document_v1", rendererVersion: "1.0.0", imageDigest: "" } }],
     ["fixture no longer deterministic", { fixture: { fixtureId: "ZZ:synthetic-acceptance-route", sha256: sha256("fixture"), deterministic: false } }],
     ["artifact validation not run", { artifactValidation: { state: "not_run", artifactSha256: null, validatedAt: null } }],

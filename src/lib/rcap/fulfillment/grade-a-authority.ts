@@ -96,10 +96,41 @@ export type PacketSpecificationProof = {
   complete: boolean;
 };
 
+/**
+ * A governed source-availability proof.
+ *
+ * This deliberately does not ask whether Git holds the court's PDF. `private/`
+ * is git-ignored and this repository judges a source by its identity rather
+ * than by whether Git holds the bytes, so a "held in repository" test could
+ * only ever be satisfied by breaking another rule -- and while it stood, no
+ * route in this product could reach COMPLETE_PACKET_PROVEN however much proof
+ * it accumulated.
+ *
+ * What it asks instead is answerable and can fail: the digest the packet was
+ * built against, and the digest the corpus import verified on disk, must both
+ * be present and exactly equal. The two come from records written by different
+ * processes at different times, which is what makes their agreement evidence.
+ * Absent or mismatched, the source is not proven and the route is denied.
+ */
 export type OfficialSourceProof = {
   sourceId: string;
+  /**
+   * The content digest this record binds. Kept as `sha256` because it is the
+   * value `collectStaleness` compares against the server's current observation.
+   */
   sha256: string;
-  heldInRepository: boolean;
+  /** The digest the packet's own official-form source record was built against. */
+  expectedSha256: string;
+  /** The digest the corpus import verified against the installed bytes. */
+  installedSha256: string;
+  /** The corpus release the installed bytes came from. */
+  corpusReleaseId: string;
+  /** The digest of that release's archive. */
+  corpusArchiveSha256: string;
+  /** When the two records were reconciled. */
+  verifiedAt: string;
+  /** The committed record carrying this proof, so a reader can check it. */
+  verificationRecord: string;
 };
 
 export type ProviderProof = {
@@ -223,6 +254,17 @@ export type FulfillmentObservation = {
   packetSpecificationSha256: string;
   /** Every official source the server can currently account for, by id. */
   officialSourceSha256ById: Record<string, string>;
+  /**
+   * The corpus release the server is currently serving sources from.
+   *
+   * A record proves its sources against one release. If the platform is moved
+   * to another release, or the same release is republished under a different
+   * archive, every source proof written against the old one is stale even when
+   * the individual digests happen to still match -- the provenance chain the
+   * proof rests on no longer exists.
+   */
+  corpusReleaseId: string;
+  corpusArchiveSha256: string;
   provider: ProviderProof;
   fixtureSha256: string;
   artifactSha256: string | null;
@@ -336,11 +378,33 @@ function collectMissingProof(record: GradeAFulfillmentRecord): string[] {
     missing.push("official_sources: no official source is bound to this route");
   }
   for (const source of record.officialSources) {
-    if (!source.heldInRepository) {
-      missing.push(`official_sources: ${source.sourceId} is named but not held, so its content cannot be proven`);
+    // Every field is required, and the two digests must agree exactly. A source
+    // with one record and not the other is a source nobody has corroborated;
+    // two records that disagree is a source that has changed under us. Both are
+    // denials, and neither is cured by the bytes being in Git.
+    if (!nonEmpty(source.expectedSha256)) {
+      missing.push(`official_sources: ${source.sourceId} has no expected content hash from a packet source record`);
+    }
+    if (!nonEmpty(source.installedSha256)) {
+      missing.push(`official_sources: ${source.sourceId} has no installed content hash from a verified corpus`);
+    }
+    if (nonEmpty(source.expectedSha256) && nonEmpty(source.installedSha256)
+      && source.expectedSha256 !== source.installedSha256) {
+      missing.push(`official_sources: ${source.sourceId} expected ${source.expectedSha256} but the verified corpus holds ${source.installedSha256}`);
+    }
+    if (!nonEmpty(source.corpusReleaseId) || !nonEmpty(source.corpusArchiveSha256)) {
+      missing.push(`official_sources: ${source.sourceId} does not name the corpus release and archive its bytes were verified from`);
+    }
+    if (!nonEmpty(source.verifiedAt) || !nonEmpty(source.verificationRecord)) {
+      missing.push(`official_sources: ${source.sourceId} has no source verification record`);
     }
     if (!nonEmpty(source.sha256)) {
       missing.push(`official_sources: ${source.sourceId} has no content hash`);
+    } else if (nonEmpty(source.expectedSha256) && source.sha256 !== source.expectedSha256) {
+      // The bound digest is what staleness compares. If it drifts from the
+      // corroborated digest the record is citing one document and proving
+      // another.
+      missing.push(`official_sources: ${source.sourceId} binds ${source.sha256}, which is not the corroborated digest`);
     }
   }
 
@@ -411,6 +475,12 @@ function collectStaleness(record: GradeAFulfillmentRecord, observation: Fulfillm
       stale.push(`official_sources: ${source.sourceId} is no longer accounted for`);
     } else if (observed !== source.sha256) {
       stale.push(`official_sources: ${source.sourceId} changed since this record was written`);
+    }
+    if (nonEmpty(source.corpusReleaseId) && observation.corpusReleaseId !== source.corpusReleaseId) {
+      stale.push(`official_sources: ${source.sourceId} was verified against corpus release ${source.corpusReleaseId}, and the server now serves ${observation.corpusReleaseId || "no release"}`);
+    }
+    if (nonEmpty(source.corpusArchiveSha256) && observation.corpusArchiveSha256 !== source.corpusArchiveSha256) {
+      stale.push(`official_sources: ${source.sourceId} was verified against corpus archive ${source.corpusArchiveSha256}, and the server now serves ${observation.corpusArchiveSha256 || "no archive"}`);
     }
   }
 

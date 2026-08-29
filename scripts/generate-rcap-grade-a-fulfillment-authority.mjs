@@ -46,6 +46,12 @@ const COUNSEL_MANIFEST = "data/rcap-ledger/completed-output-counsel-manifest.jso
 const WITNESS_FIXTURES = "data/rcap-ledger/public-witness-fixtures.json";
 const VISUAL_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const WORKER_EVIDENCE = "data/rcap-render/worker-publication-evidence.json";
+const SOURCE_REGISTRY = "data/rcap-grade-a/official-source-registry.json";
+// Lane-produced page-by-page visual review evidence. A lane may close the
+// visual-review dimension because reviewing every page of a rendered artifact
+// is work a lane actually does. It may not close output-level legal approval
+// or bind a final verification, and nothing here lets it.
+const LANE_VISUAL_REVIEW = ["data/rcap-lane-c/oregon/visual-review.json"];
 
 const REGISTRY_OUT = "data/rcap-grade-a/fulfillment-authority-registry.json";
 const OBSERVATION_OUT = "data/rcap-grade-a/fulfillment-observation-snapshot.json";
@@ -67,6 +73,34 @@ const counsel = readJson(COUNSEL_MANIFEST);
 const fixtures = readJson(WITNESS_FIXTURES);
 const visualProof = readJson(VISUAL_PROOF);
 const worker = readJson(WORKER_EVIDENCE);
+const sourceRegistry = readJson(SOURCE_REGISTRY);
+const laneVisualReviewByRoute = new Map();
+for (const rel of LANE_VISUAL_REVIEW) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const doc = readJson(rel);
+  // Evidence is only accepted when it actually reviewed every page it counted.
+  const complete = doc.pageCount > 0 && doc.pagesReviewed === doc.pageCount;
+  if (!complete) continue;
+  const evidenceSha256 = sha256(fs.readFileSync(abs, "utf8"));
+  for (const routeId of doc.routes ?? []) {
+    laneVisualReviewByRoute.set(routeId, {
+      state: "passed",
+      pagesReviewed: doc.pagesReviewed,
+      pageCount: doc.pageCount,
+      evidenceSha256,
+      reviewedBy: doc.reviewedBy ?? null,
+      reviewedAt: doc.reviewedAt ?? null,
+      evidencePath: rel
+    });
+  }
+}
+// The registry is a committed artifact, so its own verification moment is the
+// corpus import it was built from rather than the clock at generation time.
+// Using the clock would make this generator non-reproducible.
+const sourceRegistryVerifiedAt = sourceRegistry.corpusImportVerification
+  ? `corpus-import:${sourceRegistry.corpusRelease.releaseId}`
+  : "";
 
 const ownerDecision = legalJoin.ownerLegalDecision?.records?.[0] ?? null;
 if (!ownerDecision) {
@@ -114,17 +148,29 @@ function candidateRecord(row) {
   const packetSetIds = (row.packetSets ?? []).map((entry) => entry.packetSetId).sort();
 
   const officialSources = (row.sourceAssets?.officialFormIdsNamed ?? []).slice().sort().map((sourceId) => {
-    const held = (row.sourceAssets?.officialFormIdsHeldInThisRepository ?? []).includes(sourceId);
+    // The digest comes from the governed source registry, which corroborates
+    // the digest the packet was built against against the digest the corpus
+    // import verified on disk. It is never derived from the identifier: hashing
+    // the name proves nothing about the document, and a court could reissue a
+    // form under the same identifier without anything reading as stale.
+    const governed = sourceRegistry.sources?.[sourceId] ?? null;
+    const corroborated = governed?.status === "corroborated";
     return {
       sourceId,
-      // A form this repository does not hold cannot be hashed, and an unhashed
-      // source is exactly the proof that is missing. The empty string is the
-      // honest value; a placeholder hash would read as evidence.
-      sha256: held ? sha256(`${sourceId}`) : "",
-      heldInRepository: held
+      // The bound digest, and what staleness compares. An uncorroborated source
+      // gets the empty string, which is the honest value; a placeholder hash
+      // would read as evidence.
+      sha256: corroborated ? governed.expectedSha256 : "",
+      expectedSha256: governed?.expectedSha256 ?? "",
+      installedSha256: governed?.installedSha256 ?? "",
+      corpusReleaseId: corroborated ? sourceRegistry.corpusRelease.releaseId : "",
+      corpusArchiveSha256: corroborated ? sourceRegistry.corpusRelease.archiveSha256 : "",
+      verifiedAt: corroborated ? sourceRegistryVerifiedAt : "",
+      verificationRecord: corroborated ? SOURCE_REGISTRY : ""
     };
   });
 
+  const laneVisualReview = laneVisualReviewByRoute.get(row.pathwayKey) ?? null;
   const visualPageCount = visualRow?.pagesOnSheet ?? 0;
   const visualStateFromCounsel = counselRow ? reviewState(counselRow.visualReviewResult) : "pending";
 
@@ -171,7 +217,7 @@ function candidateRecord(row) {
       artifactSha256: row.artifactResult?.sha256 ?? null,
       validatedAt: row.artifactResult?.sha256 ? launchGraph.generatedAt ?? ownerDecision.effectiveDate : null
     },
-    visualReview: {
+    visualReview: laneVisualReview ?? {
       state: visualRow?.comparable && visualRow?.controlDiscriminates ? visualStateFromCounsel : visualStateFromCounsel,
       pagesReviewed: visualRow?.comparable ? visualPageCount : 0,
       pageCount: visualPageCount,
@@ -232,7 +278,8 @@ const registry = {
     [COUNSEL_MANIFEST]: sha256(fs.readFileSync(path.join(rootDir, COUNSEL_MANIFEST), "utf8")),
     [WITNESS_FIXTURES]: sha256(fs.readFileSync(path.join(rootDir, WITNESS_FIXTURES), "utf8")),
     [VISUAL_PROOF]: sha256(fs.readFileSync(path.join(rootDir, VISUAL_PROOF), "utf8")),
-    [WORKER_EVIDENCE]: sha256(fs.readFileSync(path.join(rootDir, WORKER_EVIDENCE), "utf8"))
+    [WORKER_EVIDENCE]: sha256(fs.readFileSync(path.join(rootDir, WORKER_EVIDENCE), "utf8")),
+    [SOURCE_REGISTRY]: sha256(fs.readFileSync(path.join(rootDir, SOURCE_REGISTRY), "utf8"))
   },
   records
 };
@@ -252,6 +299,8 @@ for (const record of records) {
     },
     packetSpecificationSha256: record.packetSpecification.sha256,
     officialSourceSha256ById: Object.fromEntries(record.officialSources.map((source) => [source.sourceId, source.sha256])),
+    corpusReleaseId: sourceRegistry.corpusRelease.releaseId,
+    corpusArchiveSha256: sourceRegistry.corpusRelease.archiveSha256,
     provider: record.provider,
     fixtureSha256: record.fixture.sha256,
     artifactSha256: record.artifactValidation.artifactSha256,
