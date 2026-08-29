@@ -4,7 +4,7 @@
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
     "keep_available": 211,
-    "wired": 177,
+    "wired": 178,
     "fix_then_wire": 30,
     "retire": 1,
     "quarantine": 2,
@@ -2433,6 +2433,12 @@
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
+    },
+    "verify-rcap-status-currentness.mjs": {
+      "disposition": "wired",
+      "reason": "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "in_chain"
     },
     "verify-rcap-target-replay-scope.mjs": {
       "disposition": "keep_available",

@@ -2,7 +2,7 @@
 
 Recorded against captain branch `claude/legalease-sprint-captain-utucnw`.
 Opened at base `0cad61625a74665db23ac64988c301e48909cf81`; reconciled against
-head `1af36f03d8c9c08c9c3c17e9a5516f64a649b003`.
+head `4d58b3629ba48ef4f884975ee72b55c9dee6b64a`.
 
 Each entry states whether the blocker was introduced by this sprint's
 integration or already present on the controlling base, because the two call for
@@ -23,9 +23,13 @@ different responses and conflating them wastes a lane.
 | Commercial | `commerciallyEligible` **0**, `COMPLETE_PACKET_PROVEN` **0**. |
 | Production | untouched. |
 
-Two Oregon decisions — the ORS subsection and the packet scope — are recorded and
-their implementation is in progress. They are route-design work, not blockers on
-this register, and they open nothing.
+| Oregon route design | **configuration-complete, artifact-pending**. The overbroad route is retired and replaced by three disposition-bound configurations, each with its own identity, predicate and specification hash. No Option 2 or Option 3 artifact is rendered yet, all six legal sections are unbound on all three, and output-level approval is not requested. |
+| Colorado official bytes | 0 of 8. The governed acquirer is re-run and the session's egress policy still refuses the issuing court. |
+
+Both Oregon legal-design questions are answered and implemented. What remains
+there is engineering — geometry, bindings, artifacts, review — and a separate
+output-level approval of exact artifacts, which the legal-design answers
+expressly are not.
 
 ---
 

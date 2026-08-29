@@ -1,10 +1,49 @@
 {
   "schemaVersion": "rcap-oregon-answer-dependent-alternatives/v1",
   "generatedBy": "scripts/verify-rcap-oregon-decision-alternatives.mjs",
-  "status": "PREPARED_NOT_CHOSEN",
-  "posture": "Both questions are with counsel. Each branch below is measured against the repository as it stands. Nothing here chooses, and nothing here changes a route, a packet set, a registry or a commercial status. The selected route remains closed under every branch.",
+  "status": "ANSWERED_AND_IMPLEMENTED",
+  "posture": "Both questions are answered. This file is now the record of which branch was taken and what the other would have cost, kept because a decision with its alternatives deleted reads as inevitable, and this one was not. The branches below are historical; the answers and the implemented configurations are current.",
+  "answers": {
+    "decisionRecord": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+    "decisionOwner": "Lawrence (counsel)",
+    "decisionDate": "2026-08-29",
+    "subsection": {
+      "decisionId": "LWD-2026-08-29-OR-SUBSECTION",
+      "answer": "ORS 137.225(1)(c)."
+    },
+    "packetScope": {
+      "decisionId": "LWD-2026-08-29-OR-PACKET-SCOPE",
+      "answer": "SEPARATE PACKET SETS ARE REQUIRED."
+    },
+    "implementedBy": "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json",
+    "configurations": [
+      {
+        "label": "NEVER CHARGED",
+        "routeKey": "OR:set-aside-of-a-citation-or-arrest-with-no-accusatory-instrument-under-ors-137-225-1-c",
+        "authority": "ORS 137.225(1)(c)",
+        "formOption": "Option 3",
+        "specificationSha256": "85aec3205767d34d97d4e2ef98c835a03160b59cb68a416ef483e65c67c4cb45"
+      },
+      {
+        "label": "ACQUITTAL",
+        "routeKey": "OR:set-aside-of-an-acquittal-under-ors-137-225-1-d",
+        "authority": "ORS 137.225(1)(d)",
+        "formOption": "Option 2",
+        "specificationSha256": "1585505e0fe977ef736a00d5a4526287df610415e19f3fa81c32542cfb989997"
+      },
+      {
+        "label": "ORDINARY DISMISSAL",
+        "routeKey": "OR:set-aside-of-an-ordinary-dismissal-under-ors-137-225-1-d",
+        "authority": "ORS 137.225(1)(d)",
+        "formOption": "Option 2",
+        "specificationSha256": "9cf47c19ce77fc03ba0c518e7ff012fb0dc491cb653db3a704e25a366175bf39"
+      }
+    ],
+    "supersededRoute": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c"
+  },
   "decisionOwner": "Lawrence (counsel)",
   "selectedRoute": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "selectedRouteStatus": "SUPERSEDED — retired and replaced by three disposition-bound configurations",
   "selectedRouteCommercialStatus": "not_commercially_eligible",
   "selectedRouteAuthorityState": "INCOMPLETE",
   "questions": [

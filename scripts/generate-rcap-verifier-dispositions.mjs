@@ -173,6 +173,12 @@ const OVERRIDES = {
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
   },
+  "verify-rcap-status-currentness.mjs": {
+    disposition: "wired",
+    reason:
+      "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
+    decidedBy: "captain"
+  },
   "verify-rcap-oregon-disposition-configurations.mjs": {
     disposition: "wired",
     reason:

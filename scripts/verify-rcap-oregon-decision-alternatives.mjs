@@ -54,6 +54,18 @@ const check = (name, ok, detail = "") => {
   else { failures.push(`${name}${detail ? `: ${detail}` : ""}`); console.log(`  FAIL ${name}${detail ? `: ${detail}` : ""}`); }
 };
 
+// The decisions, if they have been made. Before them this file measured two open
+// questions; after them it records which branch was taken and what the other one
+// would have cost. Deleting the unchosen branch would leave the decision looking
+// inevitable, which is not what it was.
+const DECISIONS = "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json";
+const CONFIGS = "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json";
+const decisionRecord = fs.existsSync(path.join(rootDir, DECISIONS)) ? read(DECISIONS) : null;
+const configurations = fs.existsSync(path.join(rootDir, CONFIGS)) ? read(CONFIGS) : null;
+const answerFor = (qid) => (decisionRecord?.decisions ?? []).find((d) => d.questionId === qid) ?? null;
+const subsectionAnswer = answerFor("OR-Q1-SUBSECTION");
+const scopeAnswer = answerFor("OR-Q2-PACKET-SCOPE");
+
 const manifests = read(MANIFESTS);
 const launchGraph = read(LAUNCH_GRAPH);
 const registry = read(REGISTRY);
@@ -120,7 +132,9 @@ const subsectionAlternatives = [
 ];
 
 check("the (1)(c) alternative leaves the route id as it is", subsectionAlternatives[0].routeIdAfter === SELECTED);
-check("the (1)(d) alternative names a route id that does not already exist",
+check(subsectionAnswer
+  ? "the answered subsection question left no unimplemented alternative route id live"
+  : "the (1)(d) alternative names a route id that does not already exist",
   !routeIds.has(D_ID), `${D_ID} already exists`);
 
 // The records that carry the route id, found rather than listed.
@@ -206,11 +220,30 @@ scopeAlternatives[1].packetSetFacts = scopeFacts;
 const doc = {
   schemaVersion: "rcap-oregon-answer-dependent-alternatives/v1",
   generatedBy: "scripts/verify-rcap-oregon-decision-alternatives.mjs",
-  status: "PREPARED_NOT_CHOSEN",
-  posture:
-    "Both questions are with counsel. Each branch below is measured against the repository as it stands. Nothing here chooses, and nothing here changes a route, a packet set, a registry or a commercial status. The selected route remains closed under every branch.",
+  status: subsectionAnswer && scopeAnswer ? "ANSWERED_AND_IMPLEMENTED" : "PREPARED_NOT_CHOSEN",
+  posture: subsectionAnswer && scopeAnswer
+    ? "Both questions are answered. This file is now the record of which branch was taken and what the other would have cost, kept because a decision with its alternatives deleted reads as inevitable, and this one was not. The branches below are historical; the answers and the implemented configurations are current."
+    : "Both questions are with counsel. Each branch below is measured against the repository as it stands. Nothing here chooses, and nothing here changes a route, a packet set, a registry or a commercial status. The selected route remains closed under every branch.",
+  answers: subsectionAnswer && scopeAnswer
+    ? {
+        decisionRecord: DECISIONS,
+        decisionOwner: decisionRecord.decisionOwner,
+        decisionDate: decisionRecord.decisionDate,
+        subsection: { decisionId: subsectionAnswer.decisionId, answer: subsectionAnswer.answer },
+        packetScope: { decisionId: scopeAnswer.decisionId, answer: scopeAnswer.answer },
+        implementedBy: CONFIGS,
+        configurations: (configurations?.configurations ?? []).map((c) => ({
+          label: c.label, routeKey: c.routeKey, authority: c.statutoryAuthority,
+          formOption: c.formOption, specificationSha256: c.specificationSha256,
+        })),
+        supersededRoute: configurations?.supersedes?.routeId ?? null,
+      }
+    : null,
   decisionOwner: "Lawrence (counsel)",
   selectedRoute: SELECTED,
+  selectedRouteStatus: subsectionAnswer && scopeAnswer
+    ? "SUPERSEDED — retired and replaced by three disposition-bound configurations"
+    : "the candidate under both questions",
   selectedRouteCommercialStatus: "not_commercially_eligible",
   selectedRouteAuthorityState: "INCOMPLETE",
   questions: [
@@ -253,11 +286,28 @@ if (WRITE) {
 }
 
 // Nothing was chosen.
-check("the route id in the registry is unchanged", registry.records.some((r) => r.routeId === SELECTED));
-check("the route still binds or_acquittal-set only",
-  record?.packetSpecification?.specId === "or_acquittal-set", String(record?.packetSpecification?.specId));
-check("no new Oregon route was created", (launchGraph.rows ?? []).filter((r) => r.jurisdiction === "OR").length === 3,
-  String((launchGraph.rows ?? []).filter((r) => r.jurisdiction === "OR").length));
+if (subsectionAnswer && scopeAnswer) {
+  // Answered. The assertions invert: the questions are closed, the split is
+  // implemented, and the superseded route is recorded as superseded rather than
+  // silently carried.
+  check("both questions are answered and recorded verbatim",
+    Boolean(subsectionAnswer.recordedAuthority?.length) && Boolean(scopeAnswer.recordedAuthority?.length));
+  check("the three disposition-bound configurations exist",
+    (configurations?.configurations ?? []).length === 3,
+    String((configurations?.configurations ?? []).length));
+  check("the previously selected route is recorded as superseded",
+    configurations?.supersedes?.routeId === SELECTED
+      && configurations?.supersedes?.disposition === "retired_and_replaced_by_three_disposition_bound_configurations",
+    String(configurations?.supersedes?.disposition));
+  check("no configuration is commercially open",
+    (configurations?.configurations ?? []).every((c) => c.commercialStatus === "closed"));
+} else {
+  check("the route id in the registry is unchanged", registry.records.some((r) => r.routeId === SELECTED));
+  check("the route still binds or_acquittal-set only",
+    record?.packetSpecification?.specId === "or_acquittal-set", String(record?.packetSpecification?.specId));
+  check("no new Oregon route was created", (launchGraph.rows ?? []).filter((r) => r.jurisdiction === "OR").length === 3,
+    String((launchGraph.rows ?? []).filter((r) => r.jurisdiction === "OR").length));
+}
 
 console.log("");
 if (failures.length) {
@@ -265,4 +315,6 @@ if (failures.length) {
   for (const f of failures) console.error(`  ${f}`);
   process.exit(1);
 }
-console.log(`Oregon alternatives: 2 question(s), 4 alternative(s), all measured. Nothing chosen; the route stays closed.`);
+console.log(subsectionAnswer && scopeAnswer
+  ? `Oregon alternatives: both questions answered 2026-08-29 and implemented as ${(configurations?.configurations ?? []).length} configurations; the branches are kept as the record of what was not taken.`
+  : `Oregon alternatives: 2 question(s), 4 alternative(s), all measured. Nothing chosen; the route stays closed.`);

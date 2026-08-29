@@ -44,6 +44,21 @@ const readiness = fs.existsSync(path.join(rootDir, "docs/rcap/grade-a/captain/de
   ? read("docs/rcap/grade-a/captain/decision-waiting/nonproduction-readiness-audit.json")
   : null;
 
+// Which legal questions are still open, read from the decision record rather
+// than listed here. A checklist that keeps a gate open because a literal in it
+// says so will still be reporting "waiting on counsel" long after counsel
+// answered, which is the exact failure this file exists to prevent elsewhere.
+const DECISIONS = "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json";
+const decisions = fs.existsSync(path.join(rootDir, DECISIONS)) ? read(DECISIONS) : null;
+const answeredQuestionIds = new Set((decisions?.decisions ?? []).map((d) => d.questionId).filter(Boolean));
+const answerFor = (questionId) => (decisions?.decisions ?? []).find((d) => d.questionId === questionId) ?? null;
+
+// The Oregon configurations, if they have been implemented.
+const OR_CONFIGS = "data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json";
+const orConfigs = fs.existsSync(path.join(rootDir, OR_CONFIGS)) ? read(OR_CONFIGS) : null;
+// An artifact exists for a configuration only when its specification names one.
+const orArtifactsMissing = (orConfigs?.configurations ?? []).filter((c) => !c.artifact?.sha256).map((c) => c.label);
+
 // Terminalization is counted from the verifier's own output rather than
 // restated, so this cannot report a number the verifier disagrees with.
 const terminalizationFailures = (() => {
@@ -60,26 +75,58 @@ const gates = [
   {
     gate: "legal:blocker-4-answers",
     owner: "Lawrence (counsel)",
-    open: held.length > 0,
-    state: `${held.length} record(s) held behind 4 unanswered questions`,
+    // Held only while a question is unanswered. The records stay classified
+    // INSUFFICIENT_AUTHORITY in the matrix -- that is the record of what they
+    // were -- so the gate reads the answers, not the classification.
+    open: held.some((r) => !answeredQuestionIds.has(
+      { "il-immediate-seal": "Q-J-01", "ky_void_seal_controlled_substance": "Q-J-02",
+        "ky_void_seal_marijuana_synthetic_salvia": "Q-J-03", "wv_dui_deferral_expungement": "Q-J-04" }[r.trackId],
+    )),
+    state: held.every((r) => answeredQuestionIds.size >= 4)
+      ? `all 4 questions answered 2026-08-29; ${held.length} record(s) dispositioned`
+      : `${held.length} record(s) held behind unanswered questions`,
     why: "A frozen candidate carrying eight records whose provenance nobody has dispositioned is a candidate that cannot be described honestly. The eight are Illinois 1, Kentucky 2, West Virginia 5.",
     closeable: "by an answer, not by the captain"
   },
   {
     gate: "legal:oregon-subsection",
     owner: "Lawrence (counsel)",
-    open: true,
-    state: "ORS 137.225(1)(c) vs (1)(d) unanswered",
-    why: "The (1)(d) branch renames the route id, which every generated record keyed to it follows. Freezing before that answer pins a candidate whose route identity is in question.",
+    open: !answeredQuestionIds.has("OR-Q1-SUBSECTION"),
+    state: answerFor("OR-Q1-SUBSECTION")
+      ? `answered 2026-08-29: ${answerFor("OR-Q1-SUBSECTION").answer}`
+      : "ORS 137.225(1)(c) vs (1)(d) unanswered",
+    why: "The subsection decides which routes may exist at all. Freezing before it pins a candidate whose route identity is in question.",
     closeable: "by an answer, not by the captain"
   },
   {
     gate: "legal:oregon-packet-scope",
     owner: "Lawrence (counsel)",
-    open: true,
-    state: "acquittal-only vs three routes unanswered",
-    why: "The three-route branch creates two new routes and re-runs the Lane I selection. Freezing before that answer pins a candidate whose route set is in question.",
+    open: !answeredQuestionIds.has("OR-Q2-PACKET-SCOPE"),
+    state: answerFor("OR-Q2-PACKET-SCOPE")
+      ? `answered 2026-08-29: ${answerFor("OR-Q2-PACKET-SCOPE").answer}`
+      : "acquittal-only vs three routes unanswered",
+    why: "The scope decides how many routes and configurations exist. Freezing before it pins a candidate whose route set is in question.",
     closeable: "by an answer, not by the captain"
+  },
+  {
+    gate: "oregon:artifacts",
+    owner: "captain",
+    open: orConfigs === null || orArtifactsMissing.length > 0,
+    state: orConfigs === null
+      ? "the three configurations are not implemented"
+      : orArtifactsMissing.length === 0
+        ? "all three configurations name a rendered artifact"
+        : `no rendered artifact for: ${orArtifactsMissing.join(", ")}`,
+    why: "The legal-design answers settled which routes exist. They did not produce the PDFs those routes deliver, and a candidate is frozen around artifacts, not around intentions.",
+    closeable: "by rendering and verifying the Option 2 and Option 3 artifacts"
+  },
+  {
+    gate: "oregon:output-approval",
+    owner: "Lawrence (counsel)",
+    open: true,
+    state: "not requested; the prior package is superseded and the route-specific packages need final artifacts first",
+    why: "Output-level approval is of an exact artifact for an exact route. The legal-design answers are not that approval and were expressly recorded as not being it.",
+    closeable: "by an approval, after the artifacts exist"
   },
   {
     gate: "chain:terminalization",

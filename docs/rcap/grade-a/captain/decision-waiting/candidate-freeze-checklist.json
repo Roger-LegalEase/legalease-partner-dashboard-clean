@@ -6,32 +6,48 @@
   "candidateSha": null,
   "candidateShaNote": "Deliberately null. Naming a candidate before the gates close would pin a commit that will need superseding, and every artifact keyed to it would then describe a candidate nobody is shipping.",
   "evaluatedAt": {
-    "captainHead": "8aa9ac8c0247b88fc2394e2e0cba1ec1f1ce749c"
+    "captainHead": "4d58b3629ba48ef4f884975ee72b55c9dee6b64a"
   },
   "gates": [
     {
       "gate": "legal:blocker-4-answers",
       "owner": "Lawrence (counsel)",
-      "open": true,
-      "state": "8 record(s) held behind 4 unanswered questions",
+      "open": false,
+      "state": "all 4 questions answered 2026-08-29; 8 record(s) dispositioned",
       "why": "A frozen candidate carrying eight records whose provenance nobody has dispositioned is a candidate that cannot be described honestly. The eight are Illinois 1, Kentucky 2, West Virginia 5.",
       "closeable": "by an answer, not by the captain"
     },
     {
       "gate": "legal:oregon-subsection",
       "owner": "Lawrence (counsel)",
-      "open": true,
-      "state": "ORS 137.225(1)(c) vs (1)(d) unanswered",
-      "why": "The (1)(d) branch renames the route id, which every generated record keyed to it follows. Freezing before that answer pins a candidate whose route identity is in question.",
+      "open": false,
+      "state": "answered 2026-08-29: ORS 137.225(1)(c).",
+      "why": "The subsection decides which routes may exist at all. Freezing before it pins a candidate whose route identity is in question.",
       "closeable": "by an answer, not by the captain"
     },
     {
       "gate": "legal:oregon-packet-scope",
       "owner": "Lawrence (counsel)",
-      "open": true,
-      "state": "acquittal-only vs three routes unanswered",
-      "why": "The three-route branch creates two new routes and re-runs the Lane I selection. Freezing before that answer pins a candidate whose route set is in question.",
+      "open": false,
+      "state": "answered 2026-08-29: SEPARATE PACKET SETS ARE REQUIRED.",
+      "why": "The scope decides how many routes and configurations exist. Freezing before it pins a candidate whose route set is in question.",
       "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "oregon:artifacts",
+      "owner": "captain",
+      "open": true,
+      "state": "no rendered artifact for: NEVER CHARGED, ACQUITTAL, ORDINARY DISMISSAL",
+      "why": "The legal-design answers settled which routes exist. They did not produce the PDFs those routes deliver, and a candidate is frozen around artifacts, not around intentions.",
+      "closeable": "by rendering and verifying the Option 2 and Option 3 artifacts"
+    },
+    {
+      "gate": "oregon:output-approval",
+      "owner": "Lawrence (counsel)",
+      "open": true,
+      "state": "not requested; the prior package is superseded and the route-specific packages need final artifacts first",
+      "why": "Output-level approval is of an exact artifact for an exact route. The legal-design answers are not that approval and were expressly recorded as not being it.",
+      "closeable": "by an approval, after the artifacts exist"
     },
     {
       "gate": "chain:terminalization",
@@ -44,8 +60,8 @@
     {
       "gate": "publication:branch-literal",
       "owner": "captain",
-      "open": true,
-      "state": "The workflow would REFUSE this candidate before fetching anything. This must be corrected in the workflow before any dispatch.",
+      "open": false,
+      "state": "The workflow would accept this candidate.",
       "why": "The publish workflow refuses any SHA not contained in main or in the branch it pins by literal name. A candidate the workflow would refuse is not a candidate.",
       "closeable": "by a captain-owned workflow edit, made before dispatch"
     },
@@ -66,8 +82,8 @@
       "closeable": "by committing"
     }
   ],
-  "openGates": 5,
-  "openGatesOwnedByCounsel": 3,
+  "openGates": 3,
+  "openGatesOwnedByCounsel": 1,
   "openGatesOwnedByCaptain": 2,
   "freezeProcedureWhenTheGatesClose": [
     "Record every legal answer in its controlling registry first. The decision is the authority; the freeze records a state that already holds.",
