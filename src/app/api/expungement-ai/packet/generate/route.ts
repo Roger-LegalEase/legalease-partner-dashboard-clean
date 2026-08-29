@@ -14,6 +14,16 @@ import {
   generatePaidConsumerPacket
 } from "@/lib/expungement-ai/packet-generation";
 import { CurrentPacketVerificationRequiredError, requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import {
+  CommercialAdmissionDeniedError,
+  artifactStorageContext,
+  commercialAdmissionRefusalBody,
+  commercialRouteIdentity,
+  entitlementContext,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext
+} from "@/lib/rcap/render/commercial-admission";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,11 +52,55 @@ export async function POST(request: NextRequest) {
       isPartnerSponsored = true;
       const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
       if (!item) throw new CurrentPacketVerificationRequiredError("verification_item_missing_before_sponsored_finalization");
-      const verificationHash = (await requireCurrentPacketVerification(auth.userId, item)).hash;
+      const sponsoredVerification = await requireCurrentPacketVerification(auth.userId, item);
+      const verificationHash = sponsoredVerification.hash;
       if (verificationHash !== packet.protectedSponsorship.expectedVerificationHash) {
         throw new CurrentPacketVerificationRequiredError("verification_changed_before_sponsored_finalization");
       }
-      const decision = await resolvePartnerPacketCapDecision(packet.protectedSponsorship.sourceSessionId);
+
+      /**
+       * The sponsored admission, assembled from server facts only.
+       *
+       * The same shape a consumer admission uses. The sponsoring session id is
+       * the idempotency key, which is what makes a retried finalization resolve
+       * to the one credit it already consumed rather than a second one.
+       */
+      const sponsoredMatterId = consumerMatterIdForItem(item.id);
+      const sponsoredIdentity = commercialRouteIdentity({
+        jurisdiction: sponsoredVerification.snapshot.jurisdiction,
+        pathwayId: sponsoredVerification.snapshot.pathwayId
+      });
+      const sponsoredContext = fulfillmentRequestContext({
+        participantUserId: auth.userId,
+        matterId: sponsoredMatterId,
+        matterOwnerUserId: auth.userId,
+        finalVerification: finalVerificationSnapshotFrom({
+          snapshot: sponsoredVerification.snapshot,
+          verificationHash,
+          matterId: sponsoredMatterId,
+          ownerUserId: auth.userId,
+          packetFamilyId: sponsoredIdentity.packetFamilyId
+        }),
+        entitlement: entitlementContext({
+          kind: "sponsored_credit",
+          idempotencyKey: packet.protectedSponsorship.sourceSessionId,
+          alreadyConsumed: false,
+          serverVerified: true
+        }),
+        storage: artifactStorageContext({
+          privateStorage: true,
+          artifactSha256: "artifactSha256" in packet.artifactRefs && typeof packet.artifactRefs.artifactSha256 === "string"
+            ? packet.artifactRefs.artifactSha256
+            : null,
+          repeatDownload: false
+        })
+      });
+      const sponsoredAdmission = { identity: sponsoredIdentity, context: sponsoredContext };
+
+      const decision = await resolvePartnerPacketCapDecision(
+        packet.protectedSponsorship.sourceSessionId,
+        sponsoredAdmission
+      );
       if (decision.pausedAtCap) {
         return NextResponse.json(
           {
@@ -62,7 +116,8 @@ export async function POST(request: NextRequest) {
         sessionId: packet.protectedSponsorship.sourceSessionId,
         briefcaseItemId,
         expectedVerificationHash: verificationHash,
-        artifactRefs: packet.artifactRefs
+        artifactRefs: packet.artifactRefs,
+        admission: sponsoredAdmission
       });
       if (!finalization.ok) {
         return NextResponse.json(
@@ -100,6 +155,11 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 }
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
+  // The Grade-A authority refused. One sentence and a denial code; the context
+  // denials name matter and owner ids and stay on the server.
+  if (error instanceof CommercialAdmissionDeniedError) {
+    return NextResponse.json(commercialAdmissionRefusalBody(error), { status: error.httpStatus });
+  }
   if (error instanceof CurrentPacketVerificationRequiredError) {
     return NextResponse.json({ error: "Current final verification is required before packet generation." }, { status: 409 });
   }

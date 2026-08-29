@@ -9,6 +9,10 @@ import {
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
 import { CurrentPacketVerificationRequiredError } from "@/lib/expungement-ai/packet-information";
+import {
+  CommercialAdmissionDeniedError,
+  commercialAdmissionRefusalBody
+} from "@/lib/rcap/render/commercial-admission";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +48,13 @@ export async function POST(request: NextRequest) {
       outcome: checkout.outcome
     });
   } catch (error) {
+    // The Grade-A authority refused this route or this participant. The refusal
+    // carries a denial code and one sentence; `contextDenials` names matter and
+    // owner ids and stays on the server.
+    if (error instanceof CommercialAdmissionDeniedError) {
+      return NextResponse.json(commercialAdmissionRefusalBody(error), { status: error.httpStatus });
+    }
+
     // A route that cannot produce an artifact does not take money. The route is
     // still an intended paid pathway with an open blocker recorded against it;
     // what is refused here is the charge, not the pathway.
