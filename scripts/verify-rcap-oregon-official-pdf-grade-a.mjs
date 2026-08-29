@@ -68,7 +68,7 @@ const SOURCE_PAGES = 5;
 const INSTRUCTION_PAGES = [1, 2, 3];
 const FILING_PAGES = [4, 5];
 
-const FAMILY_DIR = `data/rcap-all50/overlays/production/oregon/${FAMILY}`;
+const FAMILY_DIR = `data/rcap-all50/overlays/lane-c-candidates/oregon/${FAMILY}`;
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const REGISTRY = "data/record-clearing/factory-v2-route-registry.json";
 const PACKET_SETS = "data/record-clearing/legal-design-packet-set-manifests.json";
@@ -194,7 +194,7 @@ async function loadEvidence() {
     contactSheet: read(`${FAMILY_DIR}/reports/contact-sheet-proof.json`),
     sourceFidelity: read(`${FAMILY_DIR}/reports/source-fidelity.json`),
     visualReview: read(`${FAMILY_DIR}/reports/visual-review.json`),
-    summary: read("data/rcap-all50/overlays/production/oregon/jurisdiction-summary.json"),
+    summary: read("data/rcap-all50/overlays/lane-c-candidates/oregon/jurisdiction-summary.json"),
     registry: read(REGISTRY),
     packetSets: read(PACKET_SETS),
     artifacts: {
@@ -590,6 +590,24 @@ function staticFailures(evidence) {
   fail(summary.reviewStatus?.visual === "visual_review_pending" || summary.reviewStatus?.visual === "visual_review_complete", `X-visual: unrecognised visual review status ${summary.reviewStatus?.visual}`);
   fail(summary.implementationStatus === "implemented_pending_independent_review", "X-summary-status: the Oregon summary claims more than pending independent review");
   fail(sourceRecord.coBrandingRule?.includes("No LegalEase"), "X-branding: the family does not forbid branding the official form");
+
+  // Oregon is candidate evidence, and candidate evidence does not sit in the
+  // release directory. data/rcap-all50/overlays/production is the committed
+  // release: its families are the ones the PDF implementation freeze names, the
+  // shared render report and verified-binary index describe, and each of which
+  // carries an artifact-provenance record bound to bytes hashed from the
+  // installed corpus. Oregon has none of those yet — it is not in the freeze at
+  // all — so putting it there would assert a release membership no record
+  // supports, and the shared release checks say so. Admitting Oregon is the
+  // captain's move, and it needs a new freeze; see the lane document.
+  const freeze = read("data/rcap-all50/pdf-implementation-freeze.json");
+  const frozenFamilies = new Set(
+    (freeze.families ?? []).map((entry) => String(entry.familyId ?? entry.family ?? ""))
+  );
+  const inFreeze = frozenFamilies.has(`${JURISDICTION}:${FAMILY}`);
+  fail(!fs.existsSync(path.join(rootDir, "data/rcap-all50/overlays/production/oregon")) || inFreeze,
+    "X-release: Oregon sits in the committed release directory without being named by the PDF implementation freeze");
+  fail(fs.existsSync(path.join(rootDir, FAMILY_DIR)), `X-candidate: the family is not where this lane keeps its candidate evidence (${FAMILY_DIR})`);
 
   return out;
 }
