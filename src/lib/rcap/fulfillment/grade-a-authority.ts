@@ -35,7 +35,51 @@ import "server-only";
  * that act on that decision keep owning the acting.
  */
 
+import {
+  collectPacketCompletenessGaps,
+  type PacketCompletenessProof
+} from "@/lib/rcap/fulfillment/grade-a-packet-proof";
+import {
+  collectContextDenials,
+  type FulfillmentRequestContext
+} from "@/lib/rcap/fulfillment/grade-a-request-context";
+
 export const GRADE_A_AUTHORITY_SCHEMA_VERSION = "rcap-grade-a-fulfillment-authority/v1";
+
+/**
+ * The schema a record must declare before it may admit anything commercial.
+ *
+ * v1 records bind provenance. v2 adds the fileability proof — proposed order,
+ * service and notice, filing destination, fee and waiver, copy requirements,
+ * post-filing steps, hearing stops, custom-pleading authority, and a
+ * filing-format artifact with its own hash.
+ *
+ * The two versions are handled differently on purpose, and the difference is the
+ * whole point of versioning this rather than quietly tightening v1:
+ *
+ *   * EVALUATION keeps v1 semantics for a v1 record. Its state and its list of
+ *     missing proofs mean today exactly what they meant yesterday, so the
+ *     generated projection does not silently change under a report someone is
+ *     reading, and a v1 record keeps its own history rather than becoming
+ *     unreadable.
+ *   * ADMISSION refuses every v1 record outright. Being evaluable is not being
+ *     sellable. A record written before fileability was a question cannot answer
+ *     it, and a rule that let it try would be the fail-open this contract exists
+ *     to prevent.
+ *
+ * So a v1 record can report COMPLETE_PACKET_PROVEN and still admit nothing. That
+ * reads as a contradiction and is not one: the state describes the proofs the
+ * record was written to carry, and admission describes the proofs this product
+ * now requires. Reconciling them is a record migration, which is a decision with
+ * an owner, not a side effect of deploying this file.
+ */
+export const GRADE_A_ADMISSION_SCHEMA_VERSION = "rcap-grade-a-fulfillment-authority/v2";
+
+/** Schemas this authority can evaluate at all. Anything else fails closed. */
+export const GRADE_A_EVALUABLE_SCHEMA_VERSIONS = [
+  GRADE_A_AUTHORITY_SCHEMA_VERSION,
+  GRADE_A_ADMISSION_SCHEMA_VERSION
+] as const;
 
 /**
  * The one authorizing state. Named as a constant rather than written inline at
@@ -55,7 +99,14 @@ export type FulfillmentAuthorityState =
   | "REVOKED"
   /** A later version of this route's authority exists; this one no longer decides. */
   | "SUPERSEDED"
-  /** No current record binds this route at all. Unsupported routes fail closed. */
+  /**
+   * No record binds this route at all. Distinct from UNSUPPORTED_ROUTE because
+   * "nobody has written a record for this" and "a record exists that this
+   * authority cannot evaluate" are different operational facts, and an operator
+   * chasing one should not be handed the other. Both fail closed.
+   */
+  | "NO_RECORD"
+  /** A record exists but this authority cannot evaluate it. Fails closed. */
   | "UNSUPPORTED_ROUTE";
 
 /**
@@ -199,6 +250,15 @@ export type GradeAFulfillmentRecord = {
   provider: ProviderProof;
   fixture: FixtureProof;
   artifactValidation: ArtifactValidationProof;
+  /**
+   * What the packet proves about its own fileability. Optional in the type and
+   * mandatory in the rule: a record without it is INCOMPLETE, never exempt. It is
+   * optional here only so that a v1 record written before this dimension existed
+   * parses rather than failing to load — and a record that parses and then denies
+   * is the correct outcome, where a record that fails to load would silently
+   * become "no record" and lose its own history.
+   */
+  packetCompleteness?: PacketCompletenessProof | null;
   visualReview: VisualReviewProof;
   outputLegalApproval: OutputLegalApprovalProof;
   finalVerification: FinalVerificationProof;
@@ -233,6 +293,66 @@ export type FulfillmentObservation = {
 
 export type CommercialStatus = "commercially_eligible" | "not_commercially_eligible";
 
+/**
+ * The nine truthful dispositions. Every route reaches exactly one.
+ *
+ * The authority states are about the RECORD; a disposition is what an operator,
+ * a status page or a launch report should say about the ROUTE. They are not the
+ * same vocabulary and collapsing them loses the distinction that matters most —
+ * "we have not built this yet" and "we built it and counsel has not signed it"
+ * are both denials and are not the same news.
+ */
+export const ROUTE_DISPOSITIONS = [
+  "COMPLETE_PACKET_PROVEN",
+  "ARTIFACT_GENERATION_REQUIRED",
+  "ARTIFACT_REVIEW_REQUIRED",
+  "SOURCE_OR_CONFIGURATION_GATE",
+  "GUIDANCE_OR_AUTOMATIC",
+  "NOT_YET",
+  "FUTURE_EFFECTIVE",
+  "ATTORNEY_OR_PARTNER_HANDOFF",
+  "UNKNOWN_FAIL_CLOSED"
+] as const;
+
+export type RouteDisposition = (typeof ROUTE_DISPOSITIONS)[number];
+
+/**
+ * Exactly one disposition per decision, chosen by the FIRST matching rule so the
+ * mapping is total and deterministic. The order encodes what an operator should
+ * be told first: an unknown route before a known-blocked one, a legal hold before
+ * a technical one, a missing artifact before a missing review of it.
+ */
+export function dispositionFor(decision: FulfillmentAuthorityDecision): RouteDisposition {
+  if (decision.state === "COMPLETE_PACKET_PROVEN") return "COMPLETE_PACKET_PROVEN";
+
+  // No record and unevaluable records are the same news to an operator: nobody
+  // can say what this route is, so nothing may happen on it.
+  if (decision.state === "NO_RECORD" || decision.state === "UNSUPPORTED_ROUTE") return "UNKNOWN_FAIL_CLOSED";
+
+  // A route we deliberately do not sell is not a route that is behind.
+  if (decision.serviceDisposition === "non_filing_guidance") return "GUIDANCE_OR_AUTOMATIC";
+  if (decision.serviceDisposition === "exact_external_deferral") return "ATTORNEY_OR_PARTNER_HANDOFF";
+  if (decision.serviceDisposition === "product_scope_exclusion") return "GUIDANCE_OR_AUTOMATIC";
+  if (decision.serviceDisposition === "legally_unavailable") return "FUTURE_EFFECTIVE";
+
+  // A revoked or superseded authority is a configuration fact, not a build gap.
+  if (decision.state === "REVOKED" || decision.state === "SUPERSEDED") return "SOURCE_OR_CONFIGURATION_GATE";
+  if (decision.state === "STALE") return "SOURCE_OR_CONFIGURATION_GATE";
+
+  const open = decision.missingProof;
+  const opens = (prefix: string) => open.some((entry) => entry.startsWith(prefix));
+
+  if (opens("legal_authority")) return "SOURCE_OR_CONFIGURATION_GATE";
+  if (opens("official_sources")) return "SOURCE_OR_CONFIGURATION_GATE";
+  if (opens("provider") || opens("fixture") || opens("packet_specification")) return "SOURCE_OR_CONFIGURATION_GATE";
+  if (opens("artifact_validation") || opens("packet_completeness")) return "ARTIFACT_GENERATION_REQUIRED";
+  if (opens("visual_review") || opens("output_legal_approval") || opens("final_verification")) return "ARTIFACT_REVIEW_REQUIRED";
+
+  // An INCOMPLETE record with no gap this mapping recognises is a rule someone
+  // added without teaching the disposition about it. Say so rather than guess.
+  return open.length > 0 ? "NOT_YET" : "UNKNOWN_FAIL_CLOSED";
+}
+
 export type FulfillmentAuthorityDecision = {
   state: FulfillmentAuthorityState;
   /** The single boolean every caller reads. True only when state is COMPLETE_PACKET_PROVEN. */
@@ -263,6 +383,12 @@ export const COMMERCIAL_ADMISSION_POINTS = [
   "artifact_commercial_attachment",
   "briefcase_ready",
   "private_download",
+  // A repeat download is its own admission. The product contract requires an
+  // artifact to be "reusable for repeat downloads without a second payment or
+  // credit", which means the second download must be admitted WITHOUT
+  // re-consuming an entitlement — a rule that only exists if the second download
+  // is a decision the authority makes rather than a replay of the first.
+  "repeat_download",
   "launch_graph_commercial_status"
 ] as const;
 
@@ -284,6 +410,10 @@ export type CommercialAdmissionDecision = {
   admissionPoint: CommercialAdmissionPoint;
   admitted: boolean;
   authority: FulfillmentAuthorityDecision;
+  /** The one truthful disposition for this route, for status and launch reporting. */
+  disposition: RouteDisposition;
+  /** Why the participant, not the route, was refused. Empty when the route was. */
+  contextDenials: string[];
   /** Set only on a denial, so a route can return a typed refusal. */
   denialCode: string | null;
   reason: string;
@@ -297,6 +427,7 @@ const REQUIRED_PROOF_ORDER = [
   "provider",
   "fixture",
   "artifact_validation",
+  "packet_completeness",
   "visual_review",
   "output_legal_approval",
   "final_verification"
@@ -354,6 +485,20 @@ function collectMissingProof(record: GradeAFulfillmentRecord): string[] {
 
   if (record.artifactValidation.state !== "validated" || !nonEmpty(record.artifactValidation.artifactSha256)) {
     missing.push(`artifact_validation: state is ${record.artifactValidation.state} with artifact hash ${record.artifactValidation.artifactSha256 ?? "absent"}`);
+  }
+
+  // Fileability. A perfectly provenanced packet with no proposed order, no
+  // service list or no filing destination is not a Grade-A packet, and until
+  // this dimension existed the authority could not tell the difference.
+  //
+  // Reported only for records that declare the schema which HAS this dimension.
+  // A v1 record is not silently forgiven for lacking it — admission refuses every
+  // v1 record whatever its state — but its evaluated state keeps meaning what it
+  // meant when it was written.
+  if (record.schemaVersion === GRADE_A_ADMISSION_SCHEMA_VERSION) {
+    for (const gap of collectPacketCompletenessGaps(record.packetCompleteness ?? null)) {
+      missing.push(gap);
+    }
   }
 
   // "not_required" is a legitimate visual-review outcome elsewhere in this
@@ -482,10 +627,10 @@ export function evaluateFulfillmentAuthority(
   routeId: string
 ): FulfillmentAuthorityDecision {
   if (!record) {
-    return deny("UNSUPPORTED_ROUTE", routeId, `No Grade-A fulfillment record binds ${routeId || "(no route)"}; unsupported routes fail closed.`);
+    return deny("NO_RECORD", routeId, `No Grade-A fulfillment record binds ${routeId || "(no route)"}; a route nobody has written a record for fails closed.`);
   }
 
-  if (record.schemaVersion !== GRADE_A_AUTHORITY_SCHEMA_VERSION) {
+  if (!GRADE_A_EVALUABLE_SCHEMA_VERSIONS.includes(record.schemaVersion as (typeof GRADE_A_EVALUABLE_SCHEMA_VERSIONS)[number])) {
     return deny("UNSUPPORTED_ROUTE", routeId, `The record for ${record.routeId} declares schema ${record.schemaVersion}, which this authority does not evaluate.`);
   }
 
@@ -558,50 +703,90 @@ export function admitCommercialAction(input: {
   request: AdmissionRequestIdentity;
   record: GradeAFulfillmentRecord | null | undefined;
   observation: FulfillmentObservation | null | undefined;
+  /**
+   * Server-resolved participant facts. Required by every admission point except
+   * `launch_graph_commercial_status`, which asks about a route with nobody in
+   * front of it. Omitting it where it is required is a denial, not a bypass.
+   */
+  context?: FulfillmentRequestContext | null;
 }): CommercialAdmissionDecision {
-  const { admissionPoint, request, record, observation } = input;
+  const { admissionPoint, request, record, observation, context } = input;
+
+  const refuse = (
+    authority: FulfillmentAuthorityDecision,
+    denialCode: string,
+    reason: string,
+    contextDenials: string[] = []
+  ): CommercialAdmissionDecision => ({
+    admissionPoint,
+    admitted: false,
+    authority,
+    disposition: dispositionFor(authority),
+    contextDenials,
+    denialCode,
+    reason
+  });
 
   if (!COMMERCIAL_ADMISSION_POINTS.includes(admissionPoint)) {
-    return {
-      admissionPoint,
-      admitted: false,
-      authority: deny("UNSUPPORTED_ROUTE", request?.routeId ?? "", `${String(admissionPoint)} is not a recognised commercial admission point.`),
-      denialCode: "unknown_admission_point",
-      reason: `${String(admissionPoint)} is not a recognised commercial admission point.`
-    };
+    const message = `${String(admissionPoint)} is not a recognised commercial admission point.`;
+    return refuse(deny("UNSUPPORTED_ROUTE", request?.routeId ?? "", message), "unknown_admission_point", message);
   }
 
   const authority = evaluateFulfillmentAuthority(record, observation, request?.routeId ?? "");
 
-  if (record && authority.state !== "UNSUPPORTED_ROUTE") {
+  // A record proves one route. Checked before the authority's own verdict is
+  // honoured, so a proven record offered for the wrong route is a mismatch rather
+  // than an admission.
+  if (record && authority.state !== "NO_RECORD" && authority.state !== "UNSUPPORTED_ROUTE") {
     const jurisdictionMismatch = request.jurisdiction !== record.jurisdiction;
     const familyMismatch = (request.packetFamilyId ?? null) !== (record.packetFamilyId ?? null);
     const routeMismatch = request.routeId !== record.routeId;
     if (jurisdictionMismatch || familyMismatch || routeMismatch) {
-      return {
-        admissionPoint,
-        admitted: false,
-        authority: deny("UNSUPPORTED_ROUTE", request.routeId, `The record offered for ${request.routeId} proves ${record.routeId} (${record.jurisdiction}/${record.packetFamilyId ?? "no family"}); a record proves one route only.`),
-        denialCode: "route_binding_mismatch",
-        reason: `The record offered for ${request.routeId} proves ${record.routeId}; a record proves one route only.`
-      };
+      const message = `The record offered for ${request.routeId} proves ${record.routeId} (${record.jurisdiction}/${record.packetFamilyId ?? "no family"}); a record proves one route only.`;
+      return refuse(deny("UNSUPPORTED_ROUTE", request.routeId, message), "route_binding_mismatch", message);
     }
   }
 
+  // Evaluable is not admissible. A record below the admission schema cannot have
+  // answered the fileability question, so it is refused before its own verdict is
+  // consulted — including a v1 record whose every v1 proof is present.
+  if (record && record.schemaVersion !== GRADE_A_ADMISSION_SCHEMA_VERSION) {
+    const message = `${record.routeId} declares ${record.schemaVersion}; commercial admission requires ${GRADE_A_ADMISSION_SCHEMA_VERSION}, which carries the packet fileability proof.`;
+    return refuse(authority, "fulfillment_schema_below_admission_minimum", `${admissionPoint} is denied: ${message}`);
+  }
+
   if (!authority.authorized) {
-    return {
-      admissionPoint,
-      admitted: false,
+    return refuse(authority, `fulfillment_${authority.state.toLowerCase()}`, `${admissionPoint} is denied: ${authority.reason}`);
+  }
+
+  // The route is proven. Now the participant.
+  //
+  // Deliberately second: a route that is not Grade A is refused identically for
+  // every participant, so no request-shaped probe can distinguish "your matter is
+  // wrong" from "this route was never proven" and learn something about another
+  // participant's state from the difference.
+  const contextDenials = collectContextDenials({
+    admissionPoint,
+    context,
+    routeId: authority.routeId,
+    packetFamilyId: authority.packetFamilyId
+  });
+
+  if (contextDenials.length > 0) {
+    return refuse(
       authority,
-      denialCode: `fulfillment_${authority.state.toLowerCase()}`,
-      reason: `${admissionPoint} is denied: ${authority.reason}`
-    };
+      "participant_context_denied",
+      `${admissionPoint} is denied on a proven route: ${contextDenials.length} participant condition(s) not met.`,
+      contextDenials
+    );
   }
 
   return {
     admissionPoint,
     admitted: true,
     authority,
+    disposition: dispositionFor(authority),
+    contextDenials: [],
     denialCode: null,
     reason: `${admissionPoint} is admitted by ${COMPLETE_PACKET_PROVEN} on ${authority.routeId} version ${authority.recordVersion}.`
   };
@@ -613,6 +798,97 @@ export function admitCommercialAction(input: {
  * one is a recorded event rather than a silent no-op, and so a route can answer
  * a hostile body with a typed refusal instead of quietly ignoring it.
  */
+export const ADMISSION_IDENTITY_KEYS = ["routeId", "jurisdiction", "packetFamilyId"] as const;
+
+/**
+ * Every field name the authority itself uses, derived from an exemplar of each
+ * of its own shapes rather than hand-listed.
+ *
+ * The hand-written list below caught the keys someone thought of. It did not
+ * catch `visualReview`, `officialSources`, `artifactValidation`,
+ * `finalVerification`, `packetCompleteness`, `entitlement` or
+ * `matterOwnerUserId` — every one of which is a fact a hostile body would love to
+ * assert, and every one of which sailed through as an "ignored" key. Deriving the
+ * set from the shapes means a proof dimension added tomorrow is defended today.
+ */
+function authorityVocabulary(): Set<string> {
+  const names = new Set<string>();
+  const walk = (value: unknown, depth: number): void => {
+    if (depth > 6 || !value || typeof value !== "object") return;
+    if (Array.isArray(value)) {
+      for (const entry of value) walk(entry, depth + 1);
+      return;
+    }
+    for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
+      names.add(key);
+      walk(nested, depth + 1);
+    }
+  };
+  walk(AUTHORITY_SHAPE_EXEMPLAR, 0);
+  for (const key of ADMISSION_IDENTITY_KEYS) names.delete(key);
+  return names;
+}
+
+/**
+ * One value of every shape the authority reasons about. Its VALUES are
+ * meaningless — only its key names are read. It is deliberately built by hand
+ * rather than by reflection so that adding a proof dimension without adding it
+ * here fails the vocabulary test rather than silently widening what a body may
+ * send.
+ */
+const AUTHORITY_SHAPE_EXEMPLAR = {
+  record: {
+    schemaVersion: "", recordId: "", routeId: "", jurisdiction: "", pathwayId: "",
+    packetFamilyId: "", serviceDisposition: "", version: 0, effectiveFrom: "",
+    supersededBy: "", supersededAt: "",
+    revocation: { revoked: false, reason: "", revokedAt: "", revokedBy: "" },
+    legalAuthority: { recordId: "", version: "", status: "", effectiveDate: "", scopeSha256: "" },
+    packetSpecification: { specId: "", sha256: "", complete: false },
+    officialSources: [{ sourceId: "", sha256: "", heldInRepository: false }],
+    provider: { providerId: "", rendererKind: "", rendererVersion: "", imageDigest: "" },
+    fixture: { fixtureId: "", sha256: "", deterministic: false },
+    artifactValidation: { state: "", artifactSha256: "", validatedAt: "" },
+    packetCompleteness: {
+      specificationId: "", specificationVersion: "", specificationSha256: "",
+      filingApplication: { state: "", basis: "" }, proposedOrder: { state: "", basis: "" },
+      attachmentsAndSchedules: { state: "", basis: "" }, serviceAndNotice: { state: "", basis: "" },
+      filingDestination: { state: "", basis: "" }, feeAndWaiverInstructions: { state: "", basis: "" },
+      copyRequirements: { state: "", basis: "" }, postFilingSteps: { state: "", basis: "" },
+      hearingAndObjectionStopConditions: { state: "", basis: "" },
+      customPleadingAuthority: { required: false, approved: false, authorityId: "" },
+      filingFormatArtifact: { format: "", sha256: "", pageCount: 0 }
+    },
+    visualReview: { state: "", pagesReviewed: 0, pageCount: 0, evidenceSha256: "", reviewedBy: "", reviewedAt: "" },
+    outputLegalApproval: { state: "", reviewerId: "", decidedAt: "", scopeSha256: "" },
+    finalVerification: { state: "", verifierId: "", boundInputsSha256: "", verifiedAt: "" },
+    history: [{ version: 0, changeKind: "", changedAt: "", changedBy: "", reason: "", recordSha256: "", supersedesRecordSha256: "" }]
+  },
+  observation: {
+    observedAt: "", legalAuthority: { version: "", status: "", scopeSha256: "" },
+    packetSpecificationSha256: "", officialSourceSha256ById: {},
+    provider: { providerId: "", rendererKind: "", rendererVersion: "", imageDigest: "" },
+    fixtureSha256: "", artifactSha256: "", visualReviewEvidenceSha256: "",
+    outputLegalApprovalScopeSha256: "", finalVerificationBoundInputsSha256: ""
+  },
+  context: {
+    participantUserId: "", matterId: "", matterOwnerUserId: "",
+    finalVerification: {
+      snapshotId: "", outcome: "", matterId: "", ownerUserId: "", boundRouteId: "",
+      boundPacketFamilyId: "", routeContractVersion: "", legalRuleVersion: "",
+      factSnapshotSha256: "", formSetVersion: "", formSetSha256: "", verifiedAt: "",
+      invalidated: false, invalidationReason: ""
+    },
+    entitlement: { kind: "", idempotencyKey: "", alreadyConsumed: false, serverVerified: false },
+    storage: { privateStorage: false, artifactSha256: "", repeatDownload: false }
+  },
+  decision: {
+    state: "", authorized: false, commercialStatus: "", routeId: "", jurisdiction: "",
+    packetFamilyId: "", serviceDisposition: "", recordId: "", recordVersion: 0,
+    missingProof: [], stalenessReasons: [], revocationReason: "", reason: "",
+    admissionPoint: "", admitted: false, denialCode: "", authority: {}, disposition: ""
+  }
+} as const;
+
 export const CLIENT_FORBIDDEN_AUTHORITY_KEYS = [
   "authorized",
   "authority",
@@ -655,13 +931,20 @@ export function sanitizeAdmissionRequest(body: unknown): SanitizedAdmissionReque
   }
 
   const source = body as Record<string, unknown>;
-  const forbidden = new Set<string>(CLIENT_FORBIDDEN_AUTHORITY_KEYS);
+  // Two sources, unioned: the explicit list of words that mean "let me through",
+  // and every field name the authority itself reasons about. Neither alone is
+  // enough — the explicit list knows about `overrideAuthority`, which appears in
+  // no shape, and the derived set knows about every proof dimension, including
+  // the ones added after this function was written.
+  const forbidden = new Set<string>([...CLIENT_FORBIDDEN_AUTHORITY_KEYS, ...authorityVocabulary()]);
+  const identity = new Set<string>(ADMISSION_IDENTITY_KEYS);
   const rejectedKeys: string[] = [];
   const ignoredKeys: string[] = [];
 
   for (const key of Object.keys(source)) {
+    if (identity.has(key)) continue;
     if (forbidden.has(key)) rejectedKeys.push(key);
-    else if (key !== "routeId" && key !== "jurisdiction" && key !== "packetFamilyId") ignoredKeys.push(key);
+    else ignoredKeys.push(key);
   }
 
   const routeId = typeof source.routeId === "string" ? source.routeId.trim() : "";

@@ -13,8 +13,11 @@ import {
   type CommercialAdmissionDecision,
   type CommercialAdmissionPoint,
   type FulfillmentAuthorityDecision,
-  type FulfillmentObservation
+  type FulfillmentObservation,
+  type RouteDisposition,
+  dispositionFor
 } from "@/lib/rcap/fulfillment/grade-a-authority";
+import type { FulfillmentRequestContext } from "@/lib/rcap/fulfillment/grade-a-request-context";
 import {
   getCurrentFulfillmentRecord,
   listCurrentFulfillmentRecords
@@ -102,14 +105,21 @@ export function fulfillmentAuthorityForRoute(jurisdiction: string, pathwayId: st
  */
 export function admitCommercial(
   admissionPoint: CommercialAdmissionPoint,
-  request: AdmissionRequestIdentity
+  request: AdmissionRequestIdentity,
+  context?: FulfillmentRequestContext | null
 ): CommercialAdmissionDecision {
   return admitCommercialAction({
     admissionPoint,
     request,
     record: getCurrentFulfillmentRecord(request.routeId),
-    observation: resolveObservation(request.routeId)
+    observation: resolveObservation(request.routeId),
+    context: context ?? null
   });
+}
+
+/** The one truthful disposition for a route, for status and launch reporting. */
+export function routeDisposition(routeId: string): RouteDisposition {
+  return dispositionFor(fulfillmentAuthorityFor(routeId));
 }
 
 export type UntrustedAdmissionOutcome =
@@ -126,7 +136,8 @@ export type UntrustedAdmissionOutcome =
  */
 export function admitCommercialFromUntrustedBody(
   admissionPoint: CommercialAdmissionPoint,
-  body: unknown
+  body: unknown,
+  context?: FulfillmentRequestContext | null
 ): UntrustedAdmissionOutcome {
   const sanitized = sanitizeAdmissionRequest(body);
 
@@ -148,7 +159,7 @@ export function admitCommercialFromUntrustedBody(
     };
   }
 
-  return { ok: true, decision: admitCommercial(admissionPoint, sanitized.identity) };
+  return { ok: true, decision: admitCommercial(admissionPoint, sanitized.identity, context ?? null) };
 }
 
 /**
