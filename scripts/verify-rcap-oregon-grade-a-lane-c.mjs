@@ -67,6 +67,8 @@ const {
   evaluateFulfillmentAuthority,
   COMPLETE_PACKET_PROVEN
 } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
+const { COMMERCIAL_ADMISSION_POINTS } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
+const admission = await import("../src/lib/rcap/fulfillment/grade-a-admission.ts");
 const { resolvePacketRoute, packetRouteCanRender } = await import("../src/lib/rcap/documents/packet-route-resolver.ts");
 const jobContract = await import("../src/lib/rcap/render/job-contract.ts");
 const { authorizePacketDownload } = await import("../src/lib/rcap/render/packet-delivery.ts");
@@ -309,6 +311,27 @@ async function productPathFailures() {
   fail(repeat.ok === true, "D-repeat: a repeat download was refused");
   fail(granted.ok && repeat.ok && sha256(granted.bytes) === sha256(repeat.bytes), "D-repeat-bytes: a repeat download returned different bytes");
   fail(granted.ok && sha256(granted.bytes) === outputSha256, "D-deliver-bytes: the delivered bytes are not the validated artifact");
+
+  // Every commercial admission point, asked about every Oregon route. The
+  // contract says only COMPLETE_PACKET_PROVEN authorizes checkout, sponsorship,
+  // credit consumption, generation, dispatch, attachment, Briefcase Ready,
+  // private download or commercial launch status. Oregon holds none of them, so
+  // all nine must refuse — and the refusal has to come from the authority
+  // rather than from a route flag that could drift away from it.
+  for (const routeId of OR_ROUTES) {
+    const [jurisdiction] = routeId.split(":");
+    for (const point of COMMERCIAL_ADMISSION_POINTS) {
+      const decision = admission.admitCommercial(point, { routeId, jurisdiction, packetFamilyId: null });
+      fail(decision.admitted === false, `D-admit ${routeId} ${point}: admitted a route with no proven packet`);
+      fail(decision.authority.authorized === false, `D-admit-authority ${routeId} ${point}: the deciding authority reported authorized`);
+    }
+  }
+  // The same finding as E1, observed at runtime instead of in the data: with
+  // heldInRepository unsatisfiable, nothing anywhere in the product is proven.
+  const proven = admission.provenCommercialRoutes();
+  fail(proven.length === 0,
+    `D-proven-RESOLVED: ${proven.length} route(s) are now commercially proven (${proven.slice(0, 3).join(", ")}). ` +
+    "The unsatisfiable-gate finding is stale — re-check it and retire this measurement.");
 
   const stranger = await authorizePacketDownload(ports, { jobId, userId: "user_or_stranger" });
   fail(stranger.ok === false && stranger.status === 403, "D-wrong-user: another participant could download this packet");
