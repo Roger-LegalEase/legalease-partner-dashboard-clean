@@ -21,8 +21,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 93,
-    "factoryV2Selected": 169,
-    "factoryV2Resolved": 169,
+    "factoryV2Selected": 167,
+    "factoryV2Resolved": 167,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -38,9 +38,9 @@
       }
     ],
     "paymentAllowed": 29,
-    "deterministicallyRenderedComposedText": 169,
+    "deterministicallyRenderedComposedText": 167,
     "deterministicallyRendered": 38,
-    "officialFormsNamedButNotHeldInThisRepository": 131,
+    "officialFormsNamedButNotHeldInThisRepository": 129,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
@@ -49,7 +49,7 @@
     "deterministicArtifactProven": 222,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 231,
-    "rendererSelected": 61,
+    "rendererSelected": 63,
     "packetSpecificationComplete": 40
   },
   "classificationCounts": {
@@ -414,14 +414,20 @@
         "publiclyReachableSellable": 1,
         "authoritativePacketReady": 1,
         "packetSpecComplete": 3,
-        "technicallyApprovedPacket": 1,
+        "technicallyApprovedPacket": 0,
         "legallyApprovedPacket": 1,
-        "successfullyRendered": 2
+        "successfullyRendered": 0
       },
-      "renderedPaidPathways": 2,
+      "renderedPaidPathways": 0,
       "paymentAllowedPathways": 1,
-      "fullyClosedPaidPathways": 1,
+      "fullyClosedPaidPathways": 0,
       "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
+          "count": 3
+        },
         {
           "id": "legal_review_pending",
           "severity": "blocking",
@@ -435,12 +441,6 @@
           "count": 1
         },
         {
-          "id": "renderer_unavailable",
-          "severity": "blocking",
-          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only).",
-          "count": 1
-        },
-        {
           "id": "gate_build",
           "severity": "blocking",
           "statement": "The named substantive eligibility gate is not coded and verified, so the route fails closed to review.",
@@ -450,8 +450,8 @@
       "branchWork": null,
       "hostedAccepted": false,
       "classification": "REMAINING_TO_BUILD",
-      "classificationBasis": "2 of 3 adopted participant-filed routes have an unmet engineering gate.",
-      "smallestRemainingDelta": "legal_review_pending (2); wait_anchor_fix (1); renderer_unavailable (1); gate_build (1)"
+      "classificationBasis": "3 of 3 adopted participant-filed routes have an unmet engineering gate.",
+      "smallestRemainingDelta": "renderer_unavailable (3); legal_review_pending (2); wait_anchor_fix (1); gate_build (1)"
     },
     {
       "jurisdiction": "CT",

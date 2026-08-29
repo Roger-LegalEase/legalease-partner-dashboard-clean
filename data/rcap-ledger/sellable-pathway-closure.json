@@ -46,9 +46,9 @@
       "publiclyReachableSellablePathways": 79,
       "authoritativePacketReadyPathways": 79,
       "packetSpecCompletePathways": 253,
-      "technicallyApprovedPacketPathways": 115,
+      "technicallyApprovedPacketPathways": 114,
       "legallyApprovedPacketPathways": 79,
-      "successfullyRenderedPathways": 199
+      "successfullyRenderedPathways": 197
     },
     "holds": false,
     "breaks": [
@@ -448,8 +448,8 @@
       {
         "stage": "technicallyApprovedPacketPathways",
         "expected": 260,
-        "actual": 115,
-        "shortfall": 145,
+        "actual": 114,
+        "shortfall": 146,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -464,6 +464,7 @@
           "CA:tool-4-arrest-record-sealing",
           "CO:juvenile-expungement-19-1-306",
           "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+          "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
           "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
           "FL:court-ordered-sealing-943-059",
           "FL:human-trafficking-victim-expunction-943-0583",
@@ -790,8 +791,8 @@
       {
         "stage": "successfullyRenderedPathways",
         "expected": 260,
-        "actual": 199,
-        "shortfall": 61,
+        "actual": 197,
+        "shortfall": 63,
         "missingPathwayKeys": [
           "AK:executive-pardon-backstop",
           "AK:juvenile-record-sealing-as-47-12-300",
@@ -800,6 +801,8 @@
           "CA:tool-3-petition-based-felony-sealing",
           "CA:tool-4-arrest-record-sealing",
           "CO:juvenile-expungement-19-1-306",
+          "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+          "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
           "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
           "GA:retroactive-first-offender-treatment-under-42-8-66",
           "ID:human-trafficking-survivor-vacatur-and-expungement",
@@ -874,6 +877,11 @@
       },
       {
         "pathwayKey": "CA:tool-4-arrest-record-sealing",
+        "routeKind": "guidance_only",
+        "renderReason": "resolver refused: routeKind=guidance_only"
+      },
+      {
+        "pathwayKey": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
         "routeKind": "guidance_only",
         "renderReason": "resolver refused: routeKind=guidance_only"
       },
@@ -2423,7 +2431,6 @@
       "CA:prop-64-completed-sentence-application-11361-8",
       "CA:prop-64-currently-serving-petition-11361-8",
       "CA:tool-1-dismissal-set-aside",
-      "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
       "CT:absolute-pardon-resulting-in-erasure",
       "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
       "DC:dc_actual_innocence_expungement_16_803",
@@ -2626,8 +2633,6 @@
       "CA:prop-64-completed-sentence-application-11361-8",
       "CA:prop-64-currently-serving-petition-11361-8",
       "CA:tool-1-dismissal-set-aside",
-      "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
-      "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
       "CT:absolute-pardon-resulting-in-erasure",
       "CT:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
       "DC:dc_actual_innocence_expungement_16_803",
@@ -4463,11 +4468,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "CO petition-based-conviction-sealing-jdf-612-24-72-706 builds through the shared packet factory from packet set co_motion_seal_conviction-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "lawrence": {
         "status": "hard_gate_pending",
@@ -4484,12 +4489,12 @@
         "packetSpecComplete": true,
         "technicallyApprovedPacket": false,
         "legallyApprovedPacket": false,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2961
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
       "openBlockers": [
         {
@@ -4501,6 +4506,11 @@
           "id": "legal_review_pending",
           "severity": "blocking",
           "statement": "No current counsel ratification records this route as packet-capable and payable."
+        },
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
         }
       ],
       "routeMetadata": {
@@ -4537,11 +4547,11 @@
         }
       },
       "route": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
         "sellable": false,
         "creditConsumable": false,
-        "reason": "CO petition-based-non-conviction-sealing-jdf-417-24-72-704 builds through the shared packet factory from packet set co_petition_seal_arrest-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "lawrence": {
         "status": "ratified_deployable",
@@ -4556,16 +4566,22 @@
         "publiclyReachableSellable": true,
         "authoritativePacketReady": true,
         "packetSpecComplete": true,
-        "technicallyApprovedPacket": true,
+        "technicallyApprovedPacket": false,
         "legallyApprovedPacket": true,
-        "successfullyRendered": true
+        "successfullyRendered": false
       },
       "render": {
-        "rendered": true,
-        "reason": "renderer produced valid PDF bytes",
-        "bytes": 2962
+        "rendered": false,
+        "reason": "resolver refused: routeKind=guidance_only",
+        "bytes": 0
       },
-      "openBlockers": [],
+      "openBlockers": [
+        {
+          "id": "renderer_unavailable",
+          "severity": "blocking",
+          "statement": "No packet artifact is produced for this route today (resolver refused: routeKind=guidance_only)."
+        }
+      ],
       "routeMetadata": {
         "productRouteType": "court_petition",
         "userFiled": true,

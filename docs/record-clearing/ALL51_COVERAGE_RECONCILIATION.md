@@ -30,7 +30,7 @@ measured against the closure ledger's seven-stage chain.
 | deterministicArtifactProven | 222 |
 | noProblematicPdfHold | 19 |
 | paymentAllowed | 231 |
-| rendererSelected | 61 |
+| rendererSelected | 63 |
 | packetSpecificationComplete | 40 |
 
 ## Per jurisdiction
@@ -42,7 +42,7 @@ measured against the closure ledger's seven-stage chain.
 | AR | Arkansas | REMAINING_TO_BUILD | 3 | 1 | 2 | 2 | not_paid_product×1, legal_review_pending×1, renderer_unavailable×1 |
 | AZ | Arizona | REMAINING_TO_BUILD | 3 | 1 | 3 | 1 | route_metadata×2, legal_review_pending×2 |
 | CA | California | EXISTING_BRANCH_TO_PORT | 5 | 3 | 3 | 5 | renderer_unavailable×2 |
-| CO | Colorado | REMAINING_TO_BUILD | 3 | 1 | 2 | 1 | legal_review_pending×2, wait_anchor_fix×1, renderer_unavailable×1, gate_build×1 |
+| CO | Colorado | REMAINING_TO_BUILD | 3 | 0 | 0 | 1 | renderer_unavailable×3, legal_review_pending×2, wait_anchor_fix×1, gate_build×1 |
 | CT | Connecticut | REMAINING_TO_BUILD | 2 | 1 | 2 | 1 | filing_determination_missing×1, not_paid_product×1, packet_spec_incomplete×1, legal_review_pending×1 |
 | DC | District of Columbia | EXISTING_BRANCH_TO_PORT | 4 | 1 | 4 | 1 | not_paid_product×3, legal_review_pending×3 |
 | DE | Delaware | REMAINING_TO_BUILD | 3 | 1 | 2 | 1 | legal_review_pending×2, route_metadata×1, renderer_unavailable×1, filing_determination_missing×1, not_paid_product×1 |
@@ -96,7 +96,7 @@ measured against the closure ledger's seven-stage chain.
 - **AR Arkansas** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ not_paid_product (1); legal_review_pending (1); renderer_unavailable (1)
 - **AZ Arizona** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ route_metadata (2); legal_review_pending (2)
 - **CA California** — EXISTING_BRANCH_TO_PORT. Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming CA), and the controlling branch does not carry it. _Delta:_ Port the reviewed legal design, packet specification and packet-engine implementation for CA from feat/record-clearing-production-integration; do not merge the branch wholesale.
-- **CO Colorado** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (2); wait_anchor_fix (1); renderer_unavailable (1); gate_build (1)
+- **CO Colorado** — REMAINING_TO_BUILD. 3 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ renderer_unavailable (3); legal_review_pending (2); wait_anchor_fix (1); gate_build (1)
 - **CT Connecticut** — REMAINING_TO_BUILD. 1 of 2 adopted participant-filed routes have an unmet engineering gate. _Delta:_ filing_determination_missing (1); not_paid_product (1); packet_spec_incomplete (1); legal_review_pending (1)
 - **DC District of Columbia** — EXISTING_BRANCH_TO_PORT. Reviewed implementation for this jurisdiction exists on feat/record-clearing-production-integration at 3b6f4c10 (5 tranche manifests naming DC), and the controlling branch does not carry it. _Delta:_ Port the reviewed legal design, packet specification and packet-engine implementation for DC from feat/record-clearing-production-integration; do not merge the branch wholesale.
 - **DE Delaware** — REMAINING_TO_BUILD. 2 of 3 adopted participant-filed routes have an unmet engineering gate. _Delta:_ legal_review_pending (2); route_metadata (1); renderer_unavailable (1); filing_determination_missing (1); not_paid_product (1)

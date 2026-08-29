@@ -8,11 +8,11 @@
   "totals": {
     "commercialRoutes": 30,
     "evaluatorPaymentAllowed": 29,
-    "checkoutActuallyOpen": 26,
+    "checkoutActuallyOpen": 25,
     "provenByFulfillmentRecord": 1,
     "sponsorshipCapable": 0,
-    "PACKET_CORRECTION_REQUIRED": 26,
-    "GUIDANCE_OR_HANDOFF_NO_PACKET": 3,
+    "PACKET_CORRECTION_REQUIRED": 25,
+    "GUIDANCE_OR_HANDOFF_NO_PACKET": 4,
     "COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD": 1
   },
   "departuresFromTheCommercialDenominator": {
@@ -378,7 +378,7 @@
       "currentPaymentAuthority": {
         "evaluatorPaymentAllowed": true,
         "contractPaymentAuthority": null,
-        "checkoutActuallyOpen": true
+        "checkoutActuallyOpen": false
       },
       "currentSponsorshipAuthority": {
         "contractSponsorshipAuthority": "closed",
@@ -401,14 +401,14 @@
         "post-filing steps"
       ],
       "sourceHashes": [],
-      "renderer": "packet_document_v1",
-      "routeKind": "factory_v2",
+      "renderer": "none",
+      "routeKind": "guidance_only",
       "artifactHash": "5fc0abff3c2fa9d1d67d5e8c9b0334a6f3552bbfeb1d8a20232ca3a44924bb50",
       "artifactBytes": 1214,
       "privateDelivery": "owner-scoped Briefcase download path; not reached while the route is fail-closed",
       "repeatDownload": "supported by the download path; not reached while the route is fail-closed",
-      "currentClassification": "PACKET_CORRECTION_REQUIRED",
-      "exactRemainingDelta": "Checkout is OPEN. A participant can pay today and receive a 1214-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps."
+      "currentClassification": "GUIDANCE_OR_HANDOFF_NO_PACKET",
+      "exactRemainingDelta": "The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it."
     },
     {
       "route": "DE:discretionary-court-expungement-under-11-del-c-4374",

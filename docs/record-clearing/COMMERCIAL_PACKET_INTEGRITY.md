@@ -4,14 +4,14 @@
 
 The direct-consumer paid path has one artifact builder and it takes no branch. buildConsumerPacketArtifact returns provider rcap_source_engine, contentType text/plain and a filename ending -packet.txt for every jurisdiction, route, packet family and plan mode, and its body is the route's own metadata plus the packet plan's readiness conditions under a heading that reads FILING CHECKLIST. So the § 99-15-59 finding is a property of the path, not of that route.
 
-**30 commercial routes** — 29 payment-allowed at the evaluator, 26 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
+**30 commercial routes** — 29 payment-allowed at the evaluator, 25 with checkout actually open once the packet route resolver is consulted, 0 sponsorship-capable, 1 proven by a fulfillment record.
 
 **25 routes left this denominator** when ADR-0004 retired the legacy generators' commercial authority. They are listed by name in the JSON under `departuresFromTheCommercialDenominator`; none of them can take money or a sponsored credit any more, and each still renders for historical access.
 
 | Classification | Routes |
 |---|---:|
-| PACKET_CORRECTION_REQUIRED | 26 |
-| GUIDANCE_OR_HANDOFF_NO_PACKET | 3 |
+| PACKET_CORRECTION_REQUIRED | 25 |
+| GUIDANCE_OR_HANDOFF_NO_PACKET | 4 |
 | COMPLETE_PACKET_PROVEN_COMMERCIALLY_HELD | 1 |
 | **TOTAL** | **30** |
 
@@ -22,7 +22,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 | `AK:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `CA:tool-1-dismissal-set-aside` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `CA:tool-4-arrest-record-sealing` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
-| `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
+| `CO:petition-based-non-conviction-sealing-jdf-417-24-72-704` | — | packet_ready_with_caution | closed | no | none | none | GUIDANCE_OR_HANDOFF_NO_PACKET |
 | `DE:discretionary-court-expungement-under-11-del-c-4374` | — | packet_ready | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `HI:nonconviction-arrest-expungement` | Hawaii Attorney General Expungement Application under § 831-3.2 | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
 | `IL:adult-conviction-sealing` | — | packet_ready_with_caution | OPEN | no | none | none | PACKET_CORRECTION_REQUIRED |
@@ -121,7 +121,7 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **PATHWAY:** petition-based-non-conviction-sealing-jdf-417-24-72-704
 - **PACKET FAMILY:** none named by any contract
 - **CURRENT RESULT CODE:** packet_ready_with_caution
-- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout OPEN
+- **CURRENT PAYMENT AUTHORITY:** evaluator true; contract none; checkout closed
 - **CURRENT SPONSORSHIP AUTHORITY:** contract closed; credit consumable false
 - **GENERATION ENTRY POINT:** generatePaidConsumerPacket -> buildConsumerPacketArtifact (refused: no fulfillment record)
 - **ARTIFACT PROVIDER:** none
@@ -129,12 +129,12 @@ The direct-consumer paid path has one artifact builder and it takes no branch. b
 - **ACTUAL COMPONENTS:** primary filing or application
 - **REQUIRED COMPONENTS:** primary filing or application; proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps
 - **SOURCE HASHES:** none — the plan names no source form
-- **RENDERER:** packet_document_v1 (route kind factory_v2)
+- **RENDERER:** none (route kind guidance_only)
 - **ARTIFACT HASH:** 5fc0abff3c2fa9d1d67d5e8c9b0334a6f3552bbfeb1d8a20232ca3a44924bb50 (1214 bytes)
 - **PRIVATE DELIVERY:** owner-scoped Briefcase download path; not reached while the route is fail-closed
 - **REPEAT DOWNLOAD:** supported by the download path; not reached while the route is fail-closed
-- **CURRENT CLASSIFICATION:** PACKET_CORRECTION_REQUIRED
-- **EXACT REMAINING DELTA:** Checkout is OPEN. A participant can pay today and receive a 1214-byte text/plain summary. Missing: proposed order where required; attachments or schedules; filing destination; fee or waiver instructions; service or notice; post-filing steps.
+- **CURRENT CLASSIFICATION:** GUIDANCE_OR_HANDOFF_NO_PACKET
+- **EXACT REMAINING DELTA:** The packet route resolver classifies this guidance_only and closes checkout, while the evaluator reports paymentAllowed true. The two disagree; only the resolver's answer is closing it.
 
 ### `DE:discretionary-court-expungement-under-11-del-c-4374`
 

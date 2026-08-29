@@ -12,7 +12,7 @@
     },
     "packetSetManifests": {
       "path": "data/record-clearing/legal-design-packet-set-manifests.json",
-      "sha256": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9"
+      "sha256": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa"
     },
     "publicWitnessAnswerSets": {
       "path": "data/rcap-ledger/public-witness-answer-sets.json",
@@ -20,7 +20,7 @@
     },
     "sellablePathwayClosure": {
       "path": "data/rcap-ledger/sellable-pathway-closure.json",
-      "sha256": "a35dee63daf9d593b0a090a7187159dcf7b1763b250e4fc73fe8705c2b9668cf"
+      "sha256": "cb36e6f3f9c94e219e36a15aff9bd03bf17b77b8c9572d48391edf2633c34b83"
     }
   },
   "legacyVerifiedJurisdictions": [
@@ -33,11 +33,12 @@
   "admissionIsNotSelection": "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   "totals": {
     "intendedPaidPathways": 260,
-    "factoryV2Admitted": 172,
-    "notAdmitted": 88,
+    "factoryV2Admitted": 170,
+    "notAdmitted": 90,
     "reasonsItIsNotAdmitted": {
       "sourceOrApprovedComposedDocument": 21,
       "exactPacketSet+packetSpecification+sourceOrApprovedComposedDocument": 31,
+      "exactPacketSet+sourceOrApprovedComposedDocument": 2,
       "legacy_generator_owns_this_jurisdiction": 36
     },
     "ownerApprovedLegalDesign": 93,
@@ -1287,7 +1288,7 @@
         "pathway_id",
         "record_type"
       ],
-      "componentCount": 2,
+      "componentCount": 4,
       "officialFormIds": [
         "JDF-612",
         "JDF-615"
@@ -1295,14 +1296,17 @@
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": true,
+        "exactPacketSet": false,
         "packetSpecification": true,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
+        "sourceOrApprovedComposedDocument": false,
         "deterministicFixture": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "exactPacketSet",
+        "sourceOrApprovedComposedDocument"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
@@ -1312,7 +1316,8 @@
         "closureCategory": "paid_packet_intended",
         "openBlockerIds": [
           "gate_build",
-          "legal_review_pending"
+          "legal_review_pending",
+          "renderer_unavailable"
         ]
       }
     },
@@ -1342,7 +1347,7 @@
         "pathway_id",
         "record_type"
       ],
-      "componentCount": 2,
+      "componentCount": 5,
       "officialFormIds": [
         "JDF-417",
         "JDF-417-ORDER"
@@ -1350,14 +1355,17 @@
       "buildInputs": {
         "authoritativeProfile": true,
         "authoritativePathway": true,
-        "exactPacketSet": true,
+        "exactPacketSet": false,
         "packetSpecification": true,
         "requiredParticipantFields": true,
-        "sourceOrApprovedComposedDocument": true,
+        "sourceOrApprovedComposedDocument": false,
         "deterministicFixture": true
       },
-      "unmetBuildInputs": [],
-      "factoryV2Resolves": true,
+      "unmetBuildInputs": [
+        "exactPacketSet",
+        "sourceOrApprovedComposedDocument"
+      ],
+      "factoryV2Resolves": false,
       "legacyGeneratorOwnsThisJurisdiction": false,
       "separateGates": {
         "ownerApprovedLegalDesign": false,
@@ -1365,7 +1373,9 @@
         "paymentAllowedAtTheEvaluator": true,
         "publicWitnessReachesThisPathway": true,
         "closureCategory": "paid_packet_intended",
-        "openBlockerIds": []
+        "openBlockerIds": [
+          "renderer_unavailable"
+        ]
       }
     },
     {

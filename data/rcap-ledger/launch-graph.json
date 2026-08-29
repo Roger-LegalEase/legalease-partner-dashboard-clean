@@ -12,14 +12,14 @@
     "enforcement": "Every consumed ledger is required to describe exactly this pathway set. A ledger that adds or drops a pathway fails this generator rather than being reconciled quietly, so there is no second denominator to disagree with."
   },
   "inputs": {
-    "data/rcap-ledger/sellable-pathway-closure.json": "a35dee63daf9d593b0a090a7187159dcf7b1763b250e4fc73fe8705c2b9668cf",
+    "data/rcap-ledger/sellable-pathway-closure.json": "cb36e6f3f9c94e219e36a15aff9bd03bf17b77b8c9572d48391edf2633c34b83",
     "data/rcap-ledger/paid-pathway-legal-join.json": "f2f3f06fcc5aea68f479bd6ba0546d7cf29a08dc08a5522d4e97790e56beb58f",
-    "data/record-clearing/legal-design-packet-set-manifests.json": "527fd4baa11dee8ebfb71efb4ff6194ceddc72dc40b29ffc912ec597cf0cbcc9",
+    "data/record-clearing/legal-design-packet-set-manifests.json": "80d88d69dc5710b9a763abb31c6864069f9bb6d74b942c5e5849925144693ffa",
     "data/rcap-ledger/public-witness-answer-sets.json": "d4b7096e7e1833cb2a032c75a79d610e6f1ad550b9d101ac5270c1d470d8f5ce",
-    "data/record-clearing/factory-v2-route-registry.json": "e988e4640f203d9f45a6f3ace173ace0d4455355ddcf07aaba03c2923b306069",
+    "data/record-clearing/factory-v2-route-registry.json": "902c4919dfba4d315ff491d759f0c87da8ff7fd8404b1bcf6c0aa826c5aa9710",
     "data/rcap-all50/problematic-pdf-register.json": "e0ca5c8c7a95fb13812dff2bc0ed8b3945ac8f5d95b613dc7e2a2df9596a8de6",
     "data/record-clearing/source-artifact-registry.json": "153768464f1a2a0a461dc01918ecc993b8fff4a8bf45fa5544967cbf6db848c0",
-    "data/rcap-ledger/session-a-evidence-packet.json": "f19d29e7bb413e4fdac9b6ea7ffb28394236da03013f7b9402b0bfe04acf718a"
+    "data/rcap-ledger/session-a-evidence-packet.json": "134ef95378ea74fdb80b3e0fa1b5999dcbc2b74bd925801199292bfa1805351c"
   },
   "ownerLegalDecision": {
     "approved": true,
@@ -51,8 +51,8 @@
     "registryGapWithPathwayPacketSet": 40,
     "registryGapWithoutAPacketRecord": 0,
     "ownerApprovedLegal": 93,
-    "factoryV2Selected": 169,
-    "factoryV2Resolved": 169,
+    "factoryV2Selected": 167,
+    "factoryV2Resolved": 167,
     "factoryV2AdmittedButSuppressed": [
       {
         "pathwayKey": "AR:situation-b-misdemeanor-convictions",
@@ -68,9 +68,9 @@
       }
     ],
     "paymentAllowed": 29,
-    "deterministicallyRenderedComposedText": 169,
+    "deterministicallyRenderedComposedText": 167,
     "deterministicallyRendered": 38,
-    "officialFormsNamedButNotHeldInThisRepository": 131,
+    "officialFormsNamedButNotHeldInThisRepository": 129,
     "operationallySellable": 0
   },
   "unmetOperationalGates": {
@@ -79,7 +79,7 @@
     "deterministicArtifactProven": 222,
     "noProblematicPdfHold": 19,
     "paymentAllowed": 231,
-    "rendererSelected": 61,
+    "rendererSelected": 63,
     "packetSpecificationComplete": 40
   },
   "rows": [
@@ -2175,7 +2175,7 @@
         {
           "packetSetId": "co_motion_seal_conviction-set",
           "trackId": "co_motion_seal_conviction",
-          "components": 2
+          "components": 4
         }
       ],
       "ownerApprovedLegalStatus": "owner_approval_pending",
@@ -2183,7 +2183,7 @@
       "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
         "complete": true,
-        "componentCount": 2,
+        "componentCount": 4,
         "participantActionsRequired": 11
       },
       "sourceAssets": {
@@ -2203,12 +2203,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "co_motion_seal_conviction-set"
-        ],
-        "reason": "CO petition-based-conviction-sealing-jdf-612-24-72-706 builds through the shared packet factory from packet set co_motion_seal_conviction-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -2221,15 +2219,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "365bbff25c4aa57856ca795ddc7e357aead3c6e77f85e132d8e126b75a7e8bd6",
-        "characters": 3256,
-        "sections": 11,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -2243,7 +2233,7 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
@@ -2251,6 +2241,7 @@
         "paymentAllowed",
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false,
@@ -2275,7 +2266,7 @@
         {
           "packetSetId": "co_petition_seal_arrest-set",
           "trackId": "co_petition_seal_arrest",
-          "components": 2
+          "components": 5
         }
       ],
       "ownerApprovedLegalStatus": "owner_approval_pending",
@@ -2283,7 +2274,7 @@
       "legalBasis": "owner_approved_existing_legal_design_packet_set",
       "packetSpecification": {
         "complete": true,
-        "componentCount": 2,
+        "componentCount": 5,
         "participantActionsRequired": 9
       },
       "sourceAssets": {
@@ -2303,12 +2294,10 @@
         "hold": false
       },
       "renderer": {
-        "routeKind": "factory_v2",
-        "rendererKind": "packet_document_v1",
-        "packetSetIds": [
-          "co_petition_seal_arrest-set"
-        ],
-        "reason": "CO petition-based-non-conviction-sealing-jdf-417-24-72-704 builds through the shared packet factory from packet set co_petition_seal_arrest-set at profile version 2026-06-19-source-conversion-1. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here."
+        "routeKind": "guidance_only",
+        "rendererKind": "none",
+        "packetSetIds": [],
+        "reason": "CO has a compiled profile but no certified packet renderer, so it serves guidance."
       },
       "publicWitness": {
         "reachesThisPathway": true,
@@ -2321,15 +2310,7 @@
         "sellableAtTheResolver": false,
         "creditConsumable": false
       },
-      "artifactResult": {
-        "rendered": true,
-        "deterministic": true,
-        "sha256": "a5a0d5f1354296972c352ade089c8d7d55488a2b848623e5c560da42d5aa8bfc",
-        "characters": 3270,
-        "sections": 11,
-        "warnings": 0,
-        "errors": []
-      },
+      "artifactResult": null,
       "dtcResult": {
         "deliverable": false
       },
@@ -2343,13 +2324,14 @@
         "packetSpecificationComplete": true,
         "ownerApprovedLegalDesign": false,
         "technicalApprovalCurrent": false,
-        "rendererSelected": true,
+        "rendererSelected": false,
         "deterministicArtifactProven": false,
         "noProblematicPdfHold": true
       },
       "unmetOperationalGates": [
         "ownerApprovedLegalDesign",
         "technicalApprovalCurrent",
+        "rendererSelected",
         "deterministicArtifactProven"
       ],
       "operationallySellable": false,

@@ -102,7 +102,7 @@ collapses those rows against the registers that already hold decisions.
 - **LEGAL OWNER:** None. There is no artifact to review.
 - **ENGINEERING OWNER:** RCAP packet factory
 - **ENGINEERING DELTA AFTER DECISION:** Packet family construction or a non-packet service disposition per pathway.
-- **PACKET GENERATION CURRENTLY DISABLED:** 26 of 112 rows do not render today; payment is closed for all 112.
+- **PACKET GENERATION CURRENTLY DISABLED:** 27 of 112 rows do not render today; payment is closed for all 112.
 - **PAYMENT CURRENTLY DISABLED:** All 112 rows.
 - **DUPLICATE DECISIONS COLLAPSED:** 111
 
@@ -122,7 +122,7 @@ collapses those rows against the registers that already hold decisions.
 | `AZ:remedy-2-set-aside-of-a-conviction` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `AZ:remedy-3-marijuana-expungement` | factory_v2 | IMPLEMENTATION_CONFLICTS_WITH_APPROVED_DECISION |
 | `CO:juvenile-expungement-19-1-306` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
-| `CO:petition-based-conviction-sealing-jdf-612-24-72-706` | factory_v2 | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
+| `CO:petition-based-conviction-sealing-jdf-612-24-72-706` | guidance_only | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `CT:absolute-pardon-resulting-in-erasure` | factory_v2 | EXISTING_APPROVAL_NOT_LINKED |
 | `DC:dc_motion_seal_felony_conviction_8yr_16_806` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
 | `DC:dc_motion_seal_misdemeanor_conviction_5yr_16_806` | legacy_retired | ENGINEERING_BLOCKER_MISCLASSIFIED_AS_LEGAL |
