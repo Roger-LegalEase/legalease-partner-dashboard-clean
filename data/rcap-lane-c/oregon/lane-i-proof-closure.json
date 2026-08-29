@@ -16,8 +16,8 @@
     },
     {
       "dimension": "specification_hash",
-      "state": "classified_defective",
-      "detail": "The bound hash b0557db5f56442202642530a29072edf651dab713286ce1253ab487361a40c2c is sha256 over {packetSetIds, componentCount, participantActionsRequired} only. Replacing a component's bound official form leaves it unchanged, and collectStaleness compares this value, so the specification can change under the record without ever reading as stale. A content digest over the manifest is 1d0274842492d4a1c911907e4caf1527e646676057bc3c3cd6bfe3c6f50665eb."
+      "state": "closed",
+      "detail": "The bound hash ce11c1b80cdeb66387e3051b53dccfa79aaa4b297b53d4bc5a285a5af67a4466 is now a canonical digest over the whole specification: every packet set, every component's identity, role, requirement, output strategy, order and bound official form, that form's content digest, the field-map identity of each bound overlay, every participant action, the renderer identity, and the registered specification's own content hash. Check D2b proves it moves when a bound official form is swapped, by swapping one and regenerating. The previous formula was over a set id and two counts and moved for none of that."
     },
     {
       "dimension": "source_provenance_binding",
@@ -41,13 +41,13 @@
     },
     {
       "dimension": "artifact_producing_environment",
-      "state": "classified_split",
-      "detail": "Two different environments produce two different objects and the record names only one. The launch graph's artifact probe (src/lib/record-clearing/renderers/custom-pleading-renderer.ts) composed the text the record validates and states that official-form filling could not be exercised. The fileable PDF was produced by scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory."
+      "state": "closed",
+      "detail": "Reconciled rather than collapsed. The record's provider is the delivery worker image; the filing artifact records its own producer, scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory, states that it is not the record's provider, and carries the reconciliation. The launch graph's probe (src/lib/record-clearing/renderers/custom-pleading-renderer.ts) composed the text the record used to validate and is no longer what it binds."
     },
     {
       "dimension": "artifact_sha256",
-      "state": "classified_wrong_object",
-      "detail": "The record validates b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b, a 3405-character text composition in 12 sections. The object a participant would file is 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, 217271 bytes, 5 pages. Under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing format."
+      "state": "closed",
+      "detail": "The record validates 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, which is the object a participant would file: 217271 bytes, 5 pages, application/pdf. It previously validated a 3405-character text composition, which under FILEABLE_ARTIFACT_FORMATS is not a filing format."
     },
     {
       "dimension": "page_by_page_visual_review_binding",
@@ -56,8 +56,8 @@
     },
     {
       "dimension": "final_verification_contract",
-      "state": "open_owner_decision",
-      "detail": "state is unbound. A verifier must bind matter, owner, fact snapshot, route contract version, legal-rule version, waiting-period calculation, packet family, form-set version and form-set hash, and record a bound-inputs hash. Not a lane's to grant and not a captain's."
+      "state": "defined_unbound",
+      "detail": "The contract is now exact and computable -- src/lib/rcap/fulfillment/final-verification-contract.ts hashes participant, matter, route, packet family, fact snapshot, specification hash, source hashes, filing artifact hash and verification revision -- so a material Review and Edit change invalidates a verification by arithmetic. State is still unbound: no verification has been run against a real matter, and running one is not a lane's to grant and not a captain's."
     },
     {
       "dimension": "output_legal_approval",
@@ -91,13 +91,13 @@
     },
     {
       "dimension": "durable_render",
-      "state": "classified_not_exercisable_here",
-      "detail": "The render worker writes through Supabase storage with upsert:false. No Supabase is configured in this environment and configuring one would be a production action, so durability is established by reading the adapter's contract rather than by writing an object."
+      "state": "closed",
+      "detail": "Exercised, not reasoned about. Against an ephemeral PostgreSQL 16 cluster carrying the committed render-job schema and a filesystem backend implementing the same PacketArtifactStorage interface: the write-once rule was watched refusing a second write, the stored bytes read back exactly, a disagreeing stored digest failed the job with checksum_mismatch, tampered bytes failed closed at delivery, and with everything else satisfied the last door was Grade-A commercial admission. Evidence: data/rcap-lane-c/oregon/durable-render-evidence.json."
     },
     {
       "dimension": "artifact_validation",
-      "state": "classified_wrong_object",
-      "detail": "artifactValidation.state is validated, but against the text composition. Validation of the fileable PDF exists in Lane C's overlay reports and is not what the Grade-A record cites."
+      "state": "closed",
+      "detail": "artifactValidation is validated against the fileable PDF, and the v2 fileability proof binds the same digest with its page count and its producer."
     },
     {
       "dimension": "private_briefcase_attachment",
@@ -136,8 +136,8 @@
     },
     {
       "dimension": "commercial_admission_schema",
-      "state": "open_engineering_gap",
-      "detail": "Every Oregon record declares rcap-grade-a-fulfillment-authority/v1. Commercial admission requires rcap-grade-a-fulfillment-authority/v2. Even with both owner proofs in place the route is refused at all ten points with fulfillment_schema_below_admission_minimum. This is a record-shape gap in a captain-owned path, not an owner decision."
+      "state": "closed",
+      "detail": "This record declares rcap-grade-a-fulfillment-authority/v2, which is the schema commercial admission requires, and it declares it because it carries the fileability proof that schema adds. The route is still refused at all ten points -- on its outstanding proofs now, not on its shape."
     },
     {
       "dimension": "route_to_track_statutory_fidelity",
@@ -151,8 +151,8 @@
     },
     {
       "dimension": "packet_family_resolution",
-      "state": "open_engineering_gap",
-      "detail": "resolvePacketFamilyId reads packetSpecificationFor(routeId), and src/lib/rcap/grade-a/packet-specification.ts loads exactly one specification, North Dakota's. Every Oregon route resolves to null, and the record's packetFamilyId is also null, so the family cross-check the comment describes as an independent server-side statement passes as null === null. It agrees for the wrong reason."
+      "state": "closed",
+      "detail": "An Oregon specification is registered, so resolvePacketFamilyId returns rcap-or-official-pdf-fill and the record binds the same value. The cross-check compares two real, independently produced statements instead of passing as null against null. The specification is derived from the owner-approved packet set and declares its seven legal sections unbound, so it identifies the family without pretending to statements nobody has decided."
     }
   ]
 }

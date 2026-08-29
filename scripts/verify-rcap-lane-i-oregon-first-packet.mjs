@@ -28,6 +28,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import crypto from "node:crypto";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -382,9 +383,9 @@ const specInputs = specificationHashInputs(SELECTED_ROW, SELECTED_RECORD);
 const recomputedSpecHash = sha256(stableStringify(specInputs));
 
 check(
-  "D1-spec: the bound specification hash is exactly the generator's three-value digest",
-  recomputedSpecHash === SELECTED_RECORD?.packetSpecification?.sha256,
-  `recomputed ${recomputedSpecHash}, bound ${SELECTED_RECORD?.packetSpecification?.sha256}`
+  "D1-spec: the bound specification hash is no longer the three-value digest this lane found",
+  recomputedSpecHash !== SELECTED_RECORD?.packetSpecification?.sha256,
+  `the record still binds the count-based digest ${recomputedSpecHash}`
 );
 
 /**
@@ -402,9 +403,41 @@ if (mutatedSet.components?.[0]) {
 }
 const specHashAfterContentChange = sha256(stableStringify(specificationHashInputs(SELECTED_ROW, SELECTED_RECORD)));
 check(
-  "D2-spec: replacing a bound official form inside the specification leaves the specification hash unchanged",
+  "D2-spec: the old formula was blind to a replaced official form, which is why it was replaced",
   specHashAfterContentChange === recomputedSpecHash,
   `${specHashAfterContentChange} vs ${recomputedSpecHash}`
+);
+
+// The property the new hash has to have, proved the same way: take the
+// controlling manifest, swap one component's bound official form, regenerate,
+// and require the bound hash to move. A hash that does not move here is a hash a
+// reviewer cannot rely on when told "approve specification <digest>".
+const specGeneratorRel = "scripts/generate-rcap-grade-a-fulfillment-authority.mjs";
+const manifestRel = "data/record-clearing/legal-design-packet-set-manifests.json";
+const manifestBefore = fs.readFileSync(abs(manifestRel), "utf8");
+let boundHashAfterSwap = null;
+try {
+  const manifests = JSON.parse(manifestBefore);
+  const set = (manifests.packetSets ?? []).find((x) => x.packetSetId === selectedSetId);
+  set.components[0].officialFormId = "OR-OJD-MJ-PCR";
+  fs.writeFileSync(abs(manifestRel), `${JSON.stringify(manifests, null, 2)}\n`);
+  execFileSync("node", [abs(specGeneratorRel)], { cwd: rootDir, stdio: "pipe" });
+  boundHashAfterSwap = read(REGISTRY).records
+    .find((r) => r.routeId === SELECTED_ROUTE)?.packetSpecification?.sha256 ?? null;
+} finally {
+  // Restore before anything else reads it, whatever happened above.
+  fs.writeFileSync(abs(manifestRel), manifestBefore);
+  execFileSync("node", [abs(specGeneratorRel)], { cwd: rootDir, stdio: "pipe" });
+}
+check(
+  "D2b-spec: replacing a bound official form DOES move the hash the record now binds",
+  boundHashAfterSwap !== null && boundHashAfterSwap !== SELECTED_RECORD?.packetSpecification?.sha256,
+  `${boundHashAfterSwap} vs ${SELECTED_RECORD?.packetSpecification?.sha256}`
+);
+check(
+  "D2c-spec: and the registry is byte-identical again afterwards",
+  read(REGISTRY).records.find((r) => r.routeId === SELECTED_ROUTE)?.packetSpecification?.sha256
+    === SELECTED_RECORD?.packetSpecification?.sha256
 );
 
 // The content digest this lane offers instead. Over the packet set manifest's
@@ -444,15 +477,26 @@ check(
   `${fileablePdfPages} vs ${primaryForm?.pageCount}`
 );
 check(
-  "E3-artifact: the artifact the Grade-A record validates is NOT the fileable PDF",
-  SELECTED_RECORD?.artifactValidation?.artifactSha256 !== fileablePdfSha,
+  "E3-artifact: the Grade-A record now validates the fileable PDF",
+  SELECTED_RECORD?.artifactValidation?.artifactSha256 === fileablePdfSha,
   `record binds ${SELECTED_RECORD?.artifactValidation?.artifactSha256}, the fileable PDF is ${fileablePdfSha}`
 );
 check(
-  "E4-artifact: what the record validates is the launch graph's text composition, and the probe says official-form filling was not exercised",
-  SELECTED_RECORD?.artifactValidation?.artifactSha256 === SELECTED_ROW?.artifactResult?.sha256
+  "E4-artifact: and no longer the launch graph's text composition, which the probe itself says was never a filled official form",
+  SELECTED_RECORD?.artifactValidation?.artifactSha256 !== SELECTED_ROW?.artifactResult?.sha256
     && /Official-form filling cannot be exercised/i.test(launchGraph.artifactProbe?.limitation ?? ""),
   `${SELECTED_RECORD?.artifactValidation?.artifactSha256} / ${SELECTED_ROW?.artifactResult?.sha256}`
+);
+check(
+  "E4b-artifact: the fileability proof binds the same PDF and records what produced it",
+  SELECTED_RECORD?.packetCompleteness?.filingFormatArtifact?.sha256 === fileablePdfSha
+    && Boolean(SELECTED_RECORD?.packetCompleteness?.filingFormatArtifact?.producedBy?.renderer),
+  JSON.stringify(SELECTED_RECORD?.packetCompleteness?.filingFormatArtifact?.producedBy)
+);
+check(
+  "E4c-artifact: the producer is not claimed to be the delivery image, and the difference is reconciled",
+  SELECTED_RECORD?.packetCompleteness?.filingFormatArtifact?.producedBy?.matchesRecordProvider === false
+    && String(SELECTED_RECORD?.packetCompleteness?.filingFormatArtifact?.producedBy?.reconciliation ?? "").length > 0
 );
 check(
   "E5-artifact: a text composition is not a filing format under the admission rule",
@@ -489,9 +533,16 @@ function ownerProofsOutstanding(missing) {
 }
 
 check(
-  "F2-authority: the missing proofs are exactly the two owner decisions — both of them, and nothing else",
-  ownerProofsOutstanding(liveDecision.missingProof),
+  "F2-authority: the two owner decisions are still outstanding, alongside the undecided legal sections",
+  ownerProofsOutstanding(liveDecision.missingProof.filter((m) => !m.startsWith("packet_completeness:"))),
   JSON.stringify(liveDecision.missingProof)
+);
+check(
+  "F2b-authority: every remaining completeness gap is a legal section the specification declares unbound",
+  liveDecision.missingProof
+    .filter((m) => m.startsWith("packet_completeness:"))
+    .every((m) => /copyRequirements|feeAndWaiverInstructions|filingDestination|hearingAndObjectionStopConditions|postFilingSteps|serviceAndNotice/.test(m)),
+  JSON.stringify(liveDecision.missingProof.filter((m) => m.startsWith("packet_completeness:")))
 );
 
 check(
@@ -509,14 +560,18 @@ check(
 /**
  * Two counterfactuals, both in memory and both discarded when this process ends.
  *
- * Tier A answers "if the owner signs, does the product open?" The answer is no,
- * and that is the finding: a v1 record with every v1 proof is refused at every
- * admission point because it cannot have answered the fileability question. That
- * refusal is not an owner decision — it is a record-shape gap in a captain-owned
- * path.
+ * Tier A answers "if the owner signs the two outstanding decisions, does the
+ * product open?" The answer is still no, and the reason has changed since this
+ * lane first asked it. The record-shape gap it found -- a v1 record that could
+ * not answer the fileability question at all -- is closed: the record declares
+ * the admission schema and carries a fileability proof bound to the real filed
+ * PDF. What remains is six packet-completeness dimensions whose content is a
+ * legal statement this product would print, and whose specification sections are
+ * undecided. Those are owner decisions too, so the honest finding is that the
+ * two known ones were never the whole list.
  *
- * Tier B answers "and if that gap is also closed?" That is the tier where the
- * participant, entitlement, credit and delivery rules are actually exercised.
+ * Tier B answers "and if those six are decided as well?" That is the tier where
+ * the participant, entitlement, credit and delivery rules are exercised.
  */
 const OWNER_SCOPE_SHA = sha256(`counterfactual-owner-scope:${SELECTED_ROUTE}`);
 const BOUND_INPUTS_SHA = sha256(`counterfactual-bound-inputs:${SELECTED_ROUTE}`);
@@ -539,25 +594,30 @@ function withOwnerProofs(record) {
   };
 }
 
-function withFileabilityProof(record) {
+/**
+ * The six dimensions the committed record reports missing, decided.
+ *
+ * Every one of them is `missing` for the same reason: its content is a statement
+ * about Oregon law, the registered specification declares that section unbound,
+ * and a generator does not get to write one. Filling them here is a
+ * counterfactual and is labelled as one -- the basis strings say "counterfactual"
+ * so nothing in this object can be mistaken for a decision.
+ */
+function withDecidedLegalSections(record) {
+  const decided = (section) => ({
+    state: "covered",
+    basis: `counterfactual: ${section} decided by a legal-design owner; the committed specification declares it unbound`
+  });
   return {
     ...record,
-    schemaVersion: GRADE_A_ADMISSION_SCHEMA_VERSION,
     packetCompleteness: {
-      specificationId: selectedSetId,
-      specificationVersion: selectedSet?.version ?? "1.0.0",
-      specificationSha256: specificationContentSha256,
-      filingApplication: { state: "covered", basis: "OJD Criminal Set-Aside (Adult Cases) packet, pages 4-5: Motion to Set Aside and Seal, and Declaration of Eligibility." },
-      proposedOrder: { state: "covered", basis: "The packet's proposed order component, bound to the same official PDF." },
-      attachmentsAndSchedules: { state: "covered", basis: "OSP LEDS criminal history and the circuit court disposition record, both named in the packet set's participant actions." },
-      serviceAndNotice: { state: "covered", basis: "The packet set's service_instructions component." },
-      filingDestination: { state: "covered", basis: "The circuit court that handled the case, per the packet set's filing guidance." },
-      feeAndWaiverInstructions: { state: "covered", basis: "The packet set's guidance components carry the fee and waiver question to the clerk." },
-      copyRequirements: { state: "covered", basis: "The OJD packet's own instruction pages state the copy requirement." },
-      postFilingSteps: { state: "covered", basis: "The packet set's post_order_verification component." },
-      hearingAndObjectionStopConditions: { state: "covered", basis: "The packet set's objection_and_hearing_instructions component." },
-      customPleadingAuthority: { required: false, approved: false, authorityId: null },
-      filingFormatArtifact: { format: "pdf", sha256: fileablePdfSha, pageCount: fileablePdfPages }
+      ...record.packetCompleteness,
+      serviceAndNotice: decided("serviceAndNotice"),
+      filingDestination: decided("filingDestination"),
+      feeAndWaiverInstructions: decided("feeAndWaiver"),
+      copyRequirements: decided("copyRequirements"),
+      postFilingSteps: decided("postFilingTimeline"),
+      hearingAndObjectionStopConditions: decided("hearingAndObjectionStops")
     }
   };
 }
@@ -575,10 +635,20 @@ const tierA = withOwnerProofs(SELECTED_RECORD);
 const tierAObservation = observationFrom(tierA, SELECTED_OBSERVATION);
 const tierADecision = evaluateFulfillmentAuthority(tierA, tierAObservation, SELECTED_ROUTE);
 
+const UNDECIDED_SECTIONS = [
+  "packet_completeness: copyRequirements is missing",
+  "packet_completeness: feeAndWaiverInstructions is missing",
+  "packet_completeness: filingDestination is missing",
+  "packet_completeness: hearingAndObjectionStopConditions is missing",
+  "packet_completeness: postFilingSteps is missing",
+  "packet_completeness: serviceAndNotice is missing"
+];
+
 check(
-  "G1-tierA: with the two owner proofs in place and nothing else changed, the route evaluates as proven",
-  tierADecision.state === "COMPLETE_PACKET_PROVEN",
-  `${tierADecision.state}: ${JSON.stringify(tierADecision.missingProof)} / ${JSON.stringify(tierADecision.stalenessReasons)}`
+  "G1-tierA: the two known owner proofs are not the whole list; six undecided legal sections remain",
+  tierADecision.state === "INCOMPLETE"
+    && stableStringify(tierADecision.missingProof.slice().sort()) === stableStringify(UNDECIDED_SECTIONS),
+  `${tierADecision.state}: ${JSON.stringify(tierADecision.missingProof)}`
 );
 
 const tierAAdmission = admitCommercialAction({
@@ -590,8 +660,8 @@ const tierAAdmission = admitCommercialAction({
 });
 
 check(
-  "G2-tierA: and every admission point still refuses, because a v1 record cannot have proven fileability",
-  tierAAdmission.admitted === false && tierAAdmission.denialCode === "fulfillment_schema_below_admission_minimum",
+  "G2-tierA: and every admission point still refuses, now on the proofs rather than on the schema",
+  tierAAdmission.admitted === false && tierAAdmission.denialCode !== "fulfillment_schema_below_admission_minimum",
   `${tierAAdmission.admitted} / ${tierAAdmission.denialCode}`
 );
 check(
@@ -600,17 +670,20 @@ check(
   tierAAdmission.disposition
 );
 check(
-  "G4-tierA: the Oregon record as committed carries no fileability proof at all",
-  collectPacketCompletenessGaps(SELECTED_RECORD.packetCompleteness ?? null).length > 0,
+  "G4-tierA: the committed record now carries a fileability proof, and its only gaps are the undecided sections",
+  stableStringify(collectPacketCompletenessGaps(SELECTED_RECORD.packetCompleteness ?? null).slice().sort())
+    === stableStringify(UNDECIDED_SECTIONS),
   JSON.stringify(collectPacketCompletenessGaps(SELECTED_RECORD.packetCompleteness ?? null))
 );
 
-const tierB = withFileabilityProof(tierA);
+const tierB = withDecidedLegalSections(tierA);
 const tierBObservation = observationFrom(tierB, SELECTED_OBSERVATION);
 
 check(
-  "G5-tierB: with the fileability proof bound to the real 5-page PDF, no completeness gap remains",
-  collectPacketCompletenessGaps(tierB.packetCompleteness).length === 0,
+  "G5-tierB: with those six decided, no completeness gap remains and the real 5-page PDF is what is bound",
+  collectPacketCompletenessGaps(tierB.packetCompleteness).length === 0
+    && tierB.packetCompleteness.filingFormatArtifact.sha256 === fileablePdfSha
+    && tierB.packetCompleteness.filingFormatArtifact.pageCount === fileablePdfPages,
   JSON.stringify(collectPacketCompletenessGaps(tierB.packetCompleteness))
 );
 
@@ -888,10 +961,37 @@ if (fs.existsSync(abs(APPROVAL_PACKET))) {
     String(packet.requestedDecisionScope)
   );
   check(
-    "I10-approval: it says plainly that the artifact it reviews is not the artifact the Grade-A record validates",
-    art.notTheArtifactTheGradeARecordValidates?.recordBinds === SELECTED_RECORD?.artifactValidation?.artifactSha256
-      && art.notTheArtifactTheGradeARecordValidates?.recordBinds !== art.sha256,
-    stableStringify(art.notTheArtifactTheGradeARecordValidates ?? null)
+    "I10-approval: the artifact it reviews IS the artifact the Grade-A record validates",
+    art.theGradeARecordValidatesThisSameArtifact?.recordBinds === SELECTED_RECORD?.artifactValidation?.artifactSha256
+      && art.theGradeARecordValidatesThisSameArtifact?.recordBinds === art.sha256,
+    stableStringify(art.theGradeARecordValidatesThisSameArtifact ?? null)
+  );
+  check(
+    "I11-approval: it names the family the runtime resolves, not a null",
+    packet.packetFamily?.gradeARecordPacketFamilyId === SELECTED_RECORD?.packetFamilyId
+      && typeof SELECTED_RECORD?.packetFamilyId === "string" && SELECTED_RECORD.packetFamilyId.length > 0,
+    String(packet.packetFamily?.gradeARecordPacketFamilyId)
+  );
+  check(
+    "I12-approval: it names the canonical specification hash the record binds",
+    packet.specification?.boundSpecificationSha256 === SELECTED_RECORD?.packetSpecification?.sha256,
+    `${packet.specification?.boundSpecificationSha256} vs ${SELECTED_RECORD?.packetSpecification?.sha256}`
+  );
+  check(
+    "I13-approval: it does not claim the delivery image produced the artifact under review",
+    packet.providerAndRenderer?.artifactProducerMatchesRecordProvider === false
+      && String(packet.providerAndRenderer?.reconciliation ?? "").length > 0
+  );
+  check(
+    "I14-approval: its visual review is the independent raster review, bound to this artifact",
+    packet.pageByPageVisualReview?.reviewKind === "independent page-by-page raster review"
+      && (packet.pageByPageVisualReview?.boundTo?.artifactSha256 ?? []).includes(art.sha256)
+      && packet.pageByPageVisualReview?.pagesReviewed === 7,
+    stableStringify(packet.pageByPageVisualReview?.boundTo ?? null)
+  );
+  check(
+    "I15-approval: it states that the reviewed bytes did not change, and that is true of the file",
+    packet.regeneratedByCaptain?.artifactBytesChanged === false && art.sha256 === fileablePdfSha
   );
 } else {
   check("I1-approval: the approval packet exists", false, `${APPROVAL_PACKET} is absent`);
@@ -929,23 +1029,23 @@ const closure = {
   corpusArchiveSha256InCommittedIndex: corpusIndex.importVerification?.sourceArchiveSha256 ?? null,
   dimensions: [
     { dimension: "packet_specification_binding", state: "closed", detail: `The route binds packet set ${selectedSetId}, seven components, whose primary filing and proposed order both name OR-OJD-ADULT-SET-ASIDE-PACKET and whose record-gathering component names OR-OSP-SET-ASIDE-CCH.` },
-    { dimension: "specification_hash", state: "classified_defective", detail: `The bound hash ${SELECTED_RECORD?.packetSpecification?.sha256} is sha256 over {packetSetIds, componentCount, participantActionsRequired} only. Replacing a component's bound official form leaves it unchanged, and collectStaleness compares this value, so the specification can change under the record without ever reading as stale. A content digest over the manifest is ${specificationContentSha256}.` },
+    { dimension: "specification_hash", state: "closed", detail: `The bound hash ${SELECTED_RECORD?.packetSpecification?.sha256} is now a canonical digest over the whole specification: every packet set, every component's identity, role, requirement, output strategy, order and bound official form, that form's content digest, the field-map identity of each bound overlay, every participant action, the renderer identity, and the registered specification's own content hash. Check D2b proves it moves when a bound official form is swapped, by swapping one and regenerating. The previous formula was over a set id and two counts and moved for none of that.` },
     { dimension: "source_provenance_binding", state: "closed", detail: `All seven sources the envelope names were re-hashed from the mounted archive and agree exactly. All ${(corpusIndex.entries ?? []).length} binaries in the committed corpus index are byte-identical in the mounted archive, which settles Lane C's open question: the two archive identifiers differ in packaging, not in content.` },
     { dimension: "installed_byte_content_hashes", state: "closed", detail: `Recomputed from ${CORPUS_ROOT} in this run; expected and installed digests agree for both bound sources.` },
     { dimension: "provider_identity", state: "closed", detail: `${SELECTED_RECORD?.provider?.providerId} at image digest ${SELECTED_RECORD?.provider?.imageDigest}.` },
     { dimension: "renderer_identity_and_version", state: "closed", detail: `${SELECTED_RECORD?.provider?.rendererKind} version ${SELECTED_RECORD?.provider?.rendererVersion}.` },
-    { dimension: "artifact_producing_environment", state: "classified_split", detail: `Two different environments produce two different objects and the record names only one. The launch graph's artifact probe (${launchGraph.artifactProbe?.renderer}) composed the text the record validates and states that official-form filling could not be exercised. The fileable PDF was produced by ${read(`${OVERLAY_ROOT}/${PRIMARY_FAMILY}/reports/rendered-artifacts.json`).renderer}.` },
-    { dimension: "artifact_sha256", state: "classified_wrong_object", detail: `The record validates ${SELECTED_RECORD?.artifactValidation?.artifactSha256}, a ${SELECTED_ROW?.artifactResult?.characters}-character text composition in ${SELECTED_ROW?.artifactResult?.sections} sections. The object a participant would file is ${fileablePdfSha}, ${fileablePdfBytes} bytes, ${fileablePdfPages} pages. Under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing format.` },
+    { dimension: "artifact_producing_environment", state: "closed", detail: `Reconciled rather than collapsed. The record's provider is the delivery worker image; the filing artifact records its own producer, ${read(`${OVERLAY_ROOT}/${PRIMARY_FAMILY}/reports/rendered-artifacts.json`).renderer}, states that it is not the record's provider, and carries the reconciliation. The launch graph's probe (${launchGraph.artifactProbe?.renderer}) composed the text the record used to validate and is no longer what it binds.` },
+    { dimension: "artifact_sha256", state: "closed", detail: `The record validates ${SELECTED_RECORD?.artifactValidation?.artifactSha256}, which is the object a participant would file: ${fileablePdfBytes} bytes, ${fileablePdfPages} pages, application/pdf. It previously validated a ${SELECTED_ROW?.artifactResult?.characters}-character text composition, which under FILEABLE_ARTIFACT_FORMATS is not a filing format.` },
     { dimension: "page_by_page_visual_review_binding", state: "closed", detail: `Lane C's review is bound to the fileable PDF, not to the text composition: forms[0].finalizedArtifactSha256 is ${primaryForm?.finalizedArtifactSha256}, which this run recomputed from the committed bytes. 7 of 7 pages across both bound forms.` },
-    { dimension: "final_verification_contract", state: "open_owner_decision", detail: "state is unbound. A verifier must bind matter, owner, fact snapshot, route contract version, legal-rule version, waiting-period calculation, packet family, form-set version and form-set hash, and record a bound-inputs hash. Not a lane's to grant and not a captain's." },
+    { dimension: "final_verification_contract", state: "defined_unbound", detail: "The contract is now exact and computable -- src/lib/rcap/fulfillment/final-verification-contract.ts hashes participant, matter, route, packet family, fact snapshot, specification hash, source hashes, filing artifact hash and verification revision -- so a material Review and Edit change invalidates a verification by arithmetic. State is still unbound: no verification has been run against a real matter, and running one is not a lane's to grant and not a captain's." },
     { dimension: "output_legal_approval", state: "open_owner_decision", detail: "state is pending. A named reviewer must decide the completed output and record an approved-output scope hash." },
     { dimension: "exact_participant_matter_binding", state: "closed_under_counterfactual", detail: "Exercised through the real collectContextDenials: ownership, matter, snapshot-to-matter, snapshot-to-owner, snapshot-to-route and snapshot-to-family are each independently denying." },
     { dimension: "synthetic_consumer_payment_path", state: "closed_under_counterfactual", detail: "consumer_checkout admits on a proven route with an owned matter and a VERIFIED_PACKET_READY snapshot." },
     { dimension: "synthetic_sponsored_entitlement", state: "closed_under_counterfactual", detail: "sponsored_entitlement admits through the same function and the same rule; consumer and sponsored produce byte-identical denial sets." },
     { dimension: "exactly_one_sponsored_credit_on_first_generation", state: "closed_under_counterfactual", detail: "generation_admission admits on an unconsumed entitlement and refuses a consumed one as a double charge." },
     { dimension: "zero_credits_on_retry_and_download", state: "closed_under_counterfactual", detail: "provider_dispatch tolerates a consumed entitlement so a failed render retries free; repeat_download requires no entitlement at all." },
-    { dimension: "durable_render", state: "classified_not_exercisable_here", detail: "The render worker writes through Supabase storage with upsert:false. No Supabase is configured in this environment and configuring one would be a production action, so durability is established by reading the adapter's contract rather than by writing an object." },
-    { dimension: "artifact_validation", state: "classified_wrong_object", detail: "artifactValidation.state is validated, but against the text composition. Validation of the fileable PDF exists in Lane C's overlay reports and is not what the Grade-A record cites." },
+    { dimension: "durable_render", state: "closed", detail: "Exercised, not reasoned about. Against an ephemeral PostgreSQL 16 cluster carrying the committed render-job schema and a filesystem backend implementing the same PacketArtifactStorage interface: the write-once rule was watched refusing a second write, the stored bytes read back exactly, a disagreeing stored digest failed the job with checksum_mismatch, tampered bytes failed closed at delivery, and with everything else satisfied the last door was Grade-A commercial admission. Evidence: data/rcap-lane-c/oregon/durable-render-evidence.json." },
+    { dimension: "artifact_validation", state: "closed", detail: "artifactValidation is validated against the fileable PDF, and the v2 fileability proof binds the same digest with its page count and its producer." },
     { dimension: "private_briefcase_attachment", state: "closed_under_counterfactual", detail: "artifact_commercial_attachment and briefcase_ready admit only with private storage and a bound artifact digest." },
     { dimension: "first_download", state: "closed_under_counterfactual", detail: "private_download admits for the owner on the owned matter with the artifact digest bound." },
     { dimension: "repeat_download", state: "closed_under_counterfactual", detail: "repeat_download admits with no entitlement and is refused when no prior download exists." },
@@ -953,10 +1053,10 @@ const closure = {
     { dimension: "wrong_matter_denial", state: "closed_under_counterfactual", detail: "Denied: the snapshot belongs to a different matter." },
     { dimension: "substituted_artifact_denial", state: "closed_under_counterfactual", detail: "Denied at admission when no artifact digest binds delivery, and again at delivery: streamAuthorizedPacket re-reads the stored object and re-verifies its hash before serving a byte." },
     { dimension: "expired_link_denial", state: "not_applicable_by_architecture", detail: "There is no link to expire. Packet artifacts are never served through a signed URL: src/lib/rcap/render/artifact-storage.ts downloads through the server's own storage client and the bytes are streamed after re-verification. The property that replaces an expiry window is content re-verification on every delivery, which is proved above." },
-    { dimension: "commercial_admission_schema", state: "open_engineering_gap", detail: `Every Oregon record declares ${SELECTED_RECORD?.schemaVersion}. Commercial admission requires ${GRADE_A_ADMISSION_SCHEMA_VERSION}. Even with both owner proofs in place the route is refused at all ten points with fulfillment_schema_below_admission_minimum. This is a record-shape gap in a captain-owned path, not an owner decision.` },
+    { dimension: "commercial_admission_schema", state: "closed", detail: `This record declares ${SELECTED_RECORD?.schemaVersion}, which is the schema commercial admission requires, and it declares it because it carries the fileability proof that schema adds. The route is still refused at all ten points -- on its outstanding proofs now, not on its shape.` },
     { dimension: "route_to_track_statutory_fidelity", state: "open_counsel_question", detail: `The route id names ORS 137.225(1)(${routeSubsection}). The legal-design track registry files ${selectedTrackId}, the track this route binds, under ${trackSubsections.map((x) => `ORS 137.225(1)(${x})`).join(" and ")}. Oregon's committed legal review flags the same area as unsettled in headline finding 5. Two committed records disagree on the controlling subsection and a build lane does not get to pick one.` },
     { dimension: "route_scope_versus_packet_scope", state: "open_counsel_question", detail: `The route is labelled for arrests or charges without conviction, and the packet set it delivers is the acquittal track. ${unroutedNoConvictionTracks.join(" and ")} exist as complete seven-component packet sets and no launch-graph route reaches either, so a participant whose charge was dismissed or who was arrested without charges falls inside the route's name and outside its packet.` },
-    { dimension: "packet_family_resolution", state: "open_engineering_gap", detail: "resolvePacketFamilyId reads packetSpecificationFor(routeId), and src/lib/rcap/grade-a/packet-specification.ts loads exactly one specification, North Dakota's. Every Oregon route resolves to null, and the record's packetFamilyId is also null, so the family cross-check the comment describes as an independent server-side statement passes as null === null. It agrees for the wrong reason." }
+    { dimension: "packet_family_resolution", state: "closed", detail: `An Oregon specification is registered, so resolvePacketFamilyId returns ${SELECTED_RECORD?.packetFamilyId} and the record binds the same value. The cross-check compares two real, independently produced statements instead of passing as null against null. The specification is derived from the owner-approved packet set and declares its seven legal sections unbound, so it identifies the family without pretending to statements nobody has decided.` }
   ]
 };
 

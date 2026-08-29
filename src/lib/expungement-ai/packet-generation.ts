@@ -17,7 +17,7 @@ import {
   type PacketFulfillmentRecord
 } from "@/lib/expungement-ai/packet-fulfillment-authority";
 import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
-import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
+import { composablePacketSpecificationFor, packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { gradeAPacketFilename, renderGradeAPacketPdf } from "@/lib/rcap/grade-a/renderer";
 import { assertValidArtifact } from "@/lib/rcap/render/artifact-validation";
 import { admitCommercial } from "@/lib/rcap/fulfillment/grade-a-admission";
@@ -381,7 +381,11 @@ async function gradeAPacketDownload(
     repeatDownload: item.packetStatus === "downloaded"
   });
 
-  const specification = packetSpecificationFor(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId ?? ""}`);
+  // Composable, not merely registered. A specification whose legal sections are
+  // still undecided resolves for identity and never composes: it would hand a
+  // participant a packet with a filing destination, a fee rule and a service
+  // rule that no legal-design owner has decided.
+  const specification = composablePacketSpecificationFor(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId ?? ""}`);
   if (!specification || specification.specificationVersion !== artifactRefs.packetSpecificationVersion) {
     throw new ConsumerPacketNotReadyError();
   }
@@ -759,10 +763,20 @@ async function buildGradeAArtifact(
   generatedAt: string
 ): Promise<ConsumerPacketArtifactRefs> {
   const snapshot = verification.snapshot;
-  const specification = packetSpecificationFor(record.routeKey);
-  if (!specification) {
+  const registered = packetSpecificationFor(record.routeKey);
+  if (!registered) {
     throw new ConsumerPacketGenerationError(
       `${record.routeKey} has a fulfillment record naming specification ${record.packetSpecificationId}, and no such specification is registered. Failing closed.`
+    );
+  }
+  // Registered and composable are different questions, and the second one is
+  // the one that decides whether a document may be produced.
+  const specification = composablePacketSpecificationFor(record.routeKey);
+  if (!specification) {
+    throw new ConsumerPacketGenerationError(
+      `${record.routeKey}: specification ${record.packetSpecificationId} is registered but its legal sections are not bound `
+      + `(${(registered as { unboundLegalSections?: string[] }).unboundLegalSections?.join(", ") ?? "unspecified"}). `
+      + "A packet is never composed from a specification whose legal statements nobody has decided."
     );
   }
   if (specification.specificationVersion !== record.packetSpecificationVersion) {

@@ -143,7 +143,20 @@ function provenRecord(overrides = {}) {
       postFilingSteps: { state: "covered", basis: "postFilingTimeline" },
       hearingAndObjectionStopConditions: { state: "covered", basis: "hearingAndObjectionStops" },
       customPleadingAuthority: { required: true, approved: true, authorityId: "synthetic-drafting-authority" },
-      filingFormatArtifact: { format: "pdf", sha256: sha256("filing.pdf"), pageCount: 4 }
+      filingFormatArtifact: {
+        format: "pdf",
+        sha256: sha256("filing.pdf"),
+        pageCount: 4,
+        // An artifact now says what produced it. A proof that omits this is
+        // INCOMPLETE, which is the point of the field, so the fixture that is
+        // meant to be complete carries it.
+        producedBy: {
+          renderer: "fixture-renderer",
+          matchesRecordProvider: true,
+          reconciliation: null,
+          deterministicRenderVerified: true
+        }
+      }
     },
     visualReview: {
       state: "passed", pagesReviewed: 4, pageCount: 4,

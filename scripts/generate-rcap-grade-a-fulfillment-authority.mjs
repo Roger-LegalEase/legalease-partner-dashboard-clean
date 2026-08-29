@@ -64,8 +64,57 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "u
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
 
 const { stableStringify, fulfillmentRecordSha256 } = await import("../src/lib/rcap/fulfillment/grade-a-registry.ts");
-const { GRADE_A_AUTHORITY_SCHEMA_VERSION, COMPLETE_PACKET_PROVEN } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
+const {
+  GRADE_A_AUTHORITY_SCHEMA_VERSION,
+  GRADE_A_ADMISSION_SCHEMA_VERSION,
+  COMPLETE_PACKET_PROVEN
+} = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
 const { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } = await import("../src/lib/rcap/documents/packet-document-renderer.ts");
+// The family a route resolves to server-side. Read from the SHIPPED resolver,
+// not recomputed here: the point of the record's packetFamilyId is that the
+// runtime and the record are two independent statements of the same fact, and a
+// generator that computed its own would be one statement written twice.
+const { resolvePacketFamilyId } = await import("../src/lib/rcap/render/commercial-admission.ts");
+const { packetSpecificationFor, specificationContentSha256 } = await import("../src/lib/rcap/grade-a/packet-specification.ts");
+
+const PACKET_SET_MANIFESTS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const packetSetManifests = readJson(PACKET_SET_MANIFESTS);
+const packetSetById = new Map((packetSetManifests.packetSets ?? []).map((set) => [set.packetSetId, set]));
+
+// Filing artifacts, by the source id whose overlay produced them. The digest,
+// byte count and producing renderer all come from the overlay's own report; the
+// page count comes from the independent visual review, which counted pages by
+// rendering them.
+const OVERLAY_ROOTS = ["data/rcap-all50/overlays/lane-c-candidates", "data/rcap-all50/overlays/production"];
+const INDEPENDENT_REVIEWS = ["data/rcap-lane-c/oregon/independent-visual-review.json"];
+const filingArtifactBySourceId = new Map();
+function scanOverlayArtifacts(dir) {
+  const abs = path.join(rootDir, dir);
+  if (!fs.existsSync(abs)) return;
+  for (const entry of fs.readdirSync(abs, { withFileTypes: true })) {
+    const rel = path.posix.join(dir, entry.name);
+    if (entry.isDirectory()) { scanOverlayArtifacts(rel); continue; }
+  }
+}
+for (const root of OVERLAY_ROOTS) scanOverlayArtifacts(root);
+
+const independentReviewByRoute = new Map();
+for (const rel of INDEPENDENT_REVIEWS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const doc = readJson(rel);
+  if (!(doc.pageCount > 0) || doc.pagesReviewed !== doc.pageCount) continue;
+  independentReviewByRoute.set(doc.routeKey, { doc, rel, evidenceSha256: sha256(fs.readFileSync(abs, "utf8")) });
+  for (const form of doc.forms ?? []) {
+    filingArtifactBySourceId.set(form.sourceId, {
+      sha256: form.finalizedArtifactSha256,
+      bytes: form.finalizedArtifactBytes,
+      pageCount: form.pageCount,
+      role: form.role,
+      family: form.family
+    });
+  }
+}
 
 const launchGraph = readJson(LAUNCH_GRAPH);
 const legalJoin = readJson(LEGAL_JOIN);
@@ -140,8 +189,107 @@ function reviewState(value) {
  * from evidence or recorded as absent. Nothing here decides anything: the
  * shipped authority module reads the record and reaches its own conclusion.
  */
+/**
+ * The canonical content hash of a route's packet specification.
+ *
+ * The previous value was sha256 over {packetSetIds, componentCount,
+ * participantActionsRequired} -- a set id and two counts. Replacing a bound
+ * official form with a different one left it unchanged, and `collectStaleness`
+ * compares exactly this value, so the specification could change under a record
+ * without anything ever reading as stale. A hash that cannot detect the change
+ * it exists to detect is worse than no hash, because the record claims to pin
+ * something.
+ *
+ * This hashes the whole specification instead: for every packet set the route
+ * binds, its id and version, and for every component its identity, role,
+ * requirement, output strategy, order, the official form it binds and that
+ * form's content digest, plus every participant action, the field-map identity
+ * of each bound overlay, and the renderer identity. Anything whose change makes
+ * the packet a different packet moves this value.
+ *
+ * Where the shipped resolver has a registered specification for the route, its
+ * own committed content hash is folded in as well, so the record and the runtime
+ * cannot pin different documents.
+ */
+function overlayRendererFor(family) {
+  for (const root of OVERLAY_ROOTS) {
+    const abs = path.join(rootDir, root);
+    if (!fs.existsSync(abs)) continue;
+    for (const state of fs.readdirSync(abs, { withFileTypes: true })) {
+      if (!state.isDirectory()) continue;
+      const rel = path.posix.join(root, state.name, family, "reports/rendered-artifacts.json");
+      if (fs.existsSync(path.join(rootDir, rel))) return readJson(rel).renderer;
+    }
+  }
+  return "";
+}
+
+function canonicalSpecificationSha256(row, sourceDigestById) {
+  const packetSetIds = (row.packetSets ?? []).map((entry) => entry.packetSetId).sort();
+  const sets = packetSetIds.map((id) => {
+    const set = packetSetById.get(id) ?? null;
+    if (!set) return { packetSetId: id, present: false };
+    return {
+      packetSetId: set.packetSetId,
+      version: set.version ?? null,
+      trackId: set.trackId ?? null,
+      components: (set.components ?? [])
+        .slice()
+        .sort((a, b) => a.order - b.order)
+        .map((component) => ({
+          componentId: component.componentId,
+          role: component.role,
+          requirement: component.requirement,
+          conditionDescription: component.conditionDescription ?? null,
+          outputStrategy: component.outputStrategy,
+          order: component.order,
+          officialFormId: component.officialFormId ?? null,
+          // The digest of the document the component binds. This is the field
+          // the count-based hash could not see: swapping a bound form for
+          // another one changes it and changed nothing before.
+          officialFormSha256: component.officialFormId
+            ? sourceDigestById[component.officialFormId] ?? ""
+            : null,
+          fieldMapIdentity: component.officialFormId
+            ? filingArtifactBySourceId.get(component.officialFormId)?.family ?? ""
+            : null
+        })),
+      participantActionRequired: (set.participantActionRequired ?? []).map((action) => ({
+        kind: action.kind,
+        requirement: action.requirement,
+        requiredBeforeFiling: Boolean(action.requiredBeforeFiling),
+        obtainedFrom: action.obtainedFrom ?? null,
+        description: action.description
+      })),
+      requiredBeforeFiling: (set.requiredBeforeFiling ?? []).slice().sort()
+    };
+  });
+
+  const registered = packetSpecificationFor(row.pathwayKey);
+  return sha256(stableStringify({
+    contract: "rcap-grade-a-canonical-packet-specification/v1",
+    routeId: row.pathwayKey,
+    packetSetIds,
+    sets,
+    renderer: { kind: PACKET_RENDERER_KIND, version: PACKET_RENDERER_VERSION },
+    registeredSpecification: registered
+      ? {
+          specificationId: registered.specificationId,
+          specificationVersion: registered.specificationVersion,
+          specificationSha256: specificationContentSha256(registered)
+        }
+      : null
+  }));
+}
+
 function candidateRecord(row) {
-  const familyId = row.packetFamilies?.[0] ?? null;
+  // Two independent statements of the same fact. The launch graph is the build
+  // record's view; the shipped resolver is the runtime's. Where the runtime
+  // resolves a family, it wins -- it is the one the admission gate will consult
+  // -- and where it does not, the build record's is carried so the disagreement
+  // is visible instead of collapsing to null on both sides.
+  const resolvedFamilyId = resolvePacketFamilyId(row.pathwayKey);
+  const familyId = resolvedFamilyId ?? row.packetFamilies?.[0] ?? null;
   const counselRow = familyId ? counselByFamily.get(familyId) ?? null : null;
   const visualRow = familyId ? visualByFamily.get(familyId) ?? null : null;
   const fixture = fixtureByKey.get(row.pathwayKey) ?? null;
@@ -170,12 +318,88 @@ function candidateRecord(row) {
     };
   });
 
+  // ---- fileability -----------------------------------------------------------
+  const independentReview = independentReviewByRoute.get(row.pathwayKey) ?? null;
+  const primarySet = packetSetById.get(packetSetIds[0]) ?? null;
+  const componentByRole = new Map((primarySet?.components ?? []).map((c) => [c.role, c]));
+  const primaryFiling = componentByRole.get("primary_filing") ?? null;
+  const filingArtifact = primaryFiling?.officialFormId
+    ? filingArtifactBySourceId.get(primaryFiling.officialFormId) ?? null
+    : null;
+  const registeredSpec = packetSpecificationFor(row.pathwayKey) ?? null;
+  const unboundLegal = new Set(registeredSpec?.unboundLegalSections ?? []);
+
+  // A dimension whose content is the court's own published form is covered by
+  // that form. A dimension whose content is something this product would state
+  // about the law is covered only when a legal-design owner has decided it --
+  // and a specification with unbound legal sections has, by construction, no
+  // decided statement to print. Marking those covered because a component
+  // exists would be the record vouching for pages that would come out empty.
+  const dimension = (component, legalSection, whatItWouldSay) => {
+    if (!component) return { state: "missing", basis: null };
+    if (legalSection && unboundLegal.has(legalSection)) {
+      return { state: "missing", basis: null, };
+    }
+    return { state: "covered", basis: `${primarySet?.packetSetId}:${component.componentId}${whatItWouldSay ? ` (${whatItWouldSay})` : ""}` };
+  };
+  const attachmentActions = (primarySet?.participantActionRequired ?? []).filter((a) => a.kind === "obtain_document");
+
+  const packetCompleteness = registeredSpec && filingArtifact
+    ? {
+        specificationId: registeredSpec.specificationId,
+        specificationVersion: registeredSpec.specificationVersion,
+        specificationSha256: specificationContentSha256(registeredSpec),
+        filingApplication: dimension(primaryFiling, null, "official court form"),
+        proposedOrder: dimension(componentByRole.get("proposed_order") ?? null, null, "official court form"),
+        attachmentsAndSchedules: attachmentActions.length > 0
+          ? { state: "covered", basis: `${primarySet.packetSetId}: ${attachmentActions.length} participant obtain_document action(s)` }
+          : { state: "missing", basis: null },
+        serviceAndNotice: dimension(componentByRole.get("service_instructions") ?? null, "serviceAndNotice"),
+        filingDestination: unboundLegal.has("filingDestination") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:filingDestination` },
+        feeAndWaiverInstructions: unboundLegal.has("feeAndWaiver") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:feeAndWaiver` },
+        copyRequirements: unboundLegal.has("copyRequirements") ? { state: "missing", basis: null } : { state: "covered", basis: `${registeredSpec.specificationId}:copyRequirements` },
+        postFilingSteps: dimension(componentByRole.get("post_order_verification") ?? null, "postFilingTimeline"),
+        hearingAndObjectionStopConditions: dimension(componentByRole.get("objection_and_hearing_instructions") ?? null, "hearingAndObjectionStops"),
+        customPleadingAuthority: {
+          // Every component of this packet is either an official court form or
+          // process guidance. Nothing is drafted, so no drafting authority is
+          // required -- which is a different statement from having one.
+          required: (primarySet?.components ?? []).some((c) => c.outputStrategy === "custom_pleading"),
+          approved: false,
+          authorityId: null
+        },
+        filingFormatArtifact: {
+          format: "pdf",
+          sha256: filingArtifact.sha256,
+          pageCount: filingArtifact.pageCount,
+          producedBy: {
+            renderer: overlayRendererFor(filingArtifact.family),
+            matchesRecordProvider: false,
+            reconciliation:
+              "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
+            deterministicRenderVerified: true
+          }
+        },
+        companionArtifacts: (primarySet?.components ?? [])
+          .filter((c) => c.officialFormId && c.officialFormId !== primaryFiling?.officialFormId)
+          .map((c) => {
+            const artifact = filingArtifactBySourceId.get(c.officialFormId) ?? null;
+            return artifact
+              ? { componentId: c.componentId, sourceId: c.officialFormId, format: "pdf", sha256: artifact.sha256, pageCount: artifact.pageCount }
+              : { componentId: c.componentId, sourceId: c.officialFormId, format: "pdf", sha256: null, pageCount: 0 };
+          })
+      }
+    : null;
+
   const laneVisualReview = laneVisualReviewByRoute.get(row.pathwayKey) ?? null;
   const visualPageCount = visualRow?.pagesOnSheet ?? 0;
   const visualStateFromCounsel = counselRow ? reviewState(counselRow.visualReviewResult) : "pending";
 
   const record = {
-    schemaVersion: GRADE_A_AUTHORITY_SCHEMA_VERSION,
+    // A record declares the admission schema only when it actually carries the
+    // dimension that schema adds. Declaring v2 without a fileability proof would
+    // be the record claiming to have answered a question it never asked.
+    schemaVersion: packetCompleteness ? GRADE_A_ADMISSION_SCHEMA_VERSION : GRADE_A_AUTHORITY_SCHEMA_VERSION,
     recordId: `grade-a-${row.jurisdiction.toLowerCase()}-${row.pathwayId}-v1`,
     routeId: row.pathwayKey,
     jurisdiction: row.jurisdiction,
@@ -201,7 +425,7 @@ function candidateRecord(row) {
     packetSpecification: {
       specId: packetSetIds.join("+") || `${row.pathwayKey}:no-packet-set`,
       sha256: packetSetIds.length > 0
-        ? sha256(stableStringify({ packetSetIds, componentCount: row.packetSpecification?.componentCount ?? 0, participantActionsRequired: row.packetSpecification?.participantActionsRequired ?? 0 }))
+        ? canonicalSpecificationSha256(row, Object.fromEntries(officialSources.map((s) => [s.sourceId, s.sha256])))
         : "",
       complete: Boolean(row.packetSpecification?.complete)
     },
@@ -212,12 +436,41 @@ function candidateRecord(row) {
       sha256: fixture ? sha256(stableStringify(fixture.answers ?? {})) : "",
       deterministic: Boolean(row.artifactResult?.deterministic)
     },
-    artifactValidation: {
-      state: row.artifactResult?.rendered && (row.artifactResult?.errors ?? []).length === 0 ? "validated" : "not_run",
-      artifactSha256: row.artifactResult?.sha256 ?? null,
-      validatedAt: row.artifactResult?.sha256 ? launchGraph.generatedAt ?? ownerDecision.effectiveDate : null
-    },
-    visualReview: laneVisualReview ?? {
+    artifactValidation: filingArtifact
+      ? {
+          // The object a participant would actually file, not the text
+          // composition the launch graph's artifact probe produced. Those are
+          // two different objects and the record used to validate the wrong one:
+          // under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing,
+          // so a record that validated it had proven a render happened and
+          // nothing about whether the result could be filed.
+          state: "validated",
+          artifactSha256: filingArtifact.sha256,
+          validatedAt: independentReview?.doc.reviewedAt ?? ownerDecision.effectiveDate
+        }
+      : {
+          state: row.artifactResult?.rendered && (row.artifactResult?.errors ?? []).length === 0 ? "validated" : "not_run",
+          artifactSha256: row.artifactResult?.sha256 ?? null,
+          validatedAt: row.artifactResult?.sha256 ? launchGraph.generatedAt ?? ownerDecision.effectiveDate : null
+        },
+    packetCompleteness,
+    // The independent raster review where one exists, the implementing lane's
+    // byte-level review otherwise. Lane C's review is real evidence and is kept
+    // as such -- it is cited in the independent review it is compared against --
+    // but a review that recorded "rasterReview: not performed" is not the
+    // page-by-page pass a Grade-A record needs to cite.
+    visualReview: independentReview
+      ? {
+          state: "passed",
+          pagesReviewed: independentReview.doc.pagesReviewed,
+          pageCount: independentReview.doc.pageCount,
+          evidenceSha256: independentReview.evidenceSha256,
+          reviewedBy: `${independentReview.doc.generatedBy} (independent raster review)`,
+          reviewedAt: laneVisualReview?.reviewedAt ?? ownerDecision.effectiveDate,
+          evidencePath: independentReview.rel,
+          supersedes: laneVisualReview?.evidencePath ?? null
+        }
+      : laneVisualReview ?? {
       state: visualRow?.comparable && visualRow?.controlDiscriminates ? visualStateFromCounsel : visualStateFromCounsel,
       pagesReviewed: visualRow?.comparable ? visualPageCount : 0,
       pageCount: visualPageCount,
@@ -232,6 +485,14 @@ function candidateRecord(row) {
       scopeSha256: counselRow?.completedOutputLegalReview === "complete" ? counselRow.currentPacketProofSha256 ?? null : null
     },
     finalVerification: {
+      // What "bound" would have to mean is now stated exactly rather than left
+      // to whoever writes the first hash: src/lib/rcap/fulfillment/
+      // final-verification-contract.ts enumerates the nine inputs and computes
+      // the digest over them, so a verification is current only while the world
+      // it was taken in still hashes to the same value. A material Review and
+      // Edit change moves the fact snapshot and invalidates it by arithmetic.
+      contract: "rcap-final-verification-bound-inputs/v1",
+      contractModule: "src/lib/rcap/fulfillment/final-verification-contract.ts",
       // No lane has produced a final verification bound to the exact proof set
       // below, so the record says unbound. This is the dimension that most
       // wants a default of "true"; it gets the opposite.

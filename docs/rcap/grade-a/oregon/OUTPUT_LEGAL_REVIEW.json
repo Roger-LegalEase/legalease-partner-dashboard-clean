@@ -5,11 +5,14 @@
   "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
   "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
   "packetFamily": {
-    "gradeARecordPacketFamilyId": null,
+    "gradeARecordPacketFamilyId": "rcap-or-official-pdf-fill",
+    "resolvedByTheRuntime": "rcap-or-official-pdf-fill",
+    "resolvedFrom": "src/lib/rcap/grade-a/packet-specification.ts, via resolvePacketFamilyId in src/lib/rcap/render/commercial-admission.ts",
+    "packetFamilyLabel": "Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
     "overlayJurisdictionFolder": "oregon",
     "primaryFilingFamily": "or-ojd-adult-set-aside-packet-motion-and-declaration",
     "recordGatheringFamily": "or-osp-set-aside-criminal-history-request-and-instructions",
-    "note": "The Grade-A record carries a null packetFamilyId, and resolvePacketFamilyId also returns null for every Oregon route because src/lib/rcap/grade-a/packet-specification.ts loads only the North Dakota specification. The overlay families named here are the build-side identity and are not the same field."
+    "note": "The record's packetFamilyId and the runtime's resolvePacketFamilyId are two independent statements of the same fact and now agree on a real value. They previously agreed as null against null, because no Oregon specification was registered; that cross-check proved nothing."
   },
   "legalAuthority": {
     "controllingStatuteInRouteId": "ORS 137.225(1)(c)",
@@ -49,23 +52,40 @@
     "statement": "Every source digest in this packet was recomputed from the mounted archive's own bytes in the run that produced this record. All 329 binaries the committed corpus index describes are byte-identical in the mounted archive, which establishes that the two archive identifiers differ in packaging and not in content."
   },
   "specification": {
+    "specificationId": "or-set-aside-without-conviction",
+    "specificationVersion": "1.0.0",
     "packetSetId": "or_acquittal-set",
     "packetSetVersion": "1.0.0",
     "components": 7,
     "participantActionsRequired": 16,
-    "boundSpecificationSha256": "b0557db5f56442202642530a29072edf651dab713286ce1253ab487361a40c2c",
-    "boundSpecificationSha256IsOver": "{packetSetIds, componentCount, participantActionsRequired} only",
-    "contentSha256OverTheManifestItself": "see data/rcap-lane-c/oregon/lane-i-proof-closure.json, dimension specification_hash",
-    "warning": "The bound specification hash does not pin the specification's content. Replacing a component's bound official form leaves it unchanged. A decision to approve 'this specification' should name the packet-set manifest and its content digest, not the bound hash."
+    "boundSpecificationSha256": "ce11c1b80cdeb66387e3051b53dccfa79aaa4b297b53d4bc5a285a5af67a4466",
+    "boundSpecificationSha256IsOver": "the whole specification: every packet set's id and version, every component's identity, role, requirement, output strategy, order, bound official form and that form's content digest, the field-map identity of each bound overlay, every participant action, the renderer identity, and the registered specification's own content hash",
+    "registeredSpecificationSha256": "26c74e502283d08e4cccdcfe7cb25f0a409cdf1ad6077a2601a92ea9cbbf16c1",
+    "provenSensitive": "Proved rather than asserted: verify-rcap-lane-i-oregon-first-packet.mjs check D2b swaps one component's bound official form in the controlling manifest, regenerates, and requires the bound hash to move — then restores and requires the registry to come back byte-identical.",
+    "legalSectionsBound": false,
+    "unboundLegalSections": [
+      "copyRequirements",
+      "feeAndWaiver",
+      "filingDestination",
+      "hearingAndObjectionStops",
+      "postFilingTimeline",
+      "serviceAndNotice",
+      "statutoryAuthority"
+    ],
+    "warning": "The specification is derived from the owner-approved packet set and carries no legal statement nobody approved. Seven sections a packet may print as fact — the statutory authority and rule statement, filing destination, fee and waiver, service and notice, copy requirements, post-filing timeline and hearing stops — are declared UNBOUND. A packet cannot be composed from it and no route can be proven on it until a legal-design owner decides them."
   },
   "providerAndRenderer": {
-    "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
-    "rendererKind": "packet_document_v1",
-    "rendererVersion": "1.0.0",
-    "imageDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
-    "artifactProducingEnvironmentForTheArtifactBelow": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory; creation and modification dates pinned, so re-rendering the same facts against the same source binary reproduces the hash byte for byte."
+    "recordProviderId": "ghcr.io/roger-legalease/rcap-render-worker",
+    "recordRendererKind": "packet_document_v1",
+    "recordRendererVersion": "1.0.0",
+    "recordImageDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+    "whatTheRecordProviderIs": "the digest-pinned worker image that renders packets at delivery",
+    "artifactProducer": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory",
+    "artifactProducerMatchesRecordProvider": false,
+    "reconciliation": "The record's provider is the digest-pinned worker image that renders packets at delivery. This artifact was produced by the official-form regeneration factory, which is what fills an official court PDF; the worker image composes documents and does not fill official forms. Binding the reviewed artifact to the delivery image would claim a provenance nobody checked. Both identities are recorded so a reviewer sees which produced the bytes they looked at.",
+    "deterministicRenderVerified": true
   },
-  "candidateCommit": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "candidateCommit": "92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d",
   "artifactUnderReview": {
     "what": "The finalized Oregon primary filing: the OJD Criminal Set-Aside (Adult Cases) packet with the participant's facts written at the declared anchors on pages 4 and 5.",
     "path": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/fixtures/canonical-filled.pdf",
@@ -76,10 +96,10 @@
     "companionRecordGatheringArtifactSha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
     "companionPageCount": 2,
     "totalPageCountUnderReview": 7,
-    "notTheArtifactTheGradeARecordValidates": {
-      "recordBinds": "b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b",
-      "whatThatIs": "a 3,405-character text composition in 12 sections, produced by the launch graph's artifact probe, which states that official-form filling could not be exercised",
-      "why": "FILEABLE_ARTIFACT_FORMATS admits pdf and not a text composition. The object a participant would file is the PDF named above, and no Grade-A record binds it."
+    "theGradeARecordValidatesThisSameArtifact": {
+      "recordBinds": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+      "isTheArtifactUnderReview": true,
+      "previously": "The record validated b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b, a 3,405-character text composition produced by the launch graph's artifact probe, which itself states that official-form filling could not be exercised. Under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing, so the record had proven a render happened and nothing about whether the result could be filed. It now binds the PDF."
     }
   },
   "actualWriteEvidence": {
@@ -111,14 +131,32 @@
     "refusalsOfNote": "Zero values are written on the court's three instruction pages. The citing agency, the SID number, both signature lines and the prosecutor's address are refused by protected category, as are all 28 charge-table cells and every checkbox."
   },
   "pageByPageVisualReview": {
+    "reviewKind": "independent page-by-page raster review",
     "pagesReviewed": 7,
     "pageCount": 7,
-    "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
-    "reviewedAt": "2026-08-29",
-    "evidencePath": "data/rcap-lane-c/oregon/visual-review.json",
-    "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
-    "basis": "page-by-page inspection of each finalized artifact's own bytes: page count and geometry read from the PDF, every supplied value confirmed drawn by the document, residual form fields counted, and each artifact hash recomputed and matched against the family's rendered-artifacts report",
-    "rasterReview": "not performed — no rasteriser is available in this environment; each family's blank-vs-filled contact sheet is committed for a human reviewer",
+    "reviewedBy": "scripts/verify-rcap-oregon-independent-visual-review.mjs",
+    "evidencePath": "data/rcap-lane-c/oregon/independent-visual-review.json",
+    "evidenceSha256": "2999e3f45ef06cae475f9ba5af9a35175e0e90efad19011f26efb658339d5505",
+    "method": "Each finalized artifact was rasterised page by page through Chromium's own PDF engine at 1.6x the page's media box, and each rendered image was inspected for ink coverage and luminance. This is a different method from the implementing lane's, run against the same committed bytes.",
+    "boundTo": {
+      "candidateCommit": "92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d",
+      "specificationId": "or-set-aside-without-conviction",
+      "specificationVersion": "1.0.0",
+      "specificationSha256": "26c74e502283d08e4cccdcfe7cb25f0a409cdf1ad6077a2601a92ea9cbbf16c1",
+      "artifactSha256": [
+        "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a"
+      ],
+      "pageCount": 7,
+      "invalidatedBy": "any change to an artifact hash, the page count, the specification hash or the candidate commit. A review is of one exact document set and is never carried forward onto another."
+    },
+    "implementingLaneReview": {
+      "evidencePath": "data/rcap-lane-c/oregon/visual-review.json",
+      "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
+      "keptAsEvidence": true,
+      "whyItIsNotTheFinalReview": "Lane C recorded rasterReview: not performed, because no rasteriser was available to it. A review that never rendered a page cannot have seen a clipped value, a caption written over preprinted wording, or a page that renders blank -- which are the defects visual review exists to catch. Its byte-level findings remain evidence and are compared against here.",
+      "agreesOnPageCount": true
+    },
     "contactSheets": {
       "primaryFiling": "8e1b140576c5911df3ba83f1cc2b4a5c8d5db99bc2c599686c7600c862fcc3ed",
       "recordGathering": "0ea5fa1e994644a3011fe8a924b36b16e109449f286774b3daec0ff344c8563e"
@@ -128,7 +166,7 @@
   "commercialPostureNote": "Nothing in this packet opens checkout, sponsorship, a packet credit, a render, a delivery or any commercial status. The route is INCOMPLETE and all ten commercial admission points refuse it. It stays that way after this packet, whatever the decision is.",
   "reviewKind": "output_level_legal",
   "requestedDecisionScope": "one artifact and one specification, for one route",
-  "requestedApprovalStatement": "I approve the artifact at SHA-256 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f (5 pages, 217271 bytes), together with its companion record-gathering artifact at SHA-256 c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a (2 pages), as the completed output of route OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c, built from packet set or_acquittal-set version 1.0.0 against official sources OR-OJD-ADULT-SET-ASIDE-PACKET at b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071 and OR-OSP-SET-ASIDE-CCH at a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6, as observed at candidate commit 148382ab2a2acbe673b6d35c8967f5a908342e60.",
+  "requestedApprovalStatement": "I approve the artifact at SHA-256 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f (5 pages, 217271 bytes), together with its companion record-gathering artifact at SHA-256 c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a (2 pages), as the completed output of route OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c, built from packet set or_acquittal-set version 1.0.0 against official sources OR-OJD-ADULT-SET-ASIDE-PACKET at b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071 and OR-OSP-SET-ASIDE-CCH at a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6, under specification or-set-aside-without-conviction v1.0.0 at canonical hash ce11c1b80cdeb66387e3051b53dccfa79aaa4b297b53d4bc5a285a5af67a4466, as observed at candidate commit 92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d.",
   "requestedRejectionStatement": "I reject the above artifact and specification for this route, for the reasons recorded.",
   "whatApprovalWouldAndWouldNotDo": {
     "would": "Close the output_legal_approval dimension for this one route, at this one artifact hash and this one specification.",
@@ -161,11 +199,10 @@
     }
   ],
   "knownLimitations": [
-    "No rasteriser was available in any environment that has touched this artifact, so the page-by-page review was performed against each artifact's own bytes and the blank-vs-filled contact sheets are committed for a human to look at. This is not the independent human visual review the candidate families' production holds still require.",
-    "The bound specification hash does not pin the specification's content; see the specification block above.",
-    "The Grade-A record validates a text composition, not the PDF under review here.",
-    "Durable render was not exercised: no Supabase is configured in this environment and configuring one would be a production action.",
-    "The artifact under review was rendered from a canonical synthetic fixture, not from a real participant's facts."
+    "The artifact under review was rendered from a canonical synthetic fixture, not from a real participant's facts.",
+    "Seven legal sections of the specification are unbound. This decision is about the artifact and the document set, not about statements the packet does not yet make.",
+    "The independent review rasterised and inspected every page mechanically. It is not a substitute for a human reading the pages for legal sense, which is what this decision is being asked for.",
+    "Durable render was exercised against a nonproduction PostgreSQL cluster and a filesystem storage backend implementing the same interface. It does not establish that Supabase Storage enforces the same rule in a deployment."
   ],
   "registryStateNotAsserted": "This packet does not set outputLegalApproval.state. Nothing in this lane writes the Grade-A registry, which is a captain-only path.",
   "outstandingGatesAfterThisDecision": [
@@ -173,31 +210,68 @@
       "gate": "final_verification",
       "state": "unbound",
       "owner": "a verifier",
-      "note": "Not a lane's and not a captain's to grant."
+      "note": "The bound-inputs contract is now defined and computable; no verification has been run against a real matter."
     },
     {
-      "gate": "schemaVersion",
-      "state": "rcap-grade-a-fulfillment-authority/v1",
-      "owner": "captain",
-      "note": "Commercial admission requires v2. Even with both owner proofs in place, every admission point refuses with fulfillment_schema_below_admission_minimum. Engineering and captain work, not an owner decision."
+      "gate": "packet_completeness",
+      "state": "6 of 9 dimensions missing",
+      "owner": "a legal-design owner",
+      "note": "serviceAndNotice, filingDestination, feeAndWaiverInstructions, copyRequirements, postFilingSteps and hearingAndObjectionStopConditions are missing because the specification declares those legal sections unbound. They are decisions, not engineering."
     },
     {
-      "gate": "packetCompleteness",
-      "state": "absent",
-      "owner": "captain",
-      "note": "The v2 fileability proof. Lane I has established every value it needs, bound to the PDF under review."
+      "gate": "route_subsection",
+      "state": "unsettled",
+      "owner": "counsel",
+      "note": "ORS 137.225(1)(c) or (1)(d). Two committed records disagree."
+    },
+    {
+      "gate": "route_scope_versus_packet_scope",
+      "state": "unsettled",
+      "owner": "counsel",
+      "note": "Whether this route may deliver only the acquittal packet, or whether dismissed-charge and never-charged matters must bind to their own packet sets."
     },
     {
       "gate": "independent_human_visual_review",
       "state": "pending",
       "owner": "a human reviewer",
-      "note": "Contact sheets are committed."
+      "note": "Rasterised pages and contact sheets are committed."
     },
     {
       "gate": "production_overlay_admission",
       "state": "not_requested",
       "owner": "captain",
-      "note": "Oregon stays under overlays/lane-c-candidates/. Admission would additionally need a PDF implementation freeze naming these families and per-family artifact-provenance.json hashed from installed bytes."
+      "note": "Oregon stays under overlays/lane-c-candidates/."
     }
-  ]
+  ],
+  "candidateCommitNote": "The commit that carries the artifacts under review. Bound to those bytes rather than to the captain head, which advances with every integration and would retire a review of documents that had not changed.",
+  "durableRender": {
+    "exercised": true,
+    "evidencePath": "data/rcap-lane-c/oregon/durable-render-evidence.json",
+    "evidenceSha256": "125a19d6c98dd0a64c7395f0262ee719a17af43466435a24b34c4ab86f0bf35c",
+    "checks": 19,
+    "posture": "Exercised in a nonproduction stack. No Supabase credential was read, no Production configuration was touched, and no participant, payment, credit or entitlement exists outside the process that ran this.",
+    "theLastDoor": "With the object stored, re-read, hash-verified and untampered, the job validated, a synthetic consumer payment recorded through the shipped function, and the owner asking for their own matter, delivery is still refused with commercial_admission_denied. Everything durable render is responsible for holds; what refuses is the Grade-A authority, because this route is not commercially eligible. That is the correct outcome and the reason this exercise opens nothing."
+  },
+  "finalVerificationContract": {
+    "contract": "rcap-final-verification-bound-inputs/v1",
+    "module": "src/lib/rcap/fulfillment/final-verification-contract.ts",
+    "boundInputs": [
+      "participant",
+      "matter",
+      "route",
+      "packet family",
+      "canonical fact snapshot",
+      "specification content hash",
+      "official source hashes",
+      "filing artifact hash",
+      "verification revision"
+    ],
+    "invalidatedBy": "A material Review and Edit change moves the fact snapshot digest, which moves the bound-inputs digest, which makes the record's bound value disagree with the recomputed one. The verification is then invalid by arithmetic rather than by anyone remembering to invalidate it.",
+    "state": "unbound"
+  },
+  "regeneratedByCaptain": {
+    "why": "The engineering corrections changed what this packet describes: the family binding, the specification hash, the artifact the record validates, the record's schema, the producer identity, the verification contract, the visual review and the durable-render posture. Sending the earlier packet would have asked a reviewer to decide against a description that is no longer true.",
+    "artifactBytesChanged": false,
+    "artifactBytesChangedNote": "The PDF under review is byte-identical to the one Lane I reviewed: 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, 217271 bytes, 5 pages, recomputed from the committed file. Nothing about the document changed; what changed is what the record says about it."
+  }
 }

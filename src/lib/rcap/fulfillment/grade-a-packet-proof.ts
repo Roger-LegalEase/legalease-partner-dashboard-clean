@@ -61,6 +61,29 @@ export type FilingFormatArtifactProof = {
   format: string;
   sha256: string | null;
   pageCount: number;
+  /**
+   * What actually produced these bytes.
+   *
+   * A record's `provider` names the worker image that renders packets at
+   * delivery. That is not always the thing that produced the artifact a reviewer
+   * looked at: the Oregon filing PDFs were produced by the official-form
+   * regeneration factory, and the record named the delivery image. Binding a
+   * reviewed artifact to an image that did not produce it is a provenance claim
+   * nobody checked, and it is exactly the claim a reviewer would assume had been
+   * checked.
+   *
+   * So the artifact carries its own producer, and whether that producer is the
+   * record's provider is stated rather than implied. A mismatch is not itself a
+   * defect -- two environments legitimately produce two different objects -- but
+   * an unrecorded one is.
+   */
+  producedBy: {
+    renderer: string;
+    matchesRecordProvider: boolean;
+    /** Required when it does not match: why the difference is legitimate. */
+    reconciliation: string | null;
+    deterministicRenderVerified: boolean;
+  } | null;
 };
 
 /**
@@ -180,6 +203,22 @@ export function collectPacketCompletenessGaps(
     }
     if (!(artifact.pageCount > 0)) {
       gaps.push("packet_completeness: the filing-format artifact has no pages");
+    }
+    const producer = artifact.producedBy;
+    if (!producer) {
+      gaps.push("packet_completeness: the filing-format artifact does not record what produced it");
+    } else {
+      if (!nonEmpty(producer.renderer)) {
+        gaps.push("packet_completeness: the filing-format artifact's producer is unnamed");
+      }
+      if (!producer.matchesRecordProvider && !nonEmpty(producer.reconciliation)) {
+        gaps.push(
+          "packet_completeness: the filing-format artifact was produced by something other than the record's provider, with no reconciliation stating why that is legitimate"
+        );
+      }
+      if (!producer.deterministicRenderVerified) {
+        gaps.push("packet_completeness: the filing-format artifact's render has not been shown to be deterministic");
+      }
     }
   }
 

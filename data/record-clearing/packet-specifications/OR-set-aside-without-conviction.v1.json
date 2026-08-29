@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 2,
+  "specificationId": "or-set-aside-without-conviction",
+  "specificationVersion": "1.0.0",
+  "routeKey": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "jurisdiction": "OR",
+  "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+  "packetFamily": "rcap-or-official-pdf-fill",
+  "packetFamilyLabel": "Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
+  "packetFamilyLabelSource": "data/rcap-ledger/packet-family-build-status.json",
+  "trackId": "or_acquittal",
+  "packetSetId": "or_acquittal-set",
+  "packetSetVersion": "1.0.0",
+  "profileId": "OR",
+  "profileVersion": "2026-06-19-source-conversion-1",
+  "generatedBy": "scripts/generate-rcap-oregon-packet-specification.mjs",
+  "derivedFrom": [
+    "data/record-clearing/legal-design-packet-set-manifests.json",
+    "data/rcap-ledger/launch-graph.json",
+    "data/rcap-ledger/packet-family-build-status.json",
+    "data/rcap-all50/overlays/lane-c-candidates/oregon"
+  ],
+  "specificationNote": "Derived from the owner-approved legal design for or_acquittal-set. It carries no legal statement that was not already approved, and it carries no legal statement this generator would have had to write. The sections that would need one are declared unbound below.",
+  "legalSectionsBound": false,
+  "unboundLegalSections": [
+    "copyRequirements",
+    "feeAndWaiver",
+    "filingDestination",
+    "hearingAndObjectionStops",
+    "postFilingTimeline",
+    "serviceAndNotice",
+    "statutoryAuthority"
+  ],
+  "legalSections": {
+    "statutoryAuthority": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The controlling ORS subsection for this route, and the rule statement a packet may print. The route id names ORS 137.225(1)(c); the legal-design track registry files or_acquittal under a different subsection; Oregon's committed legal review flags the same area as unsettled. Two committed records disagree and a generator does not pick one."
+    },
+    "filingDestination": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "Which court and which case number an Oregon set-aside motion is filed in, and the rule that says so."
+    },
+    "feeAndWaiver": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The Oregon filing fee for this motion, whether a waiver applies, and the rule for each."
+    },
+    "serviceAndNotice": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "Whether service on the district attorney is required, on whom, and whether a certificate of service is included."
+    },
+    "copyRequirements": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "How many copies a participant brings and what happens to each."
+    },
+    "postFilingTimeline": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The steps and timings after filing that a packet may state as fact."
+    },
+    "hearingAndObjectionStops": {
+      "bound": false,
+      "boundBy": null,
+      "decisionRequired": "The situations in which a participant must stop and get help."
+    }
+  },
+  "whyIncomplete": "A packet may not be composed from this specification and no route may be proven on it while legalSectionsBound is false. That is the point: the specification exists so the family binding is real and checkable, not so the route can advance without the decisions it is still missing.",
+  "sourceIdentities": [
+    {
+      "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "kind": "packet_form",
+      "officialTitle": "OJD Criminal Set-Aside Adult Packet",
+      "revision": "REV-2026-01",
+      "verification": "asserted_by_ingestion",
+      "location": "STATES/OR/02_PACKET_FORMS/OR__FORM__OR-OJD-ADULT-SET-ASIDE-PACKET__ojd-criminal-set-aside-adult-packet__REV-2026-01__EN.pdf",
+      "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "fieldMap": {
+        "overlayFamily": "or-ojd-adult-set-aside-packet-motion-and-declaration",
+        "mapRecord": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/overlay-profile.json",
+        "mapSchemaVersion": "rcap-flat-overlay-profile/v2",
+        "overlayProfileSha256": "afc35c9df07ee191fc665c4f13f9a860d2ce8c1aa78411deac6a6585247355e1",
+        "boundFields": 8,
+        "censusFields": 76,
+        "note": "8 of 76 census fields are bound by this overlay."
+      },
+      "renderedArtifact": {
+        "renderer": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory",
+        "deterministicRenderVerified": true,
+        "canonicalFilledSha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+        "canonicalFilledBytes": 217271
+      }
+    },
+    {
+      "sourceId": "OR-OSP-SET-ASIDE-CCH",
+      "kind": "supporting_process",
+      "officialTitle": "Oregon State Police Set-Aside Criminal History Request and Instructions",
+      "revision": "REV-2022-01",
+      "verification": "asserted_by_ingestion",
+      "location": "STATES/OR/04_SUPPORTING_PROCESS/OR__SUPPORT__OR-OSP-SET-ASIDE-CCH__oregon-state-police-set-aside-criminal-history-request-and-instructions__REV-2022-01__EN.pdf",
+      "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "fieldMap": {
+        "overlayFamily": "or-osp-set-aside-criminal-history-request-and-instructions",
+        "mapRecord": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-osp-set-aside-criminal-history-request-and-instructions/production-field-map.json",
+        "mapSchemaVersion": "rcap-acroform-map/v6",
+        "overlayProfileSha256": "7aaa7bc1e99ba4164b09f0147b7b1f1cbbc82992d26b92b6cc793f9e5dc20276",
+        "boundFields": 3,
+        "censusFields": 22,
+        "note": "3 of 22 census fields are bound by this overlay."
+      },
+      "renderedArtifact": {
+        "renderer": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory",
+        "deterministicRenderVerified": true,
+        "canonicalFilledSha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
+        "canonicalFilledBytes": 223238
+      }
+    }
+  ],
+  "requiredFacts": [],
+  "requiredFactsNote": "The manifest states participant actions rather than a fact schema, so no fact ids are derived here. Binding them is part of the same legal-design decision that binds the sections above.",
+  "finalVerificationRequirements": [],
+  "documents": [
+    {
+      "documentId": "or_acquittal-primary-filing-1",
+      "role": "primary_filing",
+      "order": 1,
+      "outputStrategy": "official_pdf_fill",
+      "requirement": "required",
+      "officialFormId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "manifestComponentId": "or_acquittal-primary-filing-1",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-proposed-order-2",
+      "role": "proposed_order",
+      "order": 2,
+      "outputStrategy": "official_pdf_fill",
+      "requirement": "required",
+      "officialFormId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "manifestComponentId": "or_acquittal-proposed-order-2",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-fingerprint-step-3",
+      "role": "fingerprint_step",
+      "order": 3,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "or_acquittal-fingerprint-step-3",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-service-instructions-4",
+      "role": "service_instructions",
+      "order": 4,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "or_acquittal-service-instructions-4",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-record-gathering-instructions-5",
+      "role": "record_gathering_instructions",
+      "order": 5,
+      "outputStrategy": "official_pdf_fill",
+      "requirement": "required",
+      "officialFormId": "OR-OSP-SET-ASIDE-CCH",
+      "manifestComponentId": "or_acquittal-record-gathering-instructions-5",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-objection-and-hearing-instructions-6",
+      "role": "objection_and_hearing_instructions",
+      "order": 6,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "or_acquittal-objection-and-hearing-instructions-6",
+      "sections": []
+    },
+    {
+      "documentId": "or_acquittal-post-order-verification-7",
+      "role": "post_order_verification",
+      "order": 7,
+      "outputStrategy": "process_guidance",
+      "requirement": "required",
+      "officialFormId": null,
+      "manifestComponentId": "or_acquittal-post-order-verification-7",
+      "sections": []
+    }
+  ],
+  "participantActionRequired": [
+    {
+      "kind": "obtain_document",
+      "description": "Obtain Oregon State Police LEDS criminal history. Use the Oregon State Police set-aside criminal history request and instructions, retained in Edition 1.2, or the Oregon Judicial Department request for a set-aside criminal record check. The LEDS history fixes the offence class, the disposition and the sentence-completion dates, and it is obtained before anything is drafted.",
+      "obtainedFrom": "Oregon State Police",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"What was the offence called, which ORS section was cited, and on what date did it happen?\" against Oregon State Police LEDS criminal history, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_document",
+      "description": "Obtain Circuit court record showing the disposition and its date. Ask the circuit court clerk for the docket and the judgment or order showing how the case ended and when.",
+      "obtainedFrom": "The circuit court that handled the case",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"What was the offence called, which ORS section was cited, and on what date did it happen?\" against Circuit court record showing the disposition and its date, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "obtain_document",
+      "description": "Obtain A full set of fingerprints. Have a full set of fingerprints taken and forward them to the Department of State Police with its record-check fee. ORS 137.225(2)(c) and (2)(d).",
+      "obtainedFrom": "A law enforcement agency or an authorised fingerprinting service",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "confirm_answer",
+      "description": "Check your answer to \"What is your full legal name, and have you used any other names?\" against A full set of fingerprints, and correct the packet if they disagree.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "Signature on the declaration under penalty of perjury — Motion and declaration.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "Fingerprinting and forwarding the card to the Department of State Police with the fee — Outside the court packet, sent to OSP.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "The judge's signature and findings on the proposed order — Proposed order.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "complete_field",
+      "description": "Filing the motion and serving the prosecuting attorney — The circuit court and the prosecutor's office.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "sign",
+      "description": "The participant signs the motion and declaration under penalty of perjury.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "notarize",
+      "description": "None required.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "pay_fee",
+      "description": "No court filing fee under ORS 137.225(1)(g). The Department of State Police charges a record-check fee not exceeding actual cost, once per person where only one check is performed regardless of the number of counties. The prosecuting attorney may not charge a fee.",
+      "requirement": "required",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "apply_fee_waiver",
+      "description": "not applicable to the court filing.",
+      "requirement": "conditional",
+      "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+      "requiredBeforeFiling": true
+    },
+    {
+      "kind": "serve_party",
+      "description": "A copy of the motion is served on the office of the prosecuting attorney who prosecuted the charge.",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    },
+    {
+      "kind": "file",
+      "description": "File the motion and proposed order in the circuit court of the county in which the person was arrested, cited or charged. There is no waiting period.",
+      "requirement": "required",
+      "requiredBeforeFiling": false
+    }
+  ],
+  "requiredBeforeFiling": [
+    "Check your answer to \"What was the offence called, which ORS section was cited, and on what date did it happen?\" against Oregon State Police LEDS criminal history, and correct the packet if they disagree.",
+    "Obtain Circuit court record showing the disposition and its date. Ask the circuit court clerk for the docket and the judgment or order showing how the case ended and when.",
+    "Check your answer to \"What was the offence called, which ORS section was cited, and on what date did it happen?\" against Circuit court record showing the disposition and its date, and correct the packet if they disagree.",
+    "Obtain A full set of fingerprints. Have a full set of fingerprints taken and forward them to the Department of State Police with its record-check fee. ORS 137.225(2)(c) and (2)(d).",
+    "Check your answer to \"What is your full legal name, and have you used any other names?\" against A full set of fingerprints, and correct the packet if they disagree.",
+    "Signature on the declaration under penalty of perjury — Motion and declaration.",
+    "Fingerprinting and forwarding the card to the Department of State Police with the fee — Outside the court packet, sent to OSP.",
+    "The judge's signature and findings on the proposed order — Proposed order.",
+    "Filing the motion and serving the prosecuting attorney — The circuit court and the prosecutor's office.",
+    "The participant signs the motion and declaration under penalty of perjury.",
+    "None required.",
+    "No court filing fee under ORS 137.225(1)(g). The Department of State Police charges a record-check fee not exceeding actual cost, once per person where only one check is performed regardless of the number of counties. The prosecuting attorney may not charge a fee.",
+    "not applicable to the court filing."
+  ],
+  "attachments": [],
+  "participantChecklist": [],
+  "specificationSha256": "26c74e502283d08e4cccdcfe7cb25f0a409cdf1ad6077a2601a92ea9cbbf16c1"
+}
