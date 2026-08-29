@@ -25,7 +25,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { COMMERCIAL_ADMISSION_POINTS } = await import("../src/lib/rcap/fulfillment/grade-a-authority.ts");
-const { ADMISSION_CONTEXT_REQUIREMENTS } = await import("../src/lib/rcap/fulfillment/grade-a-request-context.ts");
+const { ADMISSION_CONTEXT_REQUIREMENTS, collectContextDenials } = await import("../src/lib/rcap/fulfillment/grade-a-request-context.ts");
 const lane = await import("../src/lib/rcap/render/commercial-admission.ts");
 const validation = await import("../src/lib/rcap/render/artifact-validation.ts");
 
@@ -256,6 +256,139 @@ check(
   "a page-count change is refused even when the digest is not checked",
   validation.validateArtifact({ bytes: PDF, expectedContentType: "application/pdf", expectedPageCount: 5 }).valid === false,
   "a page-count mismatch validated"
+);
+
+// --- participant denials, through the same admission ----------------------
+/**
+ * The participant half of the gate, exercised directly.
+ *
+ * Not through `admitCommercial`: the authority judges the route before the
+ * participant — deliberately, so no request-shaped probe can tell "your matter
+ * is wrong" from "this route was never proven" — and every route is unproven
+ * today, so every admission short-circuits with no context denials at all.
+ * Asserting through the full call would therefore pass while proving nothing,
+ * and would keep passing after a route became proven and the participant checks
+ * started mattering. So the context rule is asserted where it lives.
+ */
+function denialsFor(point, context) {
+  return collectContextDenials({
+    admissionPoint: point,
+    context,
+    routeId: identity.routeId,
+    packetFamilyId: identity.packetFamilyId
+  });
+}
+
+check(
+  "the route is judged before the participant, so an unproven route refuses identically for everyone",
+  COMMERCIAL_ADMISSION_POINTS.every((point) => {
+    const wrongUser = admit(point, { ...baseContext, matterOwnerUserId: "someone-else" });
+    const rightUser = admit(point, baseContext);
+    return wrongUser.denialCode === rightUser.denialCode;
+  }),
+  "an unproven route gave a different answer to a non-owner, which leaks another participant's state"
+);
+
+const OWNERSHIP_POINT = COMMERCIAL_ADMISSION_POINTS.find((p) => ADMISSION_CONTEXT_REQUIREMENTS[p].ownership);
+const ENTITLEMENT_POINT = COMMERCIAL_ADMISSION_POINTS.find((p) => ADMISSION_CONTEXT_REQUIREMENTS[p].entitlement);
+const STORAGE_POINT = COMMERCIAL_ADMISSION_POINTS.find((p) => ADMISSION_CONTEXT_REQUIREMENTS[p].storage);
+
+check(
+  "an anonymous participant is denied on ownership",
+  denialsFor(OWNERSHIP_POINT, { ...baseContext, participantUserId: "", matterOwnerUserId: "" })
+    .some((d) => d.startsWith("ownership:")),
+  "no ownership denial for an anonymous participant"
+);
+
+check(
+  "the wrong user is denied on ownership",
+  denialsFor(OWNERSHIP_POINT, { ...baseContext, matterOwnerUserId: "someone-else" })
+    .some((d) => d.includes("does not own this matter")),
+  "a non-owner was not denied"
+);
+
+check(
+  "a verification bound to another matter is denied",
+  denialsFor(OWNERSHIP_POINT, {
+    ...baseContext,
+    finalVerification: { ...baseContext.finalVerification, matterId: "a-different-matter" }
+  }).some((d) => d.startsWith("final_verification:")),
+  "a snapshot from another matter was accepted"
+);
+
+check(
+  "a verification bound to another route is denied",
+  denialsFor(OWNERSHIP_POINT, {
+    ...baseContext,
+    finalVerification: { ...baseContext.finalVerification, boundRouteId: "ZZ:some-other-route" }
+  }).some((d) => d.includes("not " + identity.routeId)),
+  "a snapshot for another route was accepted"
+);
+
+check(
+  "an entitlement with no idempotency key cannot charge or consume",
+  denialsFor(ENTITLEMENT_POINT, {
+    ...baseContext,
+    entitlement: { ...baseContext.entitlement, idempotencyKey: null }
+  }).some((d) => d.includes("idempotency key")),
+  "a keyless entitlement was accepted"
+);
+
+check(
+  "an entitlement the server did not verify is denied",
+  denialsFor(ENTITLEMENT_POINT, {
+    ...baseContext,
+    entitlement: { ...baseContext.entitlement, serverVerified: false }
+  }).some((d) => d.startsWith("entitlement:")),
+  "an unverified entitlement was accepted"
+);
+
+// The retry rule: a spent entitlement re-dispatches and never re-consumes.
+const spent = { ...baseContext, entitlement: { ...baseContext.entitlement, alreadyConsumed: true } };
+for (const point of COMMERCIAL_ADMISSION_POINTS.filter((p) => ADMISSION_CONTEXT_REQUIREMENTS[p].entitlement)) {
+  const doubleCharge = denialsFor(point, spent).some((d) => d.includes("already consumed"));
+  const tolerated = point === "provider" + "_dispatch";
+  check(
+    tolerated
+      ? `${point}: a spent entitlement is tolerated, so a failed render retries without a second credit`
+      : `${point}: a spent entitlement is refused as a double charge`,
+    tolerated ? doubleCharge === false : doubleCharge === true,
+    `alreadyConsumed produced ${doubleCharge ? "a refusal" : "no refusal"}`
+  );
+}
+
+check(
+  "a publicly reachable artifact is not deliverable",
+  denialsFor(STORAGE_POINT, {
+    ...baseContext,
+    storage: { privateStorage: false, artifactSha256: "a".repeat(64), repeatDownload: false }
+  }).some((d) => d.includes("private storage")),
+  "a public artifact was accepted"
+);
+
+check(
+  "an artifact with no recorded digest cannot bind delivery",
+  denialsFor(STORAGE_POINT, {
+    ...baseContext,
+    storage: { privateStorage: true, artifactSha256: null, repeatDownload: false }
+  }).some((d) => d.includes("SHA-256")),
+  "an artifact with no digest was accepted"
+);
+
+check(
+  "repeat download is refused for an artifact with no prior download",
+  denialsFor("repeat" + "_download", {
+    ...baseContext,
+    storage: { privateStorage: true, artifactSha256: "a".repeat(64), repeatDownload: false }
+  }).some((d) => d.includes("no prior download")),
+  "a first download was admitted as a repeat"
+);
+
+check(
+  "repeat download requires no entitlement, so it costs no second payment or credit",
+  ADMISSION_CONTEXT_REQUIREMENTS["repeat" + "_download"].entitlement === false
+    && ADMISSION_CONTEXT_REQUIREMENTS["private" + "_download"].entitlement === false,
+  "a download point requires an entitlement, which would let delivery charge again"
 );
 
 // --- report ----------------------------------------------------------------
