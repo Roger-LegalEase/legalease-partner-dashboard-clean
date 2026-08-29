@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-lane-i-oregon-proof-closure/v1",
+  "lane": "I",
+  "generatedBy": "scripts/verify-rcap-lane-i-oregon-first-packet.mjs",
+  "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "grantsNothing": "This record is evidence. It creates no approval, opens no commercial status, and moves no artifact into production.",
+  "envelopeSource": "manifest",
+  "sourceProvenanceMode": "mounted_bytes",
+  "corpusArchiveSha256Mounted": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+  "corpusArchiveSha256InCommittedIndex": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
+  "dimensions": [
+    {
+      "dimension": "packet_specification_binding",
+      "state": "closed",
+      "detail": "The route binds packet set or_acquittal-set, seven components, whose primary filing and proposed order both name OR-OJD-ADULT-SET-ASIDE-PACKET and whose record-gathering component names OR-OSP-SET-ASIDE-CCH."
+    },
+    {
+      "dimension": "specification_hash",
+      "state": "classified_defective",
+      "detail": "The bound hash b0557db5f56442202642530a29072edf651dab713286ce1253ab487361a40c2c is sha256 over {packetSetIds, componentCount, participantActionsRequired} only. Replacing a component's bound official form leaves it unchanged, and collectStaleness compares this value, so the specification can change under the record without ever reading as stale. A content digest over the manifest is 1d0274842492d4a1c911907e4caf1527e646676057bc3c3cd6bfe3c6f50665eb."
+    },
+    {
+      "dimension": "source_provenance_binding",
+      "state": "closed",
+      "detail": "All seven sources the envelope names were re-hashed from the mounted archive and agree exactly. All 329 binaries in the committed corpus index are byte-identical in the mounted archive, which settles Lane C's open question: the two archive identifiers differ in packaging, not in content."
+    },
+    {
+      "dimension": "installed_byte_content_hashes",
+      "state": "closed",
+      "detail": "Recomputed from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 in this run; expected and installed digests agree for both bound sources."
+    },
+    {
+      "dimension": "provider_identity",
+      "state": "closed",
+      "detail": "ghcr.io/roger-legalease/rcap-render-worker at image digest sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c."
+    },
+    {
+      "dimension": "renderer_identity_and_version",
+      "state": "closed",
+      "detail": "packet_document_v1 version 1.0.0."
+    },
+    {
+      "dimension": "artifact_producing_environment",
+      "state": "classified_split",
+      "detail": "Two different environments produce two different objects and the record names only one. The launch graph's artifact probe (src/lib/record-clearing/renderers/custom-pleading-renderer.ts) composed the text the record validates and states that official-form filling could not be exercised. The fileable PDF was produced by scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory."
+    },
+    {
+      "dimension": "artifact_sha256",
+      "state": "classified_wrong_object",
+      "detail": "The record validates b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b, a 3405-character text composition in 12 sections. The object a participant would file is 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, 217271 bytes, 5 pages. Under FILEABLE_ARTIFACT_FORMATS a text composition is not a filing format."
+    },
+    {
+      "dimension": "page_by_page_visual_review_binding",
+      "state": "closed",
+      "detail": "Lane C's review is bound to the fileable PDF, not to the text composition: forms[0].finalizedArtifactSha256 is 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f, which this run recomputed from the committed bytes. 7 of 7 pages across both bound forms."
+    },
+    {
+      "dimension": "final_verification_contract",
+      "state": "open_owner_decision",
+      "detail": "state is unbound. A verifier must bind matter, owner, fact snapshot, route contract version, legal-rule version, waiting-period calculation, packet family, form-set version and form-set hash, and record a bound-inputs hash. Not a lane's to grant and not a captain's."
+    },
+    {
+      "dimension": "output_legal_approval",
+      "state": "open_owner_decision",
+      "detail": "state is pending. A named reviewer must decide the completed output and record an approved-output scope hash."
+    },
+    {
+      "dimension": "exact_participant_matter_binding",
+      "state": "closed_under_counterfactual",
+      "detail": "Exercised through the real collectContextDenials: ownership, matter, snapshot-to-matter, snapshot-to-owner, snapshot-to-route and snapshot-to-family are each independently denying."
+    },
+    {
+      "dimension": "synthetic_consumer_payment_path",
+      "state": "closed_under_counterfactual",
+      "detail": "consumer_checkout admits on a proven route with an owned matter and a VERIFIED_PACKET_READY snapshot."
+    },
+    {
+      "dimension": "synthetic_sponsored_entitlement",
+      "state": "closed_under_counterfactual",
+      "detail": "sponsored_entitlement admits through the same function and the same rule; consumer and sponsored produce byte-identical denial sets."
+    },
+    {
+      "dimension": "exactly_one_sponsored_credit_on_first_generation",
+      "state": "closed_under_counterfactual",
+      "detail": "generation_admission admits on an unconsumed entitlement and refuses a consumed one as a double charge."
+    },
+    {
+      "dimension": "zero_credits_on_retry_and_download",
+      "state": "closed_under_counterfactual",
+      "detail": "provider_dispatch tolerates a consumed entitlement so a failed render retries free; repeat_download requires no entitlement at all."
+    },
+    {
+      "dimension": "durable_render",
+      "state": "classified_not_exercisable_here",
+      "detail": "The render worker writes through Supabase storage with upsert:false. No Supabase is configured in this environment and configuring one would be a production action, so durability is established by reading the adapter's contract rather than by writing an object."
+    },
+    {
+      "dimension": "artifact_validation",
+      "state": "classified_wrong_object",
+      "detail": "artifactValidation.state is validated, but against the text composition. Validation of the fileable PDF exists in Lane C's overlay reports and is not what the Grade-A record cites."
+    },
+    {
+      "dimension": "private_briefcase_attachment",
+      "state": "closed_under_counterfactual",
+      "detail": "artifact_commercial_attachment and briefcase_ready admit only with private storage and a bound artifact digest."
+    },
+    {
+      "dimension": "first_download",
+      "state": "closed_under_counterfactual",
+      "detail": "private_download admits for the owner on the owned matter with the artifact digest bound."
+    },
+    {
+      "dimension": "repeat_download",
+      "state": "closed_under_counterfactual",
+      "detail": "repeat_download admits with no entitlement and is refused when no prior download exists."
+    },
+    {
+      "dimension": "wrong_user_denial",
+      "state": "closed_under_counterfactual",
+      "detail": "Denied: the participant does not own this matter."
+    },
+    {
+      "dimension": "wrong_matter_denial",
+      "state": "closed_under_counterfactual",
+      "detail": "Denied: the snapshot belongs to a different matter."
+    },
+    {
+      "dimension": "substituted_artifact_denial",
+      "state": "closed_under_counterfactual",
+      "detail": "Denied at admission when no artifact digest binds delivery, and again at delivery: streamAuthorizedPacket re-reads the stored object and re-verifies its hash before serving a byte."
+    },
+    {
+      "dimension": "expired_link_denial",
+      "state": "not_applicable_by_architecture",
+      "detail": "There is no link to expire. Packet artifacts are never served through a signed URL: src/lib/rcap/render/artifact-storage.ts downloads through the server's own storage client and the bytes are streamed after re-verification. The property that replaces an expiry window is content re-verification on every delivery, which is proved above."
+    },
+    {
+      "dimension": "commercial_admission_schema",
+      "state": "open_engineering_gap",
+      "detail": "Every Oregon record declares rcap-grade-a-fulfillment-authority/v1. Commercial admission requires rcap-grade-a-fulfillment-authority/v2. Even with both owner proofs in place the route is refused at all ten points with fulfillment_schema_below_admission_minimum. This is a record-shape gap in a captain-owned path, not an owner decision."
+    },
+    {
+      "dimension": "route_to_track_statutory_fidelity",
+      "state": "open_counsel_question",
+      "detail": "The route id names ORS 137.225(1)(c). The legal-design track registry files or_acquittal, the track this route binds, under ORS 137.225(1)(d). Oregon's committed legal review flags the same area as unsettled in headline finding 5. Two committed records disagree on the controlling subsection and a build lane does not get to pick one."
+    },
+    {
+      "dimension": "route_scope_versus_packet_scope",
+      "state": "open_counsel_question",
+      "detail": "The route is labelled for arrests or charges without conviction, and the packet set it delivers is the acquittal track. or_arrest_no_charges and or_dismissed_charge exist as complete seven-component packet sets and no launch-graph route reaches either, so a participant whose charge was dismissed or who was arrested without charges falls inside the route's name and outside its packet."
+    },
+    {
+      "dimension": "packet_family_resolution",
+      "state": "open_engineering_gap",
+      "detail": "resolvePacketFamilyId reads packetSpecificationFor(routeId), and src/lib/rcap/grade-a/packet-specification.ts loads exactly one specification, North Dakota's. Every Oregon route resolves to null, and the record's packetFamilyId is also null, so the family cross-check the comment describes as an independent server-side statement passes as null === null. It agrees for the wrong reason."
+    }
+  ]
+}
