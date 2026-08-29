@@ -72,7 +72,10 @@ function workflowInvokedScripts() {
     for (const line of lines) {
       if (/^\s{6}- name:/.test(line)) { conditional = false; continue; }
       if (/^\s{8}if:/.test(line)) { conditional = true; continue; }
-      const run = /^\s{8}run:\s*node\s+scripts\/([A-Za-z0-9._-]+\.mjs)/.exec(line);
+      // Keyed the way the register is: a path relative to scripts/, so a
+      // verifier under scripts/rcap-official-forms/ invoked here is recognised
+      // as the entry that names it rather than read as a missing top-level file.
+      const run = /^\s{8}run:\s*node\s+scripts\/((?:[A-Za-z0-9._-]+\/)*[A-Za-z0-9._-]+\.mjs)/.exec(line);
       if (run && !conditional) invoked.add(run[1]);
     }
   }
@@ -80,7 +83,7 @@ function workflowInvokedScripts() {
 }
 const workflowInvocations = workflowInvokedScripts();
 
-// The top level and scripts/security/, matching the generator. These two files
+// The top level, scripts/security/ and scripts/rcap-official-forms/, matching the generator. These two files
 // are halves of one mechanism: if the register learns about a directory and the
 // check does not, every entry from that directory reads as naming a script that
 // does not exist, and the honest fix is for both to look in the same places.
@@ -94,7 +97,8 @@ function verifierFilesUnder(relativeDir, prefix) {
     .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
     .map((f) => `${prefix}${f}`);
 }
-const onDisk = [...verifierFilesUnder(".", ""), ...verifierFilesUnder("security", "security/")].sort();
+const onDisk = [...verifierFilesUnder(".", ""), ...verifierFilesUnder("security", "security/"),
+  ...verifierFilesUnder("rcap-official-forms", "rcap-official-forms/")].sort();
 
 for (const file of onDisk) {
   if (!entries[file]) {
@@ -104,7 +108,7 @@ for (const file of onDisk) {
 
 for (const [file, entry] of Object.entries(entries)) {
   if (!onDisk.includes(file)) {
-    failures.push(`${file}: register names a script that is not in scripts/ or scripts/security/`);
+    failures.push(`${file}: register names a script that is not in scripts/, scripts/security/ or scripts/rcap-official-forms/`);
     continue;
   }
   if (!VALID.has(entry.disposition)) {

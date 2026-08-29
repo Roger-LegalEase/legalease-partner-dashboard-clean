@@ -185,6 +185,24 @@ const OVERRIDES = {
       "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
     decidedBy: "captain"
   },
+  "rcap-official-forms/verify-full-name-charge-caption-semantics.mjs": {
+    disposition: "wired",
+    reason:
+      "participant.full_legal_name matches a bare \\bname\\b and every party word, deliberately, because that is how most forms label the filer's own name -- and the cost was that a caption merely CONTAINING one of those tokens could claim the blank. Across six official-form families it did, and the participant's own name was written into the blank holding the offence they were charged with. This holds the correction three ways rather than one: the committed captions themselves, quoted from the corpus rather than paraphrased, refuse the name while genuine name captions keep binding it; both projections are recomputed over all 5,286 censused blanks in all 156 families and the set that moves must be exactly the 34 the diff records, no more and no fewer; and every protect rule is compared term for term against the base commit's, because a correction to the name descriptor is exactly the kind of work that could take a protect term with it. Wired from .github/workflows/rcap-all50-handoff.yml rather than package.json, which is a worker image input.",
+    decidedBy: "captain"
+  },
+  "rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs": {
+    disposition: "wired",
+    reason:
+      "The mutation proof for the charge-caption correction. Seven breaks, each the shape someone would actually introduce: a predicate that answers false for everything, a removed refusal, a removed printed-label fallback guard, an expected-change set widened by one unrelated field, one narrowed by one field that does move, a protect term quietly dropped, and a predicate greedy enough to refuse genuine name captions. It establishes a green baseline before testing anything -- a suite that started red would report every mutation as detected while proving nothing -- and restores each file against the bytes it started with rather than against git, because both files are legitimately dirty relative to HEAD while a lane is in progress. Wired beside the verifier it proves.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-stale-artifact-block.mjs": {
+    disposition: "wired",
+    reason:
+      "Twelve artifacts across six families were rendered through the defective binder above, and eleven of them carry the participant's name at an offending field -- read out of the flattened widget appearance drawn at that field's own measured rectangle, not out of the reports, since the reports come from the map under suspicion. The binder is fixed; bytes are not reached by a rule change. So the hashes are blocked from all six capabilities that could act on them -- artifact approval, Grade-A fulfillment, packet-family completion, launch authority, commercial admission and participant delivery -- and each capability is resolved to the records that actually carry it rather than asserted. Two ways of going green without fixing anything are guarded as carefully as the first: a deleted stale PDF makes every check about it pass, and a silently re-rendered one leaves the record pointing at bytes that no longer exist. Wired: `--mutations` proves a grant, a deletion and a drift are each caught.",
+    decidedBy: "captain"
+  },
   "verify-rcap-oregon-disposition-artifacts.mjs": {
     disposition: "fix_then_wire",
     reason:
@@ -389,7 +407,12 @@ function verifierFilesUnder(relativeDir) {
     .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
     .map((f) => (relativeDir === "scripts" ? f : `${relativeDir.slice("scripts/".length)}/${f}`));
 }
-const onDisk = [...verifierFilesUnder("scripts"), ...verifierFilesUnder("scripts/security")].sort();
+// scripts/rcap-official-forms/ joined the register when the official-form
+// factory grew verifiers of its own. A directory the register does not look
+// in holds verifiers nobody has dispositioned, which is the same blind spot
+// this register exists to close -- and the checker looks in the same three.
+const onDisk = [...verifierFilesUnder("scripts"), ...verifierFilesUnder("scripts/security"),
+  ...verifierFilesUnder("scripts/rcap-official-forms")].sort();
 
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 const testChain = pkg.scripts?.test ?? "";

@@ -202,6 +202,32 @@ jobs:
       # branch admits a route only on all seven build inputs, sits behind every
       # suppression and behind the live legacy generators, and never resolves
       # sellable or credit-consumable — buildable in shadow is not approved.
+      # A shared binder wrote a participant's own name into blanks that hold the
+      # offence they were charged with, across six official-form families. The
+      # rule is corrected and these hold it: the first proves the correction over
+      # every censused blank in the corpus and that nothing outside the recorded
+      # set moved, the second proves that verifier goes red when the correction
+      # is broken. Invoked here rather than from package.json for the same reason
+      # as the steps above -- package.json is a worker image input, and an npm
+      # entry would force an image rebuild for a check that alters nothing the
+      # image contains.
+      - name: Verify no caption that holds a charge binds the participant's name
+        run: node scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs
+
+      - name: Prove the charge-caption correction is load-bearing
+        run: node scripts/rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs
+
+      # The artifacts rendered before that correction still contain the wrong
+      # write. These hold the twelve hashes out of artifact approval, Grade-A
+      # fulfillment, packet-family completion, launch authority, commercial
+      # admission and participant delivery -- and refuse a deletion or a silent
+      # re-render as ways of going green.
+      - name: Verify no stale artifact hash can satisfy an authority
+        run: node scripts/verify-rcap-stale-artifact-block.mjs
+
+      - name: Prove the stale-artifact block is load-bearing
+        run: node scripts/verify-rcap-stale-artifact-block.mjs --mutations
+
       - name: Verify the factory_v2 route registry is current
         run: node scripts/generate-rcap-factory-v2-registry.mjs --check
 

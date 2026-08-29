@@ -17,7 +17,9 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { flattenedWidgets, drawnAt } from "./pdf-flattened-widgets.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(rootDir);
@@ -146,6 +148,28 @@ const diff = {
 };
 
 // ---- what the artifacts still contain ---------------------------------------
+//
+// Read out of the artifacts rather than out of the reports. The reports are
+// produced by the same field map that is under suspicion, so a report saying a
+// field was written is not evidence about the page; the appearance drawn at that
+// field's own measured rectangle is.
+//
+// The fixture names are the D0 factory's, which is what rendered these.
+const FIXTURE_NAMES = {
+  canonical: "Jordan Avery Reyes",
+  boundary: "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III"
+};
+const sha256File = (rel) => (fs.existsSync(path.join(rootDir, rel))
+  ? crypto.createHash("sha256").update(fs.readFileSync(path.join(rootDir, rel))).digest("hex") : null);
+
+const widgetCache = new Map();
+async function widgetsOf(rel) {
+  if (!widgetCache.has(rel)) {
+    widgetCache.set(rel, fs.existsSync(path.join(rootDir, rel)) ? await flattenedWidgets(path.join(rootDir, rel)) : []);
+  }
+  return widgetCache.get(rel);
+}
+
 const liveRows = [];
 for (const familyDir of FAMILIES) {
   const populated = readJson(`${familyDir}/reports/populated-fields.json`);
@@ -158,25 +182,40 @@ for (const familyDir of FAMILIES) {
     const subjects = [fieldName, projected?.effectiveLabel].filter(Boolean).map(String);
     if (!subjects.some((t) => RULE_VOCABULARY.test(t))) continue;
     const sourceRecord = readJson(`${familyDir}/source-record.json`);
+    const census = readJson(`${familyDir}/field-census.json`);
+    const censusField = (census?.fields ?? []).find((f) => f.name === fieldName);
+    const widget = censusField?.widgets?.[0] ?? null;
+    const artifacts = [];
+    for (const kind of ["canonical", "boundary"]) {
+      const rel = `${familyDir}/fixtures/${kind}-filled.pdf`;
+      const digest = sha256File(rel);
+      if (!digest) continue;
+      const at = widget ? drawnAt(await widgetsOf(rel), { page: widget.page ?? 1, rect: widget.rect }) : [];
+      const drawn = at.map((w) => w.text).filter(Boolean);
+      artifacts.push({
+        fixture: kind, artifact: rel, sha256: digest,
+        drawnAtTheField: drawn,
+        participantNameDrawnAtTheField: drawn.some((t) => t.includes(FIXTURE_NAMES[kind])),
+        readFrom: "the flattened widget appearance drawn at this field's own measured rectangle"
+      });
+    }
     liveRows.push({
       familyDirectory: familyDir,
       jurisdiction: sourceRecord?.jurisdiction ?? null,
       fieldName,
       effectiveLabel: projected?.effectiveLabel ?? null,
       writtenFactId: NAME_FACT,
-      writtenValue: "the canonical fixture's participant.full_legal_name",
+      fieldRect: widget ? { page: widget.page ?? 1, ...widget.rect } : null,
+      artifacts,
       bindingNow: {
         writable: projected?.bindingWritable ?? null,
         factId: projected?.bindingFactId ?? null,
         reason: projected?.bindingReason ?? null
       },
       correctedInTheBinder: projected ? projected.bindingFactId !== NAME_FACT : null,
-      artifactStillCarriesTheWrite: true,
+      artifactStillCarriesTheWrite: artifacts.some((a) => a.participantNameDrawnAtTheField),
       retired: fs.existsSync(path.join(rootDir, `${familyDir}/retirement.json`)),
       productionHolds: sourceRecord?.productionHolds ?? [],
-      canonicalArtifact: `${familyDir}/fixtures/canonical-filled.pdf`,
-      canonicalArtifactSha256Before: readJson(`${familyDir}/reports/rendered-artifacts.json`)
-        ?.artifacts?.["fixtures/canonical-filled.pdf"]?.sha256 ?? null,
       canonicalArtifactSha256After: null,
       whyNotRegeneratedHere:
         "The renderer for these families (scripts/implement-rcap-official-forms-d1.mjs) has no per-family entry point and rebuilds every family whose binary is present, which is far outside this lane's owned paths. Re-rendering is a Captain patch request, recorded as one."
@@ -193,6 +232,10 @@ const liveImpact = {
   distinction:
     "The binder is corrected by this change. These bytes were rendered before it and are not reached by it. Each row records both, so neither is mistaken for the other.",
   liveWrongWrites: liveRows.length,
+  provenOnThePage: liveRows.filter((r) => r.artifactStillCarriesTheWrite).length,
+  artifactsCarryingTheWrite: liveRows.flatMap((r) => r.artifacts.filter((a) => a.participantNameDrawnAtTheField).map((a) => a.sha256))
+    .filter((v, i, a) => a.indexOf(v) === i).length,
+  uniqueFamilies: [...new Set(liveRows.map((r) => r.familyDirectory))].length,
   allCorrectedInTheBinder: liveRows.every((r) => r.correctedInTheBinder === true),
   allInRetiredFamilies: liveRows.every((r) => r.retired === true),
   rows: liveRows
