@@ -158,6 +158,60 @@ export function regionProtectCategoryOf(heading) {
 // identical. The platform holds one address, so it fills one block.
 export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
 
+/**
+ * Vocabulary for the thing a criminal-record form asks a filer to describe: the
+ * charge itself. `statute` and `violation` are here because a form that asks for
+ * "the statute violated" is asking the same question in other words.
+ */
+export const CHARGE_VALUE_WORDS = /\b(charges?|offen[cs]es?|counts?|statutes?|violations?)\b/i;
+
+/**
+ * Constructions that ASK for a person's name.
+ *
+ * The distinction this draws is grammatical rather than lexical. "Defendant" as
+ * a bare caption labels the blank and means the defendant's name goes in it.
+ * The same word inside a sentence -- "the defendant was convicted of the
+ * offense(s) of ______" -- is the subject of a clause, and what the blank holds
+ * is the offence at the end of it. So a party word alone does not make a caption
+ * a name caption; a construction that actually requests a name does.
+ */
+export const ASKS_FOR_A_PERSONS_NAME =
+  /\b(?:printed?|typed|full\s*legal|your|party|case|first|last|middle|maiden|legal)\s+names?\b/i.source
+  + "|" + /\bnames?\s+(?:and\s+\w+\s+)?of\s+(?:the\s+)?(?:defendant|petitioner|applicant|movant|respondent|plaintiff|person|individual|party|filer|affiant|declarant)\b/i.source
+  + "|" + /\b(?:defendant|petitioner|applicant|movant|respondent|plaintiff|person|individual|party|filer|affiant|declarant)['\u2019]?s?\s+names?\b/i.source
+  + "|" + /\bnames?\s*\(\s*(?:printed|typed)/i.source;
+const ASKS_FOR_A_PERSONS_NAME_RE = new RegExp(ASKS_FOR_A_PERSONS_NAME, "i");
+
+/**
+ * True when a caption presents a charge, offence, count, statute or violation as
+ * the thing the blank holds, rather than as something a person is described in
+ * relation to.
+ *
+ * Why it exists: `participant.full_legal_name` matches a bare `\bname\b` and
+ * every party word, deliberately, because that is how most forms label the
+ * filer's own name. The cost is that a caption which merely CONTAINS one of
+ * those tokens can claim the blank. Eleven committed captions did -- Arkansas's
+ * "2.The defendant was convicted of the offense(s) of", Kentucky's "regarding
+ * the above-named Defendant and offense(s): ______", North Carolina's "3. (if
+ * the defendant was charged with multiple offenses..." among them -- and in each
+ * one the participant's own name would have been written where their offence
+ * belongs.
+ *
+ * It subsumes the earlier Oregon-specific refusal, which was anchored to the
+ * whole caption ("Name of Charges", "Name of Citation/Arrest Offenses") and so
+ * could not reach a sentence. Those two headings still refuse here, through the
+ * same rule as the rest, rather than through a second one kept beside it.
+ *
+ * It is NOT "contains a party word and an offence word". A caption that asks for
+ * a name keeps binding the name, however much it also says about the offence:
+ * "Name of Defendant charged with the offense" is a name blank and stays one.
+ */
+export function captionDescribesChargeValue(subject) {
+  const text = String(subject ?? "");
+  if (!CHARGE_VALUE_WORDS.test(text)) return false;
+  return !ASKS_FOR_A_PERSONS_NAME_RE.test(text);
+}
+
 export const FACT_DESCRIPTORS = [
   { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
@@ -198,15 +252,11 @@ export const FACT_DESCRIPTORS = [
   // rules stop the attorney, prosecutor and identifier cases now; this refusal
   // stops the rest, where the haystack names a slot that is plainly not a
   // person's name.
-  // The last clause of the refusal is a charge-table column heading. "Name of
-  // Charges" and "Name of Citation/Arrest Offenses" are the headings over the
-  // two tables on Oregon's set-aside motion, and both contain "name", so
-  // full_legal_name claimed them: a movant's name would have been printed as
-  // the offence they were cited for. The heading names what the COLUMN holds,
-  // not who is filing. It is anchored to the whole caption so that a sentence
-  // merely mentioning charges -- "the defendant was convicted of the offense(s)
-  // of" -- is untouched by it and keeps whatever it matched before.
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b|^name of [a-z ]*?(charges?|offenses?|counts?)\s*\|\|/ },
+  // `refuseWhenCaption` is the charge-value predicate above. It replaces an
+  // earlier clause anchored to the whole caption, which caught Oregon's two
+  // table headings and by design could not reach a sentence; the predicate
+  // catches both, so there is one rule here rather than two overlapping ones.
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/, refuseWhenCaption: captionDescribesChargeValue },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
@@ -311,7 +361,13 @@ function rowIndexOf(name) {
 /** The allowlisted facts one subject string matches, refusals already applied. */
 export function descriptorsMatching(subject) {
   const hay = haystack(subject);
-  return FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+  // Two refusal channels. `refuseWhen` reads the haystack, which is normalised
+  // for token matching; `refuseWhenCaption` reads the caption as printed,
+  // because the rules that need it are about how a sentence is built and the
+  // haystack has already flattened the punctuation those rules turn on.
+  return FACT_DESCRIPTORS.filter((d) => d.match.test(hay)
+    && !(d.refuseWhen && d.refuseWhen.test(hay))
+    && !(d.refuseWhenCaption && d.refuseWhenCaption(subject, hay)));
 }
 
 /**
@@ -389,7 +445,15 @@ export function decideBinding(field, options = {}) {
   let factBasis = "field_name";
   let matches = descriptorsMatching(name);
   if (matches.length === 0 && effectiveLabel && effectiveLabel !== name) {
-    matches = descriptorsMatching(effectiveLabel);
+    // The label is a fallback for a field whose own name says nothing, and it
+    // must not reintroduce a fact the NAME already rules out. Arkansas ACIC's
+    // order to seal is the case: the blank is named "and charged with the
+    // offenses of" and the sentence printed above it reads "1.The Defendant was
+    // arrested on the day of". The name says an offence goes in the blank; the
+    // label says "Defendant"; so the label won, and the participant's own name
+    // was written as the offences they were charged with.
+    matches = descriptorsMatching(effectiveLabel)
+      .filter((d) => !(d.refuseWhenCaption && d.refuseWhenCaption(name, haystack(name))));
     factBasis = matches.length > 0 ? "printed_label" : factBasis;
   }
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };
