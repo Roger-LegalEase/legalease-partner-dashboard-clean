@@ -143,6 +143,46 @@ None changed. `package.json`, `package-lock.json`,
 consumer payment routes, sponsorship lifecycle, packet generation and downloads
 are all untouched. Everything needing one is in `CAPTAIN_PATCH_REQUEST.md`.
 
-**Consequence to be explicit about:** the two new verifiers are not reachable by
-`npm test` on this branch, because wiring them requires `package.json`. They pass
-standalone and are reproducible by the commands above.
+**Two consequences, stated plainly rather than left to be discovered:**
+
+1. The new verifiers are not reachable by `npm test`, because wiring them
+   requires `package.json`. They pass standalone.
+2. **One chain entry is red and it is this lane's doing.**
+   `verify-rcap-verifier-dispositions.mjs` passes at the base and fails here,
+   because two new verifier scripts have no recorded disposition. Registering
+   them means writing `data/rcap-verifier-dispositions.json`, which is a
+   captain-owned generated registry. The fix is one command
+   (`npm run rcap:generate-verifier-dispositions`) and it is request 2 of the
+   patch request.
+
+## Full chain result
+
+`npm test` was run in segments. Two entries cannot run in this image at all:
+`test-sign-out-origin.mjs` and `verify-internal-admin-browser-access.mjs` need
+Chromium 1223 and the image carries 1194. No repository file was changed to
+accommodate that, and no browser-dependent security check was weakened or
+skipped in the repository.
+
+Of the remaining entries, nine fail. Each was re-run on a clean worktree of the
+base to separate cause from coincidence:
+
+| Entry | At base | Cause |
+|---|---|---|
+| `verify-rcap-track-pathway-crosswalk.mjs` | fails | pre-existing (stale generated artifact) |
+| `generate-rcap-track-pathway-crosswalk.mjs --check` | fails | pre-existing |
+| `verify-rcap-terminalize-c1.mjs` | fails | pre-existing (profile hash drift) |
+| `verify-rcap-terminalize-c2.mjs` | fails | pre-existing |
+| `verify-rcap-terminalize-c3.mjs` | fails | pre-existing |
+| `verify-c-dependency-deferrals.mjs` | fails | pre-existing |
+| `verify-rcap-lane-b-exact-deferrals.mjs --mutations` | fails | pre-existing |
+| `verify-expungement-consumer-payment-http.mjs` | fails | pre-existing |
+| `verify-rcap-official-source-mutations.mjs` | fails | pre-existing |
+| `generate-rcap-staging-action.mjs --check` | fails | pre-existing |
+| `verify-rcap-worker-publication-workflow.mjs` | fails | pre-existing |
+| `verify-rcap-verifier-dispositions.mjs` | **passes** | **this lane** — see above |
+
+Everything else passes, including every Grade-A entry the base already carried
+(`verify-rcap-grade-a-fulfillment-authority.mjs` and its `--mutations`,
+`generate-rcap-grade-a-fulfillment-authority.mjs --check`,
+`verify-grade-a-first-packet.mjs`) and the three lane gates that
+`package.json` cannot yet reach.

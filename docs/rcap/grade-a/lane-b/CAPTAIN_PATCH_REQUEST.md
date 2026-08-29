@@ -41,6 +41,14 @@ Optional named scripts, matching repository convention:
 
 ## 2. `data/rcap-verifier-dispositions.json` — register the new verifiers
 
+> **This one is currently red and it is the lane's own doing.**
+> `node scripts/verify-rcap-verifier-dispositions.mjs` fails on this branch with
+> `verify-rcap-grade-a-fulfillment-db-proposal.mjs: no recorded disposition` and
+> `verify-rcap-grade-a-fulfillment-hardening.mjs: no recorded disposition`. It
+> passes at the base. Adding a verifier without registering it is what breaks it,
+> and registering it means writing a captain-owned generated registry, which this
+> lane may not do. One command fixes it.
+
 Regenerate against the controlling base rather than copying anything from this
 branch:
 
