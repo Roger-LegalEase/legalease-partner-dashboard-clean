@@ -94,12 +94,25 @@ download; repeat download; payment idempotency.
 | `npx tsc --noEmit` | 0 errors |
 | `npx eslint` on lane paths | 0 problems |
 | `verify-rcap-terminalize-c2.mjs` / `c3.mjs` | FAIL — **pre-existing at the base**, byte-identical failure lists (23 and 21 respectively) against a clean worktree at `a25eec4c`; the lane adds none and removes none |
-| `npm test` | fails at `verify-rcap-terminalize-c2`, the pre-existing failure above |
+| `verify-rcap-track-pathway-crosswalk.mjs` | FAIL — **pre-existing at the base**; `data/rcap-ledger/track-pathway-crosswalk.json` is a stale generated artifact. Confirmed FAIL in a clean base worktree with the identical message |
+| `verify-rcap-verifier-dispositions.mjs` | FAIL — **lane-caused**; the three new verifier scripts have no register entry. The register and `package.json` are captain-owned; the exact patch is filed. This is the only lane-caused failure |
+| `npm test` | exits 1 at `verify-rcap-track-pathway-crosswalk.mjs`, the pre-existing failure above |
 
 The c2/c3 failures are NV and ND compiled-profile fingerprint drift in lane C's
 own committed provenance records. They are not this lane's paths, and the
 delta against a clean base worktree is empty in both directions — proven by
 diffing the two failure lists rather than asserted.
+
+`npm test` was first blocked earlier in the chain by an environment gap, not a
+code one: the pinned Playwright expects Chromium revision 1223 and the image
+carries 1194, so `scripts/security/test-sign-out-origin.mjs` could not launch a
+browser. This is the same gap the captain's lane-assignment record documents. It
+was bridged **in the execution environment only** — symlinks under
+`/opt/pw-browsers` giving the expected revision path the binaries the image
+already has. No repository file was changed, no browser-dependent check was
+weakened, skipped or quarantined, and the blocked security test then passed
+against a real Chromium. With that bridge in place the chain runs on to the
+pre-existing crosswalk failure above.
 
 ## Invariants proven
 
