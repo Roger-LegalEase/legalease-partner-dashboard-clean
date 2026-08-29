@@ -1,5 +1,7 @@
 # STATUS C — Corrections Group A
 
+> **Historical — a previous sprint.** This file records the `sprint/20260825-*` wave from base `07675789`. It is not a status of the current national Grade-A sprint, whose lanes are B through J on `claude/legalease-sprint-captain-utucnw` and are all integrated. Its lane letters are not this sprint's lane letters. Kept as written; nothing here is a live instruction.
+
 - State: `HANDOFF_READY`
 - Worktree: `/Users/rogerroman/LegalEase/legalease-sprint-corrections-a`
 - Branch: `sprint/20260825-corrections-a`

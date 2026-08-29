@@ -1,4 +1,13 @@
-# Active lane dispatch — all Claude
+# Lane dispatch — all Claude — CLOSED
+
+> **No lane is active.** All eleven — B, C, D, E, F, G, H, G-CO-SOURCE,
+> G-CO-BUILD, I and J — are integrated as of head
+> `1af36f03d8c9c08c9c3c17e9a5516f64a649b003`. Nothing below is a live
+> instruction; the envelopes are kept as the record of what each lane was
+> actually handed. `data/rcap-grade-a/active-lane-envelopes.json` remains the
+> machine-readable source and `verify-rcap-active-lane-envelopes` still checks
+> it, including a synthetic active lane so the dispatch rules stay proven
+> between waves.
 
 Machine-readable source: `data/rcap-grade-a/active-lane-envelopes.json`.
 Checked by: `node scripts/verify-active-lane-envelopes.mjs`.
@@ -43,12 +52,12 @@ Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 | F | Claude Opus 5 | `integrated` | `claude/grade-a-v5-lane-f` | `61ee6cc359bc` | none | route-independent |
 | G | Claude Opus 5 | `integrated` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc359bc` | colorado | 3 |
 | H | Claude Opus 5 | `integrated` | `claude/grade-a-68h-lane-h` | `be673158bae0` | none | route-independent |
-| G-CO-SOURCE | Claude Opus 5 | `active` | `claude/grade-a-v6-co-source` | `148382ab2a2a` | colorado | 3 |
-| G-CO-BUILD | Claude Opus 5 | `active` | `claude/grade-a-v6-co-build` | `148382ab2a2a` | colorado | 3 |
-| I | Claude Opus 5 | `active` | `claude/grade-a-v6-first-packet-oregon` | `148382ab2a2a` | oregon | 3 |
-| J | Claude Opus 5 | `active` | `claude/grade-a-v6-release-blockers` | `148382ab2a2a` | none | route-independent |
+| G-CO-SOURCE | Claude Opus 5 | `integrated` | `claude/grade-a-v6-co-source` | `148382ab2a2a` | colorado | 3 |
+| G-CO-BUILD | Claude Opus 5 | `integrated` | `claude/colorado-packet-deterministic-n4zdlz` (the harness pushed here; the designated `claude/grade-a-v6-co-build` still points at the base) | `148382ab2a2a` | colorado | 3 |
+| I | Claude Opus 5 | `integrated` | `claude/grade-a-v6-first-packet-oregon` | `148382ab2a2a` | oregon | 3 |
+| J | Claude Opus 5 | `integrated` | `claude/grade-a-v6-release-blockers` | `148382ab2a2a` | none | route-independent |
 
-Concurrency: Captain A plus the four active closeout lanes — G-CO-SOURCE, G-CO-BUILD, I and J. Lanes E, F, G and H are integrated and no longer occupy a session. The captain, the four active lanes and any internal subagents together must not exceed eight.
+Concurrency: Captain A alone. Every lane is integrated and none occupies a session. The eight-session limit stands for any future dispatch.
 
 ## Captain-only paths
 

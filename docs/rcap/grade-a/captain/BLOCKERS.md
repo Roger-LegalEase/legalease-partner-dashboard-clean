@@ -1,17 +1,38 @@
 # Captain blocker register
 
-Recorded against captain branch `claude/legalease-sprint-captain-utucnw`, based
-on `0cad61625a74665db23ac64988c301e48909cf81`.
+Recorded against captain branch `claude/legalease-sprint-captain-utucnw`.
+Opened at base `0cad61625a74665db23ac64988c301e48909cf81`; reconciled against
+head `1af36f03d8c9c08c9c3c17e9a5516f64a649b003`.
 
 Each entry states whether the blocker was introduced by this sprint's
 integration or already present on the controlling base, because the two call for
 different responses and conflating them wastes a lane.
 
+## Where this stands at the reconciled head
+
+| | |
+|---|---|
+| Lanes | B, C, D, E, F, G, H, G-CO-SOURCE, G-CO-BUILD, I, J — **all integrated**. No worker is running. |
+| BLOCKER-1 worker republication | **open**, narrowed: the branch pin that would have refused every candidate is corrected, and nonproduction readiness reports 0 blocked inputs. Publication still needs a frozen candidate and its own authorization. |
+| BLOCKER-2 operational corpus | **open**. Unchanged. |
+| BLOCKER-3 legacy generators | **open**, already adjudicated. Unchanged. |
+| BLOCKER-4 terminalization drift | **CLOSED**. 18 → 8 by mechanical repin, 8 → 0 by the decision owner's four answers of 2026-08-29. `verify-rcap-terminalize-c1` passes. |
+| BLOCKER-5 Mississippi proof | **CLOSED**. Authorized 2026-08-29 and applied byte-exact; the proof hashes to `903b1b6e…954642` and its three coupled locations agree. |
+| Legal decisions | Six recorded verbatim in `data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json`. |
+| Candidate | **not frozen**. No candidate SHA is named. |
+| Commercial | `commerciallyEligible` **0**, `COMPLETE_PACKET_PROVEN` **0**. |
+| Production | untouched. |
+
+Two Oregon decisions — the ORS subsection and the packet scope — are recorded and
+their implementation is in progress. They are route-design work, not blockers on
+this register, and they open nothing.
+
 ---
 
 ## BLOCKER-1 — Worker publication evidence is stale; the chain cannot go green without a republication
 
-**Status:** open. **Origin:** pre-existing on the controlling base, not
+**Status:** open, narrowed 2026-08-29. The retired integration-branch pin that would have refused every candidate on this branch is corrected in the four nonproduction workflows, and nonproduction readiness now reports 0 blocked inputs. What remains is unchanged: a frozen candidate and a publication authorization.
+**Origin still:** open. **Origin:** pre-existing on the controlling base, not
 introduced by integration. **Owner:** captain, and it needs an authorization
 this sprint does not hold.
 
@@ -97,7 +118,8 @@ the test chain. Recorded here so it is not rediscovered as a regression.
 
 ## BLOCKER-4 — Terminalization provenance has drifted from the compiled profiles
 
-**Status:** open. **Origin:** pre-existing on the controlling base, not
+**Status:** CLOSED 2026-08-29 by the decision owner's four answers; see the summary at the top. The account below is kept as written, because it is the record of what the blocker was and why it could not be cleared by engineering.
+**Was:** open. **Origin:** pre-existing on the controlling base, not
 introduced by integration. **Owner:** legal review, not engineering.
 
 `scripts/verify-rcap-terminalize-c1.mjs` is in the test chain and fails with 18
@@ -148,26 +170,31 @@ before this sprint's integration. Running it in order:
 |---|---|
 | `verify-rcap-e2-source-support-audit` | was red on the base; **fixed** on this branch |
 | `verify-rcap-verifier-dispositions` | was red on the base; **fixed** on this branch |
-| `verify-rcap-terminalize-c1` | red on the base and still red — BLOCKER-4 |
+| `verify-rcap-terminalize-c1` | was red on the base; **fixed** — see BLOCKER-4 below |
 | `generate-rcap-staging-action --check` | red on the base and still red — BLOCKER-1 |
+| `verify-rcap-image-input-fingerprint` | red on the base and still red — the same root as BLOCKER-1 |
 
-Two of the four pre-existing reds are cleared. The remaining two are recorded
-rather than forced, because one needs a deployment authorization this sprint
-does not hold and the other needs a legal review this sprint may not perform.
-Neither can be cleared by engineering alone, and neither was caused by the
-integration.
+Three of the four pre-existing reds are cleared. BLOCKER-4 fell the way it was
+always going to: not by engineering deciding it, but by the decision owner
+answering four narrow questions and the prepared patches being applied to
+whichever branch each answer selected.
+
+The one that remains needs a worker republication, which needs a frozen candidate
+and a publication authorization. It was not caused by the integration and cannot
+be cleared by engineering alone.
 
 A `NATIONAL GRADE-A RELEASE RESULT` requires a full green chain, a frozen
 candidate SHA, a pinned Preview, hosted acceptance, payment and artifact proof,
-security denial proof, mobile and accessibility proof and rollback proof. None
-of those is satisfiable while BLOCKER-1 and BLOCKER-4 stand, so no release
+security denial proof, mobile and accessibility proof and rollback proof. The
+candidate is not frozen and the Oregon artifacts are not approved, so no release
 result is issued.
 
 ---
 
 ## BLOCKER-5 — The Mississippi finetune fixture needs a new authorization to fix
 
-**Status:** open. **Origin:** pre-existing red; my attempted fix was reverted.
+**Status:** CLOSED 2026-08-29. The authorization was issued and the edit applied byte-exact. The account below is kept as written; it is the record of why the obvious fix was not available without one.
+**Was:** open. **Origin:** pre-existing red; my attempted fix was reverted.
 **Owner:** the authorizer of the standing parity approval, not engineering.
 
 `scripts/verify-screening-verification-finetune.mjs` fails on clean source. Its
@@ -222,6 +249,24 @@ no Mississippi fulfillment record exists. Commercial eligibility is unaffected
 and remains zero.
 
 ---
+
+## Closed by the decision owner, 2026-08-29
+
+- **BLOCKER-4.** Four answers, recorded verbatim. Illinois § 5.2(g) retired as a
+  participant-facing pleading and kept in the service model as attorney action
+  and referral; Kentucky KRS 218A.275 and 218A.276 confirmed separate routes and
+  repinned; West Virginia § 17C-5-2b(g) confirmed the correct vehicle and its
+  five component records repinned. Two answers carried preconditions and both
+  were satisfied before any patch was applied: the KRS 218A.275(12) exclusion is
+  now recorded authority with its route-specific denial fact, and the West
+  Virginia one-year clock is recorded with the six wrong starting points named as
+  wrong. Terminalization provenance drift is 0. Nothing was repinned to obtain
+  green output — the one retirement moves no hash at all.
+- **BLOCKER-5.** Authorized and applied byte-exact. The assertion that a
+  Mississippi route is admitted at checkout is replaced by its inverse, so the
+  proof now proves the refusal and pins its reason by message. Recorded as a new
+  authorization rather than a proof revision, because the mechanism refuses a
+  revision that removes a line and this removed one.
 
 ## Resolved during this session
 

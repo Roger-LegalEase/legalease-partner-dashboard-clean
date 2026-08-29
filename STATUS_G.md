@@ -1,5 +1,7 @@
 # STATUS G — Independent QA and Browser
 
+> **Historical — a previous sprint.** This file records the `sprint/20260825-*` wave from base `07675789`. It is not a status of the current national Grade-A sprint, whose lanes are B through J on `claude/legalease-sprint-captain-utucnw` and are all integrated. Its lane letters are not this sprint's lane letters. Kept as written; nothing here is a live instruction.
+
 - State: `PHASE_1_CORRECTED_WAITING_FOR_FROZEN_CANDIDATE_AND_PREVIEW`
 - Branch: `sprint/20260825-qa`
 - Base SHA: `07675789a80e732d2b835c1e8ba2092b39201b79`
