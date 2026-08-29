@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "rcap-co-source-acquisition/v1",
+  "lane": "G-CO-SOURCE",
+  "shardId": "S-GCO-SRC",
+  "jurisdiction": "CO",
+  "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "recordedAt": "2026-08-29T11:21:55Z",
+
+  "purpose": "The seven official filings that the issuing court's own guides require, and that source-corpus-2026-08-28 does not contain. This record carries their identities, roles, routes and official locations. It does not carry their bytes, and it does not carry byte-derived facts that were not measured.",
+
+  "acquisitionStatus": "BLOCKED_AT_RETRIEVAL",
+  "acquisitionBlocker": {
+    "kind": "network_egress_policy",
+    "blockedHosts": ["www.coloradojudicial.gov", "coloradojudicial.gov", "www.courts.state.co.us"],
+    "observed": "the session's egress proxy answers 403 to CONNECT for every Colorado Judicial Branch host; curl reports 'CONNECT tunnel failed, response 403' and WebFetch reports EGRESS_BLOCKED",
+    "diagnosis": "an organization egress-policy denial, not a transient failure and not a fault of the issuing court's site",
+    "notAttempted": [
+      "routing around the denial through a third-party mirror, cache or proxy",
+      "substituting an unofficial form aggregator as the source of record"
+    ],
+    "consequence": "No official bytes could be retrieved, so no byte size, page count, SHA-256, content type or form-technology reading can be honestly recorded for any of the seven documents. Those fields are null below and are labelled pending, not estimated, not carried over from any other record.",
+    "resolution": "allow www.coloradojudicial.gov (and www.courts.state.co.us for the legacy form index) for this session, then run scripts/rcap-corpus/acquire-colorado-supplement.mjs, which fills every pending field from the bytes it retrieves."
+  },
+
+  "fieldDiscipline": {
+    "verified": "measured in this session from bytes on disk, or read from a page image rendered in this session",
+    "officialReported": "stated by an official Colorado Judicial Branch page or PDF, reached through an official-domain-restricted search index because direct fetch is blocked; not byte-verified here",
+    "pending": "not knowable without the bytes; recorded as null and left null"
+  },
+
+  "documents": [
+    {
+      "documentId": "JDF-613",
+      "formNumber": "JDF 613",
+      "officialTitle": "Order Denying Request to Seal Conviction Records",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "ORDER_DENYING",
+      "filingSet": "JDF 611 -- Guide to Sealing Conviction Records (single case)",
+      "namedBy": "JDF 611, Step 3 'File the Request', read from the page image",
+      "preparedBy": "movant files it blank except the caption (§§ A-C); the court completes the remainder",
+      "requiredness": "required",
+      "requirednessBasis": "JDF 611 Step 3 lists it among the forms to file, without condition",
+      "routeIds": ["CO:petition-based-conviction-sealing-jdf-612-24-72-706"],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-request-seal-conviction-records",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF613.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": "2024-08-07",
+      "revisionDateAsPrinted": "R: August 7, 2024",
+      "revisionDateProvenance": "officialReported",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-614",
+      "formNumber": "JDF 614",
+      "officialTitle": "Order and Notice of Hearing to Seal Conviction Records",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "NOTICE",
+      "filingSet": "JDF 611 -- Guide to Sealing Conviction Records (single case)",
+      "namedBy": "JDF 611, Step 3 'File the Request', read from the page image",
+      "preparedBy": "movant files it blank except the caption (§§ A-C); the court sets the hearing",
+      "requiredness": "required",
+      "requirednessBasis": "JDF 611 Step 3 lists it among the forms to file, without condition",
+      "routeIds": ["CO:petition-based-conviction-sealing-jdf-612-24-72-706"],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-and-notice-hearing-seal-conviction-records",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF614.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": "2024-08-07",
+      "revisionDateAsPrinted": "R: August 7, 2024",
+      "revisionDateProvenance": "officialReported",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "pageCountReportedByOfficialSource": 1,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-419",
+      "formNumber": "JDF 419",
+      "officialTitle": "Order and Notice of Hearing (Sealing of Arrest and Criminal Records)",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "NOTICE",
+      "filingSet": "JDF 416 -- Guide to Sealing Arrest Records (No Charges Filed)",
+      "namedBy": "JDF 416 R: July 1, 2025, Step 3 'File the Request', which lists 'JDF 419  Notice (Just do §§ A-C)'",
+      "namedByProvenance": "verified: read from the pinned corpus copy of JDF 416, sha256 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+      "preparedBy": "petitioner files it blank except the caption (§§ A-C); the court sets the hearing",
+      "requiredness": "required",
+      "requirednessBasis": "JDF 416 Step 3 lists it among the forms to file, without condition",
+      "routeIds": ["CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-and-notice-hearing-sealing-arrest-and-criminal-records",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20419%20Order%20and%20Notice%20of%20Hearing.pdf",
+        "provenance": "officialReported",
+        "note": "the newest path surfaced for this form is still the 2023-07 upload directory; whether a later revision exists under a newer directory is unresolved and is a question for the acquisition run, not for this record"
+      },
+      "revisionDate": null,
+      "revisionDateAsPrinted": null,
+      "revisionDateProvenance": "pending",
+      "revisionDateNote": "not established. The official page was not fetchable and no official listing surfaced an R: date for this form. Left null rather than inferred from the upload directory, which dates the upload and not the revision.",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-435",
+      "formNumber": "JDF 435",
+      "officialTitle": "Order Denying Petition to Seal Arrest & Criminal Records",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "ORDER_DENYING",
+      "filingSet": "JDF 416 -- Guide to Sealing Arrest Records (No Charges Filed)",
+      "namedBy": "JDF 416 R: July 1, 2025, Step 3 'File the Request', which lists 'JDF 435  Order (just do §§ A-C)'",
+      "namedByProvenance": "verified: read from the pinned corpus copy of JDF 416, sha256 26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+      "preparedBy": "petitioner files it blank except the caption (§§ A-C); the court completes the remainder",
+      "requiredness": "required",
+      "requirednessBasis": "JDF 416 Step 3 lists it among the forms to file, without condition",
+      "routeIds": ["CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-denying-petition-seal-arrest-criminal-records",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF%20435%20order%20denying%20petition%20to%20seal.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": null,
+      "revisionDateAsPrinted": null,
+      "revisionDateProvenance": "pending",
+      "revisionDateNote": "an official-domain search summary reported 'R8/19'. One unconfirmed summary is not a revision date, and the form was not fetchable to read the footer, so this is left null and recorded here as a lead for the acquisition run.",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-205",
+      "formNumber": "JDF 205",
+      "officialTitle": "Motion to Waive Fees",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "MOTION_FEE_WAIVER",
+      "filingSet": "shared: named by both petition-based sealing guides under 'Filing Fees'",
+      "namedBy": "JDF 611 and JDF 416, 'Filing Fees': 'If you cannot afford the fee, also file: JDF 205  Motion to Waive Fees'",
+      "namedByProvenance": "verified: read from the pinned corpus copies of JDF 611 (b628ee77...) and JDF 416 (26b07edc...)",
+      "preparedBy": "movant completes in full",
+      "requiredness": "conditional",
+      "requirednessBasis": "both guides condition it on 'if you cannot afford the fee'; it is not part of the base filing set",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/motion-waive-fees",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2024-05/JDF205.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": "2024-04-02",
+      "revisionDateAsPrinted": "R: April 2, 2024",
+      "revisionDateProvenance": "officialReported",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "pageCountReportedByOfficialSource": 3,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-206",
+      "formNumber": "JDF 206",
+      "officialTitle": "Order re Court Fees",
+      "officialTitleAlternate": "Finding and Order Concerning Payment of Fees",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "ORDER_FEE_WAIVER",
+      "filingSet": "shared: named by both petition-based sealing guides under 'Filing Fees'",
+      "namedBy": "JDF 611 and JDF 416, 'Filing Fees': 'JDF 206  Order (Just do §§ A-C)'",
+      "namedByProvenance": "verified: read from the pinned corpus copies of JDF 611 (b628ee77...) and JDF 416 (26b07edc...)",
+      "preparedBy": "movant files it blank except the caption (§§ A-C); the court completes the remainder",
+      "requiredness": "conditional",
+      "requirednessBasis": "filed only alongside JDF 205, so it inherits that form's condition",
+      "routeIds": [
+        "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+        "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704"
+      ],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/order-re-fee-waiver",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2024-08/JDF206.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": "2024-08-20",
+      "revisionDateAsPrinted": "R: August 20, 2024",
+      "revisionDateProvenance": "officialReported",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "pageCountReportedByOfficialSource": 2,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending"
+    },
+    {
+      "documentId": "JDF-302",
+      "formNumber": "JDF 302",
+      "officialTitle": "Petition to Expunge Court Records",
+      "titleProvenance": "officialReported",
+      "filingSetRole": "PETITION",
+      "filingSet": "JDF 301 -- How to Expunge a Juvenile Delinquency Record",
+      "namedBy": "the compiled Colorado profile, which states the juvenile remedy has its own form JDF 302; corroborated by the official self-help form page, which states the petition is filed pursuant to C.R.S. § 19-1-306",
+      "preparedBy": "petitioner completes in full",
+      "requiredness": "required",
+      "requirednessBasis": "it is the operative petition for the juvenile expungement remedy; the route cannot be filed without it",
+      "routeIds": ["CO:juvenile-expungement-19-1-306"],
+      "officialSourceLocation": {
+        "page": "https://www.coloradojudicial.gov/self-help-and-forms/self-help-forms/petition-expunge-court-records",
+        "pdf": "https://www.coloradojudicial.gov/sites/default/files/2023-07/JDF302.pdf",
+        "provenance": "officialReported"
+      },
+      "revisionDate": null,
+      "revisionDateAsPrinted": null,
+      "revisionDateProvenance": "pending",
+      "revisionDateNote": "an official-domain search summary reported 'October 11, 2021' and three pages, but that date is the one printed on JDF 301 (the companion guide) in the same result set, so it may have been carried across. Not recorded as this form's revision on that basis.",
+      "retrievalDate": null,
+      "contentType": null,
+      "byteSize": null,
+      "pageCount": null,
+      "sha256": null,
+      "formTechnology": null,
+      "sourceVerificationMethod": "pending: retrieve from the official URL over TLS, then hash and inspect the bytes",
+      "byteFactsStatus": "pending",
+      "companionNote": "JDF 301 (the guide) is also absent from the pinned corpus. It is not on this lane's required list and is not claimed here; recorded so the gap is visible rather than rediscovered."
+    }
+  ],
+
+  "filingSetsAfterAcquisition": {
+    "CO:petition-based-conviction-sealing-jdf-612-24-72-706": {
+      "guide": "JDF 611",
+      "required": ["JDF 612", "JDF 613", "JDF 614", "JDF 615"],
+      "conditional": ["JDF 205", "JDF 206"],
+      "inPinnedCorpus": ["JDF 612", "JDF 615"],
+      "suppliedBySupplement": ["JDF 613", "JDF 614", "JDF 205", "JDF 206"]
+    },
+    "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704": {
+      "guide": "JDF 416",
+      "required": ["JDF 417", "JDF 418", "JDF 419", "JDF 435"],
+      "conditional": ["JDF 205", "JDF 206"],
+      "inPinnedCorpus": ["JDF 417", "JDF 418"],
+      "suppliedBySupplement": ["JDF 419", "JDF 435", "JDF 205", "JDF 206"]
+    },
+    "CO:juvenile-expungement-19-1-306": {
+      "guide": "JDF 301",
+      "required": ["JDF 302"],
+      "conditional": [],
+      "inPinnedCorpus": [],
+      "suppliedBySupplement": ["JDF 302"]
+    }
+  },
+
+  "freshnessFindings": [
+    {
+      "documentId": "JDF-611",
+      "pinnedRevision": "2024-08-07",
+      "currentRevisionReportedByOfficialSource": "2025-07-01",
+      "currentPdfReportedByOfficialSource": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF611.pdf",
+      "materialToThisLane": false,
+      "note": "The current guide names the same four filings as the pinned one, so the identification stands. The staleness is still real and belongs to whoever refreshes the corpus."
+    },
+    {
+      "documentId": "JDF-612",
+      "pinnedRevision": "2024-08-07",
+      "currentPdfReportedByOfficialSource": "https://www.coloradojudicial.gov/sites/default/files/2025-07/JDF612.pdf",
+      "currentRevisionReportedByOfficialSource": null,
+      "materialToThisLane": false,
+      "note": "A JDF612.pdf exists under the 2025-07 directory. No R: date surfaced for it, so whether the pinned bytes are stale is unresolved. Recorded as a question, not as a finding of staleness."
+    }
+  ],
+  "freshnessFindingsScope": "Refreshing pinned corpus documents is not this lane's work and nothing here has been acted on. These are recorded because they were seen while establishing the current official locations, and losing them would cost someone the same search.",
+
+  "doNotAdmit": {
+    "routeIds": [
+      "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+      "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "CO:juvenile-expungement-19-1-306"
+    ],
+    "reason": "Identifying a filing is not acquiring it. No Colorado filing set is complete while these seven documents have no verified bytes, so every Colorado route stays denied and commercially ineligible. This lane asks for no gate to be opened."
+  }
+}
