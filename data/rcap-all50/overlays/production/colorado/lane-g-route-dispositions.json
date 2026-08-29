@@ -1,0 +1,326 @@
+{
+  "schemaVersion": "rcap-lane-g-route-dispositions/v1",
+  "lane": "G",
+  "shardId": "S-G-CO",
+  "jurisdiction": "CO",
+  "packetFamily": "colorado",
+  "baseSha": "61ee6cc359bc19d32c6c071194e62a553446ca08",
+  "purpose": "A truthful disposition for each Colorado route this envelope assigns. Readiness is measured from the mounted corpus and the committed artifacts in this run, never asserted and never read back from a record.",
+  "sourceVerification": "lane-g-source-verification.json",
+  "totals": {
+    "routes": 3,
+    "gradeACandidates": 0,
+    "blocked": 3
+  },
+  "routes": [
+    {
+      "routeId": "CO:petition-based-non-conviction-sealing-jdf-417-24-72-704",
+      "jurisdiction": "CO",
+      "packetFamily": "colorado",
+      "legalDesign": "lane-g-legal-design.json",
+      "registry": {
+        "factoryV2Resolves": true,
+        "unmetBuildInputs": [],
+        "officialFormIds": [
+          "JDF-417",
+          "JDF-417-ORDER"
+        ],
+        "componentCount": 2,
+        "openBlockerIds": [],
+        "ownerApprovedLegalDesign": false
+      },
+      "requiredFilingComponents": 4,
+      "componentsPresentInCorpus": 2,
+      "components": [
+        {
+          "role": "REQUEST",
+          "documentId": "JDF-417",
+          "familySlug": "jdf-417-form-petition-en",
+          "participantCompleted": true,
+          "presentInMountedCorpus": true,
+          "status": "present_and_rendered",
+          "measurement": {
+            "fieldCount": 62,
+            "fieldClassCounts": {
+              "manual": 45,
+              "participant": 4,
+              "withheld_by_review": 1,
+              "election_control": 9,
+              "signature": 3
+            },
+            "boundFields": 4,
+            "bindingCoverage": 0.0645,
+            "protectedFieldScanPass": true,
+            "protectedFieldViolations": 0,
+            "deterministicFixtureProven": true,
+            "mutationGuaranteesHeld": true,
+            "sourceDriftRefused": true,
+            "renderedArtifacts": [
+              {
+                "artifact": "fixtures/canonical-filled.pdf",
+                "recordedSha256": "8a2767a57bec71aa583cb343d1d17b5bbe83ff66ceabae42473e67e6d464a72d",
+                "recomputedSha256": "8a2767a57bec71aa583cb343d1d17b5bbe83ff66ceabae42473e67e6d464a72d",
+                "byteLength": 1152556,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "fixtures/boundary-filled.pdf",
+                "recordedSha256": "9fdfc53be5013149e601fd9c0883a02759c070cf02c2761f135a3d5632dc6eb4",
+                "recomputedSha256": "9fdfc53be5013149e601fd9c0883a02759c070cf02c2761f135a3d5632dc6eb4",
+                "byteLength": 1152427,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "fixtures/negative-filled.pdf",
+                "recordedSha256": "faf37cd37cf19fe87e28d6db461642e5d303c33cb20544ddbc8e16cbbfd56e4f",
+                "recomputedSha256": "faf37cd37cf19fe87e28d6db461642e5d303c33cb20544ddbc8e16cbbfd56e4f",
+                "byteLength": 1151668,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "contact-sheet/blank-vs-filled.pdf",
+                "recordedSha256": "d0130a377ae1d58578d38595a339558136cb4a072c8cd6a03e1fb4df91937e63",
+                "recomputedSha256": "d0130a377ae1d58578d38595a339558136cb4a072c8cd6a03e1fb4df91937e63",
+                "byteLength": 2328086,
+                "recomputationAgrees": true
+              }
+            ],
+            "allArtifactDigestsAgree": true
+          }
+        },
+        {
+          "role": "ORDER",
+          "documentId": "JDF-418",
+          "familySlug": "jdf-418-form-order-en",
+          "participantCompleted": false,
+          "presentInMountedCorpus": true,
+          "status": "present_and_correctly_left_unfilled_court_issued",
+          "measurement": {
+            "fieldCount": 18,
+            "fieldClassCounts": {
+              "not_participant_writable": 18
+            },
+            "boundFields": 0,
+            "bindingCoverage": 0,
+            "protectedFieldScanPass": null,
+            "protectedFieldViolations": null,
+            "deterministicFixtureProven": false,
+            "mutationGuaranteesHeld": null,
+            "sourceDriftRefused": null,
+            "renderedArtifacts": [],
+            "allArtifactDigestsAgree": false
+          }
+        },
+        {
+          "role": "NOTICE",
+          "documentId": "JDF-419",
+          "familySlug": null,
+          "participantCompleted": true,
+          "presentInMountedCorpus": false,
+          "status": "named_by_the_court_guide_and_absent_from_corpus",
+          "measurement": null
+        },
+        {
+          "role": "ORDER",
+          "documentId": "JDF-435",
+          "familySlug": null,
+          "participantCompleted": false,
+          "presentInMountedCorpus": false,
+          "status": "named_by_the_court_guide_and_absent_from_corpus",
+          "measurement": null
+        }
+      ],
+      "gradeACandidate": false,
+      "disposition": "blocked_incomplete_official_filing_set",
+      "serviceDisposition": "no_packet_delivered_and_no_guidance_substituted",
+      "commercialStatus": "hold",
+      "checkoutProhibited": true,
+      "neverDisguisedAsGuidance": "This route is recorded as blocked. No guidance packet is emitted in place of the unbuilt filing set, and no checkout is opened.",
+      "blockers": [
+        "NOTICE JDF-419 is named by the issuing court's own filing guide and does not exist anywhere in the pinned corpus, so the filing set cannot be assembled.",
+        "ORDER JDF-435 is named by the issuing court's own filing guide and does not exist anywhere in the pinned corpus, so the filing set cannot be assembled.",
+        "Fee-waiver MOTION JDF-205 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
+        "Fee-waiver ORDER JDF-206 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
+        "JDF-417 binds 4 of 62 fields (6.5%). The substance the guide asks the participant to supply — the agency name and address rows, the qualification elections and the certificate of service — is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
+      ]
+    },
+    {
+      "routeId": "CO:petition-based-conviction-sealing-jdf-612-24-72-706",
+      "jurisdiction": "CO",
+      "packetFamily": "colorado",
+      "legalDesign": "lane-g-legal-design.json",
+      "registry": {
+        "factoryV2Resolves": true,
+        "unmetBuildInputs": [],
+        "officialFormIds": [
+          "JDF-612",
+          "JDF-615"
+        ],
+        "componentCount": 2,
+        "openBlockerIds": [
+          "gate_build",
+          "legal_review_pending"
+        ],
+        "ownerApprovedLegalDesign": false
+      },
+      "requiredFilingComponents": 4,
+      "componentsPresentInCorpus": 2,
+      "components": [
+        {
+          "role": "MOTION",
+          "documentId": "JDF-612",
+          "familySlug": "jdf-612-form-motion-en",
+          "participantCompleted": true,
+          "presentInMountedCorpus": true,
+          "status": "present_and_rendered",
+          "measurement": {
+            "fieldCount": 63,
+            "fieldClassCounts": {
+              "election_control": 22,
+              "participant": 6,
+              "withheld_by_review": 1,
+              "manual": 29,
+              "signature": 5
+            },
+            "boundFields": 6,
+            "bindingCoverage": 0.0952,
+            "protectedFieldScanPass": true,
+            "protectedFieldViolations": 0,
+            "deterministicFixtureProven": true,
+            "mutationGuaranteesHeld": true,
+            "sourceDriftRefused": true,
+            "renderedArtifacts": [
+              {
+                "artifact": "fixtures/canonical-filled.pdf",
+                "recordedSha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e",
+                "recomputedSha256": "cb796b51f5b747e357796c1b6ab7bc1799a436b4ea1b550574fa1f56a88e022e",
+                "byteLength": 231616,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "fixtures/boundary-filled.pdf",
+                "recordedSha256": "391775264f24cb4ee66a96402f19fd8044a6a22bbaa935db849984517f9a5578",
+                "recomputedSha256": "391775264f24cb4ee66a96402f19fd8044a6a22bbaa935db849984517f9a5578",
+                "byteLength": 231678,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "fixtures/negative-filled.pdf",
+                "recordedSha256": "9b354d7d36eff190e0031f1ccde74f4541a1f1bfa6c220f1ccd5d5ed782ad1a4",
+                "recomputedSha256": "9b354d7d36eff190e0031f1ccde74f4541a1f1bfa6c220f1ccd5d5ed782ad1a4",
+                "byteLength": 231478,
+                "recomputationAgrees": true
+              },
+              {
+                "artifact": "contact-sheet/blank-vs-filled.pdf",
+                "recordedSha256": "d9cc6c4060509a0e05a5395933887ee235cef888077474c709c8c67d9f5f48a5",
+                "recomputedSha256": "d9cc6c4060509a0e05a5395933887ee235cef888077474c709c8c67d9f5f48a5",
+                "byteLength": 1255122,
+                "recomputationAgrees": true
+              }
+            ],
+            "allArtifactDigestsAgree": true
+          }
+        },
+        {
+          "role": "ORDER",
+          "documentId": "JDF-615",
+          "familySlug": "jdf-615-form-order-en",
+          "participantCompleted": false,
+          "presentInMountedCorpus": true,
+          "status": "present_and_correctly_left_unfilled_court_issued",
+          "measurement": {
+            "fieldCount": 23,
+            "fieldClassCounts": {
+              "not_participant_writable": 23
+            },
+            "boundFields": 0,
+            "bindingCoverage": 0,
+            "protectedFieldScanPass": null,
+            "protectedFieldViolations": null,
+            "deterministicFixtureProven": false,
+            "mutationGuaranteesHeld": null,
+            "sourceDriftRefused": null,
+            "renderedArtifacts": [],
+            "allArtifactDigestsAgree": false
+          }
+        },
+        {
+          "role": "NOTICE",
+          "documentId": null,
+          "familySlug": null,
+          "participantCompleted": true,
+          "presentInMountedCorpus": false,
+          "status": "identity_unknown_and_absent_from_corpus",
+          "measurement": null
+        },
+        {
+          "role": "ORDER",
+          "documentId": null,
+          "familySlug": null,
+          "participantCompleted": false,
+          "presentInMountedCorpus": false,
+          "status": "identity_unknown_and_absent_from_corpus",
+          "measurement": null
+        }
+      ],
+      "gradeACandidate": false,
+      "disposition": "blocked_incomplete_official_filing_set",
+      "serviceDisposition": "no_packet_delivered_and_no_guidance_substituted",
+      "commercialStatus": "hold",
+      "checkoutProhibited": true,
+      "neverDisguisedAsGuidance": "This route is recorded as blocked. No guidance packet is emitted in place of the unbuilt filing set, and no checkout is opened.",
+      "blockers": [
+        "A NOTICE is required by the issuing court's own filing guide; its form number could not be read first-hand and no such form exists in the pinned corpus.",
+        "A ORDER is required by the issuing court's own filing guide; its form number could not be read first-hand and no such form exists in the pinned corpus.",
+        "Fee-waiver MOTION JDF-205 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
+        "Fee-waiver ORDER JDF-206 is named by the filing guide and is absent from the pinned corpus, so the waiver path cannot be delivered.",
+        "JDF-612 binds 6 of 63 fields (9.5%). The substance the guide asks the participant to supply — the agency name and address rows, the qualification elections and the certificate of service — is classified manual and is not written by the product, so the rendered artifact is a caption fill rather than a completed filing."
+      ]
+    },
+    {
+      "routeId": "CO:juvenile-expungement-19-1-306",
+      "jurisdiction": "CO",
+      "packetFamily": "colorado",
+      "legalDesign": null,
+      "registry": {
+        "factoryV2Resolves": false,
+        "unmetBuildInputs": [
+          "exactPacketSet",
+          "packetSpecification",
+          "sourceOrApprovedComposedDocument"
+        ],
+        "officialFormIds": [],
+        "componentCount": 0,
+        "openBlockerIds": [
+          "legal_review_pending",
+          "renderer_unavailable",
+          "wait_anchor_fix"
+        ],
+        "ownerApprovedLegalDesign": false
+      },
+      "requiredFilingComponents": 1,
+      "componentsPresentInCorpus": 0,
+      "components": [
+        {
+          "role": "PETITION",
+          "documentId": "JDF-302",
+          "familySlug": null,
+          "participantCompleted": true,
+          "presentInMountedCorpus": false,
+          "status": "named_by_the_court_guide_and_absent_from_corpus",
+          "measurement": null
+        }
+      ],
+      "gradeACandidate": false,
+      "disposition": "blocked_incomplete_official_filing_set",
+      "serviceDisposition": "no_packet_delivered_and_no_guidance_substituted",
+      "commercialStatus": "hold",
+      "checkoutProhibited": true,
+      "neverDisguisedAsGuidance": "This route is recorded as blocked. No guidance packet is emitted in place of the unbuilt filing set, and no checkout is opened.",
+      "blockers": [
+        "PETITION JDF-302 is named by the issuing court's own filing guide and does not exist anywhere in the pinned corpus, so the filing set cannot be assembled."
+      ]
+    }
+  ]
+}
