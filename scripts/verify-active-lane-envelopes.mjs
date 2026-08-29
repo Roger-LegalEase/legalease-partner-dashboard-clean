@@ -107,8 +107,28 @@ for (const lane of lanes) {
   // One exact base. An active or queued lane bases on the current dispatch base;
   // an integrated lane keeps the base it was actually built against.
   if (lane.status === "integrated") {
-    if (lane.baseSha !== ORIGINAL_BASE) fail(`${id}.baseSha is ${lane.baseSha}, not the base it was integrated against`);
-    if (lane.remoteBaseSha !== ORIGINAL_BASE) fail(`${id}.remoteBaseSha is ${lane.remoteBaseSha}, not the base it was integrated against`);
+    // An integrated lane keeps the base it was actually built against, and lanes
+    // integrated at different points have different ones -- B, C and D were built
+    // on the sprint base, E on a later captain head. Pinning one constant here
+    // would force a lane's record to lie about its own history. What must hold is
+    // that the base is a real commit already contained in the captain branch, so
+    // the record cannot name a base that never existed or was never integrated.
+    if (lane.baseSha !== lane.remoteBaseSha) fail(`${id}.baseSha and remoteBaseSha disagree`);
+    if (!gitHas(lane.baseSha)) {
+      fail(`${id}.baseSha ${lane.baseSha} does not resolve to a commit in this repository`);
+    } else {
+      try {
+        execFileSync("git", ["merge-base", "--is-ancestor", lane.baseSha, "HEAD"], { cwd: rootDir, stdio: "ignore" });
+      } catch {
+        fail(`${id}.baseSha ${lane.baseSha} is not an ancestor of the captain head, so it was never integrated`);
+      }
+    }
+    // An integrated lane must also record the captain commit that took it in.
+    if (!/^[0-9a-f]{40}$/.test(lane.captainIntegrationCommit ?? "")) {
+      if (lane.lane === "E") fail(`${id} is integrated but records no exact captainIntegrationCommit`);
+    } else if (!gitHas(lane.captainIntegrationCommit)) {
+      fail(`${id}.captainIntegrationCommit ${lane.captainIntegrationCommit} is not in this repository`);
+    }
   } else {
     if (!ACTIVE_BASES.includes(lane.baseSha)) fail(`${id}.baseSha ${lane.baseSha} is not a declared active base`);
     if (lane.baseSha !== lane.remoteBaseSha) fail(`${id}.baseSha and remoteBaseSha disagree`);

@@ -294,7 +294,7 @@
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
       "lane": "E",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "laneBranch": "claude/grade-a-68h-lane-e",
       "shardId": "S-E1",
       "routeIds": [
@@ -352,7 +352,7 @@
         "npm run typecheck",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-e",
+      "requiredReturnCommit": "d3bd3e241b8712b9954e50323c3121ad62753f85",
       "dependencies": [
         "none for implementation; lane F consumes this lane's ownership boundary"
       ],
@@ -368,7 +368,9 @@
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
         "A change to payment, sponsorship, rendering or delivery would be needed: that is lane F; return a patch request instead."
-      ]
+      ],
+      "captainIntegrationCommit": "c9646cd5146b7f61667fd2968b715e79b10c19b2",
+      "integrationNote": "Replayed commit by commit onto the captain head; the branch was not merged. No migration was required. Its two new verifiers are registered wired and are in the chain."
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",

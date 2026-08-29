@@ -28,7 +28,7 @@ Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 | B | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | grade-a-fulfillment-authority | 8 |
 | C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | oregon | 3 |
 | D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | north-dakota | 5 |
-| E | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-e` | `be673158bae0` | none | route-independent |
+| E | Claude Opus 5 | `integrated` | `claude/grade-a-68h-lane-e` | `be673158bae0` | none | route-independent |
 | F | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-f` | `61ee6cc359bc` | none | route-independent |
 | G | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc359bc` | colorado | 3 |
 | H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | `be673158bae0` | none | route-independent |
