@@ -546,17 +546,38 @@ function collectFailures(doc) {
 // Each mutation names one way a dispatch manifest goes wrong and the failure
 // that must catch it. A mutation is only evidence if the clean manifest does NOT
 // produce that failure, so both halves are asserted.
-function runMutations(baseDoc) {
+function runMutations(inputDoc) {
+  let baseDoc = inputDoc;
   const clone = () => JSON.parse(JSON.stringify(baseDoc));
   const laneOf = (doc, id) => doc.lanes.find((l) => l.lane === id);
   // The mutations break an ACTIVE lane, because that is the only status these
   // rules apply to. Which lane that is changes every time a lane is integrated,
   // so it is resolved at run time rather than named: a suite pinned to a lane id
   // goes quietly vacuous the moment that lane lands.
-  const activeLanes = baseDoc.lanes.filter((l) => l.status === "active");
+  //
+  // When every lane is integrated there is no active lane to break, and a suite
+  // that reports "nothing to prove" in that state is a suite that goes silent
+  // exactly when the next dispatch is being written. So the clean document is
+  // given a synthetic active lane, built from the most recently integrated one,
+  // and the mutations run against that. The rules stay proven between waves.
+  let activeLanes = baseDoc.lanes.filter((l) => l.status === "active");
+  let synthetic = null;
   if (activeLanes.length === 0) {
-    console.log("No active lane to mutate; every lane is integrated. Nothing to prove here.");
-    return 0;
+    const donor = [...baseDoc.lanes].reverse().find((l) => l.laneBranch !== l.controllingBranch);
+    synthetic = JSON.parse(JSON.stringify(donor));
+    synthetic.lane = `${donor.lane}-SYNTHETIC-ACTIVE`;
+    synthetic.status = "active";
+    // An integrated lane records the exact commit it returned; an active one
+    // records the instruction to return on its own branch. The donor is
+    // converted rather than copied, or the clean document fails before a single
+    // mutation is applied and the suite proves nothing.
+    synthetic.requiredReturnCommit =
+      `the worker returns one exact 40-character commit SHA on ${donor.laneBranch}`;
+    delete synthetic.captainIntegrationCommit;
+    delete synthetic.laneResult;
+    baseDoc = { ...baseDoc, lanes: [...baseDoc.lanes, synthetic] };
+    activeLanes = [synthetic];
+    console.log(`  (every lane is integrated; mutating a synthetic active lane derived from ${donor.lane})`);
   }
   const A = activeLanes[0].lane;
   const B = activeLanes[1]?.lane ?? A;

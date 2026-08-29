@@ -1062,7 +1062,7 @@
       "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
       "lane": "J",
@@ -1113,7 +1113,7 @@
         "node scripts/test-expungement-parity-delta-mutations.mjs",
         "npm run typecheck"
       ],
-      "requiredReturnCommit": "returned 7b37de68679941c1efdf74e889ef5b9014bdef6b on claude/grade-a-v6-release-blockers; recorded as the exact return commit when the captain integration commit is recorded",
+      "requiredReturnCommit": "7b37de68679941c1efdf74e889ef5b9014bdef6b",
       "dependencies": [
         "none: this lane produces decisions and patches, and applies none of them"
       ],
@@ -1133,13 +1133,14 @@
         "A terminalization hash would be re-pinned to make a verifier green: stop. A hash moves only with a recorded decision that it still holds.",
         "A worker image would be published or deployed: stop. Prepare the runbook and return the exact authorization required."
       ],
-      "laneResult": "decision_packets_integrated_pending_captain_commit_record"
+      "laneResult": "decision_packets_integrated",
+      "captainIntegrationCommit": "6eab68fcffff0e59a55f6aaf26236110991217ac"
     }
   ],
   "activeDispatch": {
     "base": "all-claude-2026-08-29",
     "controllingBranch": "claude/legalease-sprint-captain-utucnw",
-    "note": "Codex is removed from this sprint. Historical Codex branches are history only; they authorize nothing and are not active lanes. Every active lane runs Claude Opus 5. Lanes E and H were already running from be673158 and keep that base; lanes F and G are dispatched fresh from the consolidated B/C/D base.",
+    "note": "Codex is removed from this sprint. Every lane in this manifest is integrated: B, C and D by salvage replay, E, F, G and H in the v5 waves, and G-CO-SOURCE, G-CO-BUILD, I and J in the post-audit closeout. No lane is running. Commercial eligibility is 0 and COMPLETE_PACKET_PROVEN is 0.",
     "freshAllClaudeBase": "61ee6cc359bc19d32c6c071194e62a553446ca08",
     "corpusBootstrap": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
     "activeBases": [
