@@ -173,6 +173,30 @@ const OVERRIDES = {
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
   },
+  "verify-rcap-answer-dependent-patches.mjs": {
+    disposition: "wired",
+    reason:
+      "The eight answer-dependent patch bundles for the four Blocker-4 legal questions, prepared and proved without applying. Each branch is dry-run applied to an in-memory copy of its targets and the result is diffed field by field: a repin must move provenance.profileSha256 and nothing else, a retirement must move no hash at all. It then recomputes every target's digest and requires it unchanged on disk, so \"prepared, not applied\" is asserted rather than promised. Wired because it is the guard on eight held records: if a bundle were applied without an answer, or a target drifted from the hash the matrix measured, this goes red before anything downstream reads the manifest as current.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-oregon-decision-alternatives.mjs": {
+    disposition: "wired",
+    reason:
+      "The four Oregon alternatives -- ORS 137.225(1)(c) or (1)(d), and one acquittal packet or three routes -- measured against the repository without choosing between them. It proves the (1)(d) route id does not already exist, enumerates every committed record that carries the current route id so the rename's blast radius is a list rather than an estimate, and confirms both unreached packet sets are complete seven-component sets, which is what makes the scope question a real participant-facing gap. Wired because its last three checks are the ones that matter while waiting: the route id is unchanged, it still binds only or_acquittal-set, and no new Oregon route was created. A branch applied quietly turns those red.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-nonproduction-readiness-audit.mjs": {
+    disposition: "keep_available",
+    reason:
+      "What publication would need, audited without dispatching. Credential presence is recorded by name and no value is ever read, printed or transmitted; absence in a non-workflow session is reported as expected rather than as a defect. It found the one live blocker: the publish workflow pins RELEASE_INTEGRATION_BRANCH to sprint/20260825-full-product-captain by literal name and refuses any SHA not contained in main or that branch, and the captain head is in neither -- so publication of this candidate would be refused before anything was fetched. Not wired: its findings are about workflow secrets and the live git graph, both of which legitimately differ between environments, so a chain entry would be red for reasons that are not defects. Run it before any dispatch.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-candidate-freeze-readiness.mjs": {
+    disposition: "keep_available",
+    reason:
+      "The candidate-freeze checklist, evaluated rather than asserted: it shells out to verify-rcap-terminalize-c1 and counts its actual drift failures instead of restating a number, so it cannot report a count the verifier disagrees with. Expected to report NOT READY, and the value is in which gates are open -- three wait on counsel, two are the captain's. It names no candidate SHA and freezes nothing. Not wired: it is deliberately red until the legal answers land, and a chain entry that is red by design teaches a reader to ignore a red chain.",
+    decidedBy: "captain"
+  },
   "verify-rcap-lane-i-oregon-first-packet.mjs": {
     disposition: "fix_then_wire",
     reason:

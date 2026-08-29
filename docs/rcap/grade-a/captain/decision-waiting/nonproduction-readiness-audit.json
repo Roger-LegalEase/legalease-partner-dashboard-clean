@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "rcap-nonproduction-readiness-audit/v1",
+  "generatedBy": "scripts/verify-rcap-nonproduction-readiness-audit.mjs",
+  "status": "BLOCKED_ON_INPUTS",
+  "posture": "Readiness only. No dispatch, no publication, no deployment, no environment change, no Production action. Credential presence is recorded by name; no value is read, printed, logged or transmitted.",
+  "auditedAt": {
+    "captainHead": "4348008f3fc5790e51f3dd2955e3013cf07a2a34"
+  },
+  "runbook": "docs/rcap/grade-a/lane-j/BLOCKER-1-WORKER-REPUBLICATION-RUNBOOK.md",
+  "credentials": [
+    {
+      "env": "VERCEL_TOKEN",
+      "neededBy": "Preview deployment binding the worker digest",
+      "scope": "nonproduction preview only",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    },
+    {
+      "env": "VERCEL_AUTOMATION_BYPASS_SECRET",
+      "neededBy": "hosted acceptance reaching a protected Preview",
+      "scope": "nonproduction preview only",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    },
+    {
+      "env": "SUPABASE_ACCESS_TOKEN",
+      "neededBy": "the acceptance project's management API",
+      "scope": "acceptance project only, never Production",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    },
+    {
+      "env": "SUPABASE_PROJECT_REF",
+      "neededBy": "naming the acceptance project",
+      "scope": "acceptance project only, never Production",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    },
+    {
+      "env": "STRIPE_TEST_SECRET_KEY",
+      "neededBy": "synthetic consumer payment in acceptance",
+      "scope": "test mode only",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    },
+    {
+      "env": "GHCR_TOKEN",
+      "neededBy": "resolving the published tag to a digest and proving the package is not anonymously pullable",
+      "scope": "read + write packages",
+      "presentInThisSession": false,
+      "valueRecorded": false
+    }
+  ],
+  "credentialPolicy": "Absence in this session is expected and is not a defect: these are workflow secrets and this session is not the workflow. What this audit establishes is which secrets the workflow needs and what each is scoped to, so a missing one is discovered here rather than mid-dispatch.",
+  "releaseIntegrationBranch": {
+    "literal": "sprint/20260825-full-product-captain",
+    "pinnedIn": ".github/workflows/publish-rcap-render-worker.yml",
+    "existsOnOrigin": true,
+    "candidateHead": "4348008f3fc5790e51f3dd2955e3013cf07a2a34",
+    "candidateContainedInMain": false,
+    "candidateContainedInLiteral": false,
+    "consequence": "The workflow would REFUSE this candidate before fetching anything. This must be corrected in the workflow before any dispatch."
+  },
+  "rollback": {
+    "currentDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+    "distinctDigestsInEvidence": 12,
+    "rule": "The prior digest remains unchanged in GHCR. Do not delete it and do not retag it: a tag is an alias and only the sha256 digest is immutable."
+  },
+  "findings": [
+    {
+      "id": "cred:VERCEL_TOKEN",
+      "status": "note",
+      "what": "VERCEL_TOKEN is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "cred:VERCEL_AUTOMATION_BYPASS_SECRET",
+      "status": "note",
+      "what": "VERCEL_AUTOMATION_BYPASS_SECRET is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "cred:SUPABASE_ACCESS_TOKEN",
+      "status": "note",
+      "what": "SUPABASE_ACCESS_TOKEN is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "cred:SUPABASE_PROJECT_REF",
+      "status": "note",
+      "what": "SUPABASE_PROJECT_REF is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "cred:STRIPE_TEST_SECRET_KEY",
+      "status": "note",
+      "what": "STRIPE_TEST_SECRET_KEY is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "cred:GHCR_TOKEN",
+      "status": "note",
+      "what": "GHCR_TOKEN is absent in this session",
+      "detail": "expected: this is a workflow secret and this session is not the workflow"
+    },
+    {
+      "id": "branch:literal-present",
+      "status": "ready",
+      "what": "the workflow pins RELEASE_INTEGRATION_BRANCH by literal name",
+      "detail": "sprint/20260825-full-product-captain"
+    },
+    {
+      "id": "branch:literal-exists",
+      "status": "ready",
+      "what": "the pinned branch resolves on origin",
+      "detail": "sprint/20260825-full-product-captain"
+    },
+    {
+      "id": "branch:candidate-containment",
+      "status": "blocked",
+      "what": "the workflow would accept the current captain head as a candidate SHA",
+      "detail": "NOT contained in main and NOT contained in sprint/20260825-full-product-captain. The workflow refuses a SHA on any other branch, so publication of this candidate would be refused before anything is fetched. Fixing it is a captain-owned workflow edit made BEFORE dispatch, not worked around at dispatch time."
+    },
+    {
+      "id": "rollback:current-digest",
+      "status": "ready",
+      "what": "the committed publication evidence names an immutable digest",
+      "detail": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c"
+    },
+    {
+      "id": "rollback:prior-digest-retained",
+      "status": "ready",
+      "what": "a prior digest is retained to roll back to",
+      "detail": "12 distinct digest(s) in the evidence; the prior digest must remain in GHCR, never deleted and never retagged"
+    },
+    {
+      "id": "ghcr:privacy-guard",
+      "status": "ready",
+      "what": "an anonymous pull of the worker package fails the run",
+      "detail": "asserted in .github/workflows/rcap-worker-image-acceptance.yml, with the authenticated half asserted too"
+    },
+    {
+      "id": "ghcr:digest-required",
+      "status": "ready",
+      "what": "the workflow refuses to record a local image ID as evidence",
+      "detail": "fail-if-no-digest present"
+    },
+    {
+      "id": "dispatch:none",
+      "status": "ready",
+      "what": "nothing was dispatched, published, deployed or configured",
+      "detail": "this audit reads committed files, the workflow text and the local git graph, and nothing else"
+    }
+  ],
+  "blockedCount": 1,
+  "whatThisDoesNotEstablish": [
+    "That any credential is valid, or that any service would accept it. Nothing was authenticated.",
+    "That the Preview host is reachable or correctly configured. Nothing was deployed.",
+    "That publication is authorized. It is not: the candidate is not frozen and four legal answers are outstanding."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "rcap-candidate-freeze-checklist/v1",
+  "generatedBy": "scripts/verify-rcap-candidate-freeze-readiness.mjs",
+  "status": "NOT_READY",
+  "frozen": false,
+  "candidateSha": null,
+  "candidateShaNote": "Deliberately null. Naming a candidate before the gates close would pin a commit that will need superseding, and every artifact keyed to it would then describe a candidate nobody is shipping.",
+  "evaluatedAt": {
+    "captainHead": "4348008f3fc5790e51f3dd2955e3013cf07a2a34"
+  },
+  "gates": [
+    {
+      "gate": "legal:blocker-4-answers",
+      "owner": "Lawrence (counsel)",
+      "open": true,
+      "state": "8 record(s) held behind 4 unanswered questions",
+      "why": "A frozen candidate carrying eight records whose provenance nobody has dispositioned is a candidate that cannot be described honestly. The eight are Illinois 1, Kentucky 2, West Virginia 5.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "legal:oregon-subsection",
+      "owner": "Lawrence (counsel)",
+      "open": true,
+      "state": "ORS 137.225(1)(c) vs (1)(d) unanswered",
+      "why": "The (1)(d) branch renames the route id, which every generated record keyed to it follows. Freezing before that answer pins a candidate whose route identity is in question.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "legal:oregon-packet-scope",
+      "owner": "Lawrence (counsel)",
+      "open": true,
+      "state": "acquittal-only vs three routes unanswered",
+      "why": "The three-route branch creates two new routes and re-runs the Lane I selection. Freezing before that answer pins a candidate whose route set is in question.",
+      "closeable": "by an answer, not by the captain"
+    },
+    {
+      "gate": "chain:terminalization",
+      "owner": "follows the Blocker-4 answers",
+      "open": true,
+      "state": "verify-rcap-terminalize-c1 reports 8 drift failure(s)",
+      "why": "Red by design while the eight are held. It is listed as a gate so nobody reads a red chain as an accident, and so the count is checked rather than assumed: 8 is correct, 18 means the ten mechanical repins were lost, 0 means eight records were re-pinned without an answer.",
+      "closeable": "by the Blocker-4 answers, then the prepared bundles"
+    },
+    {
+      "gate": "publication:branch-literal",
+      "owner": "captain",
+      "open": true,
+      "state": "The workflow would REFUSE this candidate before fetching anything. This must be corrected in the workflow before any dispatch.",
+      "why": "The publish workflow refuses any SHA not contained in main or in the branch it pins by literal name. A candidate the workflow would refuse is not a candidate.",
+      "closeable": "by a captain-owned workflow edit, made before dispatch"
+    },
+    {
+      "gate": "commercial:eligibility-zero",
+      "owner": "captain",
+      "open": false,
+      "state": "commerciallyEligible 0, COMPLETE_PACKET_PROVEN 0",
+      "why": "A freeze is a statement about what the candidate contains. It must contain no open route.",
+      "closeable": "already closed; this gate exists to stay closed"
+    },
+    {
+      "gate": "chain:worktree-clean",
+      "owner": "captain",
+      "open": true,
+      "state": "dirty",
+      "why": "A candidate SHA names a commit. Uncommitted work is not in it.",
+      "closeable": "by committing"
+    }
+  ],
+  "openGates": 6,
+  "openGatesOwnedByCounsel": 3,
+  "openGatesOwnedByCaptain": 2,
+  "freezeProcedureWhenTheGatesClose": [
+    "Record every legal answer in its controlling registry first. The decision is the authority; the freeze records a state that already holds.",
+    "Apply only the prepared bundles whose question and answer match what was recorded, then re-run verify-rcap-terminalize-c1 and confirm the failure count fell by exactly the records those bundles name.",
+    "Correct RELEASE_INTEGRATION_BRANCH in the publish workflow, or land the candidate on a branch the workflow already accepts. Not both, and not at dispatch time.",
+    "Run the full chain on the exact candidate commit with no worker mutation harness running.",
+    "Only then write the candidate SHA here, and only as a full 40 characters: the workflow refuses an abbreviated SHA before it fetches anything, because two commits could share an alias.",
+    "Publication is a separate authorization after the freeze, not part of it."
+  ],
+  "whatAFreezeDoesNotAuthorize": [
+    "Publication of the worker image.",
+    "Any Preview deployment.",
+    "Any Production action.",
+    "Any change of commercial status."
+  ]
+}

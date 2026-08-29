@@ -118,13 +118,63 @@ packet-family build status and hard-form dispositions all still pass, and
 `overlays/production/colorado/` now contains only its 21 real family
 directories.
 
-## Seven missing artifacts
+## Missing official artifacts — eight, and two of them are now named
 
-JDF-419 · JDF-435 · JDF-205 · JDF-206 · JDF-302 · the JDF-611 notice · the
-JDF-611 second order.
+At the time of the audit this read *seven*, two of them as "the JDF-611 notice"
+and "the JDF-611 second order", because the guide's digits were reported as not
+surviving text extraction. G-CO-SOURCE resolved both by rendering page 1 of the
+pinned guide at 300 dpi:
 
-## Field maps, for the record
+| Filing | Role in the JDF 611 set |
+|---|---|
+| JDF 612 | Motion — already in the pinned corpus |
+| **JDF 613** | Order denying — was "the second order" |
+| **JDF 614** | Order and notice of hearing — was "the notice" |
+| JDF 615 | Order granting — already in the pinned corpus |
 
-JDF-417 binds 4 of 62 fields. JDF-612 binds 6 of 63. Materially unbound: the
-nine agency name/address rows, qualification elections, certificate of service,
-service recipients and filing details.
+The set carries two proposed orders because the movant files both outcomes blank.
+
+The scope is now **eight**, not seven: JDF-419, JDF-435, JDF-205, JDF-206,
+JDF-302, JDF-613, JDF-614, plus the **current JDF 611 guide (R: July 1, 2025)**,
+which the pinned corpus holds only at the superseded R: August 7, 2024. None has
+been acquired; the session's egress policy refuses the issuing court's hosts.
+
+## Field census — one table, two columns, no ambiguity
+
+There are two different counts for each form and confusing them is how a
+specification gets mistaken for a rendered document. They are stated together
+here so neither can be quoted alone.
+
+| | JDF-417 | JDF-612 |
+|---|---|---|
+| Total fields in the official form | **62** | **63** |
+| Specified writable (participant-fillable) | **59** | **58** |
+| Specified protected (never written) | **3** | **5** |
+| Unmapped after specification | 0 | 0 |
+| **Realized in the retained artifact** | **4** | **6** |
+| Specification digest | `f753ed82…` | `bbaaaca4…` |
+| Specification version | `co-jdf-417-binding/2026-08-29.1` | `co-jdf-612-binding/2026-08-29.1` |
+
+Read it this way. **62 = 59 + 3** and **63 = 58 + 5**: every field in each form is
+classified, none is unaccounted for. That is the *specification*, and it is
+complete.
+
+The last row is a different fact. The retained fixtures still realize **4** and
+**6** fields, because they were rendered by the D3A run of 2026-08-12 under the
+narrow binding that preceded this work, and nothing has been re-rendered since:
+the official binary each family is pinned to is not mounted, and the renderer
+those receipts name is unavailable in accepted captain ancestry. So the
+specification is complete and the artifacts are not, and the gap between 59 and 4
+is exactly the work that a mounted corpus and a resolved renderer would close.
+
+The earlier reading of this section — "JDF-417 binds 4 of 62 fields, JDF-612
+binds 6 of 63" — described only that last row. It was true of the artifacts and
+was never a statement about the specification, which did not exist yet.
+
+Materially unbound before this work, and specified now: the nine agency
+name/address rows, the eligibility and qualification elections, the certificate
+of service, the service recipients and the filing details.
+
+Source of every number above:
+`data/rcap-all50/overlays/production/colorado/<family>/specification/reports/binding-coverage.json`,
+re-derived by `node src/lib/rcap/state-packs/colorado/official-forms/run-verify.mjs`.

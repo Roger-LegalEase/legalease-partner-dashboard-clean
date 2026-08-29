@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "rcap-blocker-4-answer-dependent-patches/v1",
+  "generatedBy": "scripts/verify-rcap-answer-dependent-patches.mjs",
+  "status": "PREPARED_NOT_APPLIED",
+  "posture": "Every bundle below is written, checked against the repository as it stands, and dry-run applied in memory. None is applied. The eight records stay exactly where they are and verify-rcap-terminalize-c1 stays red for them until a legal-design owner answers.",
+  "decisionOwner": "Lawrence (counsel)",
+  "sourceQuestions": "docs/rcap/grade-a/lane-j/BLOCKER-4-LEGAL-OWNER-QUESTIONS.md",
+  "sourceMatrix": "docs/rcap/grade-a/lane-j/blocker-4-decision-matrix.json",
+  "heldRecords": 8,
+  "bundles": [
+    {
+      "bundleId": "Q-J-01-yes",
+      "questionId": "Q-J-01",
+      "answer": "yes",
+      "effect": "retire",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "profileSha256Current": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+      "substantivePathwayChangesInThatProfile": 4,
+      "whatItDoes": "Adds a retirement block naming the answer that caused it and leaves provenance.profileSha256 exactly where it is. A retired record's hash is never re-pinned: re-pinning asserts a decision still holds, and the decision is that there is no route.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s) once the retired record leaves the contract; the retirement handoff is a separate, non-mechanical step and is NOT prepared here.",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595",
+          "profileSha256After": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-01-no",
+      "questionId": "Q-J-01",
+      "answer": "no",
+      "effect": "repin",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/IL-illinois.json",
+      "profileSha256Current": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+      "substantivePathwayChangesInThatProfile": 4,
+      "whatItDoes": "Sets provenance.profileSha256 to the profile's current digest on every listed record, and changes nothing else. Identical in shape to the ten DECISION_UNCHANGED patches already applied.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s).",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/illinois/il-immediate-seal/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "e491c80d8c586ba7fd23e08d8693ddf4d0b2ada0eec746cde9e27dc77c391595",
+          "profileSha256After": "7999f618fd374825e4a8fa611d141131afe06ce9f6139c5c2d608277704da914",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-02-yes",
+      "questionId": "Q-J-02",
+      "answer": "yes",
+      "effect": "retire",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "profileSha256Current": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "substantivePathwayChangesInThatProfile": 2,
+      "whatItDoes": "Adds a retirement block naming the answer that caused it and leaves provenance.profileSha256 exactly where it is. A retired record's hash is never re-pinned: re-pinning asserts a decision still holds, and the decision is that there is no route.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s) once the retired record leaves the contract; the retirement handoff is a separate, non-mechanical step and is NOT prepared here.",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "profileSha256After": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-02-no",
+      "questionId": "Q-J-02",
+      "answer": "no",
+      "effect": "repin",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "profileSha256Current": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "substantivePathwayChangesInThatProfile": 2,
+      "whatItDoes": "Sets provenance.profileSha256 to the profile's current digest on every listed record, and changes nothing else. Identical in shape to the ten DECISION_UNCHANGED patches already applied.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s).",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/kentucky/ky_void_seal_controlled_substance/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "profileSha256After": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-03-yes",
+      "questionId": "Q-J-03",
+      "answer": "yes",
+      "effect": "retire",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "profileSha256Current": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "substantivePathwayChangesInThatProfile": 2,
+      "whatItDoes": "Adds a retirement block naming the answer that caused it and leaves provenance.profileSha256 exactly where it is. A retired record's hash is never re-pinned: re-pinning asserts a decision still holds, and the decision is that there is no route.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s) once the retired record leaves the contract; the retirement handoff is a separate, non-mechanical step and is NOT prepared here.",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "profileSha256After": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-03-no",
+      "questionId": "Q-J-03",
+      "answer": "no",
+      "effect": "repin",
+      "recordsAffected": 1,
+      "appliesTo": [
+        "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "profileSha256Current": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+      "substantivePathwayChangesInThatProfile": 2,
+      "whatItDoes": "Sets provenance.profileSha256 to the profile's current digest on every listed record, and changes nothing else. Identical in shape to the ten DECISION_UNCHANGED patches already applied.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 1 drift failure(s).",
+      "targets": [
+        {
+          "record": "data/rcap-all50/pleadings/kentucky/ky_void_seal_marijuana_synthetic_salvia/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "441a89c697a0443e6b429e4f3be750d26af5e1bb31afbabd61800f020394b438",
+          "profileSha256After": "4f27411ff96682aebd9e72dbe347ed2aa8059af585286b412cd14a1ffffcf672",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-04-A",
+      "questionId": "Q-J-04",
+      "answer": "A",
+      "effect": "repin",
+      "recordsAffected": 5,
+      "appliesTo": [
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "profileSha256Current": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "substantivePathwayChangesInThatProfile": 4,
+      "whatItDoes": "Sets provenance.profileSha256 to the profile's current digest on every listed record, and changes nothing else. Identical in shape to the ten DECISION_UNCHANGED patches already applied.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 5 drift failure(s).",
+      "targets": [
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json",
+          "effect": "repin",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+          "fieldsChanged": [
+            "provenance.profileSha256"
+          ]
+        }
+      ]
+    },
+    {
+      "bundleId": "Q-J-04-B",
+      "questionId": "Q-J-04",
+      "answer": "B",
+      "effect": "retire",
+      "recordsAffected": 5,
+      "appliesTo": [
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+        "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json"
+      ],
+      "profile": "src/lib/rcap-engine/compiled/profiles/WV-west-virginia.json",
+      "profileSha256Current": "0d5885d3ee56f516ee8bb9c6ce8d99d9aaa72a90d6670f8b6c8a52242db08b78",
+      "substantivePathwayChangesInThatProfile": 4,
+      "whatItDoes": "Adds a retirement block naming the answer that caused it and leaves provenance.profileSha256 exactly where it is. A retired record's hash is never re-pinned: re-pinning asserts a decision still holds, and the decision is that there is no route.",
+      "terminalizationEffect": "verify-rcap-terminalize-c1 loses 5 drift failure(s) once the retired record leaves the contract; the retirement handoff is a separate, non-mechanical step and is NOT prepared here.",
+      "targets": [
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-primary-filing-1/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-affidavit-2/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-secondary-filing-3/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-supporting-timeline-4/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        },
+        {
+          "record": "data/rcap-all50/composed-routes/west-virginia/wv_dui_deferral_expungement/components/wv_dui_deferral_expungement-certificate-of-service-5/pleading-config.json",
+          "effect": "retire",
+          "profileSha256Before": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "profileSha256After": "ee9a8d389b770943fd4825162102e7da449a555962884a9d8f916f143b7b13de",
+          "fieldsChanged": [
+            "retirement"
+          ]
+        }
+      ]
+    }
+  ],
+  "howToApplyOneWhenAnAnswerArrives": [
+    "Record the answer in data/record-clearing/legal-decisions/route-ratification-registry.json first. The decision is the authority; the patch is its consequence.",
+    "Re-run this script. It re-checks that each target still carries its expected pre-answer hash and that the profile still hashes to what the matrix measured. A drift in either means the bundle is stale and must be re-derived, not forced.",
+    "Apply only the bundle whose questionId and answer match what was recorded.",
+    "Re-run verify-rcap-terminalize-c1.mjs and confirm the failure count fell by exactly recordsAffected, and by nothing more."
+  ],
+  "whatIsDeliberatelyNotPrepared": [
+    "The retirement handoff itself. Moving a record's artifacts into the manifest-only retirement handoff is a judgement about live routes and evidence, not a mechanical edit, and preparing it in advance of the decision would prejudge it.",
+    "Any change to a route's commercial status. No bundle opens or closes checkout, and none touches a fulfillment record."
+  ]
+}
