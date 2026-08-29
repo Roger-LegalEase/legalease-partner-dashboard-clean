@@ -18,7 +18,7 @@ export default async function PartnerClinicFollowUpPage({ params }: { params: Pr
       <div className="mx-auto max-w-7xl">
         <Link href={`/partner/clinic/${eventId}`} className="text-sm font-bold text-[#0F6E56]">Back to event controls</Link>
         <header className="mb-7 mt-5">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1D9E75]">Follow-up operations</p>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#127256]">Follow-up operations</p>
           <h1 className="mt-3 text-4xl font-black">{workspace.event.name}</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#5C5750]">Manage time-bound follow-up without granting staff permanent access to a participant&apos;s account or matter.</p>
         </header>

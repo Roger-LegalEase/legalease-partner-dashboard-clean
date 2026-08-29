@@ -300,10 +300,24 @@ let overridden = 0;
 // guess with a measured status. Leaving them out would let a new verifier slip
 // in with no recorded decision, which is the exact gap this register closes.
 const auditedFiles = new Set(audit.scripts.map((r) => r.file));
-const onDisk = fs
-  .readdirSync(path.join(rootDir, "scripts"))
-  .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
-  .sort();
+// Both the top level and scripts/security/. The scan used to read only the top
+// level, which meant no security verifier had ever been registered -- not the
+// Clinic denial suites, and not the auth-redirect and sign-out checks that
+// predate them. A register that silently omits the security directory is worse
+// than no register for those files, because it reads as coverage.
+//
+// Entries are keyed by path relative to scripts/, so a security verifier is
+// distinguishable from a top-level one of the same name and the chain-membership
+// test below still matches the command as written in package.json.
+function verifierFilesUnder(relativeDir) {
+  const absolute = path.join(rootDir, relativeDir);
+  if (!fs.existsSync(absolute)) return [];
+  return fs
+    .readdirSync(absolute)
+    .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
+    .map((f) => (relativeDir === "scripts" ? f : `${relativeDir.slice("scripts/".length)}/${f}`));
+}
+const onDisk = [...verifierFilesUnder("scripts"), ...verifierFilesUnder("scripts/security")].sort();
 
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 const testChain = pkg.scripts?.test ?? "";

@@ -80,10 +80,21 @@ function workflowInvokedScripts() {
 }
 const workflowInvocations = workflowInvokedScripts();
 
-const onDisk = fs
-  .readdirSync(scriptsDir)
-  .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
-  .sort();
+// The top level and scripts/security/, matching the generator. These two files
+// are halves of one mechanism: if the register learns about a directory and the
+// check does not, every entry from that directory reads as naming a script that
+// does not exist, and the honest fix is for both to look in the same places.
+// Keys are paths relative to scripts/, so a security verifier and a top-level
+// one of the same name stay distinguishable.
+function verifierFilesUnder(relativeDir, prefix) {
+  const absolute = path.join(scriptsDir, relativeDir);
+  if (!fs.existsSync(absolute)) return [];
+  return fs
+    .readdirSync(absolute)
+    .filter((f) => /^(verify|test|audit)-.*\.mjs$/.test(f))
+    .map((f) => `${prefix}${f}`);
+}
+const onDisk = [...verifierFilesUnder(".", ""), ...verifierFilesUnder("security", "security/")].sort();
 
 for (const file of onDisk) {
   if (!entries[file]) {
@@ -93,7 +104,7 @@ for (const file of onDisk) {
 
 for (const [file, entry] of Object.entries(entries)) {
   if (!onDisk.includes(file)) {
-    failures.push(`${file}: register names a script that is not in scripts/`);
+    failures.push(`${file}: register names a script that is not in scripts/ or scripts/security/`);
     continue;
   }
   if (!VALID.has(entry.disposition)) {

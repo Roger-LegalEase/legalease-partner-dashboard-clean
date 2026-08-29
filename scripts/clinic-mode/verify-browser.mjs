@@ -7,6 +7,52 @@ import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 
+/**
+ * Which browser to drive, resolved rather than assumed.
+ *
+ * This used to hardcode the macOS Chrome application path, which meant the
+ * check could only ever run on one developer's laptop: on any other machine it
+ * failed with a missing-executable error that looked like a browser problem
+ * rather than a portability one.
+ *
+ * The order is deliberate. An explicitly configured browser wins, because
+ * someone who set CHROME_PATH meant it. Then the known per-platform install
+ * locations. Then Playwright's own approved download, which is what CI and
+ * containers actually have. Returning null hands the launch back to
+ * Playwright's default resolution, and if that also finds nothing the failure
+ * says so in terms of the environment.
+ *
+ * Nothing here commits a symlink or an absolute container path, and there is no
+ * branch that skips the browser check quietly: a machine with no browser fails
+ * the check rather than passing it vacuously.
+ */
+function resolveBrowserExecutable() {
+  const candidates = [];
+  if (process.env.CHROME_PATH) candidates.push(process.env.CHROME_PATH);
+  if (process.platform === "darwin") {
+    candidates.push("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome");
+    candidates.push("/Applications/Chromium.app/Contents/MacOS/Chromium");
+  } else if (process.platform === "linux") {
+    candidates.push("/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser");
+  } else if (process.platform === "win32") {
+    candidates.push("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+  }
+  // The repository-approved Playwright browser, wherever this install put it.
+  const browsersPath = process.env.PLAYWRIGHT_BROWSERS_PATH;
+  if (browsersPath) candidates.push(path.join(browsersPath, "chromium"));
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    try {
+      fs.accessSync(candidate, fs.constants.X_OK);
+      return candidate;
+    } catch { /* try the next one */ }
+  }
+  // Null means "let Playwright resolve its own managed browser". If that fails
+  // too, the launch error names the environment, which is the honest outcome.
+  return null;
+}
+
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const appPort = 3211;
 const stubPort = 55432;
@@ -112,7 +158,7 @@ next.stderr.on("data", (chunk) => { output += chunk; });
 let browser;
 try {
   await waitFor(`${appUrl}${clinicPath}`, 40_000);
-  browser = await chromium.launch({ headless: true, executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
+  browser = await chromium.launch({ headless: true, ...(resolveBrowserExecutable() ? { executablePath: resolveBrowserExecutable() } : {}) });
   for (const viewport of [{ name: "desktop", width: 1440, height: 900 }, { name: "mobile", width: 390, height: 844 }]) {
     const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
     const page = await context.newPage();

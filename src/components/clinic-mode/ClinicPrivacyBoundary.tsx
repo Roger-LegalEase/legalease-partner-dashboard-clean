@@ -46,7 +46,7 @@ export function ClinicPrivacyBoundary({ children, cleanEntryPath }: { children: 
       <div className="sticky top-0 z-50 border-b border-[#F2C8B7] bg-[#FFF7ED]/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
           <div><p className="text-sm font-black text-[#0F1E3D]">Shared-device privacy is active</p><p aria-live="polite" className="text-xs text-[#7A4A35]">{warning || "Reset after every participant. Inactivity automatically ends the session after 15 minutes."}</p></div>
-          <button type="button" disabled={resetting} onClick={() => void reset("staff_reset")} className="min-h-11 rounded-md bg-[#D85A30] px-5 py-2 text-sm font-black text-white hover:bg-[#B94B28] disabled:opacity-60">End clinic session / Reset device</button>
+          <button type="button" disabled={resetting} onClick={() => void reset("staff_reset")} className="min-h-11 rounded-md bg-[#B04A26] px-5 py-2 text-sm font-black text-white hover:bg-[#8F3A1C] disabled:opacity-60">End clinic session / Reset device</button>
         </div>
       </div>
       {children}

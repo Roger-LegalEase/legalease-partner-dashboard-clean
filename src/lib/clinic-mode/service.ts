@@ -194,6 +194,35 @@ function mapCode(row: Record<string, unknown>): ClinicAccessCodeSummary {
   return { id: String(row.id), eventId: String(row.event_id), codeHint: String(row.code_hint), maxUses: row.max_uses === null ? null : Number(row.max_uses), usesCount: Number(row.uses_count), startsAt: row.starts_at ? String(row.starts_at) : null, expiresAt: row.expires_at ? String(row.expires_at) : null, isActive: Boolean(row.is_active) };
 }
 
+/**
+ * Keys the Clinic mutation functions write into `clinic_event_audit.metadata`.
+ * The column is free-form jsonb and this trail is rendered in the partner
+ * console, so the projection is an allowlist rather than a pass-through: a
+ * mutation that later starts recording a participant fact -- a name, a birth
+ * date, a case number, a claim token, a signed URL, a private storage path --
+ * cannot reach a partner administrator through this surface without the key
+ * being added here deliberately.
+ *
+ * Values are lifecycle facts, so they are also constrained to primitives; a
+ * nested object cannot smuggle a participant record under an allowed key.
+ */
+const AUDIT_METADATA_KEYS = new Set(["status", "from", "to", "reason", "consent_version", "ledger_id"]);
+
+export function projectAuditMetadata(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const projected: Record<string, unknown> = {};
+  let withheld = 0;
+  for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+    if (AUDIT_METADATA_KEYS.has(key) && (entry === null || ["string", "number", "boolean"].includes(typeof entry))) {
+      projected[key] = entry;
+    } else {
+      withheld += 1;
+    }
+  }
+  if (withheld > 0) projected.withheldKeys = withheld;
+  return projected;
+}
+
 function mapAudit(row: Record<string, unknown>): ClinicAuditEntry {
-  return { id: String(row.id), action: String(row.action), targetType: String(row.target_type), targetId: row.target_id ? String(row.target_id) : null, metadata: (row.metadata ?? {}) as Record<string, unknown>, occurredAt: String(row.occurred_at) };
+  return { id: String(row.id), action: String(row.action), targetType: String(row.target_type), targetId: row.target_id ? String(row.target_id) : null, metadata: projectAuditMetadata(row.metadata), occurredAt: String(row.occurred_at) };
 }

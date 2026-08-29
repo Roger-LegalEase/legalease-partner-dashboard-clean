@@ -382,7 +382,7 @@
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
       "lane": "F",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "laneBranch": "claude/grade-a-v5-lane-f",
       "shardId": "S-F1",
       "routeIds": [
@@ -441,7 +441,7 @@
         "npm run typecheck",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v5-lane-f",
+      "requiredReturnCommit": "3ba7c5d9d96da0a7481acd252eb4c8a366c35e18",
       "dependencies": [
         "B: this lane consumes the Grade-A fulfillment authority and must not restate its rule",
         "E: this lane relies on the participant ownership boundary"
@@ -472,7 +472,9 @@
         "repeat_download",
         "launch_graph_commercial_status"
       ],
-      "requiredAdmissionPointsNote": "Exactly the set exported as COMMERCIAL_ADMISSION_POINTS by src/lib/rcap/fulfillment/grade-a-authority.ts. A count is the wrong invariant: it broke the moment the authority gained repeat_download. The acceptance verifier imports the constant and proves every exported point has exactly one governed call-site treatment, so an added point fails until it is gated and a removed point fails until this list agrees."
+      "requiredAdmissionPointsNote": "Exactly the set exported as COMMERCIAL_ADMISSION_POINTS by src/lib/rcap/fulfillment/grade-a-authority.ts. A count is the wrong invariant: it broke the moment the authority gained repeat_download. The acceptance verifier imports the constant and proves every exported point has exactly one governed call-site treatment, so an added point fails until it is gated and a removed point fails until this list agrees.",
+      "captainIntegrationCommit": "026525324a2246615b7e68320d709c019863e33c",
+      "integrationNote": "Replayed six commits onto the E-integrated head; branch not merged. Launch graph now reads the one authority. The RCAP job-id download is gated through one shared treatment with the consumer download; no migration was needed because the render-job row already persisted the binding columns."
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -610,7 +612,7 @@
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. Return the SHA only; the captain reviews and integrates it. Do not open a pull request and do not request a branch merge.",
       "lane": "H",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "laneBranch": "claude/grade-a-68h-lane-h",
       "shardId": "S-H1",
       "routeIds": [
@@ -663,7 +665,7 @@
         "node scripts/test-internal-admin-rls-hardening.mjs",
         "npm test"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-68h-lane-h",
+      "requiredReturnCommit": "d45078bf3f701d17541a5d75c1bffca1bff59205",
       "dependencies": [
         "E: security denials are asserted against the ownership boundary E establishes"
       ],
@@ -680,7 +682,16 @@
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
         "The Production-facing verifiers (verify-rcap-production-activation, -canary, -smoke, -clinic-migrate and their mutation harnesses) are recorded keep_available and are not in the test chain. Do not wire them in and do not run them.",
         "A browser-dependent check fails on a missing Chromium revision: bridge it in the environment. Never change a repository file, and never skip, disable or quarantine a security check to get green."
-      ]
+      ],
+      "captainIntegrationCommit": "PENDING",
+      "hostedAcceptanceStatus": "pending_inputs",
+      "hostedAcceptanceInputsRequired": [
+        "an exact frozen candidate SHA (blocked: a freeze needs a green chain, and BLOCKER-1 and BLOCKER-4 stand)",
+        "an exact pinned nonproduction Preview URL",
+        "an exact synthetic tenant slug and an exact synthetic event slug",
+        "at least two exact synthetic participant identities in the reserved test domains"
+      ],
+      "pathException": "Approved for this integration only: 15 Clinic page, component and type paths outside the declared owned set, inspected and found purely presentational (39 insertions, 25 deletions; contrast tokens, role, focus and aria attributes only). Ownership is not widened for future work."
     }
   ],
   "activeDispatch": {
