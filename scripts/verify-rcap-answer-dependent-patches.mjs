@@ -53,6 +53,17 @@ const matrix = read(MATRIX);
 const held = matrix.records.filter((r) => r.classification === "INSUFFICIENT_AUTHORITY");
 const profileByFile = Object.fromEntries(matrix.profiles.map((p) => [p.profile, p]));
 
+// Which branch, if any, the decision owner actually chose. Read from the
+// decision record, because the decision is the authority and the bundle is only
+// its consequence. Before an answer this is empty and every bundle is pending;
+// after one, exactly one branch per question is applied and the other must not be.
+const DECISIONS = "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json";
+const decisionRecord = fs.existsSync(path.join(rootDir, DECISIONS)) ? read(DECISIONS) : null;
+const chosenBundleByQuestion = new Map();
+for (const d of decisionRecord?.decisions ?? []) {
+  if (d.questionId && d.appliedBundle) chosenBundleByQuestion.set(d.questionId, { bundleId: d.appliedBundle, decisionId: d.decisionId });
+}
+
 /** Which held records each question governs, and what each answer does to them. */
 const QUESTION_SET = [
   {
@@ -158,24 +169,63 @@ for (const q of QUESTION_SET) {
       };
       walk(doc, after);
 
-      const expected = kind === "repin" ? ["provenance.profileSha256"] : ["retirement"];
-      check(`${q.questionId}/${answer}: ${path.basename(path.dirname(rel))} changes exactly ${expected.join(", ")}`,
-        JSON.stringify(moved.sort()) === JSON.stringify(expected), moved.join(", ") || "(nothing)");
+      const chosen = chosenBundleByQuestion.get(q.questionId) ?? null;
+      const isChosen = chosen?.bundleId === `${q.questionId}-${answer}`;
+      const label = path.basename(path.dirname(rel));
 
-      if (kind === "repin") {
-        check(`${q.questionId}/${answer}: ${path.basename(path.dirname(rel))} still carries the expected old hash`,
-          from === (matrix.records.find((r) => r.recordPath === rel)?.patch?.from ?? from) && /^[0-9a-f]{64}$/.test(from),
-          from);
-        check(`${q.questionId}/${answer}: the new hash is the profile's live digest, not a literal`,
-          after.provenance.profileSha256 === liveProfileDigest);
+      if (isChosen) {
+        // The owner chose this branch, so it is applied and the assertion is
+        // about the applied state rather than about a dry run. The dry run
+        // produces no further change, which is what "already applied" looks like.
+        if (kind === "repin") {
+          check(`${q.questionId}/${answer}: ${label} is repinned to the profile's live digest`,
+            doc.provenance.profileSha256 === liveProfileDigest,
+            `${doc.provenance.profileSha256} vs ${liveProfileDigest}`);
+          check(`${q.questionId}/${answer}: ${label} records which decision repinned it`,
+            doc.provenance.repinnedBy?.decisionId === chosen.decisionId,
+            String(doc.provenance.repinnedBy?.decisionId));
+        } else {
+          check(`${q.questionId}/${answer}: ${label} carries a retirement naming the decision`,
+            doc.retirement?.retiredBy === chosen.decisionId, String(doc.retirement?.retiredBy));
+          check(`${q.questionId}/${answer}: ${label}'s retirement moved no provenance hash`,
+            doc.provenance.profileSha256 === (matrix.records.find((r) => r.recordPath === rel)?.patch?.from
+              ?? doc.provenance.profileSha256) && doc.retirement?.profileSha256Unchanged === true,
+            doc.provenance.profileSha256);
+          check(`${q.questionId}/${answer}: ${label} keeps the pathway in the service model`,
+            doc.retirement?.pathwayRemainsInServiceModel === true);
+        }
+      } else if (chosen) {
+        // The other branch of an answered question. It must NOT be applied: a
+        // record carrying both a repin and a retirement, or the branch the owner
+        // did not choose, is the failure this check exists for.
+        if (kind === "repin") {
+          check(`${q.questionId}/${answer}: the branch the owner did NOT choose is not applied to ${label}`,
+            doc.provenance.repinnedBy === undefined || doc.provenance.repinnedBy?.decisionId === chosen.decisionId);
+        } else {
+          check(`${q.questionId}/${answer}: the branch the owner did NOT choose is not applied to ${label}`,
+            doc.retirement === undefined || doc.retirement?.retiredBy === chosen.decisionId);
+        }
       } else {
-        check(`${q.questionId}/${answer}: retirement moves no provenance hash`,
-          after.provenance.profileSha256 === from, `${from} -> ${after.provenance.profileSha256}`);
+        // Unanswered: the bundle is pending and the dry run must produce exactly
+        // its stated effect and nothing else.
+        const expected = kind === "repin" ? ["provenance.profileSha256"] : ["retirement"];
+        check(`${q.questionId}/${answer}: ${label} changes exactly ${expected.join(", ")}`,
+          JSON.stringify(moved.sort()) === JSON.stringify(expected), moved.join(", ") || "(nothing)");
+        if (kind === "repin") {
+          check(`${q.questionId}/${answer}: ${label} still carries the expected old hash`,
+            from === (matrix.records.find((r) => r.recordPath === rel)?.patch?.from ?? from) && /^[0-9a-f]{64}$/.test(from), from);
+          check(`${q.questionId}/${answer}: the new hash is the profile's live digest, not a literal`,
+            after.provenance.profileSha256 === liveProfileDigest);
+        } else {
+          check(`${q.questionId}/${answer}: retirement moves no provenance hash`,
+            after.provenance.profileSha256 === from, `${from} -> ${after.provenance.profileSha256}`);
+        }
       }
 
       targets.push({
         record: rel,
         effect: kind,
+        applied: isChosen,
         profileSha256Before: from,
         profileSha256After: after.provenance.profileSha256,
         fieldsChanged: moved
@@ -186,6 +236,11 @@ for (const q of QUESTION_SET) {
       bundleId: `${q.questionId}-${answer}`,
       questionId: q.questionId,
       answer,
+      status: chosenBundleByQuestion.get(q.questionId)
+        ? (chosenBundleByQuestion.get(q.questionId).bundleId === `${q.questionId}-${answer}` ? "APPLIED" : "NOT_CHOSEN")
+        : "PREPARED_NOT_APPLIED",
+      chosenByDecision: chosenBundleByQuestion.get(q.questionId)?.bundleId === `${q.questionId}-${answer}`
+        ? chosenBundleByQuestion.get(q.questionId).decisionId : null,
       effect: kind,
       recordsAffected: targets.length,
       appliesTo: q.records,
@@ -209,21 +264,28 @@ for (const [rel, before] of preDigests) {
   if (digest(rel) !== before) { untouched = false; console.log(`  FAIL ${rel} changed on disk`); }
 }
 check("every dry run left its target byte-identical on disk", untouched);
+check("no record carries two answers at once",
+  held.every((r) => {
+    const d = read(r.recordPath);
+    return !(d.retirement && d.provenance?.repinnedBy);
+  }), "a record that is both retired and repinned asserts a decision and its opposite");
 
 const expectedBundles = QUESTION_SET.reduce((n, q) => n + Object.keys(q.branches).length, 0);
 check(`all ${expectedBundles} bundles are prepared`, bundles.length === expectedBundles, `${bundles.length}`);
 check("the bundles cover exactly the eight held records",
   new Set(bundles.flatMap((b) => b.appliesTo)).size === held.length, `${new Set(bundles.flatMap((b) => b.appliesTo)).size} of ${held.length}`);
-check("no bundle is applied: every held record still carries its pre-answer hash",
-  held.every((r) => read(r.recordPath).provenance.profileSha256 === preDigests.has(r.recordPath) ? true : true)
-    && held.every((r) => digest(r.recordPath) === preDigests.get(r.recordPath)));
+check("exactly one branch per answered question is applied",
+  [...chosenBundleByQuestion.keys()].every((qid) => bundles.filter((b) => b.questionId === qid && b.status === "APPLIED").length === 1),
+  `${bundles.filter((b) => b.status === "APPLIED").length} applied across ${chosenBundleByQuestion.size} answered question(s)`);
 
 const doc = {
   schemaVersion: "rcap-blocker-4-answer-dependent-patches/v1",
   generatedBy: "scripts/verify-rcap-answer-dependent-patches.mjs",
-  status: "PREPARED_NOT_APPLIED",
-  posture:
-    "Every bundle below is written, checked against the repository as it stands, and dry-run applied in memory. None is applied. The eight records stay exactly where they are and verify-rcap-terminalize-c1 stays red for them until a legal-design owner answers.",
+  status: chosenBundleByQuestion.size === 0 ? "PREPARED_NOT_APPLIED" : "APPLIED_BY_RECORDED_DECISION",
+  posture: chosenBundleByQuestion.size === 0
+    ? "Every bundle below is written, checked against the repository as it stands, and dry-run applied in memory. None is applied. The eight records stay exactly where they are and verify-rcap-terminalize-c1 stays red for them until a legal-design owner answers."
+    : "The decision owner has answered. For each question, exactly one branch is applied and the other is asserted NOT to be. This file is now the record of which branch was taken and on whose authority, and the checks above are what stop a record carrying two answers at once.",
+  decisionRecord: decisionRecord ? DECISIONS : null,
   decisionOwner: "Lawrence (counsel)",
   sourceQuestions: QUESTIONS,
   sourceMatrix: MATRIX,
@@ -260,4 +322,9 @@ if (failures.length) {
   for (const f of failures) console.error(`  ${f}`);
   process.exit(1);
 }
-console.log(`answer-dependent patches: ${bundles.length} bundle(s) prepared for ${QUESTION_SET.length} question(s), covering ${held.length} held record(s). None applied.`);
+const applied = bundles.filter((b) => b.status === "APPLIED").length;
+console.log(
+  applied === 0
+    ? `answer-dependent patches: ${bundles.length} bundle(s) prepared for ${QUESTION_SET.length} question(s), covering ${held.length} held record(s). None applied.`
+    : `answer-dependent patches: ${applied} of ${bundles.length} bundle(s) applied by recorded decision, covering ${held.length} record(s); every unchosen branch is asserted not applied.`,
+);

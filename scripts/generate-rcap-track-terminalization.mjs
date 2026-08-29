@@ -45,6 +45,35 @@ const { terminalTreatmentForTrack } = await import('../src/lib/rcap/documents/gu
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outJson = path.join(rootDir, 'data/rcap-ledger/track-terminalization.json');
+
+// Tracks the legal-design decision owner has retired. Read from the decision
+// record rather than from a list here, so a retirement exists exactly where the
+// authority for it does.
+const LEGAL_DECISION_RECORDS = ['data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json'];
+const legalRetirements = new Map();
+for (const rel of LEGAL_DECISION_RECORDS) {
+  const abs = path.join(rootDir, rel);
+  if (!fs.existsSync(abs)) continue;
+  const record = JSON.parse(fs.readFileSync(abs, 'utf8'));
+  for (const decision of record.decisions ?? []) {
+    if (decision.classification !== 'RECORD_RETIREMENT_REQUIRED') continue;
+    for (const trackId of decision.tracks ?? []) {
+      legalRetirements.set(trackId, {
+        decisionId: decision.decisionId,
+        decisionOwner: record.decisionOwner,
+        decisionDate: record.decisionDate,
+        answer: decision.answer,
+        scope: 'the participant-facing prepared pleading only',
+        pathwayRemainsInServiceModel: true,
+        retainedAs: [
+          'same-hearing attorney action',
+          'attorney/legal-aid referral',
+          'no participant-facing prepared immediate-sealing pleading',
+        ],
+      });
+    }
+  }
+}
 const outDoc = path.join(rootDir, 'docs/record-clearing/track-terminalization.md');
 const checkOnly = process.argv.includes('--check');
 
@@ -664,6 +693,14 @@ for (const row of crosswalk.registryTracks) {
     if (!TREATMENTS.has(requiredTreatment)) fail(`${trackKey}: derived treatment ${requiredTreatment} is not in the vocabulary`);
   }
 
+  // A track the decision owner has retired is no longer a promoted candidate.
+  // Its status has to say so, because the terminalization contract enumerates
+  // promoted candidates and would otherwise keep checking the provenance of a
+  // route that no longer exists -- and the only way to make that check pass
+  // would be to re-pin a retired record's hash, which asserts that a decision
+  // still holds when the decision is that there is no route.
+  const retirement = legalRetirements.get(row.registryTrackId) ?? null;
+
   rows.push({
     jurisdiction: row.jurisdiction,
     trackId: row.registryTrackId,
@@ -679,11 +716,26 @@ for (const row of crosswalk.registryTracks) {
       ? {
         candidateTreatment,
         candidateEvidence,
-        candidateStatus: approvedByReview
-          ? (terminalizationApprovals.has(trackKey) ? 'promoted_by_terminalization_review' : 'promoted_by_f2')
-          : (terminalizationOutcomes.get(trackKey)?.outcome
-            ?? reviewOutcomes.get(trackKey)?.outcome
-            ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
+        candidateStatus: retirement
+          ? 'retired_by_legal_decision'
+          : approvedByReview
+            ? (terminalizationApprovals.has(trackKey) ? 'promoted_by_terminalization_review' : 'promoted_by_f2')
+            : (terminalizationOutcomes.get(trackKey)?.outcome
+              ?? reviewOutcomes.get(trackKey)?.outcome
+              ?? (terminalTreatment ? 'pending_terminalization_review' : 'pending_f2_review')),
+      }
+      : {}),
+    ...(retirement
+      ? {
+        legalRetirement: {
+          decisionId: retirement.decisionId,
+          decisionOwner: retirement.decisionOwner,
+          decisionDate: retirement.decisionDate,
+          answer: retirement.answer,
+          scope: retirement.scope,
+          pathwayRemainsInServiceModel: retirement.pathwayRemainsInServiceModel,
+          retainedAs: retirement.retainedAs,
+        },
       }
       : {}),
     ...(authorityStageSplitPromotion
