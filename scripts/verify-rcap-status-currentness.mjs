@@ -42,6 +42,8 @@ const LIVE_STATUS_RECORDS = [
   "docs/rcap/grade-a/captain/decision-waiting/oregon-answer-dependent-alternatives.json",
   "docs/rcap/grade-a/captain/decision-waiting/nonproduction-readiness-audit.json",
   "docs/rcap/grade-a/captain/decision-waiting/blocker-4-answer-dependent-patches.json",
+  "data/rcap-verifier-dispositions.json",
+  "data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json",
 ].filter(exists);
 
 // ---- what the world actually says -------------------------------------------
@@ -61,6 +63,8 @@ const publishWorkflow = exists(".github/workflows/publish-rcap-render-worker.yml
   ? text(".github/workflows/publish-rcap-render-worker.yml") : "";
 const retiredBranch = "sprint/20260825-full-product-captain";
 const supersededRoute = "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c";
+const oregonGeometry = exists("data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json")
+  ? read("data/rcap-all50/candidate-evidence/oregon/or-option-selection-geometry.json") : null;
 
 /**
  * A claim is stale when its `assertsCurrently` pattern matches AND the world has
@@ -100,6 +104,22 @@ const CLAIMS = [
     // Asserting it as the current or selected route is not.
     assertsCurrently: new RegExp(`"(selectedRoute|routeId|currentRoute)":\\s*"${supersededRoute}"(?![^]{0,400}?(SUPERSEDED|superseded))`),
     settledBy: "the three disposition-bound configurations that replaced it",
+  },
+  {
+    // The costliest stale fact of the sprint so far, because it did not read as
+    // a gap: a detector that could not see the boxes reported confidently that
+    // there were none, and a mark was derived into the margin on the strength of
+    // it. The form has fourteen. Saying so once is not enough — the claim has to
+    // be unable to come back.
+    id: "oregon-form-has-no-checkboxes",
+    worldHasMovedPast:
+      (oregonGeometry?.finding?.checkboxShapedBoxesFound ?? 0) > 0
+      && (oregonGeometry?.options ?? []).some((o) => o.boxIsMeasured),
+    // Naming the withdrawn finding as history is how its withdrawal is
+    // explained. Asserting it, or reviving the derived margin mark, is not.
+    assertsCurrently:
+      /(?:contains no checkbox|draws no checkbox|has no checkbox|no checkbox square anywhere|mark position is DERIVED|"kind"\s*:\s*"derived)(?![^]{0,400}?(?:withdrawn|was false|is false|wasWrong|whatItClaimed|correctedBy|superseded|SUPERSEDED|previously|historical))/i,
+    settledBy: `the measured geometry, which finds ${oregonGeometry?.finding?.checkboxShapedBoxesFound ?? 0} stroked checkbox-shaped boxes on the official form and measures three of them beside the options`,
   },
 ];
 
@@ -148,6 +168,7 @@ if (!MUTATIONS) {
     "terminalization-eight-failures": "verify-rcap-terminalize-c1 reports 8 drift failure(s)",
     "publication-branch-stale": `"literal": "${retiredBranch}"`,
     "retired-oregon-route-current": `"selectedRoute": "${supersededRoute}"`,
+    "oregon-form-has-no-checkboxes": "The official Oregon set-aside form contains no checkbox, so the mark position is DERIVED from the label origin.",
   };
   let undetected = 0;
   for (const claim of CLAIMS) {

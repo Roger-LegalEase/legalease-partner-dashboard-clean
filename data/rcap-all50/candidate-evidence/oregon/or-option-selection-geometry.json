@@ -1,6 +1,13 @@
 {
-  "schemaVersion": "rcap-oregon-option-selection-geometry/v1",
+  "schemaVersion": "rcap-oregon-option-selection-geometry/v2",
   "generatedBy": "scripts/measure-rcap-oregon-option-geometry.mjs",
+  "supersedes": {
+    "schemaVersion": "rcap-oregon-option-selection-geometry/v1",
+    "whatItClaimed": "that the official form contains no checkboxes, and that a selection mark had to be derived and placed in the left margin at x=58.2",
+    "whyItWasWrong": "The detector scanned for `re` operators and tracked no CTM. These boxes are explicit four-segment stroked paths inside a `cm` translation, so there was no `re` to match, and every coordinate in them is relative to that translation. Both mistakes had to be fixed to see the boxes at all.",
+    "correctedBy": "scripts/lib/pdf-stroked-boxes.mjs, a graphics-state machine that maps both `re` and explicit paths through the CTM into page coordinates",
+    "withdrawn": "the derived mark position at x=58.2, which fell outside every box on the page"
+  },
   "source": {
     "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
     "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
@@ -8,28 +15,48 @@
     "pages": 5
   },
   "finding": {
-    "headline": "The form has no checkbox for the three options, and no checkbox anywhere.",
+    "headline": "The form draws real stroked boxes beside all three options and beside every declaration statement.",
     "acroFormFields": 0,
     "formIsFlat": true,
-    "checkboxSizedSquaresOnOptionPages": 0,
-    "whatIsThereInstead": "Three prose headings in the left margin under the printed instruction \"(choose one option only)\". A participant indicates the option by completing its section, and on paper marks it by hand.",
-    "consequenceForThePacket": "A mark cannot be placed in a box that does not exist, and drawing one would have this product add a control the court did not put on its own form. The option is instead recorded by placing a mark at a position DERIVED from the measured label origin, using the anchor-relative technique the existing Oregon overlay already uses for every value it writes.",
-    "whatThisDoesNotEstablish": "That a derived mark is the correct way to indicate an option on this form. That is a legal-design and visual-review question about the finished document, not a measurement."
+    "formIsFlatButHasDrawnControls": "Flat means no interactive AcroForm widget. It does not mean no control: the court draws each box as a stroked path, and a participant marks it by hand on paper or the packet marks it for them.",
+    "checkboxShapedBoxesFound": 14,
+    "construction": "explicit four-segment path (m/l/h) stroked with S, inside a q/cm/Q translation",
+    "markingRule": "Mark the selected existing box with two diagonal strokes inset inside its measured bounds. Never draw a new box, and never redraw, thicken or move the court's own."
   },
-  "rectangleCensus": [
+  "boxCensus": [
+    {
+      "page": 1,
+      "strokedRectangles": 1,
+      "checkboxShaped": 0,
+      "constructions": []
+    },
+    {
+      "page": 2,
+      "strokedRectangles": 0,
+      "checkboxShaped": 0,
+      "constructions": []
+    },
+    {
+      "page": 3,
+      "strokedRectangles": 0,
+      "checkboxShaped": 0,
+      "constructions": []
+    },
     {
       "page": 4,
-      "rectangles": 128,
-      "checkboxSizedSquares": 0,
-      "largestNearSquare": null,
-      "smallestRectangle": 0.48
+      "strokedRectangles": 6,
+      "checkboxShaped": 6,
+      "constructions": [
+        "explicit_path"
+      ]
     },
     {
       "page": 5,
-      "rectangles": 42,
-      "checkboxSizedSquares": 0,
-      "largestNearSquare": null,
-      "smallestRectangle": 0.48
+      "strokedRectangles": 8,
+      "checkboxShaped": 8,
+      "constructions": [
+        "explicit_path"
+      ]
     }
   ],
   "options": [
@@ -46,12 +73,59 @@
       },
       "labelFontSize": 11.04,
       "printedSentence": "Option 1: There was a court case, and I was convicted on at least one charge (or found guilty except for insanity (GEI) or in contempt of court), and: I believe all the charges in this case are eligible, and I am moving to set aside all charges, including char",
-      "derivedMarkPosition": {
-        "x": 58.2,
-        "y": 394.68,
-        "size": 9.38,
-        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
-        "inLeftMargin": true
+      "box": {
+        "x0": 127.08,
+        "y0": 393.48,
+        "x1": 137.28,
+        "y1": 403.68,
+        "width": 10.2,
+        "height": 10.2,
+        "lineWidth": 0.72,
+        "construction": "explicit_path"
+      },
+      "boxIsMeasured": true,
+      "markPlan": {
+        "kind": "two_diagonal_strokes_inset",
+        "inset": 2,
+        "strokes": [
+          {
+            "from": [
+              129.08,
+              395.48
+            ],
+            "to": [
+              135.28,
+              401.68
+            ]
+          },
+          {
+            "from": [
+              129.08,
+              401.68
+            ],
+            "to": [
+              135.28,
+              395.48
+            ]
+          }
+        ],
+        "neverRedrawsTheBox": true
+      },
+      "rasterConfirmation": {
+        "pxPerPt": 3.3333,
+        "calibrationResidualPx": 0,
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 255,
+        "interiorPixels": 576,
+        "borderVisible": true,
+        "interiorEmpty": true,
+        "note": "Cropped from a render of the real page through a page-to-pixel mapping checked against stamped calibration marks. A dark border with a clean interior is a drawn, unmarked control."
+      },
+      "rasterRegistrationControl": {
+        "offsetPt": 5.1,
+        "interiorDarkestLuma": 0,
+        "interiorEmpty": false,
+        "note": "Half-box diagonal offset. The interior must NOT read empty, which is what makes the empty reading at the measured position mean something."
       }
     },
     {
@@ -67,12 +141,59 @@
       },
       "labelFontSize": 11.04,
       "printedSentence": "Option 2: There was a court case, and I am not moving to set aside any convictions. I am moving to set aside all eligible dismissed or acquitted charges only. Option 3: I was cited or arrested and there was no court case. I am moving to set aside the citation ",
-      "derivedMarkPosition": {
-        "x": 58.2,
-        "y": 187.44,
-        "size": 9.38,
-        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
-        "inLeftMargin": true
+      "box": {
+        "x0": 128.52,
+        "y0": 186.24,
+        "x1": 138.72,
+        "y1": 196.44,
+        "width": 10.2,
+        "height": 10.2,
+        "lineWidth": 0.72,
+        "construction": "explicit_path"
+      },
+      "boxIsMeasured": true,
+      "markPlan": {
+        "kind": "two_diagonal_strokes_inset",
+        "inset": 2,
+        "strokes": [
+          {
+            "from": [
+              130.52,
+              188.24
+            ],
+            "to": [
+              136.72,
+              194.44
+            ]
+          },
+          {
+            "from": [
+              130.52,
+              194.44
+            ],
+            "to": [
+              136.72,
+              188.24
+            ]
+          }
+        ],
+        "neverRedrawsTheBox": true
+      },
+      "rasterConfirmation": {
+        "pxPerPt": 3.3333,
+        "calibrationResidualPx": 0,
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 255,
+        "interiorPixels": 576,
+        "borderVisible": true,
+        "interiorEmpty": true,
+        "note": "Cropped from a render of the real page through a page-to-pixel mapping checked against stamped calibration marks. A dark border with a clean interior is a drawn, unmarked control."
+      },
+      "rasterRegistrationControl": {
+        "offsetPt": 5.1,
+        "interiorDarkestLuma": 0,
+        "interiorEmpty": false,
+        "note": "Half-box diagonal offset. The interior must NOT read empty, which is what makes the empty reading at the measured position mean something."
       }
     },
     {
@@ -88,12 +209,59 @@
       },
       "labelFontSize": 11.04,
       "printedSentence": "Option 3: I was cited or arrested and there was no court case. I am moving to set aside the citation or arrest records. Name of Citation/Arrest Offenses ",
-      "derivedMarkPosition": {
-        "x": 58.2,
-        "y": 153.12,
-        "size": 9.38,
-        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
-        "inLeftMargin": true
+      "box": {
+        "x0": 128.52,
+        "y0": 151.92,
+        "x1": 138.72,
+        "y1": 162.12,
+        "width": 10.2,
+        "height": 10.2,
+        "lineWidth": 0.72,
+        "construction": "explicit_path"
+      },
+      "boxIsMeasured": true,
+      "markPlan": {
+        "kind": "two_diagonal_strokes_inset",
+        "inset": 2,
+        "strokes": [
+          {
+            "from": [
+              130.52,
+              153.92
+            ],
+            "to": [
+              136.72,
+              160.12
+            ]
+          },
+          {
+            "from": [
+              130.52,
+              160.12
+            ],
+            "to": [
+              136.72,
+              153.92
+            ]
+          }
+        ],
+        "neverRedrawsTheBox": true
+      },
+      "rasterConfirmation": {
+        "pxPerPt": 3.3333,
+        "calibrationResidualPx": 0,
+        "borderDarkestLuma": 0,
+        "interiorDarkestLuma": 255,
+        "interiorPixels": 576,
+        "borderVisible": true,
+        "interiorEmpty": true,
+        "note": "Cropped from a render of the real page through a page-to-pixel mapping checked against stamped calibration marks. A dark border with a clean interior is a drawn, unmarked control."
+      },
+      "rasterRegistrationControl": {
+        "offsetPt": 5.1,
+        "interiorDarkestLuma": 0,
+        "interiorEmpty": false,
+        "note": "Half-box diagonal offset. The interior must NOT read empty, which is what makes the empty reading at the measured position mean something."
       }
     },
     {
@@ -109,19 +277,101 @@
       },
       "labelFontSize": 11.04,
       "printedSentence": "Option 1 above, all of the following must also be true. Check all that apply: I am not currently charged with a crime or contempt of court related to abuse or a person crime I have paid the Oregon State Police background check fee I have fully complied and per",
-      "derivedMarkPosition": {
-        "x": 131.04,
-        "y": 525.12,
-        "size": 9.38,
-        "basis": "derived from the label origin and font size; the form draws no checkbox to measure",
-        "inLeftMargin": true
-      }
+      "box": null,
+      "boxIsMeasured": false,
+      "markPlan": null
+    }
+  ],
+  "declarationBoxes": [
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 608.76,
+        "x1": 83.28,
+        "y1": 618.96,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 595.32,
+        "x1": 83.28,
+        "y1": 605.52,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 580.92,
+        "x1": 83.28,
+        "y1": 591.12,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 566.52,
+        "x1": 83.28,
+        "y1": 576.72,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 511.44,
+        "x1": 83.28,
+        "y1": 521.64,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 482.76,
+        "x1": 83.28,
+        "y1": 492.96,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
+    },
+    {
+      "page": 5,
+      "box": {
+        "x0": 73.08,
+        "y0": 468.36,
+        "x1": 83.28,
+        "y1": 478.56,
+        "width": 10.2,
+        "height": 10.2
+      },
+      "nearestLabel": " "
     }
   ],
   "optionToConfiguration": {
     "Option 1": {
       "usedByAnyConfiguration": false,
-      "why": "Option 1 is the conviction set-aside. None of the three disposition-bound configurations selects it, and all three must leave it unselected."
+      "why": "Option 1 is the conviction set-aside. No disposition-bound configuration selects it, and all three must leave it unmarked."
     },
     "Option 2": {
       "usedByConfigurations": [
@@ -136,5 +386,9 @@
       ],
       "authority": "ORS 137.225(1)(c)"
     }
+  },
+  "declarationMarkingRule": {
+    "generalDeclarations": "The four general declaration boxes on page 5 may be marked ONLY after explicit current final verification of all four participant attestations. They are not marked by any configuration here.",
+    "optionOneOnlyDeclarations": "The three Option-1-only declaration boxes remain unmarked in all three configurations."
   }
 }
