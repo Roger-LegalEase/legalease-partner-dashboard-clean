@@ -316,8 +316,31 @@ function uniqueAcross(field, isConcrete) {
     }
   }
 }
-uniqueAcross("packetFamilyIds", (v) => !/^no packet family/i.test(v));
-uniqueAcross("routeIds", (v) => /^[A-Z]{2}:/.test(v));
+// A packet family, and the routes in it, may be worked by more than one lane
+// ONLY when those lanes are split by function rather than by scope -- Colorado
+// is acquired by one lane and built by another. That is safe because their
+// owned paths are disjoint, which is enforced above; what makes it legible is
+// that each declares a distinct packetFamilyRole. Two lanes sharing a family
+// with the same role, or with no role, is the collision this check exists for.
+function uniqueUnlessRoleSplit(field, isConcrete) {
+  const owners = new Map();
+  for (const l of workers) {
+    for (const v of l[field] ?? []) {
+      if (!isConcrete(v)) continue;
+      const prior = owners.get(v);
+      if (!prior) { owners.set(v, l); continue; }
+      const priorRole = prior.packetFamilyRole ?? null;
+      const thisRole = l.packetFamilyRole ?? null;
+      if (!priorRole || !thisRole) {
+        fail(`${field} ${v} is assigned to both ${prior.lane} and ${l.lane}, and at least one declares no packetFamilyRole`);
+      } else if (priorRole === thisRole) {
+        fail(`${field} ${v} is assigned to both ${prior.lane} and ${l.lane} with the same role ${thisRole}`);
+      }
+    }
+  }
+}
+uniqueUnlessRoleSplit("packetFamilyIds", (v) => !/^no packet family/i.test(v));
+uniqueUnlessRoleSplit("routeIds", (v) => /^[A-Z]{2}:/.test(v));
 
 // ---- concurrency ----------------------------------------------------------
 const activeCount = lanes.filter((l) => ACTIVE.has(l.status)).length;

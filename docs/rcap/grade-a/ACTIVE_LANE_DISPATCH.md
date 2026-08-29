@@ -29,9 +29,13 @@ Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 | C | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | oregon | 3 |
 | D | Claude Opus 5 | `integrated` | `claude/legalease-sprint-captain-utucnw` | `0cad61625a74` | north-dakota | 5 |
 | E | Claude Opus 5 | `integrated` | `claude/grade-a-68h-lane-e` | `be673158bae0` | none | route-independent |
-| F | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-f` | `61ee6cc359bc` | none | route-independent |
-| G | Claude Opus 5 | `active` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc359bc` | colorado | 3 |
-| H | Claude Opus 5 | `active` | `claude/grade-a-68h-lane-h` | `be673158bae0` | none | route-independent |
+| F | Claude Opus 5 | `integrated` | `claude/grade-a-v5-lane-f` | `61ee6cc359bc` | none | route-independent |
+| G | Claude Opus 5 | `integrated` | `claude/grade-a-v5-lane-g-family-1` | `61ee6cc359bc` | colorado | 3 |
+| H | Claude Opus 5 | `integrated` | `claude/grade-a-68h-lane-h` | `be673158bae0` | none | route-independent |
+| G-CO-SOURCE | Claude Opus 5 | `active` | `claude/grade-a-v6-co-source` | `148382ab2a2a` | colorado | 3 |
+| G-CO-BUILD | Claude Opus 5 | `active` | `claude/grade-a-v6-co-build` | `148382ab2a2a` | colorado | 3 |
+| I | Claude Opus 5 | `active` | `claude/grade-a-v6-first-packet-oregon` | `148382ab2a2a` | oregon | 3 |
+| J | Claude Opus 5 | `active` | `claude/grade-a-v6-release-blockers` | `148382ab2a2a` | none | route-independent |
 
 Concurrency: Captain A plus lanes E, F, G and H. Lane G may use at most three internal subagents for genuinely independent state-family analysis; the captain, the four lanes and those subagents together must not exceed eight.
 
