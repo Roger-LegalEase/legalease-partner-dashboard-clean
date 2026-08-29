@@ -57,3 +57,39 @@ Participant-completed filing: participant and deterministic fields may bind; eve
 ## Review status
 
 `implementation_complete_pending_independent_review`. This lane does not approve its own output: nothing here is technically approved, production ready, or live.
+
+## Lane G-CO-BUILD — the binding specification (2026-08-29)
+
+Everything above describes the D3A render of 2026-08-12 and is left as it
+stands. This section describes what was added beside it, under
+`specification/`.
+
+- Specification: `specification/binding-specification.json`, version recorded in the file
+- SHA-256: `f753ed8260d8f672cb5c15bdc2ff28bb773866545f120afa57db5e70f45fabf8`
+- Fields: 62 censused, 59 specified writable, 3 protected
+- Canonical fixture binds 36 of them; the rest are conditional branches the
+  canonical facts leave closed, and each one names the condition it is waiting on
+- Retained artifacts still carry the 4-field render, because the official
+  binary this family is pinned to is not mounted in this environment
+
+### Protected
+
+The 3 protected fields are the execution block. This form carries no judge,
+clerk, prosecutor-only or agency-only widget: its court-use region is printed
+text with no field behind it. Protection is re-derived from each field's own
+name and printed label and compared against the specification, so a
+reclassification that made a protected field writable fails the build rather
+than the review.
+
+### What is not claimed
+
+No PDF was rendered. The expanded binding is specified, bound against three
+fact sets, mutation-tested and checked against the bytes that are here; it is
+not on any artifact. The route stays closed: its filing set is incomplete and
+no guidance packet is substituted for it.
+
+### To check
+
+```
+node src/lib/rcap/state-packs/colorado/official-forms/run-verify.mjs
+```

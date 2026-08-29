@@ -6,6 +6,12 @@
 // against the mounted corpus, artifact digests recomputed from the bytes, and
 // binding coverage counted out of the committed field maps.
 //
+// The two petition routes now carry a complete field-level binding
+// specification for their participant-completed component, which is a real
+// advance and changes none of their dispositions: a specified binding is not a
+// rendered filing, and a rendered filing would still be one document out of a
+// filing set the corpus cannot assemble.
+//
 // None of these routes is a Grade-A candidate. That is not a scheduling note:
 // for every one of them the issuing court's own filing guide names documents
 // the pinned corpus does not contain, so the filing set cannot be assembled at
@@ -44,6 +50,10 @@ export interface ColoradoLaneGRoute {
   readonly checkoutProhibited: true;
   readonly requiredFilingComponents: number;
   readonly componentsPresentInCorpus: number;
+  /** Fields the participant-completed component's specification binds, out of its total. */
+  readonly specifiedBinding: { readonly bound: number; readonly total: number } | null;
+  /** Fields the artifacts committed for that component actually carry. */
+  readonly bindingRealizedInArtifacts: number | null;
   readonly components: readonly ColoradoRouteComponent[];
   readonly blockers: readonly string[];
 }
@@ -57,6 +67,8 @@ const NON_CONVICTION: ColoradoLaneGRoute = {
   checkoutProhibited: true,
   requiredFilingComponents: 4,
   componentsPresentInCorpus: 2,
+  specifiedBinding: { bound: 59, total: 62 },
+  bindingRealizedInArtifacts: 4,
   components: [
     { role: "REQUEST", documentId: "JDF-417", familySlug: "jdf-417-form-petition-en", participantCompleted: true, presentInMountedCorpus: true },
     { role: "ORDER", documentId: "JDF-418", familySlug: "jdf-418-form-order-en", participantCompleted: false, presentInMountedCorpus: true },
@@ -66,7 +78,7 @@ const NON_CONVICTION: ColoradoLaneGRoute = {
   blockers: [
     "JDF-419 and JDF-435 are named by JDF-416 and are absent from the pinned corpus.",
     "The fee-waiver pair JDF-205 and JDF-206 is named by JDF-416 and is absent from the pinned corpus.",
-    "JDF-417 binds 4 of its 62 fields; the agency name and address rows, the qualification elections and the certificate of service are classified manual and are not written by the product.",
+    "JDF-417's binding is now specified across 59 of its 62 fields — the three the specification withholds are the execution block — but no artifact carries it: the official binary is not mounted in this environment, so the retained fixtures still carry the four-field render of 2026-08-12. See data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/specification/.",
   ],
 };
 
@@ -79,6 +91,8 @@ const CONVICTION: ColoradoLaneGRoute = {
   checkoutProhibited: true,
   requiredFilingComponents: 4,
   componentsPresentInCorpus: 2,
+  specifiedBinding: { bound: 58, total: 63 },
+  bindingRealizedInArtifacts: 6,
   components: [
     { role: "MOTION", documentId: "JDF-612", familySlug: "jdf-612-form-motion-en", participantCompleted: true, presentInMountedCorpus: true },
     { role: "ORDER", documentId: "JDF-615", familySlug: "jdf-615-form-order-en", participantCompleted: false, presentInMountedCorpus: true },
@@ -88,7 +102,7 @@ const CONVICTION: ColoradoLaneGRoute = {
   blockers: [
     "JDF-611 requires a Notice and a second Order; neither exists in the pinned corpus, and their form numbers could not be read first-hand because the guide's digits do not survive text extraction.",
     "The fee-waiver pair JDF-205 and JDF-206 is named by JDF-611 and is absent from the pinned corpus.",
-    "JDF-612 binds 6 of its 63 fields; the substance of the motion is classified manual and is not written by the product.",
+    "JDF-612's binding is now specified across 58 of its 63 fields — the five the specification withholds are the execution block — but no artifact carries it, for the same reason: the retained fixtures still carry the six-field render of 2026-08-12. See data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/specification/.",
   ],
 };
 
@@ -101,6 +115,8 @@ const JUVENILE: ColoradoLaneGRoute = {
   checkoutProhibited: true,
   requiredFilingComponents: 1,
   componentsPresentInCorpus: 0,
+  specifiedBinding: null,
+  bindingRealizedInArtifacts: null,
   components: [
     { role: "PETITION", documentId: "JDF-302", familySlug: null, participantCompleted: true, presentInMountedCorpus: false },
   ],
