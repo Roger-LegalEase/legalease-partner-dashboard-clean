@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-lane-i-oregon-route-selection/v1",
+  "lane": "I",
+  "generatedBy": "scripts/verify-rcap-lane-i-oregon-first-packet.mjs",
+  "jurisdiction": "OR",
+  "selectedRouteId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "packetFamilyIdInRecord": null,
+  "overlayJurisdictionFolder": "oregon",
+  "basis": "Four signals already written by other generators, read rather than judged: whether the public witness settles the route as a packet, whether payment is allowed at the evaluator, whether the bound packet set names the official form the route's subject matter requires, and how much the participant must gather before filing.",
+  "ranked": [
+    {
+      "rank": 1,
+      "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "packetSetId": "or_acquittal-set",
+      "boundOfficialFormIds": [
+        "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "OR-OSP-SET-ASIDE-CCH"
+      ],
+      "publicWitnessResultCode": "packet_ready_with_caution",
+      "reachesParticipantAsPacket": true,
+      "paymentAllowedAtEvaluator": true,
+      "subjectFormBound": true,
+      "participantActionsRequired": 16,
+      "artifactSha256": "b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b",
+      "score": [
+        1,
+        1,
+        1,
+        -16
+      ]
+    },
+    {
+      "rank": 2,
+      "routeId": "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a",
+      "packetSetId": "or_contempt_setaside-set",
+      "boundOfficialFormIds": [
+        "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "OR-OSP-SET-ASIDE-CCH"
+      ],
+      "publicWitnessResultCode": "needs_review",
+      "reachesParticipantAsPacket": false,
+      "paymentAllowedAtEvaluator": false,
+      "subjectFormBound": true,
+      "participantActionsRequired": 20,
+      "artifactSha256": "26cd818e480ec0e95ad8b1e53734a494b97f2af51b4f9ae4fe21553050a596fc",
+      "score": [
+        0,
+        0,
+        1,
+        -20
+      ]
+    },
+    {
+      "rank": 3,
+      "routeId": "OR:marijuana-specific-set-aside-redesignation",
+      "packetSetId": "or_conviction_setaside-set",
+      "boundOfficialFormIds": [
+        "OR-OJD-ADULT-SET-ASIDE-PACKET",
+        "OR-OSP-SET-ASIDE-CCH"
+      ],
+      "publicWitnessResultCode": "guidance_only",
+      "reachesParticipantAsPacket": false,
+      "paymentAllowedAtEvaluator": false,
+      "subjectFormBound": false,
+      "participantActionsRequired": 18,
+      "artifactSha256": "0be9610b4374d4516d7830f3346ccd36c90ba10a8c9add9d29a5f09b99f85d76",
+      "score": [
+        0,
+        0,
+        0,
+        -18
+      ]
+    }
+  ],
+  "whyTheOthersAreNotFirst": {
+    "OR:marijuana-specific-set-aside-redesignation": "The public witness settles it as guidance_only, so the product never offers it as a packet and there is no consumer path to exercise. Payment is refused at the evaluator. Decisively, its packet set names only the generic adult set-aside packet and the OSP history request; it never names OR-OJD-MJ-PCR, the Oregon Judicial Department's own Motion and Declaration to Modify or Set Aside a Marijuana Conviction, which is in the corpus at 6e7a2cde… and already has a built overlay family. A route bound to the wrong court form is not made first by proving things about the form it is wrongly bound to.",
+    "OR:set-aside-of-eligible-convictions-under-ors-137-225-1-a": "The public witness settles it as needs_review rather than as a packet, and payment is refused at the evaluator. Its packet set's participant actions do carry ORS 137.225(1)(a) full-compliance language, so the content is right; the legacy registry track it is adjudicated to is nevertheless named or_contempt_setaside, which is a naming artifact a reviewer should not have to reconcile on a first packet. It also requires the most participant-gathered attachments of the three."
+  }
+}

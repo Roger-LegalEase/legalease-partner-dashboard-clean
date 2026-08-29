@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "rcap-grade-a-review/v1",
+  "lane": "I",
+  "jurisdiction": "OR",
+  "routeId": "OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+  "pathwayLabel": "Set-aside of arrests or charges without conviction under ORS 137.225(1)(c)",
+  "packetFamily": {
+    "gradeARecordPacketFamilyId": null,
+    "overlayJurisdictionFolder": "oregon",
+    "primaryFilingFamily": "or-ojd-adult-set-aside-packet-motion-and-declaration",
+    "recordGatheringFamily": "or-osp-set-aside-criminal-history-request-and-instructions",
+    "note": "The Grade-A record carries a null packetFamilyId, and resolvePacketFamilyId also returns null for every Oregon route because src/lib/rcap/grade-a/packet-specification.ts loads only the North Dakota specification. The overlay families named here are the build-side identity and are not the same field."
+  },
+  "legalAuthority": {
+    "controllingStatuteInRouteId": "ORS 137.225(1)(c)",
+    "controllingStatuteInTrackRegistry": "ORS 137.225(1)(d)",
+    "boundTrackId": "or_acquittal",
+    "legalDesignDecisionForThatTrack": "Approved for implementation with limitations — 'Cleanest disposition in the state and there is no reason to delay a filing.'",
+    "ownerDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+    "ownerDecisionStatus": "approved_by_decision_owner",
+    "ownerDecisionScopeSha256": "f1276da1fdcdf24bece83a8e53b12fe96696f3001d82908600b6e394c552e7b5",
+    "note": "The owner decision above is the route-level legal decision already on the record. It is NOT output-level approval of this artifact, which is what this packet requests."
+  },
+  "sourceIdentities": [
+    {
+      "sourceId": "OR-OJD-ADULT-SET-ASIDE-PACKET",
+      "role": "primary filing and proposed order",
+      "officialTitle": "OJD Criminal Set-Aside Adult Packet",
+      "revision": "REV-2026-01",
+      "sha256": "b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071",
+      "pages": 5,
+      "structure": "flat"
+    },
+    {
+      "sourceId": "OR-OSP-SET-ASIDE-CCH",
+      "role": "record gathering",
+      "officialTitle": "Oregon State Police Set-Aside Criminal History Request and Instructions",
+      "revision": "REV-2022-01",
+      "sha256": "a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6",
+      "pages": 2,
+      "structure": "AcroForm, 22 fields"
+    }
+  ],
+  "sourceProvenance": {
+    "mode": "mounted_bytes",
+    "corpusRelease": "source-corpus-2026-08-28",
+    "corpusArchiveSha256": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "corpusArchiveSha256InCommittedIndex": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
+    "statement": "Every source digest in this packet was recomputed from the mounted archive's own bytes in the run that produced this record. All 329 binaries the committed corpus index describes are byte-identical in the mounted archive, which establishes that the two archive identifiers differ in packaging and not in content."
+  },
+  "specification": {
+    "packetSetId": "or_acquittal-set",
+    "packetSetVersion": "1.0.0",
+    "components": 7,
+    "participantActionsRequired": 16,
+    "boundSpecificationSha256": "b0557db5f56442202642530a29072edf651dab713286ce1253ab487361a40c2c",
+    "boundSpecificationSha256IsOver": "{packetSetIds, componentCount, participantActionsRequired} only",
+    "contentSha256OverTheManifestItself": "see data/rcap-lane-c/oregon/lane-i-proof-closure.json, dimension specification_hash",
+    "warning": "The bound specification hash does not pin the specification's content. Replacing a component's bound official form leaves it unchanged. A decision to approve 'this specification' should name the packet-set manifest and its content digest, not the bound hash."
+  },
+  "providerAndRenderer": {
+    "providerId": "ghcr.io/roger-legalease/rcap-render-worker",
+    "rendererKind": "packet_document_v1",
+    "rendererVersion": "1.0.0",
+    "imageDigest": "sha256:67132df2d1bee49d123d0d2918880f283d2109195b49150265d348fe1d07a69c",
+    "artifactProducingEnvironmentForTheArtifactBelow": "scripts/rcap-official-forms/lanes/d3b-regenerate.mjs on the D0 remediated factory; creation and modification dates pinned, so re-rendering the same facts against the same source binary reproduces the hash byte for byte."
+  },
+  "candidateCommit": "148382ab2a2acbe673b6d35c8967f5a908342e60",
+  "artifactUnderReview": {
+    "what": "The finalized Oregon primary filing: the OJD Criminal Set-Aside (Adult Cases) packet with the participant's facts written at the declared anchors on pages 4 and 5.",
+    "path": "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/fixtures/canonical-filled.pdf",
+    "sha256": "582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f",
+    "byteSize": 217271,
+    "pageCount": 5,
+    "contentType": "application/pdf",
+    "companionRecordGatheringArtifactSha256": "c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a",
+    "companionPageCount": 2,
+    "totalPageCountUnderReview": 7,
+    "notTheArtifactTheGradeARecordValidates": {
+      "recordBinds": "b93aad1d46c30d669be55c9f95d6ae73f01dd878cf45ecd51a1b040792bf769b",
+      "whatThatIs": "a 3,405-character text composition in 12 sections, produced by the launch graph's artifact probe, which states that official-form filling could not be exercised",
+      "why": "FILEABLE_ARTIFACT_FORMATS admits pdf and not a text composition. The object a participant would file is the PDF named above, and no Grade-A record binds it."
+    }
+  },
+  "actualWriteEvidence": {
+    "method": "Every supplied value was read back out of the finalized artifact's own bytes at the anchors the overlay profile declares, rather than from a render report.",
+    "primaryFiling": {
+      "fieldsCensused": 76,
+      "fieldsWritten": 7,
+      "fieldsRefused": 69,
+      "valuesDrawnAndVerified": 7,
+      "shrunkToFit": 2,
+      "refusedUnfittable": 3,
+      "clipped": 0,
+      "activeContentScan": "clean",
+      "residualFormFields": 0,
+      "allPagesRetained": true
+    },
+    "recordGathering": {
+      "fieldsCensused": 22,
+      "fieldsWritten": 3,
+      "fieldsRefused": 19,
+      "valuesDrawnAndVerified": 3,
+      "shrunkToFit": 1,
+      "refusedUnfittable": 0,
+      "clipped": 0,
+      "activeContentScan": "clean",
+      "residualFormFields": 0,
+      "allPagesRetained": true
+    },
+    "refusalsOfNote": "Zero values are written on the court's three instruction pages. The citing agency, the SID number, both signature lines and the prosecutor's address are refused by protected category, as are all 28 charge-table cells and every checkbox."
+  },
+  "pageByPageVisualReview": {
+    "pagesReviewed": 7,
+    "pageCount": 7,
+    "reviewedBy": "lane-c/claude-opus-5/oregon-official-pdf-grade-a",
+    "reviewedAt": "2026-08-29",
+    "evidencePath": "data/rcap-lane-c/oregon/visual-review.json",
+    "evidenceSha256": "5592b734410147f3a561f8ffe41027d3c0450f9dea7a85edfd00f628be9ced1e",
+    "basis": "page-by-page inspection of each finalized artifact's own bytes: page count and geometry read from the PDF, every supplied value confirmed drawn by the document, residual form fields counted, and each artifact hash recomputed and matched against the family's rendered-artifacts report",
+    "rasterReview": "not performed — no rasteriser is available in this environment; each family's blank-vs-filled contact sheet is committed for a human reviewer",
+    "contactSheets": {
+      "primaryFiling": "8e1b140576c5911df3ba83f1cc2b4a5c8d5db99bc2c599686c7600c862fcc3ed",
+      "recordGathering": "0ea5fa1e994644a3011fe8a924b36b16e109449f286774b3daec0ff344c8563e"
+    }
+  },
+  "commercialPosture": "candidate_evidence_only",
+  "commercialPostureNote": "Nothing in this packet opens checkout, sponsorship, a packet credit, a render, a delivery or any commercial status. The route is INCOMPLETE and all ten commercial admission points refuse it. It stays that way after this packet, whatever the decision is.",
+  "reviewKind": "output_level_legal",
+  "requestedDecisionScope": "one artifact and one specification, for one route",
+  "requestedApprovalStatement": "I approve the artifact at SHA-256 582100f2383ff0ad4b282a6d347eda76c5297c23cddbaf82ce164d6ff801543f (5 pages, 217271 bytes), together with its companion record-gathering artifact at SHA-256 c1e8211f5e11ca5f77bc9d7bcaf255b39e82022f05aaa66fe14725bb55e7942a (2 pages), as the completed output of route OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c, built from packet set or_acquittal-set version 1.0.0 against official sources OR-OJD-ADULT-SET-ASIDE-PACKET at b22cc346caf6c38730e9992d74016e948180d92b379b6592ab333b06ac880071 and OR-OSP-SET-ASIDE-CCH at a523a9ffc3eb0cc35d89e1c81df8eafcd703cf1ffdb4237a0106b72e1e793ac6, as observed at candidate commit 148382ab2a2acbe673b6d35c8967f5a908342e60.",
+  "requestedRejectionStatement": "I reject the above artifact and specification for this route, for the reasons recorded.",
+  "whatApprovalWouldAndWouldNotDo": {
+    "would": "Close the output_legal_approval dimension for this one route, at this one artifact hash and this one specification.",
+    "wouldNot": "Bind a final verification, raise the record to the commercial admission schema, prove packet fileability, move Oregon into a production overlay, or make any route commercially eligible. Each of those is separately outstanding and is listed below."
+  },
+  "questionsForTheReviewer": [
+    {
+      "id": "Q1",
+      "question": "Is the controlling subsection for this route ORS 137.225(1)(c) or ORS 137.225(1)(d)?",
+      "why": "The route id names (1)(c). The legal-design track registry files or_acquittal, the track this route is bound to, under (1)(d). Oregon's own committed legal review flags the same area as unsettled in its fifth headline finding: current subsection (8) opens 'The provisions of subsection (1)(c) or (d) of this section do not apply to', and the source reference it reviewed never mentions (1)(d). Two committed records disagree and a build lane does not get to pick one.",
+      "blocking": true
+    },
+    {
+      "id": "Q2",
+      "question": "Is it acceptable that a route labelled for arrests or charges without conviction delivers the acquittal packet only?",
+      "why": "or_arrest_no_charges and or_dismissed_charge exist as complete seven-component packet sets and no launch-graph route reaches either. A participant whose charge was dismissed, or who was arrested and never charged, falls inside this route's name and outside its packet. The committed legal review rates the dismissed-charge track 'Additional research required', which makes routing such a participant here a substantive question rather than a labelling one.",
+      "blocking": true
+    },
+    {
+      "id": "Q3",
+      "question": "Does the 2025 statutory activity change this output?",
+      "why": "The committed legal review is as of 2026-08-01 and records that ORS 137.225 was amended three times since SB 397, most recently by HB 2492 (2025), and that the internal reference it reviewed never names either recent amendment, which makes its currency unauditable. The official OJD packet under review is revision REV-2026-01, which postdates the review.",
+      "blocking": false
+    },
+    {
+      "id": "Q4",
+      "question": "Is a set-aside packet that writes nothing on the court's instruction pages and refuses every signature line the completed output you intend to approve?",
+      "why": "Seven of 76 censused blanks are written on the primary filing. That is the overlay's protected-field policy working as designed, and it means the participant completes the signature, the SID number and the charge table by hand. The reviewer should confirm that a packet of this shape is the product.",
+      "blocking": false
+    }
+  ],
+  "knownLimitations": [
+    "No rasteriser was available in any environment that has touched this artifact, so the page-by-page review was performed against each artifact's own bytes and the blank-vs-filled contact sheets are committed for a human to look at. This is not the independent human visual review the candidate families' production holds still require.",
+    "The bound specification hash does not pin the specification's content; see the specification block above.",
+    "The Grade-A record validates a text composition, not the PDF under review here.",
+    "Durable render was not exercised: no Supabase is configured in this environment and configuring one would be a production action.",
+    "The artifact under review was rendered from a canonical synthetic fixture, not from a real participant's facts."
+  ],
+  "registryStateNotAsserted": "This packet does not set outputLegalApproval.state. Nothing in this lane writes the Grade-A registry, which is a captain-only path.",
+  "outstandingGatesAfterThisDecision": [
+    {
+      "gate": "final_verification",
+      "state": "unbound",
+      "owner": "a verifier",
+      "note": "Not a lane's and not a captain's to grant."
+    },
+    {
+      "gate": "schemaVersion",
+      "state": "rcap-grade-a-fulfillment-authority/v1",
+      "owner": "captain",
+      "note": "Commercial admission requires v2. Even with both owner proofs in place, every admission point refuses with fulfillment_schema_below_admission_minimum. Engineering and captain work, not an owner decision."
+    },
+    {
+      "gate": "packetCompleteness",
+      "state": "absent",
+      "owner": "captain",
+      "note": "The v2 fileability proof. Lane I has established every value it needs, bound to the PDF under review."
+    },
+    {
+      "gate": "independent_human_visual_review",
+      "state": "pending",
+      "owner": "a human reviewer",
+      "note": "Contact sheets are committed."
+    },
+    {
+      "gate": "production_overlay_admission",
+      "state": "not_requested",
+      "owner": "captain",
+      "note": "Oregon stays under overlays/lane-c-candidates/. Admission would additionally need a PDF implementation freeze naming these families and per-family artifact-provenance.json hashed from installed bytes."
+    }
+  ]
+}
