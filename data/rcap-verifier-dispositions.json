@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 189,
-    "wired": 131,
+    "keep_available": 208,
+    "wired": 151,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1324,6 +1324,12 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "test-briefcase-presentation-authority.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "test-expungement-parity-delta-mutations.mjs": {
       "disposition": "wired",
       "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
@@ -1415,6 +1421,30 @@
       "observedStatus": "in_chain",
       "decidedBy": "captain"
     },
+    "test-rcap-production-activation-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-production-canary-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-production-clinic-migrate-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-production-smoke-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "test-rcap-worker-digest-binding-mutations.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
@@ -1426,6 +1456,42 @@
       "reason": "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
       "decidedBy": "recorded_decision",
       "observedStatus": "added_since_audit"
+    },
+    "test-screening-verification-finetune-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-batch-a-product-boundaries.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-batch-b-product-boundaries.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-batch-c-product-boundaries.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-commercial-packet-integrity.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-controlling-legal-decisions.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
     },
     "verify-corrections-a-boundaries.mjs": {
       "disposition": "keep_available",
@@ -1513,13 +1579,37 @@
       "decidedBy": "captain",
       "laneOwned": true
     },
+    "verify-free-screening-boundary.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-grade-a-first-packet.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-internal-admin-security-tools.mjs": {
       "disposition": "wired",
       "reason": "Proves the exact-email audit remains read-only and the remediation tool remains dry-run by default, UUID-distinct, receipt-first, tracked/unignored/symlink-path refusing, non-overwriting, history-preserving, and guarded by pre-plan and post-apply recovery-administrator invariants. Its in-process mutation controls make receipt and lockout contract breaks red. Required by the default npm test chain and the focused security:test-internal-admin chain; it performs no production mutation.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
+    "verify-legal-authority-chain-reconciliation.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-legal-authority-contracts.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-legal-authority-delivery-schema.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
@@ -1537,10 +1627,34 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "verify-legal-design-memo-import.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-md-10-103-signed-approval.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-mississippi-corrections-a.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-ms-99-15-59-packet-correction.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-national-legal-decision-overlay.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
     "verify-onboarding-all.mjs": {
@@ -1556,6 +1670,18 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "captain",
       "laneOwned": true
+    },
+    "verify-packet-family-build-status.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-participant-screening-verification-ux.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-acceptance-migration-sequence.mjs": {
       "disposition": "keep_available",
@@ -1722,7 +1848,19 @@
       "decidedBy": "recorded_decision",
       "observedStatus": "added_since_audit"
     },
+    "verify-rcap-hosted-browser.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-hosted-checkout-gate.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-hosted-clinic-migrate.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
@@ -1990,7 +2128,31 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "recorded_decision"
     },
+    "verify-rcap-production-activation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-production-canary.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-production-clinic-migrate.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-production-schema-upgrade.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-production-smoke.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
@@ -2156,6 +2318,78 @@
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-route-kind-adjudications.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-route-presentation-conflicts.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-route-resolution.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-d.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-e.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-f.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-g.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-h.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune-shard-i.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-screening-verification-finetune.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-shared-claim-boundary-app.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-shared-claim-boundary-db.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
     "verify-stripe-runtime-key-policy.mjs": {
