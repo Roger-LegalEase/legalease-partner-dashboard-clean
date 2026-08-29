@@ -20,6 +20,7 @@ import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { gradeAPacketFilename, renderGradeAPacketPdf } from "@/lib/rcap/grade-a/renderer";
 import { assertValidArtifact } from "@/lib/rcap/render/artifact-validation";
+import { admitCommercial } from "@/lib/rcap/fulfillment/grade-a-admission";
 import {
   artifactStorageContext,
   commercialRouteIdentity,
@@ -232,7 +233,47 @@ export async function getConsumerPacketStatus({
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
   const ready = readyPacketArtifactAccess(item, protectedArtifact);
-  if (ready) return { packetStatus: "ready", artifactRefs: ready, canDownload: true };
+  if (ready) {
+    /**
+     * Grade-A commercial admission, point 7 of 10 — `briefcase_ready`.
+     *
+     * This is the statement that tells a participant to expect a download, so
+     * it is the transition the authority governs. A route the authority will
+     * not admit presents as saved-and-pending instead — the information is
+     * still theirs and still safe, they are simply not told a packet is
+     * waiting when the download surface would refuse them.
+     *
+     * Deliberately not a throw. Every other point refuses an action the
+     * participant asked for; this one only decides what they are shown, and
+     * turning a status read into an error would break a Briefcase page over a
+     * route that is merely unproven.
+     */
+    const readyVerification = await requireCurrentPacketVerification(userId, item);
+    const readyMatterId = consumerMatterIdForItem(item.id);
+    const readyIdentity = commercialRouteIdentity({
+      jurisdiction: readyVerification.snapshot.jurisdiction,
+      pathwayId: readyVerification.snapshot.pathwayId
+    });
+    const readyDecision = admitCommercial("briefcase_ready", readyIdentity, fulfillmentRequestContext({
+      participantUserId: userId,
+      matterId: readyMatterId,
+      matterOwnerUserId: userId,
+      finalVerification: finalVerificationSnapshotFrom({
+        snapshot: readyVerification.snapshot,
+        verificationHash: readyVerification.hash,
+        matterId: readyMatterId,
+        ownerUserId: userId,
+        packetFamilyId: readyIdentity.packetFamilyId
+      }),
+      storage: artifactStorageContext({
+        privateStorage: true,
+        artifactSha256: artifactSha256Of(ready),
+        repeatDownload: item.packetStatus === "downloaded"
+      })
+    }));
+    if (!readyDecision.admitted) return { packetStatus: "pending", canDownload: false };
+    return { packetStatus: "ready", artifactRefs: ready, canDownload: true };
+  }
   const currentVerification = await requireCurrentPacketVerification(userId, item);
   const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
   const partnerSponsored = sponsorship.sponsored;
@@ -329,27 +370,28 @@ async function gradeAPacketDownload(
     pathwayId: verification.snapshot.pathwayId
   });
   const isRepeatDownload = item.packetStatus === "downloaded";
-  governCommercialAdmission(
-    isRepeatDownload ? "repeat_download" : "private_download",
-    downloadIdentity,
-    fulfillmentRequestContext({
-      participantUserId: userId,
+  const downloadContext = fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: downloadMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: verification.snapshot,
+      verificationHash: verification.hash,
       matterId: downloadMatterId,
-      matterOwnerUserId: userId,
-      finalVerification: finalVerificationSnapshotFrom({
-        snapshot: verification.snapshot,
-        verificationHash: verification.hash,
-        matterId: downloadMatterId,
-        ownerUserId: userId,
-        packetFamilyId: downloadIdentity.packetFamilyId
-      }),
-      storage: artifactStorageContext({
-        privateStorage: true,
-        artifactSha256: artifactSha256Of(artifactRefs),
-        repeatDownload: isRepeatDownload
-      })
+      ownerUserId: userId,
+      packetFamilyId: downloadIdentity.packetFamilyId
+    }),
+    storage: artifactStorageContext({
+      privateStorage: true,
+      artifactSha256: artifactSha256Of(artifactRefs),
+      repeatDownload: isRepeatDownload
     })
-  );
+  });
+  if (isRepeatDownload) {
+    governCommercialAdmission("repeat_download", downloadIdentity, downloadContext);
+  } else {
+    governCommercialAdmission("private_download", downloadIdentity, downloadContext);
+  }
 
   const specification = packetSpecificationFor(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId ?? ""}`);
   if (!specification || specification.specificationVersion !== artifactRefs.packetSpecificationVersion) {

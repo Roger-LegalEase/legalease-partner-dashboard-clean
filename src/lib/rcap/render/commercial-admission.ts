@@ -311,3 +311,37 @@ export function commercialAdmissionRefusalBody(error: CommercialAdmissionDeniedE
 } {
   return { error: error.participantMessage, resultCode: error.denialCode };
 }
+
+/**
+ * Grade-A commercial admission, point 10 of 10 — `launch_graph_commercial_status`.
+ *
+ * Whether a route could be sold, with nobody in front of it. It takes no
+ * participant context on purpose: making the launch graph depend on who is
+ * logged in would make a report about the product into a report about a
+ * session.
+ *
+ * This is the function `scripts/generate-rcap-launch-graph.mjs` should call for
+ * `operationallySellable`, replacing the nine operational gates it computes for
+ * itself. Those gates stay as diagnostics; they stop being the decision, so the
+ * commercial denominator and the runtime cannot disagree. The generator and its
+ * output ledger are captain-owned, so the change is filed as a patch request at
+ * `docs/rcap/grade-a/lane-f/CAPTAIN_PATCH_REQUEST.md` rather than made here.
+ *
+ * Returns a decision rather than throwing: a report describes routes it may not
+ * sell, and a refusal is the answer rather than an error.
+ */
+export function launchGraphCommercialStatus(routeId: string): CommercialAdmissionDecision {
+  const trimmed = String(routeId ?? "").trim();
+  const separator = trimmed.indexOf(":");
+  const jurisdiction = separator === -1 ? "" : trimmed.slice(0, separator).toUpperCase();
+  return admitCommercial(
+    "launch_graph_commercial_status",
+    { routeId: trimmed, jurisdiction, packetFamilyId: resolvePacketFamilyId(trimmed) },
+    null
+  );
+}
+
+/** True only when the authority proves this route may be sold. */
+export function isOperationallySellable(routeId: string): boolean {
+  return launchGraphCommercialStatus(routeId).admitted;
+}
