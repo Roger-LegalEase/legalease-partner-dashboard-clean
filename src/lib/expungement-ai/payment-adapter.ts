@@ -7,6 +7,12 @@ import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapt
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
 import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
+import {
+  commercialRouteIdentity,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext,
+  governCommercialAdmission
+} from "@/lib/rcap/render/commercial-admission";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { requireCurrentPacketVerification } from "@/lib/expungement-ai/packet-information";
@@ -181,6 +187,38 @@ export async function createConsumerPacketCheckout({
   }
   const verifiedSnapshot = verification.snapshot;
   assertCheckoutAllowed(verifiedSnapshot);
+
+  /**
+   * Grade-A commercial admission, point 1 of 10 — `consumer_checkout`.
+   *
+   * Placed here because this is the last statement before a Stripe Checkout
+   * Session can be created, and a session URL is a price the participant has
+   * seen. Everything above it either returns money already collected (the
+   * already-paid and completed-session recoveries, which mint no session) or
+   * establishes the verification this admission is required to carry.
+   *
+   * `assertCheckoutAllowed` above stays exactly as it is. It refuses deferrals
+   * and terminal treatments on their own terms; this refuses a route whose
+   * packet was never proven. Neither subsumes the other, and this one never
+   * opens a door the other closed.
+   */
+  const checkoutMatterId = consumerMatterIdForItem(item.id);
+  const checkoutIdentity = commercialRouteIdentity({
+    jurisdiction: verifiedSnapshot.jurisdiction,
+    pathwayId: verifiedSnapshot.pathwayId
+  });
+  governCommercialAdmission("consumer_checkout", checkoutIdentity, fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: checkoutMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: verifiedSnapshot,
+      verificationHash: verification.hash,
+      matterId: checkoutMatterId,
+      ownerUserId: userId,
+      packetFamilyId: checkoutIdentity.packetFamilyId
+    })
+  }));
 
   const person = await resolveConsumerPersonId(userId);
   if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();

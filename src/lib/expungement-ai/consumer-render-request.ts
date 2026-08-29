@@ -20,6 +20,14 @@ import {
 import { buildRenderJobSpec, RenderContractError } from "@/lib/rcap/render/job-contract";
 import { enqueueVerifiedConsumerRender } from "@/lib/rcap/render/job-queue";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
+import {
+  CommercialAdmissionDeniedError,
+  commercialRouteIdentity,
+  entitlementContext,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext,
+  governCommercialAdmission
+} from "@/lib/rcap/render/commercial-admission";
 
 /**
  * The application-side half of the paid consumer journey.
@@ -48,7 +56,8 @@ export type ConsumerRenderOutcome =
   // specification for it — a corpus inconsistency, not anything the
   // participant did or can fix. Fail before the durable job exists.
   | { status: "route_contract_unverifiable"; reason: string }
-  | { status: "enqueue_failed"; reason: string };
+  | { status: "enqueue_failed"; reason: string }
+  | { status: "commercial_admission_denied"; reason: string };
 
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
 const CONSUMER_PACKET_STORAGE_PATHWAY = "source_engine_packet_plan";
@@ -353,6 +362,56 @@ async function requestConsumerPacketRenderInternal(input: {
     renderContractInputHash: versioned.spec.inputHash
   };
   const verifiedSpec = { ...versioned.spec, inputHash };
+
+  /**
+   * Grade-A commercial admission, point 5 of 10 — `provider_dispatch`.
+   *
+   * In the internal function both entry points share, so the webhook path
+   * cannot become the unguarded door. Strictly before
+   * `enqueueVerifiedConsumerRender`, which is the first act that hands a job to
+   * the worker and therefore the first act that puts participant data in front
+   * of a provider.
+   *
+   * The entitlement is reported as already consumed once this matter has a
+   * packet, and this is the one point the authority admits on a spent
+   * entitlement: a failed render must retry under the same idempotency key
+   * without consuming a second credit. Every other point refuses that, which is
+   * why a retry re-dispatches rather than re-admitting generation.
+   */
+  const dispatchIdentity = commercialRouteIdentity({
+    jurisdiction: verification.snapshot.jurisdiction,
+    pathwayId: verifiedPathwayId
+  });
+  try {
+    governCommercialAdmission("provider_dispatch", dispatchIdentity, fulfillmentRequestContext({
+      participantUserId: authUserId,
+      matterId,
+      matterOwnerUserId: authUserId,
+      finalVerification: finalVerificationSnapshotFrom({
+        snapshot: verification.snapshot,
+        verificationHash: verification.hash,
+        matterId,
+        ownerUserId: authUserId,
+        packetFamilyId: dispatchIdentity.packetFamilyId
+      }),
+      entitlement: entitlementContext({
+        kind: "consumer_payment",
+        // The provider event id is the single-use receipt, so a redispatch of
+        // the same payment is the same key rather than a new one.
+        idempotencyKey: authority.providerEventId,
+        alreadyConsumed: item.packetStatus === "ready" || item.packetStatus === "downloaded",
+        serverVerified: true
+      })
+    }));
+  } catch (error) {
+    // This function reports rather than throws, so its callers keep one shape.
+    return {
+      status: "commercial_admission_denied",
+      reason: error instanceof CommercialAdmissionDeniedError
+        ? `${error.denialCode}: ${error.decision.reason}`
+        : error instanceof Error ? error.message : String(error)
+    };
+  }
 
   // No packet or input row is written before this call. The captain-owned RPC
   // compares protected verification, immutable-inserts these exact payloads,

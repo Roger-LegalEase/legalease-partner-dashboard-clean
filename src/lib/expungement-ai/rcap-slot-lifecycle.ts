@@ -1,5 +1,11 @@
 import "server-only";
 import { assertPacketFulfillmentProven } from "@/lib/expungement-ai/packet-fulfillment-authority";
+import {
+  CommercialAdmissionDeniedError,
+  governCommercialAdmission
+} from "@/lib/rcap/render/commercial-admission";
+import type { AdmissionRequestIdentity } from "@/lib/rcap/fulfillment/grade-a-authority";
+import type { FulfillmentRequestContext } from "@/lib/rcap/fulfillment/grade-a-request-context";
 
 import { emitPartnerUsageWindowEvent } from "@/lib/expungement-ai/nudge-os-events";
 import { assertExpectedPacketVerificationHash } from "@/lib/expungement-ai/verification-cas";
@@ -10,6 +16,31 @@ export type RcapSlotLifecycleResult = {
   ok: boolean;
   error?: string;
 };
+
+/**
+ * The route and participant a sponsored admission is about.
+ *
+ * Required rather than optional. The optional `fulfillmentRoute` below predates
+ * the Grade-A authority and could be omitted; this cannot, because an omission
+ * is exactly how a sponsored credit gets spent on a route nobody proved. A
+ * caller that cannot supply it has not established what it is about to spend a
+ * partner's credit on, and that is a refusal.
+ */
+export type SponsoredAdmission = {
+  identity: AdmissionRequestIdentity;
+  context: FulfillmentRequestContext;
+};
+
+/** A denial, rendered into this module's result shape rather than thrown. */
+function refusedByAuthority(error: unknown): PartnerPacketRecordResult {
+  return {
+    ok: false,
+    recorded: false,
+    countedAs: "not_counted",
+    reason: error instanceof CommercialAdmissionDeniedError ? error.denialCode : "commercial_admission_refused",
+    error: error instanceof Error ? error.message : "commercial_admission_refused"
+  };
+}
 
 type UsageWindowRow = {
   partner_slug: string;
@@ -81,7 +112,37 @@ export async function finalizeSponsoredPacketGeneration(input: {
    * unproven route because the generation surface has already refused.
    */
   fulfillmentRoute?: { jurisdiction: string | null | undefined; pathwayId: string | null | undefined };
+  /**
+   * Grade-A commercial admission, point 3 of 10 — `packet_credit_admission`.
+   * See the gate immediately below; the field is declared optional only so an
+   * omission is a refusal this function returns rather than a TypeScript error
+   * a caller could work around.
+   */
+  admission?: SponsoredAdmission;
 }): Promise<PartnerPacketRecordResult> {
+  /**
+   * Grade-A commercial admission, point 3 of 10 — `packet_credit_admission`.
+   *
+   * Strictly before the RPC that consumes the credit. A credit spent on an
+   * unproven route is a credit the partner cannot get back, so an absent
+   * admission refuses here rather than defaulting to the older, weaker gate
+   * below it.
+   */
+  if (!input.admission) {
+    return {
+      ok: false,
+      recorded: false,
+      countedAs: "not_counted",
+      reason: "commercial_admission_required",
+      error: "packet_credit_admission requires a server-resolved route identity and participant context"
+    };
+  }
+  try {
+    governCommercialAdmission("packet_credit_admission", input.admission.identity, input.admission.context);
+  } catch (error) {
+    return refusedByAuthority(error);
+  }
+
   try {
     // Packet credit consumption. A credit is spent once and is not refunded by
     // discovering afterwards that the artifact was a text file.
@@ -193,11 +254,40 @@ export type PartnerPacketCapDecision = {
   partnerBenefit: boolean;
   // When true, sponsored generation must not be promised (pause_at_cap at cap).
   pausedAtCap: boolean;
+  /**
+   * Set when the Grade-A authority refused the route or the participant. The
+   * cap says the sponsor still has allocation; this says the route may not be
+   * sold to anyone, which is a different and stronger answer.
+   */
+  admissionDenialCode?: string;
 };
 
 // Read-only check used to decide whether to promise sponsored packet generation.
 // Never mutates. Fails open to partnerBenefit=false when data is missing.
-export async function resolvePartnerPacketCapDecision(sessionId: string): Promise<PartnerPacketCapDecision> {
+export async function resolvePartnerPacketCapDecision(
+  sessionId: string,
+  admission: SponsoredAdmission
+): Promise<PartnerPacketCapDecision> {
+  /**
+   * Grade-A commercial admission, point 2 of 10 — `sponsored_entitlement`.
+   *
+   * Before the sponsorship reservation is honoured, and before the cap is even
+   * read: a sponsored participant must be admitted by exactly the authority a
+   * paying one is, or sponsorship becomes the door that opens what checkout
+   * closed. `pausedAtCap` is returned on refusal so every existing caller that
+   * already refuses to promise sponsored generation keeps refusing, while
+   * `admissionDenialCode` records which answer it actually was.
+   */
+  try {
+    governCommercialAdmission("sponsored_entitlement", admission.identity, admission.context);
+  } catch (error) {
+    return {
+      partnerBenefit: true,
+      pausedAtCap: true,
+      admissionDenialCode: error instanceof CommercialAdmissionDeniedError ? error.denialCode : "commercial_admission_refused"
+    };
+  }
+
   const supabase = getSupabaseAdminClient();
   if (!supabase) return { partnerBenefit: false, pausedAtCap: false };
 

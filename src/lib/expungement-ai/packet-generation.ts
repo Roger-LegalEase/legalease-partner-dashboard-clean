@@ -19,6 +19,19 @@ import {
 import { composeGradeAPacket } from "@/lib/rcap/grade-a/composer";
 import { packetSpecificationFor } from "@/lib/rcap/grade-a/packet-specification";
 import { gradeAPacketFilename, renderGradeAPacketPdf } from "@/lib/rcap/grade-a/renderer";
+import { assertValidArtifact } from "@/lib/rcap/render/artifact-validation";
+import { admitCommercial } from "@/lib/rcap/fulfillment/grade-a-admission";
+import {
+  artifactStorageContext,
+  commercialRouteIdentity,
+  entitlementContext,
+  finalVerificationSnapshotFrom,
+  fulfillmentRequestContext,
+  governCommercialAdmission,
+  governPacketDownloadAdmission
+} from "@/lib/rcap/render/commercial-admission";
+import { consumerMatterIdForItem } from "@/lib/expungement-ai/consumer-identity";
+import type { EntitlementContext } from "@/lib/rcap/fulfillment/grade-a-request-context";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
 import { emitLegalEaseOsEvent, type LegalEaseOsEventOptions } from "@/lib/legalese-os-events";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
@@ -86,6 +99,16 @@ export type ConsumerPacketArtifactRefs = {
   documentCount: number;
   verificationHash: string;
   downloadPath: string;
+  /**
+   * The SHA-256 of the rendered bytes, computed at attachment.
+   *
+   * This is what binds delivery to an artifact rather than to a filename. It is
+   * meaningful only because the Grade-A renderer is deterministic, so a repeat
+   * download re-renders and compares rather than trusting storage.
+   */
+  artifactSha256: string;
+  /** Pages in the rendered artifact, checked again before every delivery. */
+  pageCount: number;
 };
 
 export type ConsumerPacketStatus = {
@@ -159,7 +182,7 @@ export async function generatePaidConsumerPacket({
   } }))) throw new CurrentPacketVerificationRequiredError("verification_changed_before_generation");
 
   try {
-    const artifactRefs = buildConsumerPacketArtifact(item, verification);
+    const artifactRefs = await buildConsumerPacketArtifact(item, verification);
     // Sponsored artifacts become Ready only inside the captain-owned atomic
     // credit-consumption/finalization RPC. Returning the prepared artifact is
     // non-durable; a refusal leaves the item generating and inaccessible.
@@ -211,7 +234,47 @@ export async function getConsumerPacketStatus({
   const item = await requireOwnedPacketItem(userId, briefcaseItemId);
   const protectedArtifact = await requireProtectedPacketArtifact(userId, item.id);
   const ready = readyPacketArtifactAccess(item, protectedArtifact);
-  if (ready) return { packetStatus: "ready", artifactRefs: ready, canDownload: true };
+  if (ready) {
+    /**
+     * Grade-A commercial admission, point 7 of 10 — `briefcase_ready`.
+     *
+     * This is the statement that tells a participant to expect a download, so
+     * it is the transition the authority governs. A route the authority will
+     * not admit presents as saved-and-pending instead — the information is
+     * still theirs and still safe, they are simply not told a packet is
+     * waiting when the download surface would refuse them.
+     *
+     * Deliberately not a throw. Every other point refuses an action the
+     * participant asked for; this one only decides what they are shown, and
+     * turning a status read into an error would break a Briefcase page over a
+     * route that is merely unproven.
+     */
+    const readyVerification = await requireCurrentPacketVerification(userId, item);
+    const readyMatterId = consumerMatterIdForItem(item.id);
+    const readyIdentity = commercialRouteIdentity({
+      jurisdiction: readyVerification.snapshot.jurisdiction,
+      pathwayId: readyVerification.snapshot.pathwayId
+    });
+    const readyDecision = admitCommercial("briefcase_ready", readyIdentity, fulfillmentRequestContext({
+      participantUserId: userId,
+      matterId: readyMatterId,
+      matterOwnerUserId: userId,
+      finalVerification: finalVerificationSnapshotFrom({
+        snapshot: readyVerification.snapshot,
+        verificationHash: readyVerification.hash,
+        matterId: readyMatterId,
+        ownerUserId: userId,
+        packetFamilyId: readyIdentity.packetFamilyId
+      }),
+      storage: artifactStorageContext({
+        privateStorage: true,
+        artifactSha256: artifactSha256Of(ready),
+        repeatDownload: item.packetStatus === "downloaded"
+      })
+    }));
+    if (!readyDecision.admitted) return { packetStatus: "pending", canDownload: false };
+    return { packetStatus: "ready", artifactRefs: ready, canDownload: true };
+  }
   const currentVerification = await requireCurrentPacketVerification(userId, item);
   const sponsorship = await requireCurrentPacketSponsorshipAuthority(userId, item);
   const partnerSponsored = sponsorship.sponsored;
@@ -288,6 +351,36 @@ async function gradeAPacketDownload(
     "participant delivery"
   );
 
+  /**
+   * Grade-A commercial admission, points 8 and 9 of 10 — `private_download`
+   * and `repeat_download`.
+   *
+   * One statement, and exactly one of the two points, chosen by whether this
+   * participant has downloaded this artifact before. They are separate points
+   * because they are separate questions: the first asks whether bytes may leave
+   * the building at all, and the second asks whether they may leave again for
+   * someone who already has them — which must be true, and must cost neither a
+   * second payment nor a second credit.
+   *
+   * Before the bytes are rendered, not after: a download that is going to be
+   * refused should never have composed the packet.
+   */
+  // Delegated to the one shared treatment, which the RCAP job-id download also
+  // calls. Two endpoints serve packet bytes; a second admitCommercial call here
+  // would be a second commercial rule the moment either was edited.
+  const downloadMatterId = consumerMatterIdForItem(item.id);
+  governPacketDownloadAdmission({
+    jurisdiction: verification.snapshot.jurisdiction,
+    pathwayId: verification.snapshot.pathwayId,
+    participantUserId: userId,
+    matterId: downloadMatterId,
+    matterOwnerUserId: userId,
+    verificationSnapshot: verification.snapshot,
+    verificationHash: verification.hash,
+    artifactSha256: artifactSha256Of(artifactRefs),
+    repeatDownload: item.packetStatus === "downloaded"
+  });
+
   const specification = packetSpecificationFor(`${verification.snapshot.jurisdiction}:${verification.snapshot.pathwayId ?? ""}`);
   if (!specification || specification.specificationVersion !== artifactRefs.packetSpecificationVersion) {
     throw new ConsumerPacketNotReadyError();
@@ -315,11 +408,39 @@ async function gradeAPacketDownload(
     verifiedAt: verification.snapshot.verifiedAt
   });
 
+  /**
+   * Re-render and check the bytes against the digest recorded at attachment.
+   *
+   * This is what makes a substituted object undeliverable. Composition is
+   * deterministic, so the correct packet always reproduces its own hash; bytes
+   * that do not are not this packet, whatever storage returned them.
+   */
+  const bytes = await renderGradeAPacketPdf(packet);
+  assertValidArtifact({
+    bytes,
+    expectedContentType: "application/pdf",
+    expectedSha256: artifactRefs.artifactSha256 ?? null,
+    expectedPageCount: artifactRefs.pageCount ?? null
+  });
+
   return {
     fileName: artifactRefs.fileName,
     contentType: "application/pdf",
-    body: await renderGradeAPacketPdf(packet)
+    body: Buffer.from(bytes)
   };
+}
+
+/**
+ * The recorded artifact digest, where the provider records one.
+ *
+ * Legacy providers do not, and returning null for them is the truthful answer:
+ * the authority refuses a storage context with no digest, which is the correct
+ * outcome for an artifact nothing can bind delivery to.
+ */
+function artifactSha256Of(artifactRefs: ConsumerPacketArtifactRefs): string | null {
+  return "artifactSha256" in artifactRefs && typeof artifactRefs.artifactSha256 === "string"
+    ? artifactRefs.artifactSha256
+    : null;
 }
 
 export async function attachPacketToBriefcaseItem({
@@ -335,6 +456,40 @@ export async function attachPacketToBriefcaseItem({
   expectedVerificationHash: string;
   entitlementSource?: "consumer_payment" | "partner_sponsorship";
 }) {
+  /**
+   * Grade-A commercial admission, point 6 of 10 — `artifact_commercial_attachment`.
+   *
+   * Before the artifact is marked deliverable, because attachment is what makes
+   * the Briefcase say a packet exists. An unproven route may still produce an
+   * internal-preview artifact; it may not produce a commercially deliverable
+   * one, and this is the line between those two.
+   */
+  const attachVerification = await requireCurrentPacketVerification(userId, item);
+  const attachMatterId = consumerMatterIdForItem(item.id);
+  const attachIdentity = commercialRouteIdentity({
+    jurisdiction: attachVerification.snapshot.jurisdiction,
+    pathwayId: attachVerification.snapshot.pathwayId
+  });
+  governCommercialAdmission("artifact_commercial_attachment", attachIdentity, fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: attachMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: attachVerification.snapshot,
+      verificationHash: attachVerification.hash,
+      matterId: attachMatterId,
+      ownerUserId: userId,
+      packetFamilyId: attachIdentity.packetFamilyId
+    }),
+    storage: artifactStorageContext({
+      privateStorage: true,
+      artifactSha256: artifactSha256Of(artifactRefs),
+      // Attachment is by definition the first time this artifact exists, so
+      // this is never a repeat. `repeat_download` is a different point.
+      repeatDownload: false
+    })
+  }));
+
   const attached = await attachConsumerPacketArtifactIfVerified({
     consumerAuthUserId: userId,
     briefcaseItemId: item.id,
@@ -460,6 +615,11 @@ export async function assertPacketGenerationAllowed(
   options: {
     paymentRequired?: boolean;
     verification?: Awaited<ReturnType<typeof requireCurrentPacketVerification>>;
+    /**
+     * The sponsored credit backing this generation. Supplied by the sponsored
+     * path, which has an entitlement the consumer payment probe cannot see.
+     */
+    entitlement?: EntitlementContext;
   } = {}
 ) {
   const verification = options.verification ?? await requireCurrentPacketVerification(userId, item);
@@ -478,17 +638,74 @@ export async function assertPacketGenerationAllowed(
     throw new ConsumerPacketNotAllowedError(resultCode);
   }
 
+  let entitlement = options.entitlement ?? null;
   if (paymentRequired && !(dryRunMode && item.paymentProvider === "dry_run")) {
     const payment = await consumerPacketPaymentAuthority(item.id, userId);
     if (!payment.valid) throw new ConsumerPacketPaymentRequiredError();
+    // The provider event id is the single-use receipt. Using it as the
+    // idempotency key is what makes a replayed webhook and a double-clicked
+    // generate resolve to the same entitlement rather than two.
+    entitlement ??= entitlementContext({
+      kind: "consumer_payment",
+      idempotencyKey: payment.providerEventId,
+      alreadyConsumed: packetAlreadyGenerated(item),
+      serverVerified: true
+    });
   }
+
+  /**
+   * Grade-A commercial admission, point 4 of 10 — `generation_admission`.
+   *
+   * Here rather than at the four call sites, so all of them inherit one gate.
+   * It runs after the entitlement is established and before the caller can
+   * enqueue a render, which is the first act that queues work against a matter.
+   *
+   * A dry run still passes through: it carries a dry-run entitlement rather
+   * than none, because "no entitlement" and "an entitlement that cost nothing"
+   * are different facts and only the second one may generate.
+   */
+  const generationMatterId = consumerMatterIdForItem(item.id);
+  const generationIdentity = commercialRouteIdentity({
+    jurisdiction: verification.snapshot.jurisdiction,
+    pathwayId: verification.snapshot.pathwayId
+  });
+  governCommercialAdmission("generation_admission", generationIdentity, fulfillmentRequestContext({
+    participantUserId: userId,
+    matterId: generationMatterId,
+    matterOwnerUserId: userId,
+    finalVerification: finalVerificationSnapshotFrom({
+      snapshot: verification.snapshot,
+      verificationHash: verification.hash,
+      matterId: generationMatterId,
+      ownerUserId: userId,
+      packetFamilyId: generationIdentity.packetFamilyId
+    }),
+    entitlement: entitlement ?? entitlementContext({
+      kind: "consumer_payment",
+      idempotencyKey: dryRunMode && item.paymentProvider === "dry_run" ? `dry-run:${item.id}` : null,
+      alreadyConsumed: packetAlreadyGenerated(item),
+      serverVerified: dryRunMode && item.paymentProvider === "dry_run"
+    })
+  }));
+
   return verification;
 }
 
-function buildConsumerPacketArtifact(
+/**
+ * Whether this matter's entitlement has already produced a packet.
+ *
+ * Read from the packet status rather than counted, because the question the
+ * authority asks is "has this been consumed", and a downloaded packet is a
+ * consumed entitlement exactly as a ready one is.
+ */
+function packetAlreadyGenerated(item: ConsumerBriefcaseItem): boolean {
+  return item.packetStatus === "ready" || item.packetStatus === "downloaded";
+}
+
+async function buildConsumerPacketArtifact(
   item: ConsumerBriefcaseItem,
   verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>
-): ConsumerPacketArtifactRefs {
+): Promise<ConsumerPacketArtifactRefs> {
   const generatedAt = new Date().toISOString();
   const profile = getProfileByJurisdiction(verification.snapshot.jurisdiction);
   const pathwayId = verification.snapshot.pathwayId;
@@ -520,7 +737,7 @@ function buildConsumerPacketArtifact(
     );
   }
   if (fulfillment.record.artifactProvider === "rcap_grade_a_composer_v1") {
-    return buildGradeAArtifact(item, verification, fulfillment.record, generatedAt);
+    return await buildGradeAArtifact(item, verification, fulfillment.record, generatedAt);
   }
   throw new ConsumerPacketGenerationError(
     `${fulfillment.record.artifactProvider} is recorded as the approved provider for ${verification.snapshot.jurisdiction}:${pathwayId}, and no dispatch to it is implemented in this path yet. Failing closed rather than substituting a summary.`
@@ -535,12 +752,12 @@ function buildConsumerPacketArtifact(
  * happen while the participant is still in a flow that can ask them for it —
  * not when they click download and get an error instead of a filing.
  */
-function buildGradeAArtifact(
+async function buildGradeAArtifact(
   item: ConsumerBriefcaseItem,
   verification: Awaited<ReturnType<typeof requireCurrentPacketVerification>>,
   record: PacketFulfillmentRecord,
   generatedAt: string
-): ConsumerPacketArtifactRefs {
+): Promise<ConsumerPacketArtifactRefs> {
   const snapshot = verification.snapshot;
   const specification = packetSpecificationFor(record.routeKey);
   if (!specification) {
@@ -574,6 +791,15 @@ function buildGradeAArtifact(
     verifiedAt: snapshot.verifiedAt
   });
 
+  /**
+   * Render now, and validate the bytes before any of this becomes an artifact
+   * anyone can be told about. Composition already refuses a matter with a
+   * missing fact; this refuses a render that produced something that is not a
+   * multi-page PDF, which is the failure composition cannot see.
+   */
+  const bytes = await renderGradeAPacketPdf(packet);
+  const validation = assertValidArtifact({ bytes, expectedContentType: "application/pdf" });
+
   return {
     provider: "rcap_grade_a_composer_v1",
     packetId: item.id,
@@ -587,7 +813,9 @@ function buildGradeAArtifact(
     packetFamily: packet.packetFamily,
     documentCount: packet.documents.length,
     verificationHash: packet.verificationHash,
-    downloadPath: `/api/expungement-ai/packet/${item.id}/download`
+    downloadPath: `/api/expungement-ai/packet/${item.id}/download`,
+    artifactSha256: validation.sha256,
+    pageCount: validation.pageCount
   };
 }
 

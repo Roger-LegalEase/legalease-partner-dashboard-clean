@@ -41,6 +41,20 @@ export type RenderJobRow = {
   normalizedOutputSha256: string | null;
   deliveryEligibility: DeliveryEligibility;
   accountingResult: PacketAccountingResult | null;
+  /**
+   * The consumer briefcase item this job was bound to at enqueue, and the
+   * participant the enqueue RPC canonicalised as its owner. Both are written in
+   * the same statement that creates the row, so there is no window in which the
+   * job exists unbound.
+   *
+   * They are surfaced here so the RCAP job-id download can assemble the
+   * server-side context the Grade-A authority needs -- the exact matter and the
+   * current final verification -- without a second source of truth. No new
+   * column was needed: the table has carried both since the enqueue RPC was
+   * written, and only the select was missing them.
+   */
+  consumerBriefcaseItemId: string | null;
+  consumerAuthUserId: string | null;
 };
 
 function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
@@ -62,6 +76,10 @@ function rowFromRecord(record: Record<string, unknown>): RenderJobRow {
     outputStoragePath: record.output_storage_path === null ? null : String(record.output_storage_path),
     outputSha256: record.output_sha256 === null ? null : String(record.output_sha256),
     normalizedOutputSha256: record.normalized_output_sha256 === null ? null : String(record.normalized_output_sha256),
+    consumerBriefcaseItemId: record.consumer_briefcase_item_id === null || record.consumer_briefcase_item_id === undefined
+      ? null : String(record.consumer_briefcase_item_id),
+    consumerAuthUserId: record.consumer_auth_user_id === null || record.consumer_auth_user_id === undefined
+      ? null : String(record.consumer_auth_user_id),
     deliveryEligibility: String(record.delivery_eligibility ?? "not_evaluated") as DeliveryEligibility,
     accountingResult: record.accounting_result === null || record.accounting_result === undefined
       ? null
@@ -366,7 +384,7 @@ export async function getRenderJob(jobId: string): Promise<RenderJobRow | null> 
   const { data, error } = await supabase
     .from("packet_render_jobs")
     .select(
-      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result"
+      "id, packet_id, route_id, briefcase_item_id, partner_id, person_id, matter_id, renderer_kind, renderer_version, status, attempt_count, max_attempts, failure_disposition, error_code, output_storage_path, output_sha256, normalized_output_sha256, delivery_eligibility, accounting_result, consumer_briefcase_item_id, consumer_auth_user_id"
     )
     .eq("id", jobId)
     .maybeSingle();

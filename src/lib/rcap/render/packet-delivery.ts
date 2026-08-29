@@ -21,11 +21,28 @@ import "server-only";
 import { isDeliverable, sha256, type DeliveryEventType } from "@/lib/rcap/render/job-contract";
 import type { PacketArtifactStorage } from "@/lib/rcap/render/artifact-storage";
 import type { RenderJobRow } from "@/lib/rcap/render/job-queue";
+import { governPacketDownloadAdmission } from "@/lib/rcap/render/commercial-admission";
+import type { PacketVerificationSnapshot } from "@/lib/expungement-ai/types";
 
 export type DeliveryPorts = {
   getJob(jobId: string): Promise<RenderJobRow | null>;
   /** True only when this authenticated user owns the briefcase item the job serves. */
   userOwnsBriefcaseItem(userId: string, briefcaseItemId: string): Promise<boolean>;
+  /**
+   * The consumer briefcase item's CURRENT final verification, read server-side.
+   *
+   * This is deliberately the live record rather than a hash snapshotted onto the
+   * job row at enqueue: a verification that was current when the job was queued
+   * is not evidence that it is current now, and a material edit since then must
+   * close the door. Returning null denies.
+   */
+  getCurrentVerification?(consumerBriefcaseItemId: string): Promise<{
+    snapshot: PacketVerificationSnapshot;
+    hash: string;
+    ownerUserId: string;
+    matterId: string;
+    alreadyDownloaded: boolean;
+  } | null>;
   storage: PacketArtifactStorage;
   recordEvent(input: {
     jobId: string;
@@ -107,6 +124,62 @@ export async function authorizePacketDownload(
   if (bytes.subarray(0, 5).toString("latin1") !== "%PDF-") {
     await ports.recordEvent({ jobId: job.id, eventType: "transmission_failed", actorUserId: input.userId, requestContext: { reason: "not_pdf" } });
     return { ok: false, status: 409, code: "artifact_corrupt", message: "This packet could not be verified." };
+  }
+
+  // 6. Grade-A commercial admission, through the ONE shared download treatment.
+  //
+  // Everything above is necessary and none of it is sufficient: denying
+  // anonymous callers, wrong users, unclaimed jobs, accounting-blocked jobs and
+  // substituted artifacts never asks whether this route was proven to deliver a
+  // packet at all. This surface used to stop at those, which meant a route the
+  // authority denies could still hand over bytes through a job id.
+  //
+  // It is placed last on purpose. The integrity checks above are cheap, local
+  // and specific, and reaching this point means the object is genuinely this
+  // job's artifact; refusing here is then a statement about commercial
+  // authority rather than about the file.
+  if (ports.getCurrentVerification) {
+    const consumerItemId = job.consumerBriefcaseItemId;
+    if (!consumerItemId) {
+      return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    const current = await ports.getCurrentVerification(consumerItemId);
+    if (!current) {
+      // No current verification is a denial, not a pass. "We cannot see the
+      // current verification" and "the verification is current" are different
+      // statements.
+      return { ok: false, status: 409, code: "verification_not_current", message: "This packet must be reviewed again before it can be downloaded." };
+    }
+    if (current.ownerUserId !== input.userId) {
+      return { ok: false, status: 403, code: "unauthorized", message: "This packet is not available for download." };
+    }
+    try {
+      governPacketDownloadAdmission({
+        jurisdiction: current.snapshot.jurisdiction,
+        pathwayId: current.snapshot.pathwayId,
+        participantUserId: input.userId,
+        matterId: current.matterId,
+        matterOwnerUserId: current.ownerUserId,
+        verificationSnapshot: current.snapshot,
+        verificationHash: current.hash,
+        artifactSha256: job.outputSha256,
+        repeatDownload: current.alreadyDownloaded
+      });
+    } catch (error) {
+      await ports.recordEvent({
+        jobId: job.id,
+        eventType: "transmission_failed",
+        actorUserId: input.userId,
+        requestContext: { reason: "commercial_admission_denied" }
+      });
+      return {
+        ok: false,
+        status: 403,
+        code: "commercial_admission_denied",
+        message: "This packet is not available for download.",
+        ...(error instanceof Error ? {} : {})
+      };
+    }
   }
 
   return { ok: true, job, bytes, filename: packetDownloadFilename(job) };
