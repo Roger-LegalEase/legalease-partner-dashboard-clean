@@ -5,7 +5,15 @@ Checked by: `node scripts/verify-active-lane-envelopes.mjs`.
 
 Every active lane runs Claude Opus 5. The verifier fails an active envelope that
 carries any reference to a retired worker family, names a return branch other than
-its own, or runs an identity gate for a base or branch that is not its own.
+its own, names another lane's branch or base in a stop condition, bases on a commit
+the captain branch does not contain, bases on the historical sprint base, or runs an
+identity gate for a base or branch that is not its own.
+
+It also fails the equality form of the identity gate. A gate that requires the live
+captain tip to *equal* a worker's base is false the moment the captain commits
+anything after dispatch, and a worker cannot tell that from a genuinely wrong clone.
+Gates assert lineage instead: the base is contained in the captain branch, and the
+lane branch contains the base. Both stay true as the captain branch grows.
 
 ## Bases
 
@@ -14,10 +22,13 @@ its own, or runs an identity gate for a base or branch that is not its own.
 | Historical sprint base | `0cad61625a74665db23ac64988c301e48909cf81` — historical only; no identity gate reads it |
 | Active base | `be673158bae0f3ffdb8b4c4408f989bcf69720e4` |
 | Active base | `61ee6cc359bc19d32c6c071194e62a553446ca08` |
+| Active base | `148382ab2a2acbe673b6d35c8967f5a908342e60` |
 
 **`be673158bae0`** — Lanes E and H were dispatched from this base and are already running. Their branches begin here and must not be reset; their exact commits are transplanted onto the captain head when they return.
 
 **`61ee6cc359bc`** — The consolidated Lane B, C and D base. Lanes F and G are dispatched fresh from it because both depend on the corrected Grade-A source-proof model and the v2 admission contract, which do not exist at the earlier base.
+
+**`148382ab2a2a`** — The post-Colorado-audit base. The four closeout lanes are dispatched from it because each depends on work that does not exist earlier: the corrected Colorado registry, the integrated E ownership boundary, the F commercial admission treatment, and the H security and hosted runner.
 
 Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 
@@ -37,7 +48,7 @@ Corpus bootstrap: `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`
 | I | Claude Opus 5 | `active` | `claude/grade-a-v6-first-packet-oregon` | `148382ab2a2a` | oregon | 3 |
 | J | Claude Opus 5 | `active` | `claude/grade-a-v6-release-blockers` | `148382ab2a2a` | none | route-independent |
 
-Concurrency: Captain A plus lanes E, F, G and H. Lane G may use at most three internal subagents for genuinely independent state-family analysis; the captain, the four lanes and those subagents together must not exceed eight.
+Concurrency: Captain A plus the four active closeout lanes — G-CO-SOURCE, G-CO-BUILD, I and J. Lanes E, F, G and H are integrated and no longer occupy a session. The captain, the four active lanes and any internal subagents together must not exceed eight.
 
 ## Captain-only paths
 
@@ -337,6 +348,26 @@ npm test
 - Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.
 - The Production-facing verifiers (verify-rcap-production-activation, -canary, -smoke, -clinic-migrate and their mutation harnesses) are recorded keep_available and are not in the test chain. Do not wire them in and do not run them.
 - A browser-dependent check fails on a missing Chromium revision: bridge it in the environment. Never change a repository file, and never skip, disable or quarantine a security check to get green.
+
+## Closeout lanes — the lineage identity gate
+
+The four active lanes share one identity gate, differing only in their own lane
+branch. It is written out in full in each envelope; this is the shape.
+
+Before any file is edited, the identity gate must establish all six of the
+following; if any one of them fails, return `ENVIRONMENT MISROUTED` without
+editing a file.
+
+1. `148382ab2a2acbe673b6d35c8967f5a908342e60` exists as a commit in this clone.
+2. `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two.
+3. `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/<this lane's branch>` exits zero, so the lane branch contains the base as an ancestor.
+4. At worker start, nothing but this lane's own commits sits between the base and the tip of the lane branch.
+5. `git status --porcelain` prints nothing, so the worker begins from a clean worktree.
+6. `git remote get-url origin` names `Roger-LegalEase/legalease-partner-dashboard-clean`.
+
+The gates recorded for the integrated lanes E, F, G and H below are the equality
+form these replace. They are left as written because they are the record of what
+those lanes were actually handed, not instructions anyone runs now.
 
 ## Grade-A control
 

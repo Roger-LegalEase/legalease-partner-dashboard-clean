@@ -97,7 +97,8 @@
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
-      ]
+      ],
+      "captainIntegrationCommit": "a25eec4cdc1f2193a591ba9c2991c3c6dd8a03ef"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -185,7 +186,8 @@
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
-      ]
+      ],
+      "captainIntegrationCommit": "92c6e2b92f11bdcbb27c503c2d3a0de009f4ce9d"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -282,7 +284,8 @@
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker."
-      ]
+      ],
+      "captainIntegrationCommit": "14ebc93ce531e7e753ffc1290191b1f4a66979fc"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -811,7 +814,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print 148382ab2a2acbe673b6d35c8967f5a908342e60 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-co-source` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-co-source. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -937,7 +940,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print 148382ab2a2acbe673b6d35c8967f5a908342e60 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-co-build` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-co-build. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -1035,7 +1038,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print 148382ab2a2acbe673b6d35c8967f5a908342e60 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-first-packet-oregon` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-first-packet-oregon. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
@@ -1113,7 +1116,7 @@
         "no salvage commits: this lane has no prior pushed work to recover"
       ],
       "stopConditions": [
-        "The identity gate does not print 148382ab2a2acbe673b6d35c8967f5a908342e60 for origin/claude/legalease-sprint-captain-utucnw: return ENVIRONMENT MISROUTED without editing a file.",
+        "Before any file is edited, the identity gate must establish all six of the following; if any one of them fails, return ENVIRONMENT MISROUTED without editing a file. (1) 148382ab2a2acbe673b6d35c8967f5a908342e60 exists as a commit in this clone. (2) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/legalease-sprint-captain-utucnw` exits zero, so the captain branch still contains this base. The captain tip may already be well ahead of it — every lane integrated after dispatch moves it — and the gate deliberately does not compare the two. (3) `git merge-base --is-ancestor 148382ab2a2acbe673b6d35c8967f5a908342e60 origin/claude/grade-a-v6-release-blockers` exits zero, so this lane branch contains the base as an ancestor. (4) At worker start, nothing but this lane's own commits sits between 148382ab2a2acbe673b6d35c8967f5a908342e60 and the tip of origin/claude/grade-a-v6-release-blockers. (5) `git status --porcelain` prints nothing, so the worker begins from a clean worktree. (6) `git remote get-url origin` names Roger-LegalEase/legalease-partner-dashboard-clean.",
         "A change is required inside a captain-only path: stop and return a patch request; do not claim the path.",
         "A required official source hash cannot be recomputed from the mounted corpus: stop rather than reading the hash back from a committed record.",
         "Any Production deployment, migration, environment change, secret change, Stripe live-mode call, participant creation, sponsored-credit consumption or domain activation would be needed: stop and return the blocker.",
