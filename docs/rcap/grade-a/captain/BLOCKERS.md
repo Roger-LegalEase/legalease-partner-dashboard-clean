@@ -165,6 +165,64 @@ result is issued.
 
 ---
 
+## BLOCKER-5 — The Mississippi finetune fixture needs a new authorization to fix
+
+**Status:** open. **Origin:** pre-existing red; my attempted fix was reverted.
+**Owner:** the authorizer of the standing parity approval, not engineering.
+
+`scripts/verify-screening-verification-finetune.mjs` fails on clean source. Its
+fixture route, `MS:non-conviction-expungement-for-dismissal-no-disposition-or-acquittal`,
+has no entry in `data/rcap-ledger/packet-fulfillment-records.json`, so
+`assertCheckoutAllowed` throws `PacketFulfillmentNotProvenError` and the proof's
+`assert.doesNotThrow` fails. Confirmed red on the captain head *before* Lane E
+integration.
+
+The refusal is correct. Mississippi is closed — § 99-15-59 generates a status
+summary, not a filing — and a route sells only what it can prove it delivers.
+Adding a Mississippi fulfillment record to make the assertion pass would open a
+route nobody proved, so that was never an option.
+
+**Why the obvious fix is not available to me.** I inverted the assertion to
+assert the truth — that the route is denied, and denied specifically for the
+missing fulfillment record — and the repository refused it, correctly.
+
+That proof script is hash-pinned twice: in the approval record
+`public-profile-lifecycle-validation-2026-08-26` and again as a constant in
+`scripts/lib/screening-parity-deltas.mjs`. Double-entry, so the data cannot be
+edited alone. And the rule those pins enforce is explicit:
+
+> Each move is recorded in the record's `proofRevisions`, and a revision is only
+> accepted if it removes nothing: a proof may be strengthened under a standing
+> approval, never weakened. Weakening it needs a new authorization.
+
+My change removed one assertion and added forty-nine. Under that rule it is a
+weakening regardless of the forty-nine, and inverting an assertion is exactly
+the shape the rule exists to catch — a proof that used to demand one thing now
+demanding its opposite, under an approval nobody revisited. The mechanism did
+its job. The edit is reverted and the proof is back at its pinned bytes.
+
+**What it needs.** A new authorization from the approval's authorizer, covering
+the change of expectation from "checkout is allowed for this fixture route" to
+"checkout is denied for this fixture route, for the missing fulfillment record".
+That is a decision about what a signed approval covers, and it is not a
+captain's to grant.
+
+Two treatments are available once authorized, and the second is likely better
+because it moves the fixture off a closed route entirely rather than inverting
+an assertion:
+
+- **A.** A synthetic, verifier-local Grade-A record that cannot reach the global
+  fulfillment registry or runtime commercial status.
+- **B.** Assert the live route is commercially denied, and prove verification
+  invalidation separately through the protected verification machinery — which
+  the proof already does independently of checkout, at three other points.
+
+Until then the verifier stays visibly red rather than being edited around, and
+no Mississippi fulfillment record exists. Commercial eligibility is unaffected
+and remains zero.
+
+---
+
 ## Resolved during this session
 
 - **Playwright browser revision.** The pinned Playwright expected a Chromium
