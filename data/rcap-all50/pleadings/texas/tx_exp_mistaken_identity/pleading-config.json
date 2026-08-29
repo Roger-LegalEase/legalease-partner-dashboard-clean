@@ -1,606 +1,606 @@
 {
- "schemaVersion": "rcap-pleading-track-config/v1",
- "jurisdictionCode": "TX",
- "jurisdiction": {
-  "code": "TX",
-  "name": "Texas",
-  "slug": "texas"
- },
- "trackId": "tx_exp_mistaken_identity",
- "jobId": "T-C-TX-production-packet",
- "family": "controlled_pleading",
- "treatment": "production_packet",
- "legalName": "Expunction on mistaken identity or identity theft, Tex. Code Crim. Proc. arts. 55A.006 and 55A.256",
- "publicName": "Clear an arrest that was not yours",
- "templateGrade": "legal_ops_custom_pleading",
- "templateLifecycle": "replacement_candidate",
- "primaryReliefTerm": "expunction",
- "primaryReliefTermBasis": "'expunction' is the Texas statutory term and is on profile:terminology.allowedStateTerms. profile:terminology.primaryConsumerTerm is 'expungement' with avoidUniversalExpungementLabel = true; the consumer-facing word may be expungement in participant copy, but the pleading uses the statutory term.",
- "documentTitleFull": "VERIFIED APPLICATION FOR EXPUNCTION ON THE GROUND OF MISTAKEN IDENTITY (TEX. CODE CRIM. PROC. ARTS. 55A.006 AND 55A.256)",
- "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalName; profile:sourceSections[10]",
- "courtCaption": "CAUSE NO. ____________________\nIN THE DISTRICT COURT OF {county} COUNTY, TEXAS\nEX PARTE {petitionerName}",
- "courtCaptionSourceRef": "profile:sourceSections[10] (samples, lines 428-440, Example A); registry@3b6f4c1:tracks[tx_exp_mistaken_identity].venue",
- "courtCaptionNote": "Token pattern taken verbatim in form from the compiled profile's own sample caption. The cause number is blank: the matter is a new civil action and receives a new cause number on filing. {county} is the participant's arrestCounty answer. No specific district court number, judge or clerk is named.",
- "mechanism": "Where a person was arrested solely because identifying information was inaccurate due to clerical error, or another arrested person falsely gave the applicant's identifying information without consent and that deception is the only reason the applicant's information is in the records, relief is available. Article 55A.006 operates notwithstanding the art. 55A.001 arrest requirement, so the applicant need not have been arrested at all. This is not a petition: the applicant files a verified application, including authenticated fingerprint records, with the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred. After verifying the allegations the prosecutor supplements missing arrest information, forwards the application to the district court with the agency list attached, and requests the order, and the court enters a final order without a hearing.",
- "mechanismSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism",
- "routeDecision": {
-  "decision": "custom_pleading_drafted_three_documents_with_one_conditional_official_form_dependency_and_an_open_packet_set_conflict",
-  "rationale": [
-   "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading', compositionMode null and units[] empty: a controlled pleading track, not a composed route.",
-   "packetSet.components lists five: a required petition (custom_pleading), a required proposed order (custom_pleading), a required verified application to the prosecutor (custom_pleading), a conditional fee-waiver statement (official_pdf_fill) and required filing-and-local-practice instructions (process_guidance). Lane C drafts the three custom-pleading documents, writes the instructions as participant-only copy, and drafts nothing for the Rule 145 Statement.",
-   "The recorded mechanism says in terms that this is NOT a petition and that the filing is a verified application to the felony prosecutor. The verified application is therefore treated as the primary participant filing and carries documentTitleFull; the petition and proposed order are drafted as the forwarded-stage containers the prosecutor sends to the district court under art. 55A.256(c). The conflict between the mechanism and the packet set is flagged as a build blocker, not silently resolved.",
-   "Article 55A.256(b) prescribes the application's contents, exactly as art. 55A.253(a) prescribes the petition's. That specification is what makes a controlled pleading supportable in a state with no form."
+  "schemaVersion": "rcap-pleading-track-config/v1",
+  "jurisdictionCode": "TX",
+  "jurisdiction": {
+    "code": "TX",
+    "name": "Texas",
+    "slug": "texas"
+  },
+  "trackId": "tx_exp_mistaken_identity",
+  "jobId": "T-C-TX-production-packet",
+  "family": "controlled_pleading",
+  "treatment": "production_packet",
+  "legalName": "Expunction on mistaken identity or identity theft, Tex. Code Crim. Proc. arts. 55A.006 and 55A.256",
+  "publicName": "Clear an arrest that was not yours",
+  "templateGrade": "legal_ops_custom_pleading",
+  "templateLifecycle": "replacement_candidate",
+  "primaryReliefTerm": "expunction",
+  "primaryReliefTermBasis": "'expunction' is the Texas statutory term and is on profile:terminology.allowedStateTerms. profile:terminology.primaryConsumerTerm is 'expungement' with avoidUniversalExpungementLabel = true; the consumer-facing word may be expungement in participant copy, but the pleading uses the statutory term.",
+  "documentTitleFull": "VERIFIED APPLICATION FOR EXPUNCTION ON THE GROUND OF MISTAKEN IDENTITY (TEX. CODE CRIM. PROC. ARTS. 55A.006 AND 55A.256)",
+  "documentTitleFullSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalName; profile:sourceSections[10]",
+  "courtCaption": "CAUSE NO. ____________________\nIN THE DISTRICT COURT OF {county} COUNTY, TEXAS\nEX PARTE {petitionerName}",
+  "courtCaptionSourceRef": "profile:sourceSections[10] (samples, lines 428-440, Example A); registry@3b6f4c1:tracks[tx_exp_mistaken_identity].venue",
+  "courtCaptionNote": "Token pattern taken verbatim in form from the compiled profile's own sample caption. The cause number is blank: the matter is a new civil action and receives a new cause number on filing. {county} is the participant's arrestCounty answer. No specific district court number, judge or clerk is named.",
+  "mechanism": "Where a person was arrested solely because identifying information was inaccurate due to clerical error, or another arrested person falsely gave the applicant's identifying information without consent and that deception is the only reason the applicant's information is in the records, relief is available. Article 55A.006 operates notwithstanding the art. 55A.001 arrest requirement, so the applicant need not have been arrested at all. This is not a petition: the applicant files a verified application, including authenticated fingerprint records, with the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred. After verifying the allegations the prosecutor supplements missing arrest information, forwards the application to the district court with the agency list attached, and requests the order, and the court enters a final order without a hearing.",
+  "mechanismSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism",
+  "routeDecision": {
+    "decision": "custom_pleading_drafted_three_documents_with_one_conditional_official_form_dependency_and_an_open_packet_set_conflict",
+    "rationale": [
+      "The registry declares outputStrategy and outputStrategyDeclared 'custom_pleading', compositionMode null and units[] empty: a controlled pleading track, not a composed route.",
+      "packetSet.components lists five: a required petition (custom_pleading), a required proposed order (custom_pleading), a required verified application to the prosecutor (custom_pleading), a conditional fee-waiver statement (official_pdf_fill) and required filing-and-local-practice instructions (process_guidance). Lane C drafts the three custom-pleading documents, writes the instructions as participant-only copy, and drafts nothing for the Rule 145 Statement.",
+      "The recorded mechanism says in terms that this is NOT a petition and that the filing is a verified application to the felony prosecutor. The verified application is therefore treated as the primary participant filing and carries documentTitleFull; the petition and proposed order are drafted as the forwarded-stage containers the prosecutor sends to the district court under art. 55A.256(c). The conflict between the mechanism and the packet set is flagged as a build blocker, not silently resolved.",
+      "Article 55A.256(b) prescribes the application's contents, exactly as art. 55A.253(a) prescribes the petition's. That specification is what makes a controlled pleading supportable in a state with no form."
+    ],
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].outputStrategy; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2..3]"
+  },
+  "primaryStatutoryAuthority": [
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.006",
+      "description": "The ground. Relief is available where the person was arrested solely because identifying information was inaccurate due to clerical error, or where another arrested person falsely gave the applicant's identifying information without consent and that deception is the only reason the applicant's information is in the records. It operates notwithstanding the art. 55A.001 arrest requirement, so the applicant need not have been arrested at all.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.256",
+      "description": "The vehicle. A verified application, including authenticated fingerprint records, filed with the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred. This is not a petition and it is not filed with a court.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.256(b)",
+      "description": "Prescribes the contents of the application, and makes authenticated fingerprint records a mandatory part of it.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.256(c)",
+      "description": "After verifying the allegations the prosecutor supplements missing arrest information, forwards the application to the district court with the agency list attached, and requests the order.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.256(c-1)",
+      "description": "The S.B. 1667 anti-duplication rules apply to the application: no state or local agency listed more than once, and no separate contacts or addresses for divisions of the same agency.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[4]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[4]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.256(d)",
+      "description": "The court enters a final order WITHOUT A HEARING, because the prosecutor has already verified the application upstream.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[5]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].waitingPeriods[1]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.354",
+      "description": "The effect, and it is narrower than ordinary expunction. Agencies obliterate the applicant's identifying information and substitute the arrested person's information. They do not return or destroy the file, and index references are not deleted.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[6]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[3]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.001",
+      "description": "The general arrest requirement, which art. 55A.006 expressly operates notwithstanding.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[7]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
+    }
   ],
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].outputStrategy; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2..3]"
- },
- "primaryStatutoryAuthority": [
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.006",
-   "description": "The ground. Relief is available where the person was arrested solely because identifying information was inaccurate due to clerical error, or where another arrested person falsely gave the applicant's identifying information without consent and that deception is the only reason the applicant's information is in the records. It operates notwithstanding the art. 55A.001 arrest requirement, so the applicant need not have been arrested at all.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.256",
-   "description": "The vehicle. A verified application, including authenticated fingerprint records, filed with the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred. This is not a petition and it is not filed with a court.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.256(b)",
-   "description": "Prescribes the contents of the application, and makes authenticated fingerprint records a mandatory part of it.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.256(c)",
-   "description": "After verifying the allegations the prosecutor supplements missing arrest information, forwards the application to the district court with the agency list attached, and requests the order.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.256(c-1)",
-   "description": "The S.B. 1667 anti-duplication rules apply to the application: no state or local agency listed more than once, and no separate contacts or addresses for divisions of the same agency.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[4]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[4]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.256(d)",
-   "description": "The court enters a final order WITHOUT A HEARING, because the prosecutor has already verified the application upstream.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[5]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].waitingPeriods[1]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.354",
-   "description": "The effect, and it is narrower than ordinary expunction. Agencies obliterate the applicant's identifying information and substitute the arrested person's information. They do not return or destroy the file, and index references are not deleted.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[6]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[3]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.001",
-   "description": "The general arrest requirement, which art. 55A.006 expressly operates notwithstanding.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[7]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
-  }
- ],
- "supplementalAuthorityFromRules": [
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.253",
-   "description": "Not the vehicle for this track, but its required-contents specification is the model the packet drafts to, and the registry carries the art. 55A.253(a) contents list on this track as a packet instruction. It also governs the petition and proposed-order components that the registry packet set carries alongside the application.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[0..1]"
-  },
-  {
-   "citation": "Tex. Code Crim. Proc. art. 55A.301",
-   "description": "The order carries the TRN — the incident number on the Texas DPS criminal history.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[0].howToObtain"
-  }
- ],
- "verificationStatute": {
-  "citation": "Tex. Code Crim. Proc. art. 55A.256(b)",
-  "description": "The application must be verified and must include authenticated fingerprint records. Article 55A.253 supplies the verification requirement for the petition component.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature"
- },
- "unswornDeclarationAuthority": {
-  "citation": null,
-  "description": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration in place of a notarised verification, and no source says whether a felony prosecutor's office — rather than a clerk — will accept one on an art. 55A.256 application. Left null and flagged.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
- },
- "includeProposedOrder": true,
- "includeProposedOrderReason": "A proposed order is a required custom_pleading component in the registry packet set for this track, and the compiled profile records that 'each petition is accompanied by a proposed Order' and that 'courts will not grant without a complete proposed order'. It is drafted here as a container: it lists the agencies the participant named and directs each to destroy or return the records, and it carries the TRN under art. 55A.301. It states no finding, no date and no judge.",
- "includeCertificateOfService": false,
- "includeCertificateOfServiceReason": "The clerk serves under art. 55A.254; the participant does not serve in the ordinary case. The registry records a certificate of service only where local practice requires the filer to serve the prosecutor directly and names no such county, and packetSet.components has no certificate-of-service component.",
- "serviceNote": null,
- "serviceNoteNullReason": "No participant-performed service step exists on the ordinary route, so there is no service note to carry into the pleading. The clerk's own service rule is recorded in participant-instructions.md as information, not as an instruction to the participant.",
- "serviceNoteSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service",
- "qaProhibitedTerms": [
-  "nondisclosure",
-  "seal",
-  "sealed",
-  "sealing",
-  "set aside",
-  "set-aside",
-  "vacatur",
-  "annulment",
-  "destroy",
-  "destroyed",
-  "destruction",
-  "erase",
-  "erased",
-  "erasure"
- ],
- "qaProhibitedTermsSourceRef": "The first eight terms for the reason recorded on every Texas Chapter 55A track: expunction and nondisclosure are separate remedies in separate codes with separate venues (profile:terminology; profile:sourceSections[4]). The last six are specific to THIS track: registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1] states that under art. 55A.354 agencies obliterate the applicant's identifying information and substitute the arrested person's information, that they do NOT return or destroy the file, and that index references are not deleted. Destruction vocabulary is correct on every sibling Chapter 55A track and is a misstatement of the remedy here.",
- "presentation": {
-  "sovereignPartyName": null,
-  "sovereignPartyNameNullReason": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
-  "sovereignPartyNameSourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing",
-  "sovereignPartyProper": null,
-  "sovereignPartyProperNullReason": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
-  "sovereignRole": null,
-  "sovereignRoleNullReason": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
-  "movantRole": "Applicant",
-  "movantRoleSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism ('the applicant files a verified application') — the registry uses 'applicant' throughout this track and 'petitioner' on the sibling art. 55A.251 tracks",
-  "filingNoun": "Application",
-  "captionStyleLine": "EX PARTE {applicantName}",
-  "captionStyleLineSourceRef": "profile:sourceSections[10] ('EX PARTE ANDRE L. CARTER')",
-  "divisionLine": "",
-  "divisionLineNote": "No source records a division line for a Texas district court civil caption. Left empty rather than invented.",
-  "usesCounty": true,
-  "usesCountySourceRef": "profile:sourceSections[6] (filing) 'File in a district court for the county of arrest or prosecution (Art. 55A.251)'",
-  "courtName": "the District Court of {county} County, Texas",
-  "courtNameSourceRef": "profile:sourceSections[10] 'IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS'",
-  "venueDescriptor": "{county} County, Texas",
-  "venueDescriptorNote": "Token pattern. The county is the county of arrest or of the alleged offence and reaches the document only as the participant's own screening answer (arrestCounty). No county is prefilled. Where the arrest and the alleged offence are in different counties the track's own self-help boundary stops the packet.",
-  "recordCustodianLead": null,
-  "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
-  "verificationVerb": "verify",
-  "verificationVerbSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('the petition must be verified under art. 55A.253')",
-  "verificationPenaltyLabel": "penalty of perjury",
-  "verificationPenaltyLabelSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('an unsworn declaration under penalty of perjury')",
-  "verificationPenaltyLabelNote": "Applies to the unsworn-declaration block only. The notarial block carries no penalty label because no source supplies one.",
-  "serviceRecipientLabel": null,
-  "serviceRecipientLabelNullReason": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
-  "serviceRecipientAddressLabel": null,
-  "serviceRecipientAddressLabelNullReason": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
-  "reliefActionVerb": "obliterate and substitute",
-  "orderActionVerb": "obliterate the applicant's identifying information and substitute the arrested person's information",
-  "recordsScopePhrase": "the applicant's identifying information in the records and files of the arrest identified in this application",
-  "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1] ('Under art. 55A.354 agencies obliterate the applicant's identifying information and substitute the arrested person's information. They do not return or destroy the file and do not delete index references.')",
-  "movantFirstInCaption": null,
-  "movantFirstInCaptionNullReason": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
-  "filingNounSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[1]",
-  "addresseeRoleLabel": "the attorney representing the state in the prosecution of felonies in {residenceCounty} County",
-  "addresseeRoleLabelSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism",
-  "addresseeNameOrAddress": null,
-  "addresseeNameOrAddressNullReason": "No source read for this track names a prosecutor, an office or an address. The addressee is named by role only.",
-  "captionStyleLineNote": "Applies to the petition and proposed order that the prosecutor forwards to the district court, not to the application itself, which carries an addressee block instead."
- },
- "counselFlags": [
-  {
-   "id": "tx-exp-unsworn-declaration-statute-unnamed",
-   "statement": "Article 55A.253 requires the petition to be verified, and the registry records that BOTH a notarial verification block and an unsworn declaration under penalty of perjury ship because 'county practice chooses between them' and an unsworn declaration 'is accepted in practice by some clerks and not others'. No source read for this track names the statute that authorises an unsworn declaration in place of a notarised verification, and no source names a single county that accepts or refuses one. verificationStatute.citation carries art. 55A.253 because that is the article the source cites for the verification requirement itself; unswornDeclarationAuthority.citation is null. This is the same handling the ND config gives its missing verification statute: null, flagged, not invented.",
-   "mustConfirm": "The statutory authority for an unsworn declaration in a Chapter 55A expunction filing, and whether the packet should ship both blocks or a single block chosen per county.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.participantActionRequired[kind=notarize]"
-  },
-  {
-   "id": "tx-exp-certificate-of-service-local-practice-unnamed",
-   "statement": "No certificate of service is drafted. The recorded rule is that the CLERK sends the petition and notice of hearing under art. 55A.254 and that 'the participant does not serve in the ordinary case; a certificate of service is included only where local practice requires the filer to serve the prosecutor directly'. No source read for this track names a county in which that local practice applies, so there is no sourced trigger condition and none is invented. includeCertificateOfService is false.",
-   "mustConfirm": "Which counties require the filer to serve the attorney representing the state directly, so the conditional certificate of service can be gated on a real fact rather than omitted.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.participantActionRequired[kind=serve_party]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
-  },
-  {
-   "id": "tx-exp-filing-fee-amount-unknown",
-   "statement": "No fee figure is quoted anywhere in this artifact. Article 102.006 was repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 of the 89th Legislature 2nd Called Session, and permanently replaced by art. 102.0061 effective 2026-01-01. Under art. 102.0061(a) a district court charges the ordinary county civil filing fee for an ex parte petition, which is not a flat statutory amount; under (b) a justice court or municipal court of record charges a flat $100. The county figure is unresolved and is a recorded release blocker. Separately, whether the $25 per-non-electronic-entity charge applies twice for the same agency — once under art. 55A.254(f) at the petition stage and again under art. 55A.351(b-3) at the order stage — is supported by the text and unconfirmed in practice, and it changes the participant's total by a multiple of the agency count. The compiled profile's '$250-$500 in many counties' figure is expressly disavowed by the registry as no longer reliable and is not reproduced.",
-   "mustConfirm": "The current district-court civil filing fee county by county, and whether the $25 per-paper-entity charge applies once or twice per agency.",
-   "impact": "release_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].releaseBlockers[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.fees; profile:sourceSections[8] (fees) — disavowed"
-  },
-  {
-   "id": "tx-exp-sensitive-data-in-a-public-filing",
-   "statement": "Article 55A.253(a) requires the petition to carry the petitioner's date of birth, driver's licence number and social security number, and the petition is public until the order issues. How Harris, Dallas, Bexar, Tarrant and Travis handle sensitive data in a public civil expunction filing is an open release blocker. Every fixture in this artifact leaves dateOfBirth, ssn, driversLicenseNumber, sex and race blank. That is a deliberate conflict with art. 55A.253(a) and it is recorded here rather than resolved: the protected fields must not be prefilled by any pipeline stage, and the county sensitive-data practice must be pulled before the packet can be assembled for filing.",
-   "mustConfirm": "The sensitive-data handling practice in the five largest counties, and the mechanism by which the participant supplies the art. 55A.253(a) identifiers by hand at filing time rather than through the pipeline.",
-   "impact": "release_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].releaseBlockers[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]"
-  },
-  {
-   "id": "tx-exp-agency-list-no-duplicates-generator-constraint",
-   "statement": "Article 55A.253(b) forbids listing any state or local agency more than once and forbids multiple contacts or addresses for different divisions of the same agency; art. 55A.256(c-1) repeats it for the mistaken-identity application. Counsel classified this as a manual completion item AND a generator constraint. The list is assembled from the participant's own answer (agencyList) and the district clerk's published art. 55A.253(c) list, and the participant confirms it before filing because the clerk bears no completeness duty. No agency is prefilled by LegalEase.",
-   "mustConfirm": "That the generator deduplicates the agency list and never emits two entries for divisions of the same agency.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignLimitations[classification=manual_completion_item]"
-  },
-  {
-   "id": "tx-exp-private-entities-listed-separately",
-   "statement": "Article 55A.253(a)(8)(C) treats private entities that compile and disseminate criminal history record information for compensation separately from government agencies. They go on a separate attachment and are never merged into the agency list; merging them breaks both the no-duplicate rule and the service model.",
-   "mustConfirm": "That the private-entity attachment is a distinct list and is never merged into the art. 55A.253(a)(8) agency list.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[1]"
-  },
-  {
-   "id": "tx-exp-trn-must-appear-on-the-order",
-   "statement": "The order must carry the TRN — the incident number on the Texas DPS criminal history — under art. 55A.301. LegalEase does not obtain, receive or inspect the DPS history; the participant obtains it following DPS form CR-63 and supplies the TRN. The TRN field is blank in every fixture.",
-   "mustConfirm": "That the TRN reaches the order only as the participant's own confirmed answer and is never derived.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[0].howToObtain; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=trn]"
-  },
-  {
-   "id": "tx-exp-notice-of-hearing-preparer-unknown",
-   "statement": "No notice of hearing is drafted. The court sets the hearing not earlier than the 30th day after filing and the clerk gives a copy of the petition and the notice of hearing to each listed entity other than central federal depositories; on receipt DPS notifies the central federal depositories, so the filer does not chase the FBI. The registry records that WHETHER THE CLERK OR THE FILER PREPARES THE NOTICE OF HEARING varies by county and names no county either way. Drafting a notice would guess at both the preparer and the hearing date.",
-   "mustConfirm": "Which counties require the filer rather than the clerk to prepare the notice of hearing.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
-  },
-  {
-   "id": "tx-exp-third-party-form-sets-are-out-of-scope",
-   "statement": "TexasLawHelp forms carry non-commercial site terms and may not be filled and delivered inside a paid product; confirmed 2026-08-06 that texaslawhelp.org is a Texas Legal Services Center legal-aid self-help site whose expunction forms are neither promulgated nor mandatory nor statewide court forms. Texas Justice Court Training Center forms are Texas State University training aids. County and district clerk packets are local only. LegalEase drafts its own petition and order to arts. 55A.253 and 55A.301 and uses none of these as a form. The compiled TX profile still instructs agents to 'use TexasLawHelp's statewide tools to assemble the right forms' — that instruction is superseded and is not followed here.",
-   "mustConfirm": "That no pipeline stage fills or delivers a TexasLawHelp, TJCTC or county clerk form on any Texas expunction track.",
-   "impact": "scope_restriction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].scopeRestrictions[0]; profile:sourceSections[5] (forms) and sourceSections[6] (filing) — superseded"
-  },
-  {
-   "id": "tx-exp-no-statewide-expunction-form-exists",
-   "statement": "No statewide expunction form exists at any level of Texas state government; the Texas Judicial Branch forms index was confirmed on 2026-08-06 to contain none. Article 55A.253(a) prescribes the contents of the petition instead, and that specificity is what makes a controlled pleading supportable here. Do not reclassify this track as official_pdf_fill because unofficial fillable PDFs circulate.",
-   "mustConfirm": "That the track stays classified custom_pleading and that no circulating unofficial PDF is adopted as a form.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignLimitations[classification=packet_instruction][0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].officialSources[8]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
-  },
-  {
-   "id": "tx-exp-fee-waiver-official-form-dependency",
-   "statement": "The conditional fee-waiver component is the Statement of Inability to Afford Payment of Court Costs or an Appeal Bond under Tex. R. Civ. P. 145, the bilingual statewide form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. It is an official form and is not drafted here. Recorded as a mandatory official-form handoff to the official-PDF overlay lane.",
-   "mustConfirm": "That the Rule 145 Statement is acquired at its current revision, hashed and field-mapped by the official-PDF overlay lane.",
-   "impact": "official_form_dependency",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=fee_waiver_statement]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.feeWaiver"
-  },
-  {
-   "id": "tx-exp-court-identity-and-outside-party-acts-blank",
-   "statement": "Cause number, court identity, judge name, the attorney representing the state and that attorney's position, filing date, service completion, hearing date and hearing outcome are blank in every fixture and are never prefilled. County, arrest date, arresting agency, offence and case number reach the document only as the participant's own screening answers. The matter is a NEW civil action and receives a NEW cause number, so no cause number can exist before filing.",
-   "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion, a hearing date or any outside-party act.",
-   "impact": "counsel_confirmation",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.filing; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice"
-  },
-  {
-   "id": "tx-exp-self-help-stop-conditions",
-   "statement": "The track's recorded self-help stop conditions are carried into participant copy verbatim in substance: the state opposes the petition or seeks retention under art. 55A.302; the arrest produced multiple charges with mixed outcomes (State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated); a felony from the same transaction is present or arguable; the limitations analysis is contested; any absconding or bail-jumping history (art. 55A.154 makes an intentional or knowing absconder ineligible and a participant may not self-identify the fact); the arrest may have been made on an art. 42A.751(b) community-supervision violation warrant, which art. 55A.153 bars; venue is unclear because the arrest and the alleged offence were in different counties; immigration consequences; the participant wants to attack the underlying case rather than clear it.",
-   "mustConfirm": "That every stop condition is wired as a screening stop and not merely printed.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpBoundaries"
-  },
-  {
-   "id": "tx-exp-legal-status-gate",
-   "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
-   "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
-   "impact": "output_review_gate",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalStatus; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignStatus; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].runtimeDisabledReason; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].implementationQueue"
-  },
-  {
-   "id": "tx-exp-source-freshness-gate",
-   "statement": "Every official source recorded on this track carries sha256 null — the Chapter 55A statute page, S.B. 1667, H.B. 4504, H.B. 16, the Chapter 102 statute page, the Rule 145 Statement of Inability, DPS form CR-63, the DPS Criminal Records Service page and the Texas Judicial Branch forms index. Staleness cannot be detected for any of them. Chapter 55A is a live target: it was recodified effective 2025-01-01 by H.B. 4504, amended by S.B. 1667 effective 2025-09-01, and its fee article was replaced effective 2026-01-01.",
-   "mustConfirm": "Capture hashes for all nine official sources before release, and re-read Chapter 55A at each legislative session boundary.",
-   "impact": "source_gate",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].blockers[kind=source_gate]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].officialSources"
-  },
-  {
-   "id": "tx-exp-compiled-profile-predates-this-track",
-   "statement": "The compiled TX profile is a conversion of a single Agent Training Reference PDF and does not record this article at all. It corroborates the caption form, the ex parte style, the art. 55A.251 venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, and it is used for exactly those. It is stale or superseded on three points that matter: it quotes a '$250-$500' fee range the registry disavows; it directs agents to TexasLawHelp, which the scope restriction forbids; and its bars-to-expunction section states that 'final conviction for the offence (other than a later pardon) — convictions are generally not expungeable', which is directly wrong for art. 55A.005 and incomplete for art. 55A.004.",
-   "mustConfirm": "Whether the TX profile should be regenerated against a corpus that includes Chapter 55A as recodified and amended.",
-   "impact": "source_gate",
-   "sourceRef": "profile:source.references (one PDF); profile:sourceSections[3], [5], [6], [8]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].scopeRestrictions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.fees"
-  },
-  {
-   "id": "tx-mistaken-packet-set-conflicts-with-the-recorded-mechanism",
-   "statement": "The registry says two things that do not sit together and this artifact does not resolve them. The mechanism states in terms: 'This is not a petition. The applicant files a verified application ... with the attorney representing the state', and art. 55A.256(d) has the court enter a final order without a hearing once the prosecutor forwards it. But packetSet.components carries a required 'petition' component and a required 'proposed_order' component ALONGSIDE the required 'verified_application_to_prosecutor'. Either the petition and order components are the documents the prosecutor forwards to the district court under art. 55A.256(c), or the packet set was inherited from the sibling art. 55A.251 expunction tracks. This config treats the verified application as the primary participant filing (documentTitleFull) and drafts the petition and order as forwarded-stage containers, and flags the conflict rather than choosing.",
-   "mustConfirm": "Whether the petition and proposed-order components on this track are the documents the prosecutor forwards under art. 55A.256(c), or whether they are inherited from the art. 55A.251 tracks and should be removed.",
-   "impact": "build_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[3]"
-  },
-  {
-   "id": "tx-mistaken-relief-is-obliteration-not-destruction",
-   "statement": "The relief is narrower than ordinary expunction and the packet must never describe it as destruction. Under art. 55A.354 agencies OBLITERATE the applicant's identifying information and SUBSTITUTE the arrested person's information. They do not return or destroy the file and they do not delete index references. The record of the arrest survives; what leaves it is the applicant's name. 'destroy', 'destroyed', 'destruction', 'erase', 'erased' and 'erasure' are prohibited terms on this track for that reason, and they are prohibited even though they are correct on every sibling Chapter 55A track.",
-   "mustConfirm": "That participant copy and rendered output on this track never promise destruction, return or deletion of records or index references.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[6]"
-  },
-  {
-   "id": "tx-mistaken-prosecutor-verification-is-a-post-generation-handoff",
-   "statement": "The route stops dead at a stage LegalEase cannot perform and the packet says so. The prosecutor verifies the allegations, supplements arrest information the applicant did not know, attaches the agency list, forwards the application to the district court and requests the order. If the prosecutor does not verify and forward, nothing reaches the court. Nothing in this packet asserts that the prosecutor has verified, forwarded or requested anything, and 'the prosecutor declines to verify the application' is a recorded self-help stop condition.",
-   "mustConfirm": "That no pipeline stage asserts prosecutor verification, forwarding or a request for the order, and that the participant is told the route can end there.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[10]"
-  },
-  {
-   "id": "tx-mistaken-venue-is-the-county-of-residence",
-   "statement": "Venue on this track is not the county of arrest. The application goes to the attorney representing the state in the prosecution of felonies in the county where the APPLICANT RESIDES, or where the offence was alleged to have occurred — and to that prosecutor's office, not to a court. The track's own generationRequirements add residenceCounty for exactly this reason. But the registry's `venue` and `destination` fields on this track are the generic art. 55A.251 district-court-of-the-county-of-arrest text shared with the sibling expunction tracks, and they contradict the mechanism. The mechanism is followed here and the conflict is flagged.",
-   "mustConfirm": "Whether the track's venue and destination fields should be corrected to the art. 55A.256 residence-county prosecutor destination.",
-   "impact": "build_blocker",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].venue; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=residenceCounty]"
-  },
-  {
-   "id": "tx-mistaken-authenticated-fingerprints-are-mandatory-and-never-handled",
-   "statement": "Authenticated fingerprint records are a mandatory part of the application under art. 55A.256(b) and are the evidence that distinguishes the applicant from the arrested person. The participant books an appointment at a DPS FAST location and submits them with the application. LegalEase never receives or inspects them, and 'the applicant cannot obtain authenticated fingerprint records' is a recorded self-help stop condition.",
-   "mustConfirm": "That fingerprintsBooked gates generation and that no pipeline stage receives, stores or inspects fingerprint records.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[11]"
-  },
-  {
-   "id": "tx-mistaken-identity-dispute-ends-self-help",
-   "statement": "The whole ground is that the applicant is NOT the arrested person. Any case where the applicant was in fact the arrested person, and any case where the applicant's information is in the records for a reason other than the clerical error or the deception, is excluded. Any dispute about whether the applicant is the arrested person is outside self-help. The packet states the applicant's own account and asserts no conclusion about identity.",
-   "mustConfirm": "That mistakenIdentityBasis and consentGiven gate generation, and that any identity dispute stops the route before a packet is produced.",
-   "impact": "self_help_boundary",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[0..2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[9]"
-  },
-  {
-   "id": "tx-mistaken-no-hearing-and-no-waiting-period",
-   "statement": "There is no waiting period and no hearing. Under art. 55A.256(d) the court enters a final order without a hearing because the prosecutor has already verified the application. The packet therefore states no hearing date, no 30-day window and no elapsed-time allegation — all of which are correct on the sibling art. 55A.251 tracks and wrong here.",
-   "mustConfirm": "That no hearing-setting or 30-day-window copy is inherited onto this track from the art. 55A.251 tracks.",
-   "impact": "packet_instruction",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].waitingPeriods"
-  }
- ],
- "componentInventory": [
-  {
-   "component": "caption",
-   "status": "present",
-   "note": "Two different headers, because this track has two different destinations. The verified application carries an ADDRESSEE block, not a court caption: it is filed with the attorney representing the state in the prosecution of felonies, not with a court. The petition and proposed order carry the ordinary district-court caption from the compiled profile's sample — 'CAUSE NO. ____', 'IN THE DISTRICT COURT OF {county} COUNTY, TEXAS', 'EX PARTE {applicantName}' — because that is where the prosecutor forwards them under art. 55A.256(c). The cause number is blank.",
-   "sourceRef": "profile:sourceSections[10] (samples, lines 428-440); registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.filing"
-  },
-  {
-   "component": "court_and_party_identity",
-   "status": "present",
-   "note": "Petitioner name and address from screening. County of arrest or of the alleged offence from screening (arrestCounty). Court identity beyond 'a district court of that county' is not fixed: the specific district court, the judge, the cause number, the attorney representing the state and that attorney's position are blank and never prefilled. Article 55A.253(a) also requires sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest; those are protected fields, are blank in every fixture, and are flagged.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]"
-  },
-  {
-   "component": "title",
-   "status": "present",
-   "note": "Built from the legalName recorded on the track, in the title style of the compiled profile's sample ('PETITION FOR EXPUNCTION OF CRIMINAL RECORDS (CCP CH. 55A)').",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalName; profile:sourceSections[10]"
-  },
-  {
-   "component": "allegations",
-   "status": "present",
-   "note": "Container only, for the art. 55A.256(b) contents and this track's own generationRequirements: the county of residence; the arrest county and the county of the alleged offence; the arrest date; the arresting agency; the offence charged and its level; the case number and court where a charge was filed; the applicant's own account of why the record carries their information — clerical error, or another arrested person falsely giving the applicant's identifying information; whether consent was ever given; and whether authenticated fingerprints are booked. Every one is the applicant's own averment. No conclusion about identity is asserted.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements"
-  },
-  {
-   "component": "statutory_basis",
-   "status": "present",
-   "note": "Citations taken only from the track's recorded authority list, plus art. 55A.301 where the rules text supplies it for the order.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority"
-  },
-  {
-   "component": "requested_relief",
-   "status": "present",
-   "note": "Stated from the mechanism recorded on the track and no wider.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
-  },
-  {
-   "component": "verification",
-   "status": "present",
-   "note": "Two blocks ship, because the source says county practice chooses between them: a notarial verification block and an unsworn declaration under penalty of perjury. The verification requirement is art. 55A.253 for the petition and art. 55A.256(b) for the application. The statute authorising the unsworn-declaration alternative is not named by any source read for this track and is carried as null plus a counsel flag.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
-  },
-  {
-   "component": "signatures",
-   "status": "present",
-   "note": "Petitioner's signature and date only. The judge's signature line on the proposed order is the court's and is left blank. No LegalEase signature block.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature"
-  },
-  {
-   "component": "proposed_order",
-   "status": "present",
-   "note": "Drafted, and its operative language is DIFFERENT from every sibling Chapter 55A track. It directs each listed agency to obliterate the applicant's identifying information and substitute the arrested person's information under art. 55A.354. It does not direct destruction or return, and it does not touch index references. It carries the TRN. The court enters the final order without a hearing under art. 55A.256(d), so the order recites no hearing; the judge's signature line, date and judge name are blank.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=proposed_order]; profile:sourceSections[13]"
-  },
-  {
-   "component": "certificate_of_service",
-   "status": "absent",
-   "reason": "The clerk serves under art. 55A.254, not the participant. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly' and names no county in which that is so, and packetSet.components contains no certificate-of-service component. Drafting one would invent both the trigger and the recipient.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
-  },
-  {
-   "component": "notice",
-   "status": "absent",
-   "reason": "No notice and no hearing. Under art. 55A.256(d) the court enters a final order WITHOUT a hearing, because the prosecutor has already verified the application upstream. There is no hearing to notice, so nothing is drafted.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
-  },
-  {
-   "component": "affidavit",
-   "status": "absent",
-   "reason": "No source read for this track records an affidavit. The petition is verified; that is the sworn instrument.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
-  },
-  {
-   "component": "participant_only_cover_sheet",
-   "status": "absent",
-   "reason": "No cover sheet is drafted. The registry records that civil cover sheets are one of the things that 'varies by county' and names no county's sheet; packetSet.components contains no cover-sheet component; and the compiled profile says only to 'check the specific county's local cover sheets' before filing. A cover sheet is a county form, not a document this lane may compose.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail; profile:sourceSections[5] (forms)"
-  },
-  {
-   "component": "filing_instructions",
-   "status": "present",
-   "note": "Participant-only. participant-instructions.md, drawn only from the track's rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, packetInstructions, packetSet.participantActionRequired, participantFilingRequirements and selfHelpStopConditions, plus the compiled profile's seven-step filing sequence. Never filed with the court. It is registry packetSet component 'filing_and_local_practice_instructions'.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=filing_and_local_practice_instructions]; profile:sourceSections[6] (filing)"
-  },
-  {
-   "component": "verified_application_to_prosecutor",
-   "status": "present",
-   "note": "Drafted, and it is the primary participant filing on the recorded mechanism. Addressed to the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred — a prosecutor's office, not a court. It carries the art. 55A.256(b) contents, the applicant's own account of the clerical error or the deception, the deduplicated agency list, the separate private-entity list, and the verification. Authenticated fingerprint records accompany it and are never handled by LegalEase.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]"
-  },
-  {
-   "component": "addressee_block",
-   "status": "present",
-   "note": "The application carries an addressee block naming the office it goes to by ROLE — 'the attorney representing the state in the prosecution of felonies in {residenceCounty} County' — and never by name or address. No prosecutor name, office name or address is recorded by any source read for this track.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=residenceCounty]"
-  },
-  {
-   "component": "authenticated_fingerprint_records",
-   "status": "absent_participant_obtained",
-   "reason": "Mandatory under art. 55A.256(b) and the evidence that distinguishes the applicant from the arrested person. The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them, so nothing is drafted, attached or represented about them.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[2]"
-  }
- ],
- "participantOnlyDocuments": [
-  "participant-instructions.md"
- ],
- "courtDocuments": [
-  {
-   "item": "Verified Application for Expunction on the ground of mistaken identity (filed with the felony prosecutor, not a court)",
-   "componentId": "tx_exp_mistaken_identity-verified-application-to-prosecutor-3",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Petition for Expunction (forwarded-stage container)",
-   "componentId": "tx_exp_mistaken_identity-petition-1",
-   "drafted": true,
-   "requirement": "required",
-   "reason": "Drafted, with the mechanism/packet-set conflict flagged as a build blocker. The recorded mechanism says this is not a petition; the packet set carries one as required."
-  },
-  {
-   "item": "Order of Expunction (proposed) — art. 55A.354 obliterate-and-substitute language",
-   "componentId": "tx_exp_mistaken_identity-proposed-order-2",
-   "drafted": true,
-   "requirement": "required"
-  },
-  {
-   "item": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (Tex. R. Civ. P. 145; Misc. Docket No. 22-9090)",
-   "componentId": "tx_exp_mistaken_identity-fee-waiver-statement-4",
-   "drafted": false,
-   "requirement": "conditional",
-   "conditionDescription": "Where the participant cannot afford the filing costs.",
-   "reason": "Official statewide promulgated form. Lane C drafts no official forms. See components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json."
-  },
-  {
-   "item": "Authenticated fingerprint records",
-   "componentId": null,
-   "drafted": false,
-   "requirement": "required",
-   "reason": "Mandatory under art. 55A.256(b). The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them."
-  },
-  {
-   "item": "The separate private-entity attachment (art. 55A.253(a)(8)(C))",
-   "componentId": null,
-   "drafted": false,
-   "requirement": "required",
-   "reason": "Its contents are the participant's own answer; no entity is prefilled."
-  }
- ],
- "officialFormDependencies": [
-  {
-   "componentId": "tx_exp_mistaken_identity-fee-waiver-statement-4",
-   "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
-   "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145",
-   "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
-   "dependencyManifestPath": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json"
-  }
- ],
- "componentCount": 5,
- "provenance": {
-  "statePackFiles": [
-   "src/lib/rcap/state-packs/texas/index.ts",
-   "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+  "supplementalAuthorityFromRules": [
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.253",
+      "description": "Not the vehicle for this track, but its required-contents specification is the model the packet drafts to, and the registry carries the art. 55A.253(a) contents list on this track as a packet instruction. It also governs the petition and proposed-order components that the registry packet set carries alongside the application.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[0..1]"
+    },
+    {
+      "citation": "Tex. Code Crim. Proc. art. 55A.301",
+      "description": "The order carries the TRN — the incident number on the Texas DPS criminal history.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[0].howToObtain"
+    }
   ],
-  "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
-  "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
-  "profileSha256": "5d86879a794303a7b38faa37533db4037a356eb017f8a3229e62c51041309dc4",
-  "profileVersion": "2026-06-19-source-conversion-1",
-  "registryPath": "data/record-clearing/legal-design-track-registry.json",
-  "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[411] (trackId=tx_exp_mistaken_identity)",
-  "statePackNote": "The committed Texas state pack (src/lib/rcap/state-packs/texas/) carries build metadata and the Nationwide inventory only: three files under 'LegalEase Texas' (the Agent Training Reference PDF, petition_charges_dismissed_or_quashed_revision_06112026.pdf and tx-statewide-expunction-nondisclosure-forms.html). It records no track-level pleading text, no caption, no vocabulary and no statutory citations. The compiled TX profile is a conversion of the single Agent Training Reference PDF and is corroborating rather than controlling: it supplies the caption form, the ex parte petition style, the venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, but it predates the S.B. 1667 / H.B. 16 changes the registry records and it names none of these four articles (55A.004, 55A.005, 55A.006, 55A.203). Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
-  "reviewedAsOf": "2026-08-01",
-  "effectiveFrom": "2025-09-01"
- },
- "postGenerationHandoff": {
-  "statement": "The prosecutor verifies the allegations, supplements arrest information the applicant did not know, attaches the agency list, forwards the application to the district court and requests the order. LegalEase cannot complete that stage and the packet says so. If the prosecutor does not verify and forward, nothing reaches the court.",
-  "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]"
- },
- "sourceSilences": [
-  {
-   "field": "unswornDeclarationAuthority",
-   "nullKeys": [
-    "citation"
-   ],
-   "sourceIsSilentBecause": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration in place of a notarised verification, and no source says whether a felony prosecutor's office — rather than a clerk — will accept one on an art. 55A.256 application. Left null and flagged.",
-   "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
+  "verificationStatute": {
+    "citation": "Tex. Code Crim. Proc. art. 55A.256(b)",
+    "description": "The application must be verified and must include authenticated fingerprint records. Article 55A.253 supplies the verification requirement for the petition component.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature"
   },
-  {
-   "field": "courtDocuments.4",
-   "nullKeys": [
-    "componentId"
-   ],
-   "sourceIsSilentBecause": "Mandatory under art. 55A.256(b). The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them.",
-   "sourceRef": null
+  "unswornDeclarationAuthority": {
+    "citation": null,
+    "description": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration in place of a notarised verification, and no source says whether a felony prosecutor's office — rather than a clerk — will accept one on an art. 55A.256 application. Left null and flagged.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
   },
-  {
-   "field": "courtDocuments.5",
-   "nullKeys": [
-    "componentId"
-   ],
-   "sourceIsSilentBecause": "Its contents are the participant's own answer; no entity is prefilled.",
-   "sourceRef": null
+  "includeProposedOrder": true,
+  "includeProposedOrderReason": "A proposed order is a required custom_pleading component in the registry packet set for this track, and the compiled profile records that 'each petition is accompanied by a proposed Order' and that 'courts will not grant without a complete proposed order'. It is drafted here as a container: it lists the agencies the participant named and directs each to destroy or return the records, and it carries the TRN under art. 55A.301. It states no finding, no date and no judge.",
+  "includeCertificateOfService": false,
+  "includeCertificateOfServiceReason": "The clerk serves under art. 55A.254; the participant does not serve in the ordinary case. The registry records a certificate of service only where local practice requires the filer to serve the prosecutor directly and names no such county, and packetSet.components has no certificate-of-service component.",
+  "serviceNote": null,
+  "serviceNoteNullReason": "No participant-performed service step exists on the ordinary route, so there is no service note to carry into the pleading. The clerk's own service rule is recorded in participant-instructions.md as information, not as an instruction to the participant.",
+  "serviceNoteSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service",
+  "qaProhibitedTerms": [
+    "nondisclosure",
+    "seal",
+    "sealed",
+    "sealing",
+    "set aside",
+    "set-aside",
+    "vacatur",
+    "annulment",
+    "destroy",
+    "destroyed",
+    "destruction",
+    "erase",
+    "erased",
+    "erasure"
+  ],
+  "qaProhibitedTermsSourceRef": "The first eight terms for the reason recorded on every Texas Chapter 55A track: expunction and nondisclosure are separate remedies in separate codes with separate venues (profile:terminology; profile:sourceSections[4]). The last six are specific to THIS track: registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1] states that under art. 55A.354 agencies obliterate the applicant's identifying information and substitute the arrested person's information, that they do NOT return or destroy the file, and that index references are not deleted. Destruction vocabulary is correct on every sibling Chapter 55A track and is a misstatement of the remedy here.",
+  "presentation": {
+    "sovereignPartyName": null,
+    "sovereignPartyNameNullReason": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
+    "sovereignPartyNameSourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing",
+    "sovereignPartyProper": null,
+    "sovereignPartyProperNullReason": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
+    "sovereignRole": null,
+    "sovereignRoleNullReason": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
+    "movantRole": "Applicant",
+    "movantRoleSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism ('the applicant files a verified application') — the registry uses 'applicant' throughout this track and 'petitioner' on the sibling art. 55A.251 tracks",
+    "filingNoun": "Application",
+    "captionStyleLine": "EX PARTE {applicantName}",
+    "captionStyleLineSourceRef": "profile:sourceSections[10] ('EX PARTE ANDRE L. CARTER')",
+    "divisionLine": "",
+    "divisionLineNote": "No source records a division line for a Texas district court civil caption. Left empty rather than invented.",
+    "usesCounty": true,
+    "usesCountySourceRef": "profile:sourceSections[6] (filing) 'File in a district court for the county of arrest or prosecution (Art. 55A.251)'",
+    "courtName": "the District Court of {county} County, Texas",
+    "courtNameSourceRef": "profile:sourceSections[10] 'IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS'",
+    "venueDescriptor": "{county} County, Texas",
+    "venueDescriptorNote": "Token pattern. The county is the county of arrest or of the alleged offence and reaches the document only as the participant's own screening answer (arrestCounty). No county is prefilled. Where the arrest and the alleged offence are in different counties the track's own self-help boundary stops the packet.",
+    "recordCustodianLead": null,
+    "recordCustodianLeadNullReason": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
+    "verificationVerb": "verify",
+    "verificationVerbSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('the petition must be verified under art. 55A.253')",
+    "verificationPenaltyLabel": "penalty of perjury",
+    "verificationPenaltyLabelSourceRef": "registry@3b6f4c1:tracks[409].rules.participantSignature ('an unsworn declaration under penalty of perjury')",
+    "verificationPenaltyLabelNote": "Applies to the unsworn-declaration block only. The notarial block carries no penalty label because no source supplies one.",
+    "serviceRecipientLabel": null,
+    "serviceRecipientLabelNullReason": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
+    "serviceRecipientAddressLabel": null,
+    "serviceRecipientAddressLabelNullReason": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
+    "reliefActionVerb": "obliterate and substitute",
+    "orderActionVerb": "obliterate the applicant's identifying information and substitute the arrested person's information",
+    "recordsScopePhrase": "the applicant's identifying information in the records and files of the arrest identified in this application",
+    "recordsScopePhraseSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1] ('Under art. 55A.354 agencies obliterate the applicant's identifying information and substitute the arrested person's information. They do not return or destroy the file and do not delete index references.')",
+    "movantFirstInCaption": null,
+    "movantFirstInCaptionNullReason": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
+    "filingNounSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[1]",
+    "addresseeRoleLabel": "the attorney representing the state in the prosecution of felonies in {residenceCounty} County",
+    "addresseeRoleLabelSourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism",
+    "addresseeNameOrAddress": null,
+    "addresseeNameOrAddressNullReason": "No source read for this track names a prosecutor, an office or an address. The addressee is named by role only.",
+    "captionStyleLineNote": "Applies to the petition and proposed order that the prosecutor forwards to the district court, not to the application itself, which carries an addressee block instead."
   },
-  {
-   "field": "presentation.sovereignPartyName",
-   "nullKeys": [
-    "sovereignPartyName"
-   ],
-   "sourceIsSilentBecause": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+  "counselFlags": [
+    {
+      "id": "tx-exp-unsworn-declaration-statute-unnamed",
+      "statement": "Article 55A.253 requires the petition to be verified, and the registry records that BOTH a notarial verification block and an unsworn declaration under penalty of perjury ship because 'county practice chooses between them' and an unsworn declaration 'is accepted in practice by some clerks and not others'. No source read for this track names the statute that authorises an unsworn declaration in place of a notarised verification, and no source names a single county that accepts or refuses one. verificationStatute.citation carries art. 55A.253 because that is the article the source cites for the verification requirement itself; unswornDeclarationAuthority.citation is null. This is the same handling the ND config gives its missing verification statute: null, flagged, not invented.",
+      "mustConfirm": "The statutory authority for an unsworn declaration in a Chapter 55A expunction filing, and whether the packet should ship both blocks or a single block chosen per county.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.participantActionRequired[kind=notarize]"
+    },
+    {
+      "id": "tx-exp-certificate-of-service-local-practice-unnamed",
+      "statement": "No certificate of service is drafted. The recorded rule is that the CLERK sends the petition and notice of hearing under art. 55A.254 and that 'the participant does not serve in the ordinary case; a certificate of service is included only where local practice requires the filer to serve the prosecutor directly'. No source read for this track names a county in which that local practice applies, so there is no sourced trigger condition and none is invented. includeCertificateOfService is false.",
+      "mustConfirm": "Which counties require the filer to serve the attorney representing the state directly, so the conditional certificate of service can be gated on a real fact rather than omitted.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.participantActionRequired[kind=serve_party]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
+    },
+    {
+      "id": "tx-exp-filing-fee-amount-unknown",
+      "statement": "No fee figure is quoted anywhere in this artifact. Article 102.006 was repealed by S.B. 1667 effective 2025-09-01, temporarily re-added by H.B. 16 of the 89th Legislature 2nd Called Session, and permanently replaced by art. 102.0061 effective 2026-01-01. Under art. 102.0061(a) a district court charges the ordinary county civil filing fee for an ex parte petition, which is not a flat statutory amount; under (b) a justice court or municipal court of record charges a flat $100. The county figure is unresolved and is a recorded release blocker. Separately, whether the $25 per-non-electronic-entity charge applies twice for the same agency — once under art. 55A.254(f) at the petition stage and again under art. 55A.351(b-3) at the order stage — is supported by the text and unconfirmed in practice, and it changes the participant's total by a multiple of the agency count. The compiled profile's '$250-$500 in many counties' figure is expressly disavowed by the registry as no longer reliable and is not reproduced.",
+      "mustConfirm": "The current district-court civil filing fee county by county, and whether the $25 per-paper-entity charge applies once or twice per agency.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].releaseBlockers[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.fees; profile:sourceSections[8] (fees) — disavowed"
+    },
+    {
+      "id": "tx-exp-sensitive-data-in-a-public-filing",
+      "statement": "Article 55A.253(a) requires the petition to carry the petitioner's date of birth, driver's licence number and social security number, and the petition is public until the order issues. How Harris, Dallas, Bexar, Tarrant and Travis handle sensitive data in a public civil expunction filing is an open release blocker. Every fixture in this artifact leaves dateOfBirth, ssn, driversLicenseNumber, sex and race blank. That is a deliberate conflict with art. 55A.253(a) and it is recorded here rather than resolved: the protected fields must not be prefilled by any pipeline stage, and the county sensitive-data practice must be pulled before the packet can be assembled for filing.",
+      "mustConfirm": "The sensitive-data handling practice in the five largest counties, and the mechanism by which the participant supplies the art. 55A.253(a) identifiers by hand at filing time rather than through the pipeline.",
+      "impact": "release_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].releaseBlockers[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]"
+    },
+    {
+      "id": "tx-exp-agency-list-no-duplicates-generator-constraint",
+      "statement": "Article 55A.253(b) forbids listing any state or local agency more than once and forbids multiple contacts or addresses for different divisions of the same agency; art. 55A.256(c-1) repeats it for the mistaken-identity application. Counsel classified this as a manual completion item AND a generator constraint. The list is assembled from the participant's own answer (agencyList) and the district clerk's published art. 55A.253(c) list, and the participant confirms it before filing because the clerk bears no completeness duty. No agency is prefilled by LegalEase.",
+      "mustConfirm": "That the generator deduplicates the agency list and never emits two entries for divisions of the same agency.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignLimitations[classification=manual_completion_item]"
+    },
+    {
+      "id": "tx-exp-private-entities-listed-separately",
+      "statement": "Article 55A.253(a)(8)(C) treats private entities that compile and disseminate criminal history record information for compensation separately from government agencies. They go on a separate attachment and are never merged into the agency list; merging them breaks both the no-duplicate rule and the service model.",
+      "mustConfirm": "That the private-entity attachment is a distinct list and is never merged into the art. 55A.253(a)(8) agency list.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems[1]"
+    },
+    {
+      "id": "tx-exp-trn-must-appear-on-the-order",
+      "statement": "The order must carry the TRN — the incident number on the Texas DPS criminal history — under art. 55A.301. LegalEase does not obtain, receive or inspect the DPS history; the participant obtains it following DPS form CR-63 and supplies the TRN. The TRN field is blank in every fixture.",
+      "mustConfirm": "That the TRN reaches the order only as the participant's own confirmed answer and is never derived.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[0].howToObtain; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=trn]"
+    },
+    {
+      "id": "tx-exp-notice-of-hearing-preparer-unknown",
+      "statement": "No notice of hearing is drafted. The court sets the hearing not earlier than the 30th day after filing and the clerk gives a copy of the petition and the notice of hearing to each listed entity other than central federal depositories; on receipt DPS notifies the central federal depositories, so the filer does not chase the FBI. The registry records that WHETHER THE CLERK OR THE FILER PREPARES THE NOTICE OF HEARING varies by county and names no county either way. Drafting a notice would guess at both the preparer and the hearing date.",
+      "mustConfirm": "Which counties require the filer rather than the clerk to prepare the notice of hearing.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
+    },
+    {
+      "id": "tx-exp-third-party-form-sets-are-out-of-scope",
+      "statement": "TexasLawHelp forms carry non-commercial site terms and may not be filled and delivered inside a paid product; confirmed 2026-08-06 that texaslawhelp.org is a Texas Legal Services Center legal-aid self-help site whose expunction forms are neither promulgated nor mandatory nor statewide court forms. Texas Justice Court Training Center forms are Texas State University training aids. County and district clerk packets are local only. LegalEase drafts its own petition and order to arts. 55A.253 and 55A.301 and uses none of these as a form. The compiled TX profile still instructs agents to 'use TexasLawHelp's statewide tools to assemble the right forms' — that instruction is superseded and is not followed here.",
+      "mustConfirm": "That no pipeline stage fills or delivers a TexasLawHelp, TJCTC or county clerk form on any Texas expunction track.",
+      "impact": "scope_restriction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].scopeRestrictions[0]; profile:sourceSections[5] (forms) and sourceSections[6] (filing) — superseded"
+    },
+    {
+      "id": "tx-exp-no-statewide-expunction-form-exists",
+      "statement": "No statewide expunction form exists at any level of Texas state government; the Texas Judicial Branch forms index was confirmed on 2026-08-06 to contain none. Article 55A.253(a) prescribes the contents of the petition instead, and that specificity is what makes a controlled pleading supportable here. Do not reclassify this track as official_pdf_fill because unofficial fillable PDFs circulate.",
+      "mustConfirm": "That the track stays classified custom_pleading and that no circulating unofficial PDF is adopted as a form.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignLimitations[classification=packet_instruction][0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].officialSources[8]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
+    },
+    {
+      "id": "tx-exp-fee-waiver-official-form-dependency",
+      "statement": "The conditional fee-waiver component is the Statement of Inability to Afford Payment of Court Costs or an Appeal Bond under Tex. R. Civ. P. 145, the bilingual statewide form approved by the Supreme Court of Texas in Misc. Docket No. 22-9090 — the only genuinely statewide promulgated form in the entire Texas record-clearing workflow. It is an official form and is not drafted here. Recorded as a mandatory official-form handoff to the official-PDF overlay lane.",
+      "mustConfirm": "That the Rule 145 Statement is acquired at its current revision, hashed and field-mapped by the official-PDF overlay lane.",
+      "impact": "official_form_dependency",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=fee_waiver_statement]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.feeWaiver"
+    },
+    {
+      "id": "tx-exp-court-identity-and-outside-party-acts-blank",
+      "statement": "Cause number, court identity, judge name, the attorney representing the state and that attorney's position, filing date, service completion, hearing date and hearing outcome are blank in every fixture and are never prefilled. County, arrest date, arresting agency, offence and case number reach the document only as the participant's own screening answers. The matter is a NEW civil action and receives a NEW cause number, so no cause number can exist before filing.",
+      "mustConfirm": "That no pipeline stage populates court identity, prosecutor position, service completion, a hearing date or any outside-party act.",
+      "impact": "counsel_confirmation",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.filing; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice"
+    },
+    {
+      "id": "tx-exp-self-help-stop-conditions",
+      "statement": "The track's recorded self-help stop conditions are carried into participant copy verbatim in substance: the state opposes the petition or seeks retention under art. 55A.302; the arrest produced multiple charges with mixed outcomes (State v. T.S.N. and Ex parte R.P.G.P. govern whether individual offences from one arrest can be expunged separately, and that analysis is not automated); a felony from the same transaction is present or arguable; the limitations analysis is contested; any absconding or bail-jumping history (art. 55A.154 makes an intentional or knowing absconder ineligible and a participant may not self-identify the fact); the arrest may have been made on an art. 42A.751(b) community-supervision violation warrant, which art. 55A.153 bars; venue is unclear because the arrest and the alleged offence were in different counties; immigration consequences; the participant wants to attack the underlying case rather than clear it.",
+      "mustConfirm": "That every stop condition is wired as a screening stop and not merely printed.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpBoundaries"
+    },
+    {
+      "id": "tx-exp-legal-status-gate",
+      "statement": "Track legalStatus is 'legal_review_pending' and legalDesignStatus is 'legal_design_approved_with_limitations'. Runtime is disabled: counsel approved the design, not the produced document. Output review, visual review and technical proof are all outstanding. implementationQueue is F_source_problem.",
+      "mustConfirm": "Output review, visual review and technical proof before this pleading leaves internal review.",
+      "impact": "output_review_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalStatus; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalDesignStatus; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].runtimeDisabledReason; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].implementationQueue"
+    },
+    {
+      "id": "tx-exp-source-freshness-gate",
+      "statement": "Every official source recorded on this track carries sha256 null — the Chapter 55A statute page, S.B. 1667, H.B. 4504, H.B. 16, the Chapter 102 statute page, the Rule 145 Statement of Inability, DPS form CR-63, the DPS Criminal Records Service page and the Texas Judicial Branch forms index. Staleness cannot be detected for any of them. Chapter 55A is a live target: it was recodified effective 2025-01-01 by H.B. 4504, amended by S.B. 1667 effective 2025-09-01, and its fee article was replaced effective 2026-01-01.",
+      "mustConfirm": "Capture hashes for all nine official sources before release, and re-read Chapter 55A at each legislative session boundary.",
+      "impact": "source_gate",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].blockers[kind=source_gate]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].officialSources"
+    },
+    {
+      "id": "tx-exp-compiled-profile-predates-this-track",
+      "statement": "The compiled TX profile is a conversion of a single Agent Training Reference PDF and does not record this article at all. It corroborates the caption form, the ex parte style, the art. 55A.251 venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, and it is used for exactly those. It is stale or superseded on three points that matter: it quotes a '$250-$500' fee range the registry disavows; it directs agents to TexasLawHelp, which the scope restriction forbids; and its bars-to-expunction section states that 'final conviction for the offence (other than a later pardon) — convictions are generally not expungeable', which is directly wrong for art. 55A.005 and incomplete for art. 55A.004.",
+      "mustConfirm": "Whether the TX profile should be regenerated against a corpus that includes Chapter 55A as recodified and amended.",
+      "impact": "source_gate",
+      "sourceRef": "profile:source.references (one PDF); profile:sourceSections[3], [5], [6], [8]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].scopeRestrictions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.fees"
+    },
+    {
+      "id": "tx-mistaken-packet-set-conflicts-with-the-recorded-mechanism",
+      "statement": "The registry says two things that do not sit together and this artifact does not resolve them. The mechanism states in terms: 'This is not a petition. The applicant files a verified application ... with the attorney representing the state', and art. 55A.256(d) has the court enter a final order without a hearing once the prosecutor forwards it. But packetSet.components carries a required 'petition' component and a required 'proposed_order' component ALONGSIDE the required 'verified_application_to_prosecutor'. Either the petition and order components are the documents the prosecutor forwards to the district court under art. 55A.256(c), or the packet set was inherited from the sibling art. 55A.251 expunction tracks. This config treats the verified application as the primary participant filing (documentTitleFull) and drafts the petition and order as forwarded-stage containers, and flags the conflict rather than choosing.",
+      "mustConfirm": "Whether the petition and proposed-order components on this track are the documents the prosecutor forwards under art. 55A.256(c), or whether they are inherited from the art. 55A.251 tracks and should be removed.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[3]"
+    },
+    {
+      "id": "tx-mistaken-relief-is-obliteration-not-destruction",
+      "statement": "The relief is narrower than ordinary expunction and the packet must never describe it as destruction. Under art. 55A.354 agencies OBLITERATE the applicant's identifying information and SUBSTITUTE the arrested person's information. They do not return or destroy the file and they do not delete index references. The record of the arrest survives; what leaves it is the applicant's name. 'destroy', 'destroyed', 'destruction', 'erase', 'erased' and 'erasure' are prohibited terms on this track for that reason, and they are prohibited even though they are correct on every sibling Chapter 55A track.",
+      "mustConfirm": "That participant copy and rendered output on this track never promise destruction, return or deletion of records or index references.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[1]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[6]"
+    },
+    {
+      "id": "tx-mistaken-prosecutor-verification-is-a-post-generation-handoff",
+      "statement": "The route stops dead at a stage LegalEase cannot perform and the packet says so. The prosecutor verifies the allegations, supplements arrest information the applicant did not know, attaches the agency list, forwards the application to the district court and requests the order. If the prosecutor does not verify and forward, nothing reaches the court. Nothing in this packet asserts that the prosecutor has verified, forwarded or requested anything, and 'the prosecutor declines to verify the application' is a recorded self-help stop condition.",
+      "mustConfirm": "That no pipeline stage asserts prosecutor verification, forwarding or a request for the order, and that the participant is told the route can end there.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[10]"
+    },
+    {
+      "id": "tx-mistaken-venue-is-the-county-of-residence",
+      "statement": "Venue on this track is not the county of arrest. The application goes to the attorney representing the state in the prosecution of felonies in the county where the APPLICANT RESIDES, or where the offence was alleged to have occurred — and to that prosecutor's office, not to a court. The track's own generationRequirements add residenceCounty for exactly this reason. But the registry's `venue` and `destination` fields on this track are the generic art. 55A.251 district-court-of-the-county-of-arrest text shared with the sibling expunction tracks, and they contradict the mechanism. The mechanism is followed here and the conflict is flagged.",
+      "mustConfirm": "Whether the track's venue and destination fields should be corrected to the art. 55A.256 residence-county prosecutor destination.",
+      "impact": "build_blocker",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].venue; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=residenceCounty]"
+    },
+    {
+      "id": "tx-mistaken-authenticated-fingerprints-are-mandatory-and-never-handled",
+      "statement": "Authenticated fingerprint records are a mandatory part of the application under art. 55A.256(b) and are the evidence that distinguishes the applicant from the arrested person. The participant books an appointment at a DPS FAST location and submits them with the application. LegalEase never receives or inspects them, and 'the applicant cannot obtain authenticated fingerprint records' is a recorded self-help stop condition.",
+      "mustConfirm": "That fingerprintsBooked gates generation and that no pipeline stage receives, stores or inspects fingerprint records.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[11]"
+    },
+    {
+      "id": "tx-mistaken-identity-dispute-ends-self-help",
+      "statement": "The whole ground is that the applicant is NOT the arrested person. Any case where the applicant was in fact the arrested person, and any case where the applicant's information is in the records for a reason other than the clerical error or the deception, is excluded. Any dispute about whether the applicant is the arrested person is outside self-help. The packet states the applicant's own account and asserts no conclusion about identity.",
+      "mustConfirm": "That mistakenIdentityBasis and consentGiven gate generation, and that any identity dispute stops the route before a packet is produced.",
+      "impact": "self_help_boundary",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].exclusions[0..2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].selfHelpStopConditions[9]"
+    },
+    {
+      "id": "tx-mistaken-no-hearing-and-no-waiting-period",
+      "statement": "There is no waiting period and no hearing. Under art. 55A.256(d) the court enters a final order without a hearing because the prosecutor has already verified the application. The packet therefore states no hearing date, no 30-day window and no elapsed-time allegation — all of which are correct on the sibling art. 55A.251 tracks and wrong here.",
+      "mustConfirm": "That no hearing-setting or 30-day-window copy is inherited onto this track from the art. 55A.251 tracks.",
+      "impact": "packet_instruction",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].waitingPeriods"
+    }
+  ],
+  "componentInventory": [
+    {
+      "component": "caption",
+      "status": "present",
+      "note": "Two different headers, because this track has two different destinations. The verified application carries an ADDRESSEE block, not a court caption: it is filed with the attorney representing the state in the prosecution of felonies, not with a court. The petition and proposed order carry the ordinary district-court caption from the compiled profile's sample — 'CAUSE NO. ____', 'IN THE DISTRICT COURT OF {county} COUNTY, TEXAS', 'EX PARTE {applicantName}' — because that is where the prosecutor forwards them under art. 55A.256(c). The cause number is blank.",
+      "sourceRef": "profile:sourceSections[10] (samples, lines 428-440); registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.filing"
+    },
+    {
+      "component": "court_and_party_identity",
+      "status": "present",
+      "note": "Petitioner name and address from screening. County of arrest or of the alleged offence from screening (arrestCounty). Court identity beyond 'a district court of that county' is not fixed: the specific district court, the judge, the cause number, the attorney representing the state and that attorney's position are blank and never prefilled. Article 55A.253(a) also requires sex, race, date of birth, driver's licence number, social security number and the address at the time of arrest; those are protected fields, are blank in every fixture, and are flagged.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]"
+    },
+    {
+      "component": "title",
+      "status": "present",
+      "note": "Built from the legalName recorded on the track, in the title style of the compiled profile's sample ('PETITION FOR EXPUNCTION OF CRIMINAL RECORDS (CCP CH. 55A)').",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].legalName; profile:sourceSections[10]"
+    },
+    {
+      "component": "allegations",
+      "status": "present",
+      "note": "Container only, for the art. 55A.256(b) contents and this track's own generationRequirements: the county of residence; the arrest county and the county of the alleged offence; the arrest date; the arresting agency; the offence charged and its level; the case number and court where a charge was filed; the applicant's own account of why the record carries their information — clerical error, or another arrested person falsely giving the applicant's identifying information; whether consent was ever given; and whether authenticated fingerprints are booked. Every one is the applicant's own averment. No conclusion about identity is asserted.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[0]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements"
+    },
+    {
+      "component": "statutory_basis",
+      "status": "present",
+      "note": "Citations taken only from the track's recorded authority list, plus art. 55A.301 where the rules text supplies it for the order.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority"
+    },
+    {
+      "component": "requested_relief",
+      "status": "present",
+      "note": "Stated from the mechanism recorded on the track and no wider.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism"
+    },
+    {
+      "component": "verification",
+      "status": "present",
+      "note": "Two blocks ship, because the source says county practice chooses between them: a notarial verification block and an unsworn declaration under penalty of perjury. The verification requirement is art. 55A.253 for the petition and art. 55A.256(b) for the application. The statute authorising the unsworn-declaration alternative is not named by any source read for this track and is carried as null plus a counsel flag.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
+    },
+    {
+      "component": "signatures",
+      "status": "present",
+      "note": "Petitioner's signature and date only. The judge's signature line on the proposed order is the court's and is left blank. No LegalEase signature block.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].manualCompletionItems; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.participantSignature"
+    },
+    {
+      "component": "proposed_order",
+      "status": "present",
+      "note": "Drafted, and its operative language is DIFFERENT from every sibling Chapter 55A track. It directs each listed agency to obliterate the applicant's identifying information and substitute the arrested person's information under art. 55A.354. It does not direct destruction or return, and it does not touch index references. It carries the TRN. The court enters the final order without a hearing under art. 55A.256(d), so the order recites no hearing; the judge's signature line, date and judge name are blank.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=proposed_order]; profile:sourceSections[13]"
+    },
+    {
+      "component": "certificate_of_service",
+      "status": "absent",
+      "reason": "The clerk serves under art. 55A.254, not the participant. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly' and names no county in which that is so, and packetSet.components contains no certificate-of-service component. Drafting one would invent both the trigger and the recipient.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.service; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
+    },
+    {
+      "component": "notice",
+      "status": "absent",
+      "reason": "No notice and no hearing. Under art. 55A.256(d) the court enters a final order WITHOUT a hearing, because the prosecutor has already verified the application upstream. There is no hearing to notice, so nothing is drafted.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notice; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail"
+    },
+    {
+      "component": "affidavit",
+      "status": "absent",
+      "reason": "No source read for this track records an affidavit. The petition is verified; that is the sworn instrument.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components"
+    },
+    {
+      "component": "participant_only_cover_sheet",
+      "status": "absent",
+      "reason": "No cover sheet is drafted. The registry records that civil cover sheets are one of the things that 'varies by county' and names no county's sheet; packetSet.components contains no cover-sheet component; and the compiled profile says only to 'check the specific county's local cover sheets' before filing. A cover sheet is a county form, not a document this lane may compose.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].destination.detail; profile:sourceSections[5] (forms)"
+    },
+    {
+      "component": "filing_instructions",
+      "status": "present",
+      "note": "Participant-only. participant-instructions.md, drawn only from the track's rules.filing, rules.fees, rules.feeWaiver, rules.notice, rules.service, packetInstructions, packetSet.participantActionRequired, participantFilingRequirements and selfHelpStopConditions, plus the compiled profile's seven-step filing sequence. Never filed with the court. It is registry packetSet component 'filing_and_local_practice_instructions'.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[role=filing_and_local_practice_instructions]; profile:sourceSections[6] (filing)"
+    },
+    {
+      "component": "verified_application_to_prosecutor",
+      "status": "present",
+      "note": "Drafted, and it is the primary participant filing on the recorded mechanism. Addressed to the attorney representing the state in the prosecution of felonies in the county where the applicant resides or where the offence was alleged to have occurred — a prosecutor's office, not a court. It carries the art. 55A.256(b) contents, the applicant's own account of the clerical error or the deception, the deduplicated agency list, the separate private-entity list, and the verification. Authenticated fingerprint records accompany it and are never handled by LegalEase.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetSet.components[2]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].authority[2]"
+    },
+    {
+      "component": "addressee_block",
+      "status": "present",
+      "note": "The application carries an addressee block naming the office it goes to by ROLE — 'the attorney representing the state in the prosecution of felonies in {residenceCounty} County' — and never by name or address. No prosecutor name, office name or address is recorded by any source read for this track.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].mechanism; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].generationRequirements[key=residenceCounty]"
+    },
+    {
+      "component": "authenticated_fingerprint_records",
+      "status": "absent_participant_obtained",
+      "reason": "Mandatory under art. 55A.256(b) and the evidence that distinguishes the applicant from the arrested person. The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them, so nothing is drafted, attached or represented about them.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].participantFilingRequirements[3]; registry@3b6f4c1:tracks[tx_exp_mistaken_identity].packetInstructions[2]"
+    }
+  ],
+  "participantOnlyDocuments": [
+    "participant-instructions.md"
+  ],
+  "courtDocuments": [
+    {
+      "item": "Verified Application for Expunction on the ground of mistaken identity (filed with the felony prosecutor, not a court)",
+      "componentId": "tx_exp_mistaken_identity-verified-application-to-prosecutor-3",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Petition for Expunction (forwarded-stage container)",
+      "componentId": "tx_exp_mistaken_identity-petition-1",
+      "drafted": true,
+      "requirement": "required",
+      "reason": "Drafted, with the mechanism/packet-set conflict flagged as a build blocker. The recorded mechanism says this is not a petition; the packet set carries one as required."
+    },
+    {
+      "item": "Order of Expunction (proposed) — art. 55A.354 obliterate-and-substitute language",
+      "componentId": "tx_exp_mistaken_identity-proposed-order-2",
+      "drafted": true,
+      "requirement": "required"
+    },
+    {
+      "item": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (Tex. R. Civ. P. 145; Misc. Docket No. 22-9090)",
+      "componentId": "tx_exp_mistaken_identity-fee-waiver-statement-4",
+      "drafted": false,
+      "requirement": "conditional",
+      "conditionDescription": "Where the participant cannot afford the filing costs.",
+      "reason": "Official statewide promulgated form. Lane C drafts no official forms. See components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json."
+    },
+    {
+      "item": "Authenticated fingerprint records",
+      "componentId": null,
+      "drafted": false,
+      "requirement": "required",
+      "reason": "Mandatory under art. 55A.256(b). The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them."
+    },
+    {
+      "item": "The separate private-entity attachment (art. 55A.253(a)(8)(C))",
+      "componentId": null,
+      "drafted": false,
+      "requirement": "required",
+      "reason": "Its contents are the participant's own answer; no entity is prefilled."
+    }
+  ],
+  "officialFormDependencies": [
+    {
+      "componentId": "tx_exp_mistaken_identity-fee-waiver-statement-4",
+      "officialFormId": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+      "officialFormName": "Statement of Inability to Afford Payment of Court Costs or an Appeal Bond (bilingual), Supreme Court of Texas Misc. Docket No. 22-9090, Tex. R. Civ. P. 145",
+      "owningLane": "lane-D/E official-PDF overlay and official-source acquisition",
+      "dependencyManifestPath": "data/rcap-all50/pleadings/texas/tx_exp_mistaken_identity/components/tx_exp_mistaken_identity-fee-waiver-statement-4/dependency.json"
+    }
+  ],
+  "componentCount": 5,
+  "provenance": {
+    "statePackFiles": [
+      "src/lib/rcap/state-packs/texas/index.ts",
+      "src/lib/rcap/state-packs/texas/all50-build-metadata.ts"
+    ],
+    "profilePath": "src/lib/rcap-engine/compiled/profiles/TX-texas.json",
+    "registryPin": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "profileSha256": "8f99b36519cf35b6ead155799f81605d045e55cad19b1c7d11a931f48b3097aa",
+    "profileVersion": "2026-06-19-source-conversion-1",
+    "registryPath": "data/record-clearing/legal-design-track-registry.json",
+    "registryEntry": "data/record-clearing/legal-design-track-registry.json :: tracks[411] (trackId=tx_exp_mistaken_identity)",
+    "statePackNote": "The committed Texas state pack (src/lib/rcap/state-packs/texas/) carries build metadata and the Nationwide inventory only: three files under 'LegalEase Texas' (the Agent Training Reference PDF, petition_charges_dismissed_or_quashed_revision_06112026.pdf and tx-statewide-expunction-nondisclosure-forms.html). It records no track-level pleading text, no caption, no vocabulary and no statutory citations. The compiled TX profile is a conversion of the single Agent Training Reference PDF and is corroborating rather than controlling: it supplies the caption form, the ex parte petition style, the venue rule, the required-contents summary, the proposed-order rule and the seven-step filing sequence, but it predates the S.B. 1667 / H.B. 16 changes the registry records and it names none of these four articles (55A.004, 55A.005, 55A.006, 55A.203). Track prose, authority, rules and packet composition therefore come from the pinned registry entry.",
+    "reviewedAsOf": "2026-08-01",
+    "effectiveFrom": "2025-09-01"
   },
-  {
-   "field": "presentation.sovereignPartyProper",
-   "nullKeys": [
-    "sovereignPartyProper"
-   ],
-   "sourceIsSilentBecause": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+  "postGenerationHandoff": {
+    "statement": "The prosecutor verifies the allegations, supplements arrest information the applicant did not know, attaches the agency list, forwards the application to the district court and requests the order. LegalEase cannot complete that stage and the packet says so. If the prosecutor does not verify and forward, nothing reaches the court.",
+    "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].postGenerationHandoffs[0]"
   },
-  {
-   "field": "presentation.sovereignRole",
-   "nullKeys": [
-    "sovereignRole"
-   ],
-   "sourceIsSilentBecause": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.recordCustodianLead",
-   "nullKeys": [
-    "recordCustodianLead"
-   ],
-   "sourceIsSilentBecause": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.serviceRecipientLabel",
-   "nullKeys": [
-    "serviceRecipientLabel"
-   ],
-   "sourceIsSilentBecause": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.serviceRecipientAddressLabel",
-   "nullKeys": [
-    "serviceRecipientAddressLabel"
-   ],
-   "sourceIsSilentBecause": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.movantFirstInCaption",
-   "nullKeys": [
-    "movantFirstInCaption"
-   ],
-   "sourceIsSilentBecause": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  },
-  {
-   "field": "presentation.addresseeNameOrAddress",
-   "nullKeys": [
-    "addresseeNameOrAddress"
-   ],
-   "sourceIsSilentBecause": "No source read for this track names a prosecutor, an office or an address. The addressee is named by role only.",
-   "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
-  }
- ],
- "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
- "runtimeDefects": [
-  "renderer-null-presentation"
- ],
- "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
+  "sourceSilences": [
+    {
+      "field": "unswornDeclarationAuthority",
+      "nullKeys": [
+        "citation"
+      ],
+      "sourceIsSilentBecause": "An unsworn declaration under penalty of perjury ships alongside the notarial block because county practice chooses between them. No source read for this track names the statute that authorises the declaration in place of a notarised verification, and no source says whether a felony prosecutor's office — rather than a clerk — will accept one on an art. 55A.256 application. Left null and flagged.",
+      "sourceRef": "registry@3b6f4c1:tracks[tx_exp_mistaken_identity].rules.notarization"
+    },
+    {
+      "field": "courtDocuments.4",
+      "nullKeys": [
+        "componentId"
+      ],
+      "sourceIsSilentBecause": "Mandatory under art. 55A.256(b). The participant books a DPS FAST appointment and submits them with the application. LegalEase never receives or inspects them.",
+      "sourceRef": null
+    },
+    {
+      "field": "courtDocuments.5",
+      "nullKeys": [
+        "componentId"
+      ],
+      "sourceIsSilentBecause": "Its contents are the participant's own answer; no entity is prefilled.",
+      "sourceRef": null
+    },
+    {
+      "field": "presentation.sovereignPartyName",
+      "nullKeys": [
+        "sovereignPartyName"
+      ],
+      "sourceIsSilentBecause": "There is no sovereign party in the caption. The proceeding is an EX PARTE petition and the compiled profile's own sample caption is 'CAUSE NO. ____ / IN THE DISTRICT COURT OF ____________ COUNTY, TEXAS / EX PARTE [NAME]'. No source read for this track names a respondent, an opposing party or a party-role line. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.sovereignPartyProper",
+      "nullKeys": [
+        "sovereignPartyProper"
+      ],
+      "sourceIsSilentBecause": "Same reason. Ex parte proceeding; no opposing party is named in the caption.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.sovereignRole",
+      "nullKeys": [
+        "sovereignRole"
+      ],
+      "sourceIsSilentBecause": "Ex parte proceeding. No source read for this track assigns a role to the State in the caption.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.recordCustodianLead",
+      "nullKeys": [
+        "recordCustodianLead"
+      ],
+      "sourceIsSilentBecause": "No source read for this track enumerates the agencies that hold the records or that the order must reach. Article 55A.253(c) puts that list on the district clerk's published website list, which is county-specific, and art. 55A.253(b) forbids listing an agency twice. The list is the participant's own answer (agencyList), confirmed against the clerk's published list before filing. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.serviceRecipientLabel",
+      "nullKeys": [
+        "serviceRecipientLabel"
+      ],
+      "sourceIsSilentBecause": "The participant does not serve in the ordinary case. Under art. 55A.254 the CLERK sends the petition and notice of hearing to each listed entity by certified mail return receipt requested, or by secure e-mail, electronic transmission or fax. The registry records a certificate of service 'only where local practice requires the filer to serve the prosecutor directly', and names no county in which that is so. Not invented.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.serviceRecipientAddressLabel",
+      "nullKeys": [
+        "serviceRecipientAddressLabel"
+      ],
+      "sourceIsSilentBecause": "No recipient label, so no address label. No prosecutor address is recorded by any source read for this track.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.movantFirstInCaption",
+      "nullKeys": [
+        "movantFirstInCaption"
+      ],
+      "sourceIsSilentBecause": "Not applicable. The caption has one party line, 'EX PARTE {petitionerName}'; there is no party ordering to set.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    },
+    {
+      "field": "presentation.addresseeNameOrAddress",
+      "nullKeys": [
+        "addresseeNameOrAddress"
+      ],
+      "sourceIsSilentBecause": "No source read for this track names a prosecutor, an office or an address. The addressee is named by role only.",
+      "sourceRef": "profile:sourceSections[10] (category samples, lines 428-440); registry@3b6f4c1:tracks[409].rules.filing"
+    }
+  ],
+  "sourceSilencesNote": "Fields the sources leave silent, recorded as null with the passage explaining the silence. A null is admissible only where it appears here; it is never filled with a substitute value.",
+  "runtimeDefects": [
+    "renderer-null-presentation"
+  ],
+  "runtimeDefectsNote": "Declared, not accepted. See docs/record-clearing/terminalize-c/runtime-defect-null-presentation.md. The renderer prints the literal string 'null' for a presentation field this track deliberately sets to null on the sources' authority. The data is correct; src/** is frozen for lane C and the fix is Terminal A's. These renders are not fit to file until the renderer is fixed and they are re-rendered."
 }

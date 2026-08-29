@@ -169,7 +169,7 @@ const RUNTIME_REAUTHORIZATION_PROOF_PATH = "scripts/verify-screening-verificatio
  * only accepted if it removes nothing: a proof may be strengthened under a
  * standing approval, never weakened. Weakening it needs a new authorization.
  */
-const RUNTIME_REAUTHORIZATION_PROOF_SHA256 = "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d";
+const RUNTIME_REAUTHORIZATION_PROOF_SHA256 = "903b1b6e61605b7e732e1754086c4496968cd95e96648ca8dbbb48bb93954642";
 const RUNTIME_REAUTHORIZATION_SCOPE = "post_projection_question_lifecycle_validation_only";
 const RUNTIME_REAUTHORIZATION_ENVIRONMENT = "repository_non_production_only";
 const RUNTIME_REAUTHORIZATION_EXCLUSIONS = [

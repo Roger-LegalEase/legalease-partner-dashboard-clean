@@ -549,6 +549,24 @@ function collectFailures(doc) {
 function runMutations(baseDoc) {
   const clone = () => JSON.parse(JSON.stringify(baseDoc));
   const laneOf = (doc, id) => doc.lanes.find((l) => l.lane === id);
+  // The mutations break an ACTIVE lane, because that is the only status these
+  // rules apply to. Which lane that is changes every time a lane is integrated,
+  // so it is resolved at run time rather than named: a suite pinned to a lane id
+  // goes quietly vacuous the moment that lane lands.
+  const activeLanes = baseDoc.lanes.filter((l) => l.status === "active");
+  if (activeLanes.length === 0) {
+    console.log("No active lane to mutate; every lane is integrated. Nothing to prove here.");
+    return 0;
+  }
+  const A = activeLanes[0].lane;
+  const B = activeLanes[1]?.lane ?? A;
+  // A resolvable origin branch that cannot contain the post-audit base, for the
+  // lane-branch-descent mutation. Picked from the integrated lanes' own branches
+  // so it is a real ref rather than a literal that can rot.
+  const OFF_BRANCH = baseDoc.lanes
+    .filter((l) => l.status === "integrated" && l.laneBranch !== activeLanes[0].controllingBranch)
+    .map((l) => l.laneBranch)
+    .find((b) => b !== activeLanes[0].laneBranch) ?? "claude/grade-a-68h-lane-e";
   const POST_G = "148382ab2a2acbe673b6d35c8967f5a908342e60";
   // A real commit that is NOT on the captain's line: Lane E's returned worker tip.
   const OFF_LINE = "d3bd3e241b8712b9954e50323c3121ad62753f85";
@@ -558,7 +576,7 @@ function runMutations(baseDoc) {
       name: "the identity gate demands the live captain tip equal the worker base",
       expect: "requires the live captain tip to equal a worker base",
       apply(doc) {
-        const lane = laneOf(doc, "G-CO-SOURCE");
+        const lane = laneOf(doc, A);
         lane.stopConditions[0] =
           `The identity gate does not print ${POST_G} for origin/${lane.controllingBranch}: return ENVIRONMENT MISROUTED without editing a file.`;
       }
@@ -569,7 +587,7 @@ function runMutations(baseDoc) {
       // for a declared active base, and this mutation does not touch those.
       expect: `.baseSha ${OFF_LINE} is not an ancestor of the controlling branch`,
       apply(doc) {
-        const lane = laneOf(doc, "G-CO-BUILD");
+        const lane = laneOf(doc, A);
         lane.baseSha = OFF_LINE;
         lane.remoteBaseSha = OFF_LINE;
       }
@@ -580,16 +598,17 @@ function runMutations(baseDoc) {
       apply(doc) {
         // An existing origin branch, resolvable in this clone, that was cut long
         // before the post-audit base and therefore cannot contain it.
-        laneOf(doc, "I").laneBranch = "claude/grade-a-68h-lane-e";
+        laneOf(doc, A).laneBranch = OFF_BRANCH;
       }
     },
     {
       name: "a stop condition naming another lane's branch",
       expect: "names another lane's branch",
       apply(doc) {
-        const lane = laneOf(doc, "J");
+        const lane = laneOf(doc, A);
+        const other = doc.lanes.find((l) => l.lane !== A && l.laneBranch !== lane.controllingBranch);
         lane.stopConditions.push(
-          "A conflict appears with origin/claude/grade-a-v6-co-build: reconcile it there before continuing."
+          `A conflict appears with origin/${other.laneBranch}: reconcile it there before continuing.`
         );
       }
     },
@@ -597,7 +616,7 @@ function runMutations(baseDoc) {
       name: "an active lane based on the historical sprint base",
       expect: "bases on the historical sprint base",
       apply(doc) {
-        const lane = laneOf(doc, "G-CO-SOURCE");
+        const lane = laneOf(doc, A);
         lane.baseSha = baseDoc.historicalSprintBaseSha;
         lane.remoteBaseSha = baseDoc.historicalSprintBaseSha;
         // Declared as active too, so the mutation is not caught only by the

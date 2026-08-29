@@ -5,7 +5,7 @@
   "counts": {
     "keep_available": 209,
     "wired": 174,
-    "fix_then_wire": 27,
+    "fix_then_wire": 30,
     "retire": 1,
     "quarantine": 2,
     "blocked_on_family": 5
@@ -2028,6 +2028,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-lane-i-oregon-first-packet.mjs": {
+      "disposition": "fix_then_wire",
+      "reason": "The acceptance contract for the first Oregon Grade-A route. It ranks the three candidates from signals other generators already wrote, re-hashes every bound source against the mounted corpus, proves the specification hash moves when a bound official form is swapped (by swapping one, regenerating, and restoring), proves the record validates the filed PDF rather than a text composition, exercises the product path against the live record and two in-memory counterfactuals across all ten admission points, and derives four evidence records as a fixed point. Seventy-eight checks, green. It is NOT wired, and the reason is exact rather than a preference: two of its checks require the private source corpus mounted at private/source-imports/, which is git-ignored and behind a private release, and without it C1-sources fails and the derived closure drifts on sourceProvenanceMode. Wiring it would make the chain red in every environment that has not run bootstrap-private-corpus.sh. The fix is to give it the two modes the Colorado supplement verifier already has -- contract always, bytes when mounted -- with the byte checks reported as skipped rather than failed and the drift comparison excluding the corpus-dependent field. Then wire it.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
     "verify-rcap-lane2-widget-text-semantics.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
@@ -2155,11 +2161,23 @@
       "decidedBy": "captain",
       "laneOwned": true
     },
+    "verify-rcap-oregon-durable-render.mjs": {
+      "disposition": "fix_then_wire",
+      "reason": "Durable render exercised rather than reasoned about: an ephemeral PostgreSQL 16 cluster carrying the committed render-job schema, the shipped job-queue and delivery code, the real Oregon filing PDF, and a filesystem backend implementing the same PacketArtifactStorage interface as the Supabase adapter. Twenty-one checks including the write-once rule watched refusing a second write, a disagreeing stored digest failing the job with checksum_mismatch, tampered bytes failing closed at delivery, and -- with payment, validation, ownership and hash verification all satisfied -- the last door being Grade-A commercial admission, which refuses. Not wired yet because its committed evidence is compared on findings rather than bytes (job ids are generated per run), and a chain check should compare a fixed point. The fix is to make the evidence fully reproducible under a fixed id seed, then wire it beside verify-rcap-packet-delivery-db.mjs, whose PostgreSQL prerequisite it shares.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
     "verify-rcap-oregon-grade-a-lane-c.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-rcap-oregon-independent-visual-review.mjs": {
+      "disposition": "fix_then_wire",
+      "reason": "The independent page-by-page raster review of the two finalized Oregon filing artifacts, and the evidence the Grade-A record's visualReview dimension now cites. Lane C's byte-level review recorded rasterReview: not performed because it had no rasteriser, and a review that never rendered a page cannot have seen a clipped value, a caption over preprinted wording or a page that renders blank -- the defects visual review exists to catch. This renders all seven pages through Chromium's PDF engine and inspects ink coverage and luminance, bound to the artifact hashes, the page count, the specification hash and the commit carrying the bytes. Not wired yet for one reason: it launches Chromium, and the chain's other browser-dependent checks are held in the hosted workflow rather than in npm test for the same reason. The fix is to place it alongside them in .github/workflows/rcap-all50-handoff.yml rather than in package.json, and to prove it fails when a page renders blank.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
     },
     "verify-rcap-oregon-official-pdf-grade-a.mjs": {
       "disposition": "wired",

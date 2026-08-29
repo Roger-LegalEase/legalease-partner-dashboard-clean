@@ -9,7 +9,7 @@
       "priorSha256": "30a6360e99e93895757604fcdefa7a59dac94b78e1a622ea59112e6ffa78d8e9",
       "newSha256": "c744aa842bcf24ec943d6f1238a57726ac682f24802165ab7dd3591bcd98be73",
       "proofPath": "scripts/verify-screening-verification-finetune.mjs",
-      "proofSha256": "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d",
+      "proofSha256": "903b1b6e61605b7e732e1754086c4496968cd95e96648ca8dbbb48bb93954642",
       "authorizedBy": "Roger Roman via the controlling 2026-08-26 targeted fine-tune directive",
       "authorizedOn": "2026-08-26",
       "scope": "post_projection_question_lifecycle_validation_only",
@@ -28,13 +28,13 @@
       ],
       "proofRevisions": [
         {
-          "commit": "6bb400d605977d49d8410fd27390b6a4501db78d",
-          "date": "2026-08-27",
+          "commit": "7b37de68679941c1efdf74e889ef5b9014bdef6b",
+          "date": "2026-08-29",
           "author": "Roger Roman",
-          "linesAdded": 82,
+          "linesAdded": 5,
           "linesRemoved": 0,
-          "sha256": "74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d",
-          "reason": "fix(expungement): preserve protected fact sources. The proof gained assertions that packet answers take precedence over prefilled and screening sources for the same fact, that canonical server facts cannot collide with participant answer maps, and that the protected presentation exposes exact prefilled and packet answer membership with no merged fallback. Additive only: 82 lines added, none removed. The authorization's path, scope, environment, statement and exclusions are unchanged; only the hash of the proof it cites moves."
+          "sha256": "903b1b6e61605b7e732e1754086c4496968cd95e96648ca8dbbb48bb93954642",
+          "reason": "Chain origin under the 2026-08-29 authorization, not a revision of 74624c8464e40e02c272b967ebeba42452681d163ea4be6d013af01778b7759d. One line WAS removed from the previous proof, and that is precisely why this is a new authorization rather than a revision: the mechanism refuses a revision that removes anything, and it is right to. The removed line was assert.doesNotThrow(() => assertCheckoutAllowed(protectedVerification.snapshot)) against a Mississippi route. Once Grade-A authority became the checkout gate, that assertion could only pass if Mississippi held a fulfillment record, and Mississippi is a retired legacy generator that must never hold one. It is replaced by assert.throws requiring the refusal /cannot prove it delivers the packet it promises/, so the proof now proves the denial and pins its reason by message. History this chain replaces: 6bb400d605977d49d8410fd27390b6a4501db78d on 2026-08-27 added 82 lines and removed none, strengthening the proof to preserve protected fact sources; that work is still in the file and is not undone here. Authorized by Roger Roman on 2026-08-29, byte-exact per docs/rcap/grade-a/lane-j/patches/blocker-5-mississippi-proof-proposed.diff at Lane J commit 7b37de68679941c1efdf74e889ef5b9014bdef6b, repository non-production only. It creates no Mississippi fulfillment record, opens no checkout, and reaches no legal conclusion."
         }
       ]
     }

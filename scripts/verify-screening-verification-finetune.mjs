@@ -708,7 +708,11 @@ assert.equal(protectedOnlyPacketModel.reviewedAt, protectedVerification.snapshot
 assert.deepEqual(protectedOnlyPacketModel.missingInputIds, []);
 assert.equal(protectedOnlyPacketModel.pathwayId, protectedVerification.snapshot.pathwayId);
 assert.deepEqual(protectedOnlyPacketModel.initialAnswers.court, completePacketAnswers.court);
-assert.doesNotThrow(() => assertCheckoutAllowed(protectedVerification.snapshot));
+assert.throws(
+  () => assertCheckoutAllowed(protectedVerification.snapshot),
+  /cannot prove it delivers the packet it promises/,
+  "a route with no Grade-A fulfillment record is refused at checkout, whatever its verification proves"
+);
 assert.equal(
   protectedPacketInformationModelFor({
     ...protectedVerification,

@@ -706,7 +706,7 @@
       "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
       "lane": "G-CO-SOURCE",
@@ -803,7 +803,7 @@
         "node scripts/verify-rcap-grade-a-fulfillment-authority.mjs",
         "npm run typecheck"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v6-co-source, plus the immutable release or supplement identity",
+      "requiredReturnCommit": "37f3bf8beea88fdfad9ad701bd3c61ac0fab350b",
       "dependencies": [
         "none for acquisition; Lane G-CO-BUILD consumes what this lane verifies"
       ],
@@ -822,7 +822,9 @@
         "Overwriting or republishing source-corpus-2026-08-28 under the same tag or archive identity would be needed: stop. That release is pinned and immutable; produce a new one.",
         "A source PDF would be committed into the product repository: stop. Bytes stay in the git-ignored private corpus."
       ],
-      "packetFamilyRole": "source_acquisition_and_provenance"
+      "packetFamilyRole": "source_acquisition_and_provenance",
+      "laneResult": "identification_complete_acquisition_blocked",
+      "captainIntegrationCommit": "d416af5201ff61c6b36d0b0131656c1aeec15984"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -831,7 +833,7 @@
       "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
       "lane": "G-CO-BUILD",
@@ -929,7 +931,7 @@
         "node scripts/verify-rcap-shared-pdf-contract.mjs",
         "npm run typecheck"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v6-co-build",
+      "requiredReturnCommit": "02f0bdd4630cdcb424504e3f8c3d134fd22816c3",
       "dependencies": [
         "G-CO-SOURCE: the seven missing artifacts are integrated when that lane returns; everything not depending on them proceeds now"
       ],
@@ -948,7 +950,11 @@
         "A Colorado route looks ready to open commercially: it is not. All three are SOURCE_OR_CONFIGURATION_GATE and denied at all ten admission points. Keep every route closed.",
         "A missing form number would have to be guessed to proceed: stop. The two JDF-611 identities are unresolved and belong to G-CO-SOURCE."
       ],
-      "packetFamilyRole": "packet_implementation_and_rendering"
+      "packetFamilyRole": "packet_implementation_and_rendering",
+      "laneResult": "specification_complete_artifact_generation_blocked",
+      "actualWorkerBranch": "claude/colorado-packet-deterministic-n4zdlz",
+      "actualWorkerBranchNote": "The harness pushed this lane to its own alias rather than to the designated claude/grade-a-v6-co-build, which still points at the base. The commit's parent is exactly the post-audit base, so the work is valid and was taken by exact SHA. The branch was not merged and the worker commit was not rewritten.",
+      "captainIntegrationCommit": "b99f09fb513e152fee9715bd665a0e2e62ae0720"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -957,7 +963,7 @@
       "baseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "remoteBaseSha": "148382ab2a2acbe673b6d35c8967f5a908342e60",
       "model": "Claude Opus 5",
-      "status": "active",
+      "status": "integrated",
       "worktreeRule": "One dedicated worktree per lane, created with git worktree add from the baseSha above, never shared with another lane and never the captain worktree at /home/user/legalease-partner-dashboard-clean.",
       "requiredReturnFormat": "Return the full 40-character commit SHA on the lane branch, the exact commands run, and their pass or fail result. The captain reviews and integrates the exact commit; do not open a pull request and do not request a branch merge.",
       "lane": "I",
@@ -1023,7 +1029,7 @@
         "node scripts/verify-rcap-lane-f-commercial-admission.mjs",
         "npm run typecheck"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v6-first-packet-oregon",
+      "requiredReturnCommit": "5e7a7e9b601d3c8d15a9d54691321afef243bba6",
       "dependencies": [
         "B: the Grade-A authority",
         "C: the integrated Oregon candidate evidence",
@@ -1045,7 +1051,9 @@
         "A route appears to need commercial enabling: it does not. Commercially eligible is zero and every route is denied. Do not add an override, a bypass or a second commercial rule.",
         "Output-level legal approval would have to be granted: stop. It is not a lane's to grant and not a captain's. Prepare the approval packet and return the exact owner decision.",
         "Oregon would move out of the candidate area or into a production overlay: stop. It stays candidate-only until every gate passes."
-      ]
+      ],
+      "laneResult": "engineering_closeout_integrated_owner_decisions_pending",
+      "captainIntegrationCommit": "a8446890aa772ac093a4585c9b6a281107f8bf57"
     },
     {
       "sprintId": "legalease-68h-grade-a-2026-08-29",
@@ -1105,7 +1113,7 @@
         "node scripts/test-expungement-parity-delta-mutations.mjs",
         "npm run typecheck"
       ],
-      "requiredReturnCommit": "not yet returned: the worker returns one exact 40-character commit SHA on claude/grade-a-v6-release-blockers",
+      "requiredReturnCommit": "returned 7b37de68679941c1efdf74e889ef5b9014bdef6b on claude/grade-a-v6-release-blockers; recorded as the exact return commit when the captain integration commit is recorded",
       "dependencies": [
         "none: this lane produces decisions and patches, and applies none of them"
       ],
@@ -1124,7 +1132,8 @@
         "The pinned Mississippi proof or its approval record would be edited: stop. That needs a new authorization; prepare the packet and return it.",
         "A terminalization hash would be re-pinned to make a verifier green: stop. A hash moves only with a recorded decision that it still holds.",
         "A worker image would be published or deployed: stop. Prepare the runbook and return the exact authorization required."
-      ]
+      ],
+      "laneResult": "decision_packets_integrated_pending_captain_commit_record"
     }
   ],
   "activeDispatch": {
