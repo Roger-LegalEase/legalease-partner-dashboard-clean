@@ -1,26 +1,34 @@
 {
-  "schemaVersion": "rcap-rendered-artifacts/v1",
-  "sourceSha256": "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33",
-  "renderer": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
-  "factoryVersion": "d0-remediated-v1",
-  "reproducible": "Creation and modification dates are pinned, so re-rendering from the same source binary reproduces these hashes byte for byte.",
   "artifacts": {
-    "fixtures/canonical-filled.pdf": {
-      "sha256": "fe83b1692800d5a38125db853cd0bd72bd461096a2822dad0223f5ce9e0a37e1",
-      "bytes": 123517
+    "contact-sheet/blank-vs-filled.pdf": {
+      "bytes": 233466,
+      "sha256": "f181831fd78fe8eaf7d8f27be36ea1601e076390e3175eee7cea741fa988fdd9",
+      "verifiedOnDisk": true
     },
     "fixtures/boundary-filled.pdf": {
+      "bytes": 123496,
       "sha256": "fcce6dec86f72705d7d21bf56d19e0559a08161a5ecd99d2c2039c385718fe3c",
-      "bytes": 123496
+      "verifiedOnDisk": true
+    },
+    "fixtures/canonical-filled.pdf": {
+      "bytes": 123517,
+      "sha256": "fe83b1692800d5a38125db853cd0bd72bd461096a2822dad0223f5ce9e0a37e1",
+      "verifiedOnDisk": true
     },
     "fixtures/negative-filled.pdf": {
+      "bytes": 123482,
       "sha256": "64e9697f37c6f3d979a2d13c119defaaa012e34b54f9c5b87986c040da65d0d4",
-      "bytes": 123482
-    },
-    "contact-sheet/blank-vs-filled.pdf": {
-      "sha256": "f181831fd78fe8eaf7d8f27be36ea1601e076390e3175eee7cea741fa988fdd9",
-      "bytes": 233466
+      "verifiedOnDisk": true
     }
   },
-  "manifestRepairedFrom": "the bytes on disk after the D final remediation cycle; no participant artifact was re-rendered to make a manifest current"
+  "factoryVersion": "d0-remediated-v1",
+  "manifestRepairedFrom": "the bytes on disk after the D final remediation cycle; no participant artifact was re-rendered to make a manifest current",
+  "renderer": null,
+  "rendererNamedByPortedManifest": "scripts/rcap-official-forms/lanes/d3a-regenerate.mjs",
+  "rendererProvenance": "reports/renderer-provenance.json",
+  "rendererStatus": "unrecoverable_from_accepted_history",
+  "reproducibilityBasis": "These bytes cannot be regenerated in this environment: the renderer named by the ported manifest is not in the tree, no renderer in accepted history claims Colorado, and the official binary this family is pinned to is not mounted. The digests below are recomputed from the bytes on disk and match, which is what these artifacts are retained on.",
+  "reproducible": false,
+  "schemaVersion": "rcap-rendered-artifacts/v2-provenance",
+  "sourceSha256": "abec6d716d028670a3b1e26c2a1b512ce320421253e6b85ec40e636d05577e33"
 }
