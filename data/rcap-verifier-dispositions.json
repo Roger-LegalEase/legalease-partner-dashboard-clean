@@ -4,7 +4,7 @@
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
     "keep_available": 211,
-    "wired": 181,
+    "wired": 184,
     "fix_then_wire": 32,
     "retire": 1,
     "quarantine": 2,
@@ -1323,6 +1323,24 @@
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
+    },
+    "grade-a-route-obligation-census/test-national-route-obligation-census-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "132 rejected mutations against one accepted variant, and the accepted one is deliberate: participant-facing instrument copy may be clarified without changing treatment identity. Everything else -- an omitted failure disposition, a raw status token exposed as a participant instrument, a duplicated service selector, a filing destination falling back to a contract mechanism, post-filing instructions reusing prefiling prose, an owner approval waiving artifact review -- turns the census red. Wired beside the census it proves.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "grade-a-route-obligation-census/verify-national-route-obligation-census.mjs": {
+      "disposition": "wired",
+      "reason": "The national route-obligation census's own contract: 51 jurisdictions, 497 statutory tracks, 337 runtime routes, 984 typed sources and 694 terminal obligations, with every obligation carrying a category, a confidence and the exact work still missing. It is the build denominator, so the thing it must not do is undercount -- a route that never reaches the census is a route nobody is accountable for. It holds the hidden-participant-branch rule in particular: 87 branches a participant could initiate, each of which an exclusion could otherwise have swallowed. Corpus-free, so it runs anywhere; wired from the handoff workflow rather than package.json, which is a worker image input.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs": {
+      "disposition": "wired",
+      "reason": "The V1 freeze is a denominator and three queues, and each can be wrong in a way that costs real work: two waves handed the same owned path put two lanes in one file, a family dispatched while its source is unresolved stalls on its first step, a Category B row outside the six permitted reasons is an obligation quietly written off, and a legal question dropped between batches is never answered. It caught the first of those on its first run -- six packet sets appear twice in the worklist under different implementation strategies, and a path derived from the group id alone collided. It also checks that the freeze opened nothing: commerciallyEligible 0, COMPLETE_PACKET_PROVEN 0, commercial routes 0. Wired; `--mutations` proves an overlapping assignment, a nested path, a bad exclusion and a dropped question are each caught.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
     },
     "rcap-official-forms/test-full-name-charge-caption-semantics-mutations.mjs": {
       "disposition": "wired",

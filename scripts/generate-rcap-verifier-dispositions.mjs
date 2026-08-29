@@ -185,6 +185,24 @@ const OVERRIDES = {
       "No live status record may assert a fact the repository has moved past. Status went stale twice in this sprint the same way -- a generator holding a literal and emitting it after the world changed -- and the second time survived a round of cleanup because the cleanup edited output while the generator kept producing it. Five superseded claims are paired with the live source that settles each: the Oregon questions against the decision record, the Blocker-4 questions against the same, the eight terminalization failures against what verify-rcap-terminalize-c1 actually reports when shelled out to, the retired publication branch against the workflow text, and the superseded Oregon route against the configurations that replaced it. Citing the old state as history passes and must -- deleting what a blocker was leaves its closure unexplained -- while asserting it as current fails. Its --mutations suite proves all five are catchable. Wired.",
     decidedBy: "captain"
   },
+  "grade-a-route-obligation-census/verify-national-route-obligation-census.mjs": {
+    disposition: "wired",
+    reason:
+      "The national route-obligation census's own contract: 51 jurisdictions, 497 statutory tracks, 337 runtime routes, 984 typed sources and 694 terminal obligations, with every obligation carrying a category, a confidence and the exact work still missing. It is the build denominator, so the thing it must not do is undercount -- a route that never reaches the census is a route nobody is accountable for. It holds the hidden-participant-branch rule in particular: 87 branches a participant could initiate, each of which an exclusion could otherwise have swallowed. Corpus-free, so it runs anywhere; wired from the handoff workflow rather than package.json, which is a worker image input.",
+    decidedBy: "captain"
+  },
+  "grade-a-route-obligation-census/test-national-route-obligation-census-mutations.mjs": {
+    disposition: "wired",
+    reason:
+      "132 rejected mutations against one accepted variant, and the accepted one is deliberate: participant-facing instrument copy may be clarified without changing treatment identity. Everything else -- an omitted failure disposition, a raw status token exposed as a participant instrument, a duplicated service selector, a filing destination falling back to a contract mechanism, post-filing instructions reusing prefiling prose, an owner approval waiving artifact review -- turns the census red. Wired beside the census it proves.",
+    decidedBy: "captain"
+  },
+  "grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs": {
+    disposition: "wired",
+    reason:
+      "The V1 freeze is a denominator and three queues, and each can be wrong in a way that costs real work: two waves handed the same owned path put two lanes in one file, a family dispatched while its source is unresolved stalls on its first step, a Category B row outside the six permitted reasons is an obligation quietly written off, and a legal question dropped between batches is never answered. It caught the first of those on its first run -- six packet sets appear twice in the worklist under different implementation strategies, and a path derived from the group id alone collided. It also checks that the freeze opened nothing: commerciallyEligible 0, COMPLETE_PACKET_PROVEN 0, commercial routes 0. Wired; `--mutations` proves an overlapping assignment, a nested path, a bad exclusion and a dropped question are each caught.",
+    decidedBy: "captain"
+  },
   "rcap-official-forms/verify-full-name-charge-caption-semantics.mjs": {
     disposition: "wired",
     reason:
@@ -412,7 +430,7 @@ function verifierFilesUnder(relativeDir) {
 // in holds verifiers nobody has dispositioned, which is the same blind spot
 // this register exists to close -- and the checker looks in the same three.
 const onDisk = [...verifierFilesUnder("scripts"), ...verifierFilesUnder("scripts/security"),
-  ...verifierFilesUnder("scripts/rcap-official-forms")].sort();
+  ...verifierFilesUnder("scripts/rcap-official-forms"), ...verifierFilesUnder("scripts/grade-a-route-obligation-census")].sort();
 
 const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 const testChain = pkg.scripts?.test ?? "";

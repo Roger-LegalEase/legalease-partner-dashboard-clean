@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-route-obligation-census-freeze/v1",
+  "frozenAs": "ROUTE OBLIGATION CENSUS V1",
+  "generatedBy": "scripts/grade-a-route-obligation-census/freeze-route-obligation-census-v1.mjs",
+  "frozenAtHead": "db5b848fc6c69aff5eb8cdaff88a5df05fe1ec30",
+  "regeneratedOnCurrentHead": true,
+  "inputDigests": {
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json": "9b4399fee98537c1e44f3f9041269c4f475aacf958befe22eba51908f5312cc2",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json": "7863fcc4aa0b20758b173780460f222dea96d806d7973c79d510a9c1aa4c28fb",
+    "data/rcap-grade-a/route-obligation-census-candidate/unresolved-legal-review-queue.json": "d44af032796376bdd6fd44b8213b0bca82cb7ca4d91b1d6bd3ff8a2618b565d3",
+    "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json": "87de6e0aafe7a9c29cf653b9cf5662f3b626ece818018e43a372df7aad94a5a2",
+    "data/rcap-grade-a/stale-artifact-block.json": "38c7ee8e5aba10483fb0bfc3b5fd2c78f7a20c18a3035bf9728c2289fe1ba4c9"
+  },
+  "whatThisFreezeIs": [
+    "A build denominator: the obligations that exist, whether or not anything has been built for them.",
+    "A legal-review queue: the routes that cannot be classified without a legal answer.",
+    "A routing-reconciliation queue: the exclusions, each with the reason it is excluded."
+  ],
+  "whatThisFreezeIsNot": [
+    "It is not a fulfillment record and creates none.",
+    "It opens no commercial route and grants no runtime authority.",
+    "It approves no artifact and proves no packet.",
+    "Counting an obligation is not evidence that anything satisfies it."
+  ],
+  "commerciallyEligible": 0,
+  "completePacketProven": 0,
+  "commercialRoutesOpened": 0,
+  "totals": {
+    "jurisdictions": 51,
+    "statutoryLegalTracks": 497,
+    "runtimeRoutes": 337,
+    "typedSourceEntities": 984,
+    "totalObligations": 694,
+    "categoryA": 451,
+    "categoryB": 157,
+    "needsLegalReview": 86,
+    "packetFamilies": 352,
+    "hiddenParticipantFilingBranches": 87
+  },
+  "workTotals": {
+    "officialSourceAcquisitionTasks": 295,
+    "formMapTasks": 261,
+    "composedPleadingTasks": 110,
+    "localVariationTasks": 95,
+    "productWiringTasks": 218,
+    "artifactReviewTasks": 352,
+    "outputApprovalTasks": 337
+  },
+  "sourceCustody": {
+    "reconciledAgainst": "data/rcap-all50/local-source-corpus-index.json",
+    "corpusFilesHeld": 329,
+    "corpusWasNotReacquired": true,
+    "SOURCE_ALREADY_HELD": 57,
+    "SOURCE_REVISION_STALE": 0,
+    "SOURCE_IDENTITY_UNRESOLVED": 166,
+    "SOURCE_GENUINELY_MISSING": 72,
+    "doNotCommissionAcquisitionFor": 57
+  },
+  "staleArtifactBlock": {
+    "record": "data/rcap-grade-a/stale-artifact-block.json",
+    "blockedHashes": 12,
+    "blockedFamilies": 6,
+    "censusCitesABlockedArtifact": false,
+    "consumedAs": "census_packet_evidence is one of the capabilities the block refuses, so a future census counting one of these hashes as packet evidence fails rather than shrinking the denominator."
+  },
+  "buildQueue": {
+    "families": 352,
+    "dispatchable": 114,
+    "heldBack": 238,
+    "waves": 31,
+    "heldBackReasons": {
+      "official source is SOURCE_IDENTITY_UNRESOLVED": 166,
+      "official source is SOURCE_GENUINELY_MISSING": 72
+    }
+  },
+  "legalReviewQueue": {
+    "questions": 86,
+    "batches": 9,
+    "batchSize": 10
+  },
+  "routingReconciliationQueue": {
+    "categoryB": 157,
+    "auditedClean": 157,
+    "withFindings": 0,
+    "revisitBeforeRelease": 55,
+    "reasonCounts": {
+      "UNSUITABLE_FOR_SELF_HELP": 43,
+      "PROSECUTOR_CONTROLLED": 3,
+      "AGENCY_CONTROLLED": 13,
+      "AUTOMATIC": 80,
+      "FUTURE_EFFECTIVE": 7,
+      "COURT_INITIATED": 11
+    }
+  }
+}

@@ -211,6 +211,26 @@ jobs:
       # as the steps above -- package.json is a worker image input, and an npm
       # entry would force an image rebuild for a check that alters nothing the
       # image contains.
+      # The national route-obligation census is the build denominator: 694
+      # obligations across 51 jurisdictions, each with a category and the exact
+      # work still missing. Undercounting is the failure that matters, because a
+      # route that never reaches the census is a route nobody is accountable
+      # for. The freeze check holds the three queues it creates -- no two waves
+      # handed the same path, no exclusion outside the six permitted reasons, no
+      # legal question dropped between batches -- and that the freeze opened
+      # nothing.
+      - name: Verify the national route obligation census
+        run: node scripts/grade-a-route-obligation-census/verify-national-route-obligation-census.mjs
+
+      - name: Prove the route obligation census is load-bearing
+        run: node scripts/grade-a-route-obligation-census/test-national-route-obligation-census-mutations.mjs
+
+      - name: Verify the route obligation census V1 freeze
+        run: node scripts/grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs
+
+      - name: Prove the census V1 freeze is load-bearing
+        run: node scripts/grade-a-route-obligation-census/verify-route-obligation-census-v1-freeze.mjs --mutations
+
       - name: Verify no caption that holds a charge binds the participant's name
         run: node scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs
 

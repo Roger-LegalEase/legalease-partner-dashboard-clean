@@ -83,7 +83,7 @@ function workflowInvokedScripts() {
 }
 const workflowInvocations = workflowInvokedScripts();
 
-// The top level, scripts/security/ and scripts/rcap-official-forms/, matching the generator. These two files
+// The top level and the three verifier subdirectories, matching the generator. These two files
 // are halves of one mechanism: if the register learns about a directory and the
 // check does not, every entry from that directory reads as naming a script that
 // does not exist, and the honest fix is for both to look in the same places.
@@ -98,7 +98,8 @@ function verifierFilesUnder(relativeDir, prefix) {
     .map((f) => `${prefix}${f}`);
 }
 const onDisk = [...verifierFilesUnder(".", ""), ...verifierFilesUnder("security", "security/"),
-  ...verifierFilesUnder("rcap-official-forms", "rcap-official-forms/")].sort();
+  ...verifierFilesUnder("rcap-official-forms", "rcap-official-forms/"),
+  ...verifierFilesUnder("grade-a-route-obligation-census", "grade-a-route-obligation-census/")].sort();
 
 for (const file of onDisk) {
   if (!entries[file]) {
@@ -108,7 +109,7 @@ for (const file of onDisk) {
 
 for (const [file, entry] of Object.entries(entries)) {
   if (!onDisk.includes(file)) {
-    failures.push(`${file}: register names a script that is not in scripts/, scripts/security/ or scripts/rcap-official-forms/`);
+    failures.push(`${file}: register names a script that is not in scripts/ or one of its verifier subdirectories`);
     continue;
   }
   if (!VALID.has(entry.disposition)) {

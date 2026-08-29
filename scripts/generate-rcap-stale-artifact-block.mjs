@@ -56,7 +56,13 @@ const REFUSED_CAPABILITIES = [
   { capability: "packet_family_completion", meaning: "No packet family may be reported complete on the strength of one of these hashes." },
   { capability: "launch_authority", meaning: "No launch-graph row may reach live carrying one of these hashes." },
   { capability: "commercial_admission", meaning: "No commercial admission point may pass with one of these hashes as the artifact." },
-  { capability: "participant_delivery", meaning: "No delivery may hand one of these hashes to a participant." }
+  { capability: "participant_delivery", meaning: "No delivery may hand one of these hashes to a participant." },
+  // Added when the national route-obligation census was frozen. The census's
+  // denominator is built from what already exists, and an artifact rendered
+  // through the defective binder is not evidence that a packet exists -- it is
+  // evidence that one was produced wrongly. Counting it would shrink the build
+  // denominator by exactly the families that most need rebuilding.
+  { capability: "census_packet_evidence", meaning: "No route-obligation census may count one of these hashes as current packet evidence." }
 ];
 
 const byFamily = new Map();

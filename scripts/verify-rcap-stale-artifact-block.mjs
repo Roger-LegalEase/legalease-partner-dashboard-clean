@@ -50,7 +50,11 @@ const CAPABILITY_RECORDS = {
   packet_family_completion: ["data/rcap-ledger/packet-family-build-status.json"],
   launch_authority: ["data/rcap-ledger/launch-graph.json", "data/rcap-ledger/sellable-pathway-closure.json"],
   commercial_admission: ["data/record-clearing/factory-v2-route-registry.json", "data/rcap-all50/pdf-release-readiness.json"],
-  participant_delivery: ["data/rcap-render/delivery-gate-evidence.json", "data/rcap-render/state-machine.json"]
+  participant_delivery: ["data/rcap-render/delivery-gate-evidence.json", "data/rcap-render/state-machine.json"],
+  census_packet_evidence: [
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+    "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json"
+  ]
 };
 
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
@@ -110,8 +114,8 @@ if (!MUTATIONS) {
   check("every refused capability resolves to at least one record that exists",
     Object.entries(CAPABILITY_RECORDS).every(([, patterns]) => patterns.some((p) => resolvePattern(p).length > 0)),
     Object.entries(CAPABILITY_RECORDS).filter(([, ps]) => !ps.some((p) => resolvePattern(p).length > 0)).map(([c]) => c).join(", "));
-  check("the record refuses all six capabilities",
-    (block.refusedCapabilities ?? []).length === 6
+  check("the record refuses all seven capabilities",
+    (block.refusedCapabilities ?? []).length === Object.keys(CAPABILITY_RECORDS).length
     && Object.keys(CAPABILITY_RECORDS).every((c) => block.refusedCapabilities.some((r) => r.capability === c)));
 
   const missing = [];
@@ -127,7 +131,7 @@ if (!MUTATIONS) {
   check("every blocked hash is still the hash of the file it names", drifted.length === 0, drifted.join("; "));
 
   const offenders = violations(block, CAPABILITY_RECORDS);
-  check("no blocked hash appears in any record that grants one of the six capabilities",
+  check("no blocked hash appears in any record that grants one of the seven capabilities",
     offenders.length === 0,
     offenders.map((o) => `${o.capability}: ${o.record} cites ${o.hash.slice(0, 12)}…`).join("; "));
 
@@ -139,7 +143,7 @@ if (!MUTATIONS) {
     for (const f of failures) console.error(`  ${f}`);
     process.exit(1);
   }
-  console.log(`stale-artifact block: ${block.blockedHashes} hash(es) blocked from all six capabilities; ${block.artifactsWithAProvenWrongWrite} artifact(s) carry a proven wrong write and all ${block.blockedArtifacts} are still on disk.`);
+  console.log(`stale-artifact block: ${block.blockedHashes} hash(es) blocked from all seven capabilities; ${block.artifactsWithAProvenWrongWrite} artifact(s) carry a proven wrong write and all ${block.blockedArtifacts} are still on disk.`);
 } else {
   // A block nobody has watched fail is a description of a policy rather than the
   // policy. Each mutation puts a blocked hash somewhere it must not be, or takes
