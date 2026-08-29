@@ -17,7 +17,10 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MANIFEST = "data/rcap-grade-a/active-lane-envelopes.json";
-const CONTROLLING_BASE = "0cad61625a74665db23ac64988c301e48909cf81";
+// The base every ACTIVE lane must start from. Integrated lanes keep the base
+// they were actually built and integrated against, because rewriting their
+// recorded base would make the manifest lie about history.
+const ORIGINAL_BASE = "0cad61625a74665db23ac64988c301e48909cf81";
 
 const failures = [];
 const fail = (m) => failures.push(m);
@@ -40,6 +43,8 @@ const PLACEHOLDER = [
 ];
 
 const doc = JSON.parse(fs.readFileSync(path.join(rootDir, MANIFEST), "utf8"));
+const ACTIVE_BASE = doc.activeDispatch?.activeBaseSha ?? ORIGINAL_BASE;
+const CONTROLLING_BRANCH = doc.activeDispatch?.controllingBranch ?? "claude/legalease-sprint-captain-utucnw";
 const lanes = doc.lanes ?? [];
 if (lanes.length === 0) fail("the manifest describes no lanes");
 
@@ -84,10 +89,22 @@ for (const lane of lanes) {
     if (p === "**" || p === "*" || p.includes("**")) fail(`${id}.ownedPaths contains an all-repository wildcard: ${p}`);
   }
 
-  // one exact base, and it is the controlling one
-  if (lane.baseSha !== CONTROLLING_BASE) fail(`${id}.baseSha is ${lane.baseSha}, not the controlling base`);
-  if (lane.remoteBaseSha !== CONTROLLING_BASE) fail(`${id}.remoteBaseSha is ${lane.remoteBaseSha}, not the controlling base`);
+  // One exact base. An active or queued lane bases on the current dispatch base;
+  // an integrated lane keeps the base it was actually built against.
+  const expectedBase = lane.status === "integrated" ? ORIGINAL_BASE : ACTIVE_BASE;
+  if (lane.baseSha !== expectedBase) fail(`${id}.baseSha is ${lane.baseSha}, not ${expectedBase}`);
+  if (lane.remoteBaseSha !== expectedBase) fail(`${id}.remoteBaseSha is ${lane.remoteBaseSha}, not ${expectedBase}`);
   if (!gitHas(lane.baseSha)) fail(`${id}.baseSha does not resolve to a commit in this repository`);
+  // Every active lane runs Claude Opus 5; Codex is removed from this sprint.
+  if (ACTIVE.has(lane.status) && lane.model !== "Claude Opus 5") {
+    fail(`${id}.model is ${lane.model}; every active lane runs Claude Opus 5`);
+  }
+  if (ACTIVE.has(lane.status) && /^codex\//.test(lane.laneBranch)) {
+    fail(`${id}.laneBranch ${lane.laneBranch} is a Codex branch; those are history and authorize nothing`);
+  }
+  if (ACTIVE.has(lane.status) && lane.controllingBranch !== CONTROLLING_BRANCH) {
+    fail(`${id}.controllingBranch is ${lane.controllingBranch}, not ${CONTROLLING_BRANCH}`);
+  }
 
   // every salvage commit must actually exist
   for (const sha of lane.salvageCommits ?? []) {
@@ -178,11 +195,17 @@ if (activeCount + captainSession > limit) {
   fail(`${activeCount} active lanes plus the captain exceeds the ${limit} session limit`);
 }
 
-// G-DOC is queued until C or D releases a slot
-const gdoc = lanes.find((l) => l.lane === "G-DOC");
-if (gdoc && ACTIVE.has(gdoc.status)) {
-  const stillRunning = lanes.filter((l) => (l.lane === "C" || l.lane === "D") && ACTIVE.has(l.status)).map((l) => l.lane);
-  if (stillRunning.length > 0) fail(`G-DOC is active while ${stillRunning.join(" and ")} still hold a slot`);
+// Lane G owns exactly one concrete packet family, never a self-selected set.
+const g = lanes.find((l) => l.lane === "G");
+if (g) {
+  const fams = (g.packetFamilyIds ?? []).filter((f) => !/^no packet family/i.test(f));
+  if (fams.length !== 1) fail(`G is assigned ${fams.length} packet families; it must be assigned exactly one`);
+  for (const forbidden of ["oregon", "north-dakota"]) {
+    if (fams.includes(forbidden)) fail(`G is assigned ${forbidden}, which is already integrated`);
+  }
+  if ((g.routeIds ?? []).filter((r) => /^[A-Z]{2}:/.test(r)).length === 0) {
+    fail("G is assigned no concrete route ids");
+  }
 }
 
 // ---- report ---------------------------------------------------------------
@@ -194,4 +217,4 @@ if (failures.length > 0) {
 const counts = lanes.reduce((a, l) => ((a[l.status] = (a[l.status] ?? 0) + 1), a), {});
 console.log(`Active lane envelopes verified: ${lanes.length} lane(s).`);
 console.log(`  ${Object.entries(counts).map(([k, v]) => `${k}: ${v}`).join("   ")}`);
-console.log(`  every lane bases on ${CONTROLLING_BASE}; owned paths are disjoint; captain-only paths are prohibited to every worker.`);
+console.log(`  active lanes base on ${ACTIVE_BASE} and all run Claude Opus 5; owned paths are disjoint; captain-only paths are prohibited to every worker.`);
