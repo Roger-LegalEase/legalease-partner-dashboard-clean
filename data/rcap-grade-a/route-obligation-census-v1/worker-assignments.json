@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "rcap-census-v1-worker-assignments/v1",
+  "maintainedBy": "the Captain, on each dispatch and each completion",
+  "whatStartedMeans": "a Claude worker session was actually created for this unit and is running. It is not a claim that the work is done.",
+  "buildSlotCapacity": 12,
+  "assignments": [
+    {
+      "kind": "acquisition_probe",
+      "sessionId": "session_01LTf6ufPevgHXGzFuLb8WWf",
+      "environmentId": "env_01XjLkaEKQ1hcwue9AVvxVUu",
+      "environmentNote": "the trusted-network environment, chosen because the Captain's own environment refuses egress to court hosts",
+      "branch": "claude/census-v1-acquisition-probe",
+      "scope": "prove egress, then acquire only the 72 SOURCE_GENUINELY_MISSING rows from issuing authorities",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": false
+    },
+    {
+      "kind": "source_identity_resolution",
+      "sessionId": "session_01MkWgHmMoeiwtLRyVkCM6Yr",
+      "branch": "claude/census-v1-source-identity-1",
+      "ownedPath": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-1/**",
+      "scope": "rows 1-83 of the 166 SOURCE_IDENTITY_UNRESOLVED tasks",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": false
+    },
+    {
+      "kind": "source_identity_resolution",
+      "sessionId": "session_01DXRuJxAYM3wAUn9cZQUck9",
+      "branch": "claude/census-v1-source-identity-2",
+      "ownedPath": "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/batch-2/**",
+      "scope": "rows 84-166 of the 166 SOURCE_IDENTITY_UNRESOLVED tasks",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": false
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01JSaVfx2euW6ght3nuyg5CY",
+      "worklistGroupId": "ak-courtview-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "AK",
+      "branch": "claude/census-v1-build-ak-courtview-set",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01HtP3kKNhGc9sxeKrHy4b13",
+      "worklistGroupId": "ak-tf800-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "AK",
+      "branch": "claude/census-v1-build-ak-tf800-set",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01HAFb45sHkH8LgoRY7QCaKu",
+      "worklistGroupId": "ak-tf805-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "AK",
+      "branch": "claude/census-v1-build-ak-tf805-set",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01GPz8DfRQXQBMm9cfpN55Hw",
+      "worklistGroupId": "ar-arrest-seal-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "AR",
+      "branch": "claude/census-v1-build-ar-arrest-seal-set",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01T6XPvyywfNRUM5JoQJBaXs",
+      "worklistGroupId": "az_record_sealing_dismissal_not_guilty-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "AZ",
+      "branch": "claude/census-v1-build-az-record-sealing-dismissal-not-guilty",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    },
+    {
+      "kind": "packet_build",
+      "sessionId": "session_01RDnPFhzcUi3H9JxwJ8pTfX",
+      "worklistGroupId": "ca-1203-4-set",
+      "implementationStrategy": "official_pdf_fill",
+      "jurisdiction": "CA",
+      "branch": "claude/census-v1-build-ca-1203-4-set",
+      "ownedPath": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill",
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "occupiesBuildSlot": true
+    }
+  ]
+}
