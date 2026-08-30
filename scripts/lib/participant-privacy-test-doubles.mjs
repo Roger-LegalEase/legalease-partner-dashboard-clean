@@ -27,7 +27,16 @@ import { createHash } from "node:crypto";
 
 let db = null;
 let session = { isAuthenticated: false, userId: undefined };
-const storageState = { objects: new Map(), removed: [], listCalls: [] };
+const storageState = {
+  objects: new Map(),
+  removed: [],
+  listCalls: [],
+  removeCalls: [],
+  // Injected faults. A sweep that cannot survive a mid-run failure is a sweep
+  // that silently leaves files behind, so the failure has to be producible.
+  failListingFor: new Set(),
+  failRemovalFor: new Set()
+};
 
 export function bindEphemeralDb(handle) {
   db = handle;
@@ -50,10 +59,28 @@ export function storageListCalls() {
 export function storagePaths() {
   return [...storageState.objects.keys()];
 }
+export function storageRemoveCalls() {
+  return storageState.removeCalls.map((batch) => [...batch]);
+}
+/** Make one prefix unlistable, to prove a listing failure is a failed step. */
+export function failStorageListing(prefix) {
+  storageState.failListingFor.add(prefix);
+}
+/** Make one object undeletable, to prove a partial sweep resumes. */
+export function failStorageRemoval(path) {
+  storageState.failRemovalFor.add(path);
+}
+export function clearStorageFaults() {
+  storageState.failListingFor.clear();
+  storageState.failRemovalFor.clear();
+}
 export function resetStorage() {
   storageState.objects.clear();
   storageState.removed.length = 0;
   storageState.listCalls.length = 0;
+  storageState.removeCalls.length = 0;
+  storageState.failListingFor.clear();
+  storageState.failRemovalFor.clear();
 }
 
 function quote(value) {
@@ -234,22 +261,62 @@ function rpc(name, params, role = null) {
   }
 }
 
+/**
+ * Supabase Storage, as it actually behaves.
+ *
+ * The first version of this double returned every descendant of a prefix in one
+ * unlimited flat array. Nothing that read it could tell a correct sweep from one
+ * that missed a nested folder or stopped at the first page, so a deletion that
+ * left a thousand objects behind would have passed. Storage does none of those
+ * things, so neither does this:
+ *
+ *   - only IMMEDIATE children are returned; a nested prefix appears as one
+ *     folder entry with a null id, and its contents are invisible until you
+ *     list that prefix too;
+ *   - `limit` and `offset` are honoured, and limit is capped at 1000 the way
+ *     the real API caps it, so a caller that does not paginate silently sees a
+ *     truncated bucket;
+ *   - a listing failure returns an error, NOT an empty array, because the
+ *     difference between "nothing is here" and "I could not look" is the whole
+ *     question when the answer decides whether files get deleted.
+ */
 function storageBucket() {
   return {
-    async list(prefix) {
-      storageState.listCalls.push(prefix);
-      const entries = [];
-      for (const [path, meta] of storageState.objects) {
-        if (!path.startsWith(`${prefix}/`)) continue;
-        entries.push({
-          name: path.slice(prefix.length + 1),
-          created_at: "2026-01-01T00:00:00.000Z",
-          metadata: { size: meta.size, mimetype: "application/pdf" }
-        });
+    async list(prefix, options = {}) {
+      storageState.listCalls.push({ prefix, ...options });
+      if (storageState.failListingFor.has(prefix)) {
+        return { data: null, error: { message: `listing failed for ${prefix}` } };
       }
-      return { data: entries, error: null };
+      const limit = Math.min(options.limit ?? 100, 1000);
+      const offset = options.offset ?? 0;
+      const base = prefix ? `${prefix}/` : "";
+      const files = new Map();
+      const folders = new Set();
+      for (const [path, meta] of storageState.objects) {
+        if (!path.startsWith(base)) continue;
+        const rest = path.slice(base.length);
+        if (!rest) continue;
+        const slash = rest.indexOf("/");
+        if (slash === -1) files.set(rest, meta);
+        else folders.add(rest.slice(0, slash));
+      }
+      const entries = [
+        ...[...folders].sort().map((name) => ({ name, id: null, metadata: null })),
+        ...[...files.keys()].sort().map((name) => ({
+          name,
+          id: `obj-${name}`,
+          created_at: "2026-01-01T00:00:00.000Z",
+          metadata: { size: files.get(name).size, mimetype: "application/pdf" }
+        }))
+      ];
+      return { data: entries.slice(offset, offset + limit), error: null };
     },
     async remove(paths) {
+      storageState.removeCalls.push([...paths]);
+      const failing = paths.filter((path) => storageState.failRemovalFor.has(path));
+      if (failing.length > 0) {
+        return { data: null, error: { message: `removal failed for ${failing.length} object(s)` } };
+      }
       const removed = [];
       for (const path of paths) {
         // Removing an object that is already gone succeeds, exactly as Storage

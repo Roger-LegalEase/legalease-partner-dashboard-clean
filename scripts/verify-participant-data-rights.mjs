@@ -95,6 +95,49 @@ process.env.NEXT_PUBLIC_EXPUNGEMENT_AI_URL = "http://app.test";
 process.env.PARTICIPANT_PRIVACY_PROOF_SECRET = "participant-privacy-proof-secret-for-tests";
 process.env.PARTICIPANT_PRIVACY_PSEUDONYM_SECRET = "participant-privacy-pseudonym-secret-for-tests";
 process.env.RATE_LIMIT_HASH_SECRET = "participant-privacy-rate-limit-secret-for-tests";
+
+/**
+ * A real processor endpoint, over loopback.
+ *
+ * The processor adapters are exercised through their actual transmit path
+ * rather than swapped for stubs, because the defect being guarded against was
+ * precisely a step that reported "sent" without transmitting anything. A stub
+ * that returns "acknowledged" would reproduce that defect in the test. This
+ * server makes the request real and its outcome deterministic:
+ *
+ *   200 with x-request-id -> acknowledged
+ *   500                   -> retryable, so the adapter retries and reports pending
+ *   400                   -> permanent, reported failed without a retry
+ *
+ * The mode is switched per check by processorMode.
+ */
+let processorMode = "success";
+const processorRequests = [];
+const processorServer = http.createServer((req, res) => {
+  let body = "";
+  req.on("data", (chunk) => { body += chunk; });
+  req.on("end", () => {
+    processorRequests.push({ url: req.url, body, mode: processorMode });
+    if (processorMode === "retryable") {
+      res.writeHead(500, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: "temporarily unavailable" }));
+      return;
+    }
+    if (processorMode === "permanent") {
+      res.writeHead(400, { "content-type": "application/json" });
+      res.end(JSON.stringify({ error: "unknown subject" }));
+      return;
+    }
+    res.writeHead(200, { "content-type": "application/json", "x-request-id": `provider-ref-${processorRequests.length}` });
+    res.end(JSON.stringify({ ok: true }));
+  });
+});
+await new Promise((resolve) => processorServer.listen(0, "127.0.0.1", resolve));
+const processorUrl = `http://127.0.0.1:${processorServer.address().port}`;
+process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL = `${processorUrl}/email`;
+process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_TOKEN = "email-suppression-test-token";
+process.env.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_URL = `${processorUrl}/analytics`;
+process.env.PARTICIPANT_PRIVACY_ANALYTICS_ERASURE_TOKEN = "analytics-erasure-test-token";
 delete process.env.VERCEL_ENV;
 process.env.NODE_ENV = "test";
 
@@ -292,6 +335,16 @@ const sql = (text) => db.sql(text);
 const scalar = (text) => String(sql(text)).split("\n").map((l) => l.trim()).filter(Boolean)[0] ?? "";
 const count = (text) => Number(scalar(text) || 0);
 
+/**
+ * A deterministic stand-in for the digest a real issued artifact carries. The
+ * protected authority compares the artifact's own digest against the digest in
+ * its provenance evidence, so the fixture has to carry a real, matching pair --
+ * a fixture that skipped it would be exercising a weaker check than production.
+ */
+function artifactSha(itemId) {
+  return createHash("sha256").update(`fixture-artifact/${itemId}`).digest("hex");
+}
+
 function seedParticipant(userId, label, { partnerSlug = null } = {}) {
   const sessionId = fixtureUuid(`session/${label}`);
   const itemId = fixtureUuid(`item/${label}`);
@@ -315,8 +368,38 @@ function seedParticipant(userId, label, { partnerSlug = null } = {}) {
              'custom_pleading','unpaid','ready',
              '{"text":"Your Mississippi petition is ready."}'::jsonb,
              '["File at the circuit clerk."]'::jsonb,
-             '{"provider":"rcap_source_engine","packetId":"${itemId}","fileName":"petition.txt","contentType":"text/plain","source":"source_driven_packet_plan","packetPlanId":"ms-nonconviction","downloadPath":"/api/expungement-ai/packet/download?briefcaseItemId=${itemId}","generatedAt":"2026-02-01T00:00:00.000Z","text":"PETITION TO EXPUNGE - fixture body"}'::jsonb,
+             '{"provider":"rcap_source_engine","packetId":"${itemId}","fileName":"petition.txt","contentType":"text/plain","source":"source_driven_packet_plan","packetPlanId":"ms-nonconviction","artifactSha256":"${artifactSha(itemId)}","downloadPath":"/api/expungement-ai/packet/download?briefcaseItemId=${itemId}","generatedAt":"2026-02-01T00:00:00.000Z","text":"PETITION TO EXPUNGE - fixture body"}'::jsonb,
              now() + interval '30 days','${sessionId}')`
+  );
+  // The protected artifact authority behind the private download link. Seeded
+  // explicitly rather than inferred from packet_status, because the authority
+  // deliberately refuses to infer it: a link that worked because a status
+  // string said "ready" is the substitution the whole table exists to stop.
+  // The evidence digest matches the artifact's own, so the legacy-artifact
+  // corroboration the application performs is genuinely exercised.
+  sql(
+    `insert into public.consumer_packet_artifact_provenance
+       (briefcase_item_id, consumer_auth_user_id, matter_id, render_job_id,
+        verification_hash, entitlement_source, artifact, legacy_evidence)
+     select '${itemId}','${userId}',
+            public.consumer_matter_id_for_briefcase_item('${itemId}'), null, null,
+            'legacy_backfill',
+            b.artifact_refs_json,
+            jsonb_build_object(
+              'kind','sponsored_generation_record',
+              'consumerAuthUserId','${userId}',
+              'briefcaseItemId','${itemId}',
+              'matterId', public.consumer_matter_id_for_briefcase_item('${itemId}')::text,
+              'artifactSource','source_driven_packet_plan',
+              'packetPlanId','ms-nonconviction',
+              'artifactSha256','${artifactSha(itemId)}',
+              'outputId','${itemId}',
+              'verificationHash', null,
+              'sourceSessionId','${sessionId}',
+              'generationRecordId','${itemId}',
+              'creditRecordId','${sessionId}'
+            )
+       from public.consumer_briefcase_items b where b.id = '${itemId}'`
   );
   sql(
     `insert into public.consumer_pending_screening_results
@@ -977,8 +1060,245 @@ let accountReceipt = null;
 }
 
 // =============================================================================
+// Processor erasure: four outcomes, each produced by a real request or an
+// explicit classification. The point of these is narrow and important: the step
+// they replace wrote "sent" for every processor whose contract entry said it
+// held data, without transmitting anything.
+// =============================================================================
+{
+  const { defaultProcessorAdapters, processorOutcomeIsSettled } =
+    await import("../src/lib/expungement-ai/privacy/processor-erasure.ts");
+  const adapters = defaultProcessorAdapters();
+  const byKey = (key) => adapters.find((adapter) => adapter.key === key);
+  const request = {
+    requestId: fixtureUuid("processor/request"),
+    userId: fixtureUuid("processor/user"),
+    subjectPseudonym: "pseudo-subject",
+    email: "processor-check@participant.test"
+  };
+
+  const before = processorRequests.length;
+  processorMode = "success";
+  const ok = await byKey("email_delivery").erase({ ...request, processorKey: "email_delivery" });
+  check(
+    "PR1",
+    "a successful suppression is acknowledged, with the provider's own reference",
+    ok.status === "acknowledged" && typeof ok.reference === "string" && ok.reference.length > 0
+      && processorRequests.length > before,
+    JSON.stringify(ok)
+  );
+
+  processorMode = "retryable";
+  const retry = await byKey("product_analytics").erase({ ...request, processorKey: "product_analytics" });
+  check(
+    "PR2",
+    "a retryable failure is pending and retryable, never sent",
+    retry.status === "pending" && retry.detail.retryable === true,
+    JSON.stringify(retry)
+  );
+
+  processorMode = "permanent";
+  const permanent = await byKey("product_analytics").erase({ ...request, processorKey: "product_analytics" });
+  check(
+    "PR3",
+    "a permanent failure is failed, and is not retried into a pending state",
+    permanent.status === "failed" && permanent.detail.retryable === false,
+    JSON.stringify(permanent)
+  );
+  processorMode = "success";
+
+  const payment = await byKey("payment_processor").erase({ ...request, processorKey: "payment_processor" });
+  check(
+    "PR4",
+    "the payment processor is not_applicable, and says so as retention rather than deletion",
+    payment.status === "not_applicable"
+      && payment.detail.deletionRequested === false
+      && payment.detail.retentionTreatment === "retained_for_financial_compliance",
+    JSON.stringify(payment)
+  );
+
+  const worker = await byKey("packet_render_worker").erase({ ...request, processorKey: "packet_render_worker" });
+  check(
+    "PR5",
+    "the render worker is not_applicable because it holds no participant data",
+    worker.status === "not_applicable" && worker.detail.reason === "holds_no_participant_personal_data",
+    JSON.stringify(worker)
+  );
+
+  check(
+    "PR6",
+    "pending and failed are outstanding; acknowledged and not_applicable settle",
+    processorOutcomeIsSettled(byKey("email_delivery"), ok) === true
+      && processorOutcomeIsSettled(byKey("product_analytics"), retry) === false
+      && processorOutcomeIsSettled(byKey("product_analytics"), permanent) === false
+      && processorOutcomeIsSettled(byKey("payment_processor"), payment) === true
+  );
+
+  // An unconfigured provider must never read as sent. This is the exact shape
+  // of the original defect, so it is asserted directly.
+  const savedUrl = process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL;
+  delete process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL;
+  const unconfigured = await defaultProcessorAdapters()
+    .find((adapter) => adapter.key === "email_delivery")
+    .erase({ ...request, processorKey: "email_delivery" });
+  process.env.PARTICIPANT_PRIVACY_EMAIL_SUPPRESSION_URL = savedUrl;
+  check(
+    "PR7",
+    "an unconfigured provider is pending, never sent or acknowledged",
+    unconfigured.status === "pending" && unconfigured.detail.reason === "no_provider_configured",
+    JSON.stringify(unconfigured)
+  );
+}
+
+// =============================================================================
+// Storage: exhaustive, paginated, recursive, resumable.
+// =============================================================================
+{
+  const doubles = await import("./lib/participant-privacy-test-doubles.mjs");
+  const { seedStorageObject, resetStorage, storageRemoveCalls, storagePaths,
+          failStorageListing, failStorageRemoval, clearStorageFaults } = doubles;
+  const { defaultDeletionDependencies } = await import("../src/lib/expungement-ai/privacy/deletion.ts");
+  const { participantStoragePrefixes, STORAGE_DELETE_CHUNK } =
+    await import("../src/lib/expungement-ai/privacy/contract.ts");
+
+  const OWNER = fixtureUuid("storage/owner");
+  const SIBLING = fixtureUuid("storage/sibling");
+  const deps = defaultDeletionDependencies(doubles.getSupabaseAdminClient());
+
+  resetStorage();
+  // Two shapes, because they catch different mistakes and a fixture that only
+  // has one of them proves less than it looks.
+  //
+  //   - 1,100 objects under a SINGLE prefix. Storage caps a page at 1,000, so a
+  //     sweep that does not paginate finds 1,000 of them and misses 100. An
+  //     earlier version of this fixture spread everything across 21 folders,
+  //     where no folder exceeded a page: it proved recursion and silently
+  //     proved nothing about pagination, and disabling pagination still passed.
+  //   - 100 more nested three prefixes deep, so a sweep that does not recurse
+  //     misses those.
+  const ownerPrefix = participantStoragePrefixes(OWNER)[0];
+  const expected = [];
+  for (let i = 0; i < 1100; i += 1) {
+    const path = `${ownerPrefix}/flat/file-${i}.pdf`;
+    seedStorageObject(path);
+    expected.push(path);
+  }
+  for (let i = 0; i < 100; i += 1) {
+    const path = `${ownerPrefix}/matter-${i % 7}/year-${i % 3}/file-${i}.pdf`;
+    seedStorageObject(path);
+    expected.push(path);
+  }
+  // A second approved location, to prove the sweep is driven by the contract
+  // list rather than by one remembered prefix.
+  const packetsPrefix = participantStoragePrefixes(OWNER)[1];
+  seedStorageObject(`${packetsPrefix}/nested/deep/packet.pdf`);
+  expected.push(`${packetsPrefix}/nested/deep/packet.pdf`);
+  // A sibling participant, who must be untouched.
+  const siblingPath = `${participantStoragePrefixes(SIBLING)[0]}/matter-1/year-1/file-0.pdf`;
+  seedStorageObject(siblingPath);
+
+  const listed = [];
+  for (const prefix of participantStoragePrefixes(OWNER)) {
+    listed.push(...(await deps.listStorageObjects(prefix)));
+  }
+  check(
+    "S1",
+    "listing paginates and recurses: every one of 1,201 objects is found, across a 1,100-object page boundary and three levels of nesting",
+    listed.length === expected.length && expected.every((path) => listed.includes(path)),
+    `found ${listed.length} of ${expected.length}`
+  );
+  check("S2", "the sibling participant's object is not in the owner's listing", !listed.includes(siblingPath));
+
+  const removal = await deps.removeStorageObjects(listed);
+  check(
+    "S3",
+    "deletion is chunked rather than one oversized request",
+    storageRemoveCalls().length >= Math.ceil(listed.length / STORAGE_DELETE_CHUNK)
+      && storageRemoveCalls().every((batch) => batch.length <= STORAGE_DELETE_CHUNK),
+    `${storageRemoveCalls().length} batch(es)`
+  );
+  check("S4", "every object is removed and none is reported failed",
+    removal.failed.length === 0 && removal.removed.length === listed.length);
+  const remaining = [];
+  for (const prefix of participantStoragePrefixes(OWNER)) {
+    remaining.push(...(await deps.listStorageObjects(prefix)));
+  }
+  check("S5", "a re-list after the sweep finds nothing left", remaining.length === 0, `${remaining.length} left`);
+  check("S6", "the sibling participant's object survives", storagePaths().includes(siblingPath));
+
+  // Already-absent objects: sweeping again is not an error.
+  const secondPass = await deps.removeStorageObjects(expected.slice(0, 5));
+  check("S7", "removing an object that is already gone succeeds", secondPass.failed.length === 0);
+
+  // A listing failure must be a failed step, not an empty result. This is the
+  // vacuity that let a missing directory read as "nothing to delete".
+  clearStorageFaults();
+  resetStorage();
+  seedStorageObject(`${ownerPrefix}/matter-0/file-0.pdf`);
+  failStorageListing(`${ownerPrefix}/matter-0`);
+  let listingThrew = false;
+  try {
+    await deps.listStorageObjects(ownerPrefix);
+  } catch {
+    listingThrew = true;
+  }
+  check("S8", "a listing failure raises rather than reporting an empty prefix", listingThrew);
+
+  // A partial sweep must resume: the objects that did delete stay deleted, and
+  // a second run finishes the rest.
+  clearStorageFaults();
+  resetStorage();
+  const resumePaths = [];
+  for (let i = 0; i < 150; i += 1) {
+    const path = `${ownerPrefix}/resume/file-${i}.pdf`;
+    seedStorageObject(path);
+    resumePaths.push(path);
+  }
+  failStorageRemoval(`${ownerPrefix}/resume/file-120.pdf`);
+  const partial = await deps.removeStorageObjects(resumePaths);
+  check("S9", "a partial sweep reports exactly the chunk that failed",
+    partial.failed.length > 0 && partial.removed.length > 0
+      && partial.removed.length + partial.failed.length === resumePaths.length,
+    `${partial.removed.length} removed, ${partial.failed.length} failed`);
+  clearStorageFaults();
+  const resumed = await deps.removeStorageObjects(await deps.listStorageObjects(ownerPrefix));
+  const afterResume = await deps.listStorageObjects(ownerPrefix);
+  check("S10", "the resumed sweep finishes what the interrupted one left",
+    resumed.failed.length === 0 && afterResume.length === 0, `${afterResume.length} left`);
+  resetStorage();
+}
+
+// =============================================================================
+// Deployment readiness. A visible control backed by unavailable tables or RPCs
+// is a promise the deployment cannot keep.
+// =============================================================================
+{
+  const { participantPrivacyReadiness } = await import("../src/lib/expungement-ai/privacy/readiness.ts");
+  const ready = await participantPrivacyReadiness();
+  check("G1", "readiness passes when the migration, the RPC and both secrets are present",
+    ready.ready === true && ready.missing.length === 0, JSON.stringify(ready.missing));
+  check("G2", "readiness names the artifact authority and the workflow table as checked",
+    ready.checked.migrationPresent === true && ready.checked.artifactAuthorityPresent === true);
+
+  const savedProof = process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
+  delete process.env.PARTICIPANT_PRIVACY_PROOF_SECRET;
+  const missingSecret = await participantPrivacyReadiness();
+  process.env.PARTICIPANT_PRIVACY_PROOF_SECRET = savedProof;
+  check("G3", "a missing proof secret closes the gate and is named",
+    missingSecret.ready === false && missingSecret.missing.includes("PARTICIPANT_PRIVACY_PROOF_SECRET"));
+
+  const savedPseudonym = process.env.PARTICIPANT_PRIVACY_PSEUDONYM_SECRET;
+  process.env.PARTICIPANT_PRIVACY_PSEUDONYM_SECRET = "too-short";
+  const shortSecret = await participantPrivacyReadiness();
+  process.env.PARTICIPANT_PRIVACY_PSEUDONYM_SECRET = savedPseudonym;
+  check("G4", "a secret too short to be worth having closes the gate",
+    shortSecret.ready === false && shortSecret.missing.includes("PARTICIPANT_PRIVACY_PSEUDONYM_SECRET"));
+}
+
+// =============================================================================
 
 gotrueServer.close();
+processorServer.close();
 db.stop?.();
 
 console.log(`\n${results.length - failures}/${results.length} checks passed.`);

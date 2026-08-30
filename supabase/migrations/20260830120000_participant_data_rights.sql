@@ -1071,3 +1071,244 @@ begin
   end loop;
 end
 $participant_privacy_grants$;
+
+-------------------------------------------------------------------------------
+-- 10. The protected packet-artifact authority.
+--
+-- WHY THIS IS HERE AND NOT IN ITS OWN MIGRATION
+--
+-- src/lib/expungement-ai/verification-cas.ts calls
+-- get_consumer_packet_artifact_authority and, until now, no repository SQL
+-- defined it. The tree said so itself: that call and six siblings carry
+-- "captain SQL pending". The data-rights work is what surfaced it, because the
+-- one thing that proves a private packet link stops working after a deletion is
+-- proving it worked before, and that read goes through this authority.
+--
+-- ONLY THE READ IS IMPLEMENTED HERE. The six siblings are writers --
+-- persist_consumer_packet_verification, bind_consumer_checkout_verification,
+-- attach_consumer_packet_artifact_if_verified,
+-- enqueue_verified_consumer_packet_render,
+-- finalize_sponsored_packet_generation_if_verified and
+-- get_consumer_briefcase_presentation_source. They stay pending. Writing them
+-- here would invent a second commercial and delivery authority alongside
+-- governCommercialAdmission and the money gate, which is exactly what must not
+-- happen. This read creates no entitlement: it reports what provenance already
+-- says, and reports absence as absence.
+--
+-- WHY A TABLE RATHER THAN READING artifact_refs_json
+--
+-- The contract in verification-cas.ts is explicit -- "never infer from
+-- artifact_refs_json or packet_status". Those two columns are a display mirror.
+-- Anything that can write a briefcase row could otherwise mint itself a packet
+-- by setting a status string, so the authority is a separate protected record
+-- whose binding columns cannot be rewritten once set.
+-------------------------------------------------------------------------------
+
+create table if not exists public.consumer_packet_artifact_provenance (
+  briefcase_item_id uuid primary key
+    references public.consumer_briefcase_items(id) on delete cascade,
+  consumer_auth_user_id uuid not null,
+  matter_id uuid not null,
+  render_job_id uuid references public.packet_render_jobs(id),
+  verification_hash text
+    check (verification_hash is null or verification_hash ~ '^[a-f0-9]{64}$'),
+  entitlement_source text not null
+    check (entitlement_source in ('consumer_payment', 'partner_sponsorship', 'legacy_backfill')),
+  artifact jsonb not null,
+  legacy_evidence jsonb,
+  revision integer not null default 1 check (revision >= 1),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  -- A legacy-backfilled row must carry its evidence, because the application
+  -- refuses a legacy artifact whose evidence does not corroborate it.
+  constraint consumer_packet_artifact_provenance_legacy_evidence_required
+    check (entitlement_source <> 'legacy_backfill' or legacy_evidence is not null)
+);
+
+create index if not exists consumer_packet_artifact_provenance_user_idx
+  on public.consumer_packet_artifact_provenance (consumer_auth_user_id);
+
+alter table public.consumer_packet_artifact_provenance enable row level security;
+
+revoke all on table public.consumer_packet_artifact_provenance from anon;
+revoke all on table public.consumer_packet_artifact_provenance from authenticated;
+
+comment on table public.consumer_packet_artifact_provenance is
+  'Protected provenance for an issued consumer packet artifact. The authority behind the private download link. No RLS policy exists, so it is unreadable except by the service role; the participant reaches it only through the download route.';
+
+-- Substituted-object denial. Once provenance is written, the artifact payload
+-- and the bindings it rests on are frozen: an attacker who can update this row
+-- still cannot repoint a link at a different object, a different matter, a
+-- different render job or a different owner. The single exception is the
+-- erasure authority replacing the owner id with a pseudonym, which is the same
+-- exception the payment and delivery guards carry, and it deliberately cannot
+-- touch the artifact.
+create or replace function public.consumer_packet_artifact_provenance_immutable()
+returns trigger
+language plpgsql
+set search_path to ''
+as $provenance$
+declare
+  v_erasure boolean := public.rcap_participant_erasure_authority() = 'erase_participant_identifiers';
+begin
+  if tg_op = 'UPDATE' then
+    if new.briefcase_item_id is distinct from old.briefcase_item_id
+       or new.matter_id is distinct from old.matter_id
+       or new.render_job_id is distinct from old.render_job_id
+       or new.entitlement_source is distinct from old.entitlement_source
+       or new.verification_hash is distinct from old.verification_hash
+       or new.artifact is distinct from old.artifact
+       or new.legacy_evidence is distinct from old.legacy_evidence then
+      raise exception 'consumer_packet_artifact_provenance: issued artifact provenance is immutable';
+    end if;
+    if new.consumer_auth_user_id is distinct from old.consumer_auth_user_id and not v_erasure then
+      raise exception 'consumer_packet_artifact_provenance: consumer_auth_user_id is immutable once set';
+    end if;
+    new.revision := old.revision + 1;
+    new.updated_at := now();
+  end if;
+  return new;
+end;
+$provenance$;
+
+drop trigger if exists consumer_packet_artifact_provenance_immutable
+  on public.consumer_packet_artifact_provenance;
+create trigger consumer_packet_artifact_provenance_immutable
+  before update on public.consumer_packet_artifact_provenance
+  for each row execute function public.consumer_packet_artifact_provenance_immutable();
+
+-- The read. Absence is a first-class answer, not an error and not an empty set:
+-- a caller that cannot tell "no artifact" from "the query failed" is the failure
+-- mode this whole module exists to avoid. Cross-user and cross-item requests
+-- return the absent state rather than raising, so a probe learns nothing it
+-- could not have learned by asking about its own item.
+create or replace function public.get_consumer_packet_artifact_authority(
+  p_consumer_auth_user_id uuid,
+  p_briefcase_item_id uuid
+)
+returns table (
+  status text,
+  revision integer,
+  verification_hash text,
+  entitlement_source text,
+  artifact jsonb,
+  consumer_auth_user_id uuid,
+  briefcase_item_id uuid,
+  matter_id uuid,
+  legacy_evidence jsonb
+)
+language sql
+stable
+security definer
+set search_path to ''
+as $authority$
+  select
+    case when p.briefcase_item_id is null then 'absent' else 'ready' end as status,
+    coalesce(p.revision, 1) as revision,
+    p.verification_hash,
+    p.entitlement_source,
+    p.artifact,
+    p.consumer_auth_user_id,
+    p.briefcase_item_id,
+    p.matter_id,
+    p.legacy_evidence
+  from (select 1) as one
+  left join public.consumer_packet_artifact_provenance p
+    -- Every binding is required in the join, so a mismatch on any of them is
+    -- absence rather than a partially-authorized row: the provenance must name
+    -- this item, and it must name this owner. The owner is checked against the
+    -- item as well, so a provenance row left behind by a re-owned item cannot
+    -- authorize the new owner.
+    on p.briefcase_item_id = p_briefcase_item_id
+   and p.consumer_auth_user_id = p_consumer_auth_user_id
+   and exists (
+         select 1
+         from public.consumer_briefcase_items i
+         where i.id = p.briefcase_item_id
+           and i.user_id = p_consumer_auth_user_id
+       )
+   and (
+         p.render_job_id is null
+         or exists (
+              select 1
+              from public.packet_render_jobs j
+              where j.id = p.render_job_id
+                and j.consumer_briefcase_item_id = p.briefcase_item_id
+                and j.consumer_auth_user_id = p.consumer_auth_user_id
+            )
+       );
+$authority$;
+
+comment on function public.get_consumer_packet_artifact_authority(uuid, uuid) is
+  'Read-only protected artifact authority. Returns the issued provenance for one participant''s own briefcase item, or the absent state. Creates no entitlement, records nothing, and reports absence for a cross-user, cross-item or unbound-render-job request.';
+
+-- Legacy backfill, deliberately narrow.
+--
+-- verification-cas.ts records that the captain must backfill already-issued
+-- artifacts into protected provenance "before they remain accessible". This
+-- backfills exactly the rows where the evidence the application demands can be
+-- derived from records that already exist -- a ready artifact, its render job,
+-- and the payment consumption that paid for it -- and nothing else.
+--
+-- A ready item WITHOUT that evidence is deliberately not backfilled, and its
+-- private link therefore stops working until an authorized writer issues
+-- provenance for it. That is the safe direction: minting provenance from a
+-- status string and a display mirror is precisely the substitution this table
+-- exists to prevent, and inventing an identifier to satisfy a shape check would
+-- be fabricating the evidence rather than finding it.
+insert into public.consumer_packet_artifact_provenance
+  (briefcase_item_id, consumer_auth_user_id, matter_id, render_job_id,
+   verification_hash, entitlement_source, artifact, legacy_evidence)
+select
+  i.id,
+  i.user_id,
+  coalesce(i.payment_matter_id, public.consumer_matter_id_for_briefcase_item(i.id)),
+  j.id,
+  null,
+  'legacy_backfill',
+  i.artifact_refs_json,
+  jsonb_build_object(
+    'kind', 'consumer_payment_render_output',
+    'consumerAuthUserId', i.user_id::text,
+    'briefcaseItemId', i.id::text,
+    'matterId', coalesce(i.payment_matter_id, public.consumer_matter_id_for_briefcase_item(i.id))::text,
+    'artifactSource', i.artifact_refs_json ->> 'source',
+    'packetPlanId', i.artifact_refs_json ->> 'packetPlanId',
+    'artifactSha256', encode(extensions.digest(i.artifact_refs_json::text, 'sha256'), 'hex'),
+    'outputId', j.id::text,
+    'verificationHash', null,
+    'paymentProviderEventId', c.provider_event_id,
+    'renderJobId', j.id::text
+  )
+from public.consumer_briefcase_items i
+join public.packet_render_jobs j
+  on j.consumer_briefcase_item_id = i.id
+ and j.consumer_auth_user_id = i.user_id
+join public.consumer_packet_payment_consumption c
+  on c.consumer_briefcase_item_id = i.id
+where i.packet_status = 'ready'
+  and i.artifact_refs_json ? 'source'
+  and i.artifact_refs_json ? 'packetPlanId'
+  and coalesce(c.provider_event_id, '') <> ''
+on conflict (briefcase_item_id) do nothing;
+
+-- The new read joins the same grant-hardening pass as the rest: revoked from
+-- PUBLIC (not merely anon and authenticated, because PostgreSQL's default
+-- PUBLIC grant would otherwise leave it callable by a browser role) and granted
+-- to the server's own credential alone.
+do $artifact_authority_grants$
+declare
+  v_role text;
+  v_function text := 'public.get_consumer_packet_artifact_authority(uuid, uuid)';
+begin
+  execute format('revoke all on function %s from public', v_function);
+  foreach v_role in array array['anon', 'authenticated'] loop
+    if exists (select 1 from pg_roles where rolname = v_role) then
+      execute format('revoke all on function %s from %I', v_function, v_role);
+    end if;
+  end loop;
+  if exists (select 1 from pg_roles where rolname = 'service_role') then
+    execute format('grant execute on function %s to service_role', v_function);
+  end if;
+end
+$artifact_authority_grants$;

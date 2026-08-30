@@ -193,3 +193,33 @@ export const PRIVACY_RATE_LIMIT_POLICIES = {
 export function participantUploadPrefix(userId: string): string {
   return `participant-uploads/${userId}`;
 }
+
+/**
+ * Every approved location a participant's own bytes can be stored under.
+ *
+ * The sweep is driven from this list rather than from one prefix, because a
+ * deletion that clears the location somebody remembered and leaves the one they
+ * forgot is worse than useless: it reports success. Adding a storage location
+ * to the product means adding it here, and the deletion test asserts the sweep
+ * covers every entry.
+ */
+export function participantStoragePrefixes(userId: string): readonly string[] {
+  return [
+    participantUploadPrefix(userId),
+    `participant-packets/${userId}`
+  ];
+}
+
+/**
+ * Storage `remove()` takes a batch. The cap is deliberate and low enough to
+ * stay well inside the request limit, because a rejected oversized batch would
+ * fail the whole sweep rather than the one object that made it too big.
+ */
+export const STORAGE_DELETE_CHUNK = 100;
+
+/**
+ * Storage `list()` caps at 1000 per page whatever you ask for. Paging at the
+ * cap is what makes the difference between sweeping a bucket and sweeping its
+ * first page.
+ */
+export const STORAGE_LIST_PAGE = 1000;
