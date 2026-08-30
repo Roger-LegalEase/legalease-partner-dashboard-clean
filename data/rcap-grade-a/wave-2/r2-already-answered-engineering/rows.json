@@ -1,0 +1,1695 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-lane-return/v1",
+  "assignmentId": "R2_ALREADY_ANSWERED_ENGINEERING",
+  "workerBranch": "claude/r2-already-answered-engineering",
+  "baseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+  "assignmentReadFrom": {
+    "branch": "claude/legalease-sprint-captain-utucnw",
+    "file": "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+    "dispatchSha": "cbdfcd9ef9356182085ec1686e9084b244d5dc79",
+    "captainBaseShaVerified": true
+  },
+  "generatedBy": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/generate-r2.mjs",
+  "completionVocabulary": [
+    "COMPLETED",
+    "STOPPED"
+  ],
+  "counts": {
+    "rows": 37,
+    "completed": 36,
+    "stopped": 1,
+    "decisionRecordsCited": 35,
+    "commercialRoutesOpened": 0
+  },
+  "productionTouched": false,
+  "observations": [
+    {
+      "routeKey": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+      "observation": "record-id naming artifact",
+      "detail": "NATIONAL-2026-08-28-LA-IMM-03 reads as LA but the record's own jurisdiction field and routeKeys govern ND. The record content controls and matches this row; the id string is misleading but not a defect in the decision."
+    },
+    {
+      "routeKey": "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+      "observation": "record-id naming artifact",
+      "detail": "NATIONAL-2026-08-28-LA-IMM-04 reads as LA but the record's own jurisdiction field and routeKeys govern SC. The record content controls and matches this row; the id string is misleading but not a defect in the decision."
+    }
+  ],
+  "rows": [
+    {
+      "itemId": "obligation:track-only:AK:ak-sej",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "publicLabel": "Suspended Entry Of Judgment",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does ak-sej contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/AK.memo.json#ak-sej",
+        "file": "data/record-clearing/legal-design-intake/AK.memo.json",
+        "field": "tracks[] trackId=ak-sej -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "AK:ak-sej#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:AK:ak-sej -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ak.json",
+          "field": "packets[] trackId=ak-sej -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ak-sej\"]",
+          "registryEntryPresent": true
+        }
+      ],
+      "engineeringChange": "Bound track ak-sej to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry present.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "publicLabel": "Juvenile Records",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does ak-juvenile contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/AK.memo.json#ak-juvenile",
+        "file": "data/record-clearing/legal-design-intake/AK.memo.json",
+        "field": "tracks[] trackId=ak-juvenile -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "AK:juvenile-record-sealing-as-47-12-300#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "AK:juvenile-record-sealing-as-47-12-300"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300 -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ak.json",
+          "field": "packets[] trackId=ak-juvenile -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ak-juvenile\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ak-juvenile to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as AK:juvenile-record-sealing-as-47-12-300. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop",
+      "status": "COMPLETED",
+      "jurisdiction": "AK",
+      "publicLabel": "Governor's Pardon",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does ak-pardon contain a participant-initiated self-help filing, or only guidance for a process controlled by agency?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/AK.memo.json#ak-pardon",
+        "file": "data/record-clearing/legal-design-intake/AK.memo.json",
+        "field": "tracks[] trackId=ak-pardon -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "AK:executive-pardon-backstop#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "AK:executive-pardon-backstop"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ak.json",
+          "field": "packets[] trackId=ak-pardon -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ak-pardon\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ak-pardon to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as AK:executive-pardon-backstop. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:AR:ar-preadjudication-probation",
+      "status": "COMPLETED",
+      "jurisdiction": "AR",
+      "publicLabel": "Pre-Adjudication Probation",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does ar-preadjudication-probation contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/AR.memo.json#ar-preadjudication-probation",
+        "file": "data/record-clearing/legal-design-intake/AR.memo.json",
+        "field": "tracks[] trackId=ar-preadjudication-probation -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "AR:ar-preadjudication-probation#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:AR:ar-preadjudication-probation -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ar.json",
+          "field": "packets[] trackId=ar-preadjudication-probation -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ar-preadjudication-probation\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ar-preadjudication-probation to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (requires_negotiation), and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing",
+      "status": "COMPLETED",
+      "jurisdiction": "CA",
+      "publicLabel": "Ask the court to find you factually innocent and destroy the arrest record",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does ca-851-8 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/CA.memo.json#ca-851-8",
+        "file": "data/record-clearing/legal-design-intake/CA.memo.json",
+        "field": "tracks[] trackId=ca-851-8 -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "CA:tool-4-arrest-record-sealing#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "CA:tool-4-arrest-record-sealing"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ca.json",
+          "field": "packets[] trackId=ca-851-8 -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ca-851-8\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ca-851-8 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (contested_evidentiary_showing, individualized_advocacy), and settled the participant A branch question as CA:tool-4-arrest-record-sealing. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure",
+      "status": "COMPLETED",
+      "jurisdiction": "CT",
+      "publicLabel": "Cannabis possession records erased automatically",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway cannabis-conviction-erasure?",
+      "decisionRecord": {
+        "id": "LD-CT-02",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-CT-02"
+      },
+      "settledParticipantABranches": [
+        "CT:cannabis-conviction-erasure#automatic-status-correction-guidance",
+        "CT:cannabis-conviction-erasure#court-petition-packet"
+      ],
+      "participantARouteKeys": [
+        "CT:cannabis-conviction-erasure"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "CT:cannabis-conviction-erasure",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=CT:cannabis-conviction-erasure -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (automatic_relief, participant_packet) selected by disposition and never sharing a checkout path. As written, automatic_relief is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+      "status": "COMPLETED",
+      "jurisdiction": "DE",
+      "publicLabel": "Delaware § 1017 favorable-termination mandatory juvenile expungement",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "exact_runtime_contract_cohort_branch",
+      "legalReviewQuestion": "Does the mandatory § 1017 favorable-termination cohort require a participant petition, a court-initiated order, or another no-filing implementation stage?",
+      "decisionRecord": {
+        "id": "LD-DE-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-DE-01"
+      },
+      "settledParticipantABranches": [
+        "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a#automatic-status-correction-guidance",
+        "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a#juvenile-court-petition-packet"
+      ],
+      "participantARouteKeys": [
+        "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=DE:juvenile-expungement-under-10-del-c-1017-1019-1017a -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (automatic_relief, participant_packet) selected by disposition and never sharing a checkout path. As written, automatic_relief is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:DE:de_attorney_general_expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "DE",
+      "publicLabel": "Prosecutor-Initiated Expungement at Dismissal",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does de_attorney_general_expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by prosecutor?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/DE.memo.json#de_attorney_general_expungement",
+        "file": "data/record-clearing/legal-design-intake/DE.memo.json",
+        "field": "tracks[] trackId=de_attorney_general_expungement -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "DE:de_attorney_general_expungement#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:DE:de_attorney_general_expungement -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/de.json",
+          "field": "packets[] trackId=de_attorney_general_expungement -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"de_attorney_general_expungement\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track de_attorney_general_expungement to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:GA:ga-fo-sentencing-post2026",
+      "status": "COMPLETED",
+      "jurisdiction": "GA",
+      "publicLabel": "First Offender records restricted and sealed when you are sentenced",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does ga-fo-sentencing-post2026 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/GA.memo.json#ga-fo-sentencing-post2026",
+        "file": "data/record-clearing/legal-design-intake/GA.memo.json",
+        "field": "tracks[] trackId=ga-fo-sentencing-post2026 -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "GA:ga-fo-sentencing-post2026#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:GA:ga-fo-sentencing-post2026 -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ga.json",
+          "field": "packets[] trackId=ga-fo-sentencing-post2026 -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ga-fo-sentencing-post2026\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ga-fo-sentencing-post2026 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:GA:ga-time-expired",
+      "status": "COMPLETED",
+      "jurisdiction": "GA",
+      "publicLabel": "Arrests where charges were never filed",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does ga-time-expired contain a participant-initiated self-help filing, or only guidance for a process controlled by prosecutor?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/GA.memo.json#ga-time-expired",
+        "file": "data/record-clearing/legal-design-intake/GA.memo.json",
+        "field": "tracks[] trackId=ga-time-expired -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "GA:ga-time-expired#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:GA:ga-time-expired -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ga.json",
+          "field": "packets[] trackId=ga-time-expired -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ga-time-expired\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ga-time-expired to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+      "status": "COMPLETED",
+      "jurisdiction": "KY",
+      "publicLabel": "Clear a Kentucky juvenile record",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does the mapped juvenile-automatic-dismissal runtime represent only the no-filing KRS 610.330(7) branch, leaving the AOC-JV-30 participant petition as a separate terminal obligation, or must the current track/runtime mapping be replaced by explicit branch identities?",
+      "decisionRecord": {
+        "id": "LD-KY-02",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-KY-02"
+      },
+      "settledParticipantABranches": [
+        "KY:juvenile-automatic-dismissal#automatic-status-correction-guidance",
+        "KY:juvenile-automatic-dismissal#juvenile-court-petition-packet"
+      ],
+      "participantARouteKeys": [
+        "KY:juvenile-automatic-dismissal"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "KY:juvenile-automatic-dismissal",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=KY:juvenile-automatic-dismissal -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "automatic_relief",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "automatic_relief",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "participant_packet"
+            ],
+            "detail": "The contract declares one outcomeMode (automatic_relief). The record requires 2 branches (automatic_relief, participant_packet) selected by disposition and never sharing a checkout path. As written, participant_packet is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330",
+      "status": "COMPLETED",
+      "jurisdiction": "KY",
+      "publicLabel": "Clear a Kentucky juvenile record",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway juvenile-petition-610330?",
+      "decisionRecord": {
+        "id": "LD-KY-02",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-KY-02"
+      },
+      "settledParticipantABranches": [
+        "KY:juvenile-petition-610330#automatic-status-correction-guidance",
+        "KY:juvenile-petition-610330#juvenile-court-petition-packet"
+      ],
+      "participantARouteKeys": [
+        "KY:juvenile-petition-610330"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330 -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "KY:juvenile-petition-610330",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=KY:juvenile-petition-610330 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (automatic_relief, participant_packet) selected by disposition and never sharing a checkout path. As written, automatic_relief is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, juvenile-court-petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:LA:la-999-expedited-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "LA",
+      "publicLabel": "Free expedited clearing of an arrest from when you were seventeen",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does la-999-expedited-expungement contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/LA.memo.json#la-999-expedited-expungement",
+        "file": "data/record-clearing/legal-design-intake/LA.memo.json",
+        "field": "tracks[] trackId=la-999-expedited-expungement -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "LA:la-999-expedited-expungement#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:LA:la-999-expedited-expungement -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/la.json",
+          "field": "packets[] trackId=la-999-expedited-expungement -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"la-999-expedited-expungement\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track la-999-expedited-expungement to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "status": "COMPLETED",
+      "jurisdiction": "LA",
+      "publicLabel": "Immediate clearing by the court after you finish probation or a program",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does exact legal-design track la-985-3-immediate-expungement control as a no-filing or unavailable-current-stage treatment, or does effective contract LA:immediate-expungement-after-successful-court-program-completion-art-985-3 establish a distinct participant-filed cohort that must be represented separately?",
+      "decisionRecord": {
+        "id": "NATIONAL-2026-08-28-B-LA-03",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=NATIONAL-2026-08-28-B-LA-03"
+      },
+      "settledParticipantABranches": [
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3#participant-packet",
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3#contested-timing-to-counsel"
+      ],
+      "participantARouteKeys": [
+        "LA:immediate-expungement-after-successful-court-program-completion-art-985-3"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3 -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=LA:immediate-expungement-after-successful-court-program-completion-art-985-3 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "participant_packet",
+              "referral"
+            ],
+            "unreachableOutcomeModes": [
+              "referral"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (participant_packet, referral) selected by disposition and never sharing a checkout path. As written, referral is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL\" into 2 governed branch configurations (participant-packet=participant_packet/single_stage, contested-timing-to-counsel=referral/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "status": "COMPLETED",
+      "jurisdiction": "MD",
+      "publicLabel": "Clearing police records from an arrest before October 2007",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does exact legal-design track md_10103_legacy_police control as a no-filing or unavailable-current-stage treatment, or does effective contract MD:police-record-expungement-when-no-charge-was-filed-under-10-103 establish a distinct participant-filed cohort that must be represented separately?",
+      "decisionRecord": {
+        "id": "LD-MD-03",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-MD-03"
+      },
+      "settledParticipantABranches": [
+        "MD:police-record-expungement-when-no-charge-was-filed-under-10-103#agency-request",
+        "MD:police-record-expungement-when-no-charge-was-filed-under-10-103#automatic-status-correction-guidance"
+      ],
+      "participantARouteKeys": [
+        "MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103 -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=MD:police-record-expungement-when-no-charge-was-filed-under-10-103 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "agency_application",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "agency_application",
+            "requiredOutcomeModes": [
+              "agency_application",
+              "automatic_relief"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief"
+            ],
+            "detail": "The contract declares one outcomeMode (agency_application). The record requires 2 branches (agency_application, automatic_relief) selected by disposition and never sharing a checkout path. As written, automatic_relief is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE\" into 2 governed branch configurations (agency-request=agency_application/single_stage, automatic-status-correction-guidance=automatic_relief/automatic), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+      "status": "COMPLETED",
+      "jurisdiction": "MT",
+      "publicLabel": "Non-conviction record removal",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Must Montana's automatic post-July 1, 2017 CRISS removal and the participant-filed CRISS correction/removal request be represented as separate terminal branches, and which dispositions select each branch?",
+      "decisionRecord": {
+        "id": "LD-MT-03",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-MT-03"
+      },
+      "settledParticipantABranches": [
+        "MT:non-conviction-criminal-history-removal-through-criss#automatic-status-correction-guidance",
+        "MT:non-conviction-criminal-history-removal-through-criss#agency-request"
+      ],
+      "participantARouteKeys": [
+        "MT:non-conviction-criminal-history-removal-through-criss"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "MT:non-conviction-criminal-history-removal-through-criss",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=MT:non-conviction-criminal-history-removal-through-criss -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "guidance_status",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "guidance_status",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "agency_application"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief",
+              "agency_application"
+            ],
+            "detail": "The contract declares one outcomeMode (guidance_status). The record requires 2 branches (automatic_relief, agency_application) selected by disposition and never sharing a checkout path. As written, automatic_relief and agency_application are unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, agency-request=agency_application/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+      "status": "COMPLETED",
+      "jurisdiction": "ND",
+      "publicLabel": "Automatic non-conviction court-record closing, with verification and correction — the BCI or originating-agency criminal history still shows the matter after the court record is closed",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "conditional_failure_disposition",
+      "legalReviewQuestion": "Is the nd_agency_history_error agency_correction disposition a participant self-help correction request, or only a handoff instruction?",
+      "decisionRecord": {
+        "id": "NATIONAL-2026-08-28-LA-IMM-03",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=NATIONAL-2026-08-28-LA-IMM-03"
+      },
+      "settledParticipantABranches": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05#automatic-closure-guidance",
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05#clerk-and-original-case-correction"
+      ],
+      "participantARouteKeys": [
+        "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05"
+      ],
+      "participantARouteKeyOrigin": "decision-record-routeKeys",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
+          "file": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "field": "routes[] routeKey=ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "automatic_relief",
+          "drift": {
+            "kind": "branch_identity_missing_at_matching_outcome_mode",
+            "currentOutcomeMode": "automatic_relief",
+            "requiredOutcomeModes": [
+              "automatic_relief"
+            ],
+            "unreachableOutcomeModes": [],
+            "detail": "The contract's outcomeMode (automatic_relief) is the one the record derives, but the record requires 2 distinct configurations (automatic-closure-guidance, clerk-and-original-case-correction) that may not collapse into one. A single configuration cannot be selected by the wrong disposition only because it is the only one there is."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC CLOSURE GUIDANCE + CLERK AND ORIGINAL-CASE CORRECTION\" into 2 governed branch configurations (automatic-closure-guidance=automatic_relief/automatic, clerk-and-original-case-correction=automatic_relief/enforcement), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:ND:nd-juvenile-records-routing",
+      "status": "COMPLETED",
+      "jurisdiction": "ND",
+      "publicLabel": "Where to go about a North Dakota juvenile record",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Must North Dakota juvenile early destruction be represented as a separate official-form participant branch instead of the current adult-scope process-guidance node?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/ND.memo.json#nd-juvenile-records-routing",
+        "file": "data/record-clearing/legal-design-intake/ND.memo.json",
+        "field": "tracks[] trackId=nd-juvenile-records-routing -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "ND:nd-juvenile-records-routing#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:ND:nd-juvenile-records-routing -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/nd.json",
+          "field": "packets[] trackId=nd-juvenile-records-routing -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"nd-juvenile-records-routing\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track nd-juvenile-records-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:NE:ne-pardon-routing",
+      "status": "COMPLETED",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about a Nebraska pardon",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Must the Nebraska Board of Pardons application be implemented as a participant agency-application branch, and must the Lincoln and Omaha mayoral-pardon variants be split before classification?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/NE.memo.json#ne-pardon-routing",
+        "file": "data/record-clearing/legal-design-intake/NE.memo.json",
+        "field": "tracks[] trackId=ne-pardon-routing -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "NE:ne-pardon-routing#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:NE:ne-pardon-routing -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ne.json",
+          "field": "packets[] trackId=ne-pardon-routing -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ne-pardon-routing\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ne-pardon-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded a required counsel handoff (requires_negotiation), and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
+      "status": "COMPLETED",
+      "jurisdiction": "NE",
+      "publicLabel": "Where to go about a Nebraska juvenile record",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track ne-juvenile-sealing-routing and runtime pathway juvenile-petition-backstop?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/NE.memo.json#ne-juvenile-sealing-routing",
+        "file": "data/record-clearing/legal-design-intake/NE.memo.json",
+        "field": "tracks[] trackId=ne-juvenile-sealing-routing -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "NE:juvenile-petition-backstop#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "NE:juvenile-petition-backstop"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/ne.json",
+          "field": "packets[] trackId=ne-juvenile-sealing-routing -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"ne-juvenile-sealing-routing\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track ne-juvenile-sealing-routing to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NE:juvenile-petition-backstop. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution",
+      "status": "COMPLETED",
+      "jurisdiction": "NH",
+      "publicLabel": "Your dismissed or not-guilty New Hampshire case should clear itself",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track nh_auto_nonconviction and runtime pathway annulment-after-dismissal-acquittal-or-nonprosecution?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/NH.memo.json#nh_auto_nonconviction",
+        "file": "data/record-clearing/legal-design-intake/NH.memo.json",
+        "field": "tracks[] trackId=nh_auto_nonconviction -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "NH:annulment-after-dismissal-acquittal-or-nonprosecution#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "NH:annulment-after-dismissal-acquittal-or-nonprosecution"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/nh.json",
+          "field": "packets[] trackId=nh_auto_nonconviction -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"nh_auto_nonconviction\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track nh_auto_nonconviction to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NH:annulment-after-dismissal-acquittal-or-nonprosecution. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:NM:nm_cannabis:cannabis-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "NM",
+      "publicLabel": "New Mexico cannabis record clearing",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Must New Mexico cannabis relief be split into an automatic verification branch and a participant AOC application branch for expedited or mixed-charge requests?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/NM.memo.json#nm_cannabis",
+        "file": "data/record-clearing/legal-design-intake/NM.memo.json",
+        "field": "tracks[] trackId=nm_cannabis -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "NM:cannabis-expungement#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "NM:cannabis-expungement"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:NM:nm_cannabis:cannabis-expungement -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/nm.json",
+          "field": "packets[] trackId=nm_cannabis -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"nm_cannabis\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track nm_cannabis to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as NM:cannabis-expungement. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+      "status": "COMPLETED",
+      "jurisdiction": "NV",
+      "publicLabel": "Clearing a Nevada case that was dismissed after a deferred judgment",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does exact legal-design track nv_seal_deferred control as a no-filing or unavailable-current-stage treatment, or does effective contract NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211 establish a distinct participant-filed cohort that must be represented separately?",
+      "decisionRecord": {
+        "id": "LD-NV-04",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-NV-04"
+      },
+      "settledParticipantABranches": [
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211#court-sealing-packet",
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211#trafficking-vacatur-sealing-packet"
+      ],
+      "participantARouteKeys": [
+        "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211 -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "branch_identity_missing_at_matching_outcome_mode",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [],
+            "detail": "The contract's outcomeMode (participant_packet) is the one the record derives, but the record requires 2 distinct configurations (court-sealing-packet, trafficking-vacatur-sealing-packet) that may not collapse into one. A single configuration cannot be selected by the wrong disposition only because it is the only one there is."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"COURT SEALING PACKET OR TRAFFICKING VACATUR/SEALING PACKET\" into 2 governed branch configurations (court-sealing-packet=participant_packet/single_stage, trafficking-vacatur-sealing-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+      "status": "STOPPED",
+      "jurisdiction": "OR",
+      "publicLabel": "Set aside an Oregon charge you were acquitted of",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which exact route and packet-configuration identities replace the overbroad ORS 137.225(1)(c) runtime treatment so never-charged matters use Option 3 and acquittal or ordinary-dismissal matters use separate ORS 137.225(1)(d) Option 2 treatments?",
+      "decisionRecord": {
+        "id": "LD-OR-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-OR-01"
+      },
+      "stopScope": "ROW",
+      "stopReason": "a newer counsel record names the route this retriage cites as legally overbroad, so the retriage's treatment may not be implemented",
+      "retriageClaim": "LD-OR-01 maps this route to one COURT SET-ASIDE PACKET.",
+      "supersedingRecord": {
+        "ids": [
+          "LWD-2026-08-29-OR-SUBSECTION",
+          "LWD-2026-08-29-OR-PACKET-SCOPE"
+        ],
+        "file": "data/record-clearing/legal-decisions/2026-08-29-lawrence-six-decisions.json",
+        "field": [
+          "decisions[] decisionId=LWD-2026-08-29-OR-SUBSECTION",
+          "decisions[] decisionId=LWD-2026-08-29-OR-PACKET-SCOPE"
+        ]
+      },
+      "recordEffect": "The existing broad route is legally overbroad. Never-charged matters must use a distinct ORS 137.225(1)(c) Option 3 configuration; acquittals must use a distinct ORS 137.225(1)(d) Option 2 configuration; ordinary dismissals must use a separate ORS 137.225(1)(d) Option 2 configuration. The treatments may share one packet family only if each has a distinct governed configuration; they may not resolve to one generic or null packet configuration.",
+      "whyThisRowCannotBeImplementedHere": "The record requires three disposition-bound configurations with distinct route identities. This lane holds one route key, not three, and route identity is not in its owned paths. Emitting a single binding would re-record the overbroad treatment the record retires.",
+      "controllingRecordResolved": true,
+      "requiredTreatments": [
+        {
+          "label": "NEVER CHARGED",
+          "authority": "ORS 137.225(1)(c)",
+          "formOption": "Option 3"
+        },
+        {
+          "label": "ACQUITTAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2"
+        },
+        {
+          "label": "ORDINARY DISMISSAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2"
+        }
+      ],
+      "requiredFacts": [
+        "no accusatory instrument was filed",
+        "the prosecuting attorney elected not to proceed",
+        "the statutory 60-day period has elapsed",
+        "exact arrest, citation, or charge identity",
+        "correct county and prosecuting office"
+      ],
+      "whatTheNextLaneNeedsToProduce": [
+        {
+          "label": "NEVER CHARGED",
+          "authority": "ORS 137.225(1)(c)",
+          "formOption": "Option 3",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        },
+        {
+          "label": "ACQUITTAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        },
+        {
+          "label": "ORDINARY DISMISSAL",
+          "authority": "ORS 137.225(1)(d)",
+          "formOption": "Option 2",
+          "needs": "its own route identity, disposition predicate, packet configuration identity, required facts, specification and specification hash, fixture, verification snapshot, artifact-input hash, artifact review and legal/output approval"
+        }
+      ],
+      "captainInput": "The conflict is between the retriage's cited aggregate decision and a newer counsel record. Resolving which controls is a Captain decision, not a worker's, and it is an input to this lane rather than part of it.",
+      "laneContinued": true
+    },
+    {
+      "itemId": "obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "PA",
+      "publicLabel": "Check that a full acquittal cleared your record automatically",
+      "retriageRule": "AA-2-SIGNED-RECLASSIFICATION",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track pa_acquittal_auto and runtime pathway path-b-complete-acquittal-not-guilty-expungement?",
+      "decisionRecord": {
+        "id": "PA-2026-08-25-APPROVED-GUIDANCE-B",
+        "file": "data/rcap-ledger/sellable-pathway-reclassifications.json",
+        "field": "reclassifications[] id=PA-2026-08-25-APPROVED-GUIDANCE-B"
+      },
+      "settledParticipantABranches": [
+        "PA:path-b-complete-acquittal-not-guilty-expungement#product-scope-exclusion"
+      ],
+      "participantARouteKeys": [
+        "PA:path-b-complete-acquittal-not-guilty-expungement"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "PA:path-b-complete-acquittal-not-guilty-expungement",
+          "file": "src/lib/legal-authority/routes/ (no contract carries this route key)",
+          "field": "routes[] routeKey=PA:path-b-complete-acquittal-not-guilty-expungement -> outcomeMode",
+          "contractPresent": false,
+          "currentOutcomeMode": null,
+          "drift": {
+            "kind": "no_contract",
+            "detail": "No route contract carries this key, so the record's 1 branch configuration have nowhere to resolve. The binding names what the contract must declare when it is authored."
+          }
+        }
+      ],
+      "engineeringChange": "Bound PA:path-b-complete-acquittal-not-guilty-expungement to a single governed branch product-scope-exclusion=unsupported/single_stage with packetFamily null, implementing the signed reclassification PA-2026-08-25-APPROVED-GUIDANCE-B (paid_packet_intended -> product_scope_exclusion, reason product_scope_decision). unsupported is a no-participant-filing outcome, so the runtime's own derivation closes the checkout this pathway previously intended.",
+      "commercialEffect": "closes a previously paid-intended path; opens none"
+    },
+    {
+      "itemId": "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "PA",
+      "publicLabel": "Check that finishing ARD cleared your arrest record",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does exact legal-design track pa_ard_expungement control as a no-filing or unavailable-current-stage treatment, or does effective contract PA:path-d-ard-expungement establish a distinct participant-filed cohort that must be represented separately?",
+      "decisionRecord": {
+        "id": "LD-PA-03",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-PA-03"
+      },
+      "settledParticipantABranches": [
+        "PA:path-d-ard-expungement#route-specific-court-expungement-packet",
+        "PA:path-d-ard-expungement#route-specific-vacatur-packet"
+      ],
+      "participantARouteKeys": [
+        "PA:path-d-ard-expungement"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "PA:path-d-ard-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=PA:path-d-ard-expungement -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "branch_identity_missing_at_matching_outcome_mode",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [],
+            "detail": "The contract's outcomeMode (participant_packet) is the one the record derives, but the record requires 2 distinct configurations (route-specific-court-expungement-packet, route-specific-vacatur-packet) that may not collapse into one. A single configuration cannot be selected by the wrong disposition only because it is the only one there is."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"ROUTE-SPECIFIC COURT EXPUNGEMENT OR VACATUR PACKET\" into 2 governed branch configurations (route-specific-court-expungement-packet=participant_packet/single_stage, route-specific-vacatur-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12",
+      "status": "COMPLETED",
+      "jurisdiction": "RI",
+      "publicLabel": "A complaint that was placed on file",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does exact legal-design track ri_filed_complaints control as a no-filing or unavailable-current-stage treatment, or does effective contract RI:path-e-filed-complaint-relief-under-12-10-12 establish a distinct participant-filed cohort that must be represented separately?",
+      "decisionRecord": {
+        "id": "LD-RI-06",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-RI-06"
+      },
+      "settledParticipantABranches": [
+        "RI:path-e-filed-complaint-relief-under-12-10-12#status-correction-guidance",
+        "RI:path-e-filed-complaint-relief-under-12-10-12#limited-court-application"
+      ],
+      "participantARouteKeys": [
+        "RI:path-e-filed-complaint-relief-under-12-10-12"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12 -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=RI:path-e-filed-complaint-relief-under-12-10-12 -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "guidance_status",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "guidance_status"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (guidance_status, participant_packet) selected by disposition and never sharing a checkout path. As written, guidance_status is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION\" into 2 governed branch configurations (status-correction-guidance=guidance_status/single_stage, limited-court-application=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:runtime-only:SC:juvenile-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "SC",
+      "publicLabel": "Juvenile expungement",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "runtime_with_rejected_shared_form_only_crosswalk",
+      "legalReviewQuestion": "Which exact current legal-design track and statutory authority governs runtime pathway juvenile-expungement, whose only crosswalk evidence is a shared form with no shared statutory citation?",
+      "decisionRecord": {
+        "id": "LD-SC-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-SC-01"
+      },
+      "settledParticipantABranches": [
+        "SC:juvenile-expungement#offense-specific-packet",
+        "SC:juvenile-expungement#nonconviction-juvenile-packet",
+        "SC:juvenile-expungement#pardon-guidance-only"
+      ],
+      "participantARouteKeys": [
+        "SC:juvenile-expungement"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:runtime-only:SC:juvenile-expungement -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "SC:juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=SC:juvenile-expungement -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "participant_packet",
+              "guidance_status"
+            ],
+            "unreachableOutcomeModes": [
+              "guidance_status"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 3 branches (participant_packet, guidance_status) selected by disposition and never sharing a checkout path. As written, guidance_status is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\" into 3 governed branch configurations (offense-specific-packet=participant_packet/single_stage, nonconviction-juvenile-packet=participant_packet/single_stage, pardon-guidance-only=guidance_status/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+      "status": "COMPLETED",
+      "jurisdiction": "SC",
+      "publicLabel": "Pardon guidance for otherwise ineligible convictions",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "runtime_without_legal_track",
+      "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway pardon-guidance-for-otherwise-ineligible-convictions and its stated filing treatment?",
+      "decisionRecord": {
+        "id": "LD-SC-01",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-SC-01"
+      },
+      "settledParticipantABranches": [
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions#offense-specific-packet",
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions#nonconviction-juvenile-packet",
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions#pardon-guidance-only"
+      ],
+      "participantARouteKeys": [
+        "SC:pardon-guidance-for-otherwise-ineligible-convictions"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=SC:pardon-guidance-for-otherwise-ineligible-convictions -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "guidance_status",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "guidance_status",
+            "requiredOutcomeModes": [
+              "participant_packet",
+              "guidance_status"
+            ],
+            "unreachableOutcomeModes": [
+              "participant_packet"
+            ],
+            "detail": "The contract declares one outcomeMode (guidance_status). The record requires 3 branches (participant_packet, guidance_status) selected by disposition and never sharing a checkout path. As written, participant_packet is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\" into 3 governed branch configurations (offense-specific-packet=participant_packet/single_stage, nonconviction-juvenile-packet=participant_packet/single_stage, pardon-guidance-only=guidance_status/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "SC",
+      "publicLabel": "Clear a South Carolina charge after you completed Pretrial Intervention",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does South Carolina PTI expungement require a Category A participant agency-application treatment using the circuit solicitor's current form and intake, or is there exact authority for a prosecutor-controlled no-filing branch?",
+      "decisionRecord": {
+        "id": "NATIONAL-2026-08-28-LA-IMM-04",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=NATIONAL-2026-08-28-LA-IMM-04"
+      },
+      "settledParticipantABranches": [
+        "SC:diversion-or-program-completion-expungement#solicitor-administered-process-guidance",
+        "SC:diversion-or-program-completion-expungement#retained-counsel-handoff-on-denial"
+      ],
+      "participantARouteKeys": [
+        "SC:diversion-or-program-completion-expungement"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "SC:diversion-or-program-completion-expungement",
+          "file": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "field": "routes[] routeKey=SC:diversion-or-program-completion-expungement -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "guidance_status",
+          "drift": {
+            "kind": "single_mode_where_record_requires_both",
+            "currentOutcomeMode": "guidance_status",
+            "requiredOutcomeModes": [
+              "guidance_status",
+              "referral"
+            ],
+            "unreachableOutcomeModes": [
+              "referral"
+            ],
+            "detail": "The contract declares one outcomeMode (guidance_status). The record requires 2 branches (guidance_status, referral) both owed on the same matter. As written, referral is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL\" into 2 governed branch configurations (solicitor-administered-process-guidance=guidance_status/single_stage, retained-counsel-handoff-on-denial=referral/enforcement), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+      "status": "COMPLETED",
+      "jurisdiction": "SD",
+      "publicLabel": "Automatic removal of a minor case from your public record",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Does sd_23a_3_34_auto contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/SD.memo.json#sd_23a_3_34_auto",
+        "file": "data/record-clearing/legal-design-intake/SD.memo.json",
+        "field": "tracks[] trackId=sd_23a_3_34_auto -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/sd.json",
+          "field": "packets[] trackId=sd_23a_3_34_auto -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"sd_23a_3_34_auto\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track sd_23a_3_34_auto to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as SD:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:SD:sd_diversion:diversion-expungement",
+      "status": "COMPLETED",
+      "jurisdiction": "SD",
+      "publicLabel": "Clear a record after completing a diversion program",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track sd_diversion and runtime pathway diversion-expungement?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/SD.memo.json#sd_diversion",
+        "file": "data/record-clearing/legal-design-intake/SD.memo.json",
+        "field": "tracks[] trackId=sd_diversion -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "SD:diversion-expungement#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "SD:diversion-expungement"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:SD:sd_diversion:diversion-expungement -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/sd.json",
+          "field": "packets[] trackId=sd_diversion -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"sd_diversion\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track sd_diversion to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as SD:diversion-expungement. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+      "status": "COMPLETED",
+      "jurisdiction": "TN",
+      "publicLabel": "The judge should clear your record the day you are found not guilty",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track tn_acquittal_immediate and runtime pathway pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/TN.memo.json#tn_acquittal_immediate",
+        "file": "data/record-clearing/legal-design-intake/TN.memo.json",
+        "field": "tracks[] trackId=tn_acquittal_immediate -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106 -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/tn.json",
+          "field": "packets[] trackId=tn_acquittal_immediate -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"tn_acquittal_immediate\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track tn_acquittal_immediate to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 1 guidance rationale and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as TN:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+      "status": "COMPLETED",
+      "jurisdiction": "UT",
+      "publicLabel": "Utah juvenile-expungement favorable-outcome branch",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "exact_runtime_contract_cohort_branch",
+      "legalReviewQuestion": "Which favorable juvenile outcomes receive no-filing relief, and which require a participant instrument under the current Utah statute?",
+      "decisionRecord": {
+        "id": "LD-UT-07",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-UT-07"
+      },
+      "settledParticipantABranches": [
+        "UT:path-m-juvenile-expungement#special-court-petition",
+        "UT:path-m-juvenile-expungement#pardon-status-guidance",
+        "UT:path-m-juvenile-expungement#juvenile-petition"
+      ],
+      "participantARouteKeys": [
+        "UT:path-m-juvenile-expungement"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "UT:path-m-juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=UT:path-m-juvenile-expungement -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "participant_packet",
+              "guidance_status"
+            ],
+            "unreachableOutcomeModes": [
+              "guidance_status"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 3 branches (participant_packet, guidance_status) selected by disposition and never sharing a checkout path. As written, guidance_status is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"SPECIAL COURT PETITION, PARDON STATUS GUIDANCE, OR JUVENILE PETITION\" into 3 governed branch configurations (special-court-petition=participant_packet/single_stage, pardon-status-guidance=guidance_status/single_stage, juvenile-petition=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "status": "COMPLETED",
+      "jurisdiction": "UT",
+      "publicLabel": "Utah's Clean Slate: some convictions clear themselves",
+      "retriageRule": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which exact official-form or composed-pleading output treatment governs participant packet pathway path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals?",
+      "decisionRecord": {
+        "id": "LD-UT-02",
+        "file": "src/lib/legal-authority/authority.json",
+        "field": "decisions[] id=LD-UT-02"
+      },
+      "settledParticipantABranches": [
+        "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals#automatic-status-correction-guidance",
+        "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals#petition-packet"
+      ],
+      "participantARouteKeys": [
+        "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals"
+      ],
+      "participantARouteKeyOrigin": "census-representation-edge",
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals -> branches[]"
+      },
+      "target": [
+        {
+          "participantARouteKey": "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals -> outcomeMode, stage, serviceBranches[]",
+          "contractPresent": true,
+          "currentOutcomeMode": "participant_packet",
+          "drift": {
+            "kind": "single_mode_where_record_requires_disjoint_branches",
+            "currentOutcomeMode": "participant_packet",
+            "requiredOutcomeModes": [
+              "automatic_relief",
+              "participant_packet"
+            ],
+            "unreachableOutcomeModes": [
+              "automatic_relief"
+            ],
+            "detail": "The contract declares one outcomeMode (participant_packet). The record requires 2 branches (automatic_relief, participant_packet) selected by disposition and never sharing a checkout path. As written, automatic_relief is unreachable on this route."
+          }
+        }
+      ],
+      "engineeringChange": "Decomposed the record's output treatment \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET\" into 2 governed branch configurations (automatic-status-correction-guidance=automatic_relief/automatic, petition-packet=participant_packet/single_stage), each with a stable branch id, a distinct disposition predicate slot and packetFamily null, and carried the record's effective-date note across as a binding constraint. Every branch derives paymentAuthority closed under src/lib/legal-authority/index.ts routePaymentAuthority.",
+      "commercialEffect": "none; every branch derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-only:WI:wi_def_961_47",
+      "status": "COMPLETED",
+      "jurisdiction": "WI",
+      "publicLabel": "Drug possession first-offence conditional discharge",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "unmapped_legal_track",
+      "legalReviewQuestion": "Does wi_def_961_47 contain a participant-initiated self-help filing, or only guidance for a process controlled by court?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/WI.memo.json#wi_def_961_47",
+        "file": "data/record-clearing/legal-design-intake/WI.memo.json",
+        "field": "tracks[] trackId=wi_def_961_47 -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "WI:wi_def_961_47#process-guidance (no participant A packet branch, by decision)"
+      ],
+      "participantARouteKeys": [],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-only:WI:wi_def_961_47 -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/wi.json",
+          "field": "packets[] trackId=wi_def_961_47 -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": true,
+          "observedTreatment": "complete_guidance",
+          "observedPaymentAllowed": false,
+          "observedSellable": false
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"wi_def_961_47\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track wi_def_961_47 to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as no participant A packet branch by decision. Observed state: guidance packet present, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    },
+    {
+      "itemId": "obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015",
+      "status": "COMPLETED",
+      "jurisdiction": "WI",
+      "publicLabel": "Mandatory expungement for an under-18 invasion of privacy offence",
+      "retriageRule": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE",
+      "obligationKind": "mapped_track_runtime_edge",
+      "legalReviewQuestion": "Which current authority controls the filing-status conflict between legal track wi_exp_942_08_mandatory and runtime pathway adult-conviction-expungement-under-wis-stat-973-015?",
+      "decisionRecord": {
+        "id": "data/record-clearing/legal-design-intake/WI.memo.json#wi_exp_942_08_mandatory",
+        "file": "data/record-clearing/legal-design-intake/WI.memo.json",
+        "field": "tracks[] trackId=wi_exp_942_08_mandatory -> outputStrategy, guidanceRationales, legalDesignDecision.status"
+      },
+      "settledParticipantABranches": [
+        "WI:adult-conviction-expungement-under-wis-stat-973-015#process-guidance"
+      ],
+      "participantARouteKeys": [
+        "WI:adult-conviction-expungement-under-wis-stat-973-015"
+      ],
+      "effect": {
+        "file": "data/rcap-grade-a/wave-2/r2-already-answered-engineering/route-treatment-bindings.json",
+        "field": "bindings[] itemId=obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015 -> branches[], participantABranchResolution"
+      },
+      "target": [
+        {
+          "file": "data/rcap-all50/guidance-packets/wi.json",
+          "field": "packets[] trackId=wi_exp_942_08_mandatory -> treatment, paymentAllowed, sellable",
+          "guidancePacketPresent": false,
+          "observedTreatment": null,
+          "observedPaymentAllowed": null,
+          "observedSellable": null
+        },
+        {
+          "file": "src/lib/rcap/documents/guidance-packet-registry.ts",
+          "field": "TRACK_COMPILED_PATHWAYS[\"wi_exp_942_08_mandatory\"]",
+          "registryEntryPresent": false
+        }
+      ],
+      "engineeringChange": "Bound track wi_exp_942_08_mandatory to a single governed guidance branch (process-guidance=guidance_status/single_stage, packetFamily null, paymentAuthority closed), carried its 2 guidance rationales and its legal-design limitations across as binding constraints, recorded no counsel handoff, and settled the participant A branch question as WI:adult-conviction-expungement-under-wis-stat-973-015. Observed state: guidance packet absent, registry entry absent.",
+      "commercialEffect": "none; guidance_status is a no-participant-filing outcome and derives paymentAuthority closed"
+    }
+  ]
+}
