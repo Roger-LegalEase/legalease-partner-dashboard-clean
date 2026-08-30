@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "rcap-census-v1-inherited-evidence-findings/v1",
+  "worklistGroupId": "ak-tf800-set",
+  "jurisdiction": "AK",
+  "documentId": "TF-800",
+  "producedAt": "2026-08-30",
+  "status": "advisory_only",
+
+  "scope": {
+    "read": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/**",
+    "wrote": "nothing outside data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/**",
+    "purpose": "The build order directs this family to read the existing production overlay and reuse its measurements. Reading it responsibly means recording which parts are safe to reuse and which are not. These findings bind nothing and approve nothing; they are notes for whoever resumes once the source bytes are mounted.",
+    "doesNotModifyProduction": true
+  },
+
+  "findings": [
+    {
+      "id": "AK-TF800-F1",
+      "severity": "high",
+      "title": "Inherited effectiveLabel values are positional inferences and mis-bind; do not let them drive fill decisions.",
+      "evidence": {
+        "fields": 26,
+        "distinctEffectiveLabels": 13,
+        "fieldsSharingALabelWithAnotherField": 19,
+        "labelBasisCounts": {
+          "printed_to_the_left_on_the_same_line": 20,
+          "printed_directly_above_in_the_same_column": 1,
+          "no_printed_caption_within_reach": 5
+        },
+        "collisions": [
+          { "label": "Address", "boundTo": ["address", "name", "email"] },
+          { "label": "Audio Recording (list date and type of hearing)", "boundTo": ["dateHearing", "audioRecording", "transcript"] },
+          { "label": "and any attachments by mail. hand-delivery. TrueFiling. emai", "boundTo": ["certDate", "mail", "hd", "tf"] },
+          { "label": "I certify on at [date/time] I gave a copy of this document", "boundTo": ["time2", "emailCB"] },
+          { "label": "following court case records be made confidential: sealed", "boundTo": ["Group1", "Check Box1"] },
+          { "label": null, "boundTo": ["Check Box2", "Check Box3", "Check Box4", "Check Box5", "confidentialBecause"] }
+        ],
+        "worstCase": "caseName carries the label \"documents to you at this email address\", which belongs to a different line entirely."
+      },
+      "why": "Every labelBasis in the inherited census is a statement about where printed text sits relative to a widget. That is the derivation the build order forbids relying on. Three distinct fields sharing one caption is proof the heuristic mis-binds rather than a quirk of the form.",
+      "whatIsStillTrustworthy": "The widget rects. Those are structural AcroForm annotation geometry read out of the verified binary, not inferred from layout, and they are the measurements this family was told to reuse.",
+      "actionOnResume": "Reuse widget rects. Re-derive every semantic label first-hand from the document before any field is written, and treat the inherited labels as untrusted hints only."
+    },
+    {
+      "id": "AK-TF800-F2",
+      "severity": "high",
+      "title": "certDate is classed deterministic but is the certificate-of-mailing date; the census-v1 fill rules forbid prefilling it.",
+      "evidence": {
+        "field": "certDate",
+        "inheritedClass": "deterministic",
+        "page": 2,
+        "rect": { "x": 128, "y": 357, "width": 89, "height": 14 },
+        "surroundingBlock": "I certify on ____ at [date/time] I gave a copy of this document and any attachments by mail / hand-delivery / TrueFiling / email",
+        "siblingDeliveryCheckboxes": {
+          "mail": "manual (unwritable)",
+          "hd": "manual (unwritable)",
+          "tf": "manual (unwritable)",
+          "emailCB": "participant (writable)"
+        }
+      },
+      "why": "The hard rules for this family prohibit prefilling a certificate of mailing before actual mailing. A date auto-filled into that block asserts on the participant's behalf that service happened on a date the platform chose. The inherited deterministic class was set under the production lane's own rules and does not carry over.",
+      "secondaryConcern": "emailCB is classed participant while its three sibling delivery-method checkboxes are unwritable. One writable option inside an otherwise unwritable mutually-exclusive group is an asymmetry that reads as a classification slip, and it sits inside the same certificate block.",
+      "actionOnResume": "Reclassify certDate as participant-blank for this family and leave it unwritten. Re-examine emailCB against its three siblings and default to unwritable unless first-hand inspection justifies otherwise."
+    },
+    {
+      "id": "AK-TF800-F3",
+      "severity": "medium",
+      "title": "The 29-vs-26 count discrepancy is a units mismatch, not a missing-field defect; and page 3 is legitimately written by exactly one field.",
+      "evidence": {
+        "declaredFieldCount": 29,
+        "observedAcroFieldCount": 26,
+        "totalWidgetAnnotations": 29,
+        "multiWidgetFields": { "Group1": "2 widgets (radio, both page 1)", "caseNo": "3 widgets (pages 1, 2, 3)" },
+        "reconciliation": "26 fields carry 29 widget annotations. declaredFieldCount counted widgets; observedAcroFieldCount counted fields. No field is missing.",
+        "widgetsPerPage": { "1": 19, "2": 9, "3": 1 },
+        "pageThreeOccupancy": "caseNo only, rect {x:122, y:742, width:130, height:16}"
+      },
+      "why": "Two traps follow from this. A resumed build that chases a phantom three-field gap will waste effort on a discrepancy that is already explained. More seriously, caseNo is the only field on page 3, so writing the case number necessarily writes page 3.",
+      "actionOnResume": "State the step-7 no-untouched-page rule as: pages 1 and 2 carry participant content, and page 3 is touched by caseNo alone. A verifier asserting page 3 stays untouched will either fire falsely or, if satisfied, indicate the page-3 caseNo widget was skipped and the case number left blank in that page's header.",
+      "alsoNote": "caseNo writes three widgets from one value. Byte-level verification must confirm the value at all three declared coordinates, not just the first."
+    }
+  ],
+
+  "createsNoAuthority": "These are read-derived notes. They map no field, render no artifact, wire no product surface, prove no packet, and request no approval."
+}
