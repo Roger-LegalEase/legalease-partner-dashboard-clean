@@ -1,0 +1,900 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, the prosecutor's, or a value the platform does not hold — and on this route a large share are blanks that HAVE no true value, because nothing was ever charged.",
+  "checkboxNote": "Every checkbox on both documents is refused `non_text_field_type` by the factory's type guard: this platform writes text fields and dropdowns and selects no boxes at all. That includes the situation control this family measured (petition `Check Box9`), the record-category elections, the Section II sentence-compliance answers and every court finding on the order. The measurement is recorded in reports/situation-control.json so that the control is documented even though nothing selects it.",
+  "count": 99,
+  "blanks": [
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Reset",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Filer",
+      "page": 1,
+      "effectiveLabel": "Address (if not protected)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The 'Person Filing' blank (page 1 y=700.6), which wants the filer's NAME. Its own field name matches no descriptor, so the printed-label fallback decides, and the caption harvested for it is 'Address (if not protected)' — the line printed BELOW it at y=684.8. Left alone the binder writes `participant.street_address` into the name line, so the petition would say the person filing is '118 Maple Street'. An explicit mapping cannot repair it: decideBinding refuses a mapping that conflicts with the channel that chose the descriptor. The blank is refused instead. The sibling family reaches the same conclusion on the same field."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "City",
+      "page": 1,
+      "effectiveLabel": "Address (if not protected)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "`City` carries TWO widgets — page 1 y=660.2 in the filer's contact block, and page 5 y=478.7 inside DECLARATIONS AND ACKNOWLEDGEMENTS. A value set on the field renders in both, so writing the caption copy also draws into the declaration block, whose neighbours `Print` and `Addr` are refused as a protected page region. One fact cannot serve both places, and the declaration block is not this platform's to fill."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box1",
+      "page": 1,
+      "effectiveLabel": "Representi",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "AttorneyFor",
+      "page": 1,
+      "effectiveLabel": "Representing \u0007\u0006 Self or \u0007\u0006 Attorney for",
+      "reason": "protected_category",
+      "category": "attorney",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Bar",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Court",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Defendant",
+      "page": 1,
+      "effectiveLabel": "-vs- PETITION TO SEAL CRIMINAL CASE",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The `-vs-` caption blank on page 1 (widget y=412.2), printed under 'STATE OF ARIZONA -vs-' (y=438.8) and over 'Defendant (FIRST, MI, LAST)' (y=399.8). This route's participant was arrested and never charged, so the State was never a party opposite them and they were never a defendant. The form itself offers the alternative at y=370.6 — 'OR if no charges were filed:' — and this route belongs under that line, not this one. The sibling family writes this blank; naming a person as the defendant in a prosecution that never existed is a false statement to the court, so this family does not."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Plaintiff",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Case",
+      "page": 1,
+      "effectiveLabel": "Case Number",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The 'Case Number:' blank in the page 1 caption (y=465.7), repeated as a header widget on pages 2-5. A case number is issued when a case is opened; nothing was ever filed on this route, so there is no number and `matter.case_number` holds nothing true for this matter. The sibling family writes it."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box2",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ArrestOccured",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006Arrest records of an arrest occurring on or a",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box3",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Agency",
+      "page": 2,
+      "effectiveLabel": "enforcement agency",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box4",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ProAgency",
+      "page": 2,
+      "effectiveLabel": "charges were filed)",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "CourtCase",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006All records relating to the eligible charge(s) in court ca",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "PetName1",
+      "page": 2,
+      "effectiveLabel": "e.Name at the time of arrest, if not the same as above",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 2 'e. Name at the time of arrest, if not the same as above:' (y=463.1). The blank is to be completed only when the name differs from the one already given. `participant.full_legal_name` carries no 'if different' refusal, so left alone the binder copies the same name into it, which asserts a former name the platform does not hold and contradicts the condition printed on the form."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "CourtAdj1",
+      "page": 2,
+      "effectiveLabel": "adjudicated the charge(s)",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "CourtAdj2",
+      "page": 2,
+      "effectiveLabel": "adjudicated the charge(s)",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "CourtCaseNum",
+      "page": 2,
+      "effectiveLabel": "c.Court case number if charge(s) were filed",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 2 'c. Court case number if charge(s) were filed:' (y=292.8). The form conditions the blank on its own face and the condition is false here. The sibling family writes it."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Count1",
+      "page": 2,
+      "effectiveLabel": "2.Count II",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Count2",
+      "page": 2,
+      "effectiveLabel": "3.Count III",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Count3",
+      "page": 2,
+      "effectiveLabel": "4.Count IV",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Count4",
+      "page": 2,
+      "effectiveLabel": "4.Count IV",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box5",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box6",
+      "page": 2,
+      "effectiveLabel": "4.Count",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box7",
+      "page": 2,
+      "effectiveLabel": "d.If no charges were filed, did you have an initial appearan",
+      "reason": "protected_category",
+      "category": "signature",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box8",
+      "page": 2,
+      "effectiveLabel": "If you marked “yes,” was your initial appearance in this cou",
+      "reason": "protected_category",
+      "category": "signature",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ArrestLoc",
+      "page": 3,
+      "effectiveLabel": "a. Location of arrest",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "AgencyName",
+      "page": 3,
+      "effectiveLabel": null,
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "AgencyDate",
+      "page": 3,
+      "effectiveLabel": "b. Name of the ar",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ProsAgency1",
+      "page": 3,
+      "effectiveLabel": "d. Name of the prosecuting agency if charges were filed",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ProsAgency2",
+      "page": 3,
+      "effectiveLabel": "d",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "JusticeCourt1",
+      "page": 3,
+      "effectiveLabel": "e. Name of the justice court and the justice court case nu",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 3 'e. Name of the justice court and the justice court case number...' (y=604.7). The word 'Name' in the harvested caption matches `participant.full_legal_name`, and left alone the binder writes the participant's own name into a blank that holds the identity of a COURT. This is the same defect class as the stale-artifact block and as Arkansas ACIC's MONTH blank: a name arriving somewhere nobody listed. Neither the charge-caption guard nor the date-component guard covers it — a court name is neither — so it is refused here by role and caught again by the name-placement allowlist in reports/participant-name-placement.json."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box9",
+      "page": 3,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "EnteredOn",
+      "page": 3,
+      "effectiveLabel": "entered on",
+      "reason": "protected_category",
+      "category": "clerk",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "EnteredOn1",
+      "page": 3,
+      "effectiveLabel": "\u0007\u0006 I was charged with a criminal offense and a judgment of g",
+      "reason": "protected_category",
+      "category": "clerk",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box10",
+      "page": 3,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box11",
+      "page": 3,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box12",
+      "page": 3,
+      "effectiveLabel": "3",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box13",
+      "page": 3,
+      "effectiveLabel": "4",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box14",
+      "page": 4,
+      "effectiveLabel": "1",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box15",
+      "page": 4,
+      "effectiveLabel": "2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "PetDate",
+      "page": 4,
+      "effectiveLabel": "If yes, what was the date of your last petition",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box16",
+      "page": 4,
+      "effectiveLabel": "offense since the conviction for which you are asking the co",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box17",
+      "page": 4,
+      "effectiveLabel": "2",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Discharge",
+      "page": 4,
+      "effectiveLabel": "were discharged by the court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Jurisdiction",
+      "page": 4,
+      "effectiveLabel": "a. If you have addi",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "ChargesFiled",
+      "page": 4,
+      "effectiveLabel": "ii. Charges filed",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "DateofCharge",
+      "page": 4,
+      "effectiveLabel": "iii. Date of the charges",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box18",
+      "page": 4,
+      "effectiveLabel": "without a hearing. Do you request a hearing?",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Consider1",
+      "page": 4,
+      "effectiveLabel": "4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Consider2",
+      "page": 4,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Consider3",
+      "page": 4,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box19",
+      "page": 4,
+      "effectiveLabel": "5",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Doc1",
+      "page": 4,
+      "effectiveLabel": "5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Doc2",
+      "page": 4,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Doc3",
+      "page": 4,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Date",
+      "page": 5,
+      "effectiveLabel": "Date",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 5 y=553.1, the date beside 'Petitioner / Petitioner's Attorney Signature'. Dating a signature that has not been made asserts the petition was signed on a day it was not. Refused here by role rather than left to the label channel declining to match, which would be luck and not a decision."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Print",
+      "page": 5,
+      "effectiveLabel": null,
+      "reason": "protected_page_region",
+      "category": "notarization",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Addr",
+      "page": 5,
+      "effectiveLabel": null,
+      "reason": "protected_page_region",
+      "category": "notarization",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Reset",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Court",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Defendant",
+      "page": 1,
+      "effectiveLabel": "-vs-ORDER REGARDING PETITION TO",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The order's `-vs-` caption blank (page 1 y=472.1), under 'STATE OF ARIZONA -vs-' (y=497.2). Refused for the same reason as the petition's: this route has no prosecution and no defendant. The order prints the same alternative at y=427.8, 'OR if no charges were filed:', and this family captions under it. The sibling family writes this blank."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box1",
+      "page": 1,
+      "effectiveLabel": "of the following records: (Check only those that apply)",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "ArrestOn",
+      "page": 1,
+      "effectiveLabel": "\u0007\u0006Arrest records of an arrest occurring on or about",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 1 y=264.7, the date in the court's recital of what 'the petition requests' (y=310.4). The court recites the petition in its own words; the platform does not draft the court's recital, even where it holds the underlying date."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "ArrestBy",
+      "page": 1,
+      "effectiveLabel": "enforcement agency",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "ArrestBy1",
+      "page": 1,
+      "effectiveLabel": "enforcement agency",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box2",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Agency",
+      "page": 1,
+      "effectiveLabel": "\u0007\u0006Charging documents created by the following prosecuting ag",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Agency1",
+      "page": 1,
+      "effectiveLabel": "\u0007\u0006",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box3",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "CaseNo",
+      "page": 1,
+      "effectiveLabel": "\u0007\u0006All records relating to the eligible charge(s) in court ca",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 1 'All records relating to the eligible charge(s) in court case number:' (y=166.3). There is no court case whose records could be described. The sibling family writes it."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "NameArrest",
+      "page": 1,
+      "effectiveLabel": "c.Name at the time of arrest, if not the same as above",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 1 'c. Name at the time of arrest, if not the same as above:' (y=78.1). Conditional on a difference the platform does not hold, exactly as PetName1 on the petition."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Case",
+      "page": 1,
+      "effectiveLabel": "Case Number",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The order's caption 'Case Number:' (page 1 y=524.8, repeated on pages 2-3). No case was opened. The sibling family writes it."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box4",
+      "page": 2,
+      "effectiveLabel": "LAW: (Check only those that apply)",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box5",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box6",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box7",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box8",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006 The offense(s) described in the petition is eligible to b",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box9",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box10",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box11",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box12",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006 Granting the petition is in the best interests of the pet",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box13",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box14",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box15",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box16",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Other",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006 Other",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 2, a free-text finding in section II, 'THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. A finding is the court's to make. Refused by role rather than left to the label channel declining to match."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "OtherFindings",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006  Other findings",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 2, the companion free-text findings blank. Refused for the same reason."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box17",
+      "page": 2,
+      "effectiveLabel": "\u0007\u0006 Other",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box18",
+      "page": 3,
+      "effectiveLabel": "A",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box19",
+      "page": 3,
+      "effectiveLabel": "A. \u0007\u0006 DISMISSING the petition to seal criminal case records ",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box20",
+      "page": 3,
+      "effectiveLabel": "\u0007\u0006 Failure to provide sufficient information",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box21",
+      "page": 3,
+      "effectiveLabel": "B",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box22",
+      "page": 3,
+      "effectiveLabel": "C",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "OtherDismiss",
+      "page": 3,
+      "effectiveLabel": "\u0007\u0006  Other",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Date",
+      "page": 3,
+      "effectiveLabel": "Date",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Page 3 y=340.5, the date beside the judicial officer's signature. The court dates its own order."
+    }
+  ]
+}

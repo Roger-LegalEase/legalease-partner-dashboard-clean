@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "rcap-situation-control/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "routeKey": "obligation:track-pathway:AZ:az_record_sealing_arrest_no_charges:remedy-1-record-sealing",
+  "question": "Which control on the pinned petition denotes an arrest that produced no charge, and what is its export value?",
+  "answer": "Petition field `Check Box9`, widget 1 of 3, export value `/1`.",
+  "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+  "field": "Check Box9",
+  "page": 3,
+  "printedPrompt": "4. DESCRIBE YOUR SITUATION (required)* — You must check at least one box that applies to your situation.",
+  "widgets": [
+    {
+      "rect": {
+        "x": 88.41,
+        "y": 478.67,
+        "width": 14.18,
+        "height": 13.31
+      },
+      "rectBasis": "acroform_widget_rect_read_from_the_document",
+      "exportStates": [
+        "/1",
+        "/Off"
+      ],
+      "onState": "/1",
+      "nearestPrintedLine": {
+        "text": "\u0007\u0006 I was arrested for a criminal offense and no charges were filed. If checked, please go to",
+        "y": 481.1,
+        "verticalOffsetFromWidget": 2.43
+      }
+    },
+    {
+      "rect": {
+        "x": 88.02,
+        "y": 436.47,
+        "width": 14.18,
+        "height": 13.31
+      },
+      "rectBasis": "acroform_widget_rect_read_from_the_document",
+      "exportStates": [
+        "/2",
+        "/Off"
+      ],
+      "onState": "/2",
+      "nearestPrintedLine": {
+        "text": "\u0007\u0006 I was charged with one or more criminal offenses and the charge(s) were subsequently",
+        "y": 438.4,
+        "verticalOffsetFromWidget": 1.93
+      }
+    },
+    {
+      "rect": {
+        "x": 88.02,
+        "y": 376.47,
+        "width": 14.18,
+        "height": 13.31
+      },
+      "rectBasis": "acroform_widget_rect_read_from_the_document",
+      "exportStates": [
+        "/3",
+        "/Off"
+      ],
+      "onState": "/3",
+      "nearestPrintedLine": {
+        "text": "\u0007\u0006 I was charged with a criminal offense and a judgment of guilt was entered on Click to enter ae.",
+        "y": 377.8,
+        "verticalOffsetFromWidget": 1.33
+      }
+    }
+  ],
+  "reading": "Three widgets on one field, one per printed situation, each within ~2.5pt of its line. Export `/1` is 'I was arrested for a criminal offense and no charges were filed' — THIS ROUTE. Export `/2` is the dismissal/not-guilty situation, which is the sibling family's and which the sibling's own record confirms it took. Export `/3` is the judgment-of-guilt limb, which is neither family's.",
+  "consequenceForSectionII": "The printed text of the `/1` line continues 'If checked, please go to Section III.' The form therefore routes this situation PAST Section II (SENTENCE COMPLIANCE) entirely. That is read from the form's own face and it disposes of the sentence-compliance gate for this limb: there is no sentence to have complied with. It does not decide whether A.R.S. § 13-911 imposes any other waiting period on the no-charges-filed limb, which is a statutory question this family does not answer.",
+  "butNothingSelectsIt": "This control is NOT set by this build. finalizeOfficialForm writes text fields and dropdowns only and refuses every checkbox `non_text_field_type` by type guard, so no box on either document is selected. The situation election stays the participant's to make. The control is measured and recorded here so that the family's route identity is documented against the form, not so that anything is asserted on the participant's behalf.",
+  "grantsNoAuthority": "Reading a control is not selecting it, and identifying this route's export value neither makes the route reachable nor states that the participant is eligible under it."
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "rcap-caption-blank-finding/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "question": "Which caption does this route file under, and does the platform fill it?",
+  "answer": "The 'In Re the Matter of:' caption, because no charges were filed. The ORDER's copy is filled. The PETITION's copy is not: the binder cannot reach it, and this family records that rather than editing shared semantics or filling the wrong caption.",
+  "whatTheFormOffers": "Both documents print TWO alternative captions. Above the line 'OR if no charges were filed:' is the criminal caption 'STATE OF ARIZONA -vs- [Defendant]'. Below it is 'In Re the Matter of: [____] / Name (FIRST, MI, LAST)'. This route belongs under the second.",
+  "onTheOrder": {
+    "field": "DName",
+    "page": 1,
+    "rect": {
+      "x": 72.51,
+      "y": 361.51,
+      "width": 214.2,
+      "height": 15.45
+    },
+    "outcome": "WRITTEN with participant.full_legal_name",
+    "why": "`DName` matches the name descriptor through its own harvested caption, so the order carries this route's correct caption."
+  },
+  "onThePetition": {
+    "field": "Plaintiff",
+    "page": 1,
+    "rect": {
+      "x": 72.11,
+      "y": 303.75,
+      "width": 216,
+      "height": 17.2
+    },
+    "effectiveLabel": null,
+    "labelBasis": "no_printed_caption_within_reach",
+    "descriptorsByName": [],
+    "descriptorsByLabel": [],
+    "outcome": "LEFT BLANK",
+    "decisionWithAnExplicitMappingAttempted": {
+      "writable": false,
+      "reason": "no_allowlisted_fact_matches"
+    },
+    "why": "The field is NAMED `Plaintiff` — the form's author reused the criminal-caption widget name for the In-Re blank — and the word matches no descriptor. Its printed caption 'Name (FIRST, MI, LAST)' is printed BELOW the widget, so the label channel harvests nothing for it either. decideBinding returns `no_allowlisted_fact_matches` BEFORE it consults explicitMappings, so an explicit mapping cannot introduce the fact: a caller can disambiguate or block a binding, never create one. The projection above is that call, made with the mapping supplied, and it still refuses.",
+    "whatThisFamilyDidNotDo": "It did not add a descriptor, widen a match, or otherwise edit the shared binder to reach this blank. rcap-field-semantics.mjs is shared by every family in the corpus and its classification diffs are frozen records outside this family's owned path; widening it here would move committed blanks in families this worker has not read. It also did not write the name into `Defendant` instead, which is the one thing that would fill a caption and the one thing that would be false.",
+    "consequence": "The petition this family renders names the petitioner in Section I ('a. Petitioner's name') but leaves the page 1 caption blank. That is a real gap and it is stated as one rather than closed by either of the two wrong moves above.",
+    "whoOwnsIt": "Whoever owns scripts/rcap-official-forms/rcap-field-semantics.mjs and the frozen classification diffs."
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "rcap-participant-name-placement/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "question": "In the rendered artifact bytes, does every drawn participant-name token sit in a blank this family listed as one the name belongs in?",
+  "method": "Every flattened appearance in each fixture is read and matched back to the censused blank at its own measured rectangle. This is wider than the charge-caption question: on this family it is the net that covers `JusticeCourt1`, a COURT-identity blank whose harvested caption contains the word 'Name' and which the binder would otherwise fill with the participant's own name. A court name is neither a charge caption nor a date component, so no shared guard refuses it.",
+  "blanksTheNameMayAppearIn": {
+    "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS": [
+      "PetName"
+    ],
+    "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL": [
+      "DName",
+      "PetName"
+    ]
+  },
+  "placementsFound": 6,
+  "placementsOutsideTheAllowlist": 0,
+  "placements": [
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "fixture": "canonical",
+      "field": "PetName",
+      "page": 2,
+      "text": "Jordan Avery Reyes",
+      "tokens": [
+        "Jordan Avery Reyes",
+        "Jordan",
+        "Avery",
+        "Reyes"
+      ],
+      "allowed": true
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "fixture": "boundary",
+      "field": "PetName",
+      "page": 2,
+      "text": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "tokens": [
+        "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+        "Alexandrina",
+        "Katharine",
+        "Montgomery",
+        "Vandenberg",
+        "Oyelaran",
+        "Fitzwilliam"
+      ],
+      "allowed": true
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "fixture": "canonical",
+      "field": "DName",
+      "page": 1,
+      "text": "Jordan Avery Reyes",
+      "tokens": [
+        "Jordan Avery Reyes",
+        "Jordan",
+        "Avery",
+        "Reyes"
+      ],
+      "allowed": true
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "fixture": "canonical",
+      "field": "PetName",
+      "page": 1,
+      "text": "Jordan Avery Reyes",
+      "tokens": [
+        "Jordan Avery Reyes",
+        "Jordan",
+        "Avery",
+        "Reyes"
+      ],
+      "allowed": true
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "fixture": "boundary",
+      "field": "DName",
+      "page": 1,
+      "text": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "tokens": [
+        "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+        "Alexandrina",
+        "Katharine",
+        "Montgomery",
+        "Vandenberg",
+        "Oyelaran",
+        "Fitzwilliam"
+      ],
+      "allowed": true
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "fixture": "boundary",
+      "field": "PetName",
+      "page": 1,
+      "text": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "tokens": [
+        "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+        "Alexandrina",
+        "Katharine",
+        "Montgomery",
+        "Vandenberg",
+        "Oyelaran",
+        "Fitzwilliam"
+      ],
+      "allowed": true
+    }
+  ],
+  "nameTokensInsideANonNameFact": {
+    "note": "Appearances carrying a name token that are accounted for rather than flagged, with the reason. The only class here is the participant's own email address, which contains their name by construction. The exemption is granted only where the field was written by this run with factId `participant.email` and the drawn text is exactly the email value the fixture supplied.",
+    "count": 4,
+    "appearances": [
+      {
+        "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+        "fixture": "canonical",
+        "field": "Email",
+        "page": 1,
+        "text": "jordan.reyes@example.com",
+        "tokens": [
+          "Jordan",
+          "Reyes"
+        ],
+        "factId": "participant.email",
+        "why": "the participant's email address contains their name by construction; the value drawn is exactly the email fact this fixture supplied, so this is the email rendering and not a name placement"
+      },
+      {
+        "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+        "fixture": "canonical",
+        "field": "PetEmail",
+        "page": 2,
+        "text": "jordan.reyes@example.com",
+        "tokens": [
+          "Jordan",
+          "Reyes"
+        ],
+        "factId": "participant.email",
+        "why": "the participant's email address contains their name by construction; the value drawn is exactly the email fact this fixture supplied, so this is the email rendering and not a name placement"
+      },
+      {
+        "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+        "fixture": "boundary",
+        "field": "Email",
+        "page": 1,
+        "text": "jordan.reyes@example.com",
+        "tokens": [
+          "Jordan",
+          "Reyes"
+        ],
+        "factId": "participant.email",
+        "why": "the participant's email address contains their name by construction; the value drawn is exactly the email fact this fixture supplied, so this is the email rendering and not a name placement"
+      },
+      {
+        "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+        "fixture": "boundary",
+        "field": "PetEmail",
+        "page": 2,
+        "text": "jordan.reyes@example.com",
+        "tokens": [
+          "Jordan",
+          "Reyes"
+        ],
+        "factId": "participant.email",
+        "why": "the participant's email address contains their name by construction; the value drawn is exactly the email fact this fixture supplied, so this is the email rendering and not a name placement"
+      }
+    ]
+  }
+}

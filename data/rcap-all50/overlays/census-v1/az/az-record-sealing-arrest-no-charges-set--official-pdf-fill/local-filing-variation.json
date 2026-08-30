@@ -7,11 +7,8 @@
     "obligation:track-pathway:AZ:az_record_sealing_arrest_no_charges:remedy-1-record-sealing"
   ],
   "situation": "The participant was ARRESTED and NO CHARGES WERE FILED. There is no charge, no charging document, no case number arising from a prosecution, and no disposition.",
-
   "whyThisStepProceededWhileTheSourceGateIsOpen": "The packet-worker brief states that recording the local variation does not depend on the source bytes and may proceed while a source question is open. It is recorded here on that basis. Nothing in this file is derived from either official binary; both remain unopened in this container. See source-bind-gate.json and BUILD_GATE.md.",
-
   "provenanceRule": "Every entry names the committed artifact it was read from. No entry is written from background knowledge of Arizona law, and no entry is written from a court or agency host: egress to azcourts.gov and azleg.gov is refused by policy and was not attempted. Where the committed corpus answers a question only for a DIFFERENT limb of A.R.S. § 13-911 (a conviction, or a dismissal/acquittal), the entry says so and is left open rather than carried across.",
-
   "primaryCommittedSource": {
     "artifact": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
     "compiledFrom": {
@@ -22,7 +19,6 @@
     "whatItIs": "An agent training reference compiled into the engine profile. It is a secondary explanatory document, not the statute and not the form. It is used here for filing/fee/venue/service practice only, never to state eligibility.",
     "sourceRef": "pathways:76-118"
   },
-
   "variation": {
     "filingMethod": {
       "recorded": true,
@@ -32,17 +28,18 @@
       "appliesToThisSituationBecause": "The form pair is the same instrument for every § 13-911 limb; which limb is asserted is a selection made ON the petition, not a different filing.",
       "openForThisSituation": null
     },
-
     "venue": {
-      "recorded": false,
-      "committedAnswerForOtherLimbs": "File in the court that handled the case — superior, justice, or municipal — i.e. the court of conviction or charge.",
-      "readFrom": "AZ-arizona.json sourceSections['Required forms'], ['Filing instructions'] step 5, ['Court-specific quirks']",
+      "recorded": true,
+      "resolvedFrom": "THE FORM ITSELF — the question this file previously recorded as open is answered on the petition's own face.",
+      "readFrom": "official-form:AOCCRSL1F-050825 (sha256 32c1e54d8a41…), read first-hand from the pinned binary, page 2, printed at y=130.2-78.5",
+      "printedRule": "IMPORTANT: If no charges were filed but you had an initial appearance, you MUST file in the court where you had your initial appearance. If you were arrested but no initial appearance was held, you must file in the superior court in the county where you were arrested.",
       "situationSpecific": true,
-      "whyItIsOpenHere": "That answer presupposes a case. This route's participant was arrested and never charged, so no court ever received a charging document and there is no 'court that handled the case'. The committed corpus does not say where a no-charges-filed petition is filed in Arizona. Carrying the conviction-path answer across would state a venue this family has no source for, and venue stated wrongly sends a participant's filing to a court that cannot act on it.",
-      "whatWouldAnswerIt": "The venue instruction printed on AOCCRSL1F-050825 itself (the caption block and the form's own instructions), read from the pinned binary. The companion instruction packet AOCCRSL1I, if the corpus holds it, would corroborate. Failing both, counsel.",
-      "doNotGuess": true
+      "whyThisIsTheAnswerForThisRoute": "The rule is written FOR the no-charges-filed situation and for no other. It is the only venue instruction on the form addressed to a petitioner who was never charged, and it disposes of the objection this file previously raised — that the committed corpus's answer presupposed a case and a 'court that handled' it.",
+      "butItIsCONDITIONAL": "The rule branches on a fact the platform does not hold: whether an initial appearance was held. The form carries that question as its own control — page 2 'd. If no charges were filed, did you have an initial appearance?' (Check Box7) and 'If you marked \"yes,\" was your initial appearance in this court?' (Check Box8). Both are checkboxes, both are unanswerable from platform facts, and the factory selects no checkbox at all. So the participant decides venue, and the platform must not decide it for them.",
+      "whatTheBuildDoes": "`Court` is left blank on both documents — it binds no fact and this family adds none. `County` IS written from `matter.county`, which on an arrest matter is the county of arrest: that is the form's DEFAULT branch (arrested, no initial appearance held → superior court in the county of arrest). If the participant had an initial appearance in a different county, the caption county must change with it, and the two controls above are what tell them so.",
+      "supersedes": "The earlier entry on this route, which recorded venue as open with doNotGuess true because the committed corpus answered it only for the conviction and dismissal/acquittal limbs. That was correct on the record then available. The form answers it now.",
+      "residualRisk": "A denial carries a three-year bar on refiling (see delivery). Venue stated wrongly is therefore costly rather than merely ineffective, which is why the conditional above is recorded rather than flattened into a single answer."
     },
-
     "filingFee": {
       "recorded": true,
       "value": "The court's ordinary filing fee. A fee waiver or deferral may be available to a participant who cannot afford it. No statutory fee waiver attaches to § 13-911 sealing — the $0 filing in Arizona record relief is the Prop-207 marijuana expungement under § 36-2862, which is a different remedy and not this route.",
@@ -52,7 +49,6 @@
       "whyNoAmount": "The committed corpus records the fee as 'court filing fee' without a dollar figure, and fee schedules vary by court and change. No amount is invented here.",
       "cautionCarriedFromSource": "The reference stresses that for sealing the practical gate is satisfied monetary obligations (fines, fees, restitution), not the filing fee. That caution is recorded for completeness; on an arrest that produced no charge there is by construction no sentence, so no fine, fee or restitution can be outstanding from this matter. Whether Arizona nonetheless requires the participant to be clear of OTHER matters is an eligibility question and is not decided here."
     },
-
     "service": {
       "recorded": true,
       "value": "The prosecutor is served. Victims have statutory notice and input rights. The committed reference flags missed victim notice as a common cause of denial or delay in Arizona.",
@@ -60,9 +56,9 @@
       "situationSpecific": true,
       "openForThisSituation": "WHICH prosecutor, when no charging decision was ever made. The reference's instruction is written for a case with a prosecuting agency of record. On an arrest with no charges filed there may be no assigned prosecutor and no victim of record. The committed corpus does not resolve this.",
       "whatWouldAnswerIt": "The service block and certificate of mailing printed on AOCCRSL1F-050825, read from the pinned binary.",
-      "buildRule": "Whatever the answer, the certificate of mailing is never prefilled by this platform: a certificate signed before the mailing certifies an act that has not occurred. That refusal is unconditional and does not wait on the venue or prosecutor question."
+      "buildRule": "Whatever the answer, the certificate of mailing is never prefilled by this platform: a certificate signed before the mailing certifies an act that has not occurred. That refusal is unconditional and does not wait on the venue or prosecutor question.",
+      "postBindNote": "Re-checked against both bound binaries. Neither document carries a certificate of mailing, a certificate of service or a service block as an AcroForm field: the 112 censused fields contain no such blank on either form. The buildRule recorded here therefore had nothing to refuse, and the verification asserts the absence positively rather than assuming it — every field whose name or region matches a signature, date or certificate-of-service pattern is read back from the artifact bytes and must be empty. WHICH prosecutor is served remains open and is not answered by either form; on this route there may be no prosecuting agency of record at all, which is why the petition's prosecuting-agency blanks are left empty."
     },
-
     "delivery": {
       "recorded": true,
       "value": "The court may rule on the petition with or without a hearing after any prosecutor or victim response. If the petition is granted, the order directs the clerk and the Arizona DPS to seal the records and notifies the prosecutor. A denial carries a three-year bar on refiling.",
@@ -70,7 +66,6 @@
       "situationSpecific": false,
       "note": "The three-year refile bar is the reason a premature or misdirected filing on this route is costly rather than merely ineffective. It raises, not lowers, the standard for closing the venue and service questions above from a source rather than by inference."
     },
-
     "supportingRecord": {
       "recorded": true,
       "value": "Practice is to pull the Arizona DPS criminal history record (and the court docket) before filing, to confirm each charge, the offense class, the disposition and the discharge dates. A DPS fee applies.",
@@ -79,19 +74,17 @@
       "noteForThisSituation": "Every confirmation that step names — charge, offence class, disposition, discharge date — is a field this situation does not have. For an arrest with no charges filed, the DPS record's function is the opposite: it is the evidence that the arrest exists AND that no charge followed it. Whether Arizona requires it as an attachment to the petition is not stated in the committed corpus.",
       "effectOnTheBuild": "requiredParticipantAttachments cannot be closed from committed sources."
     },
-
     "waitingPeriod": {
-      "recorded": false,
-      "committedAnswerForOtherLimbs": "Sealing waits are class-based and run from completion of the nonmonetary sentence conditions and discharge: 2 years (class 2/3 misdemeanour), 3 years (class 1 misdemeanour), 5 years (class 4-6 felony), 10 years (class 2/3 felony), plus 5 additional years for a subsequent felony. A dismissal or acquittal may be sealed with no wait.",
-      "readFrom": "AZ-arizona.json sourceSections['Waiting periods'], ['Case outcome rules'], waitingPeriodRules wait-01",
-      "situationSpecific": true,
-      "whyItIsOpenHere": "Every tier in that table is keyed to an offence class from a conviction, and the no-wait entry is keyed to a dismissal or an acquittal. An arrest that produced no charge has no offence class and no disposition, so no row of the committed table selects. The committed corpus does not state the waiting period for the no-charges-filed limb of § 13-911.",
-      "whatWouldAnswerIt": "A.R.S. § 13-911 itself, and the eligibility recital printed on AOCCRSL1F-050825. Neither is readable in this container: the statute is behind refused egress (azleg.gov) and the form is behind the unmounted corpus.",
+      "recorded": "PARTIALLY — the sentence-compliance gate is disposed of; a statutory time wait is not decided.",
+      "resolvedFrom": "THE FORM ITSELF, in part.",
+      "readFrom": "official-form:AOCCRSL1F-050825 (sha256 32c1e54d8a41…), read first-hand from the pinned binary, page 3, printed at y=481.1-462.6 and the SECTION II heading at y=342.6",
+      "printedRule": "The situation control for this route reads 'I was arrested for a criminal offense and no charges were filed. If checked, please go to Section III.' Section II is SENTENCE COMPLIANCE.",
+      "whatThatSettles": "The form routes this situation PAST Section II entirely. The sentence-compliance gate — satisfied monetary terms, completed sentence terms, absolute discharge, discharge from probation — does not apply to a petitioner who was never charged, which is what one would expect since there is no sentence. This is read from the form's own face and it removes the objection that no row of the committed waiting-period table selects for this route: no row needs to.",
+      "whatIsSTILLOpen": "Whether A.R.S. § 13-911 imposes any OTHER waiting period on the no-charges-filed limb. The statute is not readable in this container (azleg.gov is behind refused egress) and the form does not state one on its face. The absence of a printed wait is not the same as a statute that imposes none.",
       "doNotGuess": true,
-      "escalation": "This is an eligibility question, which this family's owned path does not permit it to decide. It is recorded for counsel and for whoever owns the AZ state pack."
+      "escalation": "This remains an eligibility question, which this family's owned path does not permit it to decide. It is recorded for counsel and for whoever owns the AZ state pack. The sentence-compliance half is now settled from the source; the statutory half is not."
     }
   },
-
   "notRecordedAndWhy": {
     "coverSheet": "Not stated in the committed corpus for any § 13-911 limb.",
     "notice": "Partially recorded under service (prosecutor and victim). The recipients for a no-charges-filed petition are open.",
@@ -106,6 +99,13 @@
     "serviceTiming": "Not stated in the committed corpus.",
     "waitingPeriodCalculation": "Open — see waitingPeriod."
   },
-
-  "grantsNoAuthority": "Recording the local variation maps no field, renders no artifact, opens no commercial route and approves nothing for participant delivery. Three of its entries are open and two of those (venue, waiting period) are load-bearing for eligibility and would have to be closed from a source before any output of this family could be shown to a participant."
+  "grantsNoAuthority": "Recording the local variation maps no field, renders no artifact, opens no commercial route and approves nothing for participant delivery. Three of its entries are open and two of those (venue, waiting period) are load-bearing for eligibility and would have to be closed from a source before any output of this family could be shown to a participant.",
+  "postBindUpdate": {
+    "whatChanged": "This file was written while the source gate was open and the two binaries were unreadable in this container. The corpus is now mounted and both binaries are bound by exact SHA-256, so the questions this file recorded as OPEN pending a reading of the form have been put to the form. Two of the three are now answered from the source; the entries below are updated in place and each says what answered it.",
+    "whatDidNotChange": "Nothing here is answered from background knowledge, from a court or agency host, or by carrying an answer across from another limb of A.R.S. § 13-911. Egress remains refused and nothing was acquired.",
+    "boundSources": [
+      "official-form:AOCCRSL1F-050825 — 32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "official-form:AOCCRSL2F-050825 — 436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+    ]
+  }
 }

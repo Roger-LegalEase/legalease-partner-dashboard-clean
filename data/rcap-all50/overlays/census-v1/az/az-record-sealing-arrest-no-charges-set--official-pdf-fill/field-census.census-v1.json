@@ -1,0 +1,3617 @@
+{
+  "schemaVersion": "rcap-official-form-field-census/v1-census-v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "censusBasis": "first_hand_inspection_of_the_pinned_verified_binary",
+  "geometryBasis": "Every write box is the AcroForm widget's own /Rect, read from the document. No box is derived from a label position and no box is drawn by this family; captions are captured separately and decide only what a blank means, never where it is. Stroked rules are measured from each page's content stream with scripts/lib/pdf-stroked-boxes.mjs and recorded as corroboration only.",
+  "filenameNote": "This file is deliberately NOT named field-census.json. scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs walks data/rcap-all50/overlays for that exact filename and asserts the family and field totals equal the counts frozen in data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-diff.json. Enrolling a new family under the scanned filename changes those totals, and the diff record is outside this family's owned path. Neither guard is weakened, skipped or quarantined by this family, and this family's own charge-caption projection is recorded in reports/charge-caption-proof.json.",
+  "guardStateObservedAtBuildTime": "Both shared semantics guards were run before and after this family's census was written, and BOTH WERE ALREADY FAILING on the branch beforehand — this family did not break either. verify-full-name-charge-caption-semantics.mjs reports the identical row with and without this census ('the recorded field and family totals are the corpus's own — 5286 of 5286 across 156 of 157'), which is this file's filename working as intended: the guard does not see it. verify-name-date-component-semantics.mjs DOES scan census-v1 files, and its standing row moves from '157 of 162 censuses, 5352 of 5428 fields' to '157 of 163 censuses, 5352 of 5540 fields' — this family adds one census and 112 fields to a backlog of censuses the frozen record has not been regenerated against. That backlog predates this family and closing it means regenerating data/rcap-grade-a/field-semantics/, which is not this family's to regenerate. The substantive rows of both guards — 'no field binds a writable participant name into a charge blank', 'no date-component blank binds a writable participant name', 'no protect category is removed', 'no protect rule is weakened' — all pass.",
+  "documents": [
+    {
+      "documentId": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "pageGeometry": [
+        {
+          "page": 1,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 2,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 3,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 4,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 5,
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "fieldCount": 71,
+      "fields": [
+        {
+          "name": "Reset",
+          "type": "other",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72,
+                "y": 738.4,
+                "width": 72,
+                "height": 20
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Filer",
+          "type": "text",
+          "effectiveLabel": "Address (if not protected)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 212.07,
+                "y": 700.62,
+                "width": 201,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Address",
+          "type": "text",
+          "effectiveLabel": "Address (if not protected)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 211.61,
+                "y": 680.2,
+                "width": 201,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "City",
+          "type": "text",
+          "effectiveLabel": "Address (if not protected)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 211.61,
+                "y": 660.2,
+                "width": 201,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 5,
+              "rect": {
+                "x": 201.11,
+                "y": 478.71,
+                "width": 200,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.city"
+          ],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Telephone",
+          "type": "text",
+          "effectiveLabel": "City, State, Zip Code",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 211.61,
+                "y": 640.2,
+                "width": 201,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.phone"
+          ],
+          "descriptorsByLabel": [
+            "participant.city_state_zip",
+            "participant.city",
+            "participant.zip",
+            "participant.state"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box1",
+          "type": "checkbox",
+          "effectiveLabel": "Representi",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 143.36,
+                "y": 601.69,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 194.24,
+                "y": 601.93,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/No",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Email",
+          "type": "text",
+          "effectiveLabel": "Representing \u0007\u0006 Self or \u0007\u0006",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 211.61,
+                "y": 619.2,
+                "width": 201,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.email"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "AttorneyFor",
+          "type": "text",
+          "effectiveLabel": "Representing \u0007\u0006 Self or \u0007\u0006 Attorney for",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.61,
+                "y": 581.2,
+                "width": 341,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "attorney",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Bar",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 310.61,
+                "y": 560.2,
+                "width": 103,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Court",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 154.61,
+                "y": 521.2,
+                "width": 177,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "County",
+          "type": "text",
+          "effectiveLabel": "IN",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "COURT OF ARIZONA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 217.61,
+                "y": 502.2,
+                "width": 177,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.county"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Defendant",
+          "type": "text",
+          "effectiveLabel": "-vs- PETITION TO SEAL CRIMINAL CASE",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 71.61,
+                "y": 412.2,
+                "width": 216,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Plaintiff",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.11,
+                "y": 303.75,
+                "width": 216,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Case",
+          "type": "text",
+          "effectiveLabel": "Case Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN Select a county .COUNTY",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 436.11,
+                "y": 465.75,
+                "width": 140,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 432.11,
+                "y": 738.75,
+                "width": 143,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 433.11,
+                "y": 738.75,
+                "width": 140,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 433.11,
+                "y": 738.75,
+                "width": 140,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 5,
+              "rect": {
+                "x": 433.11,
+                "y": 738.75,
+                "width": 140,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box2",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "(ARS § 13-911)",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 360.24,
+                "y": 372.36,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ArrestOccured",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006Arrest records of an arrest occurring on or a",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 351.61,
+                "y": 703.36,
+                "width": 98,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box3",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.23,
+                "y": 705.36,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Agency",
+          "type": "text",
+          "effectiveLabel": "enforcement agency",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 220.11,
+                "y": 686.36,
+                "width": 281,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box4",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.23,
+                "y": 662.09,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ProAgency",
+          "type": "text",
+          "effectiveLabel": "charges were filed)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 213.61,
+                "y": 642.8,
+                "width": 359,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "CourtCase",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006All records relating to the eligible charge(s) in court ca",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 436.61,
+                "y": 618.36,
+                "width": 137,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetName",
+          "type": "text",
+          "effectiveLabel": "b.Petitioner’s address",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 204.61,
+                "y": 520.86,
+                "width": 372,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetAddr",
+          "type": "text",
+          "effectiveLabel": "b.Petitioner’s address",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 213.11,
+                "y": 499.86,
+                "width": 364,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.street_address"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetDOB",
+          "type": "text",
+          "effectiveLabel": "c.Date of birth",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 181.11,
+                "y": 479.86,
+                "width": 98,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.date_of_birth"
+          ],
+          "descriptorsByLabel": [
+            "participant.date_of_birth"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetEmail",
+          "type": "text",
+          "effectiveLabel": "d.Email address",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 188.11,
+                "y": 458.86,
+                "width": 389,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.email"
+          ],
+          "descriptorsByLabel": [
+            "participant.email"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetName1",
+          "type": "text",
+          "effectiveLabel": "e.Name at the time of arrest, if not the same as above",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 365.61,
+                "y": 438.86,
+                "width": 212,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Charge",
+          "type": "text",
+          "effectiveLabel": "a",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 108.11,
+                "y": 369.29,
+                "width": 469,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "CourtAdj1",
+          "type": "text",
+          "effectiveLabel": "adjudicated the charge(s)",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 231.61,
+                "y": 329.73,
+                "width": 344,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "CourtAdj2",
+          "type": "text",
+          "effectiveLabel": "adjudicated the charge(s)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 108.11,
+                "y": 312.29,
+                "width": 469,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "CourtCaseNum",
+          "type": "text",
+          "effectiveLabel": "c.Court case number if charge(s) were filed",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 313.61,
+                "y": 288.29,
+                "width": 263,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.case_number",
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Count1",
+          "type": "text",
+          "effectiveLabel": "2.Count II",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 185.61,
+                "y": 271.29,
+                "width": 355,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Count2",
+          "type": "text",
+          "effectiveLabel": "3.Count III",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 190.61,
+                "y": 254.29,
+                "width": 350,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Count3",
+          "type": "text",
+          "effectiveLabel": "4.Count IV",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 194.11,
+                "y": 236.51,
+                "width": 347,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Count4",
+          "type": "text",
+          "effectiveLabel": "4.Count IV",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 194.61,
+                "y": 219.51,
+                "width": 347,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box5",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.23,
+                "y": 620.09,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box6",
+          "type": "checkbox",
+          "effectiveLabel": "4.Count",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 179.24,
+                "y": 203.24,
+                "width": 13.75,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box7",
+          "type": "checkbox",
+          "effectiveLabel": "d.If no charges were filed, did you have an initial appearan",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 398.8,
+                "y": 178.24,
+                "width": 14.18,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 438.02,
+                "y": 178.24,
+                "width": 14.18,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/No",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": "signature",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box8",
+          "type": "checkbox",
+          "effectiveLabel": "If you marked “yes,” was your initial appearance in this cou",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION I. CASE RECORDS RELATED TO A CRIMINAL OFFENSE",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 409.41,
+                "y": 158.24,
+                "width": 14.18,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 448.63,
+                "y": 158.24,
+                "width": 14.18,
+                "height": 13.75
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/No",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "signature",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ArrestLoc",
+          "type": "text",
+          "effectiveLabel": "a. Location of arrest",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 200.11,
+                "y": 687.62,
+                "width": 376,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "AgencyName",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 255.11,
+                "y": 670.62,
+                "width": 321,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "AgencyDate",
+          "type": "text",
+          "effectiveLabel": "b. Name of the ar",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 179.61,
+                "y": 652.62,
+                "width": 97,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ProsAgency1",
+          "type": "text",
+          "effectiveLabel": "d. Name of the prosecuting agency if charges were filed",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 369.61,
+                "y": 635.62,
+                "width": 206,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ProsAgency2",
+          "type": "text",
+          "effectiveLabel": "d",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 108.11,
+                "y": 618.62,
+                "width": 468,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "JusticeCourt1",
+          "type": "text",
+          "effectiveLabel": "e. Name of the justice court and the justice court case nu",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 368.11,
+                "y": 583.62,
+                "width": 209,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 105.61,
+                "y": 566.62,
+                "width": 472,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box9",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 88.41,
+                "y": 478.67,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 88.02,
+                "y": 436.47,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 88.02,
+                "y": 376.47,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "EnteredOn",
+          "type": "text",
+          "effectiveLabel": "entered on",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 170.61,
+                "y": 397.53,
+                "width": 97,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "clerk",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "EnteredOn1",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006 I was charged with a criminal offense and a judgment of g",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 489.61,
+                "y": 373.53,
+                "width": 81,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": "clerk",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box10",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION II. SENTENCE COMPLIANCE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 88.02,
+                "y": 283.02,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 127.58,
+                "y": 282.58,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 164.02,
+                "y": 282.02,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box11",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION II. SENTENCE COMPLIANCE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 89.02,
+                "y": 223.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 128.58,
+                "y": 223.08,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 165.02,
+                "y": 222.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box12",
+          "type": "checkbox",
+          "effectiveLabel": "3",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION II. SENTENCE COMPLIANCE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 87.02,
+                "y": 180.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 126.58,
+                "y": 180.08,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 163.02,
+                "y": 179.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box13",
+          "type": "checkbox",
+          "effectiveLabel": "4",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION II. SENTENCE COMPLIANCE",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 89.02,
+                "y": 120.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 128.58,
+                "y": 120.08,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 165.02,
+                "y": 119.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box14",
+          "type": "checkbox",
+          "effectiveLabel": "1",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION III. PRIOR SEALING OF RECORD(S)",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 89.02,
+                "y": 655.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 128.58,
+                "y": 655.08,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box15",
+          "type": "checkbox",
+          "effectiveLabel": "2",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION III. PRIOR SEALING OF RECORD(S)",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 87.23,
+                "y": 588.98,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 126.8,
+                "y": 588.54,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetDate",
+          "type": "text",
+          "effectiveLabel": "If yes, what was the date of your last petition",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION III. PRIOR SEALING OF RECORD(S)",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 314.11,
+                "y": 627.76,
+                "width": 98,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box16",
+          "type": "checkbox",
+          "effectiveLabel": "offense since the conviction for which you are asking the co",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 89.02,
+                "y": 450.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 128.58,
+                "y": 450.08,
+                "width": 13.31,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 165.02,
+                "y": 449.52,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": "disposition_or_hearing",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box17",
+          "type": "checkbox",
+          "effectiveLabel": "2",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 89.02,
+                "y": 407.7,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 128.58,
+                "y": 407.26,
+                "width": 13.31,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 165.02,
+                "y": 406.7,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/3",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Discharge",
+          "type": "text",
+          "effectiveLabel": "were discharged by the court",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION III. PRIOR SEALING OF RECORD(S)",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 236.11,
+                "y": 543.82,
+                "width": 98,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Jurisdiction",
+          "type": "text",
+          "effectiveLabel": "a. If you have addi",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 188.11,
+                "y": 363.25,
+                "width": 388,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ChargesFiled",
+          "type": "text",
+          "effectiveLabel": "ii. Charges filed",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 195.11,
+                "y": 346.56,
+                "width": 381,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "DateofCharge",
+          "type": "text",
+          "effectiveLabel": "iii. Date of the charges",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 224.61,
+                "y": 328.25,
+                "width": 97,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.charge"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box18",
+          "type": "checkbox",
+          "effectiveLabel": "without a hearing. Do you request a hearing?",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 309.24,
+                "y": 288.86,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            },
+            {
+              "page": 4,
+              "rect": {
+                "x": 348.8,
+                "y": 288.42,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/2",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Consider1",
+          "type": "text",
+          "effectiveLabel": "4",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 244.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Consider2",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 227.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Consider3",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 210.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box19",
+          "type": "checkbox",
+          "effectiveLabel": "5",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 87.02,
+                "y": 188.64,
+                "width": 14.18,
+                "height": 13.31
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/1",
+                "/Off"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Doc1",
+          "type": "text",
+          "effectiveLabel": "5",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 167.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Doc2",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 150.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Doc3",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "SECTION IV. OTHER INFORMATION FOR THE COURT",
+          "widgets": [
+            {
+              "page": 4,
+              "rect": {
+                "x": 90.11,
+                "y": 133.69,
+                "width": 488,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date",
+          "type": "text",
+          "effectiveLabel": "Date",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 473.67,
+                "y": 553.05,
+                "width": 98,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Print",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "DECLARATIONS AND ACKNOWLEDGEMENTS",
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 201.11,
+                "y": 518.71,
+                "width": 200,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Addr",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "DECLARATIONS AND ACKNOWLEDGEMENTS",
+          "widgets": [
+            {
+              "page": 5,
+              "rect": {
+                "x": 201.11,
+                "y": 498.71,
+                "width": 200,
+                "height": 17.2
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.street_address"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        }
+      ]
+    },
+    {
+      "documentId": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "pageGeometry": [
+        {
+          "page": 1,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 2,
+          "width": 612,
+          "height": 792
+        },
+        {
+          "page": 3,
+          "width": 612,
+          "height": 792
+        }
+      ],
+      "fieldCount": 41,
+      "fields": [
+        {
+          "name": "Reset",
+          "type": "other",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 76.65,
+                "y": 751.57,
+                "width": 72,
+                "height": 20
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Court",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 155.38,
+                "y": 580.87,
+                "width": 175.2,
+                "height": 15.84
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "County",
+          "type": "text",
+          "effectiveLabel": "IN",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "COURT OF ARIZONA",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 218.21,
+                "y": 561.23,
+                "width": 176.2,
+                "height": 16.22
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.county"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Defendant",
+          "type": "text",
+          "effectiveLabel": "-vs-ORDER REGARDING PETITION TO",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.22,
+                "y": 472.06,
+                "width": 214.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "DName",
+          "type": "text",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 72.51,
+                "y": 361.51,
+                "width": 214.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box1",
+          "type": "checkbox",
+          "effectiveLabel": "of the following records: (Check only those that apply)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 91.04,
+                "y": 267.04,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ArrestOn",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006Arrest records of an arrest occurring on or about",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "A(RS § 13 911)-",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 351.21,
+                "y": 264.65,
+                "width": 97.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ArrestBy",
+          "type": "text",
+          "effectiveLabel": "enforcement agency",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "A(RS § 13 911)-",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 220.21,
+                "y": 247.66,
+                "width": 356.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "ArrestBy1",
+          "type": "text",
+          "effectiveLabel": "enforcement agency",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "A(RS § 13 911)-",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 116.71,
+                "y": 229.66,
+                "width": 457.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box2",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.74,
+                "y": 206.37,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Agency",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006Charging documents created by the following prosecuting ag",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 435.21,
+                "y": 205.71,
+                "width": 141.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "prosecutor",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Agency1",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "A(RS § 13 911)-",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 117.21,
+                "y": 186.71,
+                "width": 456.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": "agency",
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box3",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 90.74,
+                "y": 164.37,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "CaseNo",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006All records relating to the eligible charge(s) in court ca",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 434.71,
+                "y": 162.71,
+                "width": 140.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "matter.case_number"
+          ],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetName",
+          "type": "text",
+          "effectiveLabel": "b.Date of birth: Clic",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "I.PETITIONER’S INFORMATION",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 206.39,
+                "y": 110.15,
+                "width": 371.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [
+            "participant.date_of_birth"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "PetDOB",
+          "type": "text",
+          "effectiveLabel": "c.Name at the ti",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "I.PETITIONER’S INFORMATION",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 184.51,
+                "y": 92.4,
+                "width": 97.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.date_of_birth"
+          ],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "NameArrest",
+          "type": "text",
+          "effectiveLabel": "c.Name at the time of arrest, if not the same as above",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 368.57,
+                "y": 74.4,
+                "width": 208.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [
+            "participant.full_legal_name"
+          ],
+          "descriptorsByLabel": [
+            "participant.full_legal_name"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Case",
+          "type": "text",
+          "effectiveLabel": "Case Number",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "IN Select a county. COUNTY",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 437.71,
+                "y": 524.79,
+                "width": 135.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 432.71,
+                "y": 739.79,
+                "width": 142.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 432.71,
+                "y": 739.79,
+                "width": 142.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.case_number"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box4",
+          "type": "checkbox",
+          "effectiveLabel": "LAW: (Check only those that apply)",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 90.74,
+                "y": 667.93,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box5",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 90.74,
+                "y": 605.66,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            },
+            {
+              "page": 2,
+              "rect": {
+                "x": 90.74,
+                "y": 562.66,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box6",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.04,
+                "y": 485.52,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box7",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 90.04,
+                "y": 442.52,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box8",
+          "type": "checkbox",
+          "effectiveLabel": "\u0007\u0006 The offense(s) described in the petition is eligible to b",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.04,
+                "y": 417.63,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": true,
+          "captionOrNameMentionsCharge": true,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [
+            "matter.charge"
+          ],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box9",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 117.04,
+                "y": 393.01,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box10",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 117.04,
+                "y": 368.01,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box11",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "no_printed_caption_within_reach",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 90.04,
+                "y": 325.01,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box12",
+          "type": "checkbox",
+          "effectiveLabel": "\u0007\u0006 Granting the petition is in the best interests of the pet",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 89.04,
+                "y": 299.01,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box13",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 116.04,
+                "y": 239.17,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box14",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 116.04,
+                "y": 213.17,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box15",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 116.04,
+                "y": 188.17,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box16",
+          "type": "checkbox",
+          "effectiveLabel": null,
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 116.04,
+                "y": 163.17,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Other",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006 Other",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "13-911(H).",
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 166.01,
+                "y": 160.24,
+                "width": 407.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "OtherFindings",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006  Other findings",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 193.51,
+                "y": 134.68,
+                "width": 380.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box17",
+          "type": "checkbox",
+          "effectiveLabel": "\u0007\u0006 Other",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 2,
+              "rect": {
+                "x": 91.04,
+                "y": 136.34,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box18",
+          "type": "checkbox",
+          "effectiveLabel": "A",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 104.04,
+                "y": 683.34,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box19",
+          "type": "checkbox",
+          "effectiveLabel": "A. \u0007\u0006 DISMISSING the petition to seal criminal case records ",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 125.04,
+                "y": 657.72,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box20",
+          "type": "checkbox",
+          "effectiveLabel": "\u0007\u0006 Failure to provide sufficient information",
+          "labelBasis": "printed_directly_above_in_the_same_column",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 125.04,
+                "y": 631.72,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            },
+            {
+              "page": 3,
+              "rect": {
+                "x": 125.04,
+                "y": 606.72,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box21",
+          "type": "checkbox",
+          "effectiveLabel": "B",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 104.04,
+                "y": 575.72,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Check Box22",
+          "type": "checkbox",
+          "effectiveLabel": "C",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 104.04,
+                "y": 544.72,
+                "width": 12.13,
+                "height": 12.13
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": [
+                "/Off",
+                "/Yes"
+              ]
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "OtherDismiss",
+          "type": "text",
+          "effectiveLabel": "\u0007\u0006  Other",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:",
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 179.01,
+                "y": 605.06,
+                "width": 326.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        },
+        {
+          "name": "Date",
+          "type": "text",
+          "effectiveLabel": "Date",
+          "labelBasis": "printed_to_the_left_in_the_same_cell",
+          "regionHeading": null,
+          "widgets": [
+            {
+              "page": 3,
+              "rect": {
+                "x": 470.01,
+                "y": 340.53,
+                "width": 86.2,
+                "height": 15.45
+              },
+              "rectBasis": "acroform_widget_rect_read_from_the_document",
+              "exportStates": null
+            }
+          ],
+          "captionDescribesChargeValue": false,
+          "captionOrNameMentionsCharge": false,
+          "protectCategory": null,
+          "descriptorsByName": [],
+          "descriptorsByLabel": [],
+          "measuredRuleUnderWriteBox": null
+        }
+      ]
+    }
+  ]
+}

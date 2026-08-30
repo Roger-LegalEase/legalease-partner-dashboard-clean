@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-family-divergence/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "siblingFamilyId": "az_record_sealing_dismissal_not_guilty-set",
+  "siblingBranch": "claude/census-v1-build-az-record-sealing-dismissal-not-guilty",
+  "sharedSources": [
+    {
+      "documentId": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05"
+    },
+    {
+      "documentId": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1"
+    }
+  ],
+  "note": "Both families bind the SAME TWO BINARIES by the same digests. The forms are shared; the eligibility situation, the facts written and the refusals are not. This record states every blank this route deliberately leaves empty that the sibling fills, and why — so that a reviewer comparing the two packets does not read a deliberate refusal as a missing mapping.",
+  "thisSituation": "Arrested, and NO CHARGES WERE FILED. No charge, no charging document, no prosecuting agency of record, no court case number, no disposition.",
+  "siblingSituation": "Charged, and the charges were dismissed or produced a not-guilty verdict at trial. A charge, a prosecution, a court case and a disposition all exist.",
+  "blanksThisRouteLeavesThatTheSiblingWrites": [
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Defendant",
+      "siblingWrites": "participant.full_legal_name",
+      "thisRoute": "BLANK",
+      "why": "The `-vs-` criminal caption. No prosecution was ever brought, so the participant was never a defendant and the State was never opposite them. The form's own alternative — 'OR if no charges were filed: / In Re the Matter of:' — is where this route belongs."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Case",
+      "siblingWrites": "matter.case_number",
+      "thisRoute": "BLANK",
+      "why": "A case number is issued when a case is opened. Nothing was filed, so none exists."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "CourtCaseNum",
+      "siblingWrites": "matter.case_number",
+      "thisRoute": "BLANK",
+      "why": "The form conditions the blank on its own face: 'c. Court case number if charge(s) were filed'. The condition is false here."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Defendant",
+      "siblingWrites": "participant.full_legal_name",
+      "thisRoute": "BLANK",
+      "why": "The order's `-vs-` caption, refused for the same reason as the petition's."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Case",
+      "siblingWrites": "matter.case_number",
+      "thisRoute": "BLANK",
+      "why": "No case was opened, so the order's caption carries no case number."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "CaseNo",
+      "siblingWrites": "matter.case_number",
+      "thisRoute": "BLANK",
+      "why": "'All records relating to the eligible charge(s) in court case number' — there is no court case whose records could be described."
+    }
+  ],
+  "blanksTheSiblingLeavesThatThisRouteWrites": [
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "DName",
+      "siblingRefusesAs": "alternative_caption_for_a_different_situation",
+      "thisRoute": "participant.full_legal_name",
+      "why": "The sibling is explicit that this caption belongs to a different situation. That situation is this one, so this family fills it and refuses the caption the sibling fills."
+    }
+  ],
+  "blanksBOTHLeaveButForDifferentReasons": [
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Plaintiff",
+      "siblingReason": "role — `alternative_caption_for_a_different_situation`",
+      "thisRouteReason": "This IS the caption for this route, and it is left blank only because the binder cannot reach it. See reports/caption-blank-finding.json. The two families arrive at the same empty blank from opposite directions, and only one of them is content with it.",
+      "materialDifference": true
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box7",
+      "siblingReason": "role — `predicated_on_no_charges_filed`; the sibling's charges WERE filed, so the question does not arise for it",
+      "thisRouteReason": "The question ('d. If no charges were filed, did you have an initial appearance?') is squarely APPLICABLE to this route — it is the control that decides this route's venue. It is blank because the platform holds no initial-appearance fact and because the factory selects no checkbox at all.",
+      "materialDifference": true
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box8",
+      "siblingReason": "role — `predicated_on_no_charges_filed`",
+      "thisRouteReason": "As Check Box7: applicable here, unanswerable from platform facts, and a checkbox the factory never selects.",
+      "materialDifference": true
+    }
+  ],
+  "refusalsBothFamiliesReachIndependently": [
+    {
+      "field": "Filer",
+      "why": "mislabelled contact line — the label channel harvests the address printed below it"
+    },
+    {
+      "field": "City",
+      "why": "one field spanning the page 1 caption block and the page 5 declaration block"
+    },
+    {
+      "field": "JusticeCourt1",
+      "why": "a COURT identity blank the name channel would fill with a person's name"
+    },
+    {
+      "field": "PetName1 / NameArrest",
+      "why": "alternate-name blocks conditional on a difference the platform does not hold"
+    }
+  ],
+  "provedFromTheBytes": "The case-number divergence is not asserted from this record alone. Both fixtures still CARRY `matter.case_number` as a populated fact, and every drawn appearance in every fixture was scanned for that literal value. It appears nowhere. A fixture that simply withheld the value would have passed whether or not the refusal worked."
+}
