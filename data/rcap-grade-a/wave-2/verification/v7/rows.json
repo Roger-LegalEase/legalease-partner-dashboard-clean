@@ -4,12 +4,15 @@
   "captainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
   "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
   "environment": {
-    "observedFreeDiskMib": 2544,
+    "observedFreeDiskMib": 26591,
     "requiredFreeDiskMib": 4096,
-    "nodeModulesPresent": false,
+    "nodeModulesPresent": true,
+    "pdfLibVersion": "1.17.1",
     "masterLibraryMounted": false,
     "masterLibrarySourceDirSet": false,
-    "note": "WEC-2's minimum disk precondition was not met, so npm ci was not attempted. The prohibited private/** ownership boundary also was not written."
+    "npmCi": "PASS: exited 0; 492 packages installed",
+    "corpusBootstrap": "BLOCKED: bash scripts/rcap-corpus/bootstrap-private-corpus.sh exited 1; GitHub API returned HTTP 404 and the pinned Expungement_AI_RCAP_Master_Library_Edition_1.zip asset could not be resolved from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28",
+    "note": "WEC-2's 4096 MiB minimum was met and the pinned toolchain installed. The corpus bootstrap failed before extraction, so no private/** path was written and the Master Library remained absent."
   },
   "rows": [
     {
@@ -176,7 +179,7 @@
     }
   ],
   "focusedTests": [
-    { "command": "node scripts/verify-packet-build-environment.mjs --family <each assigned family>", "result": "BLOCKED", "observed": "All six exited 1: pdf-lib unavailable, Master Library absent/incomplete/unmatched, and every family's pinned sources unbound." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family <each assigned family>", "result": "BLOCKED", "observed": "All six exited 1 with 10/14 checks passed, 4 failed, and 1 not applicable. Node 24.14.0 and pdf-lib 1.17.1 passed; Master Library mounted, corpus completeness, committed-index byte comparison, and family source binding failed. Unbound source counts were 3, 1, 5, 9, 2, and 2 in assignment order." },
     { "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs", "result": "PASS", "observed": "Exited 0; 10/13 criteria passed with the controlling accepted-with-stops verdict and its three recorded failed criteria." },
     { "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs", "result": "PASS", "observed": "Exited 0; 33/33 checkpoint checks passed." }
   ]
