@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-family-product-wiring/v1",
+  "familyId": "ma-expunge-mj-set",
+  "worklistGroupId": "ma-expunge-mj-set",
+  "packetSetId": "ma-expunge-mj-set",
+  "implementationStrategy": "official_pdf_fill",
+  "routeKeys": [
+    "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
+  ],
+  "jurisdiction": "MA",
+  "trackId": "ma-expunge-mj",
+  "runtimePathwayId": "marijuana-only-expungement",
+  "documents": [
+    {
+      "documentId": "TC0021",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition for Expungement of Marijuana Offenses, G.L. c. 276, § 100K¼",
+      "revision": "REV-2022-11",
+      "sha256": "a9d80fab51668c59a15b559aa0f5021e8b4bf661fa83429ef22b31157cbf565c",
+      "role": "primaryOfficialForm"
+    }
+  ],
+  "componentsThisFamilyDoesNotProvide": {
+    "proposedOrder": "not applicable — § 100K¼ requires no proposed order and none is in the corpus",
+    "coverSheet": "not applicable",
+    "notice": "not applicable — the court, not the petitioner, notifies",
+    "certificateOfService": "not a separate document — the certificate of delivery to the District Attorney is printed on the face of TC0021 and is completed by the participant after actual delivery",
+    "affidavitOrVerification": "not a separate document — the perjury subscription is printed on the face of TC0021"
+  },
+  "authorityCreated": "NONE",
+  "assertions": {
+    "generationAllowed": false,
+    "runtimeSelectable": false,
+    "resolverEnrolment": "none — TC0021 is not enrolled with any packet resolver",
+    "commercialRouteOpened": false,
+    "fulfilmentRecordCreated": false,
+    "approvedForParticipantDelivery": false,
+    "productionConfigurationTouched": false,
+    "legalEligibilityTouched": false,
+    "routeIdentityTouched": false,
+    "paymentOrSponsorshipTouched": false,
+    "sharedManifestsTouched": false
+  },
+  "whatWouldBeRequiredBeforeAnyOfThatChanges": [
+    "The corpus source gate on TC0021 is cleared by whoever owns the Master Library governance record.",
+    "MA-TC0021-01 and MA-TC0021-02 in reports/upstream-findings.json are fixed by the owner of the shared binder, without which this family can write no field at all.",
+    "The filing fee and fee-waiver treatment are established (local-filing-variation.json#fee).",
+    "A human legal reviewer grants the output approval requested in approval-request.json.",
+    "A Grade-A fulfilment record keyed to this exact route and packet family exists. Commercial authority comes from that and from nothing else."
+  ],
+  "ownedPath": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill",
+  "pathsThisFamilyDidNotEdit": [
+    "data/rcap-all50/local-source-corpus-index.json",
+    "data/rcap-grade-a/**",
+    "scripts/rcap-official-forms/**",
+    "scripts/lib/**",
+    "any other packet family's overlay path"
+  ]
+}

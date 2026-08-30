@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-rendered-artifacts/v1",
+  "familyId": "ma-expunge-mj-set",
+  "renderedFresh": true,
+  "citesNoBlockedHash": true,
+  "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json",
+  "note": "Rendered fresh from the pinned source bytes. Every output hash below was checked against the hashes in the stale-artifact block and matches none of them. No blocked hash is cited as evidence for anything in this family, and no hash here is invented — each is the SHA-256 of the bytes written at the path beside it.",
+  "artifacts": [
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+      "byteLength": 433489,
+      "fieldsWritten": 0,
+      "fieldsRefused": 29,
+      "unfittable": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "ceab4012296b4e132466a11ebc5239fd72ae553fd5a5554f7ddfc110fcb8f565",
+      "byteLength": 433489,
+      "fieldsWritten": 0,
+      "fieldsRefused": 29,
+      "unfittable": []
+    }
+  ],
+  "canonicalAndBoundaryAreByteIdentical": true,
+  "whyTheFixturesAreIdentical": "This family writes no field, so the boundary fixture — whose participant name, address, case number and charge descriptions are all deliberately over-long — renders to exactly the same bytes as the canonical one. Both are therefore honest evidence that NOTHING is written and that no participant name reaches any blank, and neither is evidence about overflow, truncation or font fitting, which this build does not exercise. If a future build writes any field, these two hashes must diverge.",
+  "rasters": [
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+          "sha256": "071106f09ec65d79214672f6beb67a8e4115215b6fdec684298b83783eb93915",
+          "byteLength": 173648
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+          "sha256": "bec74ad22e938abc19fdf94e00f83482ec78368352d7e431906bf6549919a252",
+          "byteLength": 232926
+        }
+      ]
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+          "sha256": "071106f09ec65d79214672f6beb67a8e4115215b6fdec684298b83783eb93915",
+          "byteLength": 173648
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+          "sha256": "bec74ad22e938abc19fdf94e00f83482ec78368352d7e431906bf6549919a252",
+          "byteLength": 232926
+        }
+      ]
+    }
+  ]
+}

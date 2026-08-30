@@ -1,0 +1,531 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "ma-expunge-mj-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, a charge caption, or a value the platform does not hold in a form the shared binder can write.",
+  "count": 29,
+  "ofWhichCheckboxesTheBinderCanNeverWrite": 19,
+  "blanks": [
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[0]",
+      "page": 1,
+      "rect": {
+        "x": 273.56,
+        "y": 732.2,
+        "width": 137.61,
+        "height": 18.09
+      },
+      "type": "text",
+      "effectiveLabel": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)",
+      "measuredCaptionDirectlyAbove": "are seeking expungement)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "docket_number_box_bound_to_the_wrong_fact_by_label_harvest",
+      "why": "This is the DOCKET NO. box. Measured: the widget is at page 1 x 273.56..411.17, y 732.20..750.29, and the caption 'DOCKET NO. (of the case in which you are seeking expungement)' prints directly above it at y 764.3/754.7, x 271.4..413.7 — the same column, within 2.2pt. The harvester instead attached 'YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)', which prints in the OTHER column at x 20.9..242.7 and BELOW at y 719.3. Because that caption contains 'ADDRESS', decideBinding returns writable=true with factId participant.street_address: the participant's street address would be printed as the docket number of the case they are asking the court to expunge. The correct fact is matter.case_number, and no explicit mapping can redirect it. Refused by role."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[1]",
+      "page": 1,
+      "rect": {
+        "x": 21.55,
+        "y": 650.84,
+        "width": 245.61,
+        "height": 66.33
+      },
+      "type": "text",
+      "effectiveLabel": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)COURT DEPAR",
+      "measuredCaptionDirectlyAbove": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "petitioner_identity_block_needs_a_composite_the_binder_has_no_fact_for",
+      "why": "This is the petitioner's NAME, ADDRESS, AND PHONE NUMBER block — measured at page 1 x 21.55..267.16, y 650.84..717.17, directly below its own caption at y 719.3 in the same column, and 66.33pt tall, which is three printed lines. It is the ONE blank on this form where the participant's name legitimately belongs. The harvested caption runs on into the next cell ('...(Petitioner)COURT DEPAR'); the word 'court' trips participant.street_address's refuseWhen and 'ADDRESS'/'PHONE' trip participant.full_legal_name's, so the only surviving descriptor is participant.phone. decideBinding returns writable=true with factId participant.phone — a three-line identity block carrying nothing but '555-0142', which does not identify the petitioner to the court. The binder binds one atomic fact per field and has no composite name/address/phone descriptor, so there is no correct value available to write. Refused by role; the missing descriptor is recorded as a finding."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox1[0]",
+      "page": 1,
+      "rect": {
+        "x": 281.83,
+        "y": 702.9,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)COURT DEPAR",
+      "measuredCaptionDirectlyAbove": "COURT DEPARTMENT",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox2[0]",
+      "page": 1,
+      "rect": {
+        "x": 281.83,
+        "y": 688.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": "COURT DEPARTMENT",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox1[1]",
+      "page": 1,
+      "rect": {
+        "x": 443.83,
+        "y": 702.9,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "Boston Municipal Court",
+      "measuredCaptionDirectlyAbove": "Trial Court",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox1[2]",
+      "page": 1,
+      "rect": {
+        "x": 443.83,
+        "y": 688.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "Boston Municipal CourtJuvenile Court",
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[0]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 580.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "I request that this Court order that the records of the foll",
+      "measuredCaptionDirectlyAbove": "I request that this Court order that the records of the following charges (marijuana only) be expunged:",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[1]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 562.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": "I request that this Court order that the records of the following charges (marijuana only) be expunged:",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[2]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 544.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[3]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 526.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[4]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 508.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[5]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 490.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[6]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 472.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox3[7]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 454.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox4[0]",
+      "page": 1,
+      "rect": {
+        "x": 20.84,
+        "y": 184.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": "Please attach additional pages if you need more space.",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox5[0]",
+      "page": 1,
+      "rect": {
+        "x": 20.84,
+        "y": 157.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox6[0]",
+      "page": 1,
+      "rect": {
+        "x": 20.84,
+        "y": 202,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "Please attach additional pages if you need more space",
+      "measuredCaptionDirectlyAbove": "Please attach additional pages if you need more space.",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox7[0]",
+      "page": 1,
+      "rect": {
+        "x": 20.84,
+        "y": 127.26,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "I provided this petition and supporting documents to the Dis",
+      "measuredCaptionDirectlyAbove": "I provided this petition and supporting documents to the District Attorney's Office of the county that prosecuted the case",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox8[0]",
+      "page": 1,
+      "rect": {
+        "x": 182.84,
+        "y": 127.26,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": null,
+      "measuredCaptionDirectlyAbove": "I provided this petition and supporting documents to the District Attorney's Office of the county that prosecuted the case",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox9[0]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 617.98,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "You have the right to an interpreter at no cost to you",
+      "measuredCaptionDirectlyAbove": "You have the right to an interpreter at no cost to you.",
+      "reason": "protected_category",
+      "category": "money",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[2]",
+      "page": 1,
+      "rect": {
+        "x": 345.56,
+        "y": 616.32,
+        "width": 236.61,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "I request the assistance of an interpreter for the following",
+      "measuredCaptionDirectlyAbove": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_election_interpreter_language",
+      "why": "'I request the assistance of an interpreter for the following language: ____' (measured page 1 x 345.56..582.17, y 616.32..636.16). A request for a court interpreter is the participant's own election and the platform holds no language fact. Refused by role; it is refused today only for lack of a matching descriptor."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[3]",
+      "page": 1,
+      "rect": {
+        "x": 21.55,
+        "y": 236.84,
+        "width": 569.61,
+        "height": 134.73
+      },
+      "type": "text",
+      "effectiveLabel": "Specifically (provide as much detail as possible explaining ",
+      "measuredCaptionDirectlyAbove": "Specifically (provide as much detail as possible explaining the reasons for your request):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_narrative_statement",
+      "why": "'Specifically (provide as much detail as possible explaining the reasons for your request)' — measured page 1 x 21.55..591.16, y 236.84..371.57, the largest box on the form. Under § 100K¼ the petitioner must show the amount of marijuana fell within a decriminalised threshold; the legal review records that this is the entire eligibility question and requires reading the complaint rather than the CORI. It is the participant's own statement to a judge and the platform holds no fact that answers it."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[4]",
+      "page": 1,
+      "rect": {
+        "x": 21.55,
+        "y": 105.12,
+        "width": 155.61,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "by delivering a copy in hand ORby mailing a copy via first c",
+      "measuredCaptionDirectlyAbove": "by delivering a copy in hand OR",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_delivery_date",
+      "why": "The date in 'I provided this petition and supporting documents to the District Attorney's Office ... by delivering a copy in hand OR by mailing a copy via first class mail ... on ____' (measured page 1 x 21.55..177.16, y 105.12..124.96, under the printed word DATE at y 100.0). This is a certificate of delivery. Delivery has not occurred; a date here certifies an act of service that has not happened. Never prefilled."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField2[0]",
+      "page": 1,
+      "rect": {
+        "x": 69.99,
+        "y": 433.8,
+        "width": 512.17,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "Counts",
+      "measuredCaptionDirectlyAbove": "distribution of marijuana, subsequent offense  G.L. c. 94C, § 32C(b)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "charge_caption",
+      "why": "The 'Counts:' line, measured at page 1 x 69.99..582.16, y 433.80..453.64, directly right of the printed label 'Counts:' at y 436.9. It states which counts of the docket the petition reaches — a charge caption on the face of the census (captionDescribesChargeValue=true). It is refused today for lack of a matching fact, but that refusal is an accident of morphology: matter.charge's pattern is /\\bcount\\b/ and the printed label is the PLURAL 'Counts', which \\bcount\\b does not match. A refusal that depends on a plural 's' is not a refusal. Refused by role so that no participant fact of any kind can reach this blank."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].CheckBox10[0]",
+      "page": 1,
+      "rect": {
+        "x": 20.84,
+        "y": 400.5,
+        "width": 10,
+        "height": 10
+      },
+      "type": "checkbox",
+      "effectiveLabel": "(Note: The court is to act within 30 days of the petition be",
+      "measuredCaptionDirectlyAbove": "(Note: The court is to act within 30 days of the petition being filed.)",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[5]",
+      "page": 1,
+      "rect": {
+        "x": 21.55,
+        "y": 31.32,
+        "width": 209.61,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "DATE:PETITIONER'S SIGNATURE",
+      "measuredCaptionDirectlyAbove": "DATE:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_signature_date",
+      "why": "The DATE beside the petitioner's signature (measured page 1 x 21.55..231.16, y 31.32..51.16). The shared protect rules already refuse it, but only because the harvested caption 'DATE:PETITIONER'S SIGNATURE' happens to contain the word SIGNATURE. Dating a signature that has not been made asserts the petition was signed on a day it was not, and the sentence printed above it is a statement under the pains and penalties of perjury. Refused by role as well."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[6]",
+      "page": 1,
+      "rect": {
+        "x": 237.56,
+        "y": 31.32,
+        "width": 353.61,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "DATE:PETITIONER'S SIGNATURE",
+      "measuredCaptionDirectlyAbove": "PETITIONER'S SIGNATURE",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_signature",
+      "why": "PETITIONER'S SIGNATURE (measured page 1 x 237.56..591.17, y 31.32..51.16). Subscribed under the pains and penalties of perjury. Never prefilled, and refused by role rather than relying on the harvested caption carrying the word SIGNATURE."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[0].TextField1[7]",
+      "page": 1,
+      "rect": {
+        "x": 273.56,
+        "y": 652.32,
+        "width": 317.61,
+        "height": 19.84
+      },
+      "type": "text",
+      "effectiveLabel": "You have the right to an interpreter at no cost to you",
+      "measuredCaptionDirectlyAbove": "COURT DIVISION",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_division_not_held_as_a_fact",
+      "why": "This is the COURT DIVISION box — measured page 1 x 273.56..591.17, y 652.32..672.16, directly below its caption 'COURT DIVISION' at y 674.3, x 271.4..339.4, same column. The harvester instead attached 'You have the right to an interpreter at no cost to you', printed BELOW it at y 636.1, and the phrase 'no cost' makes protectCategoryOf return `money`, so the field is refused as a protected category. That refusal is incidental: it depends on the word 'cost' in a caption that belongs to a different line. The division is a named sitting of a department (for example a specific District Court division) and the platform holds matter.court as free text, not a division identity, so there is no correct value to write. Refused by role."
+    },
+    {
+      "document": "TC0021",
+      "field": "form1[0].#subform[1].TextField1[8]",
+      "page": 2,
+      "rect": {
+        "x": 21.55,
+        "y": 29.84,
+        "width": 569.61,
+        "height": 84.33
+      },
+      "type": "text",
+      "effectiveLabel": "Additional Information",
+      "measuredCaptionDirectlyAbove": "Additional Information:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_narrative_statement",
+      "why": "The 'Additional Information:' continuation space on the instructions page (measured page 2 x 21.55..591.16, y 29.84..114.17). It continues the same participant narrative and is written only if the participant checks the continuation box."
+    }
+  ]
+}

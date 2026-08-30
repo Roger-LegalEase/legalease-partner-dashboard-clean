@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "rcap-upstream-findings/v1",
+  "familyId": "ma-expunge-mj-set",
+  "note": "Defects this family found in shared components. None is fixed here: the shared binder, the corpus index and the corpus manifest are all outside this family's owned path, and no verifier was skipped, weakened or quarantined to get a green lane. Each is stated with the measurement that proves it.",
+  "findings": [
+    {
+      "id": "MA-TC0021-01",
+      "severity": "blocking_for_this_family",
+      "component": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs (captureWidgetContext)",
+      "title": "The label harvester crosses a column boundary on a two-column form header and binds the docket box to the participant's street address.",
+      "measured": {
+        "field": "form1[0].#subform[0].TextField1[0]",
+        "widgetRect": {
+          "page": 1,
+          "x": 273.56,
+          "y": 732.2,
+          "width": 137.61,
+          "height": 18.09
+        },
+        "captionActuallyAbove": {
+          "text": "DOCKET NO. (of the case in which you are seeking expungement)",
+          "y": 764.3,
+          "x0": 271.4,
+          "x1": 413.7
+        },
+        "captionTheHarvesterChose": {
+          "text": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)",
+          "y": 719.3,
+          "x0": 20.9,
+          "x1": 242.7
+        },
+        "labelBasis": "printed_to_the_left_in_the_same_cell"
+      },
+      "consequence": "decideBinding returns writable=true with factId participant.street_address. Unrefused, the participant's street address is printed as the docket number of the case they are asking the court to expunge.",
+      "whyThisFamilyCannotFixIt": "An explicit mapping cannot redirect it: decideBinding refuses any explicit mapping that disagrees with the descriptor the chain chose. The field is refused by role instead, which leaves the docket number blank rather than wrong.",
+      "suggestedOwnerAction": "Require horizontal overlap with the widget before accepting a caption as 'to the left in the same cell', or prefer a caption directly above in the same column when both exist."
+    },
+    {
+      "id": "MA-TC0021-02",
+      "severity": "blocking_for_this_family",
+      "component": "scripts/rcap-official-forms/rcap-field-semantics.mjs (FACT_DESCRIPTORS)",
+      "title": "There is no composite descriptor for a combined name/address/phone identity block, so the one blank on this form where the petitioner's name belongs cannot be filled correctly.",
+      "measured": {
+        "field": "form1[0].#subform[0].TextField1[1]",
+        "widgetRect": {
+          "page": 1,
+          "x": 21.55,
+          "y": 650.84,
+          "width": 245.61,
+          "height": 66.33
+        },
+        "heightIsThreePrintedLines": true,
+        "caption": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)",
+        "harvestedLabel": "YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)COURT DEPAR",
+        "whyOnlyPhoneSurvives": "The harvest runs into the next cell and picks up 'COURT'. participant.street_address's refuseWhen contains \\bcourt\\b so it drops out; participant.full_legal_name's refuseWhen contains \\baddr(ess)?\\b and \\bphone\\b so it drops out. participant.phone is the only descriptor left."
+      },
+      "consequence": "decideBinding returns writable=true with factId participant.phone. Unrefused, a three-line petitioner identity block on a petition sworn under the pains and penalties of perjury carries nothing but a telephone number, which does not identify the petitioner to the court.",
+      "whyThisFamilyCannotFixIt": "The binder binds one atomic fact per field and the caller cannot supply a composite. Refused by role, which leaves the block blank for the participant rather than misidentifying them.",
+      "suggestedOwnerAction": "Either add a composite descriptor (a name/address/phone block is common on state cover pages), or allow a caller to supply a composed value for a named field under an explicit mapping."
+    },
+    {
+      "id": "MA-TC0021-03",
+      "severity": "record_defect",
+      "component": "data/rcap-all50/local-source-corpus-index.json",
+      "title": "The committed corpus index records `xfaPresent: false` for a document whose AcroForm dictionary carries an /XFA array.",
+      "measured": {
+        "path": "STATES/MA/05_SOURCE_GATED/MA__SOURCE-GATED__TC0021__petition-for-expungement-of-marijuana-offenses-g-l-c-276-section-100k-1-4__REV-2022-11__EN.pdf",
+        "indexSays": {
+          "xfaPresent": false,
+          "structuralClassObserved": "acroform",
+          "acroFieldCount": 29,
+          "pageCount": 2
+        },
+        "bytesSay": {
+          "acroFormPresent": true,
+          "xfaPresent": true,
+          "xfaPacketNames": [
+            "xdp:xdp",
+            "config",
+            "template",
+            "localeSet",
+            "datasets",
+            "xmpmeta",
+            "xfdf",
+            "form",
+            "</xdp:xdp>"
+          ],
+          "needsRendering": null,
+          "xfaVariety": "static_xfa_acroform_layer_is_authoritative"
+        }
+      },
+      "consequence": "The corpus manifest gates this document on the ground that it IS XFA while the index says it is not. Anyone reconciling the two from the index alone would conclude the gate's stated reason is baseless. It is not: the XFA layer is there. What the index gets right is that the AcroForm layer is real and complete.",
+      "notFixedHere": "The index is a shared manifest outside this family's owned path and has not been edited."
+    },
+    {
+      "id": "MA-TC0021-04",
+      "severity": "latent",
+      "component": "scripts/rcap-official-forms/rcap-field-semantics.mjs (matter.charge descriptor)",
+      "title": "The charge descriptor's /\\bcount\\b/ pattern does not match the plural caption 'Counts', which is how this form labels its charge-count line.",
+      "measured": {
+        "field": "form1[0].#subform[0].TextField2[0]",
+        "widgetRect": {
+          "page": 1,
+          "x": 69.99,
+          "y": 433.8,
+          "width": 512.17,
+          "height": 19.84
+        },
+        "printedLabel": "Counts:",
+        "captionDescribesChargeValue": true,
+        "decideBindingToday": "writable=false, reason=no_allowlisted_fact_matches"
+      },
+      "consequence": "The blank is refused today, but for the wrong reason — it is refused because nothing matched, not because it is a charge caption. A future descriptor whose pattern does match the plural would make it writable with no other change. This family refuses it by role so the outcome does not depend on a plural 's'.",
+      "suggestedOwnerAction": "Consider /\\bcounts?\\b/ in the matter.charge pattern."
+    },
+    {
+      "id": "MA-TC0021-05",
+      "severity": "latent",
+      "component": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs + PROTECT_RULES",
+      "title": "The COURT DIVISION box is protected only incidentally, by the word 'cost' in a caption that belongs to a different line.",
+      "measured": {
+        "field": "form1[0].#subform[0].TextField1[7]",
+        "widgetRect": {
+          "page": 1,
+          "x": 273.56,
+          "y": 652.32,
+          "width": 317.61,
+          "height": 19.84
+        },
+        "captionActuallyAbove": {
+          "text": "COURT DIVISION",
+          "y": 674.3,
+          "x0": 271.4,
+          "x1": 339.4
+        },
+        "captionTheHarvesterChose": {
+          "text": "You have the right to an interpreter at no cost to you",
+          "y": 636.1
+        },
+        "protectCategory": "money"
+      },
+      "consequence": "protectCategoryOf returns `money` from 'no cost', so the field is refused as a protected category. That is the right outcome for the wrong reason and would vanish if the harvest changed. Refused by role here as well. The same incidental `money` protection covers the interpreter checkbox at x 29.84, y 617.98.",
+      "suggestedOwnerAction": "Same harvester fix as MA-TC0021-01."
+    }
+  ]
+}

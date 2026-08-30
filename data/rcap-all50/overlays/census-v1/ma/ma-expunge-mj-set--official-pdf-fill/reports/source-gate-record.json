@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "rcap-source-gate-record/v1",
+  "familyId": "ma-expunge-mj-set",
+  "documentId": "TC0021",
+  "question": "This source sits on 05_SOURCE_GATED. What does the repository state that means, and does this build change it?",
+  "whereTheGateIsStated": [
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/README_MASTER_LIBRARY.md",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/MASTER_ASSET_MANIFEST.jsonl",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/NAMING_STANDARD.md",
+    "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/00_GOVERNANCE/BATCH_1_ABSENT_FORM_SCOPE_DECISION.md"
+  ],
+  "whatTheRepositoryStates": {
+    "governanceRule": "README_MASTER_LIBRARY.md, rule 6: \"Source-gated files must never be selected by the packet resolver.\"",
+    "assetClass": "NAMING_STANDARD.md lists SOURCE-GATED as one of the five ASSET_CLASS values, alongside LEGAL-REVIEW, FORM, INSTRUCTIONS and SUPPORT.",
+    "gateDuration": "BATCH_1_ABSENT_FORM_SCOPE_DECISION.md: \"Files already marked source-gated remain gated until their stated currentness, geography, or legal-output issue is resolved.\"",
+    "thisDocumentsManifestRecord": {
+      "asset_class": "source_gated",
+      "packet_candidate": "no",
+      "generation_allowed": "no",
+      "runtime_status": "runtime_disabled",
+      "eligibility_role": "release_gated_source",
+      "packet_stage": "disabled_pending_release_gates",
+      "source_status": "repo_source_gated",
+      "freshness_status": "source_or_currentness_gate_open",
+      "notes": "Official statewide form, but it is XFA. The existing runtime renderer cannot fill XFA; preserve as source-gated until converted or handled by an approved strategy.",
+      "required_follow_up": "Verify currentness and assign to the appropriate eligibility, filing, or post-filing workflow."
+    }
+  },
+  "whatThatMeansForThisBuild": "The stated restriction is on RESOLVER SELECTION and RUNTIME GENERATION — the packet resolver must never select the file, generation_allowed is no, and runtime_status is runtime_disabled. It is not a restriction on holding, reading, hashing, censusing or measuring the document, and this family does only those things plus rendering non-deliverable review fixtures. The build honours the gate exactly as written: production-field-map.json carries generationAllowed false and runtimeSelectable false, no resolver or runtime registry is touched, and no route is opened. Precedent in this repository is the same: `ar-arrest-seal-set` builds its census-v1 family from two 05_SOURCE_GATED sources.",
+  "whatThisBuildDoesNotDo": [
+    "It does not clear the gate.",
+    "It does not set generation_allowed, runtime_status, packet_candidate or packet_stage to anything.",
+    "It does not enrol TC0021 with any packet resolver.",
+    "It does not resolve the freshness_status `source_or_currentness_gate_open`, which remains open: the committed corpus index states in terms that it does not establish that a file is the current official edition or that it has not been superseded."
+  ],
+  "theGatesStatedReasonTestedAgainstTheBytes": {
+    "theStatedReason": "\"it is XFA. The existing runtime renderer cannot fill XFA\"",
+    "observed": {
+      "acroFormPresent": true,
+      "xfaPresent": true,
+      "xfaPacketNames": [
+        "xdp:xdp",
+        "config",
+        "template",
+        "localeSet",
+        "datasets",
+        "xmpmeta",
+        "xfdf",
+        "form",
+        "</xdp:xdp>"
+      ],
+      "needsRendering": null,
+      "xfaVariety": "static_xfa_acroform_layer_is_authoritative"
+    },
+    "finding": "The manifest is right that an XFA layer is present and the committed corpus index is WRONG to record `xfaPresent: false` for this document — the AcroForm dictionary carries an /XFA array of 9 packets (xdp:xdp, config, template, localeSet, datasets, xmpmeta, xfdf, form, </xdp:xdp>). But the document has NO /NeedsRendering entry and its page content streams carry the complete printed form — 38 measured text lines on page 1 and 46 on page 2, including the caption of every blank. That makes it STATIC XFA (XFA foreground), where the AcroForm layer is the layer every viewer draws, and not dynamic XFA, where filling the AcroForm layer would be meaningless. pdf-lib drops the XFA packet on load and fills the AcroForm layer, which is a coherent strategy for a static-XFA document.",
+    "whatFollows": "Whether that constitutes the \"approved strategy\" the manifest note contemplates is NOT this family's call and is not asserted here. Two records disagree about the same bytes and both are outside this family's owned path: the corpus manifest note and the committed corpus index's `xfaPresent: false`. Recorded for the owners of those records.",
+    "correctionNotAppliedHere": "data/rcap-all50/local-source-corpus-index.json is a shared manifest outside this family's owned path and has NOT been edited."
+  }
+}

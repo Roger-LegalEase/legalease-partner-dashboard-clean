@@ -1,0 +1,394 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ma-expunge-mj-set",
+  "question": "Does any blank whose caption or field name names a charge, offence, count, statute or violation — or which measured geometry places in this form's charge region — carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle. This is the artifact answering, not the render report.",
+  "whyGeometryIsUsedAsWellAsTheCaption": "Every field on TC0021 carries a LiveCycle autoname, so the field-name channel is empty for all 29 fields and the harvested caption is unreliable — it crosses a column boundary twice on this form. The form's charge region is therefore identified from measured geometry as well: the eight statutory offence rows at page 1 y 454.5..580.5 and the 'Counts:' line at y 433.80. Relying on the harvest alone would have examined one blank instead of nine.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeBlanksExamined": 18,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO — no participant name lands in any charge-caption blank in any fixture",
+  "blanks": [
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[0]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 580.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": "I request that this Court order that the records of the foll",
+      "measuredMeaning": "possession of marijuana — G.L. c. 94C, § 34",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[1]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 562.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "cultivation of marijuana — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[2]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 544.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana with intent to distribute — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[3]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 526.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "distribution of marijuana — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[4]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 508.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana, subsequent offense — G.L. c. 94C, § 34",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[5]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 490.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "cultivation of marijuana, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[6]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 472.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana with intent to distribute, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].CheckBox3[7]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 454.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "distribution of marijuana, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "canonical",
+      "field": "form1[0].#subform[0].TextField2[0]",
+      "page": 1,
+      "rect": {
+        "x": 69.99,
+        "y": 433.8,
+        "width": 512.17,
+        "height": 19.84
+      },
+      "effectiveLabel": "Counts",
+      "measuredMeaning": "the 'Counts:' line",
+      "detectedBy": [
+        "harvested_caption_or_field_name",
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[0]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 580.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": "I request that this Court order that the records of the foll",
+      "measuredMeaning": "possession of marijuana — G.L. c. 94C, § 34",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[1]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 562.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "cultivation of marijuana — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[2]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 544.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana with intent to distribute — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[3]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 526.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "distribution of marijuana — G.L. c. 94C, § 32C(a)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[4]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 508.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana, subsequent offense — G.L. c. 94C, § 34",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[5]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 490.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "cultivation of marijuana, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[6]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 472.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "possession of marijuana with intent to distribute, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].CheckBox3[7]",
+      "page": 1,
+      "rect": {
+        "x": 29.84,
+        "y": 454.5,
+        "width": 10,
+        "height": 10
+      },
+      "effectiveLabel": null,
+      "measuredMeaning": "distribution of marijuana, subsequent offense — G.L. c. 94C, § 32C(b)",
+      "detectedBy": [
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": false,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    },
+    {
+      "document": "TC0021",
+      "fixture": "boundary",
+      "field": "form1[0].#subform[0].TextField2[0]",
+      "page": 1,
+      "rect": {
+        "x": 69.99,
+        "y": 433.8,
+        "width": 512.17,
+        "height": 19.84
+      },
+      "effectiveLabel": "Counts",
+      "measuredMeaning": "the 'Counts:' line",
+      "detectedBy": [
+        "harvested_caption_or_field_name",
+        "measured_geometry"
+      ],
+      "captionDescribesChargeValue": true,
+      "drawnText": null,
+      "participantNameTokensFound": []
+    }
+  ],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the charge vocabulary?",
+    "fieldsScanned": 29,
+    "offendingRows": 0,
+    "offending": []
+  }
+}

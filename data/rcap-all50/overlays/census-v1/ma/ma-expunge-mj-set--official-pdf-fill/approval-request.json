@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ma-expunge-mj-set",
+  "routeKeys": [
+    "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfillment record and marks no packet proven. The family remains not runtime-selectable, generationAllowed is false, and the corpus source gate on TC0021 remains open.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: the source was already held and is bound by exact pinned SHA-256 against both the family declaration and the committed corpus index. Nothing was acquired.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from measured widget geometry for all 29 fields. The map has ZERO write boxes and that is a decision, not a gap: see production-field-map.json#whyThereAreNoWriteBoxes and reports/upstream-findings.json. `not_mapped` does not appear — every field carries a measured rectangle and a stated reason.",
+    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered from the pinned source bytes and verified from the artifact bytes at each measured rectangle; every page rastered for visual review.",
+    "PRODUCT_WIRING_REQUIRED": "Wired as a census-v1 family record only. No runtime authority created: generationAllowed false, runtimeSelectable false, no resolver enrolment, no route identity or eligibility change.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "independentVisualReviewRequired": true,
+  "blockingQuestionsForTheReviewer": [
+    "The corpus source gate on TC0021 is open and this build does not clear it.",
+    "Two shared-binder defects found on this form (reports/upstream-findings.json) belong to owners outside this family's path; until they are fixed this family can write nothing at all.",
+    "The committed corpus index records `xfaPresent: false` for a document that carries an /XFA array."
+  ]
+}

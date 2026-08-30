@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ma-expunge-mj-set",
+  "routeKeys": [
+    "obligation:track-pathway:MA:ma-expunge-mj:marijuana-only-expungement"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "sourceGateOpen": true,
+  "sourceGateRecord": "reports/source-gate-record.json",
+  "documents": [
+    {
+      "documentId": "TC0021",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "form1[0].#subform[0].TextField1[0]",
+          "class": "docket_number_box_bound_to_the_wrong_fact_by_label_harvest",
+          "why": "This is the DOCKET NO. box. Measured: the widget is at page 1 x 273.56..411.17, y 732.20..750.29, and the caption 'DOCKET NO. (of the case in which you are seeking expungement)' prints directly above it at y 764.3/754.7, x 271.4..413.7 — the same column, within 2.2pt. The harvester instead attached 'YOUR NAME, ADDRESS, AND PHONE NUMBER (Petitioner)', which prints in the OTHER column at x 20.9..242.7 and BELOW at y 719.3. Because that caption contains 'ADDRESS', decideBinding returns writable=true with factId participant.street_address: the participant's street address would be printed as the docket number of the case they are asking the court to expunge. The correct fact is matter.case_number, and no explicit mapping can redirect it. Refused by role."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[1]",
+          "class": "petitioner_identity_block_needs_a_composite_the_binder_has_no_fact_for",
+          "why": "This is the petitioner's NAME, ADDRESS, AND PHONE NUMBER block — measured at page 1 x 21.55..267.16, y 650.84..717.17, directly below its own caption at y 719.3 in the same column, and 66.33pt tall, which is three printed lines. It is the ONE blank on this form where the participant's name legitimately belongs. The harvested caption runs on into the next cell ('...(Petitioner)COURT DEPAR'); the word 'court' trips participant.street_address's refuseWhen and 'ADDRESS'/'PHONE' trip participant.full_legal_name's, so the only surviving descriptor is participant.phone. decideBinding returns writable=true with factId participant.phone — a three-line identity block carrying nothing but '555-0142', which does not identify the petitioner to the court. The binder binds one atomic fact per field and has no composite name/address/phone descriptor, so there is no correct value available to write. Refused by role; the missing descriptor is recorded as a finding."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField2[0]",
+          "class": "charge_caption",
+          "why": "The 'Counts:' line, measured at page 1 x 69.99..582.16, y 433.80..453.64, directly right of the printed label 'Counts:' at y 436.9. It states which counts of the docket the petition reaches — a charge caption on the face of the census (captionDescribesChargeValue=true). It is refused today for lack of a matching fact, but that refusal is an accident of morphology: matter.charge's pattern is /\\bcount\\b/ and the printed label is the PLURAL 'Counts', which \\bcount\\b does not match. A refusal that depends on a plural 's' is not a refusal. Refused by role so that no participant fact of any kind can reach this blank."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[4]",
+          "class": "certificate_of_delivery_date",
+          "why": "The date in 'I provided this petition and supporting documents to the District Attorney's Office ... by delivering a copy in hand OR by mailing a copy via first class mail ... on ____' (measured page 1 x 21.55..177.16, y 105.12..124.96, under the printed word DATE at y 100.0). This is a certificate of delivery. Delivery has not occurred; a date here certifies an act of service that has not happened. Never prefilled."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[5]",
+          "class": "participant_signature_date",
+          "why": "The DATE beside the petitioner's signature (measured page 1 x 21.55..231.16, y 31.32..51.16). The shared protect rules already refuse it, but only because the harvested caption 'DATE:PETITIONER'S SIGNATURE' happens to contain the word SIGNATURE. Dating a signature that has not been made asserts the petition was signed on a day it was not, and the sentence printed above it is a statement under the pains and penalties of perjury. Refused by role as well."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[6]",
+          "class": "participant_signature",
+          "why": "PETITIONER'S SIGNATURE (measured page 1 x 237.56..591.17, y 31.32..51.16). Subscribed under the pains and penalties of perjury. Never prefilled, and refused by role rather than relying on the harvested caption carrying the word SIGNATURE."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[3]",
+          "class": "participant_narrative_statement",
+          "why": "'Specifically (provide as much detail as possible explaining the reasons for your request)' — measured page 1 x 21.55..591.16, y 236.84..371.57, the largest box on the form. Under § 100K¼ the petitioner must show the amount of marijuana fell within a decriminalised threshold; the legal review records that this is the entire eligibility question and requires reading the complaint rather than the CORI. It is the participant's own statement to a judge and the platform holds no fact that answers it."
+        },
+        {
+          "field": "form1[0].#subform[1].TextField1[8]",
+          "class": "participant_narrative_statement",
+          "why": "The 'Additional Information:' continuation space on the instructions page (measured page 2 x 21.55..591.16, y 29.84..114.17). It continues the same participant narrative and is written only if the participant checks the continuation box."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[2]",
+          "class": "participant_election_interpreter_language",
+          "why": "'I request the assistance of an interpreter for the following language: ____' (measured page 1 x 345.56..582.17, y 616.32..636.16). A request for a court interpreter is the participant's own election and the platform holds no language fact. Refused by role; it is refused today only for lack of a matching descriptor."
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[7]",
+          "class": "court_division_not_held_as_a_fact",
+          "why": "This is the COURT DIVISION box — measured page 1 x 273.56..591.17, y 652.32..672.16, directly below its caption 'COURT DIVISION' at y 674.3, x 271.4..339.4, same column. The harvester instead attached 'You have the right to an interpreter at no cost to you', printed BELOW it at y 636.1, and the phrase 'no cost' makes protectCategoryOf return `money`, so the field is refused as a protected category. That refusal is incidental: it depends on the word 'cost' in a caption that belongs to a different line. The division is a named sitting of a department (for example a specific District Court division) and the platform holds matter.court as free text, not a division identity, so there is no correct value to write. Refused by role."
+        }
+      ],
+      "writeBoxes": [],
+      "writeBoxCount": 0,
+      "whyThereAreNoWriteBoxes": "Every blank on TC0021 is the participant's own to complete, the court's own, a charge caption, or a blank the shared binder can only bind to the wrong fact. The two blanks a platform could legitimately fill — the DOCKET NO. box and the petitioner identity block — are both bound to the wrong fact by the printed-label fallback and cannot be redirected by an explicit mapping. See roleRefusals and reports/upstream-findings.json.",
+      "refused": [
+        {
+          "field": "form1[0].#subform[0].TextField1[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[1]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox2[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[1]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[2]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[1]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[2]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[3]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[4]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[5]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[6]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[7]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox4[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox5[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox6[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox7[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox8[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox9[0]",
+          "reason": "protected_category",
+          "category": "money",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[2]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[3]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[4]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField2[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox10[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[5]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[6]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[7]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].TextField1[8]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "form1[0].#subform[0].TextField1[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[1]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox2[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[1]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox1[2]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[1]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[2]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[3]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[4]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[5]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[6]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox3[7]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox4[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox5[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox6[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox7[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox8[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox9[0]",
+          "category": "money"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[2]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[3]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[4]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField2[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].CheckBox10[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[5]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[6]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[0].TextField1[7]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].TextField1[8]",
+          "category": "role"
+        }
+      ]
+    }
+  ]
+}
