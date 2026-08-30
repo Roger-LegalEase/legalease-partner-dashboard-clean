@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "rcap-census-v1-family-gate-resolution/v1",
+  "worklistGroupId": "az_record_sealing_dismissal_not_guilty-set",
+  "supersedes": "SOURCE-BIND-BLOCKED.json",
+  "supersededAtHead": "f2021eef50fe27b5ded2d461227ac8eef8f53767",
+  "status": "SOURCE_BIND_RESOLVED_BUILD_PROCEEDED",
+  "statement": "The block recorded by the predecessor is lifted. Both official sources now bind by exact SHA-256 against bytes that were opened and hashed in this container, and the build proceeded through census, mapping, local variation, fixtures, byte-level verification and raster.",
+  "thePredecessorWasNotWrong": {
+    "finding": "corpus_absent",
+    "assessment": "CORRECT, AND STILL CORRECT OF THAT CONTAINER.",
+    "why": "The Master Library lives under private/, which is git-ignored, so no clone carries it. It was genuinely not mounted where that worker ran. Recording an absent corpus as a refusal rather than a pass is the behaviour scripts/rcap-official-forms/operational-corpus-precondition.mjs exists to enforce: an adjudication once walked an empty file list from a missing directory and read the silence as the condition passing. Nothing about that reasoning is retracted here.",
+    "whatChanged": "Only the container. The corpus is recovered per container with scripts/rcap-corpus/bootstrap-private-corpus.sh, which verifies the archive hash and the corpus's own governance checksums before extracting. It was run here and reported 51 jurisdictions / 499 files / 329 PDFs with governance checksums verified."
+  },
+  "howTheGateReopened": [
+    "bash scripts/rcap-corpus/bootstrap-private-corpus.sh — archive SHA-256 a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89 verified before extraction.",
+    "npm ci — node_modules was absent, which was the predecessor's second recorded gap.",
+    "node scripts/verify-packet-build-environment.mjs --family az_record_sealing_dismissal_not_guilty-set --branch claude/census-v1-build-az-record-sealing-dismissal-not-guilty — PACKET_BUILD_ENVIRONMENT_READY, 14/14.",
+    "node scripts/rcap-census-v1-az-record-sealing-dismissal-not-guilty-source-bind.mjs — exit 0, both sources bound."
+  ],
+  "sourcesBound": [
+    {
+      "sourceId": "official-form:AOCCRSL1F-050825",
+      "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "byteLength": 299110,
+      "observedInThisContainer": true,
+      "agreesWithCorpusIndex": true,
+      "agreesWithCustodyReconciliation": true
+    },
+    {
+      "sourceId": "official-form:AOCCRSL2F-050825",
+      "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+      "byteLength": 213882,
+      "observedInThisContainer": true,
+      "agreesWithCorpusIndex": true,
+      "agreesWithCustodyReconciliation": true
+    }
+  ],
+  "acquisitionStillNotAttempted": "Nothing was fetched from azcourts.gov or anywhere else. This family is SOURCE_ALREADY_HELD and commissionAcquisition is false; egress to court hosts is refused by policy, and no mirror, cache or aggregator was used. The fix was to mount the corpus that already held these bytes, exactly as the predecessor said it would be.",
+  "dispositionQuestionNowAnswered": {
+    "wasUnresolvedBecause": "The brief required it to be established FROM THE OFFICIAL FORM, and the form could not be opened.",
+    "answeredFrom": "The measured bytes of AOCCRSL1F.",
+    "answer": "ONE selection. Page 3 § I.4 carries one field, Check Box9, with three widgets and three export values. The widget at y=436.47 sits on the printed option at y=438.4: 'I was charged with one or more criminal offenses and the charge(s) were subsequently dismissed or resulted in a not guilty verdict at trial.' Both dispositions share export value /2 and share one date blank, EnteredOn.",
+    "whatItDoesNotDecide": "The route identity. The Oregon precedent the predecessor recorded governs: counsel required two separately governed configurations even where acquittal and ordinary dismissal shared one option on one form. Finding one checkbox licenses one FORM SELECTION, not one ROUTE. That decision is counsel's and was not taken in this build."
+  },
+  "whatRemainsOpen": {
+    "selectionsAreMeasuredButUnwritten": "Every selection square on both forms is measured in page coordinates and recorded in selection-control-map.json, but none is marked. decideBinding refuses every non-text widget with non_text_field_type/type_guard and finalizeOfficialForm exposes no selection channel. This build does not reach around that shared refusal. Closing it is a change to the shared factory, outside this family's owned path.",
+    "consequence": "The rendered fixtures are not a filable petition: § I.4 is unselected, so the document does not yet state which situation is claimed.",
+    "outputLegalApproval": "REQUESTED, not granted. See approval-request.json."
+  },
+  "grantsNoAuthority": "Finishing this family opens no commercial route, creates no fulfilment record and approves nothing for participant delivery."
+}

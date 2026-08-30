@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "az_record_sealing_dismissal_not_guilty-set",
+  "blocking": [],
+  "findingCount": 0,
+  "defectsFoundAndRefusedByRole": [
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Filer",
+      "class": "mislabelled_contact_line",
+      "why": "The 'Person Filing' NAME line on page 1. The page prints its captions above its widgets, so the label harvest is off by one row and binds participant.street_address here through the printed-label fallback. A petition whose 'Person Filing' line carries a street address misidentifies the filer to the court."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "City",
+      "class": "spans_the_declaration_block",
+      "why": "One field, two widgets: the page 1 contact line and the page 5 'City, State, Zip Code' inside DECLARATIONS AND ACKNOWLEDGEMENTS. Its page-5 neighbours are refused as notarization territory, so filling it half-completes a declaration made under penalty of perjury."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "JusticeCourt1",
+      "class": "court_identity_not_a_person",
+      "why": "Page 3 § 3(e), the justice court's NAME and case number, carried on two widgets of one field. The caption begins with 'Name of the justice court', so ASKS_FOR_A_PERSONS_NAME matches and participant.full_legal_name binds: the petitioner would be named as the court that heard the case."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "PetName1",
+      "class": "alternate_block_conditional_on_difference",
+      "why": "Page 2 § I.1(e), 'Name at the time of arrest, if not the same as above'. It is completed only when the name differs. The platform holds one name, so filling it would assert a difference and then print the same value."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Plaintiff",
+      "class": "alternative_caption_for_a_different_situation",
+      "why": "The page 1 'In Re the Matter of' name, used ONLY where no charges were filed. In this family charges were filed and dismissed or tried to a not-guilty verdict, so the Defendant caption applies and this one stays blank. Filling both would give the court two captions for one matter."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Date",
+      "class": "participant_signature_date",
+      "why": "The date beside the petitioner's signature on page 5. Dating a signature that has not been made asserts the petition was signed on a day it was not. Refused by role rather than by the accident that nothing matches the name 'Date'."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box7",
+      "class": "predicated_on_no_charges_filed",
+      "why": "Page 2 § I.2(d), 'If no charges were filed, did you have an initial appearance?'. Charges were filed in this family, so the question does not apply. It is refused today only because the shared signature rule matches 'initial' inside 'initial appearance'."
+    },
+    {
+      "document": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "field": "Check Box8",
+      "class": "predicated_on_no_charges_filed",
+      "why": "The follow-up to § I.2(d), reached only when the previous answer is yes. Not this family's question, and refused today by the same coincidental match on 'initial'."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "DName",
+      "class": "alternative_caption_for_a_different_situation",
+      "why": "The order's 'In Re the Matter of' name, the caption used only where no charges were filed. This family's caption is the Defendant one. participant.full_legal_name binds here through the field name, so without this refusal the order would carry both captions."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "NameArrest",
+      "class": "alternate_block_conditional_on_difference",
+      "why": "Page 1 § I(c), 'Name at the time of arrest, if not the same as above'. Conditional on a difference the platform cannot assert, and it binds participant.full_legal_name through the name channel."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Date",
+      "class": "court_only_signature_date",
+      "why": "The date beside the Judicial Officer's signature on page 3. The court dates its own order. Refused by role rather than by the accident that nothing matches the name 'Date'."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box7",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box8",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box9",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box10",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box11",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box12",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box13",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box14",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box15",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box16",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Check Box17",
+      "class": "court_finding_of_fact",
+      "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "Other",
+      "class": "court_finding_of_fact",
+      "why": "The page 2 'Other:' findings line, in the court's own findings block. Refused today only because no descriptor matches the name."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "OtherFindings",
+      "class": "court_finding_of_fact",
+      "why": "The page 2 'Other findings:' line. The court's finding to make, not the platform's to draft."
+    },
+    {
+      "document": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "field": "ArrestOn",
+      "class": "court_recital_of_the_petition",
+      "why": "Page 1 recital of the arrest date the ORDER repeats back from the petition. The court states what was presented to it; the platform does not draft the court's recitals."
+    }
+  ]
+}

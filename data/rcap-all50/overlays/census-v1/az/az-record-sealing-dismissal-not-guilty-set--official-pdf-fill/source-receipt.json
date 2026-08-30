@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-family-source-receipt/v1",
+  "familyId": "az_record_sealing_dismissal_not_guilty-set",
+  "worklistGroupId": "az_record_sealing_dismissal_not_guilty-set",
+  "implementationStrategy": "official_pdf_fill",
+  "jurisdiction": "AZ",
+  "routeKeys": [
+    "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty"
+  ],
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "whyNoAcquisition": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json classifies this family SOURCE_ALREADY_HELD: both document sources resolve to files already in the verified corpus. Nothing was fetched from azcourts.gov or anywhere else; this environment refuses egress to court hosts, and a copy from anywhere that is not the issuing authority would not be an official source. The pinned Master Library was recovered through scripts/rcap-corpus/bootstrap-private-corpus.sh, which verifies the archive hash and the corpus's own governance checksums before extracting.",
+  "sourceArchive": "Expungement_AI_RCAP_Master_Library_Edition_1",
+  "documents": [
+    {
+      "documentId": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal Criminal Case Records",
+      "formNumber": "AOCCRSL1F-050825",
+      "revision": "REV-2025-05-08",
+      "sha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "byteLength": 299110,
+      "pathInArchive": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "matchedBy": "exact_pinned_sha256",
+      "corpusIndexAgrees": true,
+      "pageCount": 5,
+      "acroFieldCount": 71,
+      "structuralClassObserved": "acroform"
+    },
+    {
+      "documentId": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order Regarding Petition to Seal Criminal Case Records",
+      "formNumber": "AOCCRSL2F-050825",
+      "revision": "REV-2025-05-08",
+      "sha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+      "byteLength": 213882,
+      "pathInArchive": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "matchedBy": "exact_pinned_sha256",
+      "corpusIndexAgrees": true,
+      "pageCount": 3,
+      "acroFieldCount": 41,
+      "structuralClassObserved": "acroform"
+    }
+  ],
+  "revisionDiscrepancyCarriedForward": {
+    "observed": "The census, the custody reconciliation, the official source registry and the corpus index all name AOCCRSL1F-050825 / AOCCRSL2F-050825 (REV-2025-05-08). The compiled runtime profile src/lib/rcap-engine/compiled/profiles/AZ-arizona.json cites AOCCRSL1F-091424 and AOCCRSL2F-091424 throughout its agent-facing guidance.",
+    "notActedOn": "Compiled profiles are outside this family's owned path and were not modified. Flagged only, because a field map measured against 050825 and a runtime that tells participants to ask the clerk for 091424 would disagree about which document the packet is.",
+    "forCounsel": "Which revision is current at azcourts.gov is a question this environment cannot answer, having no egress to court hosts."
+  },
+  "whatThisReceiptDoesNotEstablish": [
+    "that this is the current official edition of either form",
+    "that neither has been superseded since the archive was assembled",
+    "that any output is approved for participant delivery"
+  ]
+}

@@ -1,0 +1,1252 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "az_record_sealing_dismissal_not_guilty-set",
+  "routeKeys": [
+    "obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "wiringGrantsNoAuthority": "This map is wiring, not approval. generationAllowed is false and runtimeSelectable is false; no commercial route is opened, no fulfilment record is created and no packet is marked proven.",
+  "documents": [
+    {
+      "documentId": "AZ-AOCCRSL1F-PETITION-TO-SEAL-CRIMINAL-CASE-RECORDS",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "Filer",
+          "class": "mislabelled_contact_line",
+          "why": "The 'Person Filing' NAME line on page 1. The page prints its captions above its widgets, so the label harvest is off by one row and binds participant.street_address here through the printed-label fallback. A petition whose 'Person Filing' line carries a street address misidentifies the filer to the court."
+        },
+        {
+          "field": "City",
+          "class": "spans_the_declaration_block",
+          "why": "One field, two widgets: the page 1 contact line and the page 5 'City, State, Zip Code' inside DECLARATIONS AND ACKNOWLEDGEMENTS. Its page-5 neighbours are refused as notarization territory, so filling it half-completes a declaration made under penalty of perjury."
+        },
+        {
+          "field": "JusticeCourt1",
+          "class": "court_identity_not_a_person",
+          "why": "Page 3 § 3(e), the justice court's NAME and case number, carried on two widgets of one field. The caption begins with 'Name of the justice court', so ASKS_FOR_A_PERSONS_NAME matches and participant.full_legal_name binds: the petitioner would be named as the court that heard the case."
+        },
+        {
+          "field": "PetName1",
+          "class": "alternate_block_conditional_on_difference",
+          "why": "Page 2 § I.1(e), 'Name at the time of arrest, if not the same as above'. It is completed only when the name differs. The platform holds one name, so filling it would assert a difference and then print the same value."
+        },
+        {
+          "field": "Plaintiff",
+          "class": "alternative_caption_for_a_different_situation",
+          "why": "The page 1 'In Re the Matter of' name, used ONLY where no charges were filed. In this family charges were filed and dismissed or tried to a not-guilty verdict, so the Defendant caption applies and this one stays blank. Filling both would give the court two captions for one matter."
+        },
+        {
+          "field": "Date",
+          "class": "participant_signature_date",
+          "why": "The date beside the petitioner's signature on page 5. Dating a signature that has not been made asserts the petition was signed on a day it was not. Refused by role rather than by the accident that nothing matches the name 'Date'."
+        },
+        {
+          "field": "Check Box7",
+          "class": "predicated_on_no_charges_filed",
+          "why": "Page 2 § I.2(d), 'If no charges were filed, did you have an initial appearance?'. Charges were filed in this family, so the question does not apply. It is refused today only because the shared signature rule matches 'initial' inside 'initial appearance'."
+        },
+        {
+          "field": "Check Box8",
+          "class": "predicated_on_no_charges_filed",
+          "why": "The follow-up to § I.2(d), reached only when the previous answer is yes. Not this family's question, and refused today by the same coincidental match on 'initial'."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "Address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 211.61,
+            "y": 680.2,
+            "width": 201,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Address (if not protected)"
+        },
+        {
+          "field": "Telephone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 211.61,
+            "y": 640.2,
+            "width": 201,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "City, State, Zip Code"
+        },
+        {
+          "field": "Email",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 211.61,
+            "y": 619.2,
+            "width": 201,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Representing \u0007\u0006 Self or \u0007\u0006"
+        },
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 217.61,
+            "y": 502.2,
+            "width": 177,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN"
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 71.61,
+            "y": 412.2,
+            "width": 216,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "-vs- PETITION TO SEAL CRIMINAL CASE"
+        },
+        {
+          "field": "Case",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 436.11,
+            "y": 465.75,
+            "width": 140,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 5,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case Number"
+        },
+        {
+          "field": "PetName",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "rect": {
+            "x": 204.61,
+            "y": 520.86,
+            "width": 372,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b.Petitioner’s address"
+        },
+        {
+          "field": "PetAddr",
+          "factId": "participant.street_address",
+          "page": 2,
+          "rect": {
+            "x": 213.11,
+            "y": 499.86,
+            "width": 364,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b.Petitioner’s address"
+        },
+        {
+          "field": "PetDOB",
+          "factId": "participant.date_of_birth",
+          "page": 2,
+          "rect": {
+            "x": 181.11,
+            "y": 479.86,
+            "width": 98,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "c.Date of birth"
+        },
+        {
+          "field": "PetEmail",
+          "factId": "participant.email",
+          "page": 2,
+          "rect": {
+            "x": 188.11,
+            "y": 458.86,
+            "width": 389,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "d.Email address"
+        },
+        {
+          "field": "CourtCaseNum",
+          "factId": "matter.case_number",
+          "page": 2,
+          "rect": {
+            "x": 313.61,
+            "y": 288.29,
+            "width": 263,
+            "height": 17.2
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "c.Court case number if charge(s) were filed"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Reset",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Filer",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "City",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "AttorneyFor",
+          "reason": "protected_category",
+          "category": "attorney",
+          "regionHeading": null
+        },
+        {
+          "field": "Bar",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Court",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Plaintiff",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "ArrestOccured",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Agency",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "ProAgency",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "CourtCase",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "PetName1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Charge",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "CourtAdj1",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "CourtAdj2",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Count1",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Count2",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Count3",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Count4",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box5",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box6",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ArrestLoc",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "AgencyName",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "AgencyDate",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "ProsAgency1",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "ProsAgency2",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "JusticeCourt1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "EnteredOn",
+          "reason": "protected_category",
+          "category": "clerk",
+          "regionHeading": null
+        },
+        {
+          "field": "EnteredOn1",
+          "reason": "protected_category",
+          "category": "clerk",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box10",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box11",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box12",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box13",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box14",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box15",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "PetDate",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box16",
+          "reason": "protected_category",
+          "category": "disposition_or_hearing",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box17",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Discharge",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Jurisdiction",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "ChargesFiled",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "DateofCharge",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box18",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Consider1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Consider2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Consider3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box19",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Doc1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Doc2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Doc3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Print",
+          "reason": "protected_page_region",
+          "category": "notarization",
+          "regionHeading": "DECLARATIONS AND ACKNOWLEDGEMENTS"
+        },
+        {
+          "field": "Addr",
+          "reason": "protected_page_region",
+          "category": "notarization",
+          "regionHeading": "DECLARATIONS AND ACKNOWLEDGEMENTS"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Reset",
+          "category": "type_guard"
+        },
+        {
+          "field": "Filer",
+          "category": "role"
+        },
+        {
+          "field": "City",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "category": "type_guard"
+        },
+        {
+          "field": "AttorneyFor",
+          "category": "attorney"
+        },
+        {
+          "field": "Plaintiff",
+          "category": "role"
+        },
+        {
+          "field": "Check Box2",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "Agency",
+          "category": "agency"
+        },
+        {
+          "field": "Check Box4",
+          "category": "type_guard"
+        },
+        {
+          "field": "ProAgency",
+          "category": "agency"
+        },
+        {
+          "field": "PetName1",
+          "category": "role"
+        },
+        {
+          "field": "Check Box5",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box6",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box7",
+          "category": "role"
+        },
+        {
+          "field": "Check Box8",
+          "category": "role"
+        },
+        {
+          "field": "AgencyName",
+          "category": "agency"
+        },
+        {
+          "field": "AgencyDate",
+          "category": "agency"
+        },
+        {
+          "field": "ProsAgency1",
+          "category": "agency"
+        },
+        {
+          "field": "ProsAgency2",
+          "category": "agency"
+        },
+        {
+          "field": "JusticeCourt1",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "category": "type_guard"
+        },
+        {
+          "field": "EnteredOn",
+          "category": "clerk"
+        },
+        {
+          "field": "EnteredOn1",
+          "category": "clerk"
+        },
+        {
+          "field": "Check Box10",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box11",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box12",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box13",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box14",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box15",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box16",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "field": "Check Box17",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box18",
+          "category": "type_guard"
+        },
+        {
+          "field": "Check Box19",
+          "category": "type_guard"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        },
+        {
+          "field": "Print",
+          "category": "notarization"
+        },
+        {
+          "field": "Addr",
+          "category": "notarization"
+        }
+      ]
+    },
+    {
+      "documentId": "AZ-AOCCRSL2F-ORDER-REGARDING-PETITION-TO-SEAL",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "DName",
+          "class": "alternative_caption_for_a_different_situation",
+          "why": "The order's 'In Re the Matter of' name, the caption used only where no charges were filed. This family's caption is the Defendant one. participant.full_legal_name binds here through the field name, so without this refusal the order would carry both captions."
+        },
+        {
+          "field": "NameArrest",
+          "class": "alternate_block_conditional_on_difference",
+          "why": "Page 1 § I(c), 'Name at the time of arrest, if not the same as above'. Conditional on a difference the platform cannot assert, and it binds participant.full_legal_name through the name channel."
+        },
+        {
+          "field": "Date",
+          "class": "court_only_signature_date",
+          "why": "The date beside the Judicial Officer's signature on page 3. The court dates its own order. Refused by role rather than by the accident that nothing matches the name 'Date'."
+        },
+        {
+          "field": "Check Box7",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box8",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box9",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box10",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box11",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box12",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box13",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box14",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box15",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box16",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Check Box17",
+          "class": "court_finding_of_fact",
+          "why": "A finding of fact or conclusion of law under the page 2 heading 'II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF LAW'. The shared region rule does not reach this far down the page, so without this refusal it is held back only by the non-text type guard."
+        },
+        {
+          "field": "Other",
+          "class": "court_finding_of_fact",
+          "why": "The page 2 'Other:' findings line, in the court's own findings block. Refused today only because no descriptor matches the name."
+        },
+        {
+          "field": "OtherFindings",
+          "class": "court_finding_of_fact",
+          "why": "The page 2 'Other findings:' line. The court's finding to make, not the platform's to draft."
+        },
+        {
+          "field": "ArrestOn",
+          "class": "court_recital_of_the_petition",
+          "why": "Page 1 recital of the arrest date the ORDER repeats back from the petition. The court states what was presented to it; the platform does not draft the court's recitals."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "County",
+          "factId": "matter.county",
+          "page": 1,
+          "rect": {
+            "x": 218.21,
+            "y": 561.23,
+            "width": 176.2,
+            "height": 16.22
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "IN"
+        },
+        {
+          "field": "Defendant",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72.22,
+            "y": 472.06,
+            "width": 214.2,
+            "height": 15.45
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "-vs-ORDER REGARDING PETITION TO"
+        },
+        {
+          "field": "PetName",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 206.39,
+            "y": 110.15,
+            "width": 371.2,
+            "height": 15.45
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "b.Date of birth: Clic"
+        },
+        {
+          "field": "CaseNo",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 434.71,
+            "y": 162.71,
+            "width": 140.2,
+            "height": 15.45
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "\u0007\u0006All records relating to the eligible charge(s) in court ca"
+        },
+        {
+          "field": "Case",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 437.71,
+            "y": 524.79,
+            "width": 135.2,
+            "height": 15.45
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 3,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Case Number"
+        },
+        {
+          "field": "PetDOB",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 184.51,
+            "y": 92.4,
+            "width": 97.2,
+            "height": 15.45
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "widgetCount": 1,
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "c.Name at the ti"
+        }
+      ],
+      "refused": [
+        {
+          "field": "Reset",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Court",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "DName",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "ArrestOn",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "ArrestBy",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "ArrestBy1",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Agency",
+          "reason": "protected_category",
+          "category": "prosecutor",
+          "regionHeading": null
+        },
+        {
+          "field": "Agency1",
+          "reason": "protected_category",
+          "category": "agency",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "NameArrest",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box4",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF"
+        },
+        {
+          "field": "Check Box5",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF"
+        },
+        {
+          "field": "Check Box6",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "II. THE COURT MAKES THE FOLLOWING FINDINGS OF FACT AND CONCLUSIONS OF"
+        },
+        {
+          "field": "Check Box7",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box8",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box10",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box11",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box12",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box13",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box14",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box15",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box16",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Other",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "OtherFindings",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box17",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Check Box18",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "Check Box19",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "Check Box20",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "Check Box21",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "Check Box22",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "OtherDismiss",
+          "reason": "protected_page_region",
+          "category": "court",
+          "regionHeading": "III. THEREFORE, IT IS ORDERED:"
+        },
+        {
+          "field": "Date",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "Reset",
+          "category": "type_guard"
+        },
+        {
+          "field": "DName",
+          "category": "role"
+        },
+        {
+          "field": "Check Box1",
+          "category": "type_guard"
+        },
+        {
+          "field": "ArrestOn",
+          "category": "role"
+        },
+        {
+          "field": "ArrestBy",
+          "category": "agency"
+        },
+        {
+          "field": "ArrestBy1",
+          "category": "agency"
+        },
+        {
+          "field": "Check Box2",
+          "category": "type_guard"
+        },
+        {
+          "field": "Agency",
+          "category": "prosecutor"
+        },
+        {
+          "field": "Agency1",
+          "category": "agency"
+        },
+        {
+          "field": "Check Box3",
+          "category": "type_guard"
+        },
+        {
+          "field": "NameArrest",
+          "category": "role"
+        },
+        {
+          "field": "Check Box4",
+          "category": "court"
+        },
+        {
+          "field": "Check Box5",
+          "category": "court"
+        },
+        {
+          "field": "Check Box6",
+          "category": "court"
+        },
+        {
+          "field": "Check Box7",
+          "category": "role"
+        },
+        {
+          "field": "Check Box8",
+          "category": "role"
+        },
+        {
+          "field": "Check Box9",
+          "category": "role"
+        },
+        {
+          "field": "Check Box10",
+          "category": "role"
+        },
+        {
+          "field": "Check Box11",
+          "category": "role"
+        },
+        {
+          "field": "Check Box12",
+          "category": "role"
+        },
+        {
+          "field": "Check Box13",
+          "category": "role"
+        },
+        {
+          "field": "Check Box14",
+          "category": "role"
+        },
+        {
+          "field": "Check Box15",
+          "category": "role"
+        },
+        {
+          "field": "Check Box16",
+          "category": "role"
+        },
+        {
+          "field": "Other",
+          "category": "role"
+        },
+        {
+          "field": "OtherFindings",
+          "category": "role"
+        },
+        {
+          "field": "Check Box17",
+          "category": "role"
+        },
+        {
+          "field": "Check Box18",
+          "category": "court"
+        },
+        {
+          "field": "Check Box19",
+          "category": "court"
+        },
+        {
+          "field": "Check Box20",
+          "category": "court"
+        },
+        {
+          "field": "Check Box21",
+          "category": "court"
+        },
+        {
+          "field": "Check Box22",
+          "category": "court"
+        },
+        {
+          "field": "OtherDismiss",
+          "category": "court"
+        },
+        {
+          "field": "Date",
+          "category": "role"
+        }
+      ]
+    }
+  ]
+}
