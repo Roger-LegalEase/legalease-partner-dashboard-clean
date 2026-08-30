@@ -1,0 +1,2247 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ne-setaside-custodial-set",
+  "routeKeys": [
+    "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
+  ],
+  "routeSelectionId": "ne-custodial-cc-6-11-complete-set",
+  "maps": [
+    {
+      "formNumber": "CC-6-11",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "defendant",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "datesigned",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "streetaddress",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "emailaddress",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "enter the type of court",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "enter the county",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        }
+      ],
+      "selectionControls": [
+        {
+          "selectionId": "Check Box7",
+          "kind": "selection_control",
+          "field": "Check Box7",
+          "type": "checkbox",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 105.38,
+                "y": 128.03,
+                "width": 18,
+                "height": 18
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": false,
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "TYPEOFCOURTDROPDOWN",
+          "kind": "selection_control",
+          "field": "TYPEOFCOURTDROPDOWN",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 142.33,
+                "y": 659.22,
+                "width": 79.42,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "IN THE                   COURT OF"
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "selectionId": "DROPDOWNCOUNTY2",
+          "kind": "selection_control",
+          "field": "DROPDOWNCOUNTY2",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 289.79,
+                "y": 659.22,
+                "width": 78.98,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "                            COUNTY, NEBRASKA "
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        }
+      ],
+      "offeredAnchors": null,
+      "protectedRules": null,
+      "canonicalWrites": [
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text5",
+          "reason": "protected_category",
+          "category": "disposition_or_hearing",
+          "regionHeading": null
+        },
+        {
+          "field": "Text6",
+          "reason": "protected_category",
+          "category": "disposition_or_hearing",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box7",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "noemailreason",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "noemailreason2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "datesigned",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "streetaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "emailaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "enter the type of court",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "enter the county",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 9.5,
+          "outcome": "shrunk",
+          "lines": 1
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text5",
+          "reason": "protected_category",
+          "category": "disposition_or_hearing",
+          "regionHeading": null
+        },
+        {
+          "field": "Text6",
+          "reason": "protected_category",
+          "category": "disposition_or_hearing",
+          "regionHeading": null
+        },
+        {
+          "field": "Check Box7",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "noemailreason",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "noemailreason2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "datesigned",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "streetaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "emailaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "enter the type of court",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "enter the county",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ]
+    },
+    {
+      "formNumber": "CC-6-11.2",
+      "documentPolicy": {
+        "mode": "caption_only",
+        "captionOnly": true,
+        "documentAcceptsFill": true
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "defendant",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "enter the type of court",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "enter the county",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        }
+      ],
+      "selectionControls": [
+        {
+          "selectionId": "TYPEOFCOURTDROPDOWN",
+          "kind": "selection_control",
+          "field": "TYPEOFCOURTDROPDOWN",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 142.33,
+                "y": 659.22,
+                "width": 79.42,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "IN THE                   COURT OF"
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "selectionId": "DROPDOWNCOUNTY2",
+          "kind": "selection_control",
+          "field": "DROPDOWNCOUNTY2",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 289.79,
+                "y": 659.22,
+                "width": 78.98,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "                            COUNTY, NEBRASKA "
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        }
+      ],
+      "offeredAnchors": null,
+      "protectedRules": null,
+      "canonicalWrites": [],
+      "canonicalRefusals": [
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "enter the type of court",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "enter the county",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "boundaryWrites": [],
+      "boundaryRefusals": [
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "enter the type of court",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "enter the county",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ]
+    },
+    {
+      "formNumber": "CC-6-11A",
+      "documentPolicy": {
+        "mode": "no_fill",
+        "reason": "official instructions, not a participant-completed filing",
+        "captionOnly": false,
+        "documentAcceptsFill": false
+      },
+      "structuralClass": "flat_pdf",
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 262.78,
+            "y0": 490.27,
+            "x1": 269.25,
+            "y1": 496.16,
+            "width": 6.47,
+            "height": 5.89
+          },
+          "label": "drop-down lists.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 408.07,
+            "y0": 471.99,
+            "x1": 414.74,
+            "y1": 477.72,
+            "width": 6.67,
+            "height": 5.73
+          },
+          "label": "case number.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 186.2,
+            "y0": 433.49,
+            "x1": 192.75,
+            "y1": 439.31,
+            "width": 6.55,
+            "height": 5.82
+          },
+          "label": "exactly as it was",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 251.75,
+            "y0": 355.67,
+            "x1": 258,
+            "y1": 361.64,
+            "width": 6.25,
+            "height": 5.97
+          },
+          "label": "you are asking to",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 191.4,
+            "y0": 337.82,
+            "x1": 198,
+            "y1": 343.57,
+            "width": 6.6,
+            "height": 5.75
+          },
+          "label": "have set aside and",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 404.14,
+            "y0": 273.08,
+            "x1": 410.85,
+            "y1": 278.58,
+            "width": 6.71,
+            "height": 5.5
+          },
+          "label": "telephone number,",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 172.65,
+            "y0": 200.41,
+            "x1": 179.35,
+            "y1": 206,
+            "width": 6.7,
+            "height": 5.59
+          },
+          "label": "statement carefully.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 178.56,
+            "y0": 127.93,
+            "x1": 185.25,
+            "y1": 133.48,
+            "width": 6.69,
+            "height": 5.55
+          },
+          "label": "the box, and use the",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 493.02,
+            "x1": 264.35,
+            "y1": 513.8,
+            "width": 104.6,
+            "height": 20.78
+          },
+          "label": "bnter the original",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 412.3,
+            "y0": 474.65,
+            "x1": 448.57,
+            "y1": 497.49,
+            "width": 36.27,
+            "height": 22.84
+          },
+          "label": "case number.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 436.16,
+            "x1": 187.9,
+            "y1": 443.19,
+            "width": 28.15,
+            "height": 7.03
+          },
+          "label": "exactly as it was",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 202.9,
+            "x1": 175.01,
+            "y1": 211.66,
+            "width": 15.26,
+            "height": 8.76
+          },
+          "label": "statement carefully.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 130.32,
+            "x1": 180.63,
+            "y1": 138.92,
+            "width": 20.88,
+            "height": 8.6
+          },
+          "label": "receive emails, check",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 408.54,
+            "y0": 275.47,
+            "x1": 448.39,
+            "y1": 297.08,
+            "width": 39.85,
+            "height": 21.61
+          },
+          "label": "signed, your address,",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 350.2,
+            "x1": 253.02,
+            "y1": 358.75,
+            "width": 93.27,
+            "height": 8.55
+          },
+          "label": "you are asking to",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 340.41,
+            "x1": 193.2,
+            "y1": 350.25,
+            "width": 33.45,
+            "height": 9.84
+          },
+          "label": "have set aside and",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        }
+      ],
+      "selectionControls": [
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 262.78,
+            "y0": 490.27,
+            "x1": 269.25,
+            "y1": 496.16,
+            "width": 6.47,
+            "height": 5.89
+          },
+          "label": "drop-down lists.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 408.07,
+            "y0": 471.99,
+            "x1": 414.74,
+            "y1": 477.72,
+            "width": 6.67,
+            "height": 5.73
+          },
+          "label": "case number.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 186.2,
+            "y0": 433.49,
+            "x1": 192.75,
+            "y1": 439.31,
+            "width": 6.55,
+            "height": 5.82
+          },
+          "label": "exactly as it was",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 251.75,
+            "y0": 355.67,
+            "x1": 258,
+            "y1": 361.64,
+            "width": 6.25,
+            "height": 5.97
+          },
+          "label": "you are asking to",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 191.4,
+            "y0": 337.82,
+            "x1": 198,
+            "y1": 343.57,
+            "width": 6.6,
+            "height": 5.75
+          },
+          "label": "have set aside and",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 404.14,
+            "y0": 273.08,
+            "x1": 410.85,
+            "y1": 278.58,
+            "width": 6.71,
+            "height": 5.5
+          },
+          "label": "telephone number,",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 172.65,
+            "y0": 200.41,
+            "x1": 179.35,
+            "y1": 206,
+            "width": 6.7,
+            "height": 5.59
+          },
+          "label": "statement carefully.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
+          "kind": "selection_control",
+          "page": 1,
+          "construction": "recursive_ctm_path_stroked_path_box",
+          "measured": {
+            "x0": 178.56,
+            "y0": 127.93,
+            "x1": 185.25,
+            "y1": 133.48,
+            "width": 6.69,
+            "height": 5.55
+          },
+          "label": "the box, and use the",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 493.02,
+            "x1": 264.35,
+            "y1": 513.8,
+            "width": 104.6,
+            "height": 20.78
+          },
+          "label": "bnter the original",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 412.3,
+            "y0": 474.65,
+            "x1": 448.57,
+            "y1": 497.49,
+            "width": 36.27,
+            "height": 22.84
+          },
+          "label": "case number.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 436.16,
+            "x1": 187.9,
+            "y1": 443.19,
+            "width": 28.15,
+            "height": 7.03
+          },
+          "label": "exactly as it was",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 202.9,
+            "x1": 175.01,
+            "y1": 211.66,
+            "width": 15.26,
+            "height": 8.76
+          },
+          "label": "statement carefully.",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 130.32,
+            "x1": 180.63,
+            "y1": 138.92,
+            "width": 20.88,
+            "height": 8.6
+          },
+          "label": "receive emails, check",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 408.54,
+            "y0": 275.47,
+            "x1": 448.39,
+            "y1": 297.08,
+            "width": 39.85,
+            "height": 21.61
+          },
+          "label": "signed, your address,",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 350.2,
+            "x1": 253.02,
+            "y1": 358.75,
+            "width": 93.27,
+            "height": 8.55
+          },
+          "label": "you are asking to",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        },
+        {
+          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
+          "kind": "boxed_entry_control",
+          "page": 1,
+          "construction": "recursive_ctm_closed_path_boxed_entry",
+          "measured": {
+            "x0": 159.75,
+            "y0": 340.41,
+            "x1": 193.2,
+            "y1": 350.25,
+            "width": 33.45,
+            "height": 9.84
+          },
+          "label": "have set aside and",
+          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
+          "disposition": "explicit_refusal",
+          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+        }
+      ],
+      "offeredAnchors": [],
+      "protectedRules": [],
+      "canonicalWrites": [],
+      "canonicalRefusals": [],
+      "boundaryWrites": [],
+      "boundaryRefusals": []
+    },
+    {
+      "formNumber": "DC-1-15",
+      "documentPolicy": {
+        "mode": "participant",
+        "captionOnly": false,
+        "documentAcceptsFill": true
+      },
+      "structuralClass": "acroform",
+      "explicitMappings": {},
+      "roleRefusals": [
+        {
+          "field": "plaintiffdefendant",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "emancipationpetitioner",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "defendant",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "Text44",
+          "class": "actor_or_post_event_field_not_owned_by_participant",
+          "why": "actor_or_post_event_field_not_owned_by_participant"
+        },
+        {
+          "field": "Text46",
+          "class": "actor_or_post_event_field_not_owned_by_participant",
+          "why": "actor_or_post_event_field_not_owned_by_participant"
+        },
+        {
+          "field": "Text47",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "Text48",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "Text49",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "Text74",
+          "class": "actor_or_post_event_field_not_owned_by_participant",
+          "why": "actor_or_post_event_field_not_owned_by_participant"
+        },
+        {
+          "field": "Text59.0",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "Text64",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "streetaddress",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "citystatezip",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "telephone number",
+          "class": "binding_not_approved_by_exact_caption_gate",
+          "why": "binding_not_approved_by_exact_caption_gate"
+        },
+        {
+          "field": "datesigned",
+          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
+          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "field": "Text1",
+          "class": "actor_or_post_event_field_not_owned_by_participant",
+          "why": "actor_or_post_event_field_not_owned_by_participant"
+        }
+      ],
+      "selectionControls": [
+        {
+          "selectionId": "Group27",
+          "kind": "selection_control",
+          "field": "Group27",
+          "type": "radio",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 177.25,
+                "y": 730.46,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 22.72,
+                "y": 715.2,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 94.46,
+                "y": 715.2,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 165.71,
+                "y": 715.2,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 256.6,
+                "y": 715.2,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            },
+            {
+              "page": 1,
+              "rect": {
+                "x": 383.94,
+                "y": 715.2,
+                "width": 14.4,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [],
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        },
+        {
+          "selectionId": "TYPEOFCOURTDROPDOWN",
+          "kind": "selection_control",
+          "field": "TYPEOFCOURTDROPDOWN",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 142.33,
+                "y": 659.87,
+                "width": 79.42,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "IN THE ___________ COURT OF"
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+        },
+        {
+          "selectionId": "DROPDOWNCOUNTY2",
+          "kind": "selection_control",
+          "field": "DROPDOWNCOUNTY2",
+          "type": "dropdown",
+          "widgets": [
+            {
+              "page": 1,
+              "rect": {
+                "x": 289.79,
+                "y": 659.22,
+                "width": 78.98,
+                "height": 14.4
+              },
+              "rectBasis": "acroform_widget_rect_read_first_hand_from_pinned_binary"
+            }
+          ],
+          "sourceSelection": [
+            "______________ COUNTY, NEBRASKA "
+          ],
+          "disposition": "explicit_refusal",
+          "reason": "selection_requires_participant_or_authorized_official_choice"
+        }
+      ],
+      "offeredAnchors": null,
+      "protectedRules": null,
+      "canonicalWrites": [
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        }
+      ],
+      "canonicalRefusals": [
+        {
+          "field": "Text20",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text24",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "divorce",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Group27",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Text4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text12",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "emancipation",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text19",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "adoptionof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "plaintiffdefendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "emancipationof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "namechange",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "adultnamechangeof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "probateof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "firstkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "secondkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "plaintiff",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "thirdkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "emancipationpetitioner",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fourthkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "parent",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text38",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text39",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text40",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text41",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text43",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text44",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text45",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text46",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text47",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text48",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text49",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text50",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text51",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text52",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text74",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Button4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.0",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.0",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text59.1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.0",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text64",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text65",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text66",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text67",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text68",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text69",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text70",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text71",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text72",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text73",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "streetaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "citystatezip",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "telephone number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "datesigned",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "boundaryWrites": [
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 10,
+          "outcome": "fit",
+          "lines": 1
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 7,
+          "outcome": "shrunk",
+          "lines": 1
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "Text20",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text24",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "divorce",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Group27",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Text4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text12",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "emancipation",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text19",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "adoptionof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "plaintiffdefendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "emancipationof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "namechange",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "adultnamechangeof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "probateof",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "firstkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "secondkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "plaintiff",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "thirdkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "emancipationpetitioner",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "fourthkid",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "defendant",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "parent",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text38",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text39",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text40",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text41",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text43",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text44",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text45",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text46",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text47",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text48",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text49",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text50",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text51",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text52",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text74",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Button4",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.3",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.2",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.1",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Button63.0",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.0",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text59.1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text59.4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.0",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.1",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.3",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text60.4",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text64",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text65",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text66",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text67",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text68",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text69",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text70",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text71",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text72",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "Text73",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null,
+          "regionHeading": null
+        },
+        {
+          "field": "streetaddress",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "citystatezip",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "telephone number",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "datesigned",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "Text1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ]
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

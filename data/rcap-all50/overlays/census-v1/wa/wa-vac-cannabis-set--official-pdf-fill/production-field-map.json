@@ -1,0 +1,458 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "wa_vac_cannabis-set",
+  "mappingScope": "Washington-only caption-band identity facts",
+  "explicitSafetyPolicy": {
+    "writesAllowed": [
+      "caption-band defendant name",
+      "caption-band case number",
+      "CR-08 caption-band county with recorded suffix normalization"
+    ],
+    "possibleParticipantContactWrites": "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
+    "neverWritten": [
+      "legal elections or checkboxes",
+      "charges or offenses",
+      "declarations",
+      "signatures",
+      "all dates including date of birth and signature dates",
+      "service facts",
+      "prosecutor or attorney fields",
+      "court findings",
+      "orders",
+      "money or refund amounts"
+    ],
+    "courtOrdersAcceptCaptionFactsOnly": true
+  },
+  "valueNormalization": {
+    "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
+  },
+  "documents": [
+    {
+      "formNumber": "CRRLJ-09.0800",
+      "role": "participant_filing",
+      "sourceSha256": "260367f6930cacc89727fc8a48aa0591b07ad5c7183b6412aa247b1810503d7b",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y539.80-x360.03",
+          "printedCaption": "No",
+          "label": "Case No. [p1-y539.80-x360.03]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 361.53,
+            "y": 539.8,
+            "width": 172.72,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 360.03,
+            "x1": 548.25,
+            "baselineY": 539.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y483.79-x69.74",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y483.79-x69.74]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 71.24,
+            "y": 485.79,
+            "width": 241.83,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 69.74,
+            "x1": 327.07,
+            "baselineY": 483.79
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        }
+      ],
+      "withheldBlankCount": 24,
+      "withheld": [
+        {
+          "blankId": "p1-y558.70-x98.90",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y558.70-x414.23",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y531.79-x69.74",
+          "page": 1,
+          "printedCaption": "No",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y470.11-x63.02",
+          "page": 1,
+          "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y470.11-x334.15",
+          "page": 1,
+          "printedCaption": "Petition and Declaration for Order to Vacate Cannabis Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y388.03-x143.54",
+          "page": 1,
+          "printedCaption": "Dated",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y388.03-x306.05",
+          "page": 1,
+          "printedCaption": "Defendant/Defendant's Attorney/WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y356.69-x306.05",
+          "page": 1,
+          "printedCaption": "Print Name",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y306.77-x155.06",
+          "page": 1,
+          "printedCaption": "I, (name)",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y288.17-x157.58",
+          "page": 1,
+          "printedCaption": "On (date)",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y269.45-x160.58",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y269.45-x236.69",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y250.85-x160.58",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y250.85-x236.69",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y232.25-x160.58",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y232.25-x236.69",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y194.90-x185.66",
+          "page": 1,
+          "printedCaption": "My birthdate is",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y144.86-x192.41",
+          "page": 1,
+          "printedCaption": "Signed on (date)",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y144.86-x360.55",
+          "page": 1,
+          "printedCaption": "at (city or county)",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y126.26-x108.02",
+          "page": 1,
+          "printedCaption": "Defendant’s Si gnaturePrint Name",
+          "reason": "protected_printed_caption",
+          "category": "signature"
+        },
+        {
+          "blankId": "p1-y126.26-x342.07",
+          "page": 1,
+          "printedCaption": "Defendant’s Si gnaturePrint Name",
+          "reason": "protected_printed_caption",
+          "category": "signature"
+        },
+        {
+          "blankId": "p1-y94.94-x108.02",
+          "page": 1,
+          "printedCaption": "Street Address or PO Box City State Zip",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y80.66-x228.89",
+          "page": 1,
+          "printedCaption": "Street Address or PO Box",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y80.66-x385.39",
+          "page": 1,
+          "printedCaption": "Street Address or PO Box City State Zip",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        }
+      ],
+      "explicitGeometryRefusals": []
+    },
+    {
+      "formNumber": "CRRLJ-09.0870",
+      "role": "court_order",
+      "sourceSha256": "a69335fbbf311f4c92357db5ecb38f931b3409e14f987810247faae2f6295cc3",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y539.90-x332.05",
+          "printedCaption": "No",
+          "label": "Case No. [p1-y539.90-x332.05]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 333.55,
+            "y": 539.9,
+            "width": 191.61,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 332.05,
+            "x1": 539.16,
+            "baselineY": 539.9
+          },
+          "fontSize": 10,
+          "captionOnly": true
+        },
+        {
+          "blankId": "p1-y483.84-x78.72",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y483.84-x78.72]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 80.22,
+            "y": 485.84,
+            "width": 203.62,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 78.72,
+            "x1": 297.84,
+            "baselineY": 483.84
+          },
+          "fontSize": 10,
+          "captionOnly": true
+        }
+      ],
+      "withheldBlankCount": 22,
+      "withheld": [
+        {
+          "blankId": "p1-y558.70-x98.88",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y558.70-x412.92",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y531.84-x78.72",
+          "page": 1,
+          "printedCaption": "No",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y440.28-x72.00",
+          "page": 1,
+          "printedCaption": "Order on Petition to VacateC annabis Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y440.28-x306.36",
+          "page": 1,
+          "printedCaption": "Order on Petition to VacateC annabis Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y252.24-x227.64",
+          "page": 1,
+          "printedCaption": "Count No: Offense",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p1-y233.64-x227.64",
+          "page": 1,
+          "printedCaption": "Count No: Offense",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p1-y214.92-x227.64",
+          "page": 1,
+          "printedCaption": "Count No: Offense",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p1-y80.76-x72.00",
+          "page": 1,
+          "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p1-y80.76-x228.84",
+          "page": 1,
+          "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p1-y80.76-x385.32",
+          "page": 1,
+          "printedCaption": "For all purposes, including responding to questions on employment or housing",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p2-y480.60-x418.68",
+          "page": 2,
+          "printedCaption": "Washington State Patrol and to (local law enforcement agency)",
+          "reason": "protected_printed_caption",
+          "category": "agency"
+        },
+        {
+          "blankId": "p2-y468.00-x108.00",
+          "page": 2,
+          "printedCaption": "which agencies shall immediately update their",
+          "reason": "protected_printed_caption",
+          "category": "agency"
+        },
+        {
+          "blankId": "p2-y379.44-x104.40",
+          "page": 2,
+          "printedCaption": "Dated",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p2-y379.44-x324.00",
+          "page": 2,
+          "printedCaption": "Judge/Commissioner",
+          "reason": "protected_printed_caption",
+          "category": "court"
+        },
+        {
+          "blankId": "p2-y329.52-x72.00",
+          "page": 2,
+          "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y329.52-x324.00",
+          "page": 2,
+          "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y298.20-x72.00",
+          "page": 2,
+          "printedCaption": "Print Name Print Name",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y298.20-x324.00",
+          "page": 2,
+          "printedCaption": "Print Name Print Name",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y80.76-x72.00",
+          "page": 2,
+          "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y80.76-x228.84",
+          "page": 2,
+          "printedCaption": "RCW 9.96.060 Order on Petitiont o Vacate",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p2-y80.76-x385.32",
+          "page": 2,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        }
+      ],
+      "explicitGeometryRefusals": []
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

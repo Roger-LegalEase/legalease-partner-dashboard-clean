@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-family-build-stop/v1",
+  "familyId": "ne-trafficking-setaside-and-seal-set",
+  "status": "STOP",
+  "stopCode": "SOURCE_IDENTITY_AND_DUPLICATE_VEHICLE_CONFLICT",
+  "summary": "The worklist assigns this one family twice with incompatible custom_pleading and official_pdf_fill vehicles, and the only held CC-6-12 identity is a two-page instructions PDF rather than either named motion.",
+  "requiredResolution": "Bind the actual set-aside motion and sealing motion components by exact identity and resolve the duplicate vehicle rows before any packet is authored or filled.",
+  "worklistRows": [
+    {
+      "implementationStrategy": "custom_pleading",
+      "routeKeys": [
+        "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_setaside_motion"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--custom-pleading"
+      ]
+    },
+    {
+      "implementationStrategy": "official_pdf_fill",
+      "routeKeys": [
+        "obligation:unit:NE:ne-trafficking-setaside-and-seal:ne_trafficking_seal_motion"
+      ],
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill"
+      ]
+    }
+  ],
+  "exactHeldSources": [
+    {
+      "sourceIds": [
+        "official-form:CC-6-12"
+      ],
+      "formNumber": "CC-6-12",
+      "pathInArchive": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+      "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "pageCount": 2,
+      "structuralClassObserved": "flat_pdf"
+    }
+  ],
+  "noPleadingInvented": true,
+  "noInstructionTreatedAsMotion": true,
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}

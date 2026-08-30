@@ -1,0 +1,710 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "wa_vac_homicide_victim_prostitution-set",
+  "mappingScope": "Washington-only caption-band identity facts",
+  "explicitSafetyPolicy": {
+    "writesAllowed": [
+      "caption-band defendant name",
+      "caption-band case number",
+      "CR-08 caption-band county with recorded suffix normalization"
+    ],
+    "possibleParticipantContactWrites": "Only a separately captioned participant contact blank outside declarations/signature blocks; none is inferred from layout alone.",
+    "neverWritten": [
+      "legal elections or checkboxes",
+      "charges or offenses",
+      "declarations",
+      "signatures",
+      "all dates including date of birth and signature dates",
+      "service facts",
+      "prosecutor or attorney fields",
+      "court findings",
+      "orders",
+      "money or refund amounts"
+    ],
+    "courtOrdersAcceptCaptionFactsOnly": true
+  },
+  "valueNormalization": {
+    "matter.county": "For CR-08 caption blanks following the source text 'County of', strip a trailing 'County' designator from the fact before rendering so 'King County' prints as 'County of King', not 'County of King County'."
+  },
+  "documents": [
+    {
+      "formNumber": "CRRLJ-09.0100",
+      "role": "participant_filing",
+      "sourceSha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y529.80-x337.80",
+          "printedCaption": "No",
+          "label": "Case No. [p1-y529.80-x337.80]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 339.3,
+            "y": 531.8,
+            "width": 176.98,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 337.8,
+            "x1": 530.28,
+            "baselineY": 529.8
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        },
+        {
+          "blankId": "p1-y474.60-x78.72",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y474.60-x78.72]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 80.22,
+            "y": 476.6,
+            "width": 185.5,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 78.72,
+            "x1": 279.72,
+            "baselineY": 474.6
+          },
+          "fontSize": 10,
+          "captionOnly": false
+        }
+      ],
+      "withheldBlankCount": 46,
+      "withheld": [
+        {
+          "blankId": "p1-y556.56-x72.00",
+          "page": 1,
+          "printedCaption": "Court of Washington, County of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y556.56-x386.04",
+          "page": 1,
+          "printedCaption": "Court of Washington, County of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y527.30-x243.72",
+          "page": 1,
+          "printedCaption": "Plaintiff",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y525.24-x78.72",
+          "page": 1,
+          "printedCaption": "No",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y442.20-x72.00",
+          "page": 1,
+          "printedCaption": "Petition and Declaration for Order Vacating Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y442.20-x311.16",
+          "page": 1,
+          "printedCaption": "Petition and Declaration for Order Vacating Conviction",
+          "reason": "protected_printed_caption",
+          "category": "disposition_or_hearing"
+        },
+        {
+          "blankId": "p1-y336.60-x146.52",
+          "page": 1,
+          "printedCaption": "Dated",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y336.60-x324.00",
+          "page": 1,
+          "printedCaption": "Defendant/Defendant's Attorney, WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y297.36-x324.00",
+          "page": 1,
+          "printedCaption": "Print Name",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y245.40-x155.04",
+          "page": 1,
+          "printedCaption": "2. I, (name)",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y228.80-x157.69",
+          "page": 1,
+          "printedCaption": "On (date)",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p1-y210.10-x160.68",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y210.10-x232.79",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y191.50-x160.68",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y191.50-x232.79",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y172.80-x160.68",
+          "page": 1,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y172.80-x232.79",
+          "page": 1,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "attorney"
+        },
+        {
+          "blankId": "p1-y66.36-x72.00",
+          "page": 1,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p1-y66.36-x239.04",
+          "page": 1,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p1-y66.36-x385.32",
+          "page": 1,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p2-y663.72-x144.00",
+          "page": 2,
+          "printedCaption": "committed as a result of being a victim of one of the above offen: s es",
+          "reason": "protected_printed_caption",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p2-y645.00-x144.00",
+          "page": 2,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p2-y626.40-x144.00",
+          "page": 2,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p2-y607.80-x144.00",
+          "page": 2,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p2-y589.08-x144.00",
+          "page": 2,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p2-y570.48-x144.00",
+          "page": 2,
+          "printedCaption": "[ ] I have attachedm y statement that proves by a preponderance of the evidence",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p2-y66.36-x72.00",
+          "page": 2,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p2-y66.36-x239.04",
+          "page": 2,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p2-y66.36-x385.32",
+          "page": 2,
+          "printedCaption": "• The prior offense is not a DUI (RCW 46.61.502) or Physical Control",
+          "reason": "protected_page_region",
+          "category": "outside_party"
+        },
+        {
+          "blankId": "p3-y461.76-x114.72",
+          "page": 3,
+          "printedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p3-y90.36-x114.72",
+          "page": 3,
+          "printedCaption": "state equivalents",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p3-y66.36-x72.00",
+          "page": 3,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p3-y66.36-x239.04",
+          "page": 3,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p3-y66.36-x385.32",
+          "page": 3,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p4-y719.28-x114.72",
+          "page": 4,
+          "printedCaption": "• Physical Control of a Vehicle under the Influence (Physical C (ontRCWr ol)",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p4-y66.36-x72.00",
+          "page": 4,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p4-y66.36-x239.04",
+          "page": 4,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p4-y66.36-x385.32",
+          "page": 4,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p5-y478.32-x196.68",
+          "page": 5,
+          "printedCaption": "Signed at (city or county)",
+          "reason": "protected_printed_caption",
+          "category": "signature"
+        },
+        {
+          "blankId": "p5-y478.32-x447.36",
+          "page": 5,
+          "printedCaption": ", Washington on (date)",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p5-y453.60-x72.00",
+          "page": 5,
+          "printedCaption": "Defendant’s Signature",
+          "reason": "protected_printed_caption",
+          "category": "signature"
+        },
+        {
+          "blankId": "p5-y416.40-x72.00",
+          "page": 5,
+          "printedCaption": "Print Name",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y360.36-x72.00",
+          "page": 5,
+          "printedCaption": "Street Address or PO Box City State Zip",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y66.36-x72.00",
+          "page": 5,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y66.36-x239.04",
+          "page": 5,
+          "printedCaption": "RCW 9.96.060, .080 Petition and Declaration",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y66.36-x385.32",
+          "page": 5,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        }
+      ],
+      "explicitGeometryRefusals": []
+    },
+    {
+      "formNumber": "CRRLJ-09.0200",
+      "role": "court_order",
+      "sourceSha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2",
+      "writableAnchors": [
+        {
+          "blankId": "p1-y537.84-x339.36",
+          "printedCaption": "No",
+          "label": "Case No. [p1-y537.84-x339.36]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 340.86,
+            "y": 539.84,
+            "width": 176.98,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 339.36,
+            "x1": 531.84,
+            "baselineY": 537.84
+          },
+          "fontSize": 10,
+          "captionOnly": true
+        },
+        {
+          "blankId": "p1-y475.20-x78.72",
+          "printedCaption": "Defendant",
+          "label": "Full Legal Name [p1-y475.20-x78.72]",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 80.22,
+            "y": 477.2,
+            "width": 203.62,
+            "height": 12
+          },
+          "sourceBlankBounds": {
+            "x0": 78.72,
+            "x1": 297.84,
+            "baselineY": 475.2
+          },
+          "fontSize": 10,
+          "captionOnly": true
+        }
+      ],
+      "withheldBlankCount": 36,
+      "withheld": [
+        {
+          "blankId": "p1-y558.70-x98.88",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y558.70-x412.80",
+          "page": 1,
+          "printedCaption": "Court of Washington, County/City of",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y525.24-x78.72",
+          "page": 1,
+          "printedCaption": "Plaintiff",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p1-y461.52-x72.00",
+          "page": 1,
+          "printedCaption": "Clerk's action required: [ ] 8",
+          "reason": "protected_printed_caption",
+          "category": "clerk"
+        },
+        {
+          "blankId": "p3-y716.52-x108.00",
+          "page": 3,
+          "printedCaption": "A “prior offense” means (RCW 46.61.5055(14))",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p3-y73.56-x72.00",
+          "page": 3,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p3-y73.56-x239.04",
+          "page": 3,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p3-y73.56-x385.32",
+          "page": 3,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p4-y98.76-x178.56",
+          "page": 4,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y98.76-x254.64",
+          "page": 4,
+          "printedCaption": "Offense",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y83.16-x178.56",
+          "page": 4,
+          "printedCaption": "Count No",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y83.16-x254.64",
+          "page": 4,
+          "printedCaption": "e",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y73.56-x72.00",
+          "page": 4,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y73.56-x239.04",
+          "page": 4,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "court"
+        },
+        {
+          "blankId": "p4-y73.56-x385.32",
+          "page": 4,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p5-y707.64-x178.56",
+          "page": 5,
+          "printedCaption": "Count No",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p5-y707.64-x254.64",
+          "page": 5,
+          "printedCaption": "Offense",
+          "reason": "not_on_state_bounded_identity_allowlist",
+          "category": null
+        },
+        {
+          "blankId": "p5-y279.48-x436.68",
+          "page": 5,
+          "printedCaption": "Washington State Patrol and to (local law enforcement agency)",
+          "reason": "protected_printed_caption",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y266.88-x126.00",
+          "page": 5,
+          "printedCaption": "which agencies shall immediately update",
+          "reason": "protected_printed_caption",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y149.00-x126.01",
+          "page": 5,
+          "printedCaption": "for the following reason/s",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y136.40-x126.00",
+          "page": 5,
+          "printedCaption": "for the following reason/s",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y123.70-x126.00",
+          "page": 5,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p5-y111.10-x126.00",
+          "page": 5,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p5-y98.50-x126.00",
+          "page": 5,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p5-y73.56-x72.00",
+          "page": 5,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y73.56-x239.04",
+          "page": 5,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "agency"
+        },
+        {
+          "blankId": "p5-y73.56-x385.32",
+          "page": 5,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        },
+        {
+          "blankId": "p6-y707.64-x104.40",
+          "page": 6,
+          "printedCaption": "Dated",
+          "reason": "protected_date_field",
+          "category": "date"
+        },
+        {
+          "blankId": "p6-y707.52-x324.00",
+          "page": 6,
+          "printedCaption": "Judge/Commissioner",
+          "reason": "protected_printed_caption",
+          "category": "court"
+        },
+        {
+          "blankId": "p6-y657.72-x72.00",
+          "page": 6,
+          "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y657.72-x324.00",
+          "page": 6,
+          "printedCaption": "Defendant/Attorney for Defendant/WSBA # Deputy Prosecuting Attorney/WSBA #",
+          "reason": "protected_printed_caption",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y620.40-x72.00",
+          "page": 6,
+          "printedCaption": "Print Name Print Name",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y620.40-x324.00",
+          "page": 6,
+          "printedCaption": "Print Name Print Name",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y73.56-x72.00",
+          "page": 6,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y73.56-x239.04",
+          "page": 6,
+          "printedCaption": "RCW 9.96.060, .080 Order on Petition",
+          "reason": "protected_page_region",
+          "category": "prosecutor"
+        },
+        {
+          "blankId": "p6-y73.56-x385.32",
+          "page": 6,
+          "printedCaption": "",
+          "reason": "no_printed_caption",
+          "category": null
+        }
+      ],
+      "explicitGeometryRefusals": []
+    }
+  ],
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "commercialRoutesOpened": 0
+}
