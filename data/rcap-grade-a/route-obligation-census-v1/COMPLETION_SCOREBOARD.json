@@ -24,7 +24,7 @@
     "total": 352,
     "releasable": 114,
     "clearedIntoWaves": 114,
-    "workersStarted": 11,
+    "workersStarted": 12,
     "heldBack": 238,
     "heldBackBy": {
       "missing_source": 238
@@ -58,11 +58,30 @@
   },
   "legalReview": {
     "total": 86,
-    "ALREADY_ANSWERED": 16,
-    "SOURCE_IDENTITY_QUESTION": 0,
-    "CAPTAIN_MAPPING_CORRECTION": 23,
-    "TRUE_COUNSEL_DECISION": 47,
-    "note": "Only TRUE_COUNSEL_DECISION needs counsel. The rest are answerable from this repository or already decided."
+    "controllingRecord": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+    "supersedes": "data/rcap-grade-a/route-obligation-census-v1/legal-review-triage.json",
+    "TRUE_COUNSEL_DECISION": 4,
+    "trueCounselQuestions": [
+      "#4 AL Alabama de novo circuit-court review after final agency denial",
+      "#47 NE Where to go if you want your Nebraska conviction overturned",
+      "#54 NY Possible pre-November 1, 1991 legacy motion",
+      "#76 UT Not eligible yet? Reducing the conviction level may open a route"
+    ],
+    "remainingRows": 82,
+    "remainingRowsTargetRouting": {
+      "CAPTAIN_MAPPING_CORRECTION": 30,
+      "SOURCE_IDENTITY_QUESTION": 8,
+      "DUPLICATE_OR_SUPERSEDED": 7,
+      "ALREADY_ANSWERED": 37
+    },
+    "remainingRowsAssignmentStatus": "TARGETS_SET_ROW_ASSIGNMENT_PENDING",
+    "captainTriageSaid": {
+      "ALREADY_ANSWERED": 16,
+      "SOURCE_IDENTITY_QUESTION": 0,
+      "CAPTAIN_MAPPING_CORRECTION": 23,
+      "TRUE_COUNSEL_DECISION": 47
+    },
+    "note": "Only the four pinned questions go to counsel. The other 82 are the Captain's, the source team's, or already decided in this repository -- their row-level assignment is being derived from evidence rather than filled to a quota."
   },
   "categoryB": {
     "total": 157,

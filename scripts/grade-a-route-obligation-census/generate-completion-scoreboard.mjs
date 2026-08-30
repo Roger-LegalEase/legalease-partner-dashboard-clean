@@ -50,6 +50,16 @@ const waves = readJson(`${V1}/category-a-implementation-waves.json`);
 const custody = readJson(`${V1}/source-custody-reconciliation.json`);
 const triage = readJson(`${V1}/legal-review-triage.json`);
 
+// The Captain's triage sent 47 of 86 rows to counsel. Roger's routing correction
+// of 2026-08-30 cut that to 4 and returned 43 to the Captain, the source team, or
+// their own already-recorded decisions. queue-v2 is the controlling record; the
+// triage is kept because it is the thing that was corrected, and a scoreboard
+// that quietly forgot the correction would report a counsel backlog twelve times
+// its real size.
+const legalQueue = fs.existsSync(path.join(rootDir, `${V1}/legal-review-queue-v2.json`))
+  ? readJson(`${V1}/legal-review-queue-v2.json`)
+  : null;
+
 // The 166 SOURCE_IDENTITY_UNRESOLVED rows the reconciliation counted have since
 // been worked in two batches. The reconciliation is a frozen record of what was
 // true when it ran, so it is not rewritten; the scoreboard reads both batches
@@ -216,7 +226,18 @@ const doc = {
 
   sourceIdentity: identity,
 
-  legalReview: {
+  legalReview: legalQueue ? {
+    total: 86,
+    controllingRecord: `${V1}/legal-review-queue-v2.json`,
+    supersedes: `${V1}/legal-review-triage.json`,
+    TRUE_COUNSEL_DECISION: legalQueue.trueCounselQueue.count,
+    trueCounselQuestions: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction} ${q.publicLabel}`),
+    remainingRows: legalQueue.remainingEightyTwo.count,
+    remainingRowsTargetRouting: legalQueue.remainingEightyTwo.targetRouting,
+    remainingRowsAssignmentStatus: legalQueue.remainingEightyTwo.assignmentStatus,
+    captainTriageSaid: triage.counts,
+    note: "Only the four pinned questions go to counsel. The other 82 are the Captain's, the source team's, or already decided in this repository -- their row-level assignment is being derived from evidence rather than filled to a quota."
+  } : {
     total: triage.total,
     ...triage.counts,
     note: "Only TRUE_COUNSEL_DECISION needs counsel. The rest are answerable from this repository or already decided."
@@ -268,6 +289,6 @@ console.log(`Wrote ${OUT}\n`);
 console.log(`  families ${families.length}: ${releasable.length} releasable, ${held.length} held`);
 console.log(`  slots ${inFlight.length}/${BUILD_SLOTS} in flight, ${queuedForSlot.length} queued behind them (${dispatchedIds.size} cleared into waves)`);
 console.log(`  source: held ${custody.counts.SOURCE_ALREADY_HELD}, missing ${custody.counts.SOURCE_GENUINELY_MISSING}, identity unresolved at reconciliation ${custody.counts.SOURCE_IDENTITY_UNRESOLVED} -> ${identity.rowsStillUnresolved} after batches 1-2`);
-console.log(`  legal: ${triage.counts.TRUE_COUNSEL_DECISION} of ${triage.total} need counsel`);
+console.log(`  legal: ${doc.legalReview.TRUE_COUNSEL_DECISION} of 86 need counsel${legalQueue ? ` (was ${triage.counts.TRUE_COUNSEL_DECISION}; ${legalQueue.remainingEightyTwo.count} rerouted)` : ""}`);
 console.log(`  launch gate: ${familiesNotLaunchReady} family(ies) not launch-ready — gate ${doc.launchGate.gateOpen ? "OPEN" : "CLOSED"}`);
 console.log(`  commercial routes opened: 0`);
