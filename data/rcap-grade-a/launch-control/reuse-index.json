@@ -1,0 +1,4294 @@
+{
+  "schemaVersion": "rcap-grade-a-reuse-index/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-reuse-index.mjs",
+  "question": "For every candidate the first wave might touch, does work already exist, and where?",
+  "atCaptainHead": "fbfba09668011258de17f83610bb998f736feaea",
+  "whyAncestryIsNotTheTest": "Work reaches the Captain by cherry-pick, so the content lands and the commit does not. Every branch tip fails an ancestry test against HEAD while most of the work is already integrated. Reuse is decided per file against three points -- branch tip, merge base, HEAD -- and a branch's verdict is driven by its owned paths, because a packet family's identity is its own directory rather than the shared modules it touches on the way past.",
+  "reuseDecisionVocabulary": {
+    "REUSE_AS_IS": "The work exists and is already in the Captain tree. Dispatch nothing for it.",
+    "RESUME_FROM_COMMIT": "Complete or partial work exists on a branch and is NOT in the Captain tree. Integrate or resume that exact commit; do not rebuild.",
+    "SALVAGE_SPECIFIC_ASSETS": "Some of the work is usable and some is not. The usable assets are named; the rest is not carried forward.",
+    "SUPERSEDED_DO_NOT_USE": "The Captain tree has moved past this. Using it would revert current work.",
+    "REBUILD_REQUIRED_WITH_REASON": "Existing work cannot be carried forward, and the reason is recorded.",
+    "NO_EXISTING_WORK": "Nothing exists yet. Safe to dispatch as new work."
+  },
+  "branchCounts": {
+    "REUSE_AS_IS": 8,
+    "RESUME_FROM_COMMIT": 9,
+    "SUPERSEDED_DO_NOT_USE": 4
+  },
+  "familyCounts": {
+    "NO_EXISTING_WORK": 340,
+    "RESUME_FROM_COMMIT": 6,
+    "REUSE_AS_IS": 6
+  },
+  "totals": {
+    "branchesClassified": 21,
+    "branchesWithPendingWork": 9,
+    "packetFamilies": 352,
+    "familiesWithEvidenceInTree": 6,
+    "familiesWithEvidenceOnBranch": 12,
+    "familiesFreeToDispatch": 340
+  },
+  "dispatchRule": "No assignment may be dispatched without a reuse record. A packet lane may only receive a family whose reuseDecision is NO_EXISTING_WORK; a family already built in the tree or on a branch is integrated or resumed, never rebuilt.",
+  "branches": [
+    {
+      "branch": "claude/census-v1-acquisition-probe",
+      "tip": "d1e8ef813b5d3beb35d216f67c454052f3c73f7f",
+      "mergeBase": "f77264fc03aaff5fc7d820140a5988f5173382e6",
+      "filesChanged": 1,
+      "ownedPathsExamined": 1,
+      "ownedSameAsHead": 1,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ak-courtview-set",
+      "tip": "da8ef932ef058d07e61c576647c96efd584434dc",
+      "mergeBase": "23ec29af2b4d86e61dab976afde2d1cb0c09eb4e",
+      "filesChanged": 4,
+      "ownedPathsExamined": 3,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 3,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/BUILD-STATUS.md",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/local-variation-record.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill/source-gate.json"
+      ],
+      "pendingFilesTruncated": 0,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ak-tf800-set",
+      "tip": "accf2ae193e131ae177282a88cd9269b3d87d0c6",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 28,
+      "ownedPathsExamined": 25,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 25,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/SOURCE-GATE-HISTORY.md",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/request-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/fixtures/request-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf800-set--official-pdf-fill/raster/request-boundary/page-01.png"
+      ],
+      "pendingFilesTruncated": 17,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ak-tf805-set",
+      "tip": "5fd41f27c0a138742a375a7907df5277875aef30",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 26,
+      "ownedPathsExamined": 24,
+      "ownedSameAsHead": 24,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ar-arrest-seal-set",
+      "tip": "ec2e5d8ee2959308bbf89ced3af361c578012a31",
+      "mergeBase": "f77264fc03aaff5fc7d820140a5988f5173382e6",
+      "filesChanged": 27,
+      "ownedPathsExamined": 26,
+      "ownedSameAsHead": 17,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 9,
+      "reuseDecision": "SUPERSEDED_DO_NOT_USE",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ar-misdemeanor-dwi-seal-set",
+      "tip": "1528a4099e707fdf5e0d4798942d11186e0a8b46",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 29,
+      "ownedPathsExamined": 28,
+      "ownedSameAsHead": 28,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ar-pardon-seal-set",
+      "tip": "3082abddb023f853da7c907bbff5859326ba12c9",
+      "mergeBase": "2f023bd13678d084abb224354acd1291227a8717",
+      "filesChanged": 32,
+      "ownedPathsExamined": 31,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 31,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ar/ar-pardon-seal-set--official-pdf-fill/gate-report.json"
+      ],
+      "pendingFilesTruncated": 23,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-az-record-sealing-arrest-no-charges",
+      "tip": "1014dc515f1b7d8f1c060742b3796570e802bbf6",
+      "mergeBase": "2f023bd13678d084abb224354acd1291227a8717",
+      "filesChanged": 38,
+      "ownedPathsExamined": 36,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 36,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/BUILD_GATE.md",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-arrest-no-charges-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf"
+      ],
+      "pendingFilesTruncated": 28,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-az-record-sealing-dismissal-not-guilty",
+      "tip": "8c5654805c273ea7fdfd297f64f27519d4fedad6",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 34,
+      "ownedPathsExamined": 32,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 32,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/SOURCE-BIND-RESOLVED.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/order-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/order-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/az/az-record-sealing-dismissal-not-guilty-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf"
+      ],
+      "pendingFilesTruncated": 24,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ca-1203-4-set",
+      "tip": "52e09384716a9ef319b370d970461cb06f905ef9",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 11,
+      "ownedPathsExamined": 7,
+      "ownedSameAsHead": 7,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ct-cleanslate-petition-set",
+      "tip": "d4e20d155666c758d00cde29994c3516f9037c39",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 22,
+      "ownedPathsExamined": 21,
+      "ownedSameAsHead": 21,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-ma-expunge-mj-set",
+      "tip": "efb28e2ab3f2469f58930a8782ee16c78f22e2d8",
+      "mergeBase": "e36b3ff6784a85f14df4315c1b1ff66db845cbec",
+      "filesChanged": 20,
+      "ownedPathsExamined": 19,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 19,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/local-filing-variation.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/product-wiring.json",
+        "data/rcap-all50/overlays/census-v1/ma/ma-expunge-mj-set--official-pdf-fill/production-field-map.json"
+      ],
+      "pendingFilesTruncated": 11,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-build-mi-setaside-marihuana-set",
+      "tip": "55f131038f11cbd8bd3e732a55d144e0496649e0",
+      "mergeBase": "d0e19066e856c8c9024b243a2b37f892888e3089",
+      "filesChanged": 21,
+      "ownedPathsExamined": 20,
+      "ownedSameAsHead": 20,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-ca-official-source-pipeline",
+      "tip": "227238c3a1dfb9d7153175f5348c9991a1b825c9",
+      "mergeBase": "2f023bd13678d084abb224354acd1291227a8717",
+      "filesChanged": 63,
+      "ownedPathsExamined": 57,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 57,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/SOURCE_FIDELITY_FINDING.md",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/approval-request.json",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/field-appearance-dispositions.json",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/attachment-boundary-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/attachment-canonical-filled.pdf",
+        "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/fixtures/declaration-boundary-filled.pdf"
+      ],
+      "pendingFilesTruncated": 49,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-current-money-credit-gate",
+      "tip": "90471a769aa699c5333d58ff7c5dd643f39ce843",
+      "mergeBase": "6f7f139d71d968598806a7bf951a1d91db6c5d1f",
+      "filesChanged": 3,
+      "ownedPathsExamined": 3,
+      "ownedSameAsHead": 2,
+      "ownedPendingInHead": 1,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "package.json"
+      ],
+      "pendingFilesTruncated": 0,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-current-participant-data-rights",
+      "tip": "5684728d4e5b5faeb49f311b3db90ecc82e53a9c",
+      "mergeBase": "d0e19066e856c8c9024b243a2b37f892888e3089",
+      "filesChanged": 36,
+      "ownedPathsExamined": 36,
+      "ownedSameAsHead": 29,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 7,
+      "reuseDecision": "SUPERSEDED_DO_NOT_USE",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-legal-queue-retriage",
+      "tip": "b0923034fdd0d5406322b41615c89f938bb378a2",
+      "mergeBase": "23ec29af2b4d86e61dab976afde2d1cb0c09eb4e",
+      "filesChanged": 2,
+      "ownedPathsExamined": 2,
+      "ownedSameAsHead": 2,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-shared-caption-infrastructure",
+      "tip": "bd99252ad0e88de5bbb4cfa525beeea99360517e",
+      "mergeBase": "0c429cbee66bf1fe92c4fc4c9dcbb7871c103a4a",
+      "filesChanged": 35,
+      "ownedPathsExamined": 15,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 15,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "pendingFiles": [
+        "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/build-findings.json",
+        "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-decisions.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/production-field-map.json",
+        "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/reports/blanks-left-for-the-participant.json"
+      ],
+      "pendingFilesTruncated": 7,
+      "dispatchable": true,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-shared-name-date-semantics",
+      "tip": "84308a095cd7d50e1544f4d7e03380b72cc5cf7e",
+      "mergeBase": "6f7f139d71d968598806a7bf951a1d91db6c5d1f",
+      "filesChanged": 18,
+      "ownedPathsExamined": 9,
+      "ownedSameAsHead": 9,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 0,
+      "reuseDecision": "REUSE_AS_IS",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-source-identity-1",
+      "tip": "ae43440fbe9683e33f1ad6b65633c4c9100c4569",
+      "mergeBase": "f77264fc03aaff5fc7d820140a5988f5173382e6",
+      "filesChanged": 2,
+      "ownedPathsExamined": 2,
+      "ownedSameAsHead": 0,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 2,
+      "reuseDecision": "SUPERSEDED_DO_NOT_USE",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    },
+    {
+      "branch": "claude/census-v1-source-identity-2",
+      "tip": "7746c4f0948fffdfb9f52cba438063113ac586d0",
+      "mergeBase": "f77264fc03aaff5fc7d820140a5988f5173382e6",
+      "filesChanged": 3,
+      "ownedPathsExamined": 3,
+      "ownedSameAsHead": 1,
+      "ownedPendingInHead": 0,
+      "ownedSupersededByHead": 2,
+      "reuseDecision": "SUPERSEDED_DO_NOT_USE",
+      "pendingFiles": [],
+      "pendingFilesTruncated": 0,
+      "dispatchable": false,
+      "doNotRebuild": true
+    }
+  ],
+  "families": [
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:AL:al-uncharged-arrest:agency_record_challenge",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_investigation_and_finding_request",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission",
+      "jurisdictions": [
+        "NY"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement",
+      "jurisdictions": [
+        "NM"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-destruction-request",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ak-courtview-set",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-ak-courtview-set",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ak-mistaken-identity-set",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ak-tf800-set",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-ak-tf800-set",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ak-tf805-set",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-shared-caption-infrastructure",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "al-diversion-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-felony-dwop-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-felony-nonconviction-90-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-misd-conviction-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-misd-dwop-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-misd-nonconviction-90-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-pardon-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-pardoned-felony-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "al-trafficking-set",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-act346-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-act531-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-arrest-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-shared-caption-infrastructure",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ar-cs-possession-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-drug-court-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-felony-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-misdemeanor-dwi-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-shared-caption-infrastructure",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ar-misdemeanor-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-nonconviction-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ar-pardon-seal-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-ar-pardon-seal-set",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ar-veterans-court-set",
+      "jurisdictions": [
+        "AR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_certificate_second_chance-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_marijuana_expungement_arrest_no_charges-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_marijuana_expungement_limited_jurisdiction-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_marijuana_expungement_superior_court-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_record_sealing_arrest_no_charges-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-az-record-sealing-arrest-no-charges",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "az_record_sealing_conviction-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_record_sealing_dismissal_not_guilty-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-az-record-sealing-dismissal-not-guilty",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "az_set_aside-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "az_wrongful_arrest_clearance-set",
+      "jurisdictions": [
+        "AZ"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-1203-4-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-ca-official-source-pipeline",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ca-1203-41-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-1203-42-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-1203-43-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-1203-4a-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-17b-reduction-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-851-91-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-diversion-seal-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ca-prop64-set",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "census-pending-family:ME:juvenile-sealing",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "census-pending-family:UT:path-l-vacatur-human-trafficking-related-expungement",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "census-pending-family:UT:path-m-juvenile-expungement",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_decriminalized_conduct_seal-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_motion_seal_conviction-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_motion_seal_nonconviction-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_multiple_conviction_seal-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_municipal_conviction_seal-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_pardoned_conviction_seal-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "co_petition_seal_arrest-set",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:nc_146_dismissal_petition",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:nd-nonconviction-auto-close-verify",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:research-decision-route:CO:co_mistaken_identity_expungement:participant_court_petition_after_90_days",
+      "jurisdictions": [
+        "CO"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request",
+      "jurisdictions": [
+        "NY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017a_automatic_failure_correction",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1018_discretionary_petition",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085",
+      "jurisdictions": [
+        "AK"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:GA:youthful-first-offender-restriction-route",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:IL:criminal-identity-theft-mistaken-identity-relief",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:intervention-court-dismissal-only-nonconviction-expungement-99-19-71-4",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:nonadjudication-under-99-15-26",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:uncharged-misdemeanor-immediate-dismissal-branch-99-15-59",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:MS:uncharged-or-unprosecuted-misdemeanor-after-12-months-99-15-59",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247",
+      "jurisdictions": [
+        "NV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:human-trafficking-survivor-relief",
+      "jurisdictions": [
+        "OK"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:OK:juvenile-record-expungement",
+      "jurisdictions": [
+        "OK"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:PA:path-k-human-trafficking-vacatur-expungement",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement",
+      "jurisdictions": [
+        "SD"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:WV:sex-trafficking-victim-vacatur-and-expungement",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:obligation:runtime-only:WY:human-trafficking-victim-vacatur-w-s-6-2-708",
+      "jurisdictions": [
+        "WY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:sc_17_22_950_summary",
+      "jurisdictions": [
+        "SC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "composed-treatment:sd_sis_sealing",
+      "jurisdictions": [
+        "SD"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-cannabis-petition-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-cleanslate-petition-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-shared-caption-infrastructure",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ct-decriminalized-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-missed-erasure-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-nolle-auto-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-pardon-erasure-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ct-under18-misdemeanor-set",
+      "jurisdictions": [
+        "CT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_correct_misattributed_arrest-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_innocence_expungement-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_seal_conviction-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_seal_fugitive-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_seal_nonconviction-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "dc_yra_set_aside-set",
+      "jurisdictions": [
+        "DC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "de_discretionary_family_court-set",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "de_discretionary_superior_court-set",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "de_mandatory_expungement-set",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "de_pardon_expungement-set",
+      "jurisdictions": [
+        "DE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-10yr-bridge-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-administrative-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-early-juvenile-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-expunction-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-juvenile-diversion-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-sealing-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-self-defense-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "fl-trafficking-set",
+      "jurisdictions": [
+        "FL"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-deaddocket-j3-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-felony-j1-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-fo-active-pre2026-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-fo-discharged-pre2026-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-fugitive-j5-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-jail-k2-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-misd-j4-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-nonconv-post2013-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-nonconv-pre2013-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-pardon-j7-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-seal-m-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ga-vacated-j2-set",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "hi_712_1200_deferred_expungement-set",
+      "jurisdictions": [
+        "HI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "hi_dag_danc_expungement-set",
+      "jurisdictions": [
+        "HI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "hi_nonconviction_expungement-set",
+      "jurisdictions": [
+        "HI"
+      ],
+      "implementationStrategy": "participant_agency_application",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-12346-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-12347-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-7251-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-901c2-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-901c3-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ia-dci77-set",
+      "jurisdictions": [
+        "IA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "id_clean_slate_shield-set",
+      "jurisdictions": [
+        "ID"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "id_felony_reduction-set",
+      "jurisdictions": [
+        "ID"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "id_isp_expungement-set",
+      "jurisdictions": [
+        "ID"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "id_set_aside_dismissal-set",
+      "jurisdictions": [
+        "ID"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-cannabis-vacate-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-exp-nonconv-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-exp-pardon-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-exp-precompletion-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-exp-qualprob-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-exp-supervision-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-prb-cert-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-prostitution-j-vacate-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-seal-2yr-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-seal-3yr-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-seal-edu-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "il-seal-nonconv-set",
+      "jurisdictions": [
+        "IL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_arrest_no_charges-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_conviction_d6-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_conviction_felony-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_conviction_misd-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_infraction_nondisclosure-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "in_section1_petition-set",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-21-6614-conviction-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-21-6614-diversion-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-21-6614-prostitution-coercion-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-21-6614-specialty-court-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-22-2410-arrest-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ks-22-4908-registration-relief-set",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_criminal_record_segregation-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_expungement_certification-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_felony_expungement_after_pardon-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_felony_vacatur_expungement-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_misdemeanor_expungement-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_nonconviction_expungement-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_protective_order_record_expungement-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_void_seal_controlled_substance-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ky_void_seal_marijuana_synthetic_salvia-set",
+      "jurisdictions": [
+        "KY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-976-arrest-no-conviction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-977-misdemeanor-conviction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-977-misdemeanor-conviction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-977d-marijuana-first-offense-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-978-felony-conviction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-978-felony-conviction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-985-1-interim-expungement-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-985-expungement-by-redaction-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "la-987-set-aside-and-dismiss-set",
+      "jurisdictions": [
+        "LA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-bmc-multi-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-expunge-k-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-expunge-mj-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": "claude/census-v1-build-ma-expunge-mj-set",
+      "reuseDecision": "RESUME_FROM_COMMIT",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "ma-expunge-time-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-seal-admin-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-seal-court-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ma-seal-decrim-set",
+      "jurisdictions": [
+        "MA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_10105_early-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_10105_favorable-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_10110_conviction-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_cannabis_petition-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_pardon_expungement-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "md_second_chance_shielding-set",
+      "jurisdictions": [
+        "MD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "me-nonconv-set",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "me-screening-set",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "me-seal-gen-set",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "me-seal-prost-set",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "me-seal-survivor-set",
+      "jurisdictions": [
+        "ME"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mi_setaside_application-set",
+      "jurisdictions": [
+        "MI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mi_setaside_first_owi-set",
+      "jurisdictions": [
+        "MI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mi_setaside_marihuana-set",
+      "jurisdictions": [
+        "MI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": true,
+      "evidenceOnBranch": "claude/census-v1-shared-caption-infrastructure",
+      "reuseDecision": "REUSE_AS_IS",
+      "freeToDispatch": false
+    },
+    {
+      "worklistGroupId": "mi_setaside_trafficking-set",
+      "jurisdictions": [
+        "MI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mn_petition_15218-set",
+      "jurisdictions": [
+        "MN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mn_petition_609a02_subd3-set",
+      "jurisdictions": [
+        "MN"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mn_petition_juvenile_as_adult-set",
+      "jurisdictions": [
+        "MN"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mn_prosecutor_agreed-set",
+      "jurisdictions": [
+        "MN"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-575-120-identity-theft-correction-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-610-122-arrest-expungement-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-610-140-arrest-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-610-140-conviction-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-610-145-mistaken-identity-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mo-art-xiv-marijuana-set",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-diversion-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-fel-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-misd-1st-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-misd-addl-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-nonadj-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ms-nonconv-set",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_deferred_dismissal-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_deferred_dismissal-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_misdemeanor_expungement-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_misdemeanor_expungement-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_mmrta_completed-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "mt_mmrta_serving-set",
+      "jurisdictions": [
+        "MT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_145_5_felony-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_145_5_misdemeanor-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_145_8a_youthful-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_146_acquittal_petition-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_146_dismissal_petition-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nc_auto_146_a4_agency_followup-set",
+      "jurisdictions": [
+        "NC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nd-deferred-imposition-records-set",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nd-nonconviction-close-petition-set",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nd-prohibit-remote-public-access-set",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nd-regular-pardon-set",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nd-summary-marijuana-pardon-set",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-expunge-le-error-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-seal-enforcement-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-seal-pardoned-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-seal-pre2017-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-setaside-custodial-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-setaside-noncustodial-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-trafficking-setaside-and-seal-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ne-trafficking-setaside-and-seal-set",
+      "jurisdictions": [
+        "NE"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nh_conviction_standard-set",
+      "jurisdictions": [
+        "NH"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nh_conviction_streamlined-set",
+      "jurisdictions": [
+        "NH"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nh_marijuana_annulment-set",
+      "jurisdictions": [
+        "NH"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nh_petition_nonconviction_pre2019-set",
+      "jurisdictions": [
+        "NH"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nh_petition_vacated-set",
+      "jurisdictions": [
+        "NH"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nj_arrest_no_conviction-set",
+      "jurisdictions": [
+        "NJ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nj_clean_slate-set",
+      "jurisdictions": [
+        "NJ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nj_disorderly_persons-set",
+      "jurisdictions": [
+        "NJ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nj_indictable_conviction-set",
+      "jurisdictions": [
+        "NJ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nj_ordinance-set",
+      "jurisdictions": [
+        "NJ"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nm_conviction-set",
+      "jurisdictions": [
+        "NM"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nm_identity_theft-set",
+      "jurisdictions": [
+        "NM"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nm_release_without_conviction-set",
+      "jurisdictions": [
+        "NM"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nv_repository_removal-set",
+      "jurisdictions": [
+        "NV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "nv_seal_probation_family-set",
+      "jurisdictions": [
+        "NV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ny_160_59_petition-set",
+      "jurisdictions": [
+        "NY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ny_mrta_marijuana-set",
+      "jurisdictions": [
+        "NY"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "official-form-treatment:obligation:research-decision-route:AL:al-olr",
+      "jurisdictions": [
+        "AL"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b",
+      "jurisdictions": [
+        "CA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "oh_marijuana_expungement-set",
+      "jurisdictions": [
+        "OH"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "or_contempt_setaside-set",
+      "jurisdictions": [
+        "OR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "or_conviction_setaside-set",
+      "jurisdictions": [
+        "OR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_490_nonconviction-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_6308_underage-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_790_nonconviction-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_9122_1_limited_access-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_age70_deceased-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_pardon_expungement-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "pa_summary_conviction-set",
+      "jurisdictions": [
+        "PA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-ga-guidance-implementation",
+      "jurisdictions": [
+        "GA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-hi-custom-pleading",
+      "jurisdictions": [
+        "HI"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-in-custom-pleading",
+      "jurisdictions": [
+        "IN"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-ks-custom-pleading",
+      "jurisdictions": [
+        "KS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-mo-custom-pleading",
+      "jurisdictions": [
+        "MO"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-ms-custom-pleading",
+      "jurisdictions": [
+        "MS"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-nd-custom-pleading",
+      "jurisdictions": [
+        "ND"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-nv-custom-pleading",
+      "jurisdictions": [
+        "NV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-oh-custom-pleading-clean-tracks",
+      "jurisdictions": [
+        "OH"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-ok-custom-pleading",
+      "jurisdictions": [
+        "OK"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-or-official-pdf-fill",
+      "jurisdictions": [
+        "OR"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-sc-custom-pleading",
+      "jurisdictions": [
+        "SC"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-tn-custom-pleading",
+      "jurisdictions": [
+        "TN"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-tx-custom-pleading",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-wa-custom-pleading-clean-tracks",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-wi-custom-pleading",
+      "jurisdictions": [
+        "WI"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-wv-custom-pleading",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "rcap-wv-custom-pleading",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_decriminalized-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_deferred_sentence-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_first_offender_felony-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_first_offender_misdemeanor-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_marijuana-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_multiple_misdemeanors-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ri_nonconviction_sealing-set",
+      "jurisdictions": [
+        "RI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "sc_17_22_950_summary-set",
+      "jurisdictions": [
+        "SC"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "sd_arrest_expungement-set",
+      "jurisdictions": [
+        "SD"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_exp_acquittal-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_automatic_misdemeanor_deferred-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_conviction_no_supervision-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_deferred_other-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_dwi_conviction-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_dwi_deferred-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_dwi_probation-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_probation_misdemeanor-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_veterans_court-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "tx_nd_veterans_reemployment-set",
+      "jurisdictions": [
+        "TX"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_acquittal-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_cannabis-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_conviction-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_dismissed_with_prejudice-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_dismissed_without_prejudice-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_limitations-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_no_charges-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_remove_link-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_special_certificate-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "ut_pet_traffic-set",
+      "jurisdictions": [
+        "UT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_exp_absolute_pardon-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_exp_identity_used_by_another-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_exp_nonconviction-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_seal_ancillary_matter_only-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_seal_enumerated_seven_year-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_seal_petition_felony-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "va_seal_petition_misdemeanor-set",
+      "jurisdictions": [
+        "VA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_exp_decriminalized-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_exp_deferred_sentence-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_18_to_21-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_dui-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_felony-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_misdemeanor-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_nonconviction-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_pardon-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "vt_seal_under_25-set",
+      "jurisdictions": [
+        "VT"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_blake_vacatur_and_lfo_refund-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_crop_certificate_of_restoration-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_cannabis-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_domestic_violence-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_felony-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_homicide_victim_prostitution-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_misdemeanor_ordinary-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_substance_use_disorder-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_survivor_felony-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_survivor_misdemeanor-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wa_vac_treaty_fishing-set",
+      "jurisdictions": [
+        "WA"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wi_exp_cr266-set",
+      "jurisdictions": [
+        "WI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wi_nc_doj_challenge-set",
+      "jurisdictions": [
+        "WI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wi_nc_doj_fingerprint_removal-set",
+      "jurisdictions": [
+        "WI"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_acc_treatment_job_readiness-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_conv_multiple_misdemeanors-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_conv_nonviolent_felony-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_conv_single_misdemeanor-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_dui_deferral_expungement-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_nc_acquittal_dismissal-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wv_nc_diversion_deferred-set",
+      "jurisdictions": [
+        "WV"
+      ],
+      "implementationStrategy": "official_pdf_fill",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    },
+    {
+      "worklistGroupId": "wy_fel_1502-set",
+      "jurisdictions": [
+        "WY"
+      ],
+      "implementationStrategy": "custom_pleading",
+      "evidenceInCaptainTree": false,
+      "evidenceOnBranch": null,
+      "reuseDecision": "NO_EXISTING_WORK",
+      "freeToDispatch": true
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-grade-a-superseded-status-records/v1",
+  "purpose": "A machine-readable pointer from every record that once claimed launch, dispatch or readiness authority to the one that claims it now. Nothing here is deleted: these are the history of how the current state was reached, and several are the evidence behind it.",
+  "controllingRecord": "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json",
+  "controllingExecutionOrder": "docs/LAUNCH_SEQUENCE.md",
+  "rule": "Exactly one record claims CURRENT launch authority. A record listed here is historical: it may be read as evidence and must not be read as current status.",
+  "superseded": [
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/legal-review-triage.json",
+      "supersededBy": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+      "why": "It routed 47 of 86 rows to counsel. The corrected routing is 4, and the difference is 43 rows the Captain owed rather than an attorney."
+    },
+    {
+      "record": "data/rcap-all50/pdf-release-readiness.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json",
+      "why": "A PDF-lane readiness record from the earlier all50 sprint. It predates the Grade-A census denominator and does not describe the 352-family population."
+    },
+    {
+      "record": "data/rcap-grade-a/active-lane-envelopes.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/reuse-index.json",
+      "why": "Lane envelopes from an earlier dispatch model. First-wave ownership is now decided by the reuse index and the assignment manifest, which are checked against each other for collisions."
+    },
+    {
+      "record": "data/rcap-all50/gate-b-assignments/index.json",
+      "supersededBy": "data/rcap-grade-a/launch-control/first-wave-assignments.json",
+      "why": "Gate-B assignment index from the all50 review sprint. Historical; its reviews are evidence, its assignments are not current."
+    }
+  ],
+  "notSuperseded": [
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "It remains the authority for families, sources, legal review, category B, the launch gate and commercial state. The launch record reads those numbers from it rather than restating them, so there is one computation and one answer."
+    },
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+      "status": "CURRENT_AND_CONSUMED",
+      "why": "The frozen census denominator. The launch record reads its totals; nothing else may restate them."
+    },
+    {
+      "record": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+      "status": "FROZEN_ASSIGNMENT",
+      "why": "Handed to a reviewer and pinned to one source blob. Not a status record and never regenerated."
+    }
+  ]
+}

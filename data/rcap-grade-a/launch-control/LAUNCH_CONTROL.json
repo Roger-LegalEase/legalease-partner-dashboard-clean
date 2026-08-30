@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "rcap-grade-a-launch-control/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-launch-control.mjs",
+  "thisIsTheControllingLaunchRecord": "One record claims current launch authority, and this is it. It does not restate the completion scoreboard: it consumes it. Everything the scoreboard owns -- families, sources, legal review, category B, the launch gate, commercial state -- is read from the scoreboard at generation time and pointed at, not copied. Everything here that the scoreboard does not cover is generated from its own record. Nothing in this file is typed in by hand.",
+  "consumes": {
+    "completionScoreboard": "data/rcap-grade-a/route-obligation-census-v1/COMPLETION_SCOREBOARD.json",
+    "censusFreeze": "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+    "reuseIndex": "data/rcap-grade-a/launch-control/reuse-index.json",
+    "legalQueue": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+    "legalRetriage": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2-retriage.json",
+    "sourceQueue": "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json",
+    "frozenCategoryB": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+    "executionOrder": "docs/LAUNCH_SEQUENCE.md",
+    "productContract": "docs/PRODUCT_CONTRACT.md"
+  },
+  "lineage": {
+    "captainBranch": "claude/legalease-sprint-captain-utucnw",
+    "captainSha": "fbfba09668011258de17f83610bb998f736feaea",
+    "censusFingerprint": "sha256:9d2d97b9d2768f14e2baba3138ba808172b49143f0f2eaf29a6dfe982c6a9a29",
+    "censusLedgerBlob": "dbd9cf5dcd0f384d333b6b96fbd81ebf8e92196b",
+    "productionConnected": false,
+    "productionConnectedEvidence": "No SUPABASE_, STRIPE_ or VERCEL_ variable is set in the generating environment, and egress to api.supabase.com is refused by policy."
+  },
+  "denominator": {
+    "terminalObligations": 694,
+    "categoryA": 451,
+    "categoryB": 157,
+    "legalReview": 86,
+    "packetFamilies": 352,
+    "runtimeRoutes": 337,
+    "statutoryLegalTracks": 497,
+    "jurisdictions": 51,
+    "note": "Read from the frozen census. A denominator that moves without an explanation is a verifier failure, not a rounding difference."
+  },
+  "frozenCategoryB": {
+    "record": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+    "rows": 55,
+    "uniqueRouteKeys": 55,
+    "jurisdictions": 26,
+    "pinnedSourceCommit": "1b0ce4de0c56ce88853e53bbed42016e33a91227",
+    "pinnedSourceBlob": "0673c2e3ca934ff7e20fd5abc3214eebf7bb6148",
+    "postRegenerationDelta": "data/rcap-grade-a/route-obligation-census-v1/route-obligation-census-candidate/category-b-medium-confidence-post-regeneration-delta.json",
+    "status": "FROZEN_AND_ASSIGNED"
+  },
+  "legalWork": {
+    "trueCounselQuestions": 4,
+    "trueCounselDetail": [
+      "#4 AL — Alabama de novo circuit-court review after final agency denial",
+      "#47 NE — Where to go if you want your Nebraska conviction overturned",
+      "#54 NY — Possible pre-November 1, 1991 legacy motion",
+      "#76 UT — Not eligible yet? Reducing the conviction level may open a route"
+    ],
+    "alreadyAnsweredImplementationQueue": 37,
+    "captainMappingQueue": 33,
+    "sourceIdentityQuestions": 8,
+    "duplicateOrSuperseded": 4,
+    "total": 86
+  },
+  "sourceWork": {
+    "byDisposition": {
+      "LEGAL_DESIGN_DECISION_REQUIRED": 19,
+      "NO_OFFICIAL_FORM_COMPOSE_OUTPUT": 31,
+      "NO_PARTICIPANT_DOCUMENT": 3,
+      "ALREADY_HELD_VERIFIED_CORPUS": 81,
+      "UNRESOLVED_IDENTITY": 19,
+      "RESOLVE_OFFICIAL_URL": 11,
+      "PROMOTE_FROM_NATIONWIDE_INVENTORY": 33,
+      "NOT_A_SEPARATE_DOCUMENT": 18,
+      "ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE": 59
+    },
+    "rowStatus": {
+      "fullyResolved": 134,
+      "partiallyResolved": 10,
+      "unresolved": 22
+    },
+    "acquisitionBlockedOnEgress": 59,
+    "acquisitionEvidence": "docs/rcap/grade-a/route-obligation-census/ACQUISITION_EGRESS_PROBE.md"
+  },
+  "packetFamilies": {
+    "total": 352,
+    "releasable": 114,
+    "heldBack": 238,
+    "evidenceInCaptainTree": 6,
+    "evidenceOnBranchAwaitingIntegration": 6,
+    "freeToDispatch": 340,
+    "byState": {
+      "AL": 11,
+      "CO": 9,
+      "NY": 4,
+      "NM": 4,
+      "CT": 10,
+      "AK": 6,
+      "AR": 11,
+      "AZ": 9,
+      "CA": 10,
+      "ME": 6,
+      "UT": 12,
+      "WA": 13,
+      "NC": 7,
+      "ND": 7,
+      "DE": 6,
+      "GA": 14,
+      "IL": 13,
+      "MS": 11,
+      "NV": 4,
+      "OK": 3,
+      "PA": 8,
+      "SD": 3,
+      "WV": 10,
+      "WY": 2,
+      "SC": 3,
+      "DC": 6,
+      "FL": 8,
+      "HI": 4,
+      "IA": 6,
+      "ID": 4,
+      "IN": 7,
+      "KS": 7,
+      "KY": 9,
+      "LA": 9,
+      "MA": 7,
+      "MD": 6,
+      "MI": 4,
+      "MN": 4,
+      "MO": 7,
+      "MT": 6,
+      "NE": 8,
+      "NH": 5,
+      "NJ": 5,
+      "OH": 2,
+      "OR": 3,
+      "TN": 1,
+      "TX": 11,
+      "WI": 4,
+      "RI": 7,
+      "VA": 7,
+      "VT": 9
+    },
+    "completePacketProven": 0
+  },
+  "productPath": {
+    "commercialRoutesOpened": 0,
+    "commerciallyEligible": 0,
+    "moneyGate": "scripts/verify-rcap-census-v1-money-credit-gate.mjs — 337 of 337 routes refused: no price, checkout, sponsorship, credit, attach or delivery",
+    "staleArtifactBlock": "data/rcap-grade-a/stale-artifact-block.json"
+  },
+  "participantDataRights": {
+    "branch": "claude/census-v1-current-participant-data-rights",
+    "focusedTests": "117/117",
+    "migration": "supabase/migrations/20260830120000_participant_data_rights.sql",
+    "applied": false,
+    "verdict": "NOT_APPLIED_PRECONDITIONS_UNSATISFIABLE_IN_THIS_SESSION",
+    "codeIntegration": "integrated on the Captain branch",
+    "nonproductionMigration": "authorized and unspent — preconditions unsatisfiable in an environment that cannot reach the project"
+  },
+  "testStatus": {
+    "focusedControlPlane": "generated at run time by the checkpoint verifier",
+    "fullChain": "NOT RUN — a broad tracked-file mutation suite is not run while external workers are active",
+    "hostedAcceptance": "NOT RUN — no hosted environment is reachable from the Captain environment",
+    "productionPreflight": "NOT RUN — Production is not connected and no Production authorization exists"
+  },
+  "launchGate": {
+    "familiesNotLaunchReady": 352,
+    "blockersByKind": {
+      "missing_source": 238,
+      "missing_artifact_review": 352,
+      "missing_output_approval": 337,
+      "missing_form_map": 261
+    },
+    "gateOpen": false
+  },
+  "exactBlockers": [
+    {
+      "id": "BLK-1",
+      "blocker": "Official-source acquisition cannot run from any Captain-reachable environment",
+      "detail": "Egress to court and agency hosts is refused by policy; 59 obligations have a known official target and cannot be fetched.",
+      "owner": "Roger — gateway allowlisting or a controlled operator environment",
+      "blocks": "59 ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE obligations"
+    },
+    {
+      "id": "BLK-2",
+      "blocker": "Four true counsel questions are unanswered",
+      "detail": "#4 AL, #47 NE, #54 NY, #76 UT",
+      "owner": "Lawrence Blackmon",
+      "blocks": "the routes those four decisions govern"
+    },
+    {
+      "id": "BLK-3",
+      "blocker": "No packet family has an independent review or output approval",
+      "detail": "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.",
+      "owner": "Captain then Lawrence",
+      "blocks": "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route"
+    },
+    {
+      "id": "BLK-4",
+      "blocker": "The data-rights migration cannot be applied from this environment",
+      "detail": "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.",
+      "owner": "an environment with the project ref and egress",
+      "blocks": "hosted data-rights acceptance"
+    },
+    {
+      "id": "BLK-5",
+      "blocker": "238 families are held for a missing source",
+      "detail": "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.",
+      "owner": "source lanes C8 and C9",
+      "blocks": "238 of 352 families entering a build slot"
+    }
+  ],
+  "goHold": {
+    "decision": "HOLD",
+    "because": "No family is COMPLETE_PACKET_PROVEN, no route is commercially open, and the launch gate is closed on every one of the 352 families. GO is a statement about proven packets, and there are none yet. Holding is the correct state, not a failure.",
+    "whatWouldChangeIt": "One family passing the full sequence — independent technical verification, independent visual review, an exact output-review package, Lawrence's approval of exact hashes, a Grade-A fulfilment record, product wiring and both path proofs — would open exactly that family's route and nothing else."
+  }
+}
