@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "rcap-family-gate-report/v1",
+  "familyId": "ar-pardon-seal-set",
+  "worklistGroupId": "ar-pardon-seal-set",
+  "implementationStrategy": "official_pdf_fill",
+  "jurisdiction": "AR",
+  "branch": "claude/census-v1-build-ar-pardon-seal-set",
+  "basedOn": "origin/claude/legalease-sprint-captain-utucnw",
+  "headAtStop": "d0e19066",
+  "stoppedAt": "2026-08-30T01:45:56Z",
+  "status": "BLOCKED_ENVIRONMENT_SOURCE_CORPUS_UNREACHABLE",
+  "buildSequenceReached": "step_1_bind_the_source",
+
+  "whatIsMissing": "The pinned Master Library (release source-corpus-2026-08-28, asset Expungement_AI_RCAP_Master_Library_Edition_1.zip) is not mounted in this container and could not be recovered. private/ does not exist; nothing was extracted. Both official sources this family needs live inside that archive and were never opened.",
+
+  "howThisDiffersFromTheFirstWave": {
+    "firstWaveCause": "Five of six workers did not know scripts/rcap-corpus/bootstrap-private-corpus.sh existed, searched for an already-mounted tree, correctly found none, and stopped. The dispatch brief was the defect; the bytes were one command away.",
+    "thisReturnsCause": "That defect is fixed and did not recur. The bootstrap was found and run. It failed at the release-resolution step with HTTP 403 from the GitHub API, meaning the credential present in this container cannot read Roger-LegalEase/legalease-source-artifacts. The bytes were NOT one command away here.",
+    "consequence": "This is an access-capability block, not a brief-knowledge block. Re-dispatching this family with a better brief will not resolve it. The container must be granted read access to the source-artifacts repository."
+  },
+
+  "whatWasAttempted": [
+    {
+      "step": "git fetch origin --prune, un-shallow the clone",
+      "result": "SUCCEEDED",
+      "detail": "Clone was shallow on arrival. Set remote.origin.fetch to the full refspec and ran git fetch --unshallow origin. The clone is now complete and the Captain branch resolves."
+    },
+    {
+      "step": "git checkout -b claude/census-v1-build-ar-pardon-seal-set origin/claude/legalease-sprint-captain-utucnw",
+      "result": "SUCCEEDED",
+      "detail": "No prior branch existed for this family, so there was no predecessor work to resume. This is a first attempt, not a rebuild."
+    },
+    {
+      "step": "npm ci --cache /tmp/legalease-npm-cache",
+      "result": "SUCCEEDED",
+      "detail": "node 22.22.2, pdf-lib 1.17.1 importable."
+    },
+    {
+      "step": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "result": "FAILED",
+      "detail": "Resolving Expungement_AI_RCAP_Master_Library_Edition_1.zip from Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28 ... curl: (22) The requested URL returned error: 403 / asset not found in release / bootstrap-private-corpus: could not resolve the release asset (the token may lack access to Roger-LegalEase/legalease-source-artifacts)",
+      "interpretation": "A token IS present in the environment -- the script's own no-token precondition did not trip, and execution reached the API call. The 403 is an authorization failure on the source-artifacts repository, not a missing-credential failure. Nothing was downloaded, nothing was extracted, and the script refused rather than guessing, which is correct behaviour."
+    },
+    {
+      "step": "add_repo(owner=Roger-LegalEase, repo=legalease-source-artifacts, access=read)",
+      "result": "DENIED",
+      "detail": "The prescribed remedy from the worker brief was called without any preceding curl or git ls-remote probe, exactly as instructed. It was refused by this session's permission classifier, not by GitHub. The refusal is a local policy decision about what this agent may attach, and it is the sole reason the corpus remains unreachable.",
+      "notWorkedAround": "No alternative route to those bytes was attempted. Reading the release through the GitHub MCP tools would have fetched from a repository that is outside this session's declared scope and whose attachment had just been refused; that is a circumvention of the denial, not a substitute for it. Egress to court and agency hosts is refused by policy and was not attempted either: a copy from anywhere that is not the issuing authority would not be an official source."
+    },
+    {
+      "step": "node scripts/verify-packet-build-environment.mjs --family ar-pardon-seal-set --branch claude/census-v1-build-ar-pardon-seal-set",
+      "result": "PACKET_BUILD_ENVIRONMENT_NOT_READY",
+      "detail": "9/14 passed, 5 failed, 0 not applicable."
+    }
+  ],
+
+  "preflightFailures": [
+    {
+      "check": "assigned_branch_tip_visible",
+      "message": "origin/claude/census-v1-build-ar-pardon-seal-set does not resolve in this clone",
+      "cause": "INCIDENTAL",
+      "note": "The branch had not been pushed at the time preflight ran. This check clears on the push that carries this gate report and is not part of the block."
+    },
+    {
+      "check": "master_library_mounted",
+      "message": "absent at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 -- run: bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "cause": "ROOT"
+    },
+    {
+      "check": "master_library_complete",
+      "message": "the corpus root cannot be walked (absent is not empty)",
+      "cause": "DOWNSTREAM_OF_ROOT"
+    },
+    {
+      "check": "corpus_matches_committed_index",
+      "message": "the corpus root cannot be walked; nothing to compare the index against",
+      "cause": "DOWNSTREAM_OF_ROOT"
+    },
+    {
+      "check": "family_sources_bind",
+      "message": "2 of 2 source(s) do not bind",
+      "cause": "DOWNSTREAM_OF_ROOT",
+      "note": "This is an ABSENCE, not a MISMATCH. The two are different findings and neither is a pass. No claim is made here that the pinned bytes are wrong; the claim is only that they were never present to compare against."
+    }
+  ],
+
+  "sourcesThisFamilyNeeds": [
+    {
+      "sourceId": "official-form:ACIC-PETITION-TO-SEAL-PARDONED-OFFENDER",
+      "documentRole": "PETITION",
+      "officialTitle": "Petition to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-08",
+      "pinnedSha256": "59ba1407a5a6c2b8c327a9ca549b379ab88d65105ade1c7e69110d8c1ac6c5d0",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL__petition-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-08__EN.pdf",
+      "bindingResult": "NOT_BOUND_SOURCE_ABSENT",
+      "bytesOpened": false
+    },
+    {
+      "sourceId": "official-form:ACIC-ORDER-TO-SEAL-PARDONED-OFFENDER",
+      "documentRole": "PROPOSED_ORDER",
+      "officialTitle": "Order to Seal Records of a Pardoned Offender or Pardoned Youthful Felony Offender",
+      "revision": "REV-2022-03-07",
+      "pinnedSha256": "741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e",
+      "pathInArchive": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL__order-to-seal-records-of-a-pardoned-offender-or-pardoned-youthful-felony-offender__REV-2022-03-07__EN.pdf",
+      "bindingResult": "NOT_BOUND_SOURCE_ABSENT",
+      "bytesOpened": false
+    }
+  ],
+
+  "custodyPosition": {
+    "custodyClass": "SOURCE_ALREADY_HELD",
+    "commissionAcquisition": false,
+    "acquisitionAttempted": false,
+    "note": "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json classifies this family SOURCE_ALREADY_HELD and commissions no acquisition. That classification is unchanged by this stop. The sources are held; they are held somewhere this container cannot reach. Nothing was acquired, mirrored or cached."
+  },
+
+  "carriedForwardForTheResumingWorker": {
+    "why": "These are facts established from committed repository state alone, without opening a source byte. They are recorded so the next attempt does not re-derive them, and each is labelled with what it actually rests on.",
+    "bothSourcesAreFlatNotAcroform": {
+      "claim": "data/rcap-all50/local-source-corpus-index.json records acroFieldCount 0 for both documents.",
+      "restsOn": "the committed corpus index, NOT on observation of the bytes",
+      "consequence": "There are no widgets to fill. Every write box must be measured from the content stream with scripts/lib/pdf-stroked-boxes.mjs, which maintains the CTM through q/Q/cm and emits only on stroke operators. The older re-operator scan tracked no CTM and put a mark in the margin. This expectation must still be confirmed against the bytes once they are reachable -- an index agreeing with itself is not an observation."
+    },
+    "siblingPatternToFollow": {
+      "script": "scripts/build-census-v1-ar-arrest-seal-set.mjs",
+      "note": "Builds the sibling AR ACIC family end to end and reproduces byte-identically. Its source-binding, verification and raster stages are the pattern to follow. Its fill stage will NOT transfer: its two forms carry 37 and 29 AcroForm fields respectively, where both of this family's carry none."
+    },
+    "revisionSkew": {
+      "petition": "REV-2022-03-08",
+      "order": "REV-2022-03-07",
+      "finding": "The order is dated one day before the petition. This is recorded as an observed property of the pinned pair, not as an error to correct and not as a defect in either document."
+    },
+    "pardonPrecondition": "This route depends on a pardon having already been granted. The packet is the sealing step that follows a pardon; it must not prefill, assert or imply the pardon itself."
+  },
+
+  "whatWasNotDone": [
+    "No source was bound. Neither PDF was opened, hashed, or compared against its pin.",
+    "No field census was taken. No geometry was read off either document.",
+    "No write box was measured and no field map was produced. Absent a map, note that not_mapped is not a map.",
+    "No local filing, fee, venue, service or delivery variation was recorded. This step does not depend on the source bytes and could have proceeded, but it was not started: the brief requires PACKET_BUILD_ENVIRONMENT_READY before writing, and writing partial research into a family whose sources may yet bind differently would create a record that looks like progress and is not anchored to a document.",
+    "No product wiring was done.",
+    "No canonical or boundary fixture was rendered.",
+    "No artifact was verified, because none exists.",
+    "No page was rastered.",
+    "No artifact hash was invented, and no hash from data/rcap-grade-a/stale-artifact-block.json was cited as evidence for anything."
+  ],
+
+  "toReopenThisGate": [
+    "Grant this session read access to Roger-LegalEase/legalease-source-artifacts, either by permitting the add_repo call or by attaching the repository at session creation. The worker brief notes attachment is not deterministic: of twelve sessions in one wave, eight received both repositories and four received one.",
+    "Alternatively, provision a credential in the container that can read that repository, so bootstrap-private-corpus.sh resolves the release asset on its own.",
+    "Then: bash scripts/rcap-corpus/bootstrap-private-corpus.sh && source private/source-corpus-environment.txt && export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"",
+    "Then re-run: node scripts/verify-packet-build-environment.mjs --family ar-pardon-seal-set --branch claude/census-v1-build-ar-pardon-seal-set and require PACKET_BUILD_ENVIRONMENT_READY before writing anything.",
+    "The build then starts at step 1 and runs the full sequence. Nothing downstream was partially completed, so there is no half-finished state to reconcile."
+  ],
+
+  "unblockBy": "REPOSITORY_READ_ACCESS_TO_Roger-LegalEase/legalease-source-artifacts",
+  "unblockIsWithinWorkerControl": false,
+
+  "whatThisReportDoesNotEstablish": [
+    "that either pinned source is absent from the Master Library -- the Captain's own environment check verified eight pinned sources across five families at 8/8 exact SHA-256 match, and this family's two rows were classified SOURCE_ALREADY_HELD against the mounted corpus",
+    "that either pinned SHA-256 is wrong -- no comparison was possible, and an absence is not a mismatch",
+    "that this family is built, partially built, or in any state other than not started",
+    "that anything here is approved for participant delivery, opens a commercial route, or creates a fulfilment record"
+  ]
+}
