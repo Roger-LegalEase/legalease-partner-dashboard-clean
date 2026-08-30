@@ -1,133 +1,171 @@
 # ca-1203-4-set — California Penal Code § 1203.4 (official_pdf_fill)
 
-**Result: the build stopped at step 1. No field map, no fixtures, no rendered
-artifacts, no rasters.** The reason is not a mismatch and not a missing
-acquisition. It is that the already-held source corpus is not mounted in this
-environment.
+**Result: the source gate is open and steps 1–3 are done off the official bytes.
+217 fields censused, 59 of 59 write boxes mapped to boxes the forms actually
+draw. Steps 5–8 were NOT done, deliberately, and section 4 says exactly why and
+what would reopen them.**
 
 This family is *not* `ca-1203-41-set`. That is a sibling worker's family, a
-different statute and a different packet. Nothing measured or recorded here was
-transferred to it, and nothing here should be read as applying to it.
+different statute and a different packet. Nothing here applies to it.
 
-## What the gate found
+The previous run on this branch stopped at step 1 and was right to: its
+container had no corpus mounted, and an absent corpus is not an empty one. Its
+findings are preserved in git history at `4f40d1fe` and none of them is
+contradicted. The corpus is recovered per container with
+`bash scripts/rcap-corpus/bootstrap-private-corpus.sh`.
 
-`source-custody-reconciliation.json` classifies this family
-`SOURCE_ALREADY_HELD`, and that classification is correct — but "held" means
-held in the operator-supplied Master Library, not held here.
-`local-source-corpus-index.json` says so itself: `corpusRoot` is
-`private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`, and
-`private/` is git-ignored (`.gitignore:53`) and absent from this clone.
+## 1. The gate: all five sources bind
 
-All five named sources came back `UNVERIFIABLE_BYTES_ABSENT`:
+| Form | Role | Pinned SHA-256 | Result | Pages | Fields |
+|---|---|---|---|---|---|
+| CR-180 | Petition | `06c1b643…c98bbdbe` | bound exact | 3 | 81 |
+| CR-181 | Proposed order | `f737503a…95ce504` | bound exact | 2 | 58 |
+| CR-106 | Proof of service | `f8a37a9a…bf190c5a` | bound exact | 2 | 48 |
+| MC-025 | Attachment | `b0ca1509…94f6f0af` | bound exact | 1 | 12 |
+| MC-031 | Attached declaration | `defc9108…95191075` | bound exact | 1 | 18 |
 
-| Form | Role | Pinned official SHA-256 | Official bytes here | Derivative here |
-|---|---|---|---|---|
-| CR-180 | Petition | `06c1b643…c98bbdbe` | absent | yes, `a2399fc3…` |
-| CR-181 | Proposed order | `f737503a…95ce504` | absent | yes, `202c3384…` |
-| CR-106 | Proof of service | `f8a37a9a…bf190c5a` | absent | yes, `b20f56ea…` |
-| MC-025 | Attachment | `b0ca1509…94f6f0af` | absent | **none** |
-| MC-031 | Attached declaration | `defc9108…95191075` | absent | **none** |
+Preflight: `PACKET_BUILD_ENVIRONMENT_READY`, 14/14. Nothing was acquired; no
+egress to any court or agency host was attempted.
 
-Absence was established three ways, not asserted: every `.pdf` on the container
-outside `.git` was hashed and none matched any pinned value; `private/` does not
-exist; and the factory's own binder,
-`scripts/materialize-rcap-family-sources.mjs --check`, hard-failed with `ENOENT`
-on the *first* family it reached (Alabama C-94A), which shows the corpus is
-missing for every state rather than only this one. No second binder was written.
+Every page is 612×792, `CropBox == MediaBox`, `/Rotate 0`. Page coordinates and
+user space coincide throughout, so no measurement needs a transform.
 
-**Nothing was acquired.** No egress to a court host was attempted, per
-instruction.
+## 2. The source-fidelity question, resolved
 
-## Why the committed derivatives were not treated as a pass
+Full narrative in `SOURCE_FIDELITY_FINDING.md`; evidence in
+`reports/source-fidelity-official-vs-rescued.json`.
 
-Three decrypted derivatives *are* committed under
-`data/rcap-all50/overlays/rescued-encrypted-pdfs/`. They load, and they
-corroborate the prior lane's records well: CR-180 carries 81 AcroForm fields
-against that lane's recorded 81/81, CR-181 carries 58 against 58/58, both at
-612×792, and both observed hashes match the prior lane's `source-record.json`
-exactly.
+The short of it: **the official binaries are readable directly.** All five carry
+a permissions-only `/Standard` handler with an **empty user password** — CR-180
+and CR-181 AESV3 256-bit, CR-106 AESV2 128-bit, MC-025 and MC-031 RC4 128-bit —
+and `/P -1084`, which denies content modification and extraction but **allows
+filling in form fields**. The `structuralClassObserved: "unreadable"` in the
+corpus index is a true statement about pdf-lib 1.17.1, which has no decryption
+support at all, and a false statement about the documents.
 
-That is good evidence, and it is still not a gate pass. The derivative's tie to
-the official form rests on `encrypted-pdf-rescue-report.json` asserting
-`sourceSha256Before == sourceSha256After == 06c1b643…`. That assertion cannot be
-checked here, because the bytes it refers to are the missing ones. Measuring
-write-box geometry off the derivative and publishing it as this family's field
-map would put a legal filing's coordinates on an unverifiable claim while
-presenting them as measured — which is the specific failure this gate exists to
-prevent, and a close cousin of the margin-derived checkbox the dispatch warned
-about.
+The three rescued derivatives were produced 2026-06-17 by `qpdf --decrypt`, and
+they are faithful: zero delta against the official binaries in field set,
+per-widget `/Rect`, `/FT`, `/Ff`, `/MaxLen`, page geometry, and page
+content-stream SHA-256. The one assertion the previous run could not check —
+that the rescue read bytes hashing to the pinned official value — is checked and
+holds.
 
-`scripts/lib/pdf-stroked-boxes.mjs` was read before any mapping was contemplated,
-as instructed. It walks the content stream as a graphics-state machine with a CTM
-stack and reports only stroked paths, so it would not repeat the earlier
-`re`-only failure. It was not run in anger, because there is no verified document
-to run it against.
+**None was used.** A faithful copy of a readable original is unnecessary, and no
+geometry in this family was measured off one.
 
-**Unblock:** mount the Master Library at
-`private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`, or commit
-the five official binaries. Either makes the pinned hashes checkable and steps
-2–7 runnable exactly as written. Rasterisation is *not* a blocker — the
-Chromium path in `rcap-pdf-rasterize.mjs` is available here.
+## 3. What was measured, and off what
 
-## Local variation — completed in full
+`reports/field-census.json` and `reports/write-box-map.json`, both produced from
+the official binaries, which are re-bound by SHA-256 on every run.
 
-This step does not depend on the form bytes, so it was finished rather than
-skipped. See `local-variation-record.json`. In short:
+- **217 terminal fields**, each with widget rectangles in page coordinates,
+  type, decoded flags, `/MaxLen`, tooltip, and the `/AP /N` states it accepts.
+- **59 of 59 checkable widgets** bound to a box the form actually draws. Every
+  painted mark falls inside its printed box. No printed box is unclaimed. No
+  widget has an unknown on-state. **No box was drawn by this build.**
 
-- **Established, statewide, with citation:** venue is the Superior Court of the
-  county of *conviction* (not residence), and multi-county cases file separately
-  in each; the prosecuting attorney must get at least **15 days' notice** before
-  § 1203.4 relief; CR-180 and CR-181 travel together; the statute box (1203.4 vs
-  4a vs 41 vs 42) must match the disposition; the fee is **county-set**, roughly
-  $60–$150, some counties charging nothing; FW-001 waives it.
-- **Established that variation itself exists:** local Superior Courts publish
-  their own § 1203.4 packets and fee schedules. This is the most useful finding —
-  it turns every unenumerated county detail from "unknown" into "known to vary
-  and known to be unrecorded."
-- **Established for individual counties: nothing. Zero of 58.** Named explicitly
-  as not established: per-county fee amounts and which counties waive; per-county
-  local packets and cover forms; clerk filing addresses and divisions; DA or
-  city-attorney service addresses; e-filing vs mail vs in-person; copy counts and
-  return envelopes; probation-department referral practice; per-county
-  hearing-setting practice; and when MC-025/MC-031 attach.
+Three things had to be read rather than assumed, and each would have been a
+defect if guessed:
 
-The single citation is the committed compiled profile
-`src/lib/rcap-engine/compiled/profiles/CA-california.json`
-(`profileVersion 2026-06-19-source-conversion-1`). Its own upstream reference PDF
-is **not** present here, so the quoted text could not be re-verified against
-reference bytes, and that reference is a vendor agent-reference document rather
-than a Judicial Council or county publication. It is adequate for a statewide
-frame and inadequate for any county's local practice — which is exactly how it
-has been used.
+1. **The on-state is never `Yes`, and it is not the same for every widget.**
+   Across the 59 checkable widgets the accepted `/AP /N` state name is `1` (34),
+   `2` (14), `3` (8), `4`, `5` and `6` — the radio-group members carry their own
+   index as their state name. Writing `Yes`, or writing `1` for a widget whose
+   state is `4`, sets a state the widget has no appearance for: the box renders
+   empty and nothing errors. Every one of the 59 is recorded in the map.
+2. **The mark is not painted across the whole `/Rect`.** Each "on" appearance
+   opens with a clip inset from its BBox. That inset decides containment on
+   MC-031, where the `/Rect` overhangs the printed box while the painted mark
+   sits inside it with 0.23pt to spare.
+3. **CR-180's printed box is 18×9 with a 9×9 widget centred in it.** A
+   squareness filter discarded exactly the boxes that matter; the widgets now
+   select the boxes rather than a shape heuristic guessing at them.
 
-## Participant blanks
+`scripts/lib/pdf-stroked-boxes.mjs` was used as the instrument, and it works
+here precisely because it takes a content stream rather than a `PDFDocument` —
+pdf-lib cannot open these sources, but their content streams can be extracted
+from them.
 
-No field map was produced, so there is no per-field blank list to report. What is
-already settled by rule, and would have bound the map had the gate passed:
+**One gap in that instrument, for the Captain.** MC-031 draws each checkbox as
+four separate ~0.36pt bars, some filled and some stroked. No single subpath is
+box-shaped, so the instrument correctly reports nothing — but the box is real
+and a mark still has to land in it. `bar-assembled-boxes.mjs` assembles those
+frames with the same CTM tracking, and is applied only where a checkable widget
+already sits and the instrument found no box. `scripts/lib` is shared and was
+not modified. The instrument probably wants this third construction absorbed so
+every family gets it; that is not this family's call.
 
-- **CR-106 (proof of service) stays entirely unfilled.** A proof of service
-  asserts under signature who was served, where, and when. It cannot be prefilled
-  before mailing actually happens. The prior lane's `cr-106-proof-of-service`
-  profile holds it for the same reason and adds a second one: the committed
-  California design fixes only the recipient *class*, never the agency's identity
-  or address for a given case — and this record could not establish those
-  addresses for any county either.
-- **CR-181 is a proposed order.** Its operative content is the court's. The judge
-  signs it; the clerk distributes it.
-- **Never prefilled anywhere in this family:** participant signatures, signature
-  dates, and any court-only, clerk-only, prosecutor-only or agency-only field.
+## 4. Why steps 5–8 were not done
 
-## Status of the assigned missing work
+Not blocked by sources. Blocked on two decisions that are wider than this
+family, and that a rendered fixture would silently settle.
 
-| Item | Status |
+**(a) There is no sanctioned way to write a filled artifact from an encrypted
+source.** pdf-lib is the only writer here and cannot open any of these five.
+Filling requires a decryption stage. qpdf/pikepdf does the job — it is what
+produced every measurement above — but it is **not a repository dependency**, is
+not in `package.json`, and `scripts/verify-packet-build-environment.mjs` does
+not check for it. It was pip-installed in this container. Building on it without
+declaring it would leave the next worker with a family it cannot rebuild.
+
+**(b) A filled artifact is not structurally the official form.** This was
+measured, not assumed: an AcroForm fill of CR-180 through pdf-lib was produced
+in scratch and compared against the official binary.
+
+| | Official | After an AcroForm fill |
+|---|---|---|
+| Page content streams | — | **identical, all 3 pages** |
+| Page count / geometry | 3 @ 612×792 | unchanged |
+| Field value written | — | present in the AcroForm |
+| `/XFA` packet | present | **removed** |
+| Encryption + permission bits | present | **removed** |
+
+CR-180, CR-181 and CR-106 are hybrid static-XFA documents (`/XFA` present,
+`/NeedsRendering` absent). pdf-lib announces `Removing XFA form data as pdf-lib
+does not support reading or writing XFA` and strips the packet on save.
+
+Worth being precise about, because the obvious fear turns out to be the wrong
+one: because the XFA is *removed* rather than left stale, there is **no**
+AcroForm/XFA desynchronisation and no risk of a viewer rendering the form blank.
+The printed page is preserved byte-for-byte. What is lost is the XFA packet and
+the publisher's permission bits.
+
+That is very likely acceptable — on a static XFA form the page content is what
+prints and what gets filed, and the XFA packet is redundant with it. But it is a
+judgment about altering an official Judicial Council form, and the discipline
+here is to say what is lost and let the Captain decide rather than bake the
+decision into a committed artifact.
+
+**A related warning, since it affects how any answer gets checked.** The visual
+review path renders through Chromium, which does not render XFA at all. For this
+class of defect our own raster review is structurally incapable of showing a
+difference — it would look correct either way. Do not treat a green raster as
+evidence on question (b).
+
+## 5. To reopen steps 5–8
+
+1. Declare a decryption stage: add qpdf/pikepdf (or an equivalent) as a real
+   dependency, and add a preflight check for it, so an encrypted-source family
+   is reproducible.
+2. Rule on (b): is a filled artifact with page content preserved byte-for-byte,
+   but `/XFA` and the permission bits removed, acceptable for this family?
+3. With both settled, steps 5–8 run as written. Everything they need is already
+   measured and committed: `reports/field-census.json` carries the geometry and
+   `reports/write-box-map.json` carries the marks and their on-states.
+
+## 6. Work-type status
+
+| Work type | Status |
 |---|---|
-| `OFFICIAL_SOURCE_ACQUISITION_REQUIRED` | **Not cleared.** Correctly not by acquisition; not by binding either — the held corpus is not mounted here. |
-| `OFFICIAL_FORM_MAP_REQUIRED` | **Not cleared.** Blocked by the step 1 gate. |
-| `LOCAL_VARIATION_REQUIRED` | **Addressed.** Establishable variation recorded with citation; the rest named explicitly. |
-| `ARTIFACT_REVIEW_REQUIRED` | **Not cleared.** No rendered artifact exists to review. |
-| `OUTPUT_LEGAL_APPROVAL_REQUIRED` | **Requested, not granted.** This worker grants no approval. |
+| `OFFICIAL_SOURCE_ACQUISITION_REQUIRED` | **CLEARED** by binding, 5/5 exact. Nothing acquired. |
+| `OFFICIAL_FORM_MAP_REQUIRED` | **CLEARED.** 217 fields censused, 59/59 write boxes mapped off official bytes. |
+| `LOCAL_VARIATION_REQUIRED` | **ADDRESSED** by the previous run — `local-variation-record.json`, not redone. |
+| `ARTIFACT_REVIEW_REQUIRED` | **NOT CLEARED.** No artifact rendered; see §4. |
+| `OUTPUT_LEGAL_APPROVAL_REQUIRED` | **REQUESTED, NOT GRANTED.** |
 
-No commercial route was opened, no fulfilment record created, no packet marked
-proven. No verifier was weakened, skipped or quarantined. The frozen census, the
-stale-artifact block, `data/rcap-ledger/**`, compiled profiles, migrations,
-workflows, `package.json`, Stripe/Supabase and Production were not modified.
+Nothing here opens a commercial route, creates a fulfilment record, or approves
+anything for participant delivery. No participant name was written into a
+charge, offence, count, statute or violation caption; no signature, signature
+date, certificate of mailing or court-only field was prefilled; no verifier was
+skipped or weakened; no source binary was committed; no rescued derivative was
+modified.
