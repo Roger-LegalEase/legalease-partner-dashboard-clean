@@ -1,42 +1,62 @@
 {
-  "schemaVersion": "rcap-grade-a-wave-2-independent-verification/v1",
+  "schemaVersion": "rcap-grade-a-wave-2-independent-verification/v2",
   "assignmentId": "V3_INDEPENDENT_PACKET_VERIFICATION",
   "workerBranch": "codex/v3-independent-packet-verification",
   "baseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
   "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+  "assignmentPromptReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md",
   "setupEvidence": {
     "controlBaseExists": true,
     "controlBaseIsAncestorOfCaptain": true,
     "manifestCaptainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
-    "observedFreeDiskMibBeforeInstall": 16949,
-    "minimumFreeDiskMib": 4096,
-    "dependencyInstall": {
-      "command": "npm ci --cache /tmp/legalease-npm-cache",
-      "result": "PASS",
-      "packagesAdded": 492
+    "sourceEnvironment": {
+      "environmentFile": "private/source-corpus-environment.txt",
+      "RCAP_BUNDLE_EXTRACT": "/workspaces/.legalease-source-corpus/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "MASTER_LIBRARY_SOURCE_DIR": "/workspaces/.legalease-source-corpus/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "OFFICIAL_FORMS_SOURCE_DIR": "UNSET",
+      "corpusInventoryObserved": "501 files; 329 PDFs; 51 jurisdiction directories; 24 sampled index entries byte-exact"
     }
   },
-  "sourceRecoveryStop": {
-    "scope": "ALL_SIX_ROWS",
-    "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
-    "result": "BLOCKED_SOURCE",
-    "release": "Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28",
-    "asset": "Expungement_AI_RCAP_Master_Library_Edition_1.zip",
-    "exactObservedOutput": [
-      "curl: (22) The requested URL returned error: 404",
-      "asset not found in release",
-      "bootstrap-private-corpus: could not resolve the release asset (the token may lack access to Roger-LegalEase/legalease-source-artifacts)"
-    ],
-    "exitCode": 1,
-    "corpusEnvironmentPresentAfterAttempt": false,
-    "masterLibrarySourceDirEstablished": false,
-    "readFrom": [
-      "scripts/rcap-corpus/bootstrap-private-corpus.sh (executed in this worktree)",
-      "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md#BEFORE-ANYTHING-ELSE-1-Recover-the-corpus",
-      "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions"
-    ],
-    "effect": "The pinned source bytes could not be opened or independently hashed. The assignment's BLOCKED_SOURCE row stop applies to each family. No source substitution, packet repair, preflight, artifact verification, or later proof obligation was attempted."
-  },
+  "preflightEvidence": [
+    {
+      "familyId": "ca-1203-41-set",
+      "sourceBindings": "4/4",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    },
+    {
+      "familyId": "ne-setaside-custodial-set",
+      "sourceBindings": "4/4",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    },
+    {
+      "familyId": "ny_mrta_marijuana-set",
+      "sourceBindings": "1/1",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    },
+    {
+      "familyId": "ri_nonconviction_sealing-set",
+      "sourceBindings": "1/1",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    },
+    {
+      "familyId": "ut_pet_no_charges-set",
+      "sourceBindings": "9/9",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    },
+    {
+      "familyId": "wa_vac_substance_use_disorder-set",
+      "sourceBindings": "2/2",
+      "result": "PACKET_BUILD_ENVIRONMENT_READY: 14/14 passed, 0 failed, 0 not applicable"
+    }
+  ],
+  "preflightProtocol": "Before each family evaluation, sourced private/source-corpus-environment.txt, exported MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\", unset OFFICIAL_FORMS_SOURCE_DIR, and executed node scripts/verify-packet-build-environment.mjs --family <family> --branch codex/v3-independent-packet-verification.",
+  "independentMethods": [
+    "Recomputed every pinned corpus-source SHA-256 and byte length from MASTER_LIBRARY_SOURCE_DIR.",
+    "Recomputed every tracked canonical/boundary PDF SHA-256 and every raster SHA-256.",
+    "Loaded tracked artifacts read-only with pdf-lib to verify page counts and decoded content streams to observe fixture values.",
+    "Inspected canonical/boundary rasters at original resolution; stopped each row at the first WEC-6 failure or unresolved legal determination.",
+    "Did not rebuild, repair, mutate, or substitute any packet source or artifact."
+  ],
   "proofObligationOrder": [
     "exact route identity",
     "exact packet-family identity",
@@ -61,255 +81,1134 @@
   "rows": [
     {
       "itemId": "ca-1203-41-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "fee and waiver treatment",
+        "reason": "The controlling packet records do not determine the filing fee/local variation; the worklist records filingFee as not_recorded and requires local filing/fee variation resolution."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/ca-1203-41-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "obligation:track-only:CA:ca-1203-41",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/product-wiring.json#/routeKeys/0",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/packets/0/routeKey"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "ca-1203-41-set in source receipt, field map, product wiring, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/product-wiring.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus bytes: CR-180=06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe (110684 bytes); CR-181=f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504 (110123); CR-106=f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a (104278); MC-031=defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075 (109506).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json#/sources",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Each fixture contains CR-180 primary filing, CR-181 proposed order, CR-106 proof of service, and MC-031 supporting declaration, in that order.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/packets",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/packet-evidence.json"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Official-PDF-fill family uses exact held California Judicial Council CR-180, CR-181, CR-106, and MC-031 sources; no composer or derived repair.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json#/sources",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json#/derivedRepairs",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/product-wiring.json#/implementationStrategy"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "CR-180 canonical=6bdefaef73da0c6bbddfa0b2eee9a79b67c666d354f64a9accddfd01e9395d6f (59997 bytes); boundary=37a4ea8516e396a2bb232ea3fb29d2bf8117d6312949cea106f3a123ec380347 (60228). The six companion artifacts are exact unchanged source bytes at their source hashes.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-canonical/cr-180-filled.pdf",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-boundary/cr-180-filled.pdf"
+          ],
+          "independentCheck": "Recomputed all 8 artifact hashes; all matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "12 written-field observations are present across the two CR-180 artifacts; independent decoded-stream scan found all 2/2 unique canonical fixture values and 2/2 boundary fixture values. Companion writes are empty because those six artifacts are exact official bytes.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/packet-evidence.json",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-canonical/cr-180-filled.pdf",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/fixtures/pc-1203-41-boundary/cr-180-filled.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "150 protected/refused observations (75 per fixture), zero protected button marks, and no protected-field value written.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "CR-180 signature field SigName is blank/refused; CR-106 proof-of-service and MC-031 declaration are byte-identical to official sources and receive no writes.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/packet-evidence.json",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "8 pages per fixture: CR-180 pages 1-3, CR-181 pages 1-2, CR-106 pages 1-2, MC-031 page 1; canonical and boundary packet manifests use identical order.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/packets",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts"
+          ],
+          "independentCheck": "Read-only page-count scan matched all eight artifact records."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "All 16 committed raster hashes matched; original-resolution inspection of the three CR-180 pages changed by each fixture showed boundary values fit and no clipping/overlap. Unchanged companion PDFs/raster pages are byte-identical across fixtures.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/reports/rendered-artifacts.json#/rasters",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/raster/pc-1203-41-boundary/cr-180/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/raster/pc-1203-41-boundary/cr-180/page-02.png",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/raster/pc-1203-41-boundary/cr-180/page-03.png"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": true,
+          "outcome": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "Filing fee is not determined: the family worklist records filingFee.status=not_recorded, requires 'Record filingFee' and 'Record and test each local filing, fee, venue, or delivery variation'; only the general FW-001 waiver form is identified. Resolving the applicable fee/waiver treatment requires legal/local-variation input absent from a controlling approved record.",
+          "readFrom": [
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ca-1203-41-set]/routes/0/deliverable/filingFee",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ca-1203-41-set]/routes/0/missingImplementationWork",
+            "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/build-findings.json#/stillRequired"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     },
     {
       "itemId": "ne-setaside-custodial-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "FAIL_REPAIR_REQUIRED",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "no clipping or overlap",
+        "reason": "Both canonical and boundary page 4 visibly contain severe overlapping caption/template text in DC-1-15."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/ne-setaside-custodial-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json#/routeKeys/0",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/approval-request.json#/routeKeys/0"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "ne-setaside-custodial-set in source receipt, field map, product wiring, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/product-wiring.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus bytes: CC-6-11=c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492 (3003355 bytes); CC-6-11.2=8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6 (2766067); CC-6-11A=615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac (821244); DC-1-15=43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b (8485306).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json#/sources",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Both fixtures contain the four required forms: CC-6-11, CC-6-11.2, CC-6-11A, and DC-1-15.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/1/pageManifest"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Official-PDF-fill family uses exact four Nebraska Judicial Branch forms; page manifests bind each page to its source SHA-256.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json#/sources",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "canonical=a099c0a10c739d9876c8cf0653cedffecdde2e8df20c759b24fcd354fc7e65f7 (8288830 bytes); boundary=ec477f8f52382e7820289bb727ee123f961396dc8fbb151980f91a92690722f3 (8289145).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf"
+          ],
+          "independentCheck": "Recomputed both artifact hashes; both matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "10 actual writes recorded; independent decoded-stream scan found all 4/4 unique expected values in canonical and all 4/4 in boundary.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "48 protected controls are explicitly refused/protected; protected withheld ink count is 0.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Signature/date fields and service-owned fields remain blank; printed-name/contact values only appear in participant-owned later-completion anchors.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-05.png"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "5 pages in each fixture: CC-6-11 p1, CC-6-11.2 p1, CC-6-11A p1, DC-1-15 pp1-2.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/1/pageManifest"
+          ],
+          "independentCheck": "Read-only page-count scan matched 5/5 for canonical and boundary."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "FAIL_REPAIR_REQUIRED",
+          "observed": "Observable visual defect: canonical and boundary page 4 contain severe overprinting/overlap in the DC-1-15 caption at 'IN RE NAME CHANGE OF', party/role labels, and Plaintiff/Petitioner/Respondent area. The text is not independently readable.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/canonical/page-04.png",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/raster/boundary/page-04.png",
+            "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/*/rasterPages/3"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 FAIL_REPAIR_REQUIRED triggered at obligation 11; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     },
     {
       "itemId": "ny_mrta_marijuana-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "fee and waiver treatment",
+        "reason": "The review instructions require current local fees to be confirmed and output approval is not granted."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/ny_mrta_marijuana-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "obligation:unit:NY:ny_mrta_marijuana:ny-mrta-destruction-request",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json#/routeKeys/0",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md#Route-scope"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "ny_mrta_marijuana-set in source receipt, field map, findings, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus byte: NY-MRTA-DESTRUCTION-REQUEST=55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544 (272798 bytes).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Single-component route contains the official Application to Destroy Expunged Marihuana Conviction Record.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Exact held NY-MRTA-DESTRUCTION-REQUEST official PDF is used; no source substitution or custom composer.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "canonical=9138fe581413d39258e7110bfd835d139274d14a01a7af95d45b079d78a3fdaa (247324 bytes); boundary=85e973929f05e9ef98ecb55c5c1a6120287e74660575251d833757b7559f4468 (247077).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf"
+          ],
+          "independentCheck": "Recomputed both artifact hashes; both matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "18 written proofs recorded with zero missing and zero wrong values; independent decoded-stream scan found 10/10 canonical and 8/8 boundary expected values.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/fixtures/mrta-destruction-request-boundary.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "protectedInk=0 and protectedVectorInk=0; every field below COURT USE ONLY remains blank.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Defendant affirmation signature/date and all court-use controls remain blank; the instruction preserves any conditional prison-service step for later completion.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Canonical and boundary artifacts are each one page, documentId NY-MRTA-DESTRUCTION-REQUEST.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ],
+          "independentCheck": "Read-only page-count scan matched 1/1 for both artifacts."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "All 4 raster/contact-sheet hashes matched; original-resolution canonical and boundary inspection showed names, docket/case, address, phone, and email values fit without clipping or overlap.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-boundary/page-01.png"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": true,
+          "outcome": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "The artifact prints 'There is no application fee,' but the family instructions still require current local fees and procedures to be confirmed and identify the fixture as not an approved filing packet; approval status is REQUESTED_NOT_GRANTED. Whether that statement fully resolves current fee/waiver treatment requires legal/current-practice input not present in an approved controlling record.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/raster/mrta-destruction-request-canonical/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/participant-instructions.md#Required-participant/local-completion",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/approval-request.json#/status",
+            "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/build-findings.json#/blockers"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     },
     {
       "itemId": "ri_nonconviction_sealing-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "fee and waiver treatment",
+        "reason": "The review instructions require current local fees to be confirmed and output approval is not granted."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/ri_nonconviction_sealing-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "obligation:unit:RI:ri_nonconviction_sealing:ri-nonconviction-motion-to-seal",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/build-findings.json#/routeKeys/0",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md#Route-scope"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "ri_nonconviction_sealing-set in source receipt, field map, findings, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/build-findings.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus byte: RI-DC-33=342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908 (307164 bytes).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Single-component route contains official Rhode Island DC-33 Motion to Expunge or Seal Record, all four pages.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Exact held RI-DC-33 official PDF is used; no custom composer/source substitution.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json#/documents/0",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "canonical=e8ba4ec15f545ebc2752c0765ca306e0e1f6a171bd4249ad7af43285f3c233f2 (279891 bytes); boundary=49cdd911f39dff5ee31ce15de68e70ad2c7f81d5412d1e11a30f2f641c696358 (279561).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf"
+          ],
+          "independentCheck": "Recomputed both artifact hashes; both matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "One written value and two selection proofs recorded with zero missing/wrong values; independent stream scan found the canonical case-number value and confirmed boundary intentionally has no text write.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/fixtures/dc-33-boundary.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "protectedInk=0 and protectedVectorInk=0; only the measured existing SEAL control is selected, without drawing/redrawing the checkbox.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Signature/date, courthouse, notice/service, hearing, and notary blocks remain blank.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/raster/dc-33-canonical/page-02.png"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Canonical and boundary each preserve RI-DC-33 pages 1-4 in source order.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json"
+          ],
+          "independentCheck": "Read-only page-count scan matched 4/4 for both artifacts."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "All 10 raster/contact-sheet hashes matched; original-resolution inspection of the only changed page (page 2) in both fixtures showed case-number text and SEAL selection fit without clipping/overlap.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/raster/dc-33-canonical/page-02.png",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/raster/dc-33-boundary/page-02.png"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": true,
+          "outcome": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "Participant instructions require current local fees to be confirmed and state these fixtures are not approved filing packets; approval status is REQUESTED_NOT_GRANTED and current/local court practice remains a builder blocker. No approved controlling record supplies the applicable fee/waiver treatment.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/participant-instructions.md#Required-participant/local-completion",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/approval-request.json#/status",
+            "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/build-findings.json#/blockers"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     },
     {
       "itemId": "ut_pet_no_charges-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "fee and waiver treatment",
+        "reason": "The BCI stage has a printed fee, but the court-petition route's filingFee and feeWaiverTreatment are both not_recorded."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/ut_pet_no_charges-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Two exact units: obligation:unit:UT:ut_pet_no_charges:ut_pet_no_charges-bci-certificate; obligation:unit:UT:ut_pet_no_charges:ut_pet_no_charges-court-petition.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/product-wiring.json#/routeKeys",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/approval-request.json#/routeKeys"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "ut_pet_no_charges-set in source receipt, field map, product wiring, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/product-wiring.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus bytes: 1000EX=401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611; 1020EX=cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2; 1044XX=b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52; 1146XX=39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad; 1148XX=43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288; 1149XX=79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3; 1169XX=bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244; UT-BCI-EXP-APPLICATION=b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13; UT-BCI-THIRD-PARTY-RELEASE=c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/source-receipt.json#/documents",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Nine source documents are present in both fixtures: petition 1000EX, proposed order 1020EX, cover sheet 1044XX, acceptance 1146XX, consent/waiver 1148XX, victim notice 1149XX, reply 1169XX, BCI application, and third-party release.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/1/pageManifest"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Official-PDF-fill family uses exact nine held statewide Utah Courts/BCI PDFs; page manifests bind every page to exact source SHA-256.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/source-receipt.json#/documents",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "canonical=2a1c6d443e2a831849b26c5d831847608270a9b1e19720109bd98f842d4b0cbf (3023794 bytes); boundary=5a3684a06fa16aa3d4243d4e73eb6e021adb450927db440b337302dc4a233e4a (3024236).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/boundary.pdf"
+          ],
+          "independentCheck": "Recomputed both artifact hashes; both matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "24 actual writes recorded; independent decoded-stream scan found all 5/5 unique string values in canonical and boundary artifacts.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/canonical.pdf",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/fixtures/boundary.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "372 protected controls are explicitly refused/protected; protected withheld ink count is 0.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Participant, respondent, court, BCI, and service signature/date fields remain blank; acceptance, consent, notice/reply service certificates and BCI authorization remain for later owners/events.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/production-field-map.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-02.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-08.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-19.png"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "19 pages in each fixture: 1000EX pp1-2; 1020EX pp1-3; 1044XX pp1-2; 1146XX p1; 1148XX pp1-2; 1149XX pp1-3; 1169XX pp1-3; BCI application pp1-2; third-party release p1.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/0/pageManifest",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts/1/pageManifest"
+          ],
+          "independentCheck": "Read-only page-count scan matched 19/19 for both artifacts."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "All 38 raster hashes matched; original-resolution inspection of boundary pages 1, 2, 3, 6, and 18 (every page whose raster differs) showed long participant/contact values fit without clipping or overlap.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-01.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-02.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-03.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-06.png",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-18.png"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": true,
+          "outcome": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "BCI application page 2 preserves the printed $65 fee and indigent-waiver control, but the court-petition route's controlling worklist deliverable records filingFee.status=not_recorded and feeWaiverTreatment.status=not_recorded. The family cannot receive a PASS for combined two-stage fee/waiver treatment without legal/approved input.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/raster/boundary/page-18.png",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ut_pet_no_charges-set]/routes[ut_pet_no_charges-court-petition]/deliverable/filingFee",
+            "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json#/worklistGroups[ut_pet_no_charges-set]/routes[ut_pet_no_charges-court-petition]/deliverable/feeWaiverTreatment",
+            "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/approval-request.json"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     },
     {
       "itemId": "wa_vac_substance_use_disorder-set",
-      "verdict": "BLOCKED_SOURCE",
+      "verdict": "BLOCKED_LEGAL_APPROVAL_INPUT",
       "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+      "rowStop": {
+        "atObligation": "fee and waiver treatment",
+        "reason": "The family expressly leaves local fee variation unresolved and directs confirmation with the sentencing court."
+      },
       "proofObligations": {
-        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "source identities and SHA-256 values": "#/sourceBindingEvidence/wa_vac_substance_use_disorder-set",
-        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
-        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+        "exact route identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "obligation:track-only:WA:wa_vac_substance_use_disorder",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/approval-request.json#/routeKeys/0",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json#/routeSelectionId"
+          ]
+        },
+        "exact packet-family identity": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "wa_vac_substance_use_disorder-set in source receipt, field map, findings, approval, and artifact report",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/production-field-map.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/build-findings.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/approval-request.json#/familyId",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json#/familyId"
+          ]
+        },
+        "source identities and SHA-256 values": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Bound exact corpus bytes: CRRLJ-09.0100=1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b (161259 bytes); CRRLJ-09.0200=b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2 (160460).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json#/documents",
+            "MASTER_LIBRARY_SOURCE_DIR (independent SHA-256/byte-length scan after 14/14 preflight)"
+          ]
+        },
+        "complete component set": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Both official components are present in both variants: CRRLJ-09.0100 petition/declaration (5 pages) and CRRLJ-09.0200 proposed order (6 pages).",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json#/documents"
+          ]
+        },
+        "correct official form or approved composer": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Official-PDF-fill family uses exact held CRRLJ-09.0100 and CRRLJ-09.0200 Washington Courts PDFs.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json#/documents",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "canonical and boundary artifact hashes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "CRRLJ-09.0100 canonical=64bad66c4d8b7225e5063b89e8a033ae2ed21a11bfd16620b0feeb758ec19f76; boundary=098af00c5a3b3464dd6dad2848c7545fefaaf74e72c72178caf6350eab6abe4e. CRRLJ-09.0200 canonical=17b2d84162b1b21b20b0e1ada07b9f2367f8294e31a47be3dc18332f40e6a2a1; boundary=82e40b139ecbca5fbb4962f7f3a362aaaa9d6ba28c679ddc6c0958f197ac5644.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures"
+          ],
+          "independentCheck": "Recomputed all four artifact hashes; all matched."
+        },
+        "actual-write verification": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "7 writes and 8 per-anchor checks recorded. Independent decoded-stream scan found 2/2 values in each of the four artifacts. One boundary long-name write to CRRLJ-09.0100 is explicitly refused as value_exceeds_widget_width_at_minimum_font rather than clipped.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/actual-writes.json",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-canonical-filled.pdf",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0100-boundary-filled.pdf",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-canonical-filled.pdf",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/fixtures/crrlj-09-0200-boundary-filled.pdf"
+          ]
+        },
+        "zero protected-field writes": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "94 selection controls remain unmarked; charge/offense, signature/court, and selection-control protection flags are all false for writes/marks.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/protection-report.json",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/actual-writes.json"
+          ]
+        },
+        "signatures and service blocks preserved": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Signature/date, court, prosecutor, clerk, notice/service, and hearing portions remain blank; no proof of service or prosecutor notice was invented.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/protection-report.json",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/production-field-map.json"
+          ]
+        },
+        "page count and page order": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "Each variant preserves CRRLJ-09.0100 pages 1-5 and CRRLJ-09.0200 pages 1-6 as separate exact family components.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json#/artifacts"
+          ],
+          "independentCheck": "Read-only page-count scan matched 5/5 and 6/6 for all four artifacts."
+        },
+        "no clipping or overlap": {
+          "evaluated": true,
+          "outcome": "PASS",
+          "observed": "All 22 raster hashes matched. Original-resolution inspection of page 1 of both forms in canonical and boundary showed the accepted values fit; the too-wide CRRLJ-09.0100 boundary name is blank/refused, not clipped.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/reports/rendered-artifacts.json",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/raster/crrlj-09-0100-canonical/page-01.png",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/raster/crrlj-09-0100-boundary/page-01.png",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/raster/crrlj-09-0200-canonical/page-01.png",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/raster/crrlj-09-0200-boundary/page-01.png"
+          ]
+        },
+        "fee and waiver treatment": {
+          "evaluated": true,
+          "outcome": "BLOCKED_LEGAL_APPROVAL_INPUT",
+          "observed": "The family findings explicitly leave local fee variation unresolved, and participant instructions require confirming local filing, notice, service, fee, and hearing requirements with the sentencing court; legalReviewStillRequired=true. No controlling approved fee/waiver determination exists.",
+          "readFrom": [
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/build-findings.json#/advisories/2",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json#/instructions/4",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/participant-completion-instructions.json#/legalReviewStillRequired",
+            "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/approval-request.json#/stillRequired"
+          ]
+        },
+        "filing destination": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "service and notice": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "later-completion fields": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no stale artifact": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no wrong-route reuse": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "no source substitution": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        },
+        "commercial status remains closed": {
+          "evaluated": false,
+          "observed": "NOT_EVALUATED_DUE_TO_ROW_STOP: WEC-6 BLOCKED_LEGAL_APPROVAL_INPUT triggered at obligation 12; this later obligation was not evaluated and is not claimed PASS.",
+          "readFrom": [
+            "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions",
+            "#/rows/current/rowStop"
+          ]
+        }
       }
     }
   ],
-  "sourceBindingEvidence": {
-    "ca-1203-41-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "formNumber": "CR-180", "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe" },
-        { "formNumber": "CR-181", "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504" },
-        { "formNumber": "CR-106", "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a" },
-        { "formNumber": "MC-031", "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json"
-    },
-    "ne-setaside-custodial-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "formNumber": "CC-6-11", "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492" },
-        { "formNumber": "CC-6-11.2", "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6" },
-        { "formNumber": "CC-6-11A", "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac" },
-        { "formNumber": "DC-1-15", "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json"
-    },
-    "ny_mrta_marijuana-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "documentId": "NY-MRTA-DESTRUCTION-REQUEST", "sha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "The pinned identity was readable from the committed builder receipt, but the private release asset returned 404, so it could not be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json"
-    },
-    "ri_nonconviction_sealing-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "documentId": "RI-DC-33", "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "The pinned identity was readable from the committed builder receipt, but the private release asset returned 404, so it could not be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json"
-    },
-    "ut_pet_no_charges-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "formNumber": "1000EX", "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611" },
-        { "formNumber": "1020EX", "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2" },
-        { "formNumber": "1044XX", "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52" },
-        { "formNumber": "1146XX", "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad" },
-        { "formNumber": "1148XX", "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288" },
-        { "formNumber": "1149XX", "sha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3" },
-        { "formNumber": "1169XX", "sha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244" },
-        { "formNumber": "UT-BCI-EXP-APPLICATION", "sha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13" },
-        { "formNumber": "UT-BCI-THIRD-PARTY-RELEASE", "sha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/source-receipt.json"
-    },
-    "wa_vac_substance_use_disorder-set": {
-      "result": "BLOCKED",
-      "pinnedIdentitiesObserved": [
-        { "formNumber": "CRRLJ-09.0100", "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b" },
-        { "formNumber": "CRRLJ-09.0200", "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2" }
-      ],
-      "currentBytesOpened": false,
-      "currentSha256Recomputed": false,
-      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so neither could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
-      "readFrom": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json"
-    }
+  "focusedTests": {
+    "packetEnvironmentPreflights": "6/6 PASS; each PACKET_BUILD_ENVIRONMENT_READY 14/14",
+    "verifyC11Return": "EXIT 0; 10/13 criteria passed — ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION",
+    "verifyLaunchControl": "PASS; 33/33 checkpoint checks passed",
+    "jsonDirectObligationAudit": "PASS; JSON parsed; 6 rows; 114 direct proof-obligation entries; all carry observed value and readFrom; row-stop semantics pass"
   },
-  "rowEvidenceTemplates": {
-    "notEvaluatedAfterSourceStop": {
-      "result": "NOT_EVALUATED_DUE_TO_ROW_STOP",
-      "observed": "No value was observed. The BLOCKED_SOURCE row stop occurred at source binding, and the assignment forbids PASS on an unevaluated obligation.",
-      "readFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions"
-    }
-  },
-  "focusedTests": [
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ca-1203-41-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ny_mrta_marijuana-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ri_nonconviction_sealing-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_no_charges-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family wa_vac_substance_use_disorder-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
-    { "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs", "result": "PASS", "exitCode": 0, "observed": "10/13 criteria passed — ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION; C11_RETURN_REVIEW.json current." },
-    { "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs", "result": "PASS", "exitCode": 0, "observed": "33/33 checkpoint checks passed." }
-  ],
-  "commercialRoutesOpened": 0,
-  "productionTouched": false
+  "counts": {
+    "familiesPassed": 0,
+    "failedRepairRequired": 1,
+    "blockedSource": 0,
+    "blockedLegalApprovalInput": 5,
+    "stoppedAndReported": 6,
+    "commercialRoutesOpened": 0,
+    "productionTouched": false
+  }
 }
