@@ -13,9 +13,9 @@
   "buildSlots": {
     "capacity": 12,
     "rule": "A family occupies a slot while it is in flight. When a slot frees, the next releasable family takes it. Releasability is recomputed here, so a family whose source arrives is released without anyone remembering to do it.",
-    "inFlight": 0,
-    "free": 12,
-    "queuedForNextSlot": 114,
+    "inFlight": 11,
+    "free": 1,
+    "queuedForNextSlot": 103,
     "assignmentsRecord": "data/rcap-grade-a/route-obligation-census-v1/worker-assignments.json",
     "inFlightMeans": "a worker was actually started for this family and recorded in the assignments record",
     "queuedMeans": "cleared into a wave and waiting for a free slot"
@@ -24,7 +24,7 @@
     "total": 352,
     "releasable": 114,
     "clearedIntoWaves": 114,
-    "workersStarted": 0,
+    "workersStarted": 11,
     "heldBack": 238,
     "heldBackBy": {
       "missing_source": 238
@@ -40,6 +40,21 @@
     "acquisitionCommissionedFor": 238,
     "acquisitionNotCommissionedFor": 57,
     "acquisitionCannotRunInThisEnvironment": "Outbound egress to court and agency hosts is refused by this environment's network policy. Acquisition runs in a network-enabled environment; nothing here fetches."
+  },
+  "sourceIdentity": {
+    "batchesLanded": [
+      1,
+      2
+    ],
+    "rowsWorked": 166,
+    "rowsTheReconciliationFlagged": 166,
+    "rowsFullyResolved": 134,
+    "ofWhichNeedNoOfficialDocument": 36,
+    "rowsPartiallyResolved": 10,
+    "rowsStillUnresolved": 32,
+    "rowsWithNoResolutionAtAll": 22,
+    "whatStillUnresolvedMeans": "the row's own batch did not fully resolve it. A partially resolved row is counted here because it still carries an open question, and a document identity that is 90 percent settled sends an acquirer to the wrong place just as reliably as one that is not settled at all.",
+    "resolvedNothingWasFetched": "Both batches resolved against committed indexes only. Egress to court and agency hosts is refused, and no form number was guessed."
   },
   "legalReview": {
     "total": 86,

@@ -49,6 +49,45 @@ const freeze = readJson(`${V1}/FREEZE.json`);
 const waves = readJson(`${V1}/category-a-implementation-waves.json`);
 const custody = readJson(`${V1}/source-custody-reconciliation.json`);
 const triage = readJson(`${V1}/legal-review-triage.json`);
+
+// The 166 SOURCE_IDENTITY_UNRESOLVED rows the reconciliation counted have since
+// been worked in two batches. The reconciliation is a frozen record of what was
+// true when it ran, so it is not rewritten; the scoreboard reads both batches
+// and reports what is unresolved NOW. The two batches were written independently
+// and use different vocabularies, so a row is counted resolved only when its own
+// batch says it is FULLY resolved -- a partially resolved row still has an open
+// question and is counted as such.
+const identityBatches = [1, 2]
+  .map((n) => ({ batch: n, path: `${V1}/identity-resolution/batch-${n}/resolved.json` }))
+  .filter((b) => fs.existsSync(path.join(rootDir, b.path)))
+  .map((b) => ({ ...b, doc: readJson(b.path) }));
+
+const identity = (() => {
+  let rows = 0, fullyResolved = 0, partiallyResolved = 0, unresolved = 0, noDocumentRequired = 0;
+  for (const { doc } of identityBatches) {
+    for (const row of doc.rows ?? []) {
+      rows += 1;
+      switch (row.resolution) {
+        case "RESOLVED": fullyResolved += 1; break;
+        case "NO_OFFICIAL_DOCUMENT_REQUIRED": noDocumentRequired += 1; fullyResolved += 1; break;
+        case "PARTIALLY_RESOLVED": partiallyResolved += 1; break;
+        default: unresolved += 1;
+      }
+    }
+  }
+  return {
+    batchesLanded: identityBatches.map((b) => b.batch),
+    rowsWorked: rows,
+    rowsTheReconciliationFlagged: custody.counts.SOURCE_IDENTITY_UNRESOLVED,
+    rowsFullyResolved: fullyResolved,
+    ofWhichNeedNoOfficialDocument: noDocumentRequired,
+    rowsPartiallyResolved: partiallyResolved,
+    rowsStillUnresolved: unresolved + partiallyResolved,
+    rowsWithNoResolutionAtAll: unresolved,
+    whatStillUnresolvedMeans: "the row's own batch did not fully resolve it. A partially resolved row is counted here because it still carries an open question, and a document identity that is 90 percent settled sends an acquirer to the wrong place just as reliably as one that is not settled at all.",
+    resolvedNothingWasFetched: "Both batches resolved against committed indexes only. Egress to court and agency hosts is refused, and no form number was guessed."
+  };
+})();
 const revalidation = readJson(`${V1}/category-b-medium-confidence-revalidation.json`);
 const block = readJson(BLOCK);
 
@@ -107,8 +146,13 @@ const assignmentsPath = `${V1}/worker-assignments.json`;
 const assignments = fs.existsSync(path.join(rootDir, assignmentsPath))
   ? readJson(assignmentsPath)
   : { schemaVersion: "rcap-census-v1-worker-assignments/v1", assignments: [] };
+// A resumed worker occupies a slot exactly as a freshly started one does. The
+// first version of this counted only "started" and so reported 6 in flight
+// while 11 workers were running -- an undercount that would have invited the
+// Captain to over-dispatch into slots that were not free.
+const IN_FLIGHT_STATUSES = new Set(["started", "running", "resumed"]);
 const startedIds = new Set((assignments.assignments ?? [])
-  .filter((a) => a.status === "started" || a.status === "running")
+  .filter((a) => IN_FLIGHT_STATUSES.has(a.status))
   .map(familyKey));
 const inFlight = releasable.filter((f) => startedIds.has(familyKey(f)));
 const queuedForSlot = releasable.filter((f) => dispatchedIds.has(familyKey(f)) && !startedIds.has(familyKey(f)));
@@ -170,6 +214,8 @@ const doc = {
       "Outbound egress to court and agency hosts is refused by this environment's network policy. Acquisition runs in a network-enabled environment; nothing here fetches."
   },
 
+  sourceIdentity: identity,
+
   legalReview: {
     total: triage.total,
     ...triage.counts,
@@ -221,7 +267,7 @@ fs.writeFileSync(outPath, serialized);
 console.log(`Wrote ${OUT}\n`);
 console.log(`  families ${families.length}: ${releasable.length} releasable, ${held.length} held`);
 console.log(`  slots ${inFlight.length}/${BUILD_SLOTS} in flight, ${queuedForSlot.length} queued behind them (${dispatchedIds.size} cleared into waves)`);
-console.log(`  source: held ${custody.counts.SOURCE_ALREADY_HELD}, missing ${custody.counts.SOURCE_GENUINELY_MISSING}, unresolved ${custody.counts.SOURCE_IDENTITY_UNRESOLVED}`);
+console.log(`  source: held ${custody.counts.SOURCE_ALREADY_HELD}, missing ${custody.counts.SOURCE_GENUINELY_MISSING}, identity unresolved at reconciliation ${custody.counts.SOURCE_IDENTITY_UNRESOLVED} -> ${identity.rowsStillUnresolved} after batches 1-2`);
 console.log(`  legal: ${triage.counts.TRUE_COUNSEL_DECISION} of ${triage.total} need counsel`);
 console.log(`  launch gate: ${familiesNotLaunchReady} family(ies) not launch-ready — gate ${doc.launchGate.gateOpen ? "OPEN" : "CLOSED"}`);
 console.log(`  commercial routes opened: 0`);
