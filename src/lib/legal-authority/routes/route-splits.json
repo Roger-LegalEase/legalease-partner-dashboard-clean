@@ -398,7 +398,17 @@
         "Petition under § 610.330",
         "Jurisdiction termination or release proof"
       ],
-      "notes": "The statutory waiver for extraordinary circumstances is available; the no-pending-case and offense exclusions must be satisfied."
+      "notes": "The statutory waiver for extraordinary circumstances is available; the no-pending-case and offense exclusions must be satisfied.",
+      "serviceBranches": [
+        {
+          "id": "automatic-status-correction-guidance",
+          "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+          "outcomeMode": "automatic_relief",
+          "packetFamily": null,
+          "stage": "automatic",
+          "note": "LD-KY-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
     },
     {
       "routeKey": "LA:automated-expungement-status-verification-art-985-2",
@@ -2178,7 +2188,17 @@
         "Application to expunge",
         "Proof the filing period was completed"
       ],
-      "notes": "Do not convert the court-set filing term into a generic fixed waiting-period rule; it is set case by case."
+      "notes": "Do not convert the court-set filing term into a generic fixed waiting-period rule; it is set case by case.",
+      "serviceBranches": [
+        {
+          "id": "status-correction-guidance",
+          "when": "the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+          "outcomeMode": "guidance_status",
+          "packetFamily": null,
+          "stage": "single_stage",
+          "note": "LD-RI-06 states this route's output treatment as \"STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
     },
     {
       "routeKey": "RI:path-f-marijuana-possession-expungement",
@@ -2389,6 +2409,16 @@
       "packetComponents": [
         "Application under § 63-19-2050",
         "Completion proof"
+      ],
+      "serviceBranches": [
+        {
+          "id": "pardon-guidance-only",
+          "when": "the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+          "outcomeMode": "guidance_status",
+          "packetFamily": null,
+          "stage": "single_stage",
+          "note": "LD-SC-01 states this route's output treatment as \"OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
       ]
     },
     {
@@ -2728,7 +2758,17 @@
         "Completion proof",
         "Service on the required agencies"
       ],
-      "notes": "The stored value is the shortest petition category; the exact Utah class and statutory category are mandatory intake facts."
+      "notes": "The stored value is the shortest petition category; the exact Utah class and statutory category are mandatory intake facts.",
+      "serviceBranches": [
+        {
+          "id": "automatic-status-correction-guidance",
+          "when": "the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-UT-02",
+          "outcomeMode": "automatic_relief",
+          "packetFamily": null,
+          "stage": "automatic",
+          "note": "LD-UT-02 states this route's output treatment as \"AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET\". Each branch carries its own stable branch id and is selected by its own disposition predicate. Two branches may not resolve to one undifferentiated configuration, and may not share a checkout path. Installed by the Wave 2 integration from R2_ALREADY_ANSWERED_ENGINEERING with no selector and a null packet family: the branch identity is the decision, and its disposition predicate and packet configuration are owed by the branch-identity and packet-factory lanes. It therefore records the requirement without opening anything or inventing a predicate."
+        }
+      ]
     },
     {
       "routeKey": "UT:path-j-cannabis-possession-petition-without-a-bci-certificate",

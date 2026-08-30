@@ -9,17 +9,17 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `90e61b3bb2bcd9679db3ecbece7e7d17455573d8` |
-| Census fingerprint | `sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5` |
+| Captain SHA | `d517246ba1243a95a09c7c9a6b9f68621d081d3c` |
+| Census fingerprint | `sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455` |
 | Production connected | NO |
 
 ## Denominator
 
 | | Current | After the Category B integration |
 | --- | ---: | ---: |
-| Terminal obligations | 694 | 729 |
+| Terminal obligations | 703 | 729 |
 | Category A | 451 | 486 |
-| Category B stages | 157 | 154 |
+| Category B stages | 166 | 154 |
 | Packet families | 352 | 352 + 20 participant-filing families |
 | Runtime routes | 337 | 337 |
 | Jurisdictions | 51 | 51 |

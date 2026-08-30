@@ -1,0 +1,1628 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-residual-work/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-wave-2-residual.mjs",
+  "question": "What did Wave 2 not finish, after the Captain applied everything that could be applied?",
+  "supersedes": {
+    "record": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+    "forWave": 2,
+    "note": "Wave 1's residual record is history and is left unchanged. This record carries what remains after the Wave 2 returns were integrated."
+  },
+  "nothingAppliedIsRepeated": "A row appears here only if no controlling file closed it. The integration log is the check: every applied item is absent from these lanes by construction.",
+  "derivedFrom": {
+    "returns": {
+      "R1": "7fbcfb07450d5bc4365ca82d9bc0915ec6bd48d7",
+      "R2": "9ee6a5f65f36bee6159efe66a0fa6d2fe06204ab",
+      "R3": "6c01e4e7ace3aee37f2443aad15c50c3d772c0e6",
+      "R4": "436b85d1b77720f6a00497e3f40a15e6b8c0e582",
+      "R6": "a07d65a0e1f44046cbedfb2fb8ae59c3a69b7ec2",
+      "R7": "614de04452450b0a4f077d315cfe1d2d4c6dbb1d",
+      "V1": "e14950ec5b9d9a74b300f1d076b488e1f5ebd772",
+      "V2": "85b58750104f85f8ed4d35362581ba4a7f9a950f",
+      "V3": "6fe1432af7f8aadb06087a699880dc85707a285f",
+      "V4": "ed8176e98344d715040bfdaeaacb684ef04aec2e",
+      "V5": "79922470a6a16264ba268b026097800faa9839f7",
+      "V6": "6e2e41fbadfaed782a68f6cb03844091b337bf5c",
+      "V7": "ce6bd1b174b518ecc11a69fb5214899abff8a83e"
+    },
+    "integrationLog": "data/rcap-grade-a/wave-2/integration/applied.json"
+  },
+  "counts": {
+    "lanes": 8,
+    "openItems": 166,
+    "byLane": {
+      "W2R1_BRANCH_IDENTITY_REMAINDER": 14,
+      "W2R2_BRANCH_SELECTOR_IMPLEMENTATION": 9,
+      "W2R2_DEFERRED_BRANCH_IDENTITIES": 14,
+      "W2R3_ROUTE_MAPPING_REMAINDER": 36,
+      "W2R4_SOURCE_IDENTITY_AND_ACQUISITION": 21,
+      "W2R6_COUNSEL_GATE_IMPLEMENTATION": 5,
+      "W2R7_PACKET_BUILD_AND_APPROVAL": 24,
+      "W2V1_V7_INDEPENDENT_VERIFICATION": 43
+    }
+  },
+  "commercialPosture": "No lane here opens a commercial route, and none may be dispatched as though it could.",
+  "lanes": [
+    {
+      "residualLaneId": "W2R1_BRANCH_IDENTITY_REMAINDER",
+      "replaces": [
+        "R1_BRANCH_IDENTITY_REMAINDER"
+      ],
+      "what": "Fourteen participant A branch identities. R1 returned every row STOPPED and created no identity, so the queue is carried whole.",
+      "itemKind": "routeKey",
+      "openCount": 14,
+      "items": [
+        {
+          "itemId": "obligation:track-only:CT:ct-nonconviction-auto",
+          "participantABranchRouteKeys": [
+            "obligation:track-only:CT:ct-nonconviction-auto::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed record combines a named pre-1969 petition with an unnamed modern court-clerk/DESPP correction request. Creating one compound A identity would silently invent the correction document and the selector between the two remedies."
+        },
+        {
+          "itemId": "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed record says only a program application or motion under the relevant diversion statute and an unnamed post-dismissal correction request. The cited diversion statutes use different procedures, so one generic filing identity would not be reliable."
+        },
+        {
+          "itemId": "obligation:track-only:KY:ky_diversion_disposition_routing",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The existing nonconviction-expungement A route proves AOC-497.2 coverage but does not prove coverage for the preceding corrective motion or request. Treating AOC-497.3 as participant-filed would contradict the committed census, which identifies it as court-generated."
+        },
+        {
+          "itemId": "obligation:track-only:MD:md_10112_dpscs_cannabis",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The proposed Category A branch route has a duplicate census-stage claim: the canonical adult non-conviction pathway is claimed by both md_10105_early and md_10105_favorable. A unique crosswalk cannot be confirmed without choosing between those claimants."
+        },
+        {
+          "itemId": "obligation:track-only:MI:mi_auto_misd92",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The generic MC 227 A route covers the application but not the MSP correction request. The delta's other Michigan candidates are form-token overlaps: first-OWI uses MC 227 item 2.c, marijuana uses MC 227a, and trafficking uses MC 227b."
+        },
+        {
+          "itemId": "obligation:track-only:MI:mi_auto_misd93",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The generic MC 227 A route covers the application but not the MSP correction request. Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+        },
+        {
+          "itemId": "obligation:track-only:MI:mi_deferral_status",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The generic MC 227 route covers only the application component, not the corrective motion or administrative correction request."
+        },
+        {
+          "itemId": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The generic MC 227 route covers the application but not the Michigan State Police correction submission. Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+        },
+        {
+          "itemId": "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed record alternates between a motion or petition under § 29-3523(6) and a separate civil action under §§ 29-3527 through 29-3528. It does not identify the captioned pleading, venue, or selector for either remedy."
+        },
+        {
+          "itemId": "obligation:track-only:NY:ny_clean_slate_dwai",
+          "participantABranchRouteKeys": [
+            "obligation:track-only:NY:ny_clean_slate_dwai::participant-branch"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed record conditions the Clean Slate manual-review branch on a future UCS form/process and also names distinct DCJS and CPL 160.55 correction procedures. It does not identify one presently committed participant document or a selector among those procedures."
+        },
+        {
+          "itemId": "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57",
+          "participantABranchRouteKeys": [
+            "obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59"
+          ],
+          "outputStrategy": "official_pdf_fill",
+          "productOutcome": "EXISTING_ROUTE_CROSSWALK_NOT_CONFIRMED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The existing CPL 160.59 Category A route covers a separate discretionary sealing application, not the future CPL 160.57(e) manual-review request or DCJS record challenge. The committed record does not prove that the automatic Clean Slate correction branch crosswalks to CPL 160.59."
+        },
+        {
+          "itemId": "obligation:track-only:VA:va_auto_seal_without_order",
+          "participantABranchRouteKeys": [
+            "obligation:track-only:VA:va_auto_seal_without_order::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed census already has Category A CC-1201 routes under §§ 19.2-392.12 and 19.2-392.12:1, so treating the entire composite branch as NO_EXISTING_WORK would duplicate petition identities. The new VSP or AOC correction request must be separated from those existing petition routes before a route is created."
+        },
+        {
+          "itemId": "obligation:track-only:VT:vt_diversion_post_charge",
+          "participantABranchRouteKeys": [
+            "obligation:track-only:VT:vt_diversion_post_charge::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed census already has Category A § 7603 petition routes with forms 200-00130 and 200-00132, so the entire composite branch cannot safely be treated as new custom-pleading work. The § 164(f)(5) application and failed-deletion correction request must be separated from the existing petition routes before a new identity is created."
+        },
+        {
+          "itemId": "obligation:track-only:WV:wv_dui_test_and_lock_dismissal",
+          "participantABranchRouteKeys": [
+            "obligation:track-only:WV:wv_dui_test_and_lock_dismissal::participant-branch"
+          ],
+          "outputStrategy": "custom_pleading",
+          "productOutcome": "NO_BRANCH_IDENTITY_CREATED",
+          "commercialTreatment": "CLOSED",
+          "blocker": "The committed record names only a generic program-entry motion/application, a generic enforcement motion/request, and a conditional statutory petition. It does not establish which document goes to the criminal court, DMV, or circuit court in each cohort."
+        }
+      ],
+      "whyStillOpen": "Each blocker names a document, selector or remedy the committed record does not contain. Creating a compound identity would invent the missing half.",
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-3/r1-branch-identity-remainder/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R2_BRANCH_SELECTOR_IMPLEMENTATION",
+      "replaces": [],
+      "what": "The disposition predicates for the service branches this integration installed. The branch identities are now in the route contracts; none carries a selector, so none can be chosen by the runtime.",
+      "itemKind": "routeKeyBranch",
+      "openCount": 9,
+      "items": [
+        {
+          "routeKey": "CT:cannabis-conviction-erasure",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=CT:cannabis-conviction-erasure -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): automatic-status-correction-guidance=automatic_relief/automatic",
+          "decisionRecord": "LD-CT-02",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "KY:juvenile-petition-610330",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=KY:juvenile-petition-610330 -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): automatic-status-correction-guidance=automatic_relief/automatic",
+          "decisionRecord": "LD-KY-02",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+          "file": "src/lib/legal-authority/routes/national-report-batch-b.json",
+          "field": "routes[] routeKey=LA:immediate-expungement-after-successful-court-program-completion-art-985-3 -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): contested-timing-to-counsel=referral/single_stage",
+          "decisionRecord": "NATIONAL-2026-08-28-B-LA-03",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=MD:police-record-expungement-when-no-charge-was-filed-under-10-103 -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): automatic-status-correction-guidance=automatic_relief/automatic",
+          "decisionRecord": "LD-MD-03",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "MT:non-conviction-criminal-history-removal-through-criss",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "field": "routes[] routeKey=MT:non-conviction-criminal-history-removal-through-criss -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): automatic-status-correction-guidance=automatic_relief/automatic",
+          "decisionRecord": "LD-MT-03",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=RI:path-e-filed-complaint-relief-under-12-10-12 -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): status-correction-guidance=guidance_status/single_stage",
+          "decisionRecord": "LD-RI-06",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "SC:juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=SC:juvenile-expungement -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): pardon-guidance-only=guidance_status/single_stage",
+          "decisionRecord": "LD-SC-01",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "SC:diversion-or-program-completion-expungement",
+          "file": "src/lib/legal-authority/routes/national-report-2026-08-28.json",
+          "field": "routes[] routeKey=SC:diversion-or-program-completion-expungement -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): retained-counsel-handoff-on-denial=referral/enforcement",
+          "decisionRecord": "NATIONAL-2026-08-28-LA-IMM-04",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        },
+        {
+          "routeKey": "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "field": "routes[] routeKey=UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals -> serviceBranches[]",
+          "installed": "added 1 governed service branch(es): automatic-status-correction-guidance=automatic_relief/automatic",
+          "decisionRecord": "LD-UT-02",
+          "owed": "a machine-readable disposition predicate per branch, and the packet configuration identity for any packet-bearing branch"
+        }
+      ],
+      "whyStillOpen": "A branch without a selector is prose the runtime cannot act on. The predicate is legal design and the packet configuration is a packet-factory act; neither was this lane's to invent.",
+      "ownedPaths": [
+        "src/lib/legal-authority/routes/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R2_DEFERRED_BRANCH_IDENTITIES",
+      "replaces": [],
+      "what": "Branch identities R2 derived and this integration deliberately did not install, because installing them would have moved a frozen control as a side effect rather than as a decision.",
+      "itemKind": "routeKeyBranch",
+      "openCount": 14,
+      "items": [
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+          "routeKey": "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "branchId": "automatic-status-correction-guidance",
+          "outcomeMode": "automatic_relief",
+          "decisionRecord": "LD-DE-01",
+          "why": "this contract is a pinned runtime-contract cohort whose exact branch enumeration and per-branch classification the census verifier asserts; adding a branch moves a set counsel's review is pinned against",
+          "owed": "a cohort-enumeration change recorded against the verifier's expectation, then the branch identity and its predicate"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+          "routeKey": "KY:juvenile-automatic-dismissal",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "juvenile-court-petition-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-KY-02",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+          "routeKey": "MT:non-conviction-criminal-history-removal-through-criss",
+          "file": "src/lib/legal-authority/routes/single-routes.json",
+          "branchId": "agency-request",
+          "outcomeMode": "agency_application",
+          "decisionRecord": "LD-MT-03",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+          "routeKey": "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "court-sealing-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-NV-04",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+          "routeKey": "NV:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "trafficking-vacatur-sealing-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-NV-04",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+          "routeKey": "PA:path-d-ard-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "route-specific-court-expungement-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-PA-03",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+          "routeKey": "PA:path-d-ard-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "route-specific-vacatur-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-PA-03",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-only:SC:juvenile-expungement",
+          "routeKey": "SC:juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "offense-specific-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-SC-01",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-only:SC:juvenile-expungement",
+          "routeKey": "SC:juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "nonconviction-juvenile-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-SC-01",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+          "routeKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "offense-specific-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-SC-01",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+          "routeKey": "SC:pardon-guidance-for-otherwise-ineligible-convictions",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "nonconviction-juvenile-packet",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-SC-01",
+          "why": "installing a packet-bearing service branch creates a Category A terminal obligation and moves the frozen census v1 denominator; that is a Captain act with its own record, not a side effect of integrating a return",
+          "owed": "a denominator-movement record, then the branch identity, its disposition predicate and its packet configuration"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+          "routeKey": "UT:path-m-juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "special-court-petition",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-UT-07",
+          "why": "this contract is a pinned runtime-contract cohort whose exact branch enumeration and per-branch classification the census verifier asserts; adding a branch moves a set counsel's review is pinned against",
+          "owed": "a cohort-enumeration change recorded against the verifier's expectation, then the branch identity and its predicate"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+          "routeKey": "UT:path-m-juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "pardon-status-guidance",
+          "outcomeMode": "guidance_status",
+          "decisionRecord": "LD-UT-07",
+          "why": "this contract is a pinned runtime-contract cohort whose exact branch enumeration and per-branch classification the census verifier asserts; adding a branch moves a set counsel's review is pinned against",
+          "owed": "a cohort-enumeration change recorded against the verifier's expectation, then the branch identity and its predicate"
+        },
+        {
+          "lane": "R2",
+          "itemId": "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+          "routeKey": "UT:path-m-juvenile-expungement",
+          "file": "src/lib/legal-authority/routes/route-splits.json",
+          "branchId": "juvenile-petition",
+          "outcomeMode": "participant_packet",
+          "decisionRecord": "LD-UT-07",
+          "why": "this contract is a pinned runtime-contract cohort whose exact branch enumeration and per-branch classification the census verifier asserts; adding a branch moves a set counsel's review is pinned against",
+          "owed": "a cohort-enumeration change recorded against the verifier's expectation, then the branch identity and its predicate"
+        }
+      ],
+      "whyStillOpen": "A packet-bearing branch is a Category A terminal obligation the moment it exists, and three contracts are pinned runtime-contract cohorts whose exact branch enumeration the census verifier asserts. Both are controls that must move by decision, with a record, not as the by-product of integrating a return.",
+      "howItMoves": "A denominator-movement record naming the obligations added, then the branch identity, its disposition predicate and its packet configuration.",
+      "precedent": "data/rcap-grade-a/route-obligation-census-v1/DENOMINATOR_MOVEMENT_WAVE_2.json records the movement this integration did make, and is the shape the next one takes.",
+      "ownedPaths": [
+        "src/lib/legal-authority/routes/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R3_ROUTE_MAPPING_REMAINDER",
+      "replaces": [
+        "R3_ROUTE_MAPPING_REMAINDER"
+      ],
+      "what": "Route mappings and stage/branch pair bindings R3 could not settle without moving the frozen census denominator.",
+      "itemKind": "mappingRow",
+      "openCount": 36,
+      "byKind": {
+        "mapping": 29,
+        "stage_branch_pair_binding": 7
+      },
+      "items": [
+        {
+          "itemId": "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+          "rowKind": "mapping",
+          "jurisdiction": "CA",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The runtime asserts a four-year petition-based felony sealing route under Penal Code § 1203.49, but the registry evidence identifies § 1203.49 as trafficking relief and places the relevant SB 731 dismissal authority at § 1203.41."
+        },
+        {
+          "itemId": "obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+          "rowKind": "mapping",
+          "jurisdiction": "CO",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "C.R.S. § 19-1-306 juvenile expungement, including JDF 302, has no Colorado census stage; existing Colorado stages concern adult sealing and Clean Slate mechanisms."
+        },
+        {
+          "itemId": "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+          "rowKind": "mapping",
+          "jurisdiction": "CO",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": false,
+            "reusingCurrentRuntimeForAbsentBranchWouldCreateMultipleClaim": true
+          },
+          "whatIsWrong": "One obligation conflates the automatic § 13-3-117 stage with the participant JDF-2363 objection or hearing-response branch; the runtime is automatic/no-filing while the track-derived treatment is participant official-PDF filing."
+        },
+        {
+          "itemId": "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+          "rowKind": "mapping",
+          "jurisdiction": "DC",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "D.C. Code § 16-2335 Family Court juvenile sealing has no census stage; the existing District of Columbia stages are adult or YRA mechanisms."
+        },
+        {
+          "itemId": "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "ID",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The distinct Idaho Code § 67-3014 mechanism has no census stage."
+        },
+        {
+          "itemId": "obligation:runtime-only:ID:juvenile-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "ID",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "Idaho Code § 20-525A juvenile expungement is a distinct mechanism with no census stage."
+        },
+        {
+          "itemId": "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+          "rowKind": "mapping",
+          "jurisdiction": "ID",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The candidate treats this review guardrail as a standalone paid-packet/custom-pleading obligation, while the licensed crosswalk and runtime define routeType=review, needs_review, and paymentAllowed=false."
+        },
+        {
+          "itemId": "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "IL",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The terminal crosswalk record is a registry-gap conclusion, not a binding; no Illinois census stage carries 20 ILCS 2630/5.2(h)."
+        },
+        {
+          "itemId": "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "IL",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The 705 ILCS 405/5-915 juvenile mechanism has no census stage; existing Illinois stages are adult 20 ILCS 2630/5.2 routes."
+        },
+        {
+          "itemId": "obligation:runtime-only:MD:juvenile-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "MD",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The terminal crosswalk record proves a registry gap: Maryland's existing stages are adult Title 10 mechanisms, while juvenile expungement is a distinct process."
+        },
+        {
+          "itemId": "obligation:runtime-only:ME:pardon-route",
+          "rowKind": "mapping",
+          "jurisdiction": "ME",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No Maine pardon or clemency census stage exists."
+        },
+        {
+          "itemId": "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+          "rowKind": "mapping",
+          "jurisdiction": "MN",
+          "stopScope": "STOPPED_UNRESOLVED_MAPPING_CONTRADICTION",
+          "stopConditions": {
+            "denominatorMovementRequired": null,
+            "denominatorMovementRisk": "POSSIBLE_PACKET_FAMILY_CHANGE",
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": false,
+            "unresolvedContradiction": true
+          },
+          "whatIsWrong": "Identity is one-to-one, but output treatment is unresolved: the approved track says custom_pleading while LD-MN-01 says agency_application and names a § 299C.11 demand; the candidate falls back to non_filing_guidance with no packet identity."
+        },
+        {
+          "itemId": "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+          "rowKind": "mapping",
+          "jurisdiction": "MN",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": false,
+            "compositeMechanismsRequireDistinctRuntimeIdentities": true
+          },
+          "whatIsWrong": "The composite runtime is mapped only to mn_auto_cannabis_nonfelony while mn_ceb_felony_cannabis remains track-only, even though the evidence requires distinct automatic and Board-review mechanisms; runtime product metadata also misclassifies the route as a participant court petition."
+        },
+        {
+          "itemId": "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+          "rowKind": "mapping",
+          "jurisdiction": "MN",
+          "stopScope": "ROW_STOP_TWO_STAGES_CLAIM_ONE_PATHWAY",
+          "stopConditions": {
+            "denominatorMovementRequired": null,
+            "denominatorMovementRisk": "POSSIBLE_UNIT_DEDUPLICATION",
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": true,
+            "unresolvedContradiction": true
+          },
+          "whatIsWrong": "One parent runtime is inherited by four units; this unit says no-filing/process-guidance while LD-MN-01 says participant_packet, and the worklist assigns the packet only to request-stage and written-request units."
+        },
+        {
+          "itemId": "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+          "rowKind": "mapping",
+          "jurisdiction": "ND",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": false,
+            "multipleStageCandidatesForBinding": true
+          },
+          "whatIsWrong": "The broad runtime pathway combines misdemeanor, felony, and pardoned-conviction stages and also includes nonconviction material served by another pathway."
+        },
+        {
+          "itemId": "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+          "rowKind": "mapping",
+          "jurisdiction": "NH",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "This out-of-scope jurisdictional referral is counted as a standalone obligation despite routeType=out_of_scope, filingRequired=false, and result=not_covered_yet."
+        },
+        {
+          "itemId": "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+          "rowKind": "mapping",
+          "jurisdiction": "NV",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "NRS 453.3365 sealing is absent from the Nevada census stages, which cover chapters 179, 179A, 176, and 176A rather than chapter 453."
+        },
+        {
+          "itemId": "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+          "rowKind": "mapping",
+          "jurisdiction": "NY",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No New York census stage carries CPL 160.58; existing stages cover CPL 160.50, 160.57, 160.59, and MRTA."
+        },
+        {
+          "itemId": "obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "OH",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "Ohio Rev. Code § 2151.356 juvenile relief has no census stage; existing Ohio stages are adult chapter 2953 routes."
+        },
+        {
+          "itemId": "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+          "rowKind": "mapping",
+          "jurisdiction": "RI",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": true,
+            "unresolvedContradiction": true
+          },
+          "whatIsWrong": "Stage 3 is marked process_guidance but carries filing, sworn-affidavit, hearing, and certified-order duties already partly owned by the stage-2 DC-33/DC-33-ORDER packet; all three units inherit one runtime pathway."
+        },
+        {
+          "itemId": "obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+          "rowKind": "mapping",
+          "jurisdiction": "SC",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "Hash-pinned official evidence establishes the mechanism, but no South Carolina census stage registers it and procedural review remains."
+        },
+        {
+          "itemId": "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+          "rowKind": "mapping",
+          "jurisdiction": "SD",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "SDCL § 23A-27-53 is a distinct mechanism with no census stage."
+        },
+        {
+          "itemId": "obligation:runtime-only:SD:juvenile-delinquency-sealing",
+          "rowKind": "mapping",
+          "jurisdiction": "SD",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No South Dakota census stage carries Title 26 juvenile authority."
+        },
+        {
+          "itemId": "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry",
+          "rowKind": "mapping",
+          "jurisdiction": "SD",
+          "stopScope": "ROW_STOP_TWO_STAGES_CLAIM_ONE_PATHWAY",
+          "stopConditions": {
+            "denominatorMovementRequired": false,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": false,
+            "twoCensusStagesClaimOnePathway": true
+          },
+          "whatIsWrong": "Parent expansion left stage 3 as guidance/no-filing even though its packet identity is known, while the same parent runtime is claimed by stages 1, 2, and 3 without a unit assignment."
+        },
+        {
+          "itemId": "obligation:runtime-only:VT:juvenile-sealing",
+          "rowKind": "mapping",
+          "jurisdiction": "VT",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "Juvenile-delinquency sealing has no census stage; vt_seal_under_25 is the distinct subsection (g) offense-before-25 route and is bound elsewhere."
+        },
+        {
+          "itemId": "obligation:runtime-only:WI:executive-pardon-guidance",
+          "rowKind": "mapping",
+          "jurisdiction": "WI",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No Wisconsin pardon or rights-restoration routing stage exists."
+        },
+        {
+          "itemId": "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+          "rowKind": "mapping",
+          "jurisdiction": "WI",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No Wisconsin census stage carries chapter 938 juvenile authority or JD-1780."
+        },
+        {
+          "itemId": "obligation:runtime-only:WV:juvenile-record-relief",
+          "rowKind": "mapping",
+          "jurisdiction": "WV",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "No West Virginia census stage carries chapter 49 juvenile authority; existing stages are adult conviction, nonconviction, drug, DUI, and pardon routes."
+        },
+        {
+          "itemId": "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+          "rowKind": "mapping",
+          "jurisdiction": "WY",
+          "stopScope": "LANE_STOP_DENOMINATOR_MOVEMENT_REQUIRED",
+          "stopConditions": {
+            "denominatorMovementRequired": true,
+            "denominatorMovementRisk": null,
+            "runtimePathwayWithoutLegalDesignCensusStage": true,
+            "twoCensusStagesClaimOnePathway": false
+          },
+          "whatIsWrong": "The named wy_nc_1401 relation explicitly scopes juvenile records outside that adult track, and no juvenile census stage exists."
+        },
+        {
+          "itemId": "stage-branch-pair:12",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "IL",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:13",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "IL",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:19",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "MD",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:20",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "MD",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:25",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "MI",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:26",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "MI",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        },
+        {
+          "itemId": "stage-branch-pair:27",
+          "rowKind": "stage_branch_pair_binding",
+          "jurisdiction": "MI",
+          "whatIsWrong": "The prior binding is not safe to settle because its recorded stage or branch claim is duplicate or ambiguous."
+        }
+      ],
+      "whyStillOpen": "Every one of these requires the frozen census denominator to move. The freeze is a control, not an obstacle: moving it is a Captain act with its own record, and R3 was right to refuse it.",
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-3/r3-route-mapping-remainder/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R4_SOURCE_IDENTITY_AND_ACQUISITION",
+      "replaces": [
+        "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+      ],
+      "what": "Source identities that remain unresolved, documents that remain unacquired, and the inventory promotion that could not run.",
+      "itemKind": "sourceIdentity",
+      "openCount": 21,
+      "items": [
+        {
+          "itemId": "UT-402-MOTION-TO-REDUCE-FORM-IDENTITY",
+          "exactDocumentName": "Motion to Reduce Conviction",
+          "issuingAuthority": "Utah State Courts",
+          "identityResolution": "UNRESOLVED_PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS",
+          "whatWouldSettle": [
+            "The final Utah Courts form number for the Motion to Reduce Conviction, supplied by Utah State Courts. Do not use the governance placeholder 1023XX."
+          ]
+        },
+        {
+          "itemId": "ar-act346-set::The ACIC petition counterpart to the Act 346 order to dismiss and seal.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Arkansas Crime Information Center, Arkansas Department of Public Safety",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "The ACIC criminal-history forms index the memo already names, read for whether an Act 346 petition is published; or a legal-design determination that the Act 346 route files no separate petition."
+          ]
+        },
+        {
+          "itemId": "ia-12346-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Iowa Judicial Branch",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+          ]
+        },
+        {
+          "itemId": "ia-12347-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Iowa Judicial Branch",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+          ]
+        },
+        {
+          "itemId": "ia-7251-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Iowa Judicial Branch",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+          ]
+        },
+        {
+          "itemId": "ia-901c2-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Iowa Judicial Branch",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+          ]
+        },
+        {
+          "itemId": "ia-901c3-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+          "exactDocumentName": null,
+          "issuingAuthority": "Iowa Judicial Branch",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "Reading the held Rule 2.86 Form 4 or Form 5 binary to see whether the certification is a section of the application, or the Iowa Judicial Branch forms index checked for a form of this title."
+          ]
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_arrest_no_charges-set::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_d6-set::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_d6-set::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_felony-set::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_felony-set::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_misd-set::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_conviction_misd-set::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_section1_petition-set::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "in_section1_petition-set::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "mi_setaside_trafficking-set::Proof of Service",
+          "exactDocumentName": "Proof of Service",
+          "issuingAuthority": "Michigan State Court Administrative Office (SCAO)",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "a statement in data/record-clearing/legal-design-intake/MI.memo.json of which form Proof of Service is a page of; the component carries no source of its own and the design record does not say whether it travels with the primary filing",
+            "an officialSourceUrl on the Proof of Service component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/MI.memo.json",
+            "an entry for Proof of Service in data/record-clearing/source-artifact-registry.json under jurisdiction MI",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "rcap-in-custom-pleading::CCA-GF-0120-3016",
+          "exactDocumentName": "Appearance by Unrepresented Person in Expungement Matter",
+          "issuingAuthority": "Indiana Coalition for Court Access",
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the CCA-GF-0120-3016 component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for CCA-GF-0120-3016 in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "rcap-in-custom-pleading::Confidential Information Form",
+          "exactDocumentName": "Confidential Information Form",
+          "issuingAuthority": null,
+          "identityResolution": "UNRESOLVED_FROM_COMMITTED_RECORD",
+          "whatWouldSettle": [
+            "an officialSourceUrl on the Confidential Information Form component, or a titled entry for it in officialSources, in data/record-clearing/legal-design-intake/IN.memo.json",
+            "an entry for Confidential Information Form in data/record-clearing/source-artifact-registry.json under jurisdiction IN",
+            "the binary itself in data/rcap-all50/local-source-corpus-index.json"
+          ]
+        },
+        {
+          "itemId": "ne-trafficking-setaside-and-seal-set",
+          "exactDocumentName": null,
+          "issuingAuthority": "Nebraska Judicial Branch",
+          "identityResolution": "UNRESOLVED_HELD_SOURCE_IS_INSTRUCTIONS_NOT_MOTION",
+          "whatWouldSettle": [
+            "Bind the actual set-aside motion and sealing motion by exact issuing-authority identity; CC-6-12 is only instructions. Route-vehicle duplication remains an R3 dependency."
+          ]
+        }
+      ],
+      "acquisitionStops": [
+        {
+          "issuingAuthority": "Montana Department of Justice",
+          "officialUrl": "https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx",
+          "reason": "ESCALATED_RECORDED_REFUSAL_NOT_REPROBED",
+          "lastProbeHttpStatus": 403
+        },
+        {
+          "issuingAuthority": "Utah State Courts",
+          "officialUrl": "https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html",
+          "reason": "ESCALATED_RECORDED_REFUSAL_NOT_REPROBED",
+          "lastProbeHttpStatus": 406
+        },
+        {
+          "issuingAuthority": "Montana Supreme Court, Office of the Court Administrator",
+          "officialUrl": "https://courts.mt.gov/Forms/mmrta",
+          "reason": "ACQUISITION_TIMEOUT_AFTER_RECORDED_REACHABLE_HEAD",
+          "attempted": true,
+          "curlExitCode": 28
+        }
+      ],
+      "inventoryPromotion": {
+        "status": "STOPPED",
+        "documentsPromoted": 0,
+        "reason": "BLOCKED_LIVE_INVENTORY_NOT_MOUNTED",
+        "expectedInventoryRoot": "private/Nationwide Record Clearing/"
+      },
+      "documentsAcquiredThisWave": [
+        {
+          "issuingAuthority": "Louisiana Legislature",
+          "officialUrl": "https://www.legis.la.gov/legis/Law.aspx?d=919681",
+          "sha256": "efa0a8631a1c26122dc6f6ac26777eb53e4077e188bc0b5adc54ace5cd6defe7",
+          "byteLength": 52058
+        },
+        {
+          "issuingAuthority": "North Dakota Supreme Court",
+          "officialUrl": "https://www.ndcourts.gov/legal-self-help/prohibit-public-access/criminal",
+          "sha256": "ab72f775e1aa64beac5f567f7ec40ce929c73aa6325615a1dce1883a8e12af6e",
+          "byteLength": 41009
+        },
+        {
+          "issuingAuthority": "Texas Office of Court Administration",
+          "officialUrl": "https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf",
+          "sha256": "bd17a3fe43d6989d1828c91c9a46c873908c272d8e2e342af35ce8bdb2fab10d",
+          "byteLength": 6667524
+        },
+        {
+          "issuingAuthority": "Utah State Courts legacy official host",
+          "officialUrl": "https://legacy.utcourts.gov/howto/criminallaw/docs/1501CR_Motion_to_Remove_Link_to_Personal_Identifying_Information.pdf",
+          "sha256": "69c37d4da60eeccddd54b174427737f6be092cdcbf759dd27e101eb8d3b1c623",
+          "byteLength": 175626
+        }
+      ],
+      "whyStillOpen": "Two hosts are recorded refusals that must be escalated rather than re-probed, one timed out after a reachable HEAD, and the private inventory is not mounted in a worker environment, so no acquired body could be promoted into it.",
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-3/r4-source-identity-and-acquisition/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R6_COUNSEL_GATE_IMPLEMENTATION",
+      "replaces": [],
+      "what": "The eligibility gates of the four counsel-determined routes this integration installed. Each entered the ratification registry at hard_gate_pending because its gate is not implemented in code.",
+      "itemKind": "routeKey",
+      "openCount": 5,
+      "items": [
+        {
+          "routeKey": "participant-a:AL:al-uncharged-arrest:de-novo-review-after-final-ajic-denial",
+          "file": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "decisionRecord": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+          "installedStatus": "hard_gate_pending"
+        },
+        {
+          "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-1",
+          "file": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "decisionRecord": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+          "installedStatus": "hard_gate_pending"
+        },
+        {
+          "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-2",
+          "file": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "decisionRecord": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+          "installedStatus": "hard_gate_pending"
+        },
+        {
+          "routeKey": "guidance-only:NE:ne-postconviction-professional-handoff",
+          "file": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "decisionRecord": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+          "installedStatus": "hard_gate_pending"
+        },
+        {
+          "routeKey": "participant-a:UT:ut-402-motion-to-reduce-conviction",
+          "file": "data/record-clearing/legal-decisions/route-ratification-registry.json",
+          "decisionRecord": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+          "installedStatus": "hard_gate_pending"
+        }
+      ],
+      "whyStillOpen": "Counsel determined the route; the engine cannot yet screen for exhaustion, filing deadline or date cohort. Promoting one before its gate exists would open payment on records the engine cannot screen.",
+      "ownedPaths": [
+        "src/lib/legal-authority/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2R7_PACKET_BUILD_AND_APPROVAL",
+      "replaces": [],
+      "what": "The twenty-four packet families whose product wiring and component specification this integration installed. Wiring is not a built artifact: every one is generationAllowed false and runtimeSelectable false.",
+      "itemKind": "packetFamily",
+      "openCount": 24,
+      "items": [
+        {
+          "familyId": "nj_arrest_no_conviction-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/nj/nj-arrest-no-conviction-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "nj_clean_slate-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/nj/nj-clean-slate-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "nj_disorderly_persons-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/nj/nj-disorderly-persons-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "nj_indictable_conviction-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/nj/nj-indictable-conviction-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "nj_ordinance-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/nj/nj-ordinance-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "ny_160_59_petition-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/ny/ny-160-59-petition-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "ny_mrta_marijuana-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "pa_490_nonconviction-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/pa/pa-490-nonconviction-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "pa_790_nonconviction-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/pa/pa-790-nonconviction-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "pa_9122_1_limited_access-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/pa/pa-9122-1-limited-access-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "pa_summary_conviction-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/pa/pa-summary-conviction-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "ri_nonconviction_sealing-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_cannabis-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-cannabis-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_domestic_violence-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-domestic-violence-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_felony-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-felony-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_homicide_victim_prostitution-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-homicide-victim-prostitution-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_misdemeanor_ordinary-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-misdemeanor-ordinary-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_survivor_felony-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-felony-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_survivor_misdemeanor-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-survivor-misdemeanor-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "wa_vac_treaty_fishing-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/wa/wa-vac-treaty-fishing-set--official-pdf-fill/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "oh_marijuana_expungement-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/oh/oh-marijuana-expungement-set--custom-pleading/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "rcap-oh-custom-pleading-clean-tracks",
+          "installedAt": "data/rcap-all50/overlays/census-v1/oh/rcap-oh-custom-pleading-clean-tracks--custom-pleading/product-wiring.json",
+          "stillMissing": "product-wiring.json was absent from the existing overlay directory"
+        },
+        {
+          "familyId": "pa_6308_underage-set",
+          "installedAt": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--custom-pleading/packet-component-specification.json",
+          "stillMissing": "court-status metadata selecting Rule 490 versus Rule 790 and an exact custom service-certificate component specification"
+        }
+      ],
+      "whyStillOpen": "Wiring records what a family would resolve to. It proves no packet, builds no artifact and approves no output.",
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/**"
+      ]
+    },
+    {
+      "residualLaneId": "W2V1_V7_INDEPENDENT_VERIFICATION",
+      "replaces": [
+        "V1_INDEPENDENT_PACKET_VERIFICATION",
+        "V2_INDEPENDENT_PACKET_VERIFICATION",
+        "V3_INDEPENDENT_PACKET_VERIFICATION",
+        "V4_INDEPENDENT_PACKET_VERIFICATION",
+        "V5_INDEPENDENT_PACKET_VERIFICATION",
+        "V6_INDEPENDENT_PACKET_VERIFICATION",
+        "V7_INDEPENDENT_PACKET_VERIFICATION"
+      ],
+      "what": "Forty-three packet-family verification rows, every one BLOCKED_SOURCE because the private Master Library was absent from the worker environments.",
+      "itemKind": "packetFamily",
+      "openCount": 43,
+      "theseAreEnvironmentRecordsNotVerdicts": "No family may be classified PASS or FAIL from these rows, and no Lawrence review package may be prepared from them. A verifier that could not read the source did not verify anything.",
+      "items": [
+        {
+          "shard": "V1",
+          "familyId": "az_marijuana_expungement_arrest_no_charges-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 1 of 1 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "ca-851-91-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 4 of 4 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "nj_ordinance-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 1 of 1 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "pa_summary_conviction-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 4 of 4 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "ut_pet_dismissed_without_prejudice-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 9 of 9 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "wa_vac_homicide_victim_prostitution-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 2 of 2 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V1",
+          "familyId": "wv_conv_single_misdemeanor-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "MASTER_LIBRARY_SOURCE_DIR was unset, the default private master-library root was absent, and 3 of 3 source(s) do not bind; every expected observed SHA-256 was null."
+        },
+        {
+          "shard": "V2",
+          "familyId": "az_marijuana_expungement_superior_court-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V2",
+          "familyId": "ca-prop64-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V2",
+          "familyId": "ny_160_59_petition-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V2",
+          "familyId": "rcap-oh-custom-pleading-clean-tracks",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V2",
+          "familyId": "ut_pet_limitations-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V2",
+          "familyId": "wa_vac_misdemeanor_ordinary-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "ca-1203-41-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "ne-setaside-custodial-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "ny_mrta_marijuana-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "ri_nonconviction_sealing-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "ut_pet_no_charges-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V3",
+          "familyId": "wa_vac_substance_use_disorder-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "ca-1203-42-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "nj_arrest_no_conviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "oh_marijuana_expungement-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "sd_arrest_expungement-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "ut_pet_traffic-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V4",
+          "familyId": "wa_vac_survivor_felony-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "ca-1203-43-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "nj_clean_slate-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "pa_490_nonconviction-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "ut_pet_acquittal-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "wa_vac_cannabis-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V5",
+          "familyId": "wa_vac_survivor_misdemeanor-set",
+          "verdict": "BLOCKED_SOURCE"
+        },
+        {
+          "shard": "V6",
+          "familyId": "ca-1203-4a-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V6",
+          "familyId": "nj_disorderly_persons-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V6",
+          "familyId": "pa_790_nonconviction-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V6",
+          "familyId": "ut_pet_conviction-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V6",
+          "familyId": "wa_vac_domestic_violence-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V6",
+          "familyId": "wa_vac_treaty_fishing-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW"
+        },
+        {
+          "shard": "V7",
+          "familyId": "ca-17b-reduction-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 3 of 3 sources do not bind because the corpus root is absent."
+        },
+        {
+          "shard": "V7",
+          "familyId": "nj_indictable_conviction-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library source could not be rebound: family preflight observed 1 of 1 source does not bind because the corpus root is absent."
+        },
+        {
+          "shard": "V7",
+          "familyId": "pa_9122_1_limited_access-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 5 of 5 sources do not bind because the corpus root is absent."
+        },
+        {
+          "shard": "V7",
+          "familyId": "ut_pet_dismissed_with_prejudice-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 9 of 9 sources do not bind because the corpus root is absent."
+        },
+        {
+          "shard": "V7",
+          "familyId": "wa_vac_felony-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 2 of 2 sources do not bind because the corpus root is absent."
+        },
+        {
+          "shard": "V7",
+          "familyId": "wv_conv_multiple_misdemeanors-set",
+          "verdict": "BLOCKED_SOURCE",
+          "stopScope": "ROW",
+          "stopReason": "The pinned Master Library sources could not be rebound: family preflight observed 2 of 2 sources do not bind because the corpus root is absent."
+        }
+      ],
+      "whyStillOpen": "MASTER_LIBRARY_SOURCE_DIR was unset and the default private master-library root was absent, so no pinned source could bind and every observed SHA-256 was null.",
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/verification/**"
+      ]
+    }
+  ]
+}

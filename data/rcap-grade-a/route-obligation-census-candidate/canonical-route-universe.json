@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5",
+    "sourceFingerprint": "sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -974,14 +974,23 @@
       "pathway:WY:misdemeanor-conviction-expungement-w-s-7-13-1501"
     ],
     "serviceBranchKeys": [
+      "service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
       "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
       "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_post_2026_07_01",
+      "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:judgment_ambiguous",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:ordinance_expressly_adopts_311_326",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:ordinance_merely_mirrors_offence",
       "service-branch:MO:first-minor-in-possession-alcohol-expungement-under-311-326:state_311_325_conviction",
+      "service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
       "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
-      "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition"
+      "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition",
+      "service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance"
     ],
     "failureDispositionKeys": [
       "failure-disposition:AK:set-aside-after-a-suspended-imposition-of-sentence-as-12-55-085:ak_set_aside_discharge_disputed",
@@ -1024,7 +1033,7 @@
     "totalStatutoryLegalTracks": 497,
     "totalLegalTrackUnits": 113,
     "totalRuntimeRoutes": 337,
-    "totalEffectiveServiceBranches": 8,
+    "totalEffectiveServiceBranches": 17,
     "totalEffectiveFailureDispositions": 20,
     "totalUnattachedDecisionRoutes": 2,
     "totalResearchDecisionRoutes": 7,
@@ -1040,12 +1049,12 @@
     "runtimeAuthorityRouteKeyRegistryGaps": 14,
     "ownerApprovedCandidateRoutes": 80,
     "ownerApprovedPacketFamilyIds": 15,
-    "totalTypedSourceEntities": 984,
-    "totalCanonicalObligations": 694,
-    "totalCanonicalEntities": 694,
+    "totalTypedSourceEntities": 993,
+    "totalCanonicalObligations": 703,
+    "totalCanonicalEntities": 703,
     "totalDistinctParticipantActionBranches": 504,
     "possibleCategoryA": 451,
-    "possibleCategoryB": 157,
+    "possibleCategoryB": 166,
     "needsLegalReview": 86,
     "duplicateAliases": 0,
     "pendingAliasInstructions": 1,
@@ -11156,6 +11165,17 @@
       "compiledRuntimePathway": true
     },
     {
+      "routeKey": "service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "jurisdiction": "CT",
+      "publicLabel": "Cannabis conviction erasure — petition branch outside the automatic date window — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-CT-02",
+      "statuteOrAuthority": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+      "parentRouteKey": "pathway:CT:cannabis-conviction-erasure",
+      "parentContractRouteKey": "CT:cannabis-conviction-erasure",
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
       "entityType": "service_branch",
       "sourceIdentity": "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
@@ -11175,6 +11195,39 @@
       "statuteOrAuthority": "O.C.G.A. § 42-8-66",
       "parentRouteKey": "pathway:GA:retroactive-first-offender-treatment-under-42-8-66",
       "parentContractRouteKey": "GA:retroactive-first-offender-treatment-under-42-8-66",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "jurisdiction": "KY",
+      "publicLabel": "Petition-based juvenile expungement — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+      "statuteOrAuthority": "KRS § 610.330",
+      "parentRouteKey": "pathway:KY:juvenile-petition-610330",
+      "parentContractRouteKey": "KY:juvenile-petition-610330",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "jurisdiction": "LA",
+      "publicLabel": "Immediate expungement on successful completion of a court-ordered programme — the matter's disposition selects the CONTESTED TIMING TO COUNSEL treatment named by NATIONAL-2026-08-28-B-LA-03",
+      "statuteOrAuthority": "La. C.Cr.P. art. 985.3",
+      "parentRouteKey": "pathway:LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "parentContractRouteKey": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "parentRouteKey": "pathway:MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "parentContractRouteKey": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
       "hiddenParticipantBranch": false
     },
     {
@@ -11222,6 +11275,17 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "jurisdiction": "MT",
+      "publicLabel": "Nonconviction criminal-history removal through CRISS — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MT-03",
+      "statuteOrAuthority": "Mont. Code Ann. § 44-5-202",
+      "parentRouteKey": "pathway:MT:non-conviction-criminal-history-removal-through-criss",
+      "parentContractRouteKey": "MT:non-conviction-criminal-history-removal-through-criss",
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
       "entityType": "service_branch",
       "sourceIdentity": "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
@@ -11242,6 +11306,50 @@
       "parentRouteKey": "pathway:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "parentContractRouteKey": "ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05",
       "hiddenParticipantBranch": true
+    },
+    {
+      "routeKey": "service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "jurisdiction": "RI",
+      "publicLabel": "Filed-complaint relief — the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+      "statuteOrAuthority": "R.I. Gen. Laws § 12-10-12",
+      "parentRouteKey": "pathway:RI:path-e-filed-complaint-relief-under-12-10-12",
+      "parentContractRouteKey": "RI:path-e-filed-complaint-relief-under-12-10-12",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "jurisdiction": "SC",
+      "publicLabel": "Pretrial intervention expungement, administered by the solicitor — the matter's disposition selects the RETAINED-COUNSEL HANDOFF ON DENIAL treatment named by NATIONAL-2026-08-28-LA-IMM-04",
+      "statuteOrAuthority": "S.C. Code Ann. § 17-22-150(a)",
+      "parentRouteKey": "pathway:SC:diversion-or-program-completion-expungement",
+      "parentContractRouteKey": "SC:diversion-or-program-completion-expungement",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "jurisdiction": "SC",
+      "publicLabel": "Juvenile expungement — the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+      "statuteOrAuthority": "S.C. Code § 63-19-2050",
+      "parentRouteKey": "pathway:SC:juvenile-expungement",
+      "parentContractRouteKey": "SC:juvenile-expungement",
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "entityType": "service_branch",
+      "sourceIdentity": "service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "jurisdiction": "UT",
+      "publicLabel": "Petition-based expungement, including plea-in-abeyance dismissals — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-UT-02",
+      "statuteOrAuthority": "Utah Code § 77-40a-301 et seq.",
+      "parentRouteKey": "pathway:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "parentContractRouteKey": "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "hiddenParticipantBranch": false
     },
     {
       "routeKey": "track:AK:ak-courtview",
@@ -19845,6 +19953,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "jurisdiction": "CT",
+      "publicLabel": "Cannabis conviction erasure — petition branch outside the automatic date window — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-CT-02",
+      "statuteOrAuthority": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+      "sourceEntityKeys": [
+        "service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
       "entityType": "canonical_obligation",
       "obligationKind": "contract_exception_branch",
@@ -19867,6 +19988,45 @@
       "statuteOrAuthority": "O.C.G.A. § 42-8-66",
       "sourceEntityKeys": [
         "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_post_2026_07_01"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "jurisdiction": "KY",
+      "publicLabel": "Petition-based juvenile expungement — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+      "statuteOrAuthority": "KRS § 610.330",
+      "sourceEntityKeys": [
+        "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "jurisdiction": "LA",
+      "publicLabel": "Immediate expungement on successful completion of a court-ordered programme — the matter's disposition selects the CONTESTED TIMING TO COUNSEL treatment named by NATIONAL-2026-08-28-B-LA-03",
+      "statuteOrAuthority": "La. C.Cr.P. art. 985.3",
+      "sourceEntityKeys": [
+        "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "sourceEntityKeys": [
+        "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance"
       ],
       "hiddenParticipantBranch": false
     },
@@ -19933,6 +20093,19 @@
       "hiddenParticipantBranch": false
     },
     {
+      "routeKey": "obligation:service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "jurisdiction": "MT",
+      "publicLabel": "Nonconviction criminal-history removal through CRISS — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MT-03",
+      "statuteOrAuthority": "Mont. Code Ann. § 44-5-202",
+      "sourceEntityKeys": [
+        "service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
       "routeKey": "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
       "entityType": "canonical_obligation",
       "obligationKind": "exhaustive_contract_service_branch",
@@ -19962,6 +20135,58 @@
         "track:ND:nd-nonconviction-close-petition"
       ],
       "hiddenParticipantBranch": true
+    },
+    {
+      "routeKey": "obligation:service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "jurisdiction": "RI",
+      "publicLabel": "Filed-complaint relief — the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+      "statuteOrAuthority": "R.I. Gen. Laws § 12-10-12",
+      "sourceEntityKeys": [
+        "service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "jurisdiction": "SC",
+      "publicLabel": "Pretrial intervention expungement, administered by the solicitor — the matter's disposition selects the RETAINED-COUNSEL HANDOFF ON DENIAL treatment named by NATIONAL-2026-08-28-LA-IMM-04",
+      "statuteOrAuthority": "S.C. Code Ann. § 17-22-150(a)",
+      "sourceEntityKeys": [
+        "service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "jurisdiction": "SC",
+      "publicLabel": "Juvenile expungement — the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+      "statuteOrAuthority": "S.C. Code § 63-19-2050",
+      "sourceEntityKeys": [
+        "service-branch:SC:juvenile-expungement:pardon-guidance-only"
+      ],
+      "hiddenParticipantBranch": false
+    },
+    {
+      "routeKey": "obligation:service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "entityType": "canonical_obligation",
+      "obligationKind": "contract_exception_branch",
+      "sourceIdentity": "obligation:service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "jurisdiction": "UT",
+      "publicLabel": "Petition-based expungement, including plea-in-abeyance dismissals — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-UT-02",
+      "statuteOrAuthority": "Utah Code § 77-40a-301 et seq.",
+      "sourceEntityKeys": [
+        "service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance"
+      ],
+      "hiddenParticipantBranch": false
     },
     {
       "routeKey": "obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1",
@@ -31134,6 +31359,14 @@
       ]
     },
     {
+      "sourceRouteKey": "service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance"
+      ]
+    },
+    {
       "sourceRouteKey": "service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
       "sourceEntityType": "service_branch",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -31147,6 +31380,30 @@
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
         "obligation:service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_post_2026_07_01"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance"
       ]
     },
     {
@@ -31182,6 +31439,14 @@
       ]
     },
     {
+      "sourceRouteKey": "service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance"
+      ]
+    },
+    {
       "sourceRouteKey": "service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
       "sourceEntityType": "service_branch",
       "accountingRelation": "exact_source_to_terminal_representation",
@@ -31195,6 +31460,38 @@
       "accountingRelation": "exact_source_to_terminal_representation",
       "canonicalObligationKeys": [
         "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:pre_effective_date_petition"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:SC:juvenile-expungement:pardon-guidance-only"
+      ]
+    },
+    {
+      "sourceRouteKey": "service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "sourceEntityType": "service_branch",
+      "accountingRelation": "exact_source_to_terminal_representation",
+      "canonicalObligationKeys": [
+        "obligation:service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance"
       ]
     },
     {
@@ -39125,7 +39422,7 @@
       "pathwayId": "set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
       "contractSourceFile": "src/lib/legal-authority/routes/single-routes.json",
       "contractDecisionId": "LD-OR-01",
-      "contractOutcomeMode": "participant_packet",
+      "contractOutcomeMode": "unsupported",
       "authorityDecisionId": "LD-OR-01",
       "authorityRuleId": "OR-137.225-1C-1D-NONCONVICTION-COMPLETE-MAP",
       "authorityOutputMode": "COURT SET-ASIDE PACKET",

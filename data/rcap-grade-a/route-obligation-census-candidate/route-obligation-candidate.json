@@ -2,7 +2,7 @@
   "metadata": {
     "schemaVersion": "rcap-national-route-obligation-census/v1",
     "generatedBy": "scripts/grade-a-route-obligation-census/generate-national-route-obligation-census.mjs",
-    "sourceFingerprint": "sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5",
+    "sourceFingerprint": "sha256:3fe4e0fd1828e2ddeef1f5b013c45112cf918c18143c9ac4ab46b9db682b8455",
     "asOf": "2026-08-29",
     "createsApproval": false,
     "changesRuntime": false,
@@ -18,7 +18,7 @@
     "totalStatutoryLegalTracks": 497,
     "totalLegalTrackUnits": 113,
     "totalRuntimeRoutes": 337,
-    "totalEffectiveServiceBranches": 8,
+    "totalEffectiveServiceBranches": 17,
     "totalEffectiveFailureDispositions": 20,
     "totalUnattachedDecisionRoutes": 2,
     "totalResearchDecisionRoutes": 7,
@@ -34,12 +34,12 @@
     "runtimeAuthorityRouteKeyRegistryGaps": 14,
     "ownerApprovedCandidateRoutes": 80,
     "ownerApprovedPacketFamilyIds": 15,
-    "totalTypedSourceEntities": 984,
-    "totalCanonicalObligations": 694,
-    "totalCanonicalEntities": 694,
+    "totalTypedSourceEntities": 993,
+    "totalCanonicalObligations": 703,
+    "totalCanonicalEntities": 703,
     "totalDistinctParticipantActionBranches": 504,
     "possibleCategoryA": 451,
-    "possibleCategoryB": 157,
+    "possibleCategoryB": 166,
     "needsLegalReview": 86,
     "duplicateAliases": 0,
     "pendingAliasInstructions": 1,
@@ -4186,6 +4186,42 @@
       "legalReviewQuestion": "Which current legal-design decision, if any, authorizes runtime-only pathway juvenile-minor-expungement-w-s-14-6-241 and its stated filing treatment?"
     },
     {
+      "routeKey": "obligation:service-branch:CT:cannabis-conviction-erasure:automatic-status-correction-guidance",
+      "jurisdiction": "CT",
+      "publicLabel": "Cannabis conviction erasure — petition branch outside the automatic date window — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-CT-02",
+      "statuteOrAuthority": "Conn. Gen. Stat. §§ 21a-279, 21a-267(a), 21a-277(b)",
+      "trackId": "ct-cannabis-auto",
+      "runtimePathwayId": "cannabis-conviction-erasure",
+      "routeContractId": "CT:cannabis-conviction-erasure",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/single-routes.json#CT:cannabis-conviction-erasure"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:automatic_relief",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-CT-02"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:CT:cannabis-conviction-erasure:LD-CT-02",
+        "runtime-authority-decision:LD-CT-02:route=CT:cannabis-conviction-erasure:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR COURT PETITION PACKET:effective-note=Automatic and petition categories must never share a checkout path.",
+        "service-branch:automatic-status-correction-guidance:automatic_relief"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
       "routeKey": "obligation:service-branch:GA:retroactive-first-offender-treatment-under-42-8-66:order_already_granted_before_2026_07_01",
       "jurisdiction": "GA",
       "publicLabel": "Petition for retroactive First Offender treatment, exoneration and discharge — a qualifying order was granted before 2026-07-01",
@@ -4257,6 +4293,119 @@
       "missingImplementationWork": [],
       "possibleCategory": "B_LEGITIMATE_EXCLUSION",
       "possibleCategoryBReason": "AGENCY_CONTROLLED",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:KY:juvenile-petition-610330:automatic-status-correction-guidance",
+      "jurisdiction": "KY",
+      "publicLabel": "Petition-based juvenile expungement — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-KY-02",
+      "statuteOrAuthority": "KRS § 610.330",
+      "trackId": "ky_juvenile_record_expungement",
+      "runtimePathwayId": "juvenile-petition-610330",
+      "routeContractId": "KY:juvenile-petition-610330",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "component:ky_juvenile_record_expungement-primary-filing-1",
+        "official-form:AOC-JV-30",
+        "route-contract:src/lib/legal-authority/routes/route-splits.json#KY:juvenile-petition-610330",
+        "source-url:https://www.kycourts.gov/Legal-Forms/Legal%20Forms/JV-30.pdf"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:automatic_relief",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-KY-02"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:KY:juvenile-petition-610330:LD-KY-02",
+        "runtime-authority-decision:LD-KY-02:route=KY:juvenile-petition-610330:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR JUVENILE COURT PETITION PACKET:effective-note=Do not present the two-year period to a user in the automatic dismissal/not-delinquent branch.",
+        "service-branch:automatic-status-correction-guidance:automatic_relief"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:contested-timing-to-counsel",
+      "jurisdiction": "LA",
+      "publicLabel": "Immediate expungement on successful completion of a court-ordered programme — the matter's disposition selects the CONTESTED TIMING TO COUNSEL treatment named by NATIONAL-2026-08-28-B-LA-03",
+      "statuteOrAuthority": "La. C.Cr.P. art. 985.3",
+      "trackId": "la-985-3-immediate-expungement",
+      "runtimePathwayId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "routeContractId": "LA:immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "processActor": "attorney or professional",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — attorney or qualified legal-assistance referral",
+      "destination": "attorney or qualified legal-assistance referral for exact local-law or instrument review",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/national-report-batch-b.json#LA:immediate-expungement-after-successful-court-program-completion-art-985-3"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:referral",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "NATIONAL-2026-08-28-B-LA-03",
+        "register-question:Q-007",
+        "report-question:Q-006"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:LA:immediate-expungement-after-successful-court-program-completion-art-985-3:NATIONAL-2026-08-28-B-LA-03",
+        "runtime-authority-decision:NATIONAL-2026-08-28-B-LA-03:route=LA:immediate-expungement-after-successful-court-program-completion-art-985-3:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=PARTICIPANT PACKET, CONTESTED TIMING TO COUNSEL:effective-note=Report disposition RELEASE — PACKET; contested timing to counsel. Article 985.3 displaces the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waits for a person otherwise eligible who successfully completed a court-ordered programme. A contested displacement leaves the route for individualized advocacy.",
+        "service-branch:contested-timing-to-counsel:referral"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:automatic-status-correction-guidance",
+      "jurisdiction": "MD",
+      "publicLabel": "Police-record expungement where no charge was filed, pre-October 1, 2007 arrests — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MD-03",
+      "statuteOrAuthority": "Md. Code, Crim. Proc. § 10-103",
+      "trackId": "md_10103_legacy_police",
+      "runtimePathwayId": "police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "routeContractId": "MD:police-record-expungement-when-no-charge-was-filed-under-10-103",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/single-routes.json#MD:police-record-expungement-when-no-charge-was-filed-under-10-103"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:automatic_relief",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-MD-03"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:MD:police-record-expungement-when-no-charge-was-filed-under-10-103:LD-MD-03",
+        "runtime-authority-decision:LD-MD-03:route=MD:police-record-expungement-when-no-charge-was-filed-under-10-103:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AGENCY REQUEST OR AUTOMATIC STATUS/CORRECTION GUIDANCE:effective-note=Do not display the 60-day agency processing period as a participant wait.",
+        "service-branch:automatic-status-correction-guidance:automatic_relief"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
       "classificationConfidence": "high",
       "requiresLegalReview": false,
       "legalReviewQuestion": null
@@ -4463,6 +4612,48 @@
       "legalReviewQuestion": null
     },
     {
+      "routeKey": "obligation:service-branch:MT:non-conviction-criminal-history-removal-through-criss:automatic-status-correction-guidance",
+      "jurisdiction": "MT",
+      "publicLabel": "Nonconviction criminal-history removal through CRISS — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-MT-03",
+      "statuteOrAuthority": "Mont. Code Ann. § 44-5-202",
+      "trackId": "mt_nonconviction_removal",
+      "runtimePathwayId": "non-conviction-criminal-history-removal-through-criss",
+      "routeContractId": "MT:non-conviction-criminal-history-removal-through-criss",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "component:mt_nonconviction_removal-primary-filing-1",
+        "official-form:EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+        "route-contract:src/lib/legal-authority/routes/single-routes.json#MT:non-conviction-criminal-history-removal-through-criss",
+        "source-sha256:4606815523c3d2a77d1874ca3de8909250abd9349f2973230473116c962109a7",
+        "source-url:https://dojmt.gov/wp-content/uploads/20240429-Updated-ExpungementRemovalRequestForm.docx"
+      ],
+      "existingArtifactIds": [
+        "source-artifact:20240429-updated-expungementremovalrequestform"
+      ],
+      "currentServiceDisposition": "contract_service_branch:automatic_relief",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-MT-03"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:MT:non-conviction-criminal-history-removal-through-criss:LD-MT-03",
+        "runtime-authority-decision:LD-MT-03:route=MT:non-conviction-criminal-history-removal-through-criss:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR AGENCY REQUEST:effective-note=The statutory court-to-CRISS reporting period is processing, not an applicant wait.",
+        "service-branch:automatic-status-correction-guidance:automatic_relief"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
       "routeKey": "obligation:service-branch:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:post_effective_date_automatic",
       "jurisdiction": "ND",
       "publicLabel": "Automatic non-conviction court-record closing, with verification and correction — the qualifying disposition was entered on or after 2025-08-01",
@@ -4567,6 +4758,164 @@
       ],
       "possibleCategory": "A_MUST_FULFILL",
       "possibleCategoryBReason": null,
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:RI:path-e-filed-complaint-relief-under-12-10-12:status-correction-guidance",
+      "jurisdiction": "RI",
+      "publicLabel": "Filed-complaint relief — the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+      "statuteOrAuthority": "R.I. Gen. Laws § 12-10-12",
+      "trackId": "ri_filed_complaints",
+      "runtimePathwayId": "path-e-filed-complaint-relief-under-12-10-12",
+      "routeContractId": "RI:path-e-filed-complaint-relief-under-12-10-12",
+      "processActor": "court",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — the matter's disposition selects the STATUS/CORRECTION GUIDANCE treatment named by LD-RI-06",
+      "destination": {
+        "kind": "automatic",
+        "name": "Operation of R.I. Gen. Laws § 12-10-12",
+        "detail": "Expungement follows automatically once the filing period runs without action, and for domestic violence filed complaints once the three-year period passes without a further qualifying charge. No separate Chapter 12-1.3 motion is required."
+      },
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/route-splits.json#RI:path-e-filed-complaint-relief-under-12-10-12"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:guidance_status",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-RI-06"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:RI:path-e-filed-complaint-relief-under-12-10-12:LD-RI-06",
+        "runtime-authority-decision:LD-RI-06:route=RI:path-e-filed-complaint-relief-under-12-10-12:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=STATUS/CORRECTION GUIDANCE OR LIMITED COURT APPLICATION:effective-note=Do not convert the court-set filing term into a generic fixed waitingPeriodRule.",
+        "service-branch:status-correction-guidance:guidance_status"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "COURT_INITIATED",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:SC:diversion-or-program-completion-expungement:retained-counsel-handoff-on-denial",
+      "jurisdiction": "SC",
+      "publicLabel": "Pretrial intervention expungement, administered by the solicitor — the matter's disposition selects the RETAINED-COUNSEL HANDOFF ON DENIAL treatment named by NATIONAL-2026-08-28-LA-IMM-04",
+      "statuteOrAuthority": "S.C. Code Ann. § 17-22-150(a)",
+      "trackId": "sc_pti_17_22_150",
+      "runtimePathwayId": "diversion-or-program-completion-expungement",
+      "routeContractId": "SC:diversion-or-program-completion-expungement",
+      "processActor": "attorney or professional",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — attorney or qualified legal-assistance referral",
+      "destination": "attorney or qualified legal-assistance referral for exact local-law or instrument review",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/national-report-2026-08-28.json#SC:diversion-or-program-completion-expungement"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:referral",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "CLD-2026-08-28-SC-PTI",
+        "LA-IMM-04",
+        "NATIONAL-2026-08-28-LA-IMM-04"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:SC:diversion-or-program-completion-expungement:NATIONAL-2026-08-28-LA-IMM-04",
+        "runtime-authority-decision:NATIONAL-2026-08-28-LA-IMM-04:route=SC:diversion-or-program-completion-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=SOLICITOR-ADMINISTERED PROCESS GUIDANCE + RETAINED-COUNSEL HANDOFF ON DENIAL:effective-note=No operational delay. The rescinded $150 administrative figure must not appear; the controlling figure is $250. The fee schedule belongs to this route alone and must not be copied onto the other seven South Carolina routes.",
+        "service-branch:retained-counsel-handoff-on-denial:referral"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:SC:juvenile-expungement:pardon-guidance-only",
+      "jurisdiction": "SC",
+      "publicLabel": "Juvenile expungement — the matter's disposition selects the PARDON GUIDANCE ONLY treatment named by LD-SC-01",
+      "statuteOrAuthority": "S.C. Code § 63-19-2050",
+      "trackId": "sc_17_22_950_summary",
+      "runtimePathwayId": "juvenile-expungement",
+      "routeContractId": "SC:juvenile-expungement",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "component:sc_17_22_950_summary-primary-filing-1",
+        "official-form:SCCA-223E",
+        "route-contract:src/lib/legal-authority/routes/route-splits.json#SC:juvenile-expungement",
+        "source-sha256:668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8",
+        "source-url:https://www.sccourts.org/media/forms/pdf/SCCA223E.pdf"
+      ],
+      "existingArtifactIds": [
+        "source-artifact:scca223e"
+      ],
+      "currentServiceDisposition": "contract_service_branch:guidance_status",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-SC-01",
+        "register-question:Q-035",
+        "report-question:Q-029"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:SC:juvenile-expungement:LD-SC-01",
+        "runtime-authority-decision:LD-SC-01:route=SC:juvenile-expungement:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=OFFENSE-SPECIFIC PACKET, NONCONVICTION/JUVENILE PACKET, OR PARDON GUIDANCE ONLY:effective-note=Results copy must affirmatively disclose that a pardon does not erase or seal the South Carolina conviction.",
+        "service-branch:pardon-guidance-only:guidance_status"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
+      "classificationConfidence": "high",
+      "requiresLegalReview": false,
+      "legalReviewQuestion": null
+    },
+    {
+      "routeKey": "obligation:service-branch:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:automatic-status-correction-guidance",
+      "jurisdiction": "UT",
+      "publicLabel": "Petition-based expungement, including plea-in-abeyance dismissals — the matter's disposition selects the AUTOMATIC STATUS/CORRECTION GUIDANCE treatment named by LD-UT-02",
+      "statuteOrAuthority": "Utah Code § 77-40a-301 et seq.",
+      "trackId": "ut_auto_clean_slate",
+      "runtimePathwayId": "path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "routeContractId": "UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+      "processActor": "court or agency",
+      "participantCanInitiate": false,
+      "participantFacingInstrument": "no participant filing — automatic or already-granted relief implementation guidance",
+      "destination": "court and record-holding agencies responsible for implementing and verifying the existing order",
+      "currentOutputStrategy": "process_guidance",
+      "packetFamilyId": null,
+      "packetSetId": null,
+      "requiredSourceIds": [
+        "route-contract:src/lib/legal-authority/routes/route-splits.json#UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals"
+      ],
+      "existingArtifactIds": [],
+      "currentServiceDisposition": "contract_service_branch:automatic_relief",
+      "currentCommercialState": "BRANCH_POSTURE:CLOSED_OR_NOT_RECORDED",
+      "legalDecisionRecordIds": [
+        "LD-UT-02"
+      ],
+      "currentImplementationEvidence": [
+        "effective-route-contract:UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:LD-UT-02",
+        "runtime-authority-decision:LD-UT-02:route=UT:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=AUTOMATIC STATUS/CORRECTION GUIDANCE OR PETITION PACKET:effective-note=Generic offense_level is insufficient; the flow must collect Utah Class A/B/C/infraction and the precise statutory category.",
+        "service-branch:automatic-status-correction-guidance:automatic_relief"
+      ],
+      "missingImplementationWork": [],
+      "possibleCategory": "B_LEGITIMATE_EXCLUSION",
+      "possibleCategoryBReason": "AUTOMATIC",
       "classificationConfidence": "high",
       "requiresLegalReview": false,
       "legalReviewQuestion": null
@@ -26460,8 +26809,7 @@
         "legal-design:legal_design_approved_with_limitations",
         "packet-specification:data/record-clearing/packet-specifications/OR-disposition-configurations.v1.json#or-acquittal-137-225-1-d:historical=false",
         "packet-specification:data/record-clearing/packet-specifications/OR-set-aside-without-conviction.v1.json#or-set-aside-without-conviction:historical=true",
-        "route-contract-packet-family-label:Oregon Set-Aside Motion under ORS 137.225(1)(c)-(d)",
-        "route-contract:OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c:LD-OR-01:participant_packet",
+        "route-contract:OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c:LD-OR-01:unsupported",
         "runtime-authority-decision:LD-OR-01:route=OR:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c:association=EXACT_AUTHORITY_ROUTE_KEY_ASSOCIATION:output-mode=COURT SET-ASIDE PACKET:effective-note=The prior dismissed-branch hold is resolved by the current text: ordinary dismissal is any time after dismissal; the 60-day branch is limited to no accusatory instrument.",
         "runtime-service-disposition:paid_packet_intended",
         "runtime:Imported from a legal-design memo. Output review, visual review and technical proof are all outstanding.",
