@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "rcap-grade-a-v2-independent-packet-verification/v1",
+  "laneId": "V2_INDEPENDENT_PACKET_VERIFICATION",
+  "laneStatus": "DEPENDENCIES_UNINSTALLABLE",
+  "environmentStop": {
+    "contract": "WEC-2",
+    "requiredAvailableKiB": 4194304,
+    "observedAvailableKiB": 237904,
+    "observedAvailableMiB": 232.328125,
+    "deficitKiB": 3956400,
+    "evidence": {
+      "command": "df -Pk .",
+      "whereRead": "live worktree filesystem before any setup command",
+      "observed": "/dev/disk3s1 112734208 91034956 237904 100% /System/Volumes/Data"
+    },
+    "stopReason": "WEC-2 requires at least 4096 MiB free before npm ci. The observed 237904 KiB is below that threshold, and no disposable node_modules, .next, private, coverage, dist, build, or /tmp/legalease-npm-cache directory was available for cleanup. The mandatory npm ci, corpus bootstrap, source environment, and packet-build preflight sequence therefore could not start.",
+    "whyRemainingRowsAreUnsafeOrMeaningless": "Every assigned proof obligation depends on an independently established packet-build environment and source corpus. Reading builder-authored reports as substitutes would not independently verify artifact bytes, geometry, writes, route identity, or source custody. No source is asserted missing or mismatched; the source environment was never recovered.",
+    "reopenCondition": "Provide at least 4194304 KiB free, then run npm ci, bootstrap the private corpus, source private/source-corpus-environment.txt, export MASTER_LIBRARY_SOURCE_DIR, and obtain PACKET_BUILD_ENVIRONMENT_READY before evaluating any row."
+  },
+  "commandsNotRun": [
+    {
+      "command": "npm ci --cache /tmp/legalease-npm-cache",
+      "status": "BLOCKED",
+      "reason": "WEC-2 free-space threshold was not met."
+    },
+    {
+      "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "status": "BLOCKED",
+      "reason": "Mandatory npm ci predecessor was blocked; setup order may not be bypassed."
+    },
+    {
+      "command": "source private/source-corpus-environment.txt",
+      "status": "BLOCKED",
+      "reason": "Corpus bootstrap did not run, so the generated environment file was unavailable."
+    },
+    {
+      "command": "export MASTER_LIBRARY_SOURCE_DIR=\"$RCAP_BUNDLE_EXTRACT\"",
+      "status": "BLOCKED",
+      "reason": "The corpus environment was not established."
+    },
+    {
+      "command": "node scripts/verify-packet-build-environment.mjs --family <each assigned family> --branch codex/v2-independent-packet-verification",
+      "status": "BLOCKED",
+      "reason": "Dependencies and source environment were not installed; preflight could not truthfully execute."
+    },
+    {
+      "command": "family-specific independent packet verifiers for all six assigned families",
+      "status": "BLOCKED",
+      "reason": "The required preflight was not reached."
+    },
+    {
+      "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+      "status": "BLOCKED",
+      "reason": "The task forbids launch-control verification after the hard environment stop."
+    },
+    {
+      "command": "broad test and verification suites",
+      "status": "BLOCKED",
+      "reason": "WEC-2 prevented toolchain installation, and the task explicitly forbids broad suites in this stopped lane."
+    }
+  ],
+  "rowVerdictInterpretation": {
+    "value": "BLOCKED_SOURCE",
+    "meaningInThisReturn": "The source-dependent independent verification sequence was blocked before the corpus could be recovered or opened. This is not a finding that a source is absent, stale, substituted, or hash-mismatched."
+  },
+  "rows": [
+    {
+      "itemId": "az_marijuana_expungement_superior_court-set",
+      "familyId": "az_marijuana_expungement_superior_court-set",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    },
+    {
+      "itemId": "ca-prop64-set",
+      "familyId": "ca-prop64-set",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    },
+    {
+      "itemId": "ny_160_59_petition-set",
+      "familyId": "ny_160_59_petition-set",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    },
+    {
+      "itemId": "rcap-oh-custom-pleading-clean-tracks",
+      "familyId": "rcap-oh-custom-pleading-clean-tracks",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    },
+    {
+      "itemId": "ut_pet_limitations-set",
+      "familyId": "ut_pet_limitations-set",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    },
+    {
+      "itemId": "wa_vac_misdemeanor_ordinary-set",
+      "familyId": "wa_vac_misdemeanor_ordinary-set",
+      "verdict": "BLOCKED_SOURCE",
+      "proofObligations": [
+        { "obligation": "exact route identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No route evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "exact packet-family identity", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No packet-family evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "source identities and SHA-256 values", "status": "BLOCKED", "observed": "UNEVALUATED — source corpus was not bootstrapped or opened", "whereRead": "No source bytes read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "complete component set", "status": "BLOCKED", "observed": "UNEVALUATED — DEPENDENCIES_UNINSTALLABLE", "whereRead": "No component evidence read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "correct official form or approved composer", "status": "BLOCKED", "observed": "UNEVALUATED — source and rendering environment unavailable", "whereRead": "No form or composer output read; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "canonical and boundary artifact hashes", "status": "BLOCKED", "observed": "UNEVALUATED — artifact verifiers did not run", "whereRead": "No artifact hashes accepted as proof; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "actual-write verification", "status": "BLOCKED", "observed": "UNEVALUATED — actual-write verifier did not run", "whereRead": "No artifact bytes or write rectangles read; stopped at environmentStop.evidence before packet preflight." },
+        { "obligation": "zero protected-field writes", "status": "BLOCKED", "observed": "UNEVALUATED — protection verifier did not run", "whereRead": "No protected-field report accepted as independent proof; stopped at environmentStop.evidence." },
+        { "obligation": "signatures and service blocks preserved", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No rendered signature or service block inspected; stopped at environmentStop.evidence." },
+        { "obligation": "page count and page order", "status": "BLOCKED", "observed": "UNEVALUATED — artifact inspection did not run", "whereRead": "No artifact pages read; stopped at environmentStop.evidence." },
+        { "obligation": "no clipping or overlap", "status": "BLOCKED", "observed": "UNEVALUATED — visual and geometry inspection did not run", "whereRead": "No raster or geometry evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "fee and waiver treatment", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No fee or waiver evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "filing destination", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No filing-destination evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "service and notice", "status": "BLOCKED", "observed": "UNEVALUATED — packet evidence was not opened", "whereRead": "No service or notice evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "later-completion fields", "status": "BLOCKED", "observed": "UNEVALUATED — field and artifact inspection did not run", "whereRead": "No completion-field evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no stale artifact", "status": "BLOCKED", "observed": "UNEVALUATED — artifact freshness verification did not run", "whereRead": "No artifact compared to current source or configuration; stopped at environmentStop.evidence." },
+        { "obligation": "no wrong-route reuse", "status": "BLOCKED", "observed": "UNEVALUATED — route-to-artifact verification did not run", "whereRead": "No route or artifact evidence read; stopped at environmentStop.evidence." },
+        { "obligation": "no source substitution", "status": "BLOCKED", "observed": "UNEVALUATED — source bytes were not opened", "whereRead": "No source bytes compared; stopped at environmentStop.evidence before corpus bootstrap." },
+        { "obligation": "commercial status remains closed", "status": "BLOCKED", "observed": "UNEVALUATED INDEPENDENTLY — launch-control verifier did not run", "whereRead": "Builder-authored closure claims were not accepted as independent proof; stopped at environmentStop.evidence." }
+      ]
+    }
+  ]
+}
