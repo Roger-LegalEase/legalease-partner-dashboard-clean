@@ -12,12 +12,16 @@
     "frozenCategoryB": "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
     "categoryBIntegrationDelta": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
     "categoryBStageBranchCrosswalk": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+    "waveOneReturnReview": "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json",
+    "categoryBIntegrationStatus": "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
+    "residualWork": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+    "workerExecutionContract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
     "executionOrder": "docs/LAUNCH_SEQUENCE.md",
     "productContract": "docs/PRODUCT_CONTRACT.md"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "acea8aa530a614d11151872aab90f561169515fb",
+    "captainSha": "15e5441d30c024b1a1835907875faf90176fbd91",
     "censusFingerprint": "sha256:9d2d97b9d2768f14e2baba3138ba808172b49143f0f2eaf29a6dfe982c6a9a29",
     "censusLedgerBlob": "dbd9cf5dcd0f384d333b6b96fbd81ebf8e92196b",
     "productionConnected": false,
@@ -88,6 +92,67 @@
       "C6_CONVERT_ALL_TO_A": 3
     },
     "grantsNothing": "These classifications create implementation obligations and nothing else. They authorize no checkout, sponsorship, packet-credit consumption, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status or COMPLETE_PACKET_PROVEN. Every fail-closed commercial gate stands unchanged."
+  },
+  "waveOne": {
+    "returnsReported": 12,
+    "scopeAndOutputVerified": 10,
+    "scopeCleanOutputMissing": 1,
+    "refused": 0,
+    "stillRunning": 1,
+    "laneStillRunning": "C11_PACKET_FACTORY_ACCELERATOR",
+    "outOfScopeWrites": 0,
+    "prohibitedPathViolations": 0,
+    "branchIdentities": {
+      "classifiedRoutes": 55,
+      "completed": 41,
+      "stopped": 14,
+      "newBranchIdentitiesIntegrated": 28,
+      "crosswalksIntegrated": 10,
+      "confirmedBGuidanceIdentitiesIntegrated": 3,
+      "packetFamiliesCreated": 0
+    },
+    "residual": {
+      "residualLanes": 5,
+      "residualRoutes": 14,
+      "residualAlreadyAnsweredRows": 37,
+      "residualMappingRows": 29,
+      "residualPairBindings": 13,
+      "residualSourceIdentities": 19,
+      "residualOfficialUrls": 30,
+      "residualAcquisitions": 49,
+      "residualPromotions": 33,
+      "totalDistinctItems": 110,
+      "collisions": 0
+    },
+    "systemicFindings": [
+      {
+        "id": "SYS-A",
+        "finding": "Workers were told to branch from the control baseline and to read the assignment manifest as a required input, but the manifest and the prompt directory exist only in the dispatch commit that follows it.",
+        "fix": "Every prompt and the manifest now state two commits: branch from the control baseline, and read and verify the assignment from the dispatch commit."
+      },
+      {
+        "id": "SYS-B",
+        "finding": "At least one worker host could not install dependencies: 32 MiB free after worktree creation, so no test that needs node_modules could run.",
+        "fix": "The worker execution contract states a minimum free-disk precondition and requires a lane to report DEPENDENCIES_UNINSTALLABLE rather than reporting a test as run."
+      },
+      {
+        "id": "SYS-C",
+        "finding": "Acquisition stopped on all 49 obligations because the assignment's group stop rule said egress was refused, not because a probe found it refused. C10's own HEAD probe reached 5 of the 7 official hosts it tested.",
+        "fix": "Egress is recorded per exact source. A next-wave worker is given the refused hosts and told not to retry them, and the reachable hosts without a blanket stop."
+      },
+      {
+        "id": "SYS-D",
+        "finding": "Seven branch-identity lanes returned seven different schemas for the same two required filenames: different array keys, different status vocabularies, different field names for the same fact.",
+        "fix": "A canonical integration status is generated from the seven returns through explicit per-lane adapters, and the next dispatch states the output schema each lane must emit."
+      }
+    ],
+    "executionContract": {
+      "record": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+      "clauses": 6,
+      "bindsFromWave": 2,
+      "currentDispatchNotRewritten": "C11_PACKET_FACTORY_ACCELERATOR is still running against this manifest. Regenerating it would change a live worker's row list, owned paths and verification target mid-flight, which is worse than the defect being fixed."
+    },
+    "integrationOpensNothing": "An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged."
   },
   "legalWork": {
     "trueCounselQuestions": 4,
@@ -219,10 +284,10 @@
   "exactBlockers": [
     {
       "id": "BLK-1",
-      "blocker": "Official-source acquisition cannot run from any Captain-reachable environment",
-      "detail": "Egress to court and agency hosts is refused by policy; 59 obligations have a known official target and cannot be fetched.",
-      "owner": "Roger — gateway allowlisting or a controlled operator environment",
-      "blocks": "59 ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE obligations"
+      "blocker": "Official-source acquisition has not run, and the reason is per source rather than a blanket policy refusal",
+      "detail": "A HEAD probe from a worker host reached 5 of 7 official hosts tested; the rest refused. No document body was downloaded, so reachability is proven and acquisition is not. The 49 obligations stopped on this dispatch's blanket egress stop condition, which the worker execution contract removes.",
+      "owner": "Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts",
+      "blocks": "49 acquisition obligations and 33 promotion candidates"
     },
     {
       "id": "BLK-2",
@@ -249,8 +314,22 @@
       "id": "BLK-5",
       "blocker": "238 families are held for a missing source",
       "detail": "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.",
-      "owner": "source lane C10",
+      "owner": "source lane C10, continued as residual lane R4",
       "blocks": "238 of 352 families entering a build slot"
+    },
+    {
+      "id": "BLK-6",
+      "blocker": "At least one worker host could not install the toolchain",
+      "detail": "32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.",
+      "owner": "Roger — worker environment sizing",
+      "blocks": "every focused test in an affected lane, and the hosted acceptance lane entirely"
+    },
+    {
+      "id": "BLK-7",
+      "blocker": "The private nationwide inventory is not mounted on any worker host",
+      "detail": "33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.",
+      "owner": "Roger — mount the inventory for the source lane",
+      "blocks": "33 promotion obligations"
     }
   ],
   "goHold": {

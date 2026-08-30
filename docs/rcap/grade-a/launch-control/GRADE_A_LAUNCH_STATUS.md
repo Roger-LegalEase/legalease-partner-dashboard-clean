@@ -9,7 +9,7 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `acea8aa530a614d11151872aab90f561169515fb` |
+| Captain SHA | `15e5441d30c024b1a1835907875faf90176fbd91` |
 | Census fingerprint | `sha256:9d2d97b9d2768f14e2baba3138ba808172b49143f0f2eaf29a6dfe982c6a9a29` |
 | Production connected | NO |
 
@@ -44,6 +44,58 @@ The right-hand column is a projection, not a fact. The census moves only when th
 | New packet families required | 20 |
 
 49 splits is not 49 new obligations, and it is not 49 new families. Each participant branch was matched against the Category A routes in its own jurisdiction on the form numbers its instrument names before anything was counted as new.
+
+## First wave
+
+11 lanes returned and 1 is still running (**C11_PACKET_FACTORY_ACCELERATOR**). Every verdict below is checked against git, not against a worker's summary.
+
+| | |
+| --- | ---: |
+| Scope and required outputs verified | 10 |
+| Scope clean, a required output missing | 1 |
+| Refused | 0 |
+| Writes outside a lane's owned paths | 0 |
+| Prohibited-path violations | 0 |
+
+### Branch identities
+
+| | |
+| --- | ---: |
+| Classified routes | 55 |
+| Completed | 41 |
+| Stopped | 14 |
+| New branch identities integrated | 28 |
+| Crosswalks integrated | 10 |
+| Confirmed-B guidance identities integrated | 3 |
+| Packet families created | 0 |
+
+An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged.
+
+### Residual
+
+| | |
+| --- | ---: |
+| Branch identities still open | 14 |
+| Already-answered engineering rows | 37 |
+| Mapping rows | 29 |
+| Stage/branch pair bindings | 13 |
+| Source identities | 19 |
+| Official URLs | 30 |
+| Acquisitions | 49 |
+| Promotions | 33 |
+
+### What the wave taught
+
+- **SYS-A** — Workers were told to branch from the control baseline and to read the assignment manifest as a required input, but the manifest and the prompt directory exist only in the dispatch commit that follows it.
+  _Fix:_ Every prompt and the manifest now state two commits: branch from the control baseline, and read and verify the assignment from the dispatch commit.
+- **SYS-B** — At least one worker host could not install dependencies: 32 MiB free after worktree creation, so no test that needs node_modules could run.
+  _Fix:_ The worker execution contract states a minimum free-disk precondition and requires a lane to report DEPENDENCIES_UNINSTALLABLE rather than reporting a test as run.
+- **SYS-C** — Acquisition stopped on all 49 obligations because the assignment's group stop rule said egress was refused, not because a probe found it refused. C10's own HEAD probe reached 5 of the 7 official hosts it tested.
+  _Fix:_ Egress is recorded per exact source. A next-wave worker is given the refused hosts and told not to retry them, and the reachable hosts without a blanket stop.
+- **SYS-D** — Seven branch-identity lanes returned seven different schemas for the same two required filenames: different array keys, different status vocabularies, different field names for the same fact.
+  _Fix:_ A canonical integration status is generated from the seven returns through explicit per-lane adapters, and the next dispatch states the output schema each lane must emit.
+
+The execution contract carries 6 clauses and binds from wave 2. C11_PACKET_FACTORY_ACCELERATOR is still running against this manifest. Regenerating it would change a live worker's row list, owned paths and verification target mid-flight, which is worse than the defect being fixed.
 
 ## Legal work
 
@@ -104,11 +156,11 @@ These classifications create implementation obligations and nothing else. They a
 
 ## Blockers
 
-### BLK-1 — Official-source acquisition cannot run from any Captain-reachable environment
+### BLK-1 — Official-source acquisition has not run, and the reason is per source rather than a blanket policy refusal
 
-Egress to court and agency hosts is refused by policy; 59 obligations have a known official target and cannot be fetched.
+A HEAD probe from a worker host reached 5 of 7 official hosts tested; the rest refused. No document body was downloaded, so reachability is proven and acquisition is not. The 49 obligations stopped on this dispatch's blanket egress stop condition, which the worker execution contract removes.
 
-**Owner:** Roger — gateway allowlisting or a controlled operator environment. **Blocks:** 59 ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE obligations
+**Owner:** Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts. **Blocks:** 49 acquisition obligations and 33 promotion candidates
 
 ### BLK-2 — Four true counsel questions are unanswered
 
@@ -132,7 +184,19 @@ Authorized for the synthetic acceptance project and unspent; the preconditions a
 
 Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.
 
-**Owner:** source lane C10. **Blocks:** 238 of 352 families entering a build slot
+**Owner:** source lane C10, continued as residual lane R4. **Blocks:** 238 of 352 families entering a build slot
+
+### BLK-6 — At least one worker host could not install the toolchain
+
+32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.
+
+**Owner:** Roger — worker environment sizing. **Blocks:** every focused test in an affected lane, and the hosted acceptance lane entirely
+
+### BLK-7 — The private nationwide inventory is not mounted on any worker host
+
+33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.
+
+**Owner:** Roger — mount the inventory for the source lane. **Blocks:** 33 promotion obligations
 
 ## What would change GO/HOLD
 
