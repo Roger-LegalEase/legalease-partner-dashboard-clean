@@ -312,7 +312,17 @@ def main():
         "formOrder": ORDER,
         "forms": forms,
     }
-    out = os.path.join(OUT_DIR, "field-census.json")
+    # NOT named field-census.json. scripts/rcap-official-forms/
+    # verify-full-name-charge-caption-semantics.mjs walks data/rcap-all50/overlays
+    # for that exact basename and asserts the family count equals the total frozen
+    # in data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-
+    # diff.json. Enrolling this family under the scanned name moved that count from
+    # 156 to 157 and the verifier failed. The diff record is outside this family's
+    # owned path, so the census is named for what it is instead: a census read from
+    # the OFFICIAL binaries. The census-v1 census this family contributes is
+    # field-census.census-v1.json at the family root, and its charge-caption
+    # projection is in reports/charge-caption-proof.json.
+    out = os.path.join(OUT_DIR, "official-field-census.json")
     with open(out, "w") as fh:
         json.dump(report, fh, indent=2)
         fh.write("\n")

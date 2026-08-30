@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-family-vocabulary-gaps/v1",
+  "familyId": "ca-1203-4-set",
+  "what": "Where these five forms ask for something the shared fact vocabulary cannot express.",
+  "gaps": [
+    {
+      "id": "charge-is-one-string-and-the-table-has-three-columns",
+      "where": "CR-180 page 1, ConvTable Row1-Row5",
+      "formAsksFor": [
+        "Code (Penal, Vehicle, etc.)",
+        "Section",
+        "Type of offense (felony, misdemeanor, or infraction)"
+      ],
+      "vocabularyHolds": "matter.charges[n].charge — one free-text string",
+      "consequence": "All twenty-five cells are left blank. Writing the whole charge string into the `Code` column would misstate the record to the court, which is the defect data/rcap-grade-a/stale-artifact-block.json blocks twelve Arkansas and Kentucky artifacts for.",
+      "thisFamilyDidNotWorkAroundIt": true
+    },
+    {
+      "id": "eligibility-for-reduction-is-a-legal-conclusion",
+      "where": "CR-180 page 1, ConvTable columns `Reduce{n}` and `Offense{n}`",
+      "formAsksFor": [
+        "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)",
+        "Eligible for reduction to infraction under Penal Code, § 17(d)(2) (yes or no)"
+      ],
+      "vocabularyHolds": "nothing — and correctly so",
+      "consequence": "Left blank. These columns ask the petitioner to assert a legal conclusion about their own convictions. The platform holds no such fact and must not manufacture one.",
+      "thisFamilyDidNotWorkAroundIt": true
+    },
+    {
+      "id": "short-title-blanks-are-left-empty",
+      "where": "CR-181 page 2, P2Header.Party1; MC-025 FillText6 (SHORT TITLE); MC-031 FillText11 (CASE NUMBER)",
+      "formAsksFor": "the short title and case number that identify which filing a continuation sheet belongs to",
+      "vocabularyHolds": "participant.full_legal_name and matter.case_number, both of which the binder reaches wrongly here -- through a squashed caption band on CR-181, and through the trailing-digit row-index heuristic on the two MC forms",
+      "consequence": "All three are left blank, so a continuation sheet is delivered without the caption that ties it to the petition. A participant completes it by hand.",
+      "correctedByMeasurement": "CR-106's TCCaseName_ft was expected to have the same problem and does NOT. Measured on the raster: the form itself prints `People of the State of California` and `v.` inside the Case Name box, so writing the defendant's name alone completes the case name exactly. It is written, and it is right.",
+      "thisFamilyDidNotWorkAroundIt": true
+    },
+    {
+      "id": "row-index-heuristic-reads-any-trailing-digit-as-a-table-row",
+      "where": "MC-025 FillText5, MC-031 FillText11",
+      "formAsksFor": "the CASE NUMBER in the caption of a continuation sheet",
+      "vocabularyHolds": "matter.case_number, which is a ROW_FACT",
+      "consequence": "rowIndexOf() in rcap-field-semantics.mjs matches /^(.*?)(\\d{1,2})$/ against the field NAME, so any field whose name ends in a digit is treated as a repeating row. Both are refused by role here. The class is corpus-wide and belongs to whoever owns the shared module.",
+      "thisFamilyDidNotWorkAroundIt": true,
+      "forTheCaptain": true
+    }
+  ]
+}

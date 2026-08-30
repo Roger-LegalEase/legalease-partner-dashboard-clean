@@ -26,7 +26,7 @@ import { allRectangles, barAssembledBox } from "./bar-assembled-boxes.mjs";
 const OUT_DIR =
   "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/reports";
 const SCRATCH = process.env.CA_1203_4_SCRATCH ?? "/tmp/ca-1203-4-set-content";
-const CENSUS = path.join(OUT_DIR, "field-census.json");
+const CENSUS = path.join(OUT_DIR, "official-field-census.json");
 
 // Candidate printed boxes, at control scale. Deliberately NOT filtered by
 // squareness: on CR-180 the printed box beside each option is 18x9 while the

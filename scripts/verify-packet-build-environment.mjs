@@ -281,6 +281,86 @@ check(
 );
 
 // ==============================================================================
+// 6b. the tooling-readable rendition stage, for families that declare one
+// ==============================================================================
+check(
+  "readable_rendition_stage_declared",
+  "a family whose sources pdf-lib cannot open has a declared, available and proven rendition stage",
+  "ca-1203-4-set named this: its five official sources carry a permissions-only /Standard handler, they open with an empty user password in any conforming implementation, and pdf-lib 1.17.1 implements no decryption at all -- so pdf-lib cannot open them to WRITE a filled artifact. The predecessor pip-installed pikepdf in its own container, measured off it, and left a family the next worker could not rebuild. A family that needs the stage declares it in readable-rendition-request.json; this check refuses to call such a family buildable unless the stage is present AND its committed proof says the rendition is the same document, on deterministic bytes.",
+  (env) => {
+    if (!FAMILY) return { ok: null, skipped: true, detail: "no --family given; check not applicable" };
+    const overlays = path.join(env, "data/rcap-all50/overlays");
+    if (!fs.existsSync(overlays)) return { ok: null, skipped: true, detail: "no overlay tree in this environment" };
+
+    const requests = [];
+    const walk = (dir) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name === "readable-rendition-request.json"
+          && path.basename(path.dirname(full)).startsWith(`${FAMILY}--`)) requests.push(full);
+      }
+    };
+    walk(overlays);
+    // A family that declares no request does not need the stage. That is not a
+    // pass on the stage; it is the check not applying.
+    if (requests.length === 0) return { ok: null, skipped: true, detail: `${FAMILY} declares no rendition request; the stage is not required` };
+
+    const probe = shSafe("python3", ["-c",
+      "import json,pikepdf;print(json.dumps({'pikepdf':pikepdf.__version__,'libqpdf':pikepdf.__libqpdf_version__}))"]);
+    let stage = null;
+    try { stage = probe ? JSON.parse(probe.trim()) : null; } catch { stage = null; }
+    if (!stage) {
+      return {
+        ok: false, stageAvailable: false, requests: requests.length,
+        detail: "pikepdf is not importable; this family cannot be rebuilt. Install it (pip install pikepdf) -- it is deliberately NOT a package.json dependency, because package.json is the worker-image input and adding a Python stage to it would be a factory-level change."
+      };
+    }
+
+    // The stage being installed is not the same as the family being proven. The
+    // committed report is where the proof lives, and a report that records a
+    // delta, or a run that was not deterministic, is a failure here and not a note.
+    const problems = [];
+    for (const request of requests) {
+      const report = path.join(path.dirname(request), "readable-rendition.json");
+      if (!fs.existsSync(report)) { problems.push(`${path.basename(path.dirname(request))}: no readable-rendition.json`); continue; }
+      let parsed = null;
+      try { parsed = JSON.parse(fs.readFileSync(report, "utf8")); } catch { problems.push(`${path.basename(path.dirname(request))}: readable-rendition.json is unreadable`); continue; }
+      const declared = JSON.parse(fs.readFileSync(request, "utf8"));
+      if (parsed.allIdentical !== true) problems.push("the report does not claim the rendition is the same document");
+      if (parsed.allDeterministic !== true) problems.push("the report does not claim deterministic bytes");
+      if ((parsed.sources || []).length !== (declared.sources || []).length) problems.push(`the report covers ${(parsed.sources || []).length} source(s) of ${(declared.sources || []).length} requested`);
+      for (const s of parsed.sources || []) {
+        if (s?.comparison?.deltaCount !== 0) problems.push(`${s?.formNumber}: ${s?.comparison?.deltaCount} delta(s) against the official`);
+        if (s?.official?.verifiedBeforeTransformation !== true) problems.push(`${s?.formNumber}: the official hash was not verified before transformation`);
+        if (s?.rendition?.committed !== false) problems.push(`${s?.formNumber}: the rendition is recorded as committed`);
+      }
+      if (parsed.transformation?.libqpdfVersion && parsed.transformation.libqpdfVersion !== stage.libqpdf) {
+        problems.push(`the proof was produced under libqpdf ${parsed.transformation.libqpdfVersion}; this container has ${stage.libqpdf}`);
+      }
+    }
+    const ok = problems.length === 0;
+    return {
+      ok, stageAvailable: true, pikepdf: stage.pikepdf, libqpdf: stage.libqpdf,
+      requests: requests.length, problems,
+      detail: ok
+        ? `pikepdf ${stage.pikepdf} / libqpdf ${stage.libqpdf}; ${requests.length} rendition proof(s) hold`
+        : problems.slice(0, 3).join("; ")
+    };
+  },
+  // The stage being installed must not be enough to pass. The negative case is a
+  // family that declares a rendition request and has no proof to show for it.
+  (work) => {
+    const env = path.join(work, "rendition-declared-but-unproven");
+    const dir = path.join(env, "data/rcap-all50/overlays/census-v1/zz", `${FAMILY ?? "unnamed"}--official-pdf-fill`);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "readable-rendition-request.json"),
+      JSON.stringify({ familyId: FAMILY ?? "unnamed", renditionDirectory: "private/x", sources: [{ formNumber: "X" }] }));
+    return env;
+  }
+);
+
+// ==============================================================================
 // 7. private/ is git-ignored
 // ==============================================================================
 check(

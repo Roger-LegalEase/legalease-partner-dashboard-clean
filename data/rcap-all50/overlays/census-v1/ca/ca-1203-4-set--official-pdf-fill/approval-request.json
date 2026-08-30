@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ca-1203-4-set",
+  "worklistGroupId": "ca-1203-4-set",
+  "routeKeys": [
+    "obligation:track-pathway:CA:ca-1203-4:tool-1-dismissal-set-aside"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfilment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: all five sources were already held and each is bound by pinned SHA-256 on the bytes and on the committed corpus index. Nothing was acquired.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from measured widget geometry for all 217 terminal fields across five documents; every field is written, refused by a shared rule, or refused by role with a stated reason. `not_mapped` appears nowhere. 59 of 59 checkable widgets are additionally bound to a box the form draws, with each widget's own on-state, in reports/write-box-map.json.",
+    "LOCAL_VARIATION_REQUIRED": "Addressed in local-variation-record.json — statewide only. Zero of California's 58 counties has any county-specific practice established from a source in this environment.",
+    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered for all five documents and verified from the artifact bytes at their measured rectangles; every page of every fixture rastered.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "questionsForTheReviewer": [
+    "The XFA question. A filled CR-180, CR-181 or CR-106 preserves the printed page byte for byte but loses the /XFA packet and the publisher's permission bits, because pdf-lib removes XFA on load and offers no option to keep it. Acceptable for a Judicial Council form filed with a Superior Court?",
+    "CR-180 and CR-181 are delivered with an empty party block, because every field in `ATTORNEY OR PARTY WITHOUT ATTORNEY` is named Atty* and the shared attorney protect rule refuses it. Is a petition with no petitioner contact details worth delivering, or should the shared rule learn that this box belongs to a party without an attorney?",
+    "CR-180's conviction table is delivered entirely blank, because the form wants Code, Section and Type of offense in separate columns and the vocabulary holds one charge string. Is a blank table acceptable, or does this family need a decomposed charge fact first?",
+    "CR-106 is delivered with only its caption completed. Under Code Civ. Proc. § 1013a service by mail is made by someone who is not a party, so the participant is not the server — is including a caption-only proof of service in the packet the right thing, or should CR-106 ship blank?",
+    "Should the platform ever tick a box on CR-180? Every checkbox on it elects which subdivision of § 1203.4 the petitioner qualifies under. reports/write-box-map.json has the measured geometry and on-states ready if the answer is ever yes."
+  ],
+  "whatThisRequestDoesNotAssert": [
+    "that any of the five editions is current",
+    "that the packet is complete for any county",
+    "that any output may be delivered to a participant"
+  ]
+}

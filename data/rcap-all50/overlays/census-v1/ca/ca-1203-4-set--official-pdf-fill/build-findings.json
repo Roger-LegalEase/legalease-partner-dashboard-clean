@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "rcap-family-build-findings/v1",
+  "familyId": "ca-1203-4-set",
+  "worklistGroupId": "ca-1203-4-set",
+  "routeKeys": [
+    "obligation:track-pathway:CA:ca-1203-4:tool-1-dismissal-set-aside"
+  ],
+  "blockingFindings": [],
+  "blockingFindingCount": 0,
+  "xfaDecision": {
+    "question": "Does any source carry XFA, was it removed, and why?",
+    "sourcesCarryingXfa": [
+      {
+        "formNumber": "CR-180",
+        "shape": "array",
+        "partCount": 9,
+        "hybridStaticXfa": true,
+        "packetSha256": "e9687d11515fcffb4ece870952ec445a5c3a0109bf1fc0b502b8b36e45de5d36"
+      },
+      {
+        "formNumber": "CR-181",
+        "shape": "array",
+        "partCount": 9,
+        "hybridStaticXfa": true,
+        "packetSha256": "71e719e7c4e345da2f23bfa5abbb169bc0d497b219f13a8197449ed7437b13e2"
+      },
+      {
+        "formNumber": "CR-106",
+        "shape": "array",
+        "partCount": 9,
+        "hybridStaticXfa": true,
+        "packetSha256": "47d7547780316da4a8b3913495e0602ae612012ecb0159ddb69eeec87bb00380"
+      }
+    ],
+    "sourcesWithoutXfa": [
+      "MC-025",
+      "MC-031"
+    ],
+    "atTheRenditionStage": {
+      "removed": false,
+      "why": "The rendition stage's whole claim is that the rendition IS the document. A rendition that dropped the XFA packet would not be. The packet is carried through and its SHA-256 is a compared dimension: identical on all three.",
+      "packetIdentical": true
+    },
+    "atTheFillStage": {
+      "removed": true,
+      "removedBy": "pdf-lib 1.17.1, on load, announcing `Removing XFA form data as pdf-lib does not support reading or writing XFA`",
+      "optional": false,
+      "whatIsLost": [
+        "the /XFA packet",
+        "the publisher's /Standard handler and its permission bits"
+      ],
+      "whatIsNotLost": [
+        "every page's decoded content stream, byte for byte — what prints and what is filed",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle"
+      ],
+      "whyThisIsProbablyAcceptableAndWhyItIsSTILLTheCaptainsCall": "All three are hybrid STATIC XFA (/XFA present, /NeedsRendering absent), so the page content is what prints and the XFA packet is redundant with it. And because pdf-lib REMOVES the packet rather than leaving it stale, there is no AcroForm/XFA desynchronisation and no risk of a viewer rendering the form blank — the obvious fear is the wrong one here. But it is still an alteration to an official Judicial Council form, and the discipline is to say what is lost and let a human rule on it rather than bake the ruling into a committed artifact.",
+      "howNOTToCheckIt": "Not by looking at the rasters. The rasteriser does not render XFA, so this class of change is invisible to our own visual review in both directions."
+    }
+  },
+  "sharedModuleRepaired": {
+    "which": "scripts/rcap-official-forms/rcap-active-content.mjs, detachFromAcroForm()",
+    "theDefect": "SUPPRESS_CONTROL_APPEARANCE did not hold on a nested field tree. dropWidgets() deletes a suppressed field's /AP and removes its widget from the page's /Annots, then calls detachFromAcroForm() to take the field out of the form -- but detachFromAcroForm scanned only the TOP LEVEL of /Fields. On a flat-named form every field is top-level and it worked. On an XFA-authored form it is not: CR-180's `Print this form` button lives at CR-180[0] > #pageSet[0] > MPLast[0] > Footer[0] > Print[0], so nothing was detached, the field stayed in the form, and the next two lines of sanitizeAndFlatten undid the suppression completely -- updateFieldAppearances saw a widget with no /AP (because dropWidgets had just deleted it) and REGENERATED the button face from /MK /CA, and flatten then found the widget's page through its /P and stamped that face onto the page.",
+    "whatItPutOnFiledDOCUMENTS": "On this family, before the repair: `www.courts.ca.gov`, `Print this form`, `Save this form`, `Clear this form` and `For your protection and privacy, please press the Clear This Form button after you have printed the form.` -- drawn as ordinary ink on CR-180, CR-181 and CR-106.",
+    "theRepair": "detachFromAcroForm walks the field tree instead of only its top level, descending only into non-terminal nodes (a terminal field's /Kids holds widgets, not fields) and pruning an ancestor left holding an empty /Kids -- without that prune, pdf-lib reads such a node as a terminal and throws on its missing /FT. On a flat form the behaviour is byte-for-byte what it was.",
+    "blastRadiusMeasured": "All five census-v1 families were rebuilt after the repair. ak-tf805-set, ar-arrest-seal-set, ar-misdemeanor-dwi-seal-set and mi-setaside-marihuana-set are byte-identical -- their forms are flat-named, so the top-level scan already reached every field. ct-cleanslate-petition-set MOVED, and the whole of the move is that four appearances left its two fixtures: `Print Form` and `Reset Form`, on pages 1 and 2. Nothing was added and no content was lost.",
+    "ctHadAlreadyFoundIt": "ct-cleanslate-petition-set's own build-findings.json carried eight advisory findings, `flattening_materialised_the_forms_own_widget_caption`, one per button per fixture, noting that a filed copy carries the words at the foot of the sheet and recording them for visual review. It saw the symptom and could not reach the cause. After the repair its advisory list is empty and its own verification still passes. Its regenerated fixtures, rasters and hash records are committed with this change, because leaving them would leave committed artifacts that its own build script no longer reproduces.",
+    "whyThisWasNotWorkedAroundInThisFamilyInstead": "There is no lever. The disposition this family would supply is already the one being computed; the failure is downstream of it, in the flatten path. A family-local workaround would have meant leaving every other California Judicial Council form with the same defect."
+  },
+  "verifierAlreadyFailingOnTheBranch": {
+    "which": "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs",
+    "status": "still failing, on one check, and it was failing before this build",
+    "measured": "Run against a pristine worktree of the branch point (2f023bd1): `the record scanned every committed census, including census-v1 -- 157 of 162 censuses, 5352 of 5428 fields`. Run after this build: `157 of 162 censuses, 5352 of 5645 fields`.",
+    "whatThisBuildChangesAboutIt": "The census COUNT is unchanged at 162: this family removed one scanned filename (reports/field-census.json) and added another (field-census.census-v1.json). The FIELD count grows by 217 because the removed file was `forms`-shaped and contributed zero fields to that scan, while the added one is `documents`-shaped and contributes all 217 -- which is this family being enrolled in the scan, as the check itself requires (it asserts a field-census.census-v1.json is present).",
+    "everyOtherCheckInThatVerifierPasses": true,
+    "notFixedHere": "The frozen record is data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json, regenerated by scripts/rcap-official-forms/diff-name-date-component-semantics.mjs. It is a shared record outside this family's owned path and regenerating it would restate another lane's totals as a side effect of a California build. Reported rather than edited.",
+    "action": "reported, not acted on"
+  },
+  "forTheCaptain": [
+    {
+      "id": "pdf-lib-cannot-read-any-encrypted-source",
+      "severity": "factory-level",
+      "finding": "pdf-lib 1.17.1 implements no decryption at all. PDFDocument.load throws on any encrypted input, and with { ignoreEncryption: true } it parses still-encrypted object streams as plaintext and fails on every indirect reference — which is the `Expected instance of PDFDict, but got instance of undefined` recorded across the corpus index. It is therefore structurally unable to write a filled artifact from ANY encrypted official source, not only these five.",
+      "whatThisFamilyDidAboutIt": "Built scripts/rcap-corpus/build-tooling-readable-rendition.py: verify the official SHA-256 first, produce a tooling-readable rendition under private/, prove it is the same document on thirteen dimensions, prove the bytes are deterministic, and record the tool and its version. A new preflight check, readable_rendition_stage_declared, refuses to call any family that declares a rendition request buildable unless the stage is installed AND its committed proof holds.",
+      "stillTheCaptainsToDecide": "Whether the rendition stage is adopted corpus-wide, and how it is declared. pikepdf is a Python dependency and package.json is the worker-image input; this build did not touch package.json, so the stage is currently declared by the preflight check and by this family's rendition request, not by a manifest a worker image reads.",
+      "action": "reported, not acted on"
+    },
+    {
+      "id": "structuralClassObserved-unreadable-is-the-wrong-label",
+      "severity": "shared-manifest",
+      "finding": "data/rcap-all50/local-source-corpus-index.json records all five of this family's sources as `structuralClassObserved: \"unreadable\"` with `loadError: \"Expected instance of PDFDict, but got instance of undefined\"`. That is a true statement about pdf-lib 1.17.1 and a false statement about the documents: every one opens on the first try, with an empty user password, through any implementation of the standard security handler. Reading `unreadable` as `damaged` is what made this family look unbuildable.",
+      "suggestedValue": "Something that distinguishes encrypted-but-readable from damaged — e.g. `encrypted_permissions_only_readable`, carrying the handler, /V, /R and the fact that the user password is empty.",
+      "likelyBlastRadius": "The other rescued sources (DE, ME x2, NV, PA, WV, CA CR-409/CR-410) and any other encrypted entry.",
+      "notEditedHere": "It is a shared manifest and outside this family's owned path.",
+      "action": "reported, not acted on"
+    },
+    {
+      "id": "row-index-heuristic-reads-any-trailing-digit-as-a-table-row",
+      "severity": "shared-module",
+      "finding": "rowIndexOf() in rcap-field-semantics.mjs matches /^(.*?)(\\d{1,2})$/ against a field NAME, so any field whose name ends in 1-40 is treated as row N of a repeating table. MC-025's FillText5 and MC-031's FillText11 are CASE NUMBER caption blanks, and matter.case_number is a ROW_FACT, so with five or eleven charges available the binder writes that row's case number into a continuation sheet's caption. Both are refused by role here and proved blank in the boundary bytes.",
+      "action": "reported, not acted on"
+    },
+    {
+      "id": "the-shared-appearance-registry-cannot-take-a-sixth-family",
+      "severity": "shared-manifest",
+      "finding": "data/rcap-all50/shared/field-appearance-semantics.json is the sanctioned place to record what a field's appearance MEANS, and it is keyed by family. But scripts/verify-rcap-appearance-semantics.mjs asserts it covers EXACTLY the five Nebraska families it was assigned, by an equality frozen in the verifier file rather than in a data record. A sixth family cannot contribute to the shared registry without editing that assertion.",
+      "whatThisFamilyDidAboutIt": "Recorded its two classifications in its own field-appearance-dispositions.json, in the same schema and loaded through the shared module's own validating loader, and handed the finalizer the plain field-name map it takes. Nothing shared was edited and that verifier still passes at exactly five families. But per-family copies of a shared registry is not where this should end up.",
+      "theTwoClassifications": "MC-025 and MC-031's NoticeHeader1 and NoticeFooter1 -- read-only text fields whose appearance draws `please press the Clear This Form button`, an instruction about a control a flattened artifact does not have. Measured chrome, not the court's content: no text-drawing operator in either page's own content layer sits above y=760, and MC-025 carries its own hiding mechanism for it, a field literally named WhiteOut painted over it.",
+      "action": "reported, not acted on"
+    },
+    {
+      "id": "preflight-prove-mode-reports-two-master-library-checks-vacuous",
+      "severity": "minor",
+      "finding": "`node scripts/verify-packet-build-environment.mjs --prove` reports master_library_mounted and master_library_complete as VACUOUS when MASTER_LIBRARY_SOURCE_DIR is exported, because masterLibraryRoot() honours that variable and so resolves the same corpus for the synthetic barren environment as for the real one. Pre-existing, not introduced by this build, and noted because --prove is the mechanism that keeps the preflight honest.",
+      "action": "reported, not acted on"
+    }
+  ],
+  "whatThisBuildDidNotDo": [
+    "It did not edit data/rcap-all50/local-source-corpus-index.json, or any other shared manifest.",
+    "It did not touch package.json, migrations/**, production, payment or sponsorship.",
+    "It did not modify scripts/lib/pdf-stroked-boxes.mjs, rcap-field-semantics.mjs, rcap-pdf-anchor-capture.mjs or rcap-official-form-finalize.mjs. It DID modify rcap-active-content.mjs, and sharedModuleRepaired above says exactly what and measures the blast radius across all five census-v1 families.",
+    "It did not build, dispatch or measure any other encrypted California family. The pipeline is what unblocks them; finishing this one first is what proves the pipeline.",
+    "It did not commit a source binary, a derivative, an absolute container path or a symlink.",
+    "It did not open, read or modify any rescued derivative.",
+    "It did not tick a checkbox, draw a box, or write a participant name into any charge, offence, count, statute or violation caption.",
+    "It did not prefill a signature, a signature date, a certificate of mailing or a court-only field.",
+    "It did not skip, weaken or quarantine a verifier — and it repaired one a predecessor on this branch broke."
+  ],
+  "verifierRepaired": {
+    "which": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+    "wasFailing": "A predecessor on this branch wrote reports/field-census.json into this family's directory. That verifier walks data/rcap-all50/overlays for that exact basename and asserts the family count equals the 156 frozen in the committed classification diff, so it saw 157 and failed: `the recorded field and family totals are the corpus's own — 5286 of 5286 across 156 of 157`.",
+    "fix": "The official-geometry census is renamed reports/official-field-census.json, which is also the more accurate name for what it is. The verifier passes again at 156 families and 5286 fields. Nothing was weakened and the frozen diff record was not edited."
+  }
+}

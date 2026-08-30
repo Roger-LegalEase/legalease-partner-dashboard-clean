@@ -265,11 +265,55 @@ function detachFromAcroForm(pdfDoc, acroField) {
   const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
   const fields = acroForm?.lookupMaybe(PDFName.of("Fields"), PDFArray);
   if (!fields) return 0;
+
+  // The field tree is a TREE, and this used to scan only its top level.
+  //
+  // On a flat-named form every field is top-level, so the top-level scan
+  // detached it and nothing downstream saw it again. On an XFA-authored form it
+  // is not: every California Judicial Council form nests its terminals, so
+  // CR-180's "Print this form" button lives at
+  // CR-180[0] > #pageSet[0] > MPLast[0] > Footer[0] > Print[0] and the scan
+  // found nothing to remove. The field therefore stayed in the tree, and the
+  // next two lines of sanitizeAndFlatten undid the suppression completely:
+  // updateFieldAppearances saw a widget with no /AP -- because dropWidgets had
+  // just deleted it -- and REGENERATED the button face from /MK /CA, and
+  // flatten then found the widget's page through its /P and stamped that face
+  // onto the page. A filed CR-180 carried "Print this form", "Save this form",
+  // "Clear this form" and the privacy warning as printed ink.
+  //
+  // Walking the tree is what the function already claimed to do. On a flat form
+  // it behaves exactly as before; on a nested one the suppression now holds.
+  // An ancestor left holding an EMPTY /Kids must go too. pdf-lib decides
+  // terminal-or-not by whether a node has field kids, so a non-terminal whose
+  // last field kid was just detached reads as a terminal, and
+  // createPDFAcroTerminal then throws `Expected instance of PDFName, but got
+  // instance of undefined` on its missing /FT. So the walk prunes upward: a
+  // parent that has no /FT of its own and no kids left is removed as well.
   let removed = 0;
-  for (let i = fields.size() - 1; i >= 0; i -= 1) {
-    const entry = fields.get(i);
-    if (entry === acroField.ref || pdfDoc.context.lookup(entry) === acroField.dict) { fields.remove(i); removed += 1; }
-  }
+  const seen = new Set();
+  const removeFrom = (array, depth) => {
+    if (!(array instanceof PDFArray) || depth > 32) return;
+    for (let i = array.size() - 1; i >= 0; i -= 1) {
+      const entry = array.get(i);
+      const node = pdfDoc.context.lookup(entry);
+      if (entry === acroField.ref || node === acroField.dict) { array.remove(i); removed += 1; continue; }
+      if (!(node instanceof PDFDict) || seen.has(node)) continue;
+      seen.add(node);
+      // Descend only into non-terminal nodes. A terminal field's /Kids holds
+      // its widgets, not fields, and a widget is dropped by dropWidgets rather
+      // than detached here.
+      const kids = node.lookupMaybe(PDFName.of("Kids"), PDFArray);
+      if (!kids) continue;
+      const kidsAreFields = kids.asArray().some((kid) => {
+        const k = pdfDoc.context.lookup(kid);
+        return k instanceof PDFDict && k.get(PDFName.of("T")) !== undefined;
+      });
+      if (!kidsAreFields) continue;
+      removeFrom(kids, depth + 1);
+      if (kids.size() === 0 && node.get(PDFName.of("FT")) === undefined) array.remove(i);
+    }
+  };
+  removeFrom(fields, 0);
   return removed;
 }
 

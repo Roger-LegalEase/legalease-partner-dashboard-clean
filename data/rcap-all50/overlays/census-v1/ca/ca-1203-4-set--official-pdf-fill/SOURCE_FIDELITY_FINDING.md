@@ -1,3 +1,11 @@
+> **Status note, added by the build that finished this family.** This finding is
+> unrevised and nothing in it is contradicted. Two of its §7 open items are now
+> answered: item 1 by `scripts/rcap-corpus/build-tooling-readable-rendition.py`
+> and the `readable_rendition_stage_declared` preflight check, so an
+> encrypted-source family CAN now render a filled artifact; item 2 is reported to
+> the Captain and the shared index is still not edited. Item 3 remains open. The
+> current state of the family is `handoff.md`.
+
 # ca-1203-4-set — the source-fidelity question, resolved
 
 **Short answer: the official binaries are readable directly, and nothing in this

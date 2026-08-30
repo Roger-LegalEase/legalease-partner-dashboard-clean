@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "rcap-field-appearance-semantics/v1-family-local",
+  "familyId": "ca-1203-4-set",
+  "purpose": "What each classified field's appearance MEANS on this family's five forms, so finalizeOfficialForm can decide what it may contribute without branching on the family, the form, the field name or the text. Same three dispositions and same shape as data/rcap-all50/shared/field-appearance-semantics.json.",
+  "whyThisIsFamilyLocalAndNotInTheSharedRegistry": "scripts/verify-rcap-appearance-semantics.mjs asserts the shared registry covers EXACTLY the five Nebraska families it was assigned, by an equality frozen in the verifier file rather than in a data record. A sixth family cannot be added to that registry without editing that assertion, and editing another assignment's verifier to make room for this family is not this family's call. finalizeOfficialForm takes a plain field-name map, so the meaning is recorded here, per field, with the measurement that decided it -- which is the registry's actual contract. Reported to the Captain in build-findings.json.",
+  "notAHeuristic": "No entry here is derived from a /Ff bit combination, ReadOnly, Multiline, or whether the text sits in page content or a widget appearance. Each was measured on the official binary by reading the drawn appearance and matching it to its field by widget rectangle, and each entry records that measurement.",
+  "defaultWhenUnclassified": "The structural rule in scripts/rcap-official-forms/rcap-appearance-semantics.mjs: a pushbutton is suppressed, an unanswered chooser renders only when written, and everything else is preserved. 212 of this family's 217 fields are left on it.",
+  "families": {
+    "ca-1203-4-set": {
+      "measuredOff": "the official binaries, bound by exact SHA-256",
+      "fields": {
+        "NoticeHeader1": {
+          "disposition": "suppress_control_appearance",
+          "appliesTo": ["MC-025", "MC-031"],
+          "sourceAppearanceWhenUnwritten": "To keep other people from seeing what you entered on your form, please press the Clear This Form button at the end of the form when finished.",
+          "because": "It is chrome for a person at a screen, and three independent measurements say so. (1) Its text instructs the reader to press a control -- the Clear This Form button -- which does not exist in a flattened artifact. (2) It is not part of the form the Judicial Council printed: no text-drawing operator in either page's own content layer sits above y=760 (MC-025's highest is y=1.98, MC-031's y=0.128), so every word of this band lives in the widget appearance and none of it in the page. (3) On MC-025 the form carries its own hiding mechanism for it -- a read-only field literally named WhiteOut, at [34.71, 770.51, 576.86, 787.87], painted over this field at [34.71, 766.38, 576.86, 792.00]. Left preserved, a filed Judicial Council attachment carries a screen instruction across the top of the page.",
+          "measuredRect": { "MC-025": [34.71, 766.38, 576.86, 792.0], "MC-031": [35.54, 753.98, 573.55, 790.35] }
+        },
+        "NoticeFooter1": {
+          "disposition": "suppress_control_appearance",
+          "appliesTo": ["MC-025", "MC-031"],
+          "sourceAppearanceWhenUnwritten": "For your protection and privacy, please press the Clear This Form button after you have printed the form.",
+          "because": "The same band at the foot of the page, and the same instruction to press a control that a flattened artifact does not have. Measured at the very bottom edge of the paper -- [34.92, 0.20, 277.96, 24.89] on MC-025 and [30.78, 2.21, 273.82, 26.89] on MC-031 -- below the form's own footer, and drawn entirely from the widget appearance rather than from the page.",
+          "measuredRect": { "MC-025": [34.92, 0.2, 277.96, 24.89], "MC-031": [30.78, 2.21, 273.82, 26.89] }
+        }
+      },
+      "consideredAndLeftOnTheDefault": {
+        "WhiteOut": "MC-025 only, at [34.71, 770.51, 576.86, 787.87]. It draws no text at all -- it is the opaque panel the form paints over NoticeHeader1 to hide it when printed. Left on preserve_source_appearance, under which stripWidgetBackground already removes an opaque background painted over the page, so it contributes nothing either way. Classifying a field that draws nothing would be recording a decision that was never made."
+      }
+    }
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "schemaVersion": "rcap-family-visual-review/v1",
+  "familyId": "ca-1203-4-set",
+  "status": "NOT_INDEPENDENT",
+  "performedBy": "the same worker that produced the artifacts",
+  "whyThatMatters": "A worker checking its own output is not an independent review, and this record says so rather than letting a green raster set stand in for one.",
+  "pagesRastered": 18,
+  "everyPageOfEveryFixture": true,
+  "aGreenRasterIsNotEvidenceAboutXfa": "The rasteriser does not render XFA. For the XFA question in build-findings.json, our own raster review is structurally incapable of showing a difference and must not be cited as evidence either way.",
+  "theRasterIsNotThePrintedPage": {
+    "what": "These forms carry OPTIONAL CONTENT, and the rasteriser ignores /OCProperties. A reviewer looking at these PNGs is not looking at what a printer would put on paper, in both directions, and the measurement below says exactly which.",
+    "measuredBy": "scripts/rcap-corpus/build-tooling-readable-rendition.py, from the official binaries",
+    "groups": [
+      {
+        "formNumber": "CR-180",
+        "optionalContentPresent": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usedOnPages": [
+          {
+            "pageIndex": 2,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      {
+        "formNumber": "CR-181",
+        "optionalContentPresent": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usedOnPages": [
+          {
+            "pageIndex": 1,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      {
+        "formNumber": "CR-106",
+        "optionalContentPresent": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usedOnPages": [
+          {
+            "pageIndex": 1,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      {
+        "formNumber": "MC-025",
+        "optionalContentPresent": false,
+        "groups": [],
+        "usedOnPages": []
+      },
+      {
+        "formNumber": "MC-031",
+        "optionalContentPresent": false,
+        "groups": [],
+        "usedOnPages": []
+      }
+    ],
+    "whatItMeansHere": "CR-180, CR-181 and CR-106 each use exactly ONE optional-content block, on their last page, and every one of them is in a group named `ViewOnly Layer` whose /Usage says /Print /PrintState /OFF. That block is the light-grey panel (0.753 grey, [36.00, 12.78, 247.29, 35.96] on CR-180 page 3) that the form paints behind its `Clear This Form` warning. It appears in these rasters and a conforming printer omits it. It is the court's own page content and was NOT added, moved or removed by this build; nothing here rewrites a page.",
+    "theDangerousDirectionWasChecked": "The reverse case is the one that would matter: content in a group with /PrintState /ON and /ViewState /OFF prints on the filed page and never appears in a raster, so a visual review could not see it. CR-180, CR-181 and CR-106 each DECLARE such a group -- `PrintOnly Layer` -- but no page of any of the five forms draws a single block inside it. So there is no content on these documents that prints and is invisible to this review.",
+    "forTheReviewer": "Read the grey panel at the foot of CR-180 page 3, CR-181 page 2 and CR-106 page 2 as a rasteriser artefact, not as ink on the filing."
+  },
+  "pageByPageReview": [
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-03.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "page": 3,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-03.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-canonical/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-canonical/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-boundary/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-boundary/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-canonical/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-canonical/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-boundary/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-boundary/page-02.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-MC-025-ATTACHMENT",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-canonical/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-MC-025-ATTACHMENT",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-boundary/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-MC-031-ATTACHED-DECLARATION",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-canonical/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    },
+    {
+      "document": "CA-MC-031-ATTACHED-DECLARATION",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-boundary/page-01.png",
+      "reviewedBy": "the worker that produced it (not independent)"
+    }
+  ],
+  "rasters": [
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+          "sha256": "df6b27a4ffee126e9e169ba0c91d200028ea334038dfb399f526e3f44f250a88",
+          "byteLength": 166029
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+          "sha256": "5a36ceae205268d0ade70c8d4d4d2fade2b5fd04a8d53e2560635339bb95ac34",
+          "byteLength": 182855
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-canonical/page-03.png",
+          "sha256": "7197954ee17d2132e4c5c7e5efe240d30c998f0a2053f73903cf0a0e47106a16",
+          "byteLength": 125117
+        }
+      ]
+    },
+    {
+      "document": "CA-CR-180-PETITION-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+          "sha256": "e5dd349ae1987606ab779a2000518222842e89136d4258ca7af99a373dbae0f6",
+          "byteLength": 170624
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+          "sha256": "73a477aee03eb81a14ce8f4ff2b1bc42eb6538db722e850e3a7574fe0bac7c94",
+          "byteLength": 186771
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/petition-boundary/page-03.png",
+          "sha256": "6362408b3997ef8bc3ce486f6aa83db0a323b16c0e58dba91e1196e77bd5c3b0",
+          "byteLength": 129131
+        }
+      ]
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-canonical/page-01.png",
+          "sha256": "43949a5d30ff5d7c1dcb83e848988c0e4b474f0cfa275b01687986ea10a03edb",
+          "byteLength": 145764
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-canonical/page-02.png",
+          "sha256": "d5100bad3125a3750972f8bec8817ef1bc2c6d01074a5cce9962096849f277e8",
+          "byteLength": 215794
+        }
+      ]
+    },
+    {
+      "document": "CA-CR-181-ORDER-FOR-DISMISSAL",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-boundary/page-01.png",
+          "sha256": "13b6cf66dd21af6cda1520e35b22846c4c146f344486b7403f014cf64c7f0759",
+          "byteLength": 149958
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/order-boundary/page-02.png",
+          "sha256": "4aae902e020a35c6239613db15f33ce3cc6678d9458c0248e402dafd7f0fd946",
+          "byteLength": 216831
+        }
+      ]
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-canonical/page-01.png",
+          "sha256": "eda0733a28586c883ed35b1c7ac5793e3af9209c399e3d35530fec0570c37006",
+          "byteLength": 200690
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-canonical/page-02.png",
+          "sha256": "4be4493cecc95357f3dd4ac90c4a9f3e31dd36d928234d8fb76d5eb00f0a3231",
+          "byteLength": 103449
+        }
+      ]
+    },
+    {
+      "document": "CA-CR-106-PROOF-OF-SERVICE",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-boundary/page-01.png",
+          "sha256": "600abbf85503ce2faf67bf569f7b8e3013fbec9c4369b457ca59cca1f155ed02",
+          "byteLength": 199988
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/proof-of-service-boundary/page-02.png",
+          "sha256": "af2e9864a3f558e525f83dc555e96730494af9b27f9fabc7e214979439d954f2",
+          "byteLength": 104602
+        }
+      ]
+    },
+    {
+      "document": "CA-MC-025-ATTACHMENT",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-canonical/page-01.png",
+          "sha256": "559ccce8fc7c3334aa42bd74da6f42abeca68a9c6c529237e255ebc900af4dd5",
+          "byteLength": 39257
+        }
+      ]
+    },
+    {
+      "document": "CA-MC-025-ATTACHMENT",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/attachment-boundary/page-01.png",
+          "sha256": "559ccce8fc7c3334aa42bd74da6f42abeca68a9c6c529237e255ebc900af4dd5",
+          "byteLength": 39257
+        }
+      ]
+    },
+    {
+      "document": "CA-MC-031-ATTACHED-DECLARATION",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-canonical/page-01.png",
+          "sha256": "d8f6c6fe13011edb93343786531e8a016c601d210cc1977f9afa7e9c852b4f30",
+          "byteLength": 44038
+        }
+      ]
+    },
+    {
+      "document": "CA-MC-031-ATTACHED-DECLARATION",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/raster/declaration-boundary/page-01.png",
+          "sha256": "c75368808384492099d9e296acdc9edc3c9de2dea2ce0575b280e6306effce57",
+          "byteLength": 44662
+        }
+      ]
+    }
+  ]
+}

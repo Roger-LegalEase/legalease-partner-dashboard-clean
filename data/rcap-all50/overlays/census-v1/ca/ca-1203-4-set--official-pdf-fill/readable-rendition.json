@@ -1,0 +1,918 @@
+{
+  "schemaVersion": "rcap-tooling-readable-rendition/v1",
+  "familyId": "ca-1203-4-set",
+  "jurisdiction": "CA",
+  "generatedBy": "scripts/rcap-corpus/build-tooling-readable-rendition.py",
+  "request": "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/readable-rendition-request.json",
+  "whatThisStageIs": "A tooling-readable rendition of an official source, plus the proof that the rendition is the same document. It is not a rescue and the sources are not damaged: each opens with an empty user password in any conforming implementation. The obstacle is that pdf-lib 1.17.1, the only writer in this repository, implements no decryption and so cannot open them to write a filled artifact.",
+  "whatThisStageIsNot": [
+    "not a repair -- nothing here is damaged",
+    "not a password crack -- the user password is empty and no secret is defeated",
+    "not a re-render -- page content streams are carried through and asserted identical",
+    "not a source of geometry -- every rectangle this family uses is measured off the official binary, never off a rendition"
+  ],
+  "transformation": {
+    "identity": "structural rewrite of the object layer with the security handler removed",
+    "tool": "pikepdf (bindings over libqpdf)",
+    "pikepdfVersion": "10.12.0",
+    "libqpdfVersion": "12.3.2",
+    "call": "pikepdf.open(source, password='').save(out, deterministic_id=True)",
+    "equivalentCommandLine": "qpdf --decrypt --deterministic-id <in> <out>",
+    "password": "empty user password; no password was supplied or needed",
+    "reRendersContent": false,
+    "removesXfa": false
+  },
+  "controls": [
+    "the official SHA-256 is verified BEFORE the document is opened; a mismatch stops the run and nothing is transformed",
+    "the rendition is written under private/, is git-ignored and is never committed",
+    "the rendition is compared against the official on every dimension a field map or a rendered artifact could depend on; any delta is a stop",
+    "the transformation identity and exact tool version are recorded",
+    "the rendition is produced twice and the two runs must hash identically",
+    "the output is asserted application/pdf from its own bytes"
+  ],
+  "sourceCount": 5,
+  "allIdentical": true,
+  "allDeterministic": true,
+  "xfaDecisionSummary": {
+    "sourcesCarryingXfa": [
+      "CR-180",
+      "CR-181",
+      "CR-106"
+    ],
+    "sourcesWithoutXfa": [
+      "MC-025",
+      "MC-031"
+    ],
+    "removedByThisStage": false,
+    "why": "removing it would falsify the claim that the rendition is the same document"
+  },
+  "sources": [
+    {
+      "formNumber": "CR-180",
+      "role": "Petition for dismissal",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+      "official": {
+        "pinnedSha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+        "observedSha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+        "verifiedBeforeTransformation": true,
+        "byteLength": 110684,
+        "encryption": {
+          "encrypted": true,
+          "handler": "/Standard",
+          "V": 5,
+          "R": 6,
+          "streamCipher": "EncryptionMethod.aesv3",
+          "stringCipher": "EncryptionMethod.aesv3",
+          "bitLength": 256,
+          "P": -1084,
+          "permissions": {
+            "print": true,
+            "modifyContents": false,
+            "extractForAnyPurpose": false,
+            "modifyAnnotationsAndFillForms": false,
+            "fillInFormFields": true,
+            "extractForAccessibility": true,
+            "assemblePages": false,
+            "printHighQuality": true
+          },
+          "userPasswordEmpty": true,
+          "readingIsPermitted": true,
+          "fillingFormFieldsIsPermitted": true,
+          "whatThisIs": "A permissions-only /Standard handler. The user password is empty, so the document opens with no secret in any conforming implementation; the /P bits are the publisher's statement about what may be done with it, and they are recorded here verbatim rather than summarised."
+        }
+      },
+      "rendition": {
+        "path": "private/readable-renditions/ca-1203-4-set/CR-180.readable.pdf",
+        "committed": false,
+        "whyNotCommitted": "It is a build intermediate under private/, which is git-ignored. What this family stands on is the official binary and this report; a derivative in the tree would invite a later run to measure off it.",
+        "sha256": "57b57b2f25e6b49e34f4c5ea81e4146100df2cad0f92de5168e231905176a4fa",
+        "byteLength": 101122,
+        "mediaType": "application/pdf",
+        "headerVersion": "%PDF-1.7",
+        "hasEofMarker": true,
+        "stillEncrypted": false
+      },
+      "deterministicBytes": {
+        "provenBy": "the transformation was run twice from the same input in this run",
+        "firstRunSha256": "57b57b2f25e6b49e34f4c5ea81e4146100df2cad0f92de5168e231905176a4fa",
+        "secondRunSha256": "57b57b2f25e6b49e34f4c5ea81e4146100df2cad0f92de5168e231905176a4fa",
+        "identical": true,
+        "normalisation": {
+          "applied": "qpdf deterministic /ID",
+          "why": "qpdf's default trailer /ID is derived from the clock, so the same input saved twice seconds apart produces different bytes. Measured, not assumed: three default saves of CR-180 at t, t and t+3s produced three distinct SHA-256 values. deterministic_id derives it from the file's own content instead.",
+          "whatItChanges": "ISO 32000-1 14.4 /ID[0] is the document's PERMANENT identifier and /ID[1] the CHANGING one, which is expected to differ whenever the file is written again. qpdf preserves the first and regenerates the second; permanentId is asserted equal in the comparison above, and changingId is expected to differ and is recorded on both sides.",
+          "officialPermanentId": "3e15ccc34b44464484cfd8f3bf3d4ff1",
+          "officialChangingId": "b5a4d23390170040a6d7e08f5e454cbb",
+          "renditionChangingId": "aa63e2479febd874f43fbac044a03396"
+        }
+      },
+      "xfaDecision": {
+        "sourceCarriesXfa": true,
+        "shape": "array",
+        "partCount": 9,
+        "partNames": [
+          "xdp:xdp",
+          "config",
+          "template",
+          "datasets",
+          "localeSet",
+          "xmpmeta",
+          "xfdf",
+          "form",
+          "</xdp:xdp>"
+        ],
+        "needsRendering": false,
+        "hybridStaticXfa": true,
+        "removedByThisStage": false,
+        "why": "This stage removes nothing. Its whole claim is that the rendition IS the document, and a rendition that dropped the XFA packet would not be. The packet is carried through and its bytes are hashed on both sides and asserted equal (xfa.packetSha256 is a compared dimension, not a note).",
+        "officialPacketSha256": "e9687d11515fcffb4ece870952ec445a5c3a0109bf1fc0b502b8b36e45de5d36",
+        "renditionPacketSha256": "e9687d11515fcffb4ece870952ec445a5c3a0109bf1fc0b502b8b36e45de5d36",
+        "packetIdentical": true,
+        "downstreamWarning": "A downstream FILL stage may remove XFA -- pdf-lib 1.17.1 does, announcing it -- and that removal is that stage's decision to declare in its own record. It does not inherit silence from this one."
+      },
+      "optionalContent": {
+        "present": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usageByPage": [
+          {
+            "pageIndex": 2,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      "comparison": {
+        "dimensionsCompared": [
+          "page count",
+          "page /MediaBox, /CropBox, /Rotate, /UserUnit",
+          "per-page annotation count",
+          "per-page content-stream SHA-256 and byte length",
+          "catalogue key set and /NeedsRendering",
+          "AcroForm /NeedAppearances, /SigFlags, /DA, /DR font names",
+          "XFA presence, shape, part names and packet SHA-256",
+          "optional-content groups, their /Print and /View usage states, and which pages use them",
+          "terminal field identities (fully-qualified names)",
+          "per field /FT, /Ff, /MaxLen, /Opt, widget count",
+          "per widget page index, /Rect, /F",
+          "per widget /AP /N state names and appearance-stream SHA-256",
+          "document information dictionary",
+          "trailer /ID[0] (the permanent identifier)"
+        ],
+        "deltaCount": 0,
+        "deltas": [],
+        "identical": true,
+        "pageCount": 3,
+        "terminalFieldCount": 81,
+        "widgetCount": 81,
+        "pageContentStreamSha256": [
+          "f77b3a40c879ef1e609435839c944b0c516d4b173dd5b04bf50f03f44e9198b4",
+          "01f1cda7d130f313aed039b672689999f6cec0e877487eaabdc32e04c1d6d5fa",
+          "4be2d163b9754e5e480d70aa0ac41ca82d96bf957fdcf48c7eb8a44476048ed2"
+        ],
+        "pageGeometry": [
+          {
+            "pageIndex": 0,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          },
+          {
+            "pageIndex": 1,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          },
+          {
+            "pageIndex": 2,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          }
+        ]
+      },
+      "whatChanged": [
+        "the /Standard security handler and its permission bits are gone, which is the point of the stage",
+        "trailer /ID[1], the changing identifier, is regenerated from content (see deterministicBytes.normalisation)",
+        "the object layer is rewritten -- object numbering, stream compression and cross-reference form are qpdf's, not the publisher's"
+      ],
+      "whatDidNotChange": [
+        "every page's decoded content stream, byte for byte",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle, page and appearance states",
+        "the XFA packet",
+        "the optional-content groups and which pages use them",
+        "the document information dictionary",
+        "the permanent document identifier"
+      ]
+    },
+    {
+      "formNumber": "CR-181",
+      "role": "Order for dismissal (proposed)",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+      "official": {
+        "pinnedSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+        "observedSha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+        "verifiedBeforeTransformation": true,
+        "byteLength": 110123,
+        "encryption": {
+          "encrypted": true,
+          "handler": "/Standard",
+          "V": 5,
+          "R": 6,
+          "streamCipher": "EncryptionMethod.aesv3",
+          "stringCipher": "EncryptionMethod.aesv3",
+          "bitLength": 256,
+          "P": -1084,
+          "permissions": {
+            "print": true,
+            "modifyContents": false,
+            "extractForAnyPurpose": false,
+            "modifyAnnotationsAndFillForms": false,
+            "fillInFormFields": true,
+            "extractForAccessibility": true,
+            "assemblePages": false,
+            "printHighQuality": true
+          },
+          "userPasswordEmpty": true,
+          "readingIsPermitted": true,
+          "fillingFormFieldsIsPermitted": true,
+          "whatThisIs": "A permissions-only /Standard handler. The user password is empty, so the document opens with no secret in any conforming implementation; the /P bits are the publisher's statement about what may be done with it, and they are recorded here verbatim rather than summarised."
+        }
+      },
+      "rendition": {
+        "path": "private/readable-renditions/ca-1203-4-set/CR-181.readable.pdf",
+        "committed": false,
+        "whyNotCommitted": "It is a build intermediate under private/, which is git-ignored. What this family stands on is the official binary and this report; a derivative in the tree would invite a later run to measure off it.",
+        "sha256": "ef5d0e2617aaf19486b427ca0309b4bed7f862f126eb9d48aab1094319764e05",
+        "byteLength": 102810,
+        "mediaType": "application/pdf",
+        "headerVersion": "%PDF-1.7",
+        "hasEofMarker": true,
+        "stillEncrypted": false
+      },
+      "deterministicBytes": {
+        "provenBy": "the transformation was run twice from the same input in this run",
+        "firstRunSha256": "ef5d0e2617aaf19486b427ca0309b4bed7f862f126eb9d48aab1094319764e05",
+        "secondRunSha256": "ef5d0e2617aaf19486b427ca0309b4bed7f862f126eb9d48aab1094319764e05",
+        "identical": true,
+        "normalisation": {
+          "applied": "qpdf deterministic /ID",
+          "why": "qpdf's default trailer /ID is derived from the clock, so the same input saved twice seconds apart produces different bytes. Measured, not assumed: three default saves of CR-180 at t, t and t+3s produced three distinct SHA-256 values. deterministic_id derives it from the file's own content instead.",
+          "whatItChanges": "ISO 32000-1 14.4 /ID[0] is the document's PERMANENT identifier and /ID[1] the CHANGING one, which is expected to differ whenever the file is written again. qpdf preserves the first and regenerates the second; permanentId is asserted equal in the comparison above, and changingId is expected to differ and is recorded on both sides.",
+          "officialPermanentId": "c4512558fbf65c45981d12b23db89e79",
+          "officialChangingId": "5f740b1c549d1e4cbd32b850652b158c",
+          "renditionChangingId": "385ea63667524cf43ace878d5d17fac1"
+        }
+      },
+      "xfaDecision": {
+        "sourceCarriesXfa": true,
+        "shape": "array",
+        "partCount": 9,
+        "partNames": [
+          "xdp:xdp",
+          "config",
+          "template",
+          "datasets",
+          "localeSet",
+          "xmpmeta",
+          "xfdf",
+          "form",
+          "</xdp:xdp>"
+        ],
+        "needsRendering": false,
+        "hybridStaticXfa": true,
+        "removedByThisStage": false,
+        "why": "This stage removes nothing. Its whole claim is that the rendition IS the document, and a rendition that dropped the XFA packet would not be. The packet is carried through and its bytes are hashed on both sides and asserted equal (xfa.packetSha256 is a compared dimension, not a note).",
+        "officialPacketSha256": "71e719e7c4e345da2f23bfa5abbb169bc0d497b219f13a8197449ed7437b13e2",
+        "renditionPacketSha256": "71e719e7c4e345da2f23bfa5abbb169bc0d497b219f13a8197449ed7437b13e2",
+        "packetIdentical": true,
+        "downstreamWarning": "A downstream FILL stage may remove XFA -- pdf-lib 1.17.1 does, announcing it -- and that removal is that stage's decision to declare in its own record. It does not inherit silence from this one."
+      },
+      "optionalContent": {
+        "present": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usageByPage": [
+          {
+            "pageIndex": 1,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      "comparison": {
+        "dimensionsCompared": [
+          "page count",
+          "page /MediaBox, /CropBox, /Rotate, /UserUnit",
+          "per-page annotation count",
+          "per-page content-stream SHA-256 and byte length",
+          "catalogue key set and /NeedsRendering",
+          "AcroForm /NeedAppearances, /SigFlags, /DA, /DR font names",
+          "XFA presence, shape, part names and packet SHA-256",
+          "optional-content groups, their /Print and /View usage states, and which pages use them",
+          "terminal field identities (fully-qualified names)",
+          "per field /FT, /Ff, /MaxLen, /Opt, widget count",
+          "per widget page index, /Rect, /F",
+          "per widget /AP /N state names and appearance-stream SHA-256",
+          "document information dictionary",
+          "trailer /ID[0] (the permanent identifier)"
+        ],
+        "deltaCount": 0,
+        "deltas": [],
+        "identical": true,
+        "pageCount": 2,
+        "terminalFieldCount": 58,
+        "widgetCount": 58,
+        "pageContentStreamSha256": [
+          "31ce6b7b225b78405e04519e456d7c1bcf66db2afcf52f9873825580f8efd267",
+          "75375027b74330d332556545613a2a60a6f7b2474ab9764fe810561394be337b"
+        ],
+        "pageGeometry": [
+          {
+            "pageIndex": 0,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          },
+          {
+            "pageIndex": 1,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          }
+        ]
+      },
+      "whatChanged": [
+        "the /Standard security handler and its permission bits are gone, which is the point of the stage",
+        "trailer /ID[1], the changing identifier, is regenerated from content (see deterministicBytes.normalisation)",
+        "the object layer is rewritten -- object numbering, stream compression and cross-reference form are qpdf's, not the publisher's"
+      ],
+      "whatDidNotChange": [
+        "every page's decoded content stream, byte for byte",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle, page and appearance states",
+        "the XFA packet",
+        "the optional-content groups and which pages use them",
+        "the document information dictionary",
+        "the permanent document identifier"
+      ]
+    },
+    {
+      "formNumber": "CR-106",
+      "role": "Proof of service",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+      "official": {
+        "pinnedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+        "observedSha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a",
+        "verifiedBeforeTransformation": true,
+        "byteLength": 104278,
+        "encryption": {
+          "encrypted": true,
+          "handler": "/Standard",
+          "V": 4,
+          "R": 4,
+          "streamCipher": "EncryptionMethod.aes",
+          "stringCipher": "EncryptionMethod.aes",
+          "bitLength": 128,
+          "P": -1084,
+          "permissions": {
+            "print": true,
+            "modifyContents": false,
+            "extractForAnyPurpose": false,
+            "modifyAnnotationsAndFillForms": false,
+            "fillInFormFields": true,
+            "extractForAccessibility": true,
+            "assemblePages": false,
+            "printHighQuality": true
+          },
+          "userPasswordEmpty": true,
+          "readingIsPermitted": true,
+          "fillingFormFieldsIsPermitted": true,
+          "whatThisIs": "A permissions-only /Standard handler. The user password is empty, so the document opens with no secret in any conforming implementation; the /P bits are the publisher's statement about what may be done with it, and they are recorded here verbatim rather than summarised."
+        }
+      },
+      "rendition": {
+        "path": "private/readable-renditions/ca-1203-4-set/CR-106.readable.pdf",
+        "committed": false,
+        "whyNotCommitted": "It is a build intermediate under private/, which is git-ignored. What this family stands on is the official binary and this report; a derivative in the tree would invite a later run to measure off it.",
+        "sha256": "0c8fb5ddd331ba8c68e3ccb5204aa4c26bdb8a3d0cd400f1acef0f2572dcd97c",
+        "byteLength": 95470,
+        "mediaType": "application/pdf",
+        "headerVersion": "%PDF-1.7",
+        "hasEofMarker": true,
+        "stillEncrypted": false
+      },
+      "deterministicBytes": {
+        "provenBy": "the transformation was run twice from the same input in this run",
+        "firstRunSha256": "0c8fb5ddd331ba8c68e3ccb5204aa4c26bdb8a3d0cd400f1acef0f2572dcd97c",
+        "secondRunSha256": "0c8fb5ddd331ba8c68e3ccb5204aa4c26bdb8a3d0cd400f1acef0f2572dcd97c",
+        "identical": true,
+        "normalisation": {
+          "applied": "qpdf deterministic /ID",
+          "why": "qpdf's default trailer /ID is derived from the clock, so the same input saved twice seconds apart produces different bytes. Measured, not assumed: three default saves of CR-180 at t, t and t+3s produced three distinct SHA-256 values. deterministic_id derives it from the file's own content instead.",
+          "whatItChanges": "ISO 32000-1 14.4 /ID[0] is the document's PERMANENT identifier and /ID[1] the CHANGING one, which is expected to differ whenever the file is written again. qpdf preserves the first and regenerates the second; permanentId is asserted equal in the comparison above, and changingId is expected to differ and is recorded on both sides.",
+          "officialPermanentId": "b276daa809a7d140aa0d5604b5ded94e",
+          "officialChangingId": "fca16d3965671d458f246382682781d4",
+          "renditionChangingId": "ba4fe5b01e95e2da05df64613a4ce906"
+        }
+      },
+      "xfaDecision": {
+        "sourceCarriesXfa": true,
+        "shape": "array",
+        "partCount": 9,
+        "partNames": [
+          "xdp:xdp",
+          "config",
+          "template",
+          "datasets",
+          "localeSet",
+          "xmpmeta",
+          "xfdf",
+          "form",
+          "</xdp:xdp>"
+        ],
+        "needsRendering": false,
+        "hybridStaticXfa": true,
+        "removedByThisStage": false,
+        "why": "This stage removes nothing. Its whole claim is that the rendition IS the document, and a rendition that dropped the XFA packet would not be. The packet is carried through and its bytes are hashed on both sides and asserted equal (xfa.packetSha256 is a compared dimension, not a note).",
+        "officialPacketSha256": "47d7547780316da4a8b3913495e0602ae612012ecb0159ddb69eeec87bb00380",
+        "renditionPacketSha256": "47d7547780316da4a8b3913495e0602ae612012ecb0159ddb69eeec87bb00380",
+        "packetIdentical": true,
+        "downstreamWarning": "A downstream FILL stage may remove XFA -- pdf-lib 1.17.1 does, announcing it -- and that removal is that stage's decision to declare in its own record. It does not inherit silence from this one."
+      },
+      "optionalContent": {
+        "present": true,
+        "groups": [
+          {
+            "name": "PrintOnly Layer",
+            "printState": "/ON",
+            "viewState": "/OFF"
+          },
+          {
+            "name": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON"
+          }
+        ],
+        "usageByPage": [
+          {
+            "pageIndex": 1,
+            "resourceName": "/MC0",
+            "groupName": "ViewOnly Layer",
+            "printState": "/OFF",
+            "viewState": "/ON",
+            "blocks": 1
+          }
+        ]
+      },
+      "comparison": {
+        "dimensionsCompared": [
+          "page count",
+          "page /MediaBox, /CropBox, /Rotate, /UserUnit",
+          "per-page annotation count",
+          "per-page content-stream SHA-256 and byte length",
+          "catalogue key set and /NeedsRendering",
+          "AcroForm /NeedAppearances, /SigFlags, /DA, /DR font names",
+          "XFA presence, shape, part names and packet SHA-256",
+          "optional-content groups, their /Print and /View usage states, and which pages use them",
+          "terminal field identities (fully-qualified names)",
+          "per field /FT, /Ff, /MaxLen, /Opt, widget count",
+          "per widget page index, /Rect, /F",
+          "per widget /AP /N state names and appearance-stream SHA-256",
+          "document information dictionary",
+          "trailer /ID[0] (the permanent identifier)"
+        ],
+        "deltaCount": 0,
+        "deltas": [],
+        "identical": true,
+        "pageCount": 2,
+        "terminalFieldCount": 48,
+        "widgetCount": 48,
+        "pageContentStreamSha256": [
+          "9ce070c0b68452db1719db901a7ef724635ed0c05ae8d3a02cad5f52c3975728",
+          "ab759889b831c522882a956d204cc3be84c82dd0d25783a24859885fb55e0fbb"
+        ],
+        "pageGeometry": [
+          {
+            "pageIndex": 0,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          },
+          {
+            "pageIndex": 1,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          }
+        ]
+      },
+      "whatChanged": [
+        "the /Standard security handler and its permission bits are gone, which is the point of the stage",
+        "trailer /ID[1], the changing identifier, is regenerated from content (see deterministicBytes.normalisation)",
+        "the object layer is rewritten -- object numbering, stream compression and cross-reference form are qpdf's, not the publisher's"
+      ],
+      "whatDidNotChange": [
+        "every page's decoded content stream, byte for byte",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle, page and appearance states",
+        "the XFA packet",
+        "the optional-content groups and which pages use them",
+        "the document information dictionary",
+        "the permanent document identifier"
+      ]
+    },
+    {
+      "formNumber": "MC-025",
+      "role": "Attachment to Judicial Council form",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+      "official": {
+        "pinnedSha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af",
+        "observedSha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af",
+        "verifiedBeforeTransformation": true,
+        "byteLength": 104832,
+        "encryption": {
+          "encrypted": true,
+          "handler": "/Standard",
+          "V": 4,
+          "R": 4,
+          "streamCipher": "EncryptionMethod.rc4",
+          "stringCipher": "EncryptionMethod.rc4",
+          "bitLength": 128,
+          "P": -1084,
+          "permissions": {
+            "print": true,
+            "modifyContents": false,
+            "extractForAnyPurpose": false,
+            "modifyAnnotationsAndFillForms": false,
+            "fillInFormFields": true,
+            "extractForAccessibility": true,
+            "assemblePages": false,
+            "printHighQuality": true
+          },
+          "userPasswordEmpty": true,
+          "readingIsPermitted": true,
+          "fillingFormFieldsIsPermitted": true,
+          "whatThisIs": "A permissions-only /Standard handler. The user password is empty, so the document opens with no secret in any conforming implementation; the /P bits are the publisher's statement about what may be done with it, and they are recorded here verbatim rather than summarised."
+        }
+      },
+      "rendition": {
+        "path": "private/readable-renditions/ca-1203-4-set/MC-025.readable.pdf",
+        "committed": false,
+        "whyNotCommitted": "It is a build intermediate under private/, which is git-ignored. What this family stands on is the official binary and this report; a derivative in the tree would invite a later run to measure off it.",
+        "sha256": "e0118ec43e711a1ec11fee8826b6c0e1b5b25c396327b008d14bdee58c4dcc03",
+        "byteLength": 102274,
+        "mediaType": "application/pdf",
+        "headerVersion": "%PDF-1.6",
+        "hasEofMarker": true,
+        "stillEncrypted": false
+      },
+      "deterministicBytes": {
+        "provenBy": "the transformation was run twice from the same input in this run",
+        "firstRunSha256": "e0118ec43e711a1ec11fee8826b6c0e1b5b25c396327b008d14bdee58c4dcc03",
+        "secondRunSha256": "e0118ec43e711a1ec11fee8826b6c0e1b5b25c396327b008d14bdee58c4dcc03",
+        "identical": true,
+        "normalisation": {
+          "applied": "qpdf deterministic /ID",
+          "why": "qpdf's default trailer /ID is derived from the clock, so the same input saved twice seconds apart produces different bytes. Measured, not assumed: three default saves of CR-180 at t, t and t+3s produced three distinct SHA-256 values. deterministic_id derives it from the file's own content instead.",
+          "whatItChanges": "ISO 32000-1 14.4 /ID[0] is the document's PERMANENT identifier and /ID[1] the CHANGING one, which is expected to differ whenever the file is written again. qpdf preserves the first and regenerates the second; permanentId is asserted equal in the comparison above, and changingId is expected to differ and is recorded on both sides.",
+          "officialPermanentId": "969c2289e1bb5d751a6b99d0b7e0e2ba",
+          "officialChangingId": "5e7545ec6ecf4a40ad634f4939e0469f",
+          "renditionChangingId": "83f0bb8b5ea79adced3bc16731579ba3"
+        }
+      },
+      "xfaDecision": {
+        "sourceCarriesXfa": false,
+        "shape": null,
+        "partCount": null,
+        "partNames": [],
+        "needsRendering": false,
+        "hybridStaticXfa": false,
+        "removedByThisStage": false,
+        "why": "This stage removes nothing. Its whole claim is that the rendition IS the document, and a rendition that dropped the XFA packet would not be. The packet is carried through and its bytes are hashed on both sides and asserted equal (xfa.packetSha256 is a compared dimension, not a note).",
+        "officialPacketSha256": null,
+        "renditionPacketSha256": null,
+        "packetIdentical": true,
+        "downstreamWarning": "A downstream FILL stage may remove XFA -- pdf-lib 1.17.1 does, announcing it -- and that removal is that stage's decision to declare in its own record. It does not inherit silence from this one."
+      },
+      "optionalContent": {
+        "present": false,
+        "groups": [],
+        "usageByPage": []
+      },
+      "comparison": {
+        "dimensionsCompared": [
+          "page count",
+          "page /MediaBox, /CropBox, /Rotate, /UserUnit",
+          "per-page annotation count",
+          "per-page content-stream SHA-256 and byte length",
+          "catalogue key set and /NeedsRendering",
+          "AcroForm /NeedAppearances, /SigFlags, /DA, /DR font names",
+          "XFA presence, shape, part names and packet SHA-256",
+          "optional-content groups, their /Print and /View usage states, and which pages use them",
+          "terminal field identities (fully-qualified names)",
+          "per field /FT, /Ff, /MaxLen, /Opt, widget count",
+          "per widget page index, /Rect, /F",
+          "per widget /AP /N state names and appearance-stream SHA-256",
+          "document information dictionary",
+          "trailer /ID[0] (the permanent identifier)"
+        ],
+        "deltaCount": 0,
+        "deltas": [],
+        "identical": true,
+        "pageCount": 1,
+        "terminalFieldCount": 12,
+        "widgetCount": 12,
+        "pageContentStreamSha256": [
+          "777690e5fc80e7032191b55de86b857f65ae5596d611f74a0c1820f994ff8a5b"
+        ],
+        "pageGeometry": [
+          {
+            "pageIndex": 0,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          }
+        ]
+      },
+      "whatChanged": [
+        "the /Standard security handler and its permission bits are gone, which is the point of the stage",
+        "trailer /ID[1], the changing identifier, is regenerated from content (see deterministicBytes.normalisation)",
+        "the object layer is rewritten -- object numbering, stream compression and cross-reference form are qpdf's, not the publisher's"
+      ],
+      "whatDidNotChange": [
+        "every page's decoded content stream, byte for byte",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle, page and appearance states",
+        "the XFA packet",
+        "the optional-content groups and which pages use them",
+        "the document information dictionary",
+        "the permanent document identifier"
+      ]
+    },
+    {
+      "formNumber": "MC-031",
+      "role": "Attached declaration",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+      "official": {
+        "pinnedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+        "observedSha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075",
+        "verifiedBeforeTransformation": true,
+        "byteLength": 109506,
+        "encryption": {
+          "encrypted": true,
+          "handler": "/Standard",
+          "V": 4,
+          "R": 4,
+          "streamCipher": "EncryptionMethod.rc4",
+          "stringCipher": "EncryptionMethod.rc4",
+          "bitLength": 128,
+          "P": -1084,
+          "permissions": {
+            "print": true,
+            "modifyContents": false,
+            "extractForAnyPurpose": false,
+            "modifyAnnotationsAndFillForms": false,
+            "fillInFormFields": true,
+            "extractForAccessibility": true,
+            "assemblePages": false,
+            "printHighQuality": true
+          },
+          "userPasswordEmpty": true,
+          "readingIsPermitted": true,
+          "fillingFormFieldsIsPermitted": true,
+          "whatThisIs": "A permissions-only /Standard handler. The user password is empty, so the document opens with no secret in any conforming implementation; the /P bits are the publisher's statement about what may be done with it, and they are recorded here verbatim rather than summarised."
+        }
+      },
+      "rendition": {
+        "path": "private/readable-renditions/ca-1203-4-set/MC-031.readable.pdf",
+        "committed": false,
+        "whyNotCommitted": "It is a build intermediate under private/, which is git-ignored. What this family stands on is the official binary and this report; a derivative in the tree would invite a later run to measure off it.",
+        "sha256": "bd918db522539b15d3b283eeb9fea68be490cad6cb65df5f27bd3d3e4ac69ab1",
+        "byteLength": 107393,
+        "mediaType": "application/pdf",
+        "headerVersion": "%PDF-1.6",
+        "hasEofMarker": true,
+        "stillEncrypted": false
+      },
+      "deterministicBytes": {
+        "provenBy": "the transformation was run twice from the same input in this run",
+        "firstRunSha256": "bd918db522539b15d3b283eeb9fea68be490cad6cb65df5f27bd3d3e4ac69ab1",
+        "secondRunSha256": "bd918db522539b15d3b283eeb9fea68be490cad6cb65df5f27bd3d3e4ac69ab1",
+        "identical": true,
+        "normalisation": {
+          "applied": "qpdf deterministic /ID",
+          "why": "qpdf's default trailer /ID is derived from the clock, so the same input saved twice seconds apart produces different bytes. Measured, not assumed: three default saves of CR-180 at t, t and t+3s produced three distinct SHA-256 values. deterministic_id derives it from the file's own content instead.",
+          "whatItChanges": "ISO 32000-1 14.4 /ID[0] is the document's PERMANENT identifier and /ID[1] the CHANGING one, which is expected to differ whenever the file is written again. qpdf preserves the first and regenerates the second; permanentId is asserted equal in the comparison above, and changingId is expected to differ and is recorded on both sides.",
+          "officialPermanentId": "cbf3180f0d9b6232093f5d7232d3da13",
+          "officialChangingId": "c7b4524196d67242922512d0e3704bef",
+          "renditionChangingId": "c4c50115be220df60a10e4f3d348e387"
+        }
+      },
+      "xfaDecision": {
+        "sourceCarriesXfa": false,
+        "shape": null,
+        "partCount": null,
+        "partNames": [],
+        "needsRendering": false,
+        "hybridStaticXfa": false,
+        "removedByThisStage": false,
+        "why": "This stage removes nothing. Its whole claim is that the rendition IS the document, and a rendition that dropped the XFA packet would not be. The packet is carried through and its bytes are hashed on both sides and asserted equal (xfa.packetSha256 is a compared dimension, not a note).",
+        "officialPacketSha256": null,
+        "renditionPacketSha256": null,
+        "packetIdentical": true,
+        "downstreamWarning": "A downstream FILL stage may remove XFA -- pdf-lib 1.17.1 does, announcing it -- and that removal is that stage's decision to declare in its own record. It does not inherit silence from this one."
+      },
+      "optionalContent": {
+        "present": false,
+        "groups": [],
+        "usageByPage": []
+      },
+      "comparison": {
+        "dimensionsCompared": [
+          "page count",
+          "page /MediaBox, /CropBox, /Rotate, /UserUnit",
+          "per-page annotation count",
+          "per-page content-stream SHA-256 and byte length",
+          "catalogue key set and /NeedsRendering",
+          "AcroForm /NeedAppearances, /SigFlags, /DA, /DR font names",
+          "XFA presence, shape, part names and packet SHA-256",
+          "optional-content groups, their /Print and /View usage states, and which pages use them",
+          "terminal field identities (fully-qualified names)",
+          "per field /FT, /Ff, /MaxLen, /Opt, widget count",
+          "per widget page index, /Rect, /F",
+          "per widget /AP /N state names and appearance-stream SHA-256",
+          "document information dictionary",
+          "trailer /ID[0] (the permanent identifier)"
+        ],
+        "deltaCount": 0,
+        "deltas": [],
+        "identical": true,
+        "pageCount": 1,
+        "terminalFieldCount": 18,
+        "widgetCount": 18,
+        "pageContentStreamSha256": [
+          "50f8c3a4fd16ba8e636adadd38fcbbe5d63cb22b1bc4d651de6ca42a78f58636"
+        ],
+        "pageGeometry": [
+          {
+            "pageIndex": 0,
+            "mediaBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "cropBox": [
+              0.0,
+              0.0,
+              612.0,
+              792.0
+            ],
+            "rotate": 0,
+            "userUnit": 1.0
+          }
+        ]
+      },
+      "whatChanged": [
+        "the /Standard security handler and its permission bits are gone, which is the point of the stage",
+        "trailer /ID[1], the changing identifier, is regenerated from content (see deterministicBytes.normalisation)",
+        "the object layer is rewritten -- object numbering, stream compression and cross-reference form are qpdf's, not the publisher's"
+      ],
+      "whatDidNotChange": [
+        "every page's decoded content stream, byte for byte",
+        "every page's geometry",
+        "every terminal field's identity, type, flags and maximum length",
+        "every widget's rectangle, page and appearance states",
+        "the XFA packet",
+        "the optional-content groups and which pages use them",
+        "the document information dictionary",
+        "the permanent document identifier"
+      ]
+    }
+  ],
+  "whatThisReportDoesNotEstablish": [
+    "that any rendered artifact is approved for participant delivery",
+    "that a downstream stage preserves what this one preserved -- each stage declares its own losses",
+    "anything about a source this request does not name"
+  ]
+}

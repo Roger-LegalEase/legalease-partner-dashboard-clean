@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-tooling-readable-rendition-request/v1",
+  "familyId": "ca-1203-4-set",
+  "jurisdiction": "CA",
+  "renditionDirectory": "private/readable-renditions/ca-1203-4-set",
+  "whyThisFamilyNeedsARendition": "All five sources carry a permissions-only /Standard handler with an empty user password. They are readable by any conforming implementation and their /P bits explicitly allow filling in form fields. pdf-lib 1.17.1 -- this repository's only PDF writer -- implements no decryption at all, so it cannot open them to write a filled artifact. The rendition exists to give pdf-lib a form of the same document it can open, and the pipeline's report is the proof that it is the same document.",
+  "geometryIsNotMeasuredHere": "No rectangle in this family is measured off a rendition. reports/field-census.census-v1.json and reports/write-box-map.json are read from the official binaries, which pikepdf opens directly. The rendition is used only where pdf-lib must WRITE.",
+  "sources": [
+    {
+      "formNumber": "CR-180",
+      "role": "Petition for dismissal",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+      "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe"
+    },
+    {
+      "formNumber": "CR-181",
+      "role": "Order for dismissal (proposed)",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+      "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504"
+    },
+    {
+      "formNumber": "CR-106",
+      "role": "Proof of service",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-106__proof-of-service-criminal-record-clearing__REV-2020-01-01__EN.pdf",
+      "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a"
+    },
+    {
+      "formNumber": "MC-025",
+      "role": "Attachment to Judicial Council form",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-025__attachment-to-judicial-council-form__REV-2009-07-01__EN.pdf",
+      "sha256": "b0ca1509f2c3de152518079de7c1eb2771eaa1eb7da457c2e918498894f6f0af"
+    },
+    {
+      "formNumber": "MC-031",
+      "role": "Attached declaration",
+      "pathInArchive": "STATES/CA/02_PACKET_FORMS/CA__FORM__MC-031__attached-declaration__REV-2005-07-01__EN.pdf",
+      "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075"
+    }
+  ]
+}
