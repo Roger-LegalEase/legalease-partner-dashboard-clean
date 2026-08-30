@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ak-tf805-set",
+  "routeKeys": [
+    "obligation:track-only:AK:ak-tf805"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "documents": [
+    {
+      "documentId": "AK-TF-805-REQUEST-TO-REMOVE-NAME-FROM-ONLINE-PUBLIC-INDEX",
+      "documentRole": "REQUEST_WITH_CERTIFICATE_OF_SERVICE_AND_PROPOSED_ORDER",
+      "ownership": "participant_completed_with_court_order_block",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "explicitMappingsNote": "Empty, and by the document's construction rather than by omission. TF-805 asks for no charge, offence, count, statute, violation or offence date, so no requiresExplicitMapping descriptor matches any field on either page.",
+      "roleRefusals": [
+        {
+          "field": "time2",
+          "class": "certificate_of_service_time",
+          "why": "The time in 'I certify on ___ at ___ [date/time] I gave a copy of this document'. Service has not happened; a time here certifies an act that has not occurred. Refused today only because no descriptor matches the name 'time2' -- an accident, not a decision."
+        },
+        {
+          "field": "needText1",
+          "class": "certificate_of_service_recipients",
+          "why": "The 'I served these people:' line. Who was served is a fact about something the participant did, and the platform does not know it. Refused today only because no descriptor matches the name 'needText1'."
+        },
+        {
+          "field": "mail",
+          "class": "service_method_election",
+          "why": "The 'by mail' service-method box. Which method was used is the participant's statement about their own act, made after the act. Refused today only by the checkbox type guard, which is a guard about field TYPE, not about who owns the field."
+        },
+        {
+          "field": "hd",
+          "class": "service_method_election",
+          "why": "The 'hand-delivery' service-method box. Same reason as `mail`."
+        },
+        {
+          "field": "tf",
+          "class": "service_method_election",
+          "why": "The 'TrueFiling' service-method box. Measured off the document: page 2 prints 'by mail. hand-delivery. TrueFiling. email.' and this box is the third of the four, at x=334.74 against the printed box at x=335.10. Same reason as `mail`."
+        },
+        {
+          "field": "emailCB",
+          "class": "service_method_election",
+          "why": "The 'email' service-method box, and the most dangerous field on the form. Its NAME matches the participant.email descriptor, so the only thing standing between it and a bound value today is the checkbox type guard. The form further prints '[You can only use email if the other party provided an email address to the court]' -- a condition about the OTHER party that the platform cannot evaluate."
+        },
+        {
+          "field": "why",
+          "class": "participant_legal_election",
+          "why": "The radio choosing the ground for relief: Administrative Rule 40(b) (sensitive and highly personal matters) at the widget measured at y=415.00, or 40(c) (likely substantial physical harm) at y=358.71. Which ground applies is a legal characterisation of the participant's own circumstances and is theirs to make. The consequences differ -- 40(c) removal lasts five years and 40(b) does not -- so a default here would be a legal choice made for someone. Refused today only by the checkbox/radio type guard."
+        },
+        {
+          "field": "reason",
+          "class": "participant_sworn_statement",
+          "why": "The free-text box completing 'I believe that the statements above are true, because:', which sits above the Verification block the participant swears to. These are the participant's own sworn words. No fact the platform holds is an answer to it, and generating one would put words into a sworn statement. Refused today only because no descriptor matches the name 'reason'."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 106.52,
+            "y": 559.53,
+            "width": 433.91,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "Addres"
+        },
+        {
+          "field": "partyNames",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 139.84,
+            "y": 476.26,
+            "width": 400.6,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "Party Names"
+        },
+        {
+          "field": "address",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 115.42,
+            "y": 544.97,
+            "width": 425.01,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "Address"
+        },
+        {
+          "field": "email",
+          "factId": "participant.email",
+          "page": 1,
+          "rect": {
+            "x": 106.13,
+            "y": 530.4,
+            "width": 253.72,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "Email"
+        },
+        {
+          "field": "dayPhone",
+          "factId": "participant.phone",
+          "page": 1,
+          "rect": {
+            "x": 442.96,
+            "y": 530.4,
+            "width": 97.48,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "By providing an email address, you agree that the court and "
+        },
+        {
+          "field": "caseNo",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 413.33,
+            "y": 489.26,
+            "width": 127.11,
+            "height": 14.4
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredControlBoxUnderWriteBox": null,
+          "measuredEnclosingBox": null,
+          "effectiveLabel": "Case No"
+        }
+      ],
+      "refused": [
+        {
+          "field": "why",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "reason",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "certDate",
+          "reason": "protected_category",
+          "category": "service_block",
+          "regionHeading": null
+        },
+        {
+          "field": "time2",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "mail",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "hd",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "tf",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "emailCB",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "needText1",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "signature0",
+          "reason": "protected_category",
+          "category": "signature",
+          "regionHeading": null
+        },
+        {
+          "field": "caseName",
+          "reason": "duplicate_widget_for_one_slot",
+          "category": "caption_slot",
+          "factId": "participant.full_legal_name",
+          "keptInstead": "partyNames"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "why",
+          "category": "role"
+        },
+        {
+          "field": "reason",
+          "category": "role"
+        },
+        {
+          "field": "certDate",
+          "category": "service_block"
+        },
+        {
+          "field": "time2",
+          "category": "role"
+        },
+        {
+          "field": "mail",
+          "category": "role"
+        },
+        {
+          "field": "hd",
+          "category": "role"
+        },
+        {
+          "field": "tf",
+          "category": "role"
+        },
+        {
+          "field": "emailCB",
+          "category": "role"
+        },
+        {
+          "field": "needText1",
+          "category": "role"
+        },
+        {
+          "field": "signature0",
+          "category": "signature"
+        }
+      ]
+    }
+  ]
+}
