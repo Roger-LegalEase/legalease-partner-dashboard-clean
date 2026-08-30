@@ -146,6 +146,15 @@ to guidance: the participant paid $50, the download route answered 409, and
 closes that. A route that cannot produce an artifact is shown no price and is
 refused at Checkout with `ConsumerPacketNotDeliverableError`.
 
+That guard originally asked `packetRouteCanRender` — whether a renderer exists.
+It now asks `packetRouteCanSell`, the resolver's own `sellable` decision
+intersected with renderability, and `buildRenderJobSpec` asks
+`packetRouteCanConsumeCredit` on the same terms. The two questions agreed for
+every route kind except `factory_v2`, which resolves with the shared renderer
+and with `sellable: false`; asking only about the renderer let 60
+payment-eligible shadow routes reach Checkout and build a credit-drawing render
+job. See `docs/RCAP_PACKET_FAMILY_PRODUCT_WIRING.md`.
+
 This is a fence on the charge, not a reclassification of the pathway. Every
 route refused there stays in the intended-sellable denominator with
 `renderer_unavailable` recorded against it as an open blocker.
@@ -179,6 +188,8 @@ npm run rcap:verify-sellable-closure            # the full closure gate; fails w
 npm run rcap:verify-sellable-closure-governance # the rules that must hold at every commit
 npm run rcap:verify-sellable-closure-mutations  # proves the verifier detects faked closure
 npm run rcap:verify-money-gate-delivery         # proves no route can charge for a packet it cannot produce
+npm run rcap:generate-packet-family-readiness   # regenerate the packet-family precheck
+npm run rcap:verify-packet-family-readiness     # proves the runtime fences families that are not product-ready
 ```
 
 The governance verifier, the mutation suite, the money-gate binding and the

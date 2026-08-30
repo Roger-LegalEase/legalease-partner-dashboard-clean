@@ -12,7 +12,7 @@
 
 import { createHash } from "node:crypto";
 import { PDFDocument } from "pdf-lib";
-import { packetRouteCanRender, resolvePacketRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
+import { packetRouteCanConsumeCredit, packetRouteCanRender, resolvePacketRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
 import { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } from "@/lib/rcap/documents/packet-document-renderer";
 import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 
@@ -316,7 +316,18 @@ export function buildRenderJobSpec(input: {
   const route = resolvePacketRoute({ state: input.state, pathway: input.pathway, trackId: input.trackId ?? null });
   // No job for a deferred route, so there is no artifact finalization and no
   // path into partner-credit accounting.
-  if (route.routeKind === "component_deferral" || route.routeKind === "exact_supported_deferral" || !packetRouteCanRender(route)) {
+  //
+  // The same fence applies to any route the resolver declines to make
+  // credit-consumable. A durable render job is what finalizes an artifact and
+  // what draws the one packet credit on a sponsored generation, so a route that
+  // may not consume a credit must not produce a job. This is what stops a
+  // factory_v2 shadow route — renderable, and explicitly neither sellable nor
+  // credit-consumable — from spending a partner's sponsored allocation on a
+  // packet family whose completion proof records runtime_disabled.
+  if (route.routeKind === "component_deferral"
+    || route.routeKind === "exact_supported_deferral"
+    || !packetRouteCanRender(route)
+    || !packetRouteCanConsumeCredit(route)) {
     return { spec: null, route };
   }
 

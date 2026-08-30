@@ -5,7 +5,7 @@ import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
-import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
+import { packetRouteCanSell, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
@@ -79,7 +79,13 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
   // ratified route in a jurisdiction with no certified renderer saw a $50 offer
   // for a packet the download route would refuse with a 409. Guidance is not
   // sold, and neither is a packet we cannot produce.
-  const canDeliver = packetRouteCanRender(resolvePacketRoute({
+  //
+  // The question asked here is the resolver's own `sellable` decision, not
+  // merely whether a renderer exists. Those two came apart at factory_v2, which
+  // resolves with the shared renderer and without permission to sell, so
+  // asking only about the renderer put a $50 price on every shadow route the
+  // evaluator had ratified.
+  const canDeliver = packetRouteCanSell(resolvePacketRoute({
     state: result.state,
     pathway: result.pathwayLabel ?? null,
     trackId: result.selectedTrackId ?? null
@@ -500,6 +506,20 @@ function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
  * denominator with `renderer_unavailable` recorded against it as an open
  * blocker in data/rcap-ledger/sellable-pathway-closure.json; what changes is
  * only that we stop taking money for a packet we cannot hand over.
+ *
+ * The gate reads `packetRouteCanSell`, not `packetRouteCanRender`. Renderer
+ * presence answered the question correctly for every route kind except
+ * factory_v2, which resolves with the shared renderer and with
+ * `sellable: false` — "the factory has everything it needs to build this
+ * packet" is a different statement from "this route may be sold", and the
+ * separate approval, technical, PDF, payment and route-state gates that would
+ * make the second statement true are not granted at the resolver. Reading
+ * renderer presence let 60 payment-eligible shadow routes reach Checkout,
+ * served by packet families whose own completion proofs record
+ * `runtimeStatus: runtime_disabled`, `packetReady: false` and
+ * `productionEnabled: false`, and on routes the only owner legal decision on
+ * record (auth-2026-08-19-owner-legal-approval-completed-output) expressly
+ * does not authorize turning public or sellable.
  */
 export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
   const route = resolvePacketRoute({
@@ -507,7 +527,7 @@ export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
     pathway: item.pathwayLabel ?? null,
     trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
   });
-  if (!packetRouteCanRender(route)) {
+  if (!packetRouteCanSell(route)) {
     throw new ConsumerPacketNotDeliverableError(route.routeKind);
   }
 }

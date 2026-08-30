@@ -241,15 +241,20 @@ function buildPaymentAdapter({
     },
     // The delivery gate the payment adapter consults before it will sell.
     // Stubbed permissive here on purpose: these cases exercise the OTHER
-    // checkout guards, and a route that cannot render would short-circuit them
-    // all, so every assertion below would pass for the wrong reason. The real
-    // binding — no route may take money for a packet it cannot produce — is
-    // proven against the real resolver by
+    // checkout guards, and a route the resolver refuses would short-circuit
+    // them all, so every assertion below would pass for the wrong reason. The
+    // stub therefore stands in for a sellable route — the shape a preserved
+    // legacy generator resolves to — rather than for the factory_v2 shadow
+    // branch, which resolves renderable and NOT sellable. The real binding —
+    // money follows the resolver's own sellable decision, never renderer
+    // presence — is proven against the real resolver by
     // scripts/verify-rcap-money-gate-delivery-binding.mjs, over every
     // jurisdiction, with its own mutations.
     "@/lib/rcap/documents/packet-route-resolver": {
       packetRouteCanRender: () => true,
-      resolvePacketRoute: () => ({ kind: "factory_v2", canRender: true })
+      packetRouteCanSell: () => true,
+      packetRouteCanConsumeCredit: () => true,
+      resolvePacketRoute: () => ({ routeKind: "legacy_verified", rendererKind: "packet_document_v1", sellable: true, creditConsumable: true })
     },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async () => null

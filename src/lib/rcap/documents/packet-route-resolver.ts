@@ -299,3 +299,32 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
 export function packetRouteCanRender(resolution: PacketRouteResolution) {
   return resolution.rendererKind !== "none";
 }
+
+/**
+ * True only when this route may take money.
+ *
+ * `sellable` is the resolver's own decision and it is narrower than
+ * `packetRouteCanRender`. The two agreed for every route kind except
+ * `factory_v2`, which resolves WITH a renderer and WITHOUT permission to sell:
+ * being buildable is not the same question as being approved, technically
+ * current, free of a problematic-PDF hold, or public. Because the money gate
+ * asked only whether a renderer existed, a shadow route was shown a $50 price
+ * and admitted to Checkout — the exact defect the factory_v2 branch documents
+ * itself as preventing, arriving through the payment door instead.
+ *
+ * Renderability is still required: a route that may sell but cannot produce an
+ * artifact must not charge either. Money is the intersection, never the union.
+ */
+export function packetRouteCanSell(resolution: PacketRouteResolution) {
+  return resolution.sellable && packetRouteCanRender(resolution);
+}
+
+/**
+ * True only when a sponsored allocation or paid entitlement may be consumed on
+ * this route. Same reasoning as `packetRouteCanSell`: a durable render job is
+ * what finalizes an artifact and what draws the packet credit, so a route that
+ * may not consume a credit must not produce a job.
+ */
+export function packetRouteCanConsumeCredit(resolution: PacketRouteResolution) {
+  return resolution.creditConsumable && packetRouteCanRender(resolution);
+}
