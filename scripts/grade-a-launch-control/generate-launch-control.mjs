@@ -49,6 +49,8 @@ const integration = read("data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATIO
 const residual = read("data/rcap-grade-a/launch-control/RESIDUAL_WORK.json");
 const contract = read("data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json");
 const counsel = read("data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json");
+const c11 = read("data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json");
+const c11Stops = read("data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json");
 const crosswalk = read("data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json");
 const dataRights = exists("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json")
   ? read("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json") : null;
@@ -78,6 +80,8 @@ const doc = {
     residualWork: "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
     workerExecutionContract: "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
     counselDeterminationDelta: "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    c11ReturnReview: "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
+    c11StopClassification: "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json",
     counselDecisionRecord: "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
     executionOrder: "docs/LAUNCH_SEQUENCE.md",
     productContract: "docs/PRODUCT_CONTRACT.md"
@@ -180,7 +184,29 @@ const doc = {
       bindsFromWave: contract.bindsFromWave,
       currentDispatchNotRewritten: contract.currentDispatchDeliberatelyNotRewritten.why
     },
-    integrationOpensNothing: integration.integrationOpensNothing
+    integrationOpensNothing: integration.integrationOpensNothing,
+
+    // THE PACKET LANE. It returned last and it returned the most: 43 built
+    // families out of 47, four stopped with named blockers, and 59 files that
+    // had to be excluded because their bytes are indexed private-corpus sources.
+    packetFactory: {
+      assignmentId: "C11_PACKET_FACTORY_ACCELERATOR",
+      verdict: c11.verdict,
+      familiesAssigned: c11.summary.assigned,
+      familiesBuilt: c11.summary.built,
+      familiesStopped: c11.summary.stopped,
+      sourceReceiptsExact: c11.summary.sourceReceiptsExact,
+      sourceReferences: c11.summary.sourceReferences,
+      corpusBinariesExcluded: c11.exclusionList.length,
+      builtFamiliesMissingWiringRecord: c11.summary.builtFamiliesWithoutProductWiring.length,
+      outputApprovalsGranted: c11.summary.outputApprovalsGranted,
+      commercialRoutesOpened: c11.summary.commercialRoutesOpened,
+      pathOwnershipReleased: true,
+      packetsProvenIndependently: 0,
+      stopsByClass: c11Stops.counts.byPrimaryClass,
+      newLegalQuestionsRaised: c11Stops.counts.newLegalQuestions,
+      whatBuiltDoesNotMean: "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN."
+    }
   },
 
   legalWork: {
@@ -283,6 +309,9 @@ const doc = {
     { id: "BLK-3", blocker: "No packet family has an independent review or output approval", detail: "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.", owner: "Captain then Lawrence", blocks: "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route" },
     { id: "BLK-4", blocker: "The data-rights migration cannot be applied from this environment", detail: "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.", owner: "an environment with the project ref and egress", blocks: "hosted data-rights acceptance" },
     { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10, continued as residual lane R4", blocks: "238 of 352 families entering a build slot" },
+    // C11 returned 43 built families. Built is not proven: the builder's own
+    // report is evidence, and nothing independent has looked at any of them.
+    { id: "BLK-8", blocker: `${c11.summary.built} packet families are built and none is independently verified`, detail: `C11 rendered and byte-checked ${c11.summary.built} families against exact source SHA-256 values, but a builder verifying its own output proves nothing. Seven independent verification shards are dispatched in Wave 2, and no output-level legal review package may be prepared until a shard returns PASS.`, owner: "Wave 2 shards V1-V7, then Lawrence", blocks: "output-level approval, and therefore product-path proof" },
     { id: "BLK-6", blocker: "At least one worker host could not install the toolchain", detail: "32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.", owner: "Roger — worker environment sizing", blocks: "every focused test in an affected lane, and the hosted acceptance lane entirely" },
     { id: "BLK-7", blocker: "The private nationwide inventory is not mounted on any worker host", detail: "33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.", owner: "Roger — mount the inventory for the source lane", blocks: "33 promotion obligations" }
   ],
@@ -373,6 +402,23 @@ function renderStatus(d) {
   lines.push(row("Packet families created", d.waveOne.branchIdentities.packetFamiliesCreated));
   lines.push("");
   lines.push(d.waveOne.integrationOpensNothing);
+  lines.push("");
+  lines.push("### Packet factory");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Families assigned", d.waveOne.packetFactory.familiesAssigned));
+  lines.push(row("Built", d.waveOne.packetFactory.familiesBuilt));
+  lines.push(row("Stopped with a named blocker", d.waveOne.packetFactory.familiesStopped));
+  lines.push(row("Source receipts exact", d.waveOne.packetFactory.sourceReceiptsExact));
+  lines.push(row("Source references bound", d.waveOne.packetFactory.sourceReferences));
+  lines.push(row("Private-corpus binaries excluded at integration", d.waveOne.packetFactory.corpusBinariesExcluded));
+  lines.push(row("Built families missing a wiring record", d.waveOne.packetFactory.builtFamiliesMissingWiringRecord));
+  lines.push(row("Independently verified", d.waveOne.packetFactory.packetsProvenIndependently));
+  lines.push(row("Output approvals granted", d.waveOne.packetFactory.outputApprovalsGranted));
+  lines.push(row("Commercial routes opened", d.waveOne.packetFactory.commercialRoutesOpened));
+  lines.push("");
+  lines.push(d.waveOne.packetFactory.whatBuiltDoesNotMean);
   lines.push("");
   lines.push("### Residual");
   lines.push("");

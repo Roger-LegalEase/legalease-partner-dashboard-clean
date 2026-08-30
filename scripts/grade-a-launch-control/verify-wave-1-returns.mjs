@@ -51,11 +51,31 @@ const RETURNS = [
   { id: "C9_ROUTE_MAPPING_RECONCILIATION", branch: "codex/c9-route-mapping-reconciliation", commit: "9e44ee8a78ddf9056221e2218ef91cf8cf331aa3", reported: "PARTIALLY_ACCEPTED" },
   { id: "C10_SOURCE_IDENTITY_ACQUISITION", branch: "codex/c10-source-identity-acquisition", commit: "994e2daf42278d1cbbd20ff033f7b96ceb08467b", reported: "PARTIALLY_ACCEPTED_EXTERNAL_BLOCK" },
   { id: "C12_NONPRODUCTION_ACCEPTANCE_PREP", branch: "codex/c12-nonproduction-acceptance-prep", commit: "eaac8ebe0f7b8009900250e2296e8fac46e8e7e6", reported: "BLOCKED_WITH_VALID_EVIDENCE" },
-  { id: "C11_PACKET_FACTORY_ACCELERATOR", branch: "codex/c11-packet-factory-accelerator", commit: null, reported: "STILL_RUNNING" }
+  // C11 returned after checkpoint 1. Its detailed mechanical review lives in
+  // C11_RETURN_REVIEW.json, which checks thirteen criteria the other lanes did
+  // not need -- corpus binaries, source-shaped PDFs, per-family posture. This
+  // entry carries the same scope and parentage checks as every other return so
+  // the wave is reviewed uniformly.
+  { id: "C11_PACKET_FACTORY_ACCELERATOR", branch: "codex/c11-packet-factory-accelerator", commit: "36e7a6a59449692329a6e0c31ab74f33fff96564", reported: "ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION", detailedReview: "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json" }
 ];
 
-/** An owned-path pattern reduced to the prefix a changed file must sit under. */
-const ownedPrefix = (pattern) => pattern.split("(")[0].trim().replace(/\/?\*\*$/, "").replace(/\/<[^>]+>\.mjs$/, "").trim();
+/**
+ * An owned-path pattern reduced to what a changed file must match.
+ *
+ * Two shapes appear. `dir/**` owns everything under a directory, and matches by
+ * path segment. `scripts/build-census-v1-<family>.mjs` owns one file per family,
+ * and matches by literal prefix -- the packet lane wrote 47 of them, and reading
+ * the pattern as a directory reported every one as an out-of-scope write.
+ */
+const ownedPrefix = (pattern) => {
+  const base = pattern.split("(")[0].trim();
+  const placeholder = base.indexOf("<");
+  if (placeholder >= 0) return { kind: "prefix", value: base.slice(0, placeholder) };
+  return { kind: "tree", value: base.replace(/\/?\*\*$/, "").trim() };
+};
+const inScope = (file, owned) => owned.some((o) => (o.kind === "prefix"
+  ? file.startsWith(o.value)
+  : file === o.value || file.startsWith(`${o.value}/`)));
 /** A prohibited pattern reduced the same way, so `dir/**` blocks everything under dir. */
 const prohibitedPrefix = (pattern) => pattern.replace(/\/?\*\*$/, "");
 
@@ -98,8 +118,8 @@ for (const entry of RETURNS) {
   add("its parent is exactly the control baseline", parent === CONTROL_BASE, `parent ${String(parent).slice(0, 8)} vs base ${CONTROL_BASE.slice(0, 8)}`);
 
   const changed = (git(["diff", "--name-only", CONTROL_BASE, entry.commit]) ?? "").split("\n").filter(Boolean);
-  const owned = (assignment?.ownedPaths ?? []).map(ownedPrefix).filter(Boolean);
-  const outside = changed.filter((f) => !owned.some((p) => f === p || f.startsWith(`${p}/`)));
+  const owned = (assignment?.ownedPaths ?? []).map(ownedPrefix).filter((o) => o.value);
+  const outside = changed.filter((f) => !inScope(f, owned));
   add("every changed path is inside the lane's owned paths", outside.length === 0, outside.join(", ") || `${changed.length} file(s), all in scope`);
 
   const prohibited = (assignment?.prohibitedPaths ?? []).map(prohibitedPrefix);

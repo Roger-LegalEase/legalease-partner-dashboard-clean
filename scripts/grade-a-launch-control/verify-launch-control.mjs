@@ -3,12 +3,13 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Thirty refusals. Each is a way the control plane could look healthy while
+// Thirty-three refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
@@ -27,6 +28,13 @@ const INTEGRATION = "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STA
 const RESIDUAL = "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json";
 const CONTRACT = "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json";
 const COUNSEL = "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json";
+const C11 = "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json";
+const C11_STOPS = "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json";
+// Ten committed binaries already matched a private-corpus SHA-256 before the
+// packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
+// receipts. They are a governance discrepancy for Roger, not something to remove
+// retroactively -- but the number must never grow. C11 would have taken it to 62.
+const KNOWN_COMMITTED_CORPUS_BINARIES = 10;
 const PROMPTS = "docs/rcap/grade-a/launch-control/prompts";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -53,6 +61,8 @@ const integration = read(INTEGRATION);
 const residual = read(RESIDUAL);
 const contract = read(CONTRACT);
 const counsel = read(COUNSEL);
+const c11 = read(C11);
+const c11Stops = read(C11_STOPS);
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -125,13 +135,17 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
 {
   const withoutReuse = dispatch.assignments.filter((a) => a.reuseChecked !== true);
   check("A8", "every assignment carries a reuse record", withoutReuse.length === 0, withoutReuse.map((a) => a.assignmentId).join(", "));
-  // A packet lane may only receive a family that is free to dispatch.
+  // A packet lane may only receive a family that is free to dispatch -- but only
+  // while the lane is still open. Once it returns, its families have evidence
+  // BECAUSE it built them, and reading that as "dispatched a family that already
+  // had evidence" would turn a lane doing its job into a failure.
+  const returned = new Set(waveReview.reviews.filter((r) => r.commit !== null).map((r) => r.id));
   const free = new Set(reuse.families.filter((f) => f.freeToDispatch).map((f) => f.worklistGroupId));
   const wrong = [];
-  for (const a of dispatch.assignments.filter((x) => x.lane === "packet")) {
+  for (const a of dispatch.assignments.filter((x) => x.lane === "packet" && !returned.has(x.assignmentId))) {
     for (const family of familiesOf(a)) if (!free.has(family)) wrong.push(`${a.assignmentId}:${family}`);
   }
-  check("A9", "no packet lane is given a family that already has evidence", wrong.length === 0, wrong.slice(0, 3).join(", "));
+  check("A9", "no open packet lane is given a family that already has evidence", wrong.length === 0, wrong.slice(0, 3).join(", "));
 }
 
 // 7. A completed assignment without a worker commit.
@@ -341,7 +355,9 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
   }
   check("A25", "no residual lane claims a path a still-running lane owns",
     intruders.length === 0 && residual.notYetResidual.reservedPaths.length === reserved.length,
-    intruders.join(", ") || `${reserved.length} reserved path(s)`);
+    intruders.join(", ") || (reserved.length === 0
+      ? "no lane is still running; every path is released"
+      : `${reserved.length} reserved path(s)`));
 }
 
 // 21. The launch record restating the wave instead of reading it.
@@ -402,6 +418,48 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
   check("A30", "every counsel-determined route is carried into a residual lane", uncarried.length === 0, uncarried.join(", "));
 }
 
+// 24. Private corpus bytes entering the repository.
+//
+// The corpus governance keeps 583 source files out of git and commits only their
+// SHA-256 index. The packet factory committed 52 of them; they were excluded at
+// integration. This is the check that makes the exclusion stick: hash every
+// committed binary and count how many the index knows. The count may fall. It
+// may never rise.
+{
+  const inventory = read("data/rcap-all50/nationwide-source-inventory.json");
+  const corpus = new Set();
+  for (const state of inventory.states ?? []) for (const f of state.files ?? []) if (f.sha256) corpus.add(String(f.sha256).toLowerCase());
+  const binaries = (git(["ls-tree", "-r", "--name-only", "HEAD"]) ?? "").split("\n").filter((f) => /\.(pdf|docx?|rtf)$/i.test(f));
+  const hits = [];
+  for (const file of binaries) {
+    try {
+      const sha = crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, file))).digest("hex");
+      if (corpus.has(sha)) hits.push(file);
+    } catch { /* unreadable file is not a corpus hit */ }
+  }
+  check("A31", "no new private-corpus binary has entered the repository",
+    hits.length <= KNOWN_COMMITTED_CORPUS_BINARIES,
+    `${hits.length} committed binaries match a private-corpus sha256; the known pre-existing count is ${KNOWN_COMMITTED_CORPUS_BINARIES}${hits.length > KNOWN_COMMITTED_CORPUS_BINARIES ? `: ${hits.slice(KNOWN_COMMITTED_CORPUS_BINARIES, KNOWN_COMMITTED_CORPUS_BINARIES + 3).join(", ")}` : ""}`);
+}
+
+// 25. The packet factory's return, and what "built" is allowed to mean.
+{
+  check("A32", "the packet-factory return is accepted and every stopped family is classified",
+    /^ACCEPTED/.test(c11.verdict)
+    && c11Stops.counts.stoppedFamilies === c11.summary.stopped
+    && c11.summary.commercialRoutesOpened === 0
+    && c11.summary.outputApprovalsGranted === 0,
+    `verdict ${c11.verdict}, stopped ${c11.summary.stopped} classified ${c11Stops.counts.stoppedFamilies}, approvals ${c11.summary.outputApprovalsGranted}`);
+
+  // Built is not proven. Until an independent shard returns, the number of
+  // independently verified packets is zero, and the launch record must say so.
+  check("A33", "no built packet family is counted as proven without independent verification",
+    lc.waveOne.packetFactory.packetsProvenIndependently === 0
+    && lc.packetFamilies.completePacketProven === 0
+    && lc.waveOne.packetFactory.familiesBuilt === c11.summary.built,
+    `built ${lc.waveOne.packetFactory.familiesBuilt}, independently verified ${lc.waveOne.packetFactory.packetsProvenIndependently}, proven ${lc.packetFamilies.completePacketProven}`);
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -410,7 +468,7 @@ if (MUTATIONS) {
     dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS),
     review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
-    counsel: path.join(ROOT, COUNSEL)
+    counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -420,7 +478,11 @@ if (MUTATIONS) {
     { on: "dispatch", name: "a nonancestor base is caught", mutate: (j) => { j.captainBaseSha = "0".repeat(40); return j; } },
     { on: "dispatch", name: "an assignment without a reuse record is caught", mutate: (j) => { j.assignments[0].reuseChecked = false; return j; } },
     { on: "dispatch", name: "a completed assignment with no worker commit is caught", mutate: (j) => { j.assignments[0].status = "completed"; return j; } },
-    { on: "dispatch", name: "a packet lane given an already-built family is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "packet").rowGroups[0].families.push("ar-arrest-seal-set"); return j; } },
+    // C11 has returned, so a mutation that gave the packet lane an already-built
+    // family no longer fires: A9 deliberately skips returned lanes. The invariant
+    // that still bites is the one for an OPEN packet lane, so the mutation puts
+    // the lane back in flight and then hands it built work.
+    { on: "review", name: "an open packet lane given an already-built family is caught", mutate: (j) => { const r = j.reviews.find((x) => x.id === "C11_PACKET_FACTORY_ACCELERATOR"); r.commit = null; r.verdict = "STILL_RUNNING_NOT_REVIEWED"; return j; } },
     { on: "dispatch", name: "an assignment recording a different base than the manifest is caught", mutate: (j) => { j.assignments[2].captainBaseSha = "1".repeat(40); return j; } },
     { on: "dispatch", name: "a classified route dropped from the dispatch is caught", mutate: (j) => { j.assignments[0].routeKeys.pop(); return j; } },
     { on: "dispatch", name: "a route moved to a lane the delta does not route it to is caught", mutate: (j) => { j.assignments[1].routeKeys.push(j.assignments[0].routeKeys.pop()); j.assignments[1].routeKeys.pop(); return j; } },
@@ -432,10 +494,12 @@ if (MUTATIONS) {
     { on: "lc", name: "a superseded-record pointer moved off the controlling record is caught", mutate: (j) => { j.lineage.captainSha = "0".repeat(40); return j; } },
     { on: "status", name: "a status mirror claiming GO while the record holds is caught", mutate: null, write: (text) => text.replace("**GO/HOLD: HOLD.**", "**GO/HOLD: GO.**") },
     { on: "lc", name: "a wave completion count restated instead of read is caught", mutate: (j) => { j.waveOne.branchIdentities.completed = 55; return j; } },
-    { on: "lc", name: "a still-running lane reported as returned is caught", mutate: (j) => { j.waveOne.stillRunning = 0; return j; } },
+    { on: "lc", name: "a returned lane reported as still running is caught", mutate: (j) => { j.waveOne.stillRunning = 1; return j; } },
     { on: "review", name: "an out-of-scope write in a return is caught", mutate: (j) => { j.summary.outOfScopeWrites = 1; return j; } },
     { on: "integration", name: "a stopped route flipped to completed is caught", mutate: (j) => { const r = j.rows.find((x) => x.integrationStatus === "STOPPED"); r.integrationStatus = "COMPLETED"; return j; } },
-    { on: "residual", name: "a residual lane reaching into the still-running lane is caught", mutate: (j) => { j.lanes[0].ownedPaths = ["data/rcap-all50/overlays/census-v1/**"]; return j; } },
+    { on: "lc", name: "a built packet family counted as independently verified is caught", mutate: (j) => { j.waveOne.packetFactory.packetsProvenIndependently = 43; return j; } },
+    { on: "c11", name: "a stopped packet family dropped from the classification is caught", mutate: (j) => { j.summary.stopped = 3; return j; } },
+    { on: "c11", name: "an output approval granted by the builder is caught", mutate: (j) => { j.summary.outputApprovalsGranted = 1; return j; } },
     { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } },
     { on: "counsel", name: "New York's mandatory split dropped from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.mandatorySubroutes.length > 1); r.mandatorySubroutes = []; return j; } },
     { on: "counsel", name: "Utah's consent gate removed from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.gatedBranches.length); for (const b of r.gatedBranches) b.prosecutorConsentRequired = false; return j; } },

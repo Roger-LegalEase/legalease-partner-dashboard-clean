@@ -149,14 +149,39 @@ const rows = decisions.decisions.map((d) => {
 // Utah's placeholder form identifier is a source-identity obligation, not a
 // route problem. It is only a real defect if something already hard-codes it.
 const utahConstraint = rows.find((r) => r.sourceIdentityConstraint)?.sourceIdentityConstraint ?? null;
-let placeholderHardCodedIn = [];
+// WHERE THE PLACEHOLDER APPEARS DECIDES WHAT IT IS.
+//
+// The first version of this check grepped the whole tree and reported a LIVE
+// DEFECT because it found "1023XX" inside GRADE_A_LAUNCH_CONTROL.json and
+// RESIDUAL_WORK.json -- which is to say, inside the governance records that
+// exist to forbid it. A record naming the string it prohibits is not the defect
+// it prohibits.
+//
+// What actually matters is whether the placeholder appears as a FINAL USABLE
+// FORM IDENTIFIER on a surface a participant or the runtime would act on: a
+// packet specification, a route contract, a field map, a runtime selector, or a
+// participant-facing document. Those are separated here, and only those count.
+const GOVERNANCE_SURFACES = [
+  /^data\/rcap-grade-a\/launch-control\//,
+  /^data\/record-clearing\/legal-decisions\//,
+  /^docs\/rcap\/grade-a\//,
+  /^scripts\/grade-a-launch-control\//,
+  /^data\/rcap-grade-a\/route-obligation-census/
+];
+const placeholderOccurrences = { governanceRecords: [], actionableSurfaces: [] };
 if (utahConstraint) {
   const needle = (utahConstraint.observed.match(/'([^']+)'/) ?? [])[1] ?? "1023XX";
+  let files = [];
   try {
-    const hits = execFileSync("git", ["grep", "-lF", needle, "--", "data", "src", "scripts", "docs"], { cwd: ROOT, encoding: "utf8" });
-    placeholderHardCodedIn = hits.split("\n").filter(Boolean);
-  } catch { placeholderHardCodedIn = []; }
+    files = execFileSync("git", ["grep", "-lF", needle, "--", "data", "src", "scripts", "docs"], { cwd: ROOT, encoding: "utf8" })
+      .split("\n").filter(Boolean);
+  } catch { files = []; }
+  for (const file of files) {
+    if (GOVERNANCE_SURFACES.some((re) => re.test(file))) placeholderOccurrences.governanceRecords.push(file);
+    else placeholderOccurrences.actionableSurfaces.push(file);
+  }
 }
+const placeholderHardCodedIn = placeholderOccurrences.actionableSurfaces;
 
 const aRows = rows.filter((r) => r.determinedCategory === "A_MUST_FULFILL");
 const bRows = rows.filter((r) => r.determinedCategory === "B_LEGITIMATE_EXCLUSION");
@@ -225,10 +250,20 @@ const doc = {
     ? [{
         jurisdiction: "UT",
         constraint: utahConstraint,
-        hardCodedInThisTree: placeholderHardCodedIn,
+        classification: "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+        isRuntimeDefect: false,
+        isPacketDefect: false,
+        isRouteRetirement: false,
+        blocksUtahPacketBuildUntilResolved: true,
+        owner: "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+        occurrences: placeholderOccurrences,
+        governanceRecordCount: placeholderOccurrences.governanceRecords.length,
+        actionableSurfaceCount: placeholderOccurrences.actionableSurfaces.length,
+        rule: "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
         verdict: placeholderHardCodedIn.length === 0
-          ? "NOT_YET_A_DEFECT — the placeholder appears nowhere in this tree. The constraint is preventive: it must never be committed as a production form identity."
-          : "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+          ? "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved."
+          : "LIVE_DEFECT — the placeholder reached an actionable surface and must be removed before any Utah 402 packet is built.",
+        whatWouldResolveIt: "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
         routeToLane: "R4_SOURCE_IDENTITY_AND_ACQUISITION"
       }]
     : [],

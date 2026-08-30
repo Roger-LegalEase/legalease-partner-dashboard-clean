@@ -15,23 +15,29 @@
       "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     ],
     "c12": "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json",
+    "c11Review": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
+    "c11StopClassification": "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json",
     "counselDeterminations": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json"
   },
   "nothingCompletedIsRepeated": "Every route here is STOPPED in the integration status, and the generator refuses if a COMPLETED route appears. The already-answered queue is filtered against the same record rather than against a remembered claim that the overlap is zero.",
   "notYetResidual": {
-    "laneStillRunning": "C11_PACKET_FACTORY_ACCELERATOR",
-    "reservedPaths": [
+    "laneStillRunning": null,
+    "reservedPaths": [],
+    "releasedPaths": [
       "data/rcap-all50/overlays/census-v1/**  (only the families listed in this assignment)",
       "data/rcap-all50/pleadings/**  (only the families listed in this assignment)",
       "scripts/build-census-v1-<family>.mjs"
     ],
-    "rule": "C11's 47 families and its owned paths are untouched and unassigned. Nothing here may write inside them, and the generator refuses if a residual lane tries."
+    "rule": "C11 has returned and its path ownership is released. Its 43 built families are integrated and are not rebuilt; its 4 stops are classified by blocker and routed to the lane that can resolve each one."
   },
   "notDispatchable": "This record describes work; it dispatches none. A residual wave is dispatched only after a new Captain head and a new ownership manifest are committed, by the same two-commit method.",
   "commercialPosture": "No residual lane opens a commercial route, proves a packet, or consumes an authorization. C12's one-time nonproduction authorization remains unspent.",
   "counts": {
-    "residualLanes": 6,
+    "residualLanes": 7,
     "counselDeterminationRoutes": 4,
+    "c11StoppedFamilies": 4,
+    "c11BuiltFamiliesNeedingRepair": 23,
+    "c11CorpusBinariesExcluded": 59,
     "residualRoutes": 14,
     "residualAlreadyAnsweredRows": 37,
     "residualMappingRows": 29,
@@ -42,7 +48,7 @@
     "residualPromotions": 33,
     "counselDeterminationSubroutes": 2,
     "counselDeterminationGatedBranches": 4,
-    "totalDistinctItems": 114,
+    "totalDistinctItems": 142,
     "collisions": 0
   },
   "lanes": [
@@ -344,7 +350,8 @@
         "obligation:runtime-only:WI:executive-pardon-guidance",
         "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
         "obligation:runtime-only:WV:juvenile-record-relief",
-        "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241"
+        "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+        "ne-setaside-noncustodial-set"
       ],
       "detail": {
         "openMappingRows": [
@@ -822,6 +829,20 @@
             "disposition": "BOUND_OR_EXPLICIT_NONE",
             "stopReasons": []
           }
+        ],
+        "c11StopsRouted": [
+          {
+            "familyId": "ne-setaside-noncustodial-set",
+            "stopArtifact": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-noncustodial-set--custom-pleading/vehicle-conflict-stop.json",
+            "primary": "COMPOSED_PLEADING_SPECIFICATION",
+            "secondary": [
+              "ROUTE_IDENTITY"
+            ],
+            "lane": "R3_ROUTE_MAPPING_REMAINDER",
+            "why": "The worklist labels this family custom_pleading while the controlling Nebraska legal-design evidence resolves the route to the same official CC-6-11 packet and expressly does not authorise a composed pleading. The exact source is held and byte-exact, so nothing is missing: the assignment's implementation strategy is wrong, and correcting a mapping is R3's work.",
+            "mustNotDo": "No custom pleading may be invented from the conflict.",
+            "resolution": "Correct the shared assignment vehicle to official_pdf_fill, or record an approved exact hybrid design."
+          }
         ]
       },
       "ownedPaths": [
@@ -836,6 +857,7 @@
       "what": "19 unresolved identities, 30 unresolved official URLs, 49 acquisition obligations and 33 promotion candidates. Nothing was acquired and nothing was physically promoted, so none of it is closed.",
       "itemKind": "obligationKey",
       "items": [
+        "UT-402-MOTION-TO-REDUCE-FORM-IDENTITY",
         "ar-act346-set::The ACIC petition counterpart to the Act 346 order to dismiss and seal.",
         "ar-misdemeanor-seal-set::The ACIC petition for the misdemeanour branch, A.C.A. 16-90-1405.",
         "ar-veterans-court-set::The ACIC order counterpart for the veterans treatment court route.",
@@ -863,9 +885,11 @@
         "in_section1_petition-set::CCA-XP-0120-7002 Form ACR",
         "in_section1_petition-set::Confidential Information Form",
         "mi_setaside_trafficking-set::Proof of Service",
+        "ne-trafficking-setaside-and-seal-set",
         "rcap-in-custom-pleading::CCA-GF-0120-3016",
         "rcap-in-custom-pleading::CCA-XP-0120-7002 Form ACR",
-        "rcap-in-custom-pleading::Confidential Information Form"
+        "rcap-in-custom-pleading::Confidential Information Form",
+        "wa_blake_vacatur_and_lfo_refund-set"
       ],
       "detail": {
         "unresolvedIdentities": 19,
@@ -927,7 +951,62 @@
             "instruction": "reachable on a HEAD probe from a worker host; attempt acquisition and record the body's SHA-256"
           }
         ],
-        "egressRule": "Per host, not per wave. A host that answered a HEAD probe is retried; a host that refused is escalated, never re-probed by the next worker."
+        "egressRule": "Per host, not per wave. A host that answered a HEAD probe is retried; a host that refused is escalated, never re-probed by the next worker.",
+        "c11StopsRouted": [
+          {
+            "familyId": "ne-trafficking-setaside-and-seal-set",
+            "stopArtifact": "data/rcap-all50/overlays/census-v1/ne/ne-trafficking-setaside-and-seal-set--official-pdf-fill/vehicle-conflict-stop.json",
+            "primary": "SOURCE_IDENTITY",
+            "secondary": [
+              "ROUTE_IDENTITY",
+              "COMPOSED_PLEADING_SPECIFICATION"
+            ],
+            "lane": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+            "why": "Two blockers, and the source one comes first: the only held CC-6-12 identity is a two-page instructions PDF rather than either named motion, so no vehicle decision can be acted on until the actual set-aside motion and sealing motion are identified. The duplicate incompatible worklist rows are real and are recorded as a dependency on R3.",
+            "mustNotDo": "No packet may be authored or filled against an instructions PDF standing in for a motion.",
+            "resolution": "Bind the actual set-aside motion and sealing motion by exact identity, then resolve the duplicate vehicle rows."
+          },
+          {
+            "familyId": "wa_blake_vacatur_and_lfo_refund-set",
+            "stopArtifact": "data/rcap-all50/overlays/census-v1/wa/wa-blake-vacatur-and-lfo-refund-set--official-pdf-fill/source-vehicle-stop.json",
+            "primary": "SOURCE_IDENTITY",
+            "secondary": [],
+            "lane": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+            "why": "The worklist assigns BLAKE-002 as a separate LFO-refund claim. First-hand inspection of the pinned bytes identifies it as the courts-of-limited-jurisdiction Blake motion to vacate and refund -- an alternate-jurisdiction motion, not a second component. The document was misidentified, which is exactly R4's question.",
+            "mustNotDo": "The alternate-jurisdiction motion must not be filled as though it were a separate refund claim.",
+            "resolution": "Correct the source role, and identify whether a separate LFO-refund instrument exists at all."
+          }
+        ],
+        "utahFormIdentity": {
+          "jurisdiction": "UT",
+          "constraint": {
+            "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+            "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+            "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+          },
+          "classification": "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+          "isRuntimeDefect": false,
+          "isPacketDefect": false,
+          "isRouteRetirement": false,
+          "blocksUtahPacketBuildUntilResolved": true,
+          "owner": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+          "occurrences": {
+            "governanceRecords": [
+              "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+              "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+              "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+              "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+              "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs"
+            ],
+            "actionableSurfaces": []
+          },
+          "governanceRecordCount": 5,
+          "actionableSurfaceCount": 0,
+          "rule": "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
+          "verdict": "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved.",
+          "whatWouldResolveIt": "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
+          "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+        }
       },
       "ownedPaths": [
         "data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**"
@@ -1109,11 +1188,27 @@
               "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
               "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
             },
-            "hardCodedInThisTree": [
-              "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
-              "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
-            ],
-            "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+            "classification": "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+            "isRuntimeDefect": false,
+            "isPacketDefect": false,
+            "isRouteRetirement": false,
+            "blocksUtahPacketBuildUntilResolved": true,
+            "owner": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+            "occurrences": {
+              "governanceRecords": [
+                "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+                "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+                "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+                "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+                "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs"
+              ],
+              "actionableSurfaces": []
+            },
+            "governanceRecordCount": 5,
+            "actionableSurfaceCount": 0,
+            "rule": "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
+            "verdict": "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved.",
+            "whatWouldResolveIt": "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
             "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
           }
         ],
@@ -1126,6 +1221,98 @@
       },
       "ownedPaths": [
         "data/rcap-grade-a/wave-2/r6-counsel-determination-implementation/**"
+      ]
+    },
+    {
+      "residualLaneId": "R7_PACKET_REPAIR",
+      "replaces": [],
+      "what": "Repair work on the C11 return that needs no rebuild: 23 built families missing a product-wiring record, and 1 stopped famil(ies) whose blocker is a packet component rather than a source or a mapping.",
+      "itemKind": "familyId",
+      "items": [
+        "nj_arrest_no_conviction-set",
+        "nj_clean_slate-set",
+        "nj_disorderly_persons-set",
+        "nj_indictable_conviction-set",
+        "nj_ordinance-set",
+        "ny_160_59_petition-set",
+        "ny_mrta_marijuana-set",
+        "oh_marijuana_expungement-set",
+        "pa_490_nonconviction-set",
+        "pa_6308_underage-set",
+        "pa_790_nonconviction-set",
+        "pa_9122_1_limited_access-set",
+        "pa_summary_conviction-set",
+        "rcap-oh-custom-pleading-clean-tracks",
+        "ri_nonconviction_sealing-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set"
+      ],
+      "detail": {
+        "missingProductWiring": {
+          "classification": "ENGINEERING",
+          "lane": "R7_PACKET_REPAIR",
+          "families": [
+            "nj_arrest_no_conviction-set",
+            "nj_clean_slate-set",
+            "nj_disorderly_persons-set",
+            "nj_indictable_conviction-set",
+            "nj_ordinance-set",
+            "ny_160_59_petition-set",
+            "ny_mrta_marijuana-set",
+            "pa_490_nonconviction-set",
+            "pa_790_nonconviction-set",
+            "pa_9122_1_limited_access-set",
+            "pa_summary_conviction-set",
+            "ri_nonconviction_sealing-set",
+            "wa_vac_cannabis-set",
+            "wa_vac_domestic_violence-set",
+            "wa_vac_felony-set",
+            "wa_vac_homicide_victim_prostitution-set",
+            "wa_vac_misdemeanor_ordinary-set",
+            "wa_vac_substance_use_disorder-set",
+            "wa_vac_survivor_felony-set",
+            "wa_vac_survivor_misdemeanor-set",
+            "wa_vac_treaty_fishing-set",
+            "oh_marijuana_expungement-set",
+            "rcap-oh-custom-pleading-clean-tracks"
+          ],
+          "count": 23,
+          "why": "These families are built and their posture is closed by the fields they do write -- runtimeSelectable false, commercialAuthority false, approval requested and not granted. What is missing is product-wiring.json, so nothing in the tree states generationAllowed for them. An absent field is not a false one.",
+          "mustNotDo": "Do not rebuild these families. The artifacts are sound; the record is incomplete.",
+          "resolution": "Write the missing product-wiring.json for each, stating the family id, route keys, implementation strategy, field map, generationAllowed false, runtimeSelectable false and commercialRoutesOpened 0.",
+          "alsoRequires": "The next dispatch states the output schema, per WEC-5. Two schemas appeared inside one lane, which is what produced this gap."
+        },
+        "componentStops": [
+          {
+            "familyId": "pa_6308_underage-set",
+            "stopArtifact": "data/rcap-all50/overlays/census-v1/pa/pa-6308-underage-set--custom-pleading/build-findings.json",
+            "primary": "PACKET_COMPONENT_IDENTITY",
+            "secondary": [
+              "COMPOSED_PLEADING_SPECIFICATION"
+            ],
+            "lane": "R7_PACKET_REPAIR",
+            "why": "The held Rule 490 petition and order match their pinned SHA-256 and byte lengths, so this is not a source problem. What is missing is a component: the court-status metadata that selects the correct official vehicle, and an approved source-backed custom service certificate. Both are packet-specification work on sources already in hand.",
+            "mustNotDo": "No pleading configuration, canonical or boundary pleading, filled PDF or runtime activation may be created from the gap.",
+            "resolution": "Record the court-status metadata that determines the official vehicle, and complete the exact service-certificate specification."
+          }
+        ],
+        "doNotRebuild": "None of the 43 built families is rerun. The artifacts are sound and byte-checked; what is missing is a record or a component specification.",
+        "excludedCorpusBinaries": {
+          "count": 59,
+          "why": "59 files were excluded from integration because their bytes are indexed private-corpus sources or court-source PDFs with no precedent in this tree.",
+          "nothingIsLost": "Every excluded file's exact SHA-256, byte length and path in the corpus is already recorded in the family's own source-receipt.json, and the corpus bootstrap recovers the bytes. A verifier binds the source from MASTER_LIBRARY_SOURCE_DIR, never from git.",
+          "ifAVerifierNeedsThem": "Bind the source from MASTER_LIBRARY_SOURCE_DIR through the corpus bootstrap and compare against the family's own source-receipt.json. Do not re-commit the bytes."
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/r7-packet-repair/**"
       ]
     },
     {

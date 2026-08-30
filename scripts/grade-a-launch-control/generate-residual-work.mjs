@@ -45,6 +45,9 @@ const c10id = read(`${V1}/identity-resolution/wave-2/resolved.json`);
 const c10acq = read("data/rcap-grade-a/source-acquisition/wave-1/acquired.json");
 const c12 = read("data/rcap-grade-a/participant-data-rights/hosted-acceptance.json");
 const counsel = read(`${LC}/COUNSEL_DETERMINATION_DELTA.json`);
+const c11Review = read(`${LC}/C11_RETURN_REVIEW.json`);
+const c11Stops = read(`${LC}/C11_STOP_CLASSIFICATION.json`);
+const stopsFor = (lane) => c11Stops.stops.filter((s) => s.lane === lane);
 
 const completedRoutes = new Set(status.rows.filter((r) => r.integrationStatus === "COMPLETED").map((r) => r.routeKey));
 
@@ -122,7 +125,12 @@ const egressByHost = probe.map((r) => ({
 }));
 
 // ---- assemble the residual lanes --------------------------------------------------
-const RESERVED_C11 = dispatch.assignments.find((a) => a.assignmentId === "C11_PACKET_FACTORY_ACCELERATOR")?.ownedPaths ?? [];
+// C11 has returned, so its paths are released. The reservation stays recorded
+// as history -- and as the reason a residual lane may now write where it could
+// not before -- rather than being deleted.
+const C11_PATHS = dispatch.assignments.find((a) => a.assignmentId === "C11_PACKET_FACTORY_ACCELERATOR")?.ownedPaths ?? [];
+const C11_RETURNED = c11Review.verdict.startsWith("ACCEPTED");
+const RESERVED_C11 = C11_RETURNED ? [] : C11_PATHS;
 
 const lanes = [
   {
@@ -160,8 +168,8 @@ const lanes = [
     replaces: ["C9_ROUTE_MAPPING_RECONCILIATION"],
     what: `${openMappingRows.length} mapping rows C9 stopped on, plus ${openPairBindings.length} stage/branch pair bindings it could not settle.`,
     itemKind: "routeKey",
-    items: openMappingRows.map((r) => r.routeKey),
-    detail: { openMappingRows, openPairBindings },
+    items: [...openMappingRows.map((r) => r.routeKey), ...stopsFor("R3_ROUTE_MAPPING_REMAINDER").map((s) => s.familyId)],
+    detail: { openMappingRows, openPairBindings, c11StopsRouted: stopsFor("R3_ROUTE_MAPPING_REMAINDER") },
     ownedPaths: ["data/rcap-grade-a/wave-2/r3-route-mapping-remainder/**"]
   },
   {
@@ -171,7 +179,9 @@ const lanes = [
     itemKind: "obligationKey",
     items: [...new Set([
       ...openIdentityRows.map((r) => r.obligationKey),
-      ...openUrlRows.map((r) => r.obligationKey)
+      ...openUrlRows.map((r) => r.obligationKey),
+      ...stopsFor("R4_SOURCE_IDENTITY_AND_ACQUISITION").map((s) => s.familyId),
+      "UT-402-MOTION-TO-REDUCE-FORM-IDENTITY"
     ])].sort(),
     detail: {
       unresolvedIdentities: openIdentityRows.length,
@@ -183,7 +193,9 @@ const lanes = [
       promotionBlocker: c10acq.promotion?.status ?? null,
       promotionExpectedInventoryRoot: c10acq.promotion?.expectedInventoryRoot ?? null,
       egressByExactSource: egressByHost,
-      egressRule: "Per host, not per wave. A host that answered a HEAD probe is retried; a host that refused is escalated, never re-probed by the next worker."
+      egressRule: "Per host, not per wave. A host that answered a HEAD probe is retried; a host that refused is escalated, never re-probed by the next worker.",
+      c11StopsRouted: stopsFor("R4_SOURCE_IDENTITY_AND_ACQUISITION"),
+      utahFormIdentity: counsel.sourceIdentityObligations[0] ?? null
     },
     ownedPaths: ["data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**"]
   },
@@ -219,6 +231,25 @@ const lanes = [
       ]
     },
     ownedPaths: ["data/rcap-grade-a/wave-2/r6-counsel-determination-implementation/**"]
+  },
+  {
+    residualLaneId: "R7_PACKET_REPAIR",
+    replaces: [],
+    what: `Repair work on the C11 return that needs no rebuild: ${c11Stops.builtFamilyRecordGap?.count ?? 0} built families missing a product-wiring record, and ${stopsFor("R7_PACKET_REPAIR").length} stopped famil(ies) whose blocker is a packet component rather than a source or a mapping.`,
+    itemKind: "familyId",
+    items: [...new Set([...(c11Stops.builtFamilyRecordGap?.families ?? []), ...stopsFor("R7_PACKET_REPAIR").map((s) => s.familyId)])].sort(),
+    detail: {
+      missingProductWiring: c11Stops.builtFamilyRecordGap,
+      componentStops: stopsFor("R7_PACKET_REPAIR"),
+      doNotRebuild: "None of the 43 built families is rerun. The artifacts are sound and byte-checked; what is missing is a record or a component specification.",
+      excludedCorpusBinaries: {
+        count: c11Review.exclusionList.length,
+        why: "59 files were excluded from integration because their bytes are indexed private-corpus sources or court-source PDFs with no precedent in this tree.",
+        nothingIsLost: c11Review.corpusBinariesToExclude.nothingIsLost,
+        ifAVerifierNeedsThem: "Bind the source from MASTER_LIBRARY_SOURCE_DIR through the corpus bootstrap and compare against the family's own source-receipt.json. Do not re-commit the bytes."
+      }
+    },
+    ownedPaths: ["data/rcap-grade-a/wave-2/r7-packet-repair/**"]
   },
   {
     residualLaneId: "R5_NONPRODUCTION_ACCEPTANCE",
@@ -283,7 +314,19 @@ for (const r of status.rows.filter((x) => x.integrationStatus === "STOPPED")) {
 if (openPairBindings.length !== c9bind.counts?.pairsStopped) {
   problems.push(`${openPairBindings.length} stopped pair bindings selected, but C9 counted ${c9bind.counts?.pairsStopped}`);
 }
-if (review.summary.stillRunning !== 1) problems.push(`the return review reports ${review.summary.stillRunning} lanes still running; this record was written for exactly one (C11)`);
+if (review.summary.stillRunning !== 0 && !C11_RETURNED) {
+  problems.push(`the return review reports ${review.summary.stillRunning} lane(s) still running and C11 has not returned`);
+}
+// Every C11 stop must land in a lane, and no stop may be dropped.
+{
+  const laneItems = new Set(lanes.flatMap((l) => l.items));
+  for (const stop of c11Stops.stops) {
+    if (!laneItems.has(stop.familyId)) problems.push(`${stop.familyId} stopped in C11 and appears in no residual lane`);
+  }
+  for (const family of c11Stops.builtFamilyRecordGap?.families ?? []) {
+    if (!laneItems.has(family)) problems.push(`${family} needs a wiring record and appears in no residual lane`);
+  }
+}
 
 if (problems.length > 0) {
   console.error(`residual work: ${problems.length} problem(s)`);
@@ -302,14 +345,19 @@ const doc = {
     c9: ["data/rcap-grade-a/captain-route-mapping/reconciled.json", "data/rcap-grade-a/captain-route-mapping/stage-binding.json"],
     c10: [`${V1}/identity-resolution/wave-2/resolved.json`, "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"],
     c12: "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json",
+    c11Review: `${LC}/C11_RETURN_REVIEW.json`,
+    c11StopClassification: `${LC}/C11_STOP_CLASSIFICATION.json`,
     counselDeterminations: `${LC}/COUNSEL_DETERMINATION_DELTA.json`
   },
   nothingCompletedIsRepeated:
     "Every route here is STOPPED in the integration status, and the generator refuses if a COMPLETED route appears. The already-answered queue is filtered against the same record rather than against a remembered claim that the overlap is zero.",
   notYetResidual: {
-    laneStillRunning: "C11_PACKET_FACTORY_ACCELERATOR",
+    laneStillRunning: C11_RETURNED ? null : "C11_PACKET_FACTORY_ACCELERATOR",
     reservedPaths: RESERVED_C11,
-    rule: "C11's 47 families and its owned paths are untouched and unassigned. Nothing here may write inside them, and the generator refuses if a residual lane tries."
+    releasedPaths: C11_RETURNED ? C11_PATHS : [],
+    rule: C11_RETURNED
+      ? "C11 has returned and its path ownership is released. Its 43 built families are integrated and are not rebuilt; its 4 stops are classified by blocker and routed to the lane that can resolve each one."
+      : "C11's families and owned paths are untouched and unassigned. Nothing here may write inside them, and the generator refuses if a residual lane tries."
   },
   notDispatchable:
     "This record describes work; it dispatches none. A residual wave is dispatched only after a new Captain head and a new ownership manifest are committed, by the same two-commit method.",
@@ -318,6 +366,9 @@ const doc = {
   counts: {
     residualLanes: lanes.length,
     counselDeterminationRoutes: counsel.rows.length,
+    c11StoppedFamilies: c11Stops.counts.stoppedFamilies,
+    c11BuiltFamiliesNeedingRepair: c11Stops.counts.builtFamiliesMissingWiring,
+    c11CorpusBinariesExcluded: c11Review.exclusionList.length,
     residualRoutes: openIdentities.length,
     residualAlreadyAnsweredRows: alreadyAnsweredOpen.length,
     residualMappingRows: openMappingRows.length,

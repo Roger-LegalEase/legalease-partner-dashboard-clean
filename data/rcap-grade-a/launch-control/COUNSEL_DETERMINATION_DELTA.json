@@ -50,11 +50,27 @@
         "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
         "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
       },
-      "hardCodedInThisTree": [
-        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
-        "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
-      ],
-      "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+      "classification": "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+      "isRuntimeDefect": false,
+      "isPacketDefect": false,
+      "isRouteRetirement": false,
+      "blocksUtahPacketBuildUntilResolved": true,
+      "owner": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+      "occurrences": {
+        "governanceRecords": [
+          "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+          "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+          "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+          "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+          "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs"
+        ],
+        "actionableSurfaces": []
+      },
+      "governanceRecordCount": 5,
+      "actionableSurfaceCount": 0,
+      "rule": "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
+      "verdict": "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved.",
+      "whatWouldResolveIt": "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
       "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
     }
   ],
