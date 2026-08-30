@@ -248,6 +248,24 @@ jobs:
       - name: Prove the stale-artifact block is load-bearing
         run: node scripts/verify-rcap-stale-artifact-block.mjs --mutations
 
+      # The consumer price gate. createConsumerPaymentPlaceholder used to decide
+      # from packetRouteCanRender — a fact about a state, true for every
+      # legacy_retired generator and every shadow factory_v2 route — and from a
+      # ledger that is not a Grade-A fulfillment record. A forged row there
+      # restored a live direct-consumer price. This censuses all 337 compiled
+      # pathways and proves none can price, check out, reserve sponsorship,
+      # reach credit accounting, or deliver.
+      #
+      # Wired here rather than in the npm test chain because package.json is an
+      # image input for both worker images; the originating commit added a test
+      # entry there, which would have invalidated the worker-image fingerprint
+      # and required a freeze-owner republish.
+      - name: Verify the census-v1 money and credit gate
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs
+
+      - name: Prove the money and credit gate is load-bearing
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs --mutations
+
       - name: Verify the factory_v2 route registry is current
         run: node scripts/generate-rcap-factory-v2-registry.mjs --check
 
