@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "required": true,
+  "granted": false,
+  "reviewedBy": null,
+  "note": "Every page of every fixture is rastered for review by a human who did not build this family. The build's own byte-level verification is not a substitute: it can prove a value sits at a measured rectangle and cannot see that a rectangle is the wrong place to put it.",
+  "whatToLookAt": [
+    "Page 1, the caption block: 'Name of defendant', 'E-mail address', 'Phone number', 'JD/GA number' and 'Address of court' are all deliberately BLANK. Confirm that reads as an incomplete form to be finished, not as a filled form with missing data. See reports/caption-channel-defect.json.",
+    "Page 1, the crimes box: blank, and it is the largest empty area on the form. Confirm the participant would understand it is theirs to complete.",
+    "Page 1, both jurat rows: signature, print name and date all blank for the defendant and the officer.",
+    "Page 2, the Order of the Court: both checkboxes unticked and the decree, judge, clerk and date blank.",
+    "The foot of both pages: flattening materialises the form's own 'Print Form' and 'Reset Form' button captions as static text. They are the Judicial Branch's own labels, not values this build wrote, but they will appear on a filed copy. See build-findings.json → advisory.",
+    "The boundary fixture, page 1: the docket box is blank because the boundary docket number does not fit 159.84pt at the minimum readable font. Confirm a refusal is preferable to a clipped docket number."
+  ],
+  "rasters": [
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-canonical",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+          "sha256": "46468663c4358d1909460aded45eed11bf2ab6efba65005cc18c78ff7cdb0089",
+          "byteLength": 240182
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+          "sha256": "7cb07ec4253558605f5eb67e2102154b39c866cca104ed0753242da5281b2f80",
+          "byteLength": 66688
+        }
+      ]
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "boundary",
+      "directory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-boundary",
+      "pages": [
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+          "sha256": "e711ed68aee25295cfad248bcbecf19521f5eb53b62c3e57def8640d13a740f0",
+          "byteLength": 241375
+        },
+        {
+          "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+          "sha256": "7cb07ec4253558605f5eb67e2102154b39c866cca104ed0753242da5281b2f80",
+          "byteLength": 66688
+        }
+      ]
+    }
+  ]
+}

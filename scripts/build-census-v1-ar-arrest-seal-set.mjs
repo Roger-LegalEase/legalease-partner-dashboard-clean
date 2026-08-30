@@ -88,16 +88,28 @@ const DOCUMENTS = [
     //
     // "First Middle and Last name" is the DEFENDANT caption blank on page 1,
     // and the form prints "(First, Middle and Last name)" directly under it —
-    // it wants the whole name. The field-name channel disagrees: the haystack
-    // contains the literal substring "last name", `participant.last_name` is
-    // ordered ahead of `participant.full_legal_name` in FACT_DESCRIPTORS, and
-    // most-specific-first therefore selects the surname. Naming
-    // full_legal_name here does not override that — decideBinding refuses a
-    // mapping that conflicts with the name channel — so the blank is left
-    // EMPTY and the reason is recorded as `explicit_mapping_conflicts_with_
-    // field_name`. That is the intended outcome of the two available ones: a
-    // petition whose caption reads "Reyes" misnames the defendant to the
-    // court, and a blank line does not. See the report this script writes.
+    // it wants the whole name.
+    //
+    // The field-name channel used to disagree. The haystack contains the
+    // literal substring "last name", `participant.last_name` was ordered ahead
+    // of `participant.full_legal_name` in FACT_DESCRIPTORS, and
+    // most-specific-first therefore selected the surname; naming full_legal_
+    // name here could not override that, because decideBinding refuses a
+    // mapping that conflicts with the name channel, so the blank was left EMPTY
+    // as `explicit_mapping_conflicts_with_field_name`. A blank line was the
+    // better of the two outcomes then available — a petition whose caption
+    // reads "Reyes" misnames the defendant to the court — but it was still a
+    // required caption left unfilled.
+    //
+    // The shared binder now reads a caption that names first, middle and last
+    // at once as asking for the assembled name, so the name channel and this
+    // mapping agree and the caption is filled. Twenty-one committed blanks
+    // across the corpus moved with it; see
+    // data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json.
+    // The boundary fixture still leaves it blank, for an unrelated and correct
+    // reason: that participant's name needs 195.6pt at the minimum font and the
+    // widget is 179.16pt wide, so it is refused as unfittable rather than
+    // drawn over the form.
     //
     // "and charged with the offenses of 1" is a charge row and
     // `matter.charge` is a requiresExplicitMapping descriptor, so the caller
@@ -146,15 +158,27 @@ const DOCUMENTS = [
       //
       // This is the charge-caption defect's sibling: the printed-label
       // fallback binding a name into a blank that holds something else. The
-      // committed guard covers charge, offence, count, statute and violation
-      // captions; a date component is none of those, so nothing shared
-      // refuses it and the refusal has to be stated here.
+      // charge-caption guard covers charge, offence, count, statute and
+      // violation captions; a date component is none of those, so for a time
+      // nothing shared refused it and the refusal was stated only here.
+      //
+      // It is now stated in the binder as well: decideBinding withholds the
+      // printed-label fallback from any field whose own name is a date
+      // component. That rule is anchored to the NAME because the captions on
+      // this very form are not trustworthy — MONTH harvested the wrong sentence
+      // and YEAR harvested a digit. Twenty-one committed blanks across the
+      // corpus were taking a name this way; see
+      // data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json.
+      //
+      // These entries stay because they say something the binder does not: the
+      // platform holds no day, month or year fact. That is true of this family
+      // whatever the shared rules do.
       { field: "DAY", class: "arrest_date_component",
-        why: "Day component of the arrest date. The platform holds no day fact, and the printed-label fallback binds participant.full_legal_name here via the word 'Defendant' in the harvested sentence fragment." },
+        why: "Day component of the arrest date. The platform holds no day fact. The shared binder also withholds the printed-label fallback from a date-component name, so the sentence fragment mentioning the Defendant can no longer bind participant.full_legal_name here." },
       { field: "MONTH", class: "arrest_date_component",
-        why: "Month component of the arrest date. Proven to receive participant.full_legal_name through the printed-label fallback; refused by role so no name can reach it." },
+        why: "Month component of the arrest date. This is the blank that was proven to receive participant.full_legal_name through the printed-label fallback. It is now refused twice over: by the shared date-component guard, and by role because the platform holds no month fact." },
       { field: "YEAR", class: "arrest_date_component",
-        why: "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form." }
+        why: "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form. Its previous refusal depended on the harvested caption happening to be the digit '1', which was never a decision; the shared guard now refuses it by name." }
     ]
   },
   {
@@ -190,12 +214,19 @@ const DOCUMENTS = [
       // protection is incidental and would disappear the moment the flag is
       // set correctly. A refusal that depends on a form's title is not a
       // refusal.
+      //
+      // The shared date-component guard now refuses these by name, underneath
+      // the region channel and independently of it. Because the region channel
+      // masks them they do not appear in the primary classification diff; that
+      // record carries them separately under `latentWithoutTheRegionChannel`,
+      // which projects the corpus with the channel withheld and finds `Day` and
+      // `Month` here among fifteen further blanks the correction moves.
       { field: "Day", class: "arrest_date_component",
-        why: "Day component of the arrest date in the court's findings. Binds participant.full_legal_name through the printed-label fallback; refused by role rather than by the document title." },
+        why: "Day component of the arrest date in the court's findings. Bound participant.full_legal_name through the printed-label fallback; now refused by the shared date-component guard, by role, and — incidentally — by the document title." },
       { field: "Month", class: "arrest_date_component",
-        why: "Month component of the arrest date in the court's findings. Same binding, same refusal." },
+        why: "Month component of the arrest date in the court's findings. Same binding, same refusals." },
       { field: "Year", class: "arrest_date_component",
-        why: "Year component of the arrest date in the court's findings." }
+        why: "Year component of the arrest date in the court's findings. The platform holds no year fact." }
     ]
   }
 ];
@@ -209,11 +240,11 @@ const DOCUMENTS = [
 // and is a wider net than the charge-caption question alone.
 const NAME_MAY_APPEAR_IN = {
   "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460": [
-    "First Middle and Last name",  // page 1 DEFENDANT caption — currently refused, see explicitMappings
+    "First Middle and Last name",  // page 1 DEFENDANT caption — filled, see explicitMappings
     "Defendant NAME"               // page 2 "WHEREFORE, the Defendant, ______"
   ],
   "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460": [
-    "First Middle and Last name",  // page 1 DEFENDANT caption — currently refused
+    "First Middle and Last name",  // page 1 DEFENDANT caption — filled, see explicitMappings
     "Defendant"                    // page 2 "the Petition of the Defendant, ______"
   ]
 };

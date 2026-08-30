@@ -37,6 +37,29 @@ const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
 // Decisions already made, by Roger or recorded in the build plan. These are not
 // defaults and are re-applied on every generation.
 const OVERRIDES = {
+  "rcap-official-forms/verify-name-date-component-semantics.mjs": {
+    disposition: "wire",
+    reason:
+      "The shared binder's second correction, after the charge-caption one. Two defects, both narrow and both live: a DAY, MONTH or YEAR blank acquired participant.full_legal_name because neighbouring sentence text said Defendant, and a caption naming every part of a name -- First, Middle and Last -- resolved to participant.last_name because the trailing substring won. Projected over every committed census: 157 censuses, 5,352 fields, 47 classifications moved and each one enumerated, 21 date components taking a name went to 0, and 21 whole-name captions taking a part went to 0. It asserts the direction that matters most, that nothing protected today becomes writable, and it asserts the correction had something to correct so a no-op rule cannot pass it. Wired on rcap-all50-handoff.yml rather than the npm chain, because package.json is an image input for both worker images.",
+    decidedBy: "recorded_decision"
+  },
+  "rcap-official-forms/test-name-date-component-semantics-mutations.mjs": {
+    disposition: "wire",
+    reason:
+      "The mutation half of the name/date semantics correction. A projection that cannot fail proves nothing about the rule it projects, so this mutates the committed record two ways -- an unexplained row, and a record that stops covering the census-v1 family -- and requires each to be caught, restoring every mutated file byte-for-byte and re-establishing the green baseline afterwards. Wired beside its verifier.",
+    decidedBy: "recorded_decision"
+  },
+  "verify-rcap-census-v1-money-credit-gate.mjs": {
+    disposition: "wire",
+    reason:
+      "The census of what every route may charge for. It recounts from the current head -- 337 compiled pathways over 51 jurisdictions, every routeId distinct -- and drives the real resolver, payment adapter and job contract with a maximally permissive participant context, so that whatever refuses is the route rather than the participant. All 337 are refused by governCommercialAdmission: no price, no Checkout Session, no sponsored reservation, no packet-credit accounting, no attach, no delivery. It exists because the price surface was NOT asking the authority: createConsumerPaymentPlaceholder decided from packetRouteCanRender, a fact about a state that is true for every legacy_retired generator and every shadow factory_v2 route, plus a ledger that is not a Grade-A fulfillment record -- and one forged row there restored a live direct-consumer price on two routes that ADR-0004 retired. Five mutation cases hold it up, including that forged row. Wired on rcap-all50-handoff.yml; the originating commit put it in package.json, which is an image input.",
+    decidedBy: "recorded_decision"
+  },
+  "verify-participant-data-rights.mjs": {
+    disposition: "wire",
+    reason:
+      "The 117-check acceptance contract for the three participant data-rights controls: download my data, delete one matter, delete my account. It builds an ephemeral PostgreSQL cluster from the current migration sequence, drives the real route handlers and the real deletion pipeline rather than a model of them, and reads its answers out of the database. Its strongest checks are the ones proving the feature did NOT overreach: a second matter on the same account survives a single-matter deletion with its payment history, queued render, packet and Briefcase access intact; the packet-credit ledger comes back byte-for-byte identical; amount, currency, product and receipt reference refuse to move even under the erasure authority; the partner's own records are untouched; an unrelated participant is unaffected. It also proves the ordering that makes the rest meaningful -- Auth user deleted last, every session revoked, a mid-pipeline failure resuming without re-running a completed step, and a legal hold outranking the erasure ask. Three closeout areas are proved rather than asserted. Processor erasure runs against a real loopback endpoint, not a stub, because the defect it replaces was a step reporting 'sent' without transmitting: acknowledged needs the provider's own reference, a 500 retries into pending, a 400 fails without retry, and the payment processor and render worker are classified not_applicable with their reasons; PR7 reintroduces the original defect as a mutation and catches it. Storage is swept across a 1,100-object page boundary AND three levels of nesting, because an earlier fixture spread objects across 21 folders where no folder exceeded a page and so proved nothing about pagination -- disabling pagination still passed it. Removing pagination, removing recursion and swallowing a listing failure are each caught now. The private-artifact authority M8/M9 pair is non-vacuous: an absent dependency satisfies neither, so the after-deletion check cannot pass on a link that never worked. Belongs on rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both worker images."
+  },
   "test-internal-admin-rls-hardening.mjs": {
     disposition: "wired",
     reason:

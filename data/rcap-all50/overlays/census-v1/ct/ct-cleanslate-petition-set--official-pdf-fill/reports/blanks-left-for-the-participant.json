@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, the swearing officer's, or a value the platform does not hold or would state wrongly.",
+  "thisFormInParticular": "Nineteen of twenty-two. That is a high proportion and it is the honest one: six fields are refused because the shared caption channel binds the wrong fact to them, four are a sworn attestation block, five are the court's own order section printed on the reverse, four are form buttons, and one is the crimes box, which binds the participant's name and which describes an eligibility question this family does not answer. See reports/caption-channel-defect.json.",
+  "count": 19,
+  "blanks": [
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+      "page": 1,
+      "effectiveLabel": "Pay any fine that the court ordered you to pay as part of y",
+      "reason": "protected_category",
+      "category": "money",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "roleClass": null,
+      "why": null
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+      "page": 1,
+      "effectiveLabel": "Crime(s) defendant asks the court to erase",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "charge_caption_blank_binding_a_participant_name",
+      "why": "The blank listing the convictions the petitioner asks the court to erase, captioned 'Crime(s) defendant asks the court to erase'. decideBinding makes it WRITABLE with participant.full_legal_name because the caption contains the word 'defendant'; the unguided dry run wrote the participant's name across it. The corpus charge-caption guard does not see this because CHARGE_VALUE_WORDS has no word for 'crime'. Refused by role so no name can reach it. The blank is left for the participant: which convictions are Clean Slate eligible is an eligibility question this family does not decide."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+      "page": 1,
+      "effectiveLabel": "Name of defendantE-mail addressPhone numberDate of birth",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "misbound_by_run_on_table_header_caption",
+      "why": "The defendant's e-mail address. Same harvested caption as DEFNAME, same resolution to participant.date_of_birth; the dry run wrote the date of birth into the e-mail box."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].PRINTNAME[0]",
+      "page": 1,
+      "effectiveLabel": "Signature (Notary, Commissioner of the Superior Court, Clerk",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_attestation_block",
+      "why": "The defendant's printed name beside their own signature, on the row the petition is sworn on. JD-CR-202 is sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer; the attestation row is completed at the swearing, by the person swearing, in the officer's presence. Prefilling any part of it presents a sworn block as further along than it is. Refused by role so the refusal does not rest on a caption-harvest defect."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].DATESIGN[0]",
+      "page": 1,
+      "effectiveLabel": "Signature (Defendant)Print nameDate",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_signature_date",
+      "why": "The date beside the defendant's signature. Dating a signature that has not been made asserts the petition was signed on a day it was not."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].DEFNAME[0]",
+      "page": 1,
+      "effectiveLabel": "Name of defendantE-mail addressPhone numberDate of birth",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "misbound_by_run_on_table_header_caption",
+      "why": "The defendant's name in the page-1 caption block. Its own field name matches no descriptor, so the printed-label fallback runs and harvests the whole four-cell header row; most-specific-first resolves that to participant.date_of_birth. The unguided dry run wrote '1991-04-17' into the name box. A petition whose caption names the defendant as a date misidentifies the petitioner to the court; a blank line does not."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+      "page": 1,
+      "effectiveLabel": "JD/GA number",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_identity_field_binding_a_participant_fact",
+      "why": "'Address of court' — the address of the Superior Court location the petition is filed in. The field NAME contains the substring 'ADDRESS', so participant.street_address binds through the name channel before the label is ever consulted, and the dry run printed the participant's home address as the court's address. The platform does not hold Connecticut court addresses; the six the document itself prints are the closed-court redirection chart on page 2, not a directory. Refused."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].JDGANUM[0]",
+      "page": 1,
+      "effectiveLabel": "JD/GA numberAddress of courtDocket number (only one allowed)",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_identity_field_binding_a_participant_fact",
+      "why": "The Judicial District / Geographical Area number identifying the court location. The run-on header caption resolves to matter.case_number, so the factory binds the DOCKET number to it. In the dry run it did not appear on the paper — but only because 'N23N-CR99-0123456-S' does not fit 51.84pt at the minimum font, which is cleanliness by luck rather than by decision: a shorter docket number would be written. Refused by role so the outcome does not depend on the length of a value."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].DATESIGN[1]",
+      "page": 1,
+      "effectiveLabel": "Signature (Notary, Commissioner of the Superior Court, Clerk",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "officer_signature_date",
+      "why": "The date the oath was administered. The officer dates their own jurat."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].PRINTNAME[1]",
+      "page": 1,
+      "effectiveLabel": "Signature (Notary, Commissioner of the Superior Court, Clerk",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "officer_attestation_block",
+      "why": "The printed name of the Notary, Commissioner of the Superior Court or Clerk who administers the oath. This is the officer's own identification, not the participant's, and writing the participant's name here would name them as the officer who swore them."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+      "page": 1,
+      "effectiveLabel": "Name of defendantE-mail addressPhone numberDate of birth",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "misbound_by_run_on_table_header_caption",
+      "why": "The defendant's phone number. Same harvested caption, same resolution to participant.date_of_birth; the dry run wrote the date of birth into the phone box."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#subform[1].MODIFIED[0]",
+      "page": 2,
+      "effectiveLabel": "Granted, as to the following convictions",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_only_decree",
+      "why": "'Granted, as to the following convictions' — the operative text of the court's decree, naming which convictions are erased. This is the court stating its own order, and it is also the exact question of eligibility this family does not decide."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#subform[1].DENIED[0]",
+      "page": 2,
+      "effectiveLabel": "The court has considered the defendants petition, and the p",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_only_decision",
+      "why": "The box the court ticks to deny the petition. The court's decision, made after the petition is filed."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#subform[1].GRANTED[0]",
+      "page": 2,
+      "effectiveLabel": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_only_decision",
+      "why": "The box the court ticks to grant the petition. Marking it would render an order the court has not made."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#subform[1].TOWNJUDGMNT[0]",
+      "page": 2,
+      "effectiveLabel": "By the Court (Name of Judge)Signed (Clerk/Assistant Clerk)On",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_only_signature",
+      "why": "'By the Court (Name of Judge)' / 'Signed (Clerk/Assistant Clerk)'. Court-only."
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "field": "form1[0].#subform[1].DATEJUDGMNT[0]",
+      "page": 2,
+      "effectiveLabel": "By the Court (Name of Judge)Signed (Clerk/Assistant Clerk)On",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "court_only_signature_date",
+      "why": "The date the court signs its order. The court dates its own instrument, and this refusal must not depend on a caption that a pending fix will narrow."
+    }
+  ]
+}

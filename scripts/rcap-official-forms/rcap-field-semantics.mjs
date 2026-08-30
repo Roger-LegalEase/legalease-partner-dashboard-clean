@@ -215,9 +215,9 @@ export function captionDescribesChargeValue(subject) {
 export const FACT_DESCRIPTORS = [
   { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
-  { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
-  { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
-  { factId: "participant.middle_name", valueType: "string", match: /middle\s*(name|initial)/ },
+  { factId: "participant.first_name", valueType: "string", match: /first\s*name/, refuseWhenCaption: captionAsksForEveryNamePart },
+  { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/, refuseWhenCaption: captionAsksForEveryNamePart },
+  { factId: "participant.middle_name", valueType: "string", match: /middle\s*(name|initial)/, refuseWhenCaption: captionAsksForEveryNamePart },
   // Email precedes street address, AND street address explicitly refuses an
   // email label. "Email Address" contains "address", so with the address rule
   // first it won, and a participant's street address was written onto an email
@@ -289,9 +289,8 @@ export const CAPTION_FACTS = new Set([
 // Field names arrive as camelCase, dotted paths, PascalCase and squashed
 // lowercase, so every rule is matched against a haystack holding a
 // separator-normalized and a fully squashed form at once.
-export function haystack(name) {
-  const raw = String(name ?? "");
-  const spaced = raw
+export function normalizedFieldWords(name) {
+  return String(name ?? "")
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
     .replace(/[._\-/\\]+/g, " ")
@@ -299,7 +298,54 @@ export function haystack(name) {
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
-  return `${spaced} || ${raw.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+}
+
+export function haystack(name) {
+  const raw = String(name ?? "");
+  return `${normalizedFieldWords(raw)} || ${raw.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
+}
+
+/**
+ * A field whose NAME is, by itself, one component of a date.
+ *
+ * Matched against the whole normalized name and nothing less: `day`, `month`,
+ * `year`, optionally carrying the index a form adds when it repeats the trio
+ * ("Day 01", "MONTH 2", "Year_3"). A name that says anything else -- `birthday`,
+ * `dayphone`, `year of conviction` -- is not this, and is left to the ordinary
+ * rules.
+ *
+ * The point is that such a name is not silent. The printed-label fallback below
+ * exists for widgets whose names carry no words at all; a widget named `MONTH`
+ * has already said what it holds, and what it holds is one third of a date.
+ */
+export const DATE_COMPONENT_FIELD_NAME = /^(?:day|month|year)(?:\s+\d{1,2})?$/;
+export function isDateComponentFieldName(name) {
+  return DATE_COMPONENT_FIELD_NAME.test(normalizedFieldWords(name));
+}
+
+/**
+ * True when a caption names every part of a person's name at once.
+ *
+ * Arkansas's ACIC forms print the defendant caption blank and name the field
+ * "First Middle and Last name"; Alabama SBI Form 46 prints "Full Name (First,
+ * Middle, Last, Suffix)". A caption that enumerates the parts is asking for the
+ * assembled whole, and `participant.full_legal_name` is the fact that carries
+ * it.
+ *
+ * What went wrong without this: `participant.last_name` matches /last\s*name/,
+ * which the trailing two words of "First Middle and Last name" satisfy, and
+ * last_name is ordered ahead of full_legal_name in FACT_DESCRIPTORS. The
+ * most-specific-first rule therefore selected the surname, and nineteen
+ * committed captions asking for a defendant's whole name resolved to "Reyes".
+ *
+ * It is deliberately a conjunction of all three parts plus the word "name". Two
+ * parts are not enough: "First and Last Name" is a form that genuinely wants
+ * only those, and a caption naming one part is that part.
+ */
+export const NAME_PART_WORDS = [/\bfirst\b/, /\bmiddle\b/, /\blast\b/];
+export function captionAsksForEveryNamePart(subject, hay = haystack(subject)) {
+  if (!/\bnames?\b/.test(hay)) return false;
+  return NAME_PART_WORDS.every((re) => re.test(hay));
 }
 
 /**
@@ -444,7 +490,27 @@ export function decideBinding(field, options = {}) {
   // checked against refuseWhen exactly as the name is.
   let factBasis = "field_name";
   let matches = descriptorsMatching(name);
-  if (matches.length === 0 && effectiveLabel && effectiveLabel !== name) {
+  // A date component is excluded from the fallback entirely, whatever the label
+  // offers. Arkansas's ACIC petition names three blanks DAY, MONTH and YEAR and
+  // prints "1.The Defendant was arrested on the ___ day of ______, ____" across
+  // them. None of the three names matches a descriptor, so the label decided,
+  // and the harvested sentence says "Defendant" -- so the participant's own name
+  // bound to the month of their arrest, and the canonical fixture read "arrested
+  // on the ___ day of Jordan Avery Reyes". Twenty-nine committed blanks across
+  // the corpus bound the name that way.
+  //
+  // The refusal is anchored to the NAME rather than to the caption because the
+  // caption is not trustworthy here and does not need to be: on this same form
+  // MONTH harvested the wrong sentence altogether and YEAR harvested the digit
+  // "1". A rule reading those would be reasoning from noise. The name is the
+  // reliable signal in this class, and it is sufficient -- a widget that says it
+  // is a day, a month or a year holds one component of a date, and the platform
+  // has no day, month or year fact to put there.
+  //
+  // This does not bind anything new and cannot: it only withholds the fallback,
+  // so a date component with a silent name reports `no_allowlisted_fact_matches`
+  // exactly as it would have had its label matched nothing at all.
+  if (matches.length === 0 && effectiveLabel && effectiveLabel !== name && !isDateComponentFieldName(name)) {
     // The label is a fallback for a field whose own name says nothing, and it
     // must not reintroduce a fact the NAME already rules out. Arkansas ACIC's
     // order to seal is the case: the blank is named "and charged with the

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "mi-setaside-marihuana-set",
+  "reviewer": "census-v1 packet-family build worker (automated agent) — the same worker that rendered the artifacts",
+  "reviewerIsIndependentOfTheRenderer": false,
+  "whyNotIndependent": "This review was performed by the worker that produced the artifacts, so it is not independent and must not be counted as the independent visual review the production holds require. It is recorded because looking at the rasterised pages catches things the byte checks cannot — a value clipped by its widget, a value in the wrong column, a caption overwritten, ink in a margin — and all of those were checked. It grants no approval.",
+  "whatWasChecked": [
+    "Every rendered page was rasterised from the finished artifact bytes and looked at as an image.",
+    "Each written value was located visually inside its own measured rectangle.",
+    "The conviction listing was inspected cell by cell in both fixtures.",
+    "Every signature, signature date and certificate-of-mailing blank was confirmed empty by eye as well as by byte."
+  ],
+  "pagesReviewed": 4,
+  "allPagesRastered": true,
+  "scale": 1.6,
+  "findings": [],
+  "verdict": "No page shows a participant value in a blank that does not belong to it, no clipped or overflowing value, and no signature, signature date or certificate-of-mailing rule carrying ink. The conviction listing is empty in every cell of both fixtures.",
+  "stillRequired": [
+    "Human independent visual review (f_independent_visual_review_required).",
+    "Output-level legal approval; this build only requests it."
+  ],
+  "pages": [
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fixture": "canonical",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/application-canonical/page-01.png",
+      "sha256": "a17de04c2148a3710967e60cb842426f20dabc655b7b0c28a05584e556e9ee7e",
+      "observation": "The COUNTY box carries 'Example County', inside its measured rectangle at x 36 y 672, printed to the LEFT of the form's own printed word COUNTY as the layout '____ COUNTY' intends. It is the only value on the page. The conviction listing rows a, b, c and d are EMPTY in all four columns — CRIME, CHARGE CODE(S)/MCL citation, DATE OF CONVICTION and CASE NUMBER — which is the page proving the charge-caption defect does not appear here and that `ch1` did not receive the case number. The applicant signature and its date are blank; the CERTIFICATE OF MAILING date and signature are blank; the court address and court telephone boxes are blank; the THE PEOPLE OF local-unit line is blank and both its checkboxes are unticked. The Defendant's name/address block is blank — the unreachable block reported in blanks-left-for-the-participant.json. No ink appears outside any widget rectangle and no printed caption is overwritten."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fixture": "canonical",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/application-canonical/page-02.png",
+      "sha256": "cf1ca87b841f2f304ddc6c59e8314b85c9cd0b8d7ef5c01f3816b8b3f317268b",
+      "observation": "The instructions page, unchanged. It carries no widgets and no ink was added to it."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fixture": "boundary",
+      "page": 1,
+      "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/application-boundary/page-01.png",
+      "sha256": "791c5f2178a9fc983c02636dfb76f7ea26f1d2713cf06e9da24e3419f13957cd",
+      "observation": "Nothing is written. The single writable field was refused as `value_exceeds_widget_width_at_minimum_font` — the boundary county needs 143.6pt at the 6pt minimum and the measured box is 118.15pt — so the page is the blank form. This is the outcome to want: the value is neither shrunk below legibility nor allowed to overflow past its measured rectangle into the printed caption beside it. With four convictions supplied, every row of the listing is still empty."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fixture": "boundary",
+      "page": 2,
+      "file": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/raster/application-boundary/page-02.png",
+      "sha256": "cf1ca87b841f2f304ddc6c59e8314b85c9cd0b8d7ef5c01f3816b8b3f317268b",
+      "observation": "The instructions page, unchanged."
+    }
+  ]
+}
