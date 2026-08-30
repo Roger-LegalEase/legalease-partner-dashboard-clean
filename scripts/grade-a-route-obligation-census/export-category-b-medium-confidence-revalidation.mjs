@@ -57,7 +57,7 @@ const CARRIED_FIELDS = [
 const read = (rel) => fs.readFileSync(path.join(ROOT, rel), "utf8");
 const git = (args) => execFileSync("git", args, { cwd: ROOT, encoding: "utf8" }).trim();
 
-function build(sourceText) {
+function build(sourceText, pinned = null) {
   const source = JSON.parse(sourceText);
   const rows = (source.routes ?? [])
     .filter((row) => row.possibleCategory === FILTER.possibleCategory
@@ -89,9 +89,9 @@ function build(sourceText) {
     generatedFrom: {
       repository: "Roger-LegalEase/legalease-partner-dashboard-clean",
       captainBranch: "claude/legalease-sprint-captain-utucnw",
-      captainHead: git(["rev-parse", "HEAD"]),
+      captainHead: pinned ? pinned.captainHead : git(["rev-parse", "HEAD"]),
       sourcePath: SOURCE,
-      sourceGitBlobSha: git(["hash-object", SOURCE]),
+      sourceGitBlobSha: pinned ? pinned.sourceGitBlobSha : git(["hash-object", SOURCE]),
       sourceSha256: crypto.createHash("sha256").update(sourceText).digest("hex")
     },
     filter: FILTER,
@@ -182,8 +182,41 @@ function validate(doc, sourceText) {
   return problems;
 }
 
-const sourceText = read(SOURCE);
-const doc = build(sourceText);
+/**
+ * In --check mode the export is rebuilt from the blob it was FROZEN against,
+ * not from whatever the ledger says today.
+ *
+ * This matters because the ledger legitimately moves. Regenerating the national
+ * census after five family censuses were integrated changed its
+ * sourceFingerprint and therefore its blob sha, and a check that rebuilt from
+ * the live file would have reported the frozen assignment stale — when nothing
+ * about the assignment had changed at all. Worse, the obvious "fix" would have
+ * been to regenerate the assignment, which is exactly what must not happen: it
+ * is handed to a reviewer and is traceable to one exact blob.
+ *
+ * So a frozen export stays verifiable forever against its own pinned source,
+ * and the question "has the ledger moved underneath it?" is answered by the
+ * post-regeneration delta record instead, where it belongs.
+ */
+function pinnedSource() {
+  const committed = JSON.parse(read(JSON_OUT));
+  const { sourceGitBlobSha, captainHead } = committed.generatedFrom;
+  const text = execFileSync("git", ["cat-file", "blob", sourceGitBlobSha], {
+    cwd: ROOT, encoding: "utf8", maxBuffer: 1024 * 1024 * 512
+  });
+  return { text, pinned: { sourceGitBlobSha, captainHead } };
+}
+
+let sourceText;
+let pinned = null;
+if ((CHECK || MUTATIONS) && fs.existsSync(path.join(ROOT, JSON_OUT))) {
+  const resolved = pinnedSource();
+  sourceText = resolved.text;
+  pinned = resolved.pinned;
+} else {
+  sourceText = read(SOURCE);
+}
+const doc = build(sourceText, pinned);
 const problems = validate(doc, sourceText);
 
 const md = markdown(doc);
