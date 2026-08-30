@@ -16,14 +16,16 @@
     "categoryBIntegrationStatus": "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
     "residualWork": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
     "workerExecutionContract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+    "counselDeterminationDelta": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    "counselDecisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
     "executionOrder": "docs/LAUNCH_SEQUENCE.md",
     "productContract": "docs/PRODUCT_CONTRACT.md"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "15e5441d30c024b1a1835907875faf90176fbd91",
-    "censusFingerprint": "sha256:9d2d97b9d2768f14e2baba3138ba808172b49143f0f2eaf29a6dfe982c6a9a29",
-    "censusLedgerBlob": "dbd9cf5dcd0f384d333b6b96fbd81ebf8e92196b",
+    "captainSha": "b41207df84d4829bc865c862b361a4e737779d7a",
+    "censusFingerprint": "sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5",
+    "censusLedgerBlob": "923368df224d00fa95aa2f2dd4fea39a60ae0827",
     "productionConnected": false,
     "productionConnectedEvidence": "No SUPABASE_, STRIPE_ or VERCEL_ variable is set in the generating environment, and egress to api.supabase.com is refused by policy."
   },
@@ -112,7 +114,8 @@
       "packetFamiliesCreated": 0
     },
     "residual": {
-      "residualLanes": 5,
+      "residualLanes": 6,
+      "counselDeterminationRoutes": 4,
       "residualRoutes": 14,
       "residualAlreadyAnsweredRows": 37,
       "residualMappingRows": 29,
@@ -121,7 +124,9 @@
       "residualOfficialUrls": 30,
       "residualAcquisitions": 49,
       "residualPromotions": 33,
-      "totalDistinctItems": 110,
+      "counselDeterminationSubroutes": 2,
+      "counselDeterminationGatedBranches": 4,
+      "totalDistinctItems": 114,
       "collisions": 0
     },
     "systemicFindings": [
@@ -156,12 +161,47 @@
   },
   "legalWork": {
     "trueCounselQuestions": 4,
+    "trueCounselAnswered": 4,
+    "trueCounselOpen": 0,
     "trueCounselDetail": [
-      "#4 AL — Alabama de novo circuit-court review after final agency denial",
-      "#47 NE — Where to go if you want your Nebraska conviction overturned",
-      "#54 NY — Possible pre-November 1, 1991 legacy motion",
-      "#76 UT — Not eligible yet? Reducing the conviction level may open a route"
+      "#4 AL — Alabama de novo circuit-court review after final agency denial — ANSWERED 2026-08-30: A — LegalEase must fulfil a bounded, participant-filed circuit-court appeal.",
+      "#47 NE — Where to go if you want your Nebraska conviction overturned — ANSWERED 2026-08-30: B — legitimate exclusion, UNSUITABLE_FOR_SELF_HELP. A pro se verified motion legally exists; merits drafting is excluded as a product-suitability decision.",
+      "#54 NY — Possible pre-November 1, 1991 legacy motion — ANSWERED 2026-08-30: A — fulfil, but only after splitting the legacy cohort at September 1, 1980. One generic pre-1991 § 160.55(3) motion would be legally inaccurate.",
+      "#76 UT — Not eligible yet? Reducing the conviction level may open a route — ANSWERED 2026-08-30: A — fulfil the defendant-filed § 76-3-402 branches; separately gate the consent-dependent and joint-motion branches."
     ],
+    "counselDeterminations": {
+      "answered": 4,
+      "categoryA": 3,
+      "categoryB": 1,
+      "mandatoryRouteSplits": 1,
+      "subroutesRequired": 2,
+      "branchesGatedBehindConsent": 4,
+      "branchesParticipantFiled": 5,
+      "obligationDelta": 1,
+      "projectedDenominator": {
+        "terminalObligations": 730,
+        "categoryA": 490,
+        "categoryB": 155,
+        "needsLegalReview": 82
+      },
+      "sourceIdentityObligations": [
+        {
+          "jurisdiction": "UT",
+          "constraint": {
+            "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+            "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+            "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+          },
+          "hardCodedInThisTree": [
+            "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+            "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
+          ],
+          "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+          "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+        }
+      ],
+      "grantsNothing": "These determinations create implementation obligations only. No commercial route opens and no packet is proven."
+    },
     "alreadyAnsweredImplementationQueue": 37,
     "captainMappingQueue": 33,
     "sourceIdentityQuestions": 8,
@@ -291,10 +331,10 @@
     },
     {
       "id": "BLK-2",
-      "blocker": "Four true counsel questions are unanswered",
-      "detail": "#4 AL, #47 NE, #54 NY, #76 UT",
-      "owner": "Lawrence Blackmon",
-      "blocks": "the routes those four decisions govern"
+      "blocker": "CLOSED — the four true counsel questions are answered",
+      "detail": "4 of 4 answered on 2026-08-30 by Lawrence Blackmon: 3 Category A, 1 legitimate exclusion. New York requires a mandatory split into 2 date-specific subroutes and Utah gates 4 of nine branches behind prosecutorial consent. What remains is implementation, carried as residual lane R6.",
+      "owner": "Captain — residual lane R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+      "blocks": "nothing; this blocker is closed"
     },
     {
       "id": "BLK-3",

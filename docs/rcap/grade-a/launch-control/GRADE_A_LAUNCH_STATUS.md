@@ -9,8 +9,8 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `15e5441d30c024b1a1835907875faf90176fbd91` |
-| Census fingerprint | `sha256:9d2d97b9d2768f14e2baba3138ba808172b49143f0f2eaf29a6dfe982c6a9a29` |
+| Captain SHA | `b41207df84d4829bc865c862b361a4e737779d7a` |
+| Census fingerprint | `sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5` |
 | Production connected | NO |
 
 ## Denominator
@@ -99,12 +99,28 @@ The execution contract carries 6 clauses and binds from wave 2. C11_PACKET_FACTO
 
 ## Legal work
 
-Four questions are genuinely for counsel. The other 82 rows of the 86 are Captain work.
+Four questions were genuinely for counsel; **4 are answered and 0 remain open**. The other 82 rows of the 86 are Captain work.
 
-- #4 AL — Alabama de novo circuit-court review after final agency denial
-- #47 NE — Where to go if you want your Nebraska conviction overturned
-- #54 NY — Possible pre-November 1, 1991 legacy motion
-- #76 UT — Not eligible yet? Reducing the conviction level may open a route
+- #4 AL — Alabama de novo circuit-court review after final agency denial — ANSWERED 2026-08-30: A — LegalEase must fulfil a bounded, participant-filed circuit-court appeal.
+- #47 NE — Where to go if you want your Nebraska conviction overturned — ANSWERED 2026-08-30: B — legitimate exclusion, UNSUITABLE_FOR_SELF_HELP. A pro se verified motion legally exists; merits drafting is excluded as a product-suitability decision.
+- #54 NY — Possible pre-November 1, 1991 legacy motion — ANSWERED 2026-08-30: A — fulfil, but only after splitting the legacy cohort at September 1, 1980. One generic pre-1991 § 160.55(3) motion would be legally inaccurate.
+- #76 UT — Not eligible yet? Reducing the conviction level may open a route — ANSWERED 2026-08-30: A — fulfil the defendant-filed § 76-3-402 branches; separately gate the consent-dependent and joint-motion branches.
+
+### What the four answers require
+
+| | |
+| --- | ---: |
+| Category A | 3 |
+| Category B (legitimate exclusion) | 1 |
+| Mandatory route splits | 1 |
+| Subroutes required | 2 |
+| Branches gated behind prosecutorial consent | 4 |
+| Branches participant-filed with no consent gate | 5 |
+| Obligations added | 1 |
+
+New York cannot be built as one generic pre-November 1991 motion: the screening must ask the exact conviction date, and that date selects the motion theory. Utah's consent-dependent and joint-motion branches refuse without signed prosecutorial consent. Nebraska generates no merits pleading at all.
+
+These determinations create implementation obligations only. No commercial route opens and no packet is proven.
 
 | Queue | Rows |
 | --- | ---: |
@@ -162,11 +178,11 @@ A HEAD probe from a worker host reached 5 of 7 official hosts tested; the rest r
 
 **Owner:** Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts. **Blocks:** 49 acquisition obligations and 33 promotion candidates
 
-### BLK-2 — Four true counsel questions are unanswered
+### BLK-2 — CLOSED — the four true counsel questions are answered
 
-#4 AL, #47 NE, #54 NY, #76 UT
+4 of 4 answered on 2026-08-30 by Lawrence Blackmon: 3 Category A, 1 legitimate exclusion. New York requires a mandatory split into 2 date-specific subroutes and Utah gates 4 of nine branches behind prosecutorial consent. What remains is implementation, carried as residual lane R6.
 
-**Owner:** Lawrence Blackmon. **Blocks:** the routes those four decisions govern
+**Owner:** Captain — residual lane R6_COUNSEL_DETERMINATION_IMPLEMENTATION. **Blocks:** nothing; this blocker is closed
 
 ### BLK-3 — No packet family has an independent review or output approval
 
