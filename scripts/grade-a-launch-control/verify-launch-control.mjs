@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Eleven refusals. Each is a way the control plane could look healthy while
+// Twenty refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -14,11 +14,15 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const MUTATIONS = process.argv.includes("--mutations");
-const LC = "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json";
-const REUSE = "data/rcap-grade-a/launch-control/reuse-index.json";
-const DISPATCH = "data/rcap-grade-a/launch-control/first-wave-assignments.json";
+const LC = "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json";
+const STATUS = "docs/rcap/grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md";
+const REUSE = "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json";
+const DISPATCH = "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json";
 const SUPERSEDED = "data/rcap-grade-a/launch-control/SUPERSEDED_STATUS_RECORDS.json";
+const DELTA = "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json";
+const CROSSWALK = "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json";
 const FREEZE = "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json";
+const PROMPTS = "docs/rcap/grade-a/launch-control/prompts";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 29 }).trim(); } catch { return null; } };
@@ -36,7 +40,16 @@ const lc = read(LC);
 const reuse = read(REUSE);
 const dispatch = read(DISPATCH);
 const superseded = read(SUPERSEDED);
+const delta = read(DELTA);
+const crosswalk = read(CROSSWALK);
 const freeze = read(FREEZE);
+
+/** Everything an assignment owns, whatever shape its rows take. */
+const rowsOf = (a) => [
+  ...(a.routeKeys ?? []),
+  ...(a.rowGroups ?? []).flatMap((g) => [...(g.obligations ?? []), ...(g.families ?? [])])
+];
+const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
 
 // 1. Two records claiming current authority.
 {
@@ -44,8 +57,7 @@ const freeze = read(FREEZE);
   const scan = (rel) => {
     const full = path.join(ROOT, rel);
     if (!fs.existsSync(full)) return;
-    const text = fs.readFileSync(full, "utf8");
-    if (/thisIsTheControllingLaunchRecord/.test(text)) claimants.push(rel);
+    if (/thisIsTheControllingLaunchRecord/.test(fs.readFileSync(full, "utf8"))) claimants.push(rel);
   };
   const walk = (dir) => {
     for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
@@ -58,14 +70,17 @@ const freeze = read(FREEZE);
   check("A1", "exactly one record claims current launch authority", claimants.length === 1, claimants.join(", "));
   const listed = new Set(superseded.superseded.map((s) => s.record));
   check("A2", "every superseded status record points at the controlling one",
-    superseded.controllingRecord === LC && listed.size === superseded.superseded.length);
+    superseded.controllingRecord === LC
+    && superseded.controllingAssignmentManifest === DISPATCH
+    && listed.size === superseded.superseded.length,
+    `controlling ${superseded.controllingRecord}, manifest ${superseded.controllingAssignmentManifest}`);
 }
 
 // 2. Duplicate route/family ownership across assignments.
 {
   const seen = new Map(); const dupes = [];
-  for (const a of dispatch.assignments) for (const row of a.rows) {
-    if (seen.has(row)) dupes.push(`${row}: ${seen.get(row)} + ${a.key}`); else seen.set(row, a.key);
+  for (const a of dispatch.assignments) for (const row of rowsOf(a)) {
+    if (seen.has(row)) dupes.push(`${row}: ${seen.get(row)} + ${a.assignmentId}`); else seen.set(row, a.assignmentId);
   }
   check("A3", "no row or family is owned by two assignments", dupes.length === 0, dupes.slice(0, 3).join(" | "));
 }
@@ -73,7 +88,7 @@ const freeze = read(FREEZE);
 // 3. Placeholder assignment values.
 {
   const bad = dispatch.assignments.filter((a) => /\b(TBD|TODO|FIXME|XXX)\b/i.test(JSON.stringify(a)));
-  check("A4", "no assignment carries a placeholder value", bad.length === 0, bad.map((a) => a.key).join(", "));
+  check("A4", "no assignment carries a placeholder value", bad.length === 0, bad.map((a) => a.assignmentId).join(", "));
 }
 
 // 4. Overlapping worker-owned paths.
@@ -81,8 +96,8 @@ const freeze = read(FREEZE);
   const roots = new Map(); const clashes = [];
   for (const a of dispatch.assignments) for (const p of a.ownedPaths) {
     const root = p.split("(")[0].trim();
-    if (roots.has(root) && roots.get(root) !== a.key) clashes.push(`${root}: ${roots.get(root)} + ${a.key}`);
-    roots.set(root, a.key);
+    if (roots.has(root) && roots.get(root) !== a.assignmentId) clashes.push(`${root}: ${roots.get(root)} + ${a.assignmentId}`);
+    roots.set(root, a.assignmentId);
   }
   check("A5", "no two assignments own the same path", clashes.length === 0, clashes.slice(0, 3).join(" | "));
 }
@@ -99,22 +114,21 @@ const freeze = read(FREEZE);
 // 6. An active assignment lacking a reuse decision.
 {
   const withoutReuse = dispatch.assignments.filter((a) => a.reuseChecked !== true);
-  check("A8", "every assignment carries a reuse record", withoutReuse.length === 0, withoutReuse.map((a) => a.key).join(", "));
+  check("A8", "every assignment carries a reuse record", withoutReuse.length === 0, withoutReuse.map((a) => a.assignmentId).join(", "));
   // A packet lane may only receive a family that is free to dispatch.
   const free = new Set(reuse.families.filter((f) => f.freeToDispatch).map((f) => f.worklistGroupId));
   const wrong = [];
   for (const a of dispatch.assignments.filter((x) => x.lane === "packet")) {
-    for (const family of a.rows) if (!free.has(family)) wrong.push(`${a.key}:${family}`);
+    for (const family of familiesOf(a)) if (!free.has(family)) wrong.push(`${a.assignmentId}:${family}`);
   }
   check("A9", "no packet lane is given a family that already has evidence", wrong.length === 0, wrong.slice(0, 3).join(", "));
 }
 
 // 7. A completed assignment without a worker commit.
 {
-  const completedWithoutCommit = dispatch.assignments
-    .filter((a) => a.status === "completed" && !a.workerCommit);
+  const completedWithoutCommit = dispatch.assignments.filter((a) => a.status === "completed" && !a.workerCommit);
   check("A10", "no assignment is marked completed without a worker commit",
-    completedWithoutCommit.length === 0, completedWithoutCommit.map((a) => a.key).join(", "));
+    completedWithoutCommit.length === 0, completedWithoutCommit.map((a) => a.assignmentId).join(", "));
 }
 
 // 8. A family counted as built without required evidence.
@@ -165,23 +179,20 @@ const freeze = read(FREEZE);
 //
 // The real question is whether anything the record DEPENDS ON has changed since
 // it was generated. So: the recorded tip must be an ancestor of HEAD, and every
-// record the launch control consumes must be byte-identical between that tip
-// and HEAD. A launch record generated before a commit that did not touch its
-// inputs is still current; one generated before a commit that did is not.
+// record the launch control consumes must be byte-identical between that tip and
+// HEAD. A launch record generated before a commit that did not touch its inputs
+// is still current; one generated before a commit that did is not.
 {
   const recorded = lc.lineage.captainSha;
   const head = git(["rev-parse", "HEAD"]);
-  const isAncestor = recorded === head
-    || git(["merge-base", "--is-ancestor", recorded, "HEAD"]) !== null;
+  const isAncestor = recorded === head || git(["merge-base", "--is-ancestor", recorded, "HEAD"]) !== null;
   check("A14", "the launch record was generated at a commit that is still in this history", isAncestor,
     `record ${String(recorded).slice(0, 8)} is not an ancestor of head ${String(head).slice(0, 8)}`);
 
   const drifted = [];
   if (isAncestor && recorded !== head) {
     for (const consumed of Object.values(lc.consumes)) {
-      const before = git(["rev-parse", `${recorded}:${consumed}`]);
-      const after = git(["rev-parse", `HEAD:${consumed}`]);
-      if (before !== after) drifted.push(consumed);
+      if (git(["rev-parse", `${recorded}:${consumed}`]) !== git(["rev-parse", `HEAD:${consumed}`])) drifted.push(consumed);
     }
   }
   check("A15", "no record the launch control consumes has changed since it was generated",
@@ -189,35 +200,139 @@ const freeze = read(FREEZE);
     `${drifted.length} input(s) moved: ${drifted.join(", ")} — regenerate rather than reading a stale checkpoint as current`);
 }
 
+// 12. A classified route assigned to nobody, or to the wrong lane.
+//
+// The 55 came back classified. If a route falls out of the assignment manifest,
+// nothing rebuilds it and nothing reports it missing: it simply stops existing
+// as work. This is the check that makes "no participant branch silently
+// dropped" true of the DISPATCH and not only of the delta.
+{
+  const laneById = new Map(delta.rows.map((r) => [r.originalRouteKey, r.assignedLaneKey]));
+  const assigned = new Map();
+  for (const a of dispatch.assignments.filter((x) => x.lane === "category-b-implementation")) {
+    for (const key of a.routeKeys) assigned.set(key, a.assignmentId);
+  }
+  const missing = [...laneById.keys()].filter((k) => !assigned.has(k));
+  check("A16", "every classified Category B route is assigned to exactly one archetype lane",
+    missing.length === 0 && assigned.size === delta.counts.rows,
+    `${assigned.size} of ${delta.counts.rows} assigned; missing ${missing.slice(0, 3).join(", ")}`);
+  const misrouted = [...assigned.entries()].filter(([key, id]) => laneById.get(key) !== id);
+  check("A17", "no route is assigned to a lane the integration delta does not route it to",
+    misrouted.length === 0, misrouted.slice(0, 3).map(([k, id]) => `${k}: delta says ${laneById.get(k)}, manifest says ${id}`).join(" | "));
+}
+
+// 13. An answered research lane back in the dispatch.
+{
+  const OBSOLETE = /^C[1-4]_CATEGORY_B_EVIDENCE_SHARD_[1-4]$/;
+  const revived = dispatch.assignments.filter((a) => OBSOLETE.test(a.assignmentId));
+  const researchScoped = dispatch.assignments.filter((a) =>
+    /classif|re-?research|assemble the exclusion evidence/i.test(a.mission) && a.lane === "category-b-implementation");
+  check("A18", "no answered Category B research lane is dispatched",
+    revived.length === 0 && researchScoped.length === 0,
+    [...revived, ...researchScoped].map((a) => a.assignmentId).join(", "));
+}
+
+// 14. A prompt file no assignment claims.
+//
+// A prompt is an instruction to a worker. One that no manifest entry claims is a
+// dispatchable assignment with no reuse record, no collision check and no owner
+// — which is exactly the shape the retired research prompts had.
+{
+  const expected = new Set(dispatch.assignments.map((a) => `${a.assignmentId}.md`));
+  const dir = path.join(ROOT, PROMPTS);
+  const present = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith(".md")) : [];
+  const stray = present.filter((f) => !expected.has(f));
+  const absent = [...expected].filter((f) => !present.includes(f));
+  check("A19", "every dispatched assignment has a prompt and no prompt is unclaimed",
+    stray.length === 0 && absent.length === 0,
+    `${stray.length} unclaimed: ${stray.join(", ")}; ${absent.length} missing: ${absent.join(", ")}`);
+}
+
+// 15. The launch record restating the integration delta instead of reading it.
+{
+  const c = lc.categoryBIntegration;
+  const d = delta.counts;
+  const agrees = c.rows === d.rows
+    && c.aBranchesAlreadyExisting === d.aBranchesAlreadyExisting
+    && c.aBranchesNewlyRequired === d.aBranchesNewlyRequired
+    && c.categoryBStagesRetained === d.categoryBStagesRetained
+    && c.newPacketFamiliesRequired === d.newPacketFamiliesRequired
+    && c.stageBranchPairs === crosswalk.pairs.length
+    && c.confirmedBStages === crosswalk.confirmedBStages.length
+    && c.convertedToA === crosswalk.convertedToA.length;
+  check("A20", "the launch record's Category B counts are the delta's, not a second set",
+    agrees,
+    `launch ${c.rows}/${c.aBranchesAlreadyExisting}/${c.aBranchesNewlyRequired}/${c.newPacketFamiliesRequired} vs delta ${d.rows}/${d.aBranchesAlreadyExisting}/${d.aBranchesNewlyRequired}/${d.newPacketFamiliesRequired}`);
+}
+
+// 16. A branch-identity lane owning a packet-family path.
+//
+// A jurisdiction's packet family is shared across archetypes -- Michigan's
+// official-PDF family is implicated by three lanes -- so a lane that both names
+// and owns it would race two other lanes to create three conflicting families
+// for one jurisdiction.
+{
+  const offenders = [];
+  for (const a of dispatch.assignments.filter((x) => x.lane === "category-b-implementation")) {
+    for (const p of a.ownedPaths) if (/data\/rcap-all50\/(overlays|pleadings)/.test(p)) offenders.push(`${a.assignmentId}:${p}`);
+  }
+  check("A21", "no branch-identity lane owns a packet-family path", offenders.length === 0, offenders.join(", "));
+}
+
+// 17. The human-readable mirror disagreeing with the record it mirrors.
+{
+  const statusPath = path.join(ROOT, STATUS);
+  const text = fs.existsSync(statusPath) ? fs.readFileSync(statusPath, "utf8") : "";
+  const says = (needle) => text.includes(needle);
+  check("A22", "the launch status mirror reports the record's own GO/HOLD and denominator",
+    text.length > 0
+    && says(`**GO/HOLD: ${lc.goHold.decision}.**`)
+    && says(`| Terminal obligations | ${lc.denominator.terminalObligations} |`)
+    && says(`| A branches newly required | ${lc.categoryBIntegration.aBranchesNewlyRequired} |`)
+    && says(`| New packet families required | ${lc.categoryBIntegration.newPacketFamiliesRequired} |`),
+    text.length === 0 ? `${STATUS} is missing` : "the mirror does not carry the record's values");
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
   console.log("\nmutations:");
-  const target = path.join(ROOT, DISPATCH);
-  const original = fs.readFileSync(target);
+  const targets = { dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS) };
+  const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
-    { name: "a duplicated row across two assignments is caught", mutate: (j) => { j.assignments[1].rows.push(j.assignments[0].rows[0]); return j; } },
-    { name: "a placeholder value is caught", mutate: (j) => { j.assignments[0].mission = "TBD"; return j; } },
-    { name: "an overlapping owned path is caught", mutate: (j) => { j.assignments[1].ownedPaths = [...j.assignments[0].ownedPaths]; return j; } },
-    { name: "a nonancestor base is caught", mutate: (j) => { j.captainBaseSha = "0".repeat(40); return j; } },
-    { name: "an assignment without a reuse record is caught", mutate: (j) => { j.assignments[0].reuseChecked = false; return j; } },
-    { name: "a completed assignment with no worker commit is caught", mutate: (j) => { j.assignments[0].status = "completed"; return j; } },
-    { name: "a packet lane given an already-built family is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "packet").rows.push("ar-arrest-seal-set"); return j; } },
-    { name: "an assignment recording a different base than the manifest is caught", mutate: (j) => { j.assignments[2].captainBaseSha = "1".repeat(40); return j; } }
+    { on: "dispatch", name: "a duplicated row across two assignments is caught", mutate: (j) => { j.assignments[1].routeKeys.push(j.assignments[0].routeKeys[0]); return j; } },
+    { on: "dispatch", name: "a placeholder value is caught", mutate: (j) => { j.assignments[0].mission = "TBD"; return j; } },
+    { on: "dispatch", name: "an overlapping owned path is caught", mutate: (j) => { j.assignments[1].ownedPaths = [...j.assignments[0].ownedPaths]; return j; } },
+    { on: "dispatch", name: "a nonancestor base is caught", mutate: (j) => { j.captainBaseSha = "0".repeat(40); return j; } },
+    { on: "dispatch", name: "an assignment without a reuse record is caught", mutate: (j) => { j.assignments[0].reuseChecked = false; return j; } },
+    { on: "dispatch", name: "a completed assignment with no worker commit is caught", mutate: (j) => { j.assignments[0].status = "completed"; return j; } },
+    { on: "dispatch", name: "a packet lane given an already-built family is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "packet").rowGroups[0].families.push("ar-arrest-seal-set"); return j; } },
+    { on: "dispatch", name: "an assignment recording a different base than the manifest is caught", mutate: (j) => { j.assignments[2].captainBaseSha = "1".repeat(40); return j; } },
+    { on: "dispatch", name: "a classified route dropped from the dispatch is caught", mutate: (j) => { j.assignments[0].routeKeys.pop(); return j; } },
+    { on: "dispatch", name: "a route moved to a lane the delta does not route it to is caught", mutate: (j) => { j.assignments[1].routeKeys.push(j.assignments[0].routeKeys.pop()); j.assignments[1].routeKeys.pop(); return j; } },
+    { on: "dispatch", name: "an answered research lane put back in the dispatch is caught", mutate: (j) => { j.assignments[0].assignmentId = "C1_CATEGORY_B_EVIDENCE_SHARD_1"; return j; } },
+    { on: "dispatch", name: "a branch-identity lane owning a packet-family path is caught", mutate: (j) => { j.assignments[0].ownedPaths = ["data/rcap-all50/overlays/census-v1/mi/**"]; return j; } },
+    { on: "lc", name: "a commercial route opened with no proven packet is caught", mutate: (j) => { j.productPath.commercialRoutesOpened = 1; return j; } },
+    { on: "lc", name: "a denominator moved away from the frozen census is caught", mutate: (j) => { j.denominator.terminalObligations = 729; return j; } },
+    { on: "lc", name: "a Category B count restated instead of read is caught", mutate: (j) => { j.categoryBIntegration.aBranchesNewlyRequired = 49; return j; } },
+    { on: "lc", name: "a superseded-record pointer moved off the controlling record is caught", mutate: (j) => { j.lineage.captainSha = "0".repeat(40); return j; } },
+    { on: "status", name: "a status mirror claiming GO while the record holds is caught", mutate: null, write: (text) => text.replace("**GO/HOLD: HOLD.**", "**GO/HOLD: GO.**") }
   ];
   let undetected = 0;
   try {
     for (const testCase of cases) {
-      fs.writeFileSync(target, JSON.stringify(testCase.mutate(JSON.parse(original.toString("utf8"))), null, 2) + "\n");
+      const target = targets[testCase.on];
+      const original = originals[testCase.on];
+      if (testCase.write) fs.writeFileSync(target, testCase.write(original.toString("utf8")));
+      else fs.writeFileSync(target, JSON.stringify(testCase.mutate(JSON.parse(original.toString("utf8"))), null, 2) + "\n");
       let caught = false;
-      try { execFileSync(process.execPath, [fileURLToPath(import.meta.url)], { cwd: ROOT, stdio: "pipe" }); }
-      catch { caught = true; }
+      try { execFileSync(process.execPath, [fileURLToPath(import.meta.url)], { cwd: ROOT, stdio: "pipe" }); } catch { caught = true; }
       console.log(`  ${caught ? "detected " : "MISSED   "} ${testCase.name}`);
       if (!caught) undetected += 1;
       fs.writeFileSync(target, original);
     }
-  } finally { fs.writeFileSync(target, original); }
-  const restored = fs.readFileSync(target).equals(original);
+  } finally { for (const [k, p] of Object.entries(targets)) fs.writeFileSync(p, originals[k]); }
+  const restored = Object.entries(targets).every(([k, p]) => fs.readFileSync(p).equals(originals[k]));
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
   if (!restored || undetected > 0) { console.error("the checkpoint proves less than it claims."); process.exit(1); }
   console.log(`\nOK checkpoint mutations — ${cases.length} case(s), every mutation caught.`);

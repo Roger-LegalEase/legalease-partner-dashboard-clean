@@ -35,7 +35,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const OUT = "data/rcap-grade-a/launch-control/reuse-index.json";
+const OUT = "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json";
 const CHECK = process.argv.includes("--check");
 
 const REUSE_DECISIONS = {

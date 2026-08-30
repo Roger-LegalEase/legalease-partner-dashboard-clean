@@ -25,7 +25,8 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const OUT = "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json";
+const OUT = "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json";
+const OUT_MD = "docs/rcap/grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md";
 const CHECK = process.argv.includes("--check");
 
 const git = (args) => { try { return execFileSync("git", args, { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 29 }).trim(); } catch { return null; } };
@@ -35,13 +36,15 @@ const exists = (rel) => fs.existsSync(path.join(ROOT, rel));
 const V1 = "data/rcap-grade-a/route-obligation-census-v1";
 const scoreboard = read(`${V1}/COMPLETION_SCOREBOARD.json`);
 const freeze = read(`${V1}/FREEZE.json`);
-const reuse = read("data/rcap-grade-a/launch-control/reuse-index.json");
+const reuse = read("data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json");
 const retriage = read(`${V1}/legal-review-queue-v2-retriage.json`);
 const legalQueue = read(`${V1}/legal-review-queue-v2.json`);
 const sourceQueue = read(`${V1}/source-queue-reconciliation.json`);
 const census = read("data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json");
 const categoryB = read("data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json");
 const worklist = read("data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json");
+const delta = read("data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json");
+const crosswalk = read("data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json");
 const dataRights = exists("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json")
   ? read("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json") : null;
 
@@ -58,11 +61,13 @@ const doc = {
   consumes: {
     completionScoreboard: `${V1}/COMPLETION_SCOREBOARD.json`,
     censusFreeze: `${V1}/FREEZE.json`,
-    reuseIndex: "data/rcap-grade-a/launch-control/reuse-index.json",
+    reuseIndex: "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
     legalQueue: `${V1}/legal-review-queue-v2.json`,
     legalRetriage: `${V1}/legal-review-queue-v2-retriage.json`,
     sourceQueue: `${V1}/source-queue-reconciliation.json`,
     frozenCategoryB: "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+    categoryBIntegrationDelta: "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+    categoryBStageBranchCrosswalk: "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
     executionOrder: "docs/LAUNCH_SEQUENCE.md",
     productContract: "docs/PRODUCT_CONTRACT.md"
   },
@@ -96,7 +101,40 @@ const doc = {
     pinnedSourceCommit: categoryB.generatedFrom.captainHead,
     pinnedSourceBlob: categoryB.generatedFrom.sourceGitBlobSha,
     postRegenerationDelta: `${V1}/../route-obligation-census-candidate/category-b-medium-confidence-post-regeneration-delta.json`.replace("/../", "/"),
-    status: "FROZEN_AND_ASSIGNED"
+    status: "REVALIDATED_AND_RECONCILED",
+    revalidation: {
+      assignmentCommit: delta.ingestedFrom.assignmentCommit,
+      returnedDecisions: delta.counts.byDecision,
+      needsLegalDecision: 0,
+      researchLanesStillRequired: 0,
+      note: "The 55 came back classified. The four Category B research lanes the first dispatch carried are obsolete and are not in the active manifest; what remains is implementation."
+    }
+  },
+
+  // WHAT THE 55 DECISIONS ACTUALLY COST THE DENOMINATOR.
+  //
+  // 49 splits is not 49 new obligations. 17 participant branches already exist
+  // in the canonical universe on the forms their instruments name, so those are
+  // crosswalks; 35 are newly required. The same reconciliation runs on packet
+  // families: 23 participant-filing families are required, 3 of which the
+  // census already carries, so 20 are new -- not 35 and not 49.
+  categoryBIntegration: {
+    rows: delta.counts.rows,
+    jurisdictions: delta.counts.jurisdictions,
+    aBranchesAlreadyExisting: delta.counts.aBranchesAlreadyExisting,
+    aBranchesNewlyRequired: delta.counts.aBranchesNewlyRequired,
+    aliasOrCrosswalkRepairs: delta.counts.aliasOrCrosswalkRepairs,
+    categoryBStagesRetained: delta.counts.categoryBStagesRetained,
+    guidanceFamiliesTheseRoutesSitInToday: delta.counts.packetFamiliesAlreadyPresent,
+    participantPacketFamiliesRequired: delta.counts.participantPacketFamiliesRequired,
+    participantPacketFamiliesAlreadyInCensus: delta.counts.participantPacketFamiliesAlreadyInCensus,
+    newPacketFamiliesRequired: delta.counts.newPacketFamiliesRequired,
+    stageBranchPairs: crosswalk.pairs.length,
+    confirmedBStages: crosswalk.confirmedBStages.length,
+    convertedToA: crosswalk.convertedToA.length,
+    projectedDenominator: delta.projectedDenominator,
+    archetypeRouting: delta.archetypeRouting,
+    grantsNothing: delta.decisionsAreLegalClassificationsOnly
   },
 
   legalWork: {
@@ -167,7 +205,7 @@ const doc = {
     { id: "BLK-2", blocker: "Four true counsel questions are unanswered", detail: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction}`).join(", "), owner: "Lawrence Blackmon", blocks: "the routes those four decisions govern" },
     { id: "BLK-3", blocker: "No packet family has an independent review or output approval", detail: "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.", owner: "Captain then Lawrence", blocks: "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route" },
     { id: "BLK-4", blocker: "The data-rights migration cannot be applied from this environment", detail: "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.", owner: "an environment with the project ref and egress", blocks: "hosted data-rights acceptance" },
-    { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lanes C8 and C9", blocks: "238 of 352 families entering a build slot" }
+    { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10", blocks: "238 of 352 families entering a build slot" }
   ],
 
   goHold: {
@@ -177,8 +215,124 @@ const doc = {
   }
 };
 
+// ---- the human-readable mirror ---------------------------------------------------
+//
+// GRADE_A_LAUNCH_STATUS.md is rendered FROM the record above, in the same run,
+// so the two cannot disagree. A status page maintained by hand beside a
+// generated record is the second claimant this phase exists to prevent; this
+// one has no facts of its own.
+function renderStatus(d) {
+  const row = (label, value) => `| ${label} | ${value} |`;
+  const lines = [];
+  lines.push("# Grade-A launch status");
+  lines.push("");
+  lines.push("_Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same run. It has no facts of its own; if it disagrees with the record, the record is right and this file is stale._");
+  lines.push("");
+  lines.push(`**GO/HOLD: ${d.goHold.decision}.** ${d.goHold.because}`);
+  lines.push("");
+  lines.push("## Lineage");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | --- |");
+  lines.push(row("Captain branch", `\`${d.lineage.captainBranch}\``));
+  lines.push(row("Captain SHA", `\`${d.lineage.captainSha}\``));
+  lines.push(row("Census fingerprint", `\`${d.lineage.censusFingerprint}\``));
+  lines.push(row("Production connected", d.lineage.productionConnected ? "YES" : "NO"));
+  lines.push("");
+  lines.push("## Denominator");
+  lines.push("");
+  lines.push("| | Current | After the Category B integration |");
+  lines.push("| --- | ---: | ---: |");
+  lines.push(`| Terminal obligations | ${d.denominator.terminalObligations} | ${d.categoryBIntegration.projectedDenominator.terminalObligationsAfterIntegration} |`);
+  lines.push(`| Category A | ${d.denominator.categoryA} | ${d.categoryBIntegration.projectedDenominator.categoryAAfterIntegration} |`);
+  lines.push(`| Category B stages | ${d.denominator.categoryB} | ${d.categoryBIntegration.projectedDenominator.categoryBStageAfterIntegration} |`);
+  lines.push(`| Packet families | ${d.denominator.packetFamilies} | ${d.denominator.packetFamilies} + ${d.categoryBIntegration.newPacketFamiliesRequired} participant-filing families |`);
+  lines.push(`| Runtime routes | ${d.denominator.runtimeRoutes} | ${d.denominator.runtimeRoutes} |`);
+  lines.push(`| Jurisdictions | ${d.denominator.jurisdictions} | ${d.denominator.jurisdictions} |`);
+  lines.push("");
+  lines.push("The right-hand column is a projection, not a fact. The census moves only when the branches exist and only through its own generator.");
+  lines.push("");
+  lines.push("## The 55 revalidated Category B routes");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Rows returned", d.categoryBIntegration.rows));
+  for (const [decision, count] of Object.entries(d.frozenCategoryB.revalidation.returnedDecisions)) lines.push(row(decision, count));
+  lines.push(row("Still needing a legal decision", d.frozenCategoryB.revalidation.needsLegalDecision));
+  lines.push(row("A branches already in the canonical universe", d.categoryBIntegration.aBranchesAlreadyExisting));
+  lines.push(row("A branches newly required", d.categoryBIntegration.aBranchesNewlyRequired));
+  lines.push(row("Alias or crosswalk repairs", d.categoryBIntegration.aliasOrCrosswalkRepairs));
+  lines.push(row("B stages retained", d.categoryBIntegration.categoryBStagesRetained));
+  lines.push(row("Participant packet families required", d.categoryBIntegration.participantPacketFamiliesRequired));
+  lines.push(row("of those, already in the census", d.categoryBIntegration.participantPacketFamiliesAlreadyInCensus));
+  lines.push(row("New packet families required", d.categoryBIntegration.newPacketFamiliesRequired));
+  lines.push("");
+  lines.push("49 splits is not 49 new obligations, and it is not 49 new families. Each participant branch was matched against the Category A routes in its own jurisdiction on the form numbers its instrument names before anything was counted as new.");
+  lines.push("");
+  lines.push("## Legal work");
+  lines.push("");
+  lines.push(`Four questions are genuinely for counsel. The other ${d.legalWork.total - d.legalWork.trueCounselQuestions} rows of the 86 are Captain work.`);
+  lines.push("");
+  for (const q of d.legalWork.trueCounselDetail) lines.push(`- ${q}`);
+  lines.push("");
+  lines.push("| Queue | Rows |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Already answered — implementation", d.legalWork.alreadyAnsweredImplementationQueue));
+  lines.push(row("Captain route mapping", d.legalWork.captainMappingQueue));
+  lines.push(row("Source identity", d.legalWork.sourceIdentityQuestions));
+  lines.push(row("Duplicate or superseded", d.legalWork.duplicateOrSuperseded));
+  lines.push("");
+  lines.push("## Source work");
+  lines.push("");
+  lines.push("| Disposition | Obligations |");
+  lines.push("| --- | ---: |");
+  for (const [k, v] of Object.entries(d.sourceWork.byDisposition)) lines.push(row(k, v));
+  lines.push("");
+  lines.push(`${d.sourceWork.acquisitionBlockedOnEgress} obligations have an exact official target and cannot be fetched from any Captain-reachable environment.`);
+  lines.push("");
+  lines.push("## Packet families");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Total", d.packetFamilies.total));
+  lines.push(row("Releasable", d.packetFamilies.releasable));
+  lines.push(row("Held for a missing source", d.packetFamilies.heldBack));
+  lines.push(row("Candidate evidence in the Captain tree", d.packetFamilies.evidenceInCaptainTree));
+  lines.push(row("Finished on a branch, awaiting integration", d.packetFamilies.evidenceOnBranchAwaitingIntegration));
+  lines.push(row("Free to dispatch", d.packetFamilies.freeToDispatch));
+  lines.push(row("COMPLETE_PACKET_PROVEN", d.packetFamilies.completePacketProven));
+  lines.push("");
+  lines.push("## Product path");
+  lines.push("");
+  lines.push(`Commercial routes opened: **${d.productPath.commercialRoutesOpened}**. Commercially eligible: **${d.productPath.commerciallyEligible}**.`);
+  lines.push("");
+  lines.push(d.categoryBIntegration.grantsNothing);
+  lines.push("");
+  lines.push("## Tests");
+  lines.push("");
+  for (const [k, v] of Object.entries(d.testStatus)) lines.push(`- **${k}** — ${v}`);
+  lines.push("");
+  lines.push("## Blockers");
+  lines.push("");
+  for (const b of d.exactBlockers) {
+    lines.push(`### ${b.id} — ${b.blocker}`);
+    lines.push("");
+    lines.push(b.detail);
+    lines.push("");
+    lines.push(`**Owner:** ${b.owner}. **Blocks:** ${b.blocks}`);
+    lines.push("");
+  }
+  lines.push("## What would change GO/HOLD");
+  lines.push("");
+  lines.push(d.goHold.whatWouldChangeIt);
+  lines.push("");
+  return lines.join("\n");
+}
+
 const serialized = JSON.stringify(doc, null, 2) + "\n";
+const status = renderStatus(doc);
 const outPath = path.join(ROOT, OUT);
+const statusPath = path.join(ROOT, OUT_MD);
 if (CHECK) {
   const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : null;
   if (current === null) { console.error(`${OUT} is missing. Run the generator.`); process.exit(1); }
@@ -199,12 +353,26 @@ if (CHECK) {
     console.error(`${OUT} is stale: a reported value has changed. Run the generator.`);
     process.exit(1);
   }
+  // The markdown mirror is rendered from the committed record, so it is
+  // compared against what the committed record renders to. Comparing it against
+  // the freshly generated record would report it stale for the same provenance
+  // reason A14 exists to handle.
+  const committedStatus = fs.existsSync(statusPath) ? fs.readFileSync(statusPath, "utf8") : null;
+  if (committedStatus === null) { console.error(`${OUT_MD} is missing. Run the generator.`); process.exit(1); }
+  if (committedStatus !== renderStatus(committed)) {
+    console.error(`${OUT_MD} does not match the record it mirrors. Run the generator.`);
+    process.exit(1);
+  }
   console.log(`launch control current: ${doc.denominator.packetFamilies} families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
+  console.log(`launch status mirror current: ${OUT_MD}`);
   process.exit(0);
 }
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
+fs.mkdirSync(path.dirname(statusPath), { recursive: true });
 fs.writeFileSync(outPath, serialized);
-console.log(`Wrote ${OUT}\n`);
+fs.writeFileSync(statusPath, status);
+console.log(`Wrote ${OUT}`);
+console.log(`Wrote ${OUT_MD}\n`);
 console.log(`  captain ${doc.lineage.captainSha.slice(0, 8)} · ${doc.denominator.terminalObligations} obligations · ${doc.denominator.packetFamilies} families`);
 console.log(`  families: ${doc.packetFamilies.evidenceInCaptainTree} in tree, ${doc.packetFamilies.evidenceOnBranchAwaitingIntegration} awaiting integration, ${doc.packetFamilies.freeToDispatch} free`);
 console.log(`  counsel ${doc.legalWork.trueCounselQuestions} · blockers ${doc.exactBlockers.length} · ${doc.goHold.decision}`);

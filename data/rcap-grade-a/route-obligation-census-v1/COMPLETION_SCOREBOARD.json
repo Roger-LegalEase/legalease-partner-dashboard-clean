@@ -2,6 +2,8 @@
   "schemaVersion": "rcap-census-v1-completion-scoreboard/v1",
   "generatedBy": "scripts/grade-a-route-obligation-census/generate-completion-scoreboard.mjs",
   "thereIsExactlyOneScoreboard": "This one. Every number is recomputed from the records that decide it, so it cannot drift from them and cannot be improved by editing it.",
+  "controllingLaunchRecord": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json — the one record claiming current launch authority. This scoreboard remains the authority for what it computes (families, sources, legal review, category B, the launch gate, commercial state); the launch record consumes those numbers rather than restating them, so the two cannot drift.",
+  "controllingAssignmentManifest": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json — the one manifest saying what is dispatched.",
   "atHead": "db5b848fc6c69aff5eb8cdaff88a5df05fe1ec30",
   "frozenCensus": {
     "record": "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
@@ -12071,6 +12073,5 @@
         "OUTPUT_LEGAL_APPROVAL_REQUIRED"
       ]
     }
-  ],
-  "controllingLaunchRecord": "data/rcap-grade-a/launch-control/LAUNCH_CONTROL.json — the one record claiming current launch authority. This scoreboard remains the authority for what it computes (families, sources, legal review, category B, the launch gate, commercial state); the launch record consumes those numbers rather than restating them, so the two cannot drift."
+  ]
 }

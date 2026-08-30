@@ -191,6 +191,14 @@ const doc = {
   generatedBy: "scripts/grade-a-route-obligation-census/generate-completion-scoreboard.mjs",
   thereIsExactlyOneScoreboard:
     "This one. Every number is recomputed from the records that decide it, so it cannot drift from them and cannot be improved by editing it.",
+  // The machine-readable pointer to the one record claiming launch authority.
+  // It lives in the generator rather than being appended by hand, so
+  // regenerating the scoreboard cannot quietly drop it and leave a reader with
+  // no way to find the controlling record.
+  controllingLaunchRecord:
+    "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json — the one record claiming current launch authority. This scoreboard remains the authority for what it computes (families, sources, legal review, category B, the launch gate, commercial state); the launch record consumes those numbers rather than restating them, so the two cannot drift.",
+  controllingAssignmentManifest:
+    "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json — the one manifest saying what is dispatched.",
   atHead: headSha,
   frozenCensus: { record: `${V1}/FREEZE.json`, obligations: freeze.totals.totalObligations, categoryA: freeze.totals.categoryA, categoryB: freeze.totals.categoryB, packetFamilies: freeze.totals.packetFamilies },
 
