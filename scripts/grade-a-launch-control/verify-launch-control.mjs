@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Twenty refusals. Each is a way the control plane could look healthy while
+// Twenty-seven refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -22,6 +22,10 @@ const SUPERSEDED = "data/rcap-grade-a/launch-control/SUPERSEDED_STATUS_RECORDS.j
 const DELTA = "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json";
 const CROSSWALK = "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json";
 const FREEZE = "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json";
+const WAVE_REVIEW = "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json";
+const INTEGRATION = "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json";
+const RESIDUAL = "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json";
+const CONTRACT = "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json";
 const PROMPTS = "docs/rcap/grade-a/launch-control/prompts";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -43,6 +47,10 @@ const superseded = read(SUPERSEDED);
 const delta = read(DELTA);
 const crosswalk = read(CROSSWALK);
 const freeze = read(FREEZE);
+const waveReview = read(WAVE_REVIEW);
+const integration = read(INTEGRATION);
+const residual = read(RESIDUAL);
+const contract = read(CONTRACT);
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -293,11 +301,80 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     text.length === 0 ? `${STATUS} is missing` : "the mirror does not carry the record's values");
 }
 
+// 18. A worker return that wrote where it was not allowed, or opened anything.
+{
+  const w = waveReview.summary;
+  check("A23", "no return wrote outside its lane, touched a prohibited path, opened a route or touched Production",
+    w.outOfScopeWrites === 0 && w.prohibitedPathViolations === 0 && w.commercialRoutesOpened === 0 && w.productionTouched === false && w.refused === 0,
+    `outside ${w.outOfScopeWrites}, prohibited ${w.prohibitedPathViolations}, opened ${w.commercialRoutesOpened}, production ${w.productionTouched}, refused ${w.refused}`);
+}
+
+// 19. Work that stopped and then vanished, or finished work re-dispatched.
+//
+// A stopped route missing from the residual is not "pending": it is a route
+// nobody holds. A completed route present in the residual spends a worker on
+// finished work. Both are checked here against the committed records rather than
+// trusted from the generator that wrote them.
+{
+  const stopped = integration.rows.filter((r) => r.integrationStatus === "STOPPED").map((r) => r.routeKey);
+  const completed = new Set(integration.rows.filter((r) => r.integrationStatus === "COMPLETED").map((r) => r.routeKey));
+  const residualRoutes = new Set(residual.lanes.flatMap((l) => (l.itemKind === "routeKey" ? l.items : [])));
+  const dropped = stopped.filter((k) => !residualRoutes.has(k));
+  const repeated = [...residualRoutes].filter((k) => completed.has(k));
+  check("A24", "every stopped route is carried into the residual and no completed route is repeated",
+    dropped.length === 0 && repeated.length === 0,
+    `${dropped.length} dropped: ${dropped.slice(0, 2).join(", ")}; ${repeated.length} repeated: ${repeated.slice(0, 2).join(", ")}`);
+}
+
+// 20. A residual lane reaching into a lane that is still running.
+{
+  const running = waveReview.reviews.filter((r) => r.verdict === "STILL_RUNNING_NOT_REVIEWED");
+  const reserved = running.flatMap((r) => (r.ownedPaths ?? []).map((p) => p.split("(")[0].trim().replace(/\/?\*\*$/, "")));
+  const intruders = [];
+  for (const lane of residual.lanes) {
+    for (const p of lane.ownedPaths) {
+      const root = p.replace(/\/?\*\*$/, "");
+      for (const r of reserved) if (root === r || root.startsWith(`${r}/`) || r.startsWith(`${root}/`)) intruders.push(`${lane.residualLaneId} -> ${r}`);
+    }
+  }
+  check("A25", "no residual lane claims a path a still-running lane owns",
+    intruders.length === 0 && residual.notYetResidual.reservedPaths.length === reserved.length,
+    intruders.join(", ") || `${reserved.length} reserved path(s)`);
+}
+
+// 21. The launch record restating the wave instead of reading it.
+{
+  const w = lc.waveOne;
+  const agrees = w.branchIdentities.completed === integration.counts.completed
+    && w.branchIdentities.stopped === integration.counts.stopped
+    && w.branchIdentities.newBranchIdentitiesIntegrated === integration.counts.newBranchIdentitiesIntegrated
+    && w.branchIdentities.crosswalksIntegrated === integration.counts.crosswalksIntegrated
+    && w.branchIdentities.packetFamiliesCreated === 0
+    && w.residual.residualRoutes === residual.counts.residualRoutes
+    && w.residual.residualAcquisitions === residual.counts.residualAcquisitions
+    && w.stillRunning === waveReview.summary.stillRunning;
+  check("A26", "the launch record's wave numbers are the wave records', not a second set", agrees,
+    `launch ${w.branchIdentities.completed}/${w.branchIdentities.stopped}/${w.residual.residualRoutes} vs records ${integration.counts.completed}/${integration.counts.stopped}/${residual.counts.residualRoutes}`);
+}
+
+// 22. A residual lane dispatched without the contract that exists to fix the
+//     defect that produced it.
+{
+  const covered = new Set(contract.appliesTo.residualLanes);
+  const uncovered = residual.lanes.map((l) => l.residualLaneId).filter((id) => !covered.has(id));
+  check("A27", "every residual lane is covered by the worker execution contract",
+    uncovered.length === 0 && contract.clauses.length > 0, uncovered.join(", "));
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
   console.log("\nmutations:");
-  const targets = { dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS) };
+  const targets = {
+    dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS),
+    review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
+    residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT)
+  };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
     { on: "dispatch", name: "a duplicated row across two assignments is caught", mutate: (j) => { j.assignments[1].routeKeys.push(j.assignments[0].routeKeys[0]); return j; } },
@@ -316,7 +393,13 @@ if (MUTATIONS) {
     { on: "lc", name: "a denominator moved away from the frozen census is caught", mutate: (j) => { j.denominator.terminalObligations = 729; return j; } },
     { on: "lc", name: "a Category B count restated instead of read is caught", mutate: (j) => { j.categoryBIntegration.aBranchesNewlyRequired = 49; return j; } },
     { on: "lc", name: "a superseded-record pointer moved off the controlling record is caught", mutate: (j) => { j.lineage.captainSha = "0".repeat(40); return j; } },
-    { on: "status", name: "a status mirror claiming GO while the record holds is caught", mutate: null, write: (text) => text.replace("**GO/HOLD: HOLD.**", "**GO/HOLD: GO.**") }
+    { on: "status", name: "a status mirror claiming GO while the record holds is caught", mutate: null, write: (text) => text.replace("**GO/HOLD: HOLD.**", "**GO/HOLD: GO.**") },
+    { on: "lc", name: "a wave completion count restated instead of read is caught", mutate: (j) => { j.waveOne.branchIdentities.completed = 55; return j; } },
+    { on: "lc", name: "a still-running lane reported as returned is caught", mutate: (j) => { j.waveOne.stillRunning = 0; return j; } },
+    { on: "review", name: "an out-of-scope write in a return is caught", mutate: (j) => { j.summary.outOfScopeWrites = 1; return j; } },
+    { on: "integration", name: "a stopped route flipped to completed is caught", mutate: (j) => { const r = j.rows.find((x) => x.integrationStatus === "STOPPED"); r.integrationStatus = "COMPLETED"; return j; } },
+    { on: "residual", name: "a residual lane reaching into the still-running lane is caught", mutate: (j) => { j.lanes[0].ownedPaths = ["data/rcap-all50/overlays/census-v1/**"]; return j; } },
+    { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } }
   ];
   let undetected = 0;
   try {

@@ -44,6 +44,10 @@ const census = read("data/rcap-grade-a/route-obligation-census-candidate/route-o
 const categoryB = read("data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json");
 const worklist = read("data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json");
 const delta = read("data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json");
+const waveReview = read("data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json");
+const integration = read("data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json");
+const residual = read("data/rcap-grade-a/launch-control/RESIDUAL_WORK.json");
+const contract = read("data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json");
 const crosswalk = read("data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json");
 const dataRights = exists("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json")
   ? read("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json") : null;
@@ -68,6 +72,10 @@ const doc = {
     frozenCategoryB: "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
     categoryBIntegrationDelta: "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
     categoryBStageBranchCrosswalk: "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+    waveOneReturnReview: "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json",
+    categoryBIntegrationStatus: "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
+    residualWork: "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+    workerExecutionContract: "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
     executionOrder: "docs/LAUNCH_SEQUENCE.md",
     productContract: "docs/PRODUCT_CONTRACT.md"
   },
@@ -137,6 +145,41 @@ const doc = {
     grantsNothing: delta.decisionsAreLegalClassificationsOnly
   },
 
+  // WHAT THE FIRST WAVE ACTUALLY RETURNED.
+  //
+  // Eleven lanes returned and one is still running. Every verdict here is the
+  // mechanical one -- parentage, scope, prohibited paths, required outputs
+  // checked against git -- and every per-route number comes from the canonical
+  // integration status rather than from a worker's own summary.
+  waveOne: {
+    returnsReported: waveReview.summary.returnsReported,
+    scopeAndOutputVerified: waveReview.summary.scopeAndOutputVerified,
+    scopeCleanOutputMissing: waveReview.summary.scopeCleanOutputMissing,
+    refused: waveReview.summary.refused,
+    stillRunning: waveReview.summary.stillRunning,
+    laneStillRunning: residual.notYetResidual.laneStillRunning,
+    outOfScopeWrites: waveReview.summary.outOfScopeWrites,
+    prohibitedPathViolations: waveReview.summary.prohibitedPathViolations,
+    branchIdentities: {
+      classifiedRoutes: integration.counts.classifiedRoutes,
+      completed: integration.counts.completed,
+      stopped: integration.counts.stopped,
+      newBranchIdentitiesIntegrated: integration.counts.newBranchIdentitiesIntegrated,
+      crosswalksIntegrated: integration.counts.crosswalksIntegrated,
+      confirmedBGuidanceIdentitiesIntegrated: integration.counts.confirmedBGuidanceIdentitiesIntegrated,
+      packetFamiliesCreated: integration.counts.packetFamiliesCreated
+    },
+    residual: residual.counts,
+    systemicFindings: waveReview.systemicFindings.map((f) => ({ id: f.id, finding: f.finding, fix: f.fix })),
+    executionContract: {
+      record: "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+      clauses: contract.clauses.length,
+      bindsFromWave: contract.bindsFromWave,
+      currentDispatchNotRewritten: contract.currentDispatchDeliberatelyNotRewritten.why
+    },
+    integrationOpensNothing: integration.integrationOpensNothing
+  },
+
   legalWork: {
     trueCounselQuestions: legalQueue.trueCounselQueue.count,
     trueCounselDetail: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction} — ${q.publicLabel}`),
@@ -201,11 +244,19 @@ const doc = {
   },
 
   exactBlockers: [
-    { id: "BLK-1", blocker: "Official-source acquisition cannot run from any Captain-reachable environment", detail: "Egress to court and agency hosts is refused by policy; 59 obligations have a known official target and cannot be fetched.", owner: "Roger — gateway allowlisting or a controlled operator environment", blocks: "59 ACQUIRE_FROM_EXACT_OFFICIAL_SOURCE obligations" },
+    // CORRECTED AT CHECKPOINT 1. The previous wording said egress to court and
+    // agency hosts is refused by policy. C10's own HEAD probe from a worker host
+    // reached five of the seven official hosts it tested, so the blanket claim
+    // was wrong and the 49 acquisitions stopped on a blanket stop condition this
+    // dispatch wrote, not on an observed refusal. Egress is now recorded per
+    // exact source.
+    { id: "BLK-1", blocker: "Official-source acquisition has not run, and the reason is per source rather than a blanket policy refusal", detail: `A HEAD probe from a worker host reached ${residual.lanes.find((l) => l.residualLaneId === "R4_SOURCE_IDENTITY_AND_ACQUISITION").detail.egressByExactSource.filter((h) => h.reachableOnHeadProbe).length} of ${residual.lanes.find((l) => l.residualLaneId === "R4_SOURCE_IDENTITY_AND_ACQUISITION").detail.egressByExactSource.length} official hosts tested; the rest refused. No document body was downloaded, so reachability is proven and acquisition is not. The 49 obligations stopped on this dispatch's blanket egress stop condition, which the worker execution contract removes.`, owner: "Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts", blocks: "49 acquisition obligations and 33 promotion candidates" },
     { id: "BLK-2", blocker: "Four true counsel questions are unanswered", detail: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction}`).join(", "), owner: "Lawrence Blackmon", blocks: "the routes those four decisions govern" },
     { id: "BLK-3", blocker: "No packet family has an independent review or output approval", detail: "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.", owner: "Captain then Lawrence", blocks: "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route" },
     { id: "BLK-4", blocker: "The data-rights migration cannot be applied from this environment", detail: "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.", owner: "an environment with the project ref and egress", blocks: "hosted data-rights acceptance" },
-    { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10", blocks: "238 of 352 families entering a build slot" }
+    { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10, continued as residual lane R4", blocks: "238 of 352 families entering a build slot" },
+    { id: "BLK-6", blocker: "At least one worker host could not install the toolchain", detail: "32 MiB free after worktree creation, so no test needing node_modules could run and two focused tests were returned BLOCKED rather than passed. One return documents it here; the owner reports it as shared across the wave.", owner: "Roger — worker environment sizing", blocks: "every focused test in an affected lane, and the hosted acceptance lane entirely" },
+    { id: "BLK-7", blocker: "The private nationwide inventory is not mounted on any worker host", detail: "33 promotion candidates were receipted against their committed hashes and none was physically promoted, because private/Nationwide Record Clearing/ was absent from the executing host.", owner: "Roger — mount the inventory for the source lane", blocks: "33 promotion obligations" }
   ],
 
   goHold: {
@@ -268,6 +319,54 @@ function renderStatus(d) {
   lines.push(row("New packet families required", d.categoryBIntegration.newPacketFamiliesRequired));
   lines.push("");
   lines.push("49 splits is not 49 new obligations, and it is not 49 new families. Each participant branch was matched against the Category A routes in its own jurisdiction on the form numbers its instrument names before anything was counted as new.");
+  lines.push("");
+  lines.push("## First wave");
+  lines.push("");
+  lines.push(`${d.waveOne.returnsReported - d.waveOne.stillRunning} lanes returned and ${d.waveOne.stillRunning} is still running (**${d.waveOne.laneStillRunning}**). Every verdict below is checked against git, not against a worker's summary.`);
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Scope and required outputs verified", d.waveOne.scopeAndOutputVerified));
+  lines.push(row("Scope clean, a required output missing", d.waveOne.scopeCleanOutputMissing));
+  lines.push(row("Refused", d.waveOne.refused));
+  lines.push(row("Writes outside a lane's owned paths", d.waveOne.outOfScopeWrites));
+  lines.push(row("Prohibited-path violations", d.waveOne.prohibitedPathViolations));
+  lines.push("");
+  lines.push("### Branch identities");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Classified routes", d.waveOne.branchIdentities.classifiedRoutes));
+  lines.push(row("Completed", d.waveOne.branchIdentities.completed));
+  lines.push(row("Stopped", d.waveOne.branchIdentities.stopped));
+  lines.push(row("New branch identities integrated", d.waveOne.branchIdentities.newBranchIdentitiesIntegrated));
+  lines.push(row("Crosswalks integrated", d.waveOne.branchIdentities.crosswalksIntegrated));
+  lines.push(row("Confirmed-B guidance identities integrated", d.waveOne.branchIdentities.confirmedBGuidanceIdentitiesIntegrated));
+  lines.push(row("Packet families created", d.waveOne.branchIdentities.packetFamiliesCreated));
+  lines.push("");
+  lines.push(d.waveOne.integrationOpensNothing);
+  lines.push("");
+  lines.push("### Residual");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Branch identities still open", d.waveOne.residual.residualRoutes));
+  lines.push(row("Already-answered engineering rows", d.waveOne.residual.residualAlreadyAnsweredRows));
+  lines.push(row("Mapping rows", d.waveOne.residual.residualMappingRows));
+  lines.push(row("Stage/branch pair bindings", d.waveOne.residual.residualPairBindings));
+  lines.push(row("Source identities", d.waveOne.residual.residualSourceIdentities));
+  lines.push(row("Official URLs", d.waveOne.residual.residualOfficialUrls));
+  lines.push(row("Acquisitions", d.waveOne.residual.residualAcquisitions));
+  lines.push(row("Promotions", d.waveOne.residual.residualPromotions));
+  lines.push("");
+  lines.push("### What the wave taught");
+  lines.push("");
+  for (const f of d.waveOne.systemicFindings) {
+    lines.push(`- **${f.id}** — ${f.finding}`);
+    lines.push(`  _Fix:_ ${f.fix}`);
+  }
+  lines.push("");
+  lines.push(`The execution contract carries ${d.waveOne.executionContract.clauses} clauses and binds from wave ${d.waveOne.executionContract.bindsFromWave}. ${d.waveOne.executionContract.currentDispatchNotRewritten}`);
   lines.push("");
   lines.push("## Legal work");
   lines.push("");
