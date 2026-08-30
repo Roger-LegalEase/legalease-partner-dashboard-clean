@@ -11,7 +11,8 @@ import {
   commercialRouteIdentity,
   finalVerificationSnapshotFrom,
   fulfillmentRequestContext,
-  governCommercialAdmission
+  governCommercialAdmission,
+  isOperationallySellable
 } from "@/lib/rcap/render/commercial-admission";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
@@ -109,7 +110,32 @@ export function createConsumerPaymentPlaceholder(
   } catch {
     fulfillmentProven = false;
   }
-  const enabled = !deferred && canDeliver && fulfillmentProven
+  // Grade-A commercial authority, asked about the route with nobody in front of
+  // it — which is exactly what a price placeholder is.
+  //
+  // Every check above this line is a proxy, and the proxies did not agree with
+  // the authority. `canDeliver` asks whether the route's STATE can render, so it
+  // is true for all five ADR-0004 `legacy_retired` generators and for every
+  // shadow-only `factory_v2` route. `fulfillmentProven` reads
+  // data/rcap-ledger/packet-fulfillment-records.json, which is not a Grade-A
+  // fulfillment record: one row there — no admission point, no packet-family
+  // binding the authority checks — put a live $50 direct-consumer price back on
+  // `MS:eligible-felony-conviction-expungement-99-19-71` and on
+  // `AL:human-trafficking-victim-expungement`, both of which resolve
+  // `sellable: false`. Nothing on the current head consulted the authority that
+  // ADR-0004 made the sole source of commercial permission, so the price was
+  // held off those routes by an empty ledger rather than by a decision.
+  //
+  // This is not a second commercial rule. `isOperationallySellable` is the
+  // exported reader over `launch_graph_commercial_status`, admission point 10 of
+  // 10, whose single governed call site already lives inside
+  // `commercial-admission.ts`; the lane-F acceptance verifier still finds one
+  // call site for it. A route with no Grade-A record is refused here for the
+  // same reason it is refused at Checkout: an absent record is a refusal.
+  const routeSellable = isOperationallySellable(
+    commercialRouteIdentity({ jurisdiction: result.state, pathwayId }).routeId
+  );
+  const enabled = !deferred && canDeliver && fulfillmentProven && routeSellable
     && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
