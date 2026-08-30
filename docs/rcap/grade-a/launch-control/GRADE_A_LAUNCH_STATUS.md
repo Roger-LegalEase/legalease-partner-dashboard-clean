@@ -9,7 +9,7 @@ _Rendered from `GRADE_A_LAUNCH_CONTROL.json` by the same generator, in the same 
 | | |
 | --- | --- |
 | Captain branch | `claude/legalease-sprint-captain-utucnw` |
-| Captain SHA | `b41207df84d4829bc865c862b361a4e737779d7a` |
+| Captain SHA | `90e61b3bb2bcd9679db3ecbece7e7d17455573d8` |
 | Census fingerprint | `sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5` |
 | Production connected | NO |
 
@@ -47,11 +47,11 @@ The right-hand column is a projection, not a fact. The census moves only when th
 
 ## First wave
 
-11 lanes returned and 1 is still running (**C11_PACKET_FACTORY_ACCELERATOR**). Every verdict below is checked against git, not against a worker's summary.
+12 lanes returned and 0 is still running (**null**). Every verdict below is checked against git, not against a worker's summary.
 
 | | |
 | --- | ---: |
-| Scope and required outputs verified | 10 |
+| Scope and required outputs verified | 11 |
 | Scope clean, a required output missing | 1 |
 | Refused | 0 |
 | Writes outside a lane's owned paths | 0 |
@@ -70,6 +70,23 @@ The right-hand column is a projection, not a fact. The census moves only when th
 | Packet families created | 0 |
 
 An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged.
+
+### Packet factory
+
+| | |
+| --- | ---: |
+| Families assigned | 47 |
+| Built | 43 |
+| Stopped with a named blocker | 4 |
+| Source receipts exact | 9 |
+| Source references bound | 27 |
+| Private-corpus binaries excluded at integration | 59 |
+| Built families missing a wiring record | 23 |
+| Independently verified | 0 |
+| Output approvals granted | 0 |
+| Commercial routes opened | 0 |
+
+Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN.
 
 ### Residual
 
@@ -152,9 +169,9 @@ These determinations create implementation obligations only. No commercial route
 | Total | 352 |
 | Releasable | 114 |
 | Held for a missing source | 238 |
-| Candidate evidence in the Captain tree | 6 |
+| Candidate evidence in the Captain tree | 50 |
 | Finished on a branch, awaiting integration | 6 |
-| Free to dispatch | 340 |
+| Free to dispatch | 296 |
 | COMPLETE_PACKET_PROVEN | 0 |
 
 ## Product path
@@ -201,6 +218,12 @@ Authorized for the synthetic acceptance project and unspent; the preconditions a
 Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.
 
 **Owner:** source lane C10, continued as residual lane R4. **Blocks:** 238 of 352 families entering a build slot
+
+### BLK-8 — 43 packet families are built and none is independently verified
+
+C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing. Seven independent verification shards are dispatched in Wave 2, and no output-level legal review package may be prepared until a shard returns PASS.
+
+**Owner:** Wave 2 shards V1-V7, then Lawrence. **Blocks:** output-level approval, and therefore product-path proof
 
 ### BLK-6 — At least one worker host could not install the toolchain
 

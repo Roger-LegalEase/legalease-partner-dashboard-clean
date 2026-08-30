@@ -17,13 +17,15 @@
     "residualWork": "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
     "workerExecutionContract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
     "counselDeterminationDelta": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    "c11ReturnReview": "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json",
+    "c11StopClassification": "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json",
     "counselDecisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
     "executionOrder": "docs/LAUNCH_SEQUENCE.md",
     "productContract": "docs/PRODUCT_CONTRACT.md"
   },
   "lineage": {
     "captainBranch": "claude/legalease-sprint-captain-utucnw",
-    "captainSha": "b41207df84d4829bc865c862b361a4e737779d7a",
+    "captainSha": "90e61b3bb2bcd9679db3ecbece7e7d17455573d8",
     "censusFingerprint": "sha256:3b2211ac6699fdadc19832455ebfd111f6f656dbb4498f43f7643dc7bce5dca5",
     "censusLedgerBlob": "923368df224d00fa95aa2f2dd4fea39a60ae0827",
     "productionConnected": false,
@@ -97,11 +99,11 @@
   },
   "waveOne": {
     "returnsReported": 12,
-    "scopeAndOutputVerified": 10,
+    "scopeAndOutputVerified": 11,
     "scopeCleanOutputMissing": 1,
     "refused": 0,
-    "stillRunning": 1,
-    "laneStillRunning": "C11_PACKET_FACTORY_ACCELERATOR",
+    "stillRunning": 0,
+    "laneStillRunning": null,
     "outOfScopeWrites": 0,
     "prohibitedPathViolations": 0,
     "branchIdentities": {
@@ -114,8 +116,11 @@
       "packetFamiliesCreated": 0
     },
     "residual": {
-      "residualLanes": 6,
+      "residualLanes": 7,
       "counselDeterminationRoutes": 4,
+      "c11StoppedFamilies": 4,
+      "c11BuiltFamiliesNeedingRepair": 23,
+      "c11CorpusBinariesExcluded": 59,
       "residualRoutes": 14,
       "residualAlreadyAnsweredRows": 37,
       "residualMappingRows": 29,
@@ -126,7 +131,7 @@
       "residualPromotions": 33,
       "counselDeterminationSubroutes": 2,
       "counselDeterminationGatedBranches": 4,
-      "totalDistinctItems": 114,
+      "totalDistinctItems": 142,
       "collisions": 0
     },
     "systemicFindings": [
@@ -157,7 +162,29 @@
       "bindsFromWave": 2,
       "currentDispatchNotRewritten": "C11_PACKET_FACTORY_ACCELERATOR is still running against this manifest. Regenerating it would change a live worker's row list, owned paths and verification target mid-flight, which is worse than the defect being fixed."
     },
-    "integrationOpensNothing": "An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged."
+    "integrationOpensNothing": "An integrated branch identity is an identity. It opens no commercial route, proves no packet, consumes no packet credit and creates no packet family. Every fail-closed commercial gate stands unchanged.",
+    "packetFactory": {
+      "assignmentId": "C11_PACKET_FACTORY_ACCELERATOR",
+      "verdict": "ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION",
+      "familiesAssigned": 47,
+      "familiesBuilt": 43,
+      "familiesStopped": 4,
+      "sourceReceiptsExact": 9,
+      "sourceReferences": 27,
+      "corpusBinariesExcluded": 59,
+      "builtFamiliesMissingWiringRecord": 23,
+      "outputApprovalsGranted": 0,
+      "commercialRoutesOpened": 0,
+      "pathOwnershipReleased": true,
+      "packetsProvenIndependently": 0,
+      "stopsByClass": {
+        "COMPOSED_PLEADING_SPECIFICATION": 1,
+        "SOURCE_IDENTITY": 2,
+        "PACKET_COMPONENT_IDENTITY": 1
+      },
+      "newLegalQuestionsRaised": 0,
+      "whatBuiltDoesNotMean": "Built means artifacts were rendered and byte-checked by the lane that built them. It is not independent verification, not visual review, not an output-level legal approval, and not COMPLETE_PACKET_PROVEN."
+    }
   },
   "legalWork": {
     "trueCounselQuestions": 4,
@@ -192,11 +219,27 @@
             "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
             "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
           },
-          "hardCodedInThisTree": [
-            "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
-            "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
-          ],
-          "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+          "classification": "SOURCE_IDENTITY_PLACEHOLDER_IN_GOVERNANCE_RECORD",
+          "isRuntimeDefect": false,
+          "isPacketDefect": false,
+          "isRouteRetirement": false,
+          "blocksUtahPacketBuildUntilResolved": true,
+          "owner": "R4_SOURCE_IDENTITY_AND_ACQUISITION",
+          "occurrences": {
+            "governanceRecords": [
+              "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+              "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+              "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
+              "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+              "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs"
+            ],
+            "actionableSurfaces": []
+          },
+          "governanceRecordCount": 5,
+          "actionableSurfaceCount": 0,
+          "rule": "The text must not appear as a final usable form identifier in a participant packet, route contract, packet specification, or runtime selector. Appearing inside a governance or decision record that names the constraint is not a defect; that is the record doing its job.",
+          "verdict": "PLACEHOLDER_CONFINED_TO_GOVERNANCE_RECORDS — it appears only where the constraint is stated, on no packet, contract, specification or selector. Utah's 402 packet build stays blocked until the real form identity is resolved.",
+          "whatWouldResolveIt": "The final Utah Courts form number for the Motion to Reduce Conviction, from the issuing authority rather than inferred.",
           "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
         }
       ],
@@ -232,9 +275,9 @@
     "total": 352,
     "releasable": 114,
     "heldBack": 238,
-    "evidenceInCaptainTree": 6,
+    "evidenceInCaptainTree": 50,
     "evidenceOnBranchAwaitingIntegration": 6,
-    "freeToDispatch": 340,
+    "freeToDispatch": 296,
     "byState": {
       "AL": 11,
       "CO": 9,
@@ -356,6 +399,13 @@
       "detail": "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.",
       "owner": "source lane C10, continued as residual lane R4",
       "blocks": "238 of 352 families entering a build slot"
+    },
+    {
+      "id": "BLK-8",
+      "blocker": "43 packet families are built and none is independently verified",
+      "detail": "C11 rendered and byte-checked 43 families against exact source SHA-256 values, but a builder verifying its own output proves nothing. Seven independent verification shards are dispatched in Wave 2, and no output-level legal review package may be prepared until a shard returns PASS.",
+      "owner": "Wave 2 shards V1-V7, then Lawrence",
+      "blocks": "output-level approval, and therefore product-path proof"
     },
     {
       "id": "BLK-6",
