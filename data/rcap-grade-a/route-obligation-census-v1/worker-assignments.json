@@ -46,13 +46,13 @@
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_01SXo72a9WBXkzcJTj6d69P5",
+      "sessionId": "session_01PXPAbLK6HXz6bvcwSuSaG8",
       "worklistGroupId": "ak-courtview-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "AK",
       "branch": "claude/census-v1-build-ak-courtview-set",
       "ownedPath": "data/rcap-all50/overlays/census-v1/ak/ak-courtview-set--official-pdf-fill",
-      "status": "resumed",
+      "status": "started",
       "startedAt": "2026-08-30",
       "occupiesBuildSlot": true,
       "pushedTip": "a9ed042c5215d6abc71eceb9f11eb07984503092",
@@ -64,7 +64,11 @@
       "opensRoute": false,
       "resumedAs": "session_01SXo72a9WBXkzcJTj6d69P5",
       "resumedAt": "2026-08-30",
-      "previousSessionId": "session_01JSaVfx2euW6ght3nuyg5CY"
+      "previousSessionId": "session_01JSaVfx2euW6ght3nuyg5CY",
+      "archivedSessionId": "session_01SXo72a9WBXkzcJTj6d69P5",
+      "relaunchedAt": "2026-08-30",
+      "relaunchedBecause": "the container inherited only legalease-partner-dashboard-clean, not legalease-source-artifacts, so the corpus bootstrap could not resolve the pinned release and the session stopped asking for access. Eight of twelve containers inherited both and are running; source attachment is not deterministic at session creation.",
+      "relaunchRemedy": "the brief now tells the worker to call add_repo for legalease-source-artifacts if the bootstrap cannot resolve the asset, and warns that an unauthenticated pre-check returns a misleading 404 for a private repo it does have access to."
     },
     {
       "kind": "packet_build",
@@ -212,7 +216,7 @@
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_016qPcNNJoLGTGdMao1JwGZ4",
+      "sessionId": "session_01WDoy31FT5CqbHevjTwMYrc",
       "worklistGroupId": "ar-pardon-seal-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "AR",
@@ -225,11 +229,15 @@
       "note": "both sources are flat PDFs; the petition and order carry a one-day revision skew that is recorded, not corrected",
       "completesFamily": false,
       "provesArtifact": false,
-      "opensRoute": false
+      "opensRoute": false,
+      "archivedSessionId": "session_016qPcNNJoLGTGdMao1JwGZ4",
+      "relaunchedAt": "2026-08-30",
+      "relaunchedBecause": "the container inherited only legalease-partner-dashboard-clean, not legalease-source-artifacts, so the corpus bootstrap could not resolve the pinned release and the session stopped asking for access. Eight of twelve containers inherited both and are running; source attachment is not deterministic at session creation.",
+      "relaunchRemedy": "the brief now tells the worker to call add_repo for legalease-source-artifacts if the bootstrap cannot resolve the asset, and warns that an unauthenticated pre-check returns a misleading 404 for a private repo it does have access to."
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_01Xig6vZqp3Y1abfAJAgHNzo",
+      "sessionId": "session_01TREJi8RyXdNvuWy2VH5UqB",
       "worklistGroupId": "az_record_sealing_arrest_no_charges-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "AZ",
@@ -242,7 +250,11 @@
       "note": "shares AOCCRSL1F/AOCCRSL2F with the dismissal/not-guilty family running in parallel; same forms, different situation, so field decisions do not carry across",
       "completesFamily": false,
       "provesArtifact": false,
-      "opensRoute": false
+      "opensRoute": false,
+      "archivedSessionId": "session_01Xig6vZqp3Y1abfAJAgHNzo",
+      "relaunchedAt": "2026-08-30",
+      "relaunchedBecause": "the container inherited only legalease-partner-dashboard-clean, not legalease-source-artifacts, so the corpus bootstrap could not resolve the pinned release and the session stopped asking for access. Eight of twelve containers inherited both and are running; source attachment is not deterministic at session creation.",
+      "relaunchRemedy": "the brief now tells the worker to call add_repo for legalease-source-artifacts if the bootstrap cannot resolve the asset, and warns that an unauthenticated pre-check returns a misleading 404 for a private repo it does have access to."
     },
     {
       "kind": "packet_build",
@@ -263,7 +275,7 @@
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_01GirmQB6Z532KerSxLjC71v",
+      "sessionId": "session_0116BS1BU49DpD6pw4FPG5Sn",
       "worklistGroupId": "mi_setaside_marihuana-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "MI",
@@ -276,7 +288,11 @@
       "note": "plural conviction listing; the exact shape the charge-caption defect lived in, so the charge-caption proof matters here",
       "completesFamily": false,
       "provesArtifact": false,
-      "opensRoute": false
+      "opensRoute": false,
+      "archivedSessionId": "session_01GirmQB6Z532KerSxLjC71v",
+      "relaunchedAt": "2026-08-30",
+      "relaunchedBecause": "the container inherited only legalease-partner-dashboard-clean, not legalease-source-artifacts, so the corpus bootstrap could not resolve the pinned release and the session stopped asking for access. Eight of twelve containers inherited both and are running; source attachment is not deterministic at session creation.",
+      "relaunchRemedy": "the brief now tells the worker to call add_repo for legalease-source-artifacts if the bootstrap cannot resolve the asset, and warns that an unauthenticated pre-check returns a misleading 404 for a private repo it does have access to."
     },
     {
       "kind": "packet_build",
@@ -374,5 +390,12 @@
       "releaseWhen": "the CA source-fidelity question is answered: what the encryption is, whether the official binaries can be read directly, how the rescued derivatives were produced, and whether their geometry and field sets match the officials field by field.",
       "doNotDoInTheMeantime": "Do not measure off a rescued derivative and record it as measured off the official form."
     }
-  ]
+  ],
+  "environmentFinding": {
+    "observedAt": "2026-08-30",
+    "finding": "A child session inherits the parent's git sources, but not reliably. Of twelve packet and analysis sessions created from this one, eight received both legalease-partner-dashboard-clean and legalease-source-artifacts; four received only the first and blocked at the corpus bootstrap.",
+    "whyItMatters": "legalease-source-artifacts is where the pinned Master Library release lives. Without it the bootstrap cannot resolve the asset, and the worker is back in exactly the position the first national wave was in -- correctly refusing, for want of bytes that exist.",
+    "remedy": "the packet worker brief now instructs the worker to call add_repo for that repository itself when the bootstrap cannot resolve the release, which recovers the container without a relaunch.",
+    "doNotMisreadThisAs": "evidence that the sources are missing. They are held, verified and byte-exact; this is an attachment problem in the container, not a custody problem in the corpus."
+  }
 }
