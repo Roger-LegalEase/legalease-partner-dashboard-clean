@@ -1474,27 +1474,30 @@ const RESOLUTIONS = {
   // -- Illinois packet sets --------------------------------------------------
   "il-cannabis-vacate-set": {
     needs: [
-      ["official-form:CXP Motion to Vacate and Expunge", "primary_filing", "Motion to Vacate and Expunge", "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf"],
-      ["official-form:CXP Additional Cannabis Convictions", "continuation", "Additional Cannabis Convictions", "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf"],
-      ["official-form:CXP Getting Started Motion to Vacate and Expunge", "instructions", "Getting Started: Motion to Vacate and Expunge", "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf"],
-      ["official-form:CXP Notice of Court Date for Motion", "local_addendum", "Notice of Court Date for Motion", "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf"],
-      ["official-form:CXP Additional Notice of Court Date", "continuation", "Additional Notice of Court Date", "LegalEase Illinois/CXP Additional Notice of Court Date.pdf"],
-      ["official-form:CXP Order Granting or Denying Motion", "proposed_order", "Order Granting or Denying Motion", "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf"]
-    ].map(([sourceId, role, title, file]) => ({
+      ["official-form:CXP Motion to Vacate and Expunge", "primary_filing", "EXC-M 4702.2", "Motion to Vacate & Expunge Eligible Cannabis Convictions", "LegalEase Illinois/CXP Motion to Vacate and Expunge.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/8562a938-0296-4236-9030-3217460e8b5c/CXP%20Motion%20to%20Vacate%20and%20Expunge.pdf"],
+      ["official-form:CXP Additional Cannabis Convictions", "continuation", "EXC-AA 4706.2", "Additional Cannabis Convictions", "LegalEase Illinois/CXP Additional Cannabis Convictions.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/85296a2c-ee02-41c9-b962-6fb1f797dc8e/CXP%20Additional%20Cannabis%20Convictions.pdf"],
+      ["official-form:CXP Getting Started Motion to Vacate and Expunge", "instructions", "EXC-G 4700.2", "Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions", "LegalEase Illinois/CXP Getting Started Motion to Vacate and Expunge.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/da1fc04d-1770-4e40-8a5c-527bd52ca7f9/CXP%20Getting%20Started%20Motion%20to%20Vacate%20and%20Expunge.pdf"],
+      ["official-form:CXP Notice of Court Date for Motion", "local_addendum", "EXC-N 4703.2", "Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions", "LegalEase Illinois/CXP Notice of Court Date for Motion.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/a9f72f2b-0bc7-482d-a301-9dc73e64e4b7/CXP%20Notice%20of%20Court%20Date%20for%20Motion.pdf"],
+      ["official-form:CXP Additional Notice of Court Date", "continuation", "EXC-AM 4705.2", "Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions", "LegalEase Illinois/CXP Additional Notice of Court Date.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/62d19ea4-46a8-423b-9e42-b975974fc77b/CXP%20Additional%20Notice%20of%20Court%20Date.pdf"],
+      ["official-form:CXP Order Granting or Denying Motion", "proposed_order", "EXC-O 4704.2", "Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions", "LegalEase Illinois/CXP Order Granting or Denying Motion.pdf", "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/0c788d57-5951-47d9-9946-dfc36b7d1d50/CXP%20Order%20Granting%20or%20Denying%20Motion.pdf"]
+    ].map(([sourceId, role, formNumber, title, file, officialSourceUrl]) => ({
       sourceId,
       need: `The Illinois standardised cannabis-expungement form: ${title}.`,
       role,
       status: "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS",
       issuingAuthority: ILSC,
-      formNumber: `CXP ${title}`,
+      formNumber,
       officialTitle: title,
+      officialSourceUrl,
+      currentRevision: "03/22",
+      currentRevisionEvidence: "The issuer form number and 03/22 revision are printed on the current official PDF face and reconciled to the held inventory bytes in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json.",
       inventory: [file],
       evidence: [
         "data/rcap-all50/nationwide-source-inventory.json records the full CXP suite under LegalEase Illinois/.",
         "data/record-clearing/legal-design-intake/IL.memo.json track il-cannabis-vacate assigns all six CXP components and records the suite as approved 03/2022.",
         "The three Illinois files in the verified corpus are EXP-AD Request, EXP-AD Order Granting and the civil fee-waiver application; no CXP form was promoted."
       ],
-      notes: "The CXP suite is a standardised statewide form set carrying no numeric identifier; its titles are its identity. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
+      notes: "CXP is the publisher filename prefix; the issuer-assigned identifiers are in the EXC series. All six are held in the inventory, so the work is promotion and verification. The memo's open item is whether the 03/2022 suite remains accurate after the Clean Slate amendments, which is a currency question."
     }))
   },
   "il-exp-nonconv-set": {
@@ -1505,8 +1508,11 @@ const RESOLUTIONS = {
         role: "attachment",
         status: "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS",
         issuingAuthority: ILSC,
-        formNumber: "EXP-AD Case List",
-        officialTitle: "Case List: Request to Expunge and/or Seal Criminal Records",
+        formNumber: "ATJ 2902.1",
+        officialTitle: "Case List for Request to Expunge and/or Seal Criminal Records",
+        officialSourceUrl: "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+        currentRevision: "06/26",
+        currentRevisionEvidence: "ATJ 2902.1 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json.",
         inventory: ["LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf"],
         evidence: [
           "data/record-clearing/legal-design-intake/IL.memo.json track il-exp-nonconv assigns the Case List with its Illinois Courts source URL.",
@@ -1520,8 +1526,11 @@ const RESOLUTIONS = {
         role: "continuation",
         status: "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS",
         issuingAuthority: ILSC,
-        formNumber: "EXP-AD Additional Cases Expungement",
-        officialTitle: "Additional Cases: Expungement",
+        formNumber: "ATJ 2903.5",
+        officialTitle: "Additional Arrests or Cases for Expungement",
+        officialSourceUrl: "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9cb2130f-056d-4962-a6e7-a592b4f4b4bb/EXP-AD%20Additional%20Cases%20Expungement.pdf",
+        currentRevision: "06/26",
+        currentRevisionEvidence: "ATJ 2903.5 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 36ad55c62b891fb2ede8de8bddaeb023c1acc8cbb62880c426dfcdf289686f00 in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json.",
         inventory: ["LegalEase Illinois/EXP-AD Additional Cases Expungement.pdf"],
         evidence: [
           "data/record-clearing/legal-design-intake/IL.memo.json track il-exp-nonconv assigns this continuation component.",
@@ -1538,8 +1547,11 @@ const RESOLUTIONS = {
       role: "attachment",
       status: "RESOLVED_HELD_OUTSIDE_VERIFIED_CORPUS",
       issuingAuthority: ILSC,
-      formNumber: "EXP-AD Case List",
-      officialTitle: "Case List: Request to Expunge and/or Seal Criminal Records",
+      formNumber: "ATJ 2902.1",
+      officialTitle: "Case List for Request to Expunge and/or Seal Criminal Records",
+      officialSourceUrl: "https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/623b7a47-9164-49c2-a653-d8998100e6bb/EXP-AD%20Case%20List%20Request%20to%20Expunge%20Seal%20Records.pdf",
+      currentRevision: "06/26",
+      currentRevisionEvidence: "ATJ 2902.1 and 06/26 are printed on the current official PDF face and reconciled to SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json.",
       inventory: ["LegalEase Illinois/EXP-AD Case List Request to Expunge Seal Records.pdf"],
       evidence: [
         "data/record-clearing/legal-design-intake/IL.memo.json track il-exp-pardon assigns the Case List with its Illinois Courts source URL.",
@@ -1634,7 +1646,10 @@ for (const censusRow of batch) {
         formNumber: need.formNumber ?? null,
         formNumberNotEstablished: need.formNumberNotEstablished ?? false,
         officialTitle: need.officialTitle ?? null,
-        officialTitleIsInferred: need.officialTitleIsInferred ?? false
+        officialTitleIsInferred: need.officialTitleIsInferred ?? false,
+        ...(Object.hasOwn(need, "officialSourceUrl") ? { officialSourceUrl: need.officialSourceUrl } : {}),
+        ...(Object.hasOwn(need, "currentRevision") ? { currentRevision: need.currentRevision } : {}),
+        ...(Object.hasOwn(need, "currentRevisionEvidence") ? { currentRevisionEvidence: need.currentRevisionEvidence } : {})
       },
       labelIsStatuteOrRuleCitation: need.labelIsStatuteOrRuleCitation ?? false,
       citationImplies: need.citationImplies ?? null,
