@@ -1389,6 +1389,53 @@
         "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
         "a96372dd5e8b4c7e274aa89dc98c3bcde51eb6d12b0bab7e8e3d6fbe80011077"
       ]
+    },
+    {
+      "id": "auth-2026-08-30-participant-data-rights-current-head",
+      "kind": "migration",
+      "phase": 59,
+      "title": "Participant data rights: export, single-matter deletion, account deletion",
+      "artifacts": [
+        "supabase/migrations/20260830120000_participant_data_rights.sql"
+      ],
+      "supersedes": "the obsolete-base draft supabase/phase-57-participant-data-rights.sql and its queue entry auth-2026-08-30-phase-57-participant-data-rights, neither of which is integrated here",
+      "status": "authorized_scoped",
+      "decision": "approved_for_code_integration_only",
+      "requestedBy": "Captain A — current-head replay",
+      "requestedAt": "2026-08-30",
+      "authorizedBy": "Roger Roman — 2026-08-30, authorizing the replay and integration of the participant data-rights feature onto the current Captain head",
+      "authorizedAt": "2026-08-30",
+      "authorizationScope": "code_integration_and_ephemeral_testing_only",
+      "scopedAuthorization": {
+        "CODE_INTEGRATION": "AUTHORIZED 2026-08-30 — repository code, the rebuilt current-head migration as a proposal, generated evidence, and local or ephemeral focused testing.",
+        "NONPRODUCTION_MIGRATION": "still queued — applying this to the dedicated synthetic acceptance Supabase project needs Roger's separate authorization, which has not been given.",
+        "PRODUCTION_MIGRATION": "still queued, and explicitly excluded by the 2026-08-30 authorization.",
+        "PRODUCTION_DEPLOYMENT": "still queued, and explicitly excluded by the 2026-08-30 authorization, as is any change to Production environment variables."
+      },
+      "oneAuthorizationDoesNotImplyAnother": "Code integration is not permission to apply. Applying to a synthetic acceptance project is not permission to apply to Production. Applying to Production is not permission to deploy. Each is asked for and recorded separately, and the absence of a record is a refusal rather than a gap.",
+      "alsoExcluded": [
+        "applying the obsolete phase-57 draft",
+        "changing Production environment variables",
+        "deleting any real participant data"
+      ],
+      "why": "Creates the durable participant privacy-request workflow the three data-rights controls run on -- participant_privacy_requests, participant_privacy_request_steps, participant_legal_holds, participant_account_tombstones and participant_processor_propagations -- with the security-definer functions that write them. It re-creates four EXISTING guard functions with one narrow, named exception each, gated on a session-local erasure authority: packet_render_jobs_consumer_binding_immutable and consumer_payment_consumption_binding_guard may substitute a keyed pseudonym for consumer_auth_user_id; guard_packet_delivery_events may substitute one for actor_user_id; guard_packet_render_job_transition permits queued -> failed under the cancel_participant_render_jobs authority, because a queued job holds no fencing token and the canonical failure function cannot reach it. packet_render_jobs_error_code_check gains one value, participant_deletion_cancelled, and loses none. packet_credit_ledger is deliberately untouched.",
+      "risk": "high",
+      "riskNote": "Two reasons this is not routine, and one apply-order hazard the current-head rebuild removes. First, the erasure path deletes participant records irreversibly and deletes the Auth user; a defect in it is not recoverable by rollback. Second, it re-creates four functions other phases own. The obsolete draft carried a real hazard here -- applied out of numeric order it would have reverted those guards to its own text -- but this rebuild is a timestamped migration at the end of the forward-only chain, so ordering is the chain's, not an operator's. The guard bodies were grafted onto the canonical definitions in 20260818202000 and 20260818203000 and drop no clause, which was verified by diffing each rebuilt body against the canonical one. Against the residual risk: no existing refusal is weakened. Without rcap.participant_erasure_authority set, every original refusal still fires; and with it, amount, currency, product id, receipt reference, event type, item binding, person and matter still refuse to move. EXECUTE on every new function is revoked from PUBLIC -- not merely from anon and authenticated, because PostgreSQL's default PUBLIC grant would otherwise leave them callable by a browser role -- and granted to service_role alone.",
+      "rollback": "Forward-only in the chain, reversible by statement. Drop the five new tables (referenced by nothing outside this migration), drop the eleven new functions, drop the reject_tombstoned_consumer_briefcase_writes trigger, restore packet_render_jobs_error_code_check without participant_deletion_cancelled, and re-apply the canonical bodies of the four guards from 20260818202000_rcap_upgrade_02_functions.sql. No existing table is dropped, no column removed and no data rewritten by the migration itself. Erasures already performed by the application are by design not reversible; that is the feature, and it is why the tombstone and the receipt outlive the account.",
+      "evidence": [
+        "node scripts/verify-participant-data-rights.mjs — 95/96 against an ephemeral PostgreSQL cluster with the current migration sequence applied in order, driving the real route handlers and the real deletion pipeline",
+        "The one failure is M8, and it is a pre-existing current-head gap outside this feature: src/lib/expungement-ai/verification-cas.ts calls get_consumer_packet_artifact_authority, which no repository SQL defines. The tree says so itself — that RPC and six siblings are marked \"captain SQL pending\". It was introduced on the Captain line by 4db45d6d1, after the draft's base, which is why the draft reported 96/96 and this replay does not.",
+        "M9 was made non-vacuous rather than left to pass: privateDownloadWorks now distinguishes a refused link from an absent dependency, and an absent dependency satisfies neither M8 nor M9.",
+        "Each rebuilt guard body diffed against its canonical definition: additions only, no clause dropped.",
+        "npm run typecheck — clean. git diff --check — clean."
+      ],
+      "doesNotAuthorize": [
+        "applying this migration anywhere",
+        "a Production deployment",
+        "a Stripe or payment change",
+        "deleting any real participant data",
+        "opening any commercial route"
+      ]
     }
   ],
   "statusVocabulary": {
