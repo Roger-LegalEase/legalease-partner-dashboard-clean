@@ -46,17 +46,17 @@
         {
           "field": "DAY",
           "class": "arrest_date_component",
-          "why": "Day component of the arrest date. The platform holds no day fact, and the printed-label fallback binds participant.full_legal_name here via the word 'Defendant' in the harvested sentence fragment."
+          "why": "Day component of the arrest date. The platform holds no day fact. The shared binder also withholds the printed-label fallback from a date-component name, so the sentence fragment mentioning the Defendant can no longer bind participant.full_legal_name here."
         },
         {
           "field": "MONTH",
           "class": "arrest_date_component",
-          "why": "Month component of the arrest date. Proven to receive participant.full_legal_name through the printed-label fallback; refused by role so no name can reach it."
+          "why": "Month component of the arrest date. This is the blank that was proven to receive participant.full_legal_name through the printed-label fallback. It is now refused twice over: by the shared date-component guard, and by role because the platform holds no month fact."
         },
         {
           "field": "YEAR",
           "class": "arrest_date_component",
-          "why": "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form."
+          "why": "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form. Its previous refusal depended on the harvested caption happening to be the digit '1', which was never a decision; the shared guard now refuses it by name."
         }
       ],
       "writeBoxes": [
@@ -73,6 +73,20 @@
           "rectBasis": "acroform_widget_rect_read_from_the_document",
           "measuredRuleUnderWriteBox": null,
           "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 536.88,
+            "width": 179.16,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
         },
         {
           "field": "and charged with the offenses of 1",
@@ -188,12 +202,6 @@
         }
       ],
       "refused": [
-        {
-          "field": "First Middle and Last name",
-          "reason": "explicit_mapping_conflicts_with_field_name",
-          "category": "mapping_conflict",
-          "regionHeading": null
-        },
         {
           "field": "and charged with the offenses of 2",
           "reason": "no_allowlisted_fact_matches",
@@ -455,17 +463,17 @@
         {
           "field": "Day",
           "class": "arrest_date_component",
-          "why": "Day component of the arrest date in the court's findings. Binds participant.full_legal_name through the printed-label fallback; refused by role rather than by the document title."
+          "why": "Day component of the arrest date in the court's findings. Bound participant.full_legal_name through the printed-label fallback; now refused by the shared date-component guard, by role, and — incidentally — by the document title."
         },
         {
           "field": "Month",
           "class": "arrest_date_component",
-          "why": "Month component of the arrest date in the court's findings. Same binding, same refusal."
+          "why": "Month component of the arrest date in the court's findings. Same binding, same refusals."
         },
         {
           "field": "Year",
           "class": "arrest_date_component",
-          "why": "Year component of the arrest date in the court's findings."
+          "why": "Year component of the arrest date in the court's findings. The platform holds no year fact."
         }
       ],
       "writeBoxes": [
@@ -482,6 +490,20 @@
           "rectBasis": "acroform_widget_rect_read_from_the_document",
           "measuredRuleUnderWriteBox": null,
           "effectiveLabel": "Case No"
+        },
+        {
+          "field": "First Middle and Last name",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "rect": {
+            "x": 72,
+            "y": 536.88,
+            "width": 179.16,
+            "height": 22.44
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": null
         },
         {
           "field": "DOB",
@@ -537,12 +559,6 @@
           "field": "DIVISION",
           "reason": "no_allowlisted_fact_matches",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "First Middle and Last name",
-          "reason": "explicit_mapping_conflicts_with_field_name",
-          "category": "mapping_conflict",
           "regionHeading": null
         },
         {

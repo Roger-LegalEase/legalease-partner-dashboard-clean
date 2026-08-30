@@ -13,6 +13,22 @@
 // semantics that is not the one on disk -- the committed one, say -- without
 // stashing anything. The module has no imports of its own, so a copy of it runs
 // identically wherever it is placed.
+//
+// EVERY COMMITTED CENSUS, NOT EVERY CENSUS NAMED field-census.json.
+//
+// This used to walk for that one filename, and a census enrolled under any
+// other name was invisible to it. `ar-arrest-seal-set` is enrolled as
+// field-census.census-v1.json for a reason recorded in its own `filenameNote`,
+// and it carries the two documents this projection most needs to see. A scan
+// that skipped them would answer a narrower question than the one it is asked.
+//
+// The two shapes differ only in nesting: the v1 census puts its fields under
+// `documents[]`, each document carrying the `captionOnly` and ownership facts
+// that a flat census leaves to the caller. Both are read here, and the v1
+// documents' `captionOnly` and per-field `regionHeading` are passed to
+// decideBinding exactly as rcap-official-form-finalize passes them, so the
+// projection reports the decision the factory would actually make rather than a
+// decision taken with the inputs withheld.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -31,25 +47,47 @@ if (!outArg) {
 const semantics = await import(pathToFileURL(path.resolve(rootDir, semanticsArg)).href);
 const { descriptorsMatching, protectCategoryOf, decideBinding } = semantics;
 
-function familyDirectories() {
+const CENSUS_FILENAMES = ["field-census.json", "field-census.census-v1.json"];
+
+/** Every committed census, as { familyDirectory, file }. */
+function censusFiles() {
   const found = [];
   const walk = (dir) => {
     for (const entry of fs.readdirSync(path.join(rootDir, dir), { withFileTypes: true })) {
       const rel = path.posix.join(dir, entry.name);
       if (entry.isDirectory()) walk(rel);
-      else if (entry.name === "field-census.json") found.push(dir);
+      else if (CENSUS_FILENAMES.includes(entry.name)) found.push({ familyDirectory: dir, file: rel });
     }
   };
   walk(OVERLAY_ROOT);
-  return found.sort();
+  return found.sort((a, b) => a.file.localeCompare(b.file));
 }
 
+/**
+ * One census's blanks, flattened to a common shape.
+ *
+ * A flat census is one unnamed document; a v1 census is several named ones. The
+ * document identity is carried through because two documents in one family can
+ * legitimately share a field name -- `ar-arrest-seal-set` has "First Middle and
+ * Last name" and "Case No" on both its petition and its order -- and a key that
+ * dropped it would silently collapse the pair into one row.
+ */
+function blanksOf(census) {
+  if (Array.isArray(census?.documents)) {
+    return census.documents.flatMap((doc) => (doc.fields ?? []).map((field) => ({
+      field, documentId: doc.documentId ?? null, captionOnly: doc.captionOnly === true
+    })));
+  }
+  return (census?.fields ?? []).map((field) => ({ field, documentId: null, captionOnly: false }));
+}
+
+const CENSUSES = censusFiles();
 const rows = [];
-for (const familyDir of familyDirectories()) {
+for (const { familyDirectory, file } of CENSUSES) {
   let census;
-  try { census = JSON.parse(fs.readFileSync(path.join(rootDir, `${familyDir}/field-census.json`), "utf8")); }
+  try { census = JSON.parse(fs.readFileSync(path.join(rootDir, file), "utf8")); }
   catch { continue; }
-  for (const field of census.fields ?? []) {
+  for (const { field, documentId, captionOnly } of blanksOf(census)) {
     const subject = field.effectiveLabel ?? field.name;
     // Both channels, because decideBinding tries the field NAME first and only
     // falls back to the printed label. A projection that looked at one of them
@@ -57,14 +95,23 @@ for (const familyDir of familyDirectories()) {
     const byName = descriptorsMatching(field.name).map((d) => d.factId);
     const byLabel = field.effectiveLabel ? descriptorsMatching(field.effectiveLabel).map((d) => d.factId) : [];
     const decision = decideBinding(
-      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel ?? null },
-      {}
+      {
+        name: field.name,
+        pdfType: field.type,
+        effectiveLabel: field.effectiveLabel ?? null,
+        regionHeading: field.regionHeading ?? null
+      },
+      { captionOnly }
     );
     rows.push({
-      key: `${familyDir}|${field.name}`,
-      familyDirectory: familyDir,
+      key: `${familyDirectory}|${documentId ?? "-"}|${field.name}`,
+      familyDirectory,
+      censusFile: file,
+      documentId,
+      captionOnly,
       fieldName: field.name,
       effectiveLabel: field.effectiveLabel ?? null,
+      regionHeading: field.regionHeading ?? null,
       pdfType: field.type ?? null,
       subjectFirstDescriptor: descriptorsMatching(subject)[0]?.factId ?? null,
       byNameDescriptors: byName,
@@ -85,8 +132,10 @@ fs.writeFileSync(out, `${JSON.stringify({
   schemaVersion: "rcap-field-semantics-projection/v1",
   generatedBy: "scripts/rcap-official-forms/project-field-semantics.mjs",
   semanticsModule: semanticsArg,
-  familiesScanned: familyDirectories().length,
+  censusesScanned: CENSUSES.length,
+  censusFiles: CENSUSES.map((c) => c.file),
+  familiesScanned: new Set(CENSUSES.map((c) => c.familyDirectory)).size,
   fieldsProjected: rows.length,
   rows
 }, null, 2)}\n`);
-console.log(`${outArg}: ${rows.length} field(s) across ${familyDirectories().length} family(ies)`);
+console.log(`${outArg}: ${rows.length} field(s) across ${CENSUSES.length} census(es)`);
