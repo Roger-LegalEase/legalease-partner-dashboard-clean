@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Thirty-three refusals. Each is a way the control plane could look healthy while
+// Thirty-eight refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -30,6 +30,7 @@ const CONTRACT = "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.jso
 const COUNSEL = "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json";
 const C11 = "data/rcap-grade-a/launch-control/C11_RETURN_REVIEW.json";
 const C11_STOPS = "data/rcap-grade-a/launch-control/C11_STOP_CLASSIFICATION.json";
+const WAVE2 = "data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json";
 // Ten committed binaries already matched a private-corpus SHA-256 before the
 // packet factory returned, under hard-forms/*/evidence/ and rcap-codex source
 // receipts. They are a governance discrepancy for Roger, not something to remove
@@ -63,6 +64,7 @@ const contract = read(CONTRACT);
 const counsel = read(COUNSEL);
 const c11 = read(C11);
 const c11Stops = read(C11_STOPS);
+const wave2 = fs.existsSync(path.join(ROOT, WAVE2)) ? read(WAVE2) : null;
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -460,6 +462,45 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     `built ${lc.waveOne.packetFactory.familiesBuilt}, independently verified ${lc.waveOne.packetFactory.packetsProvenIndependently}, proven ${lc.packetFamilies.completePacketProven}`);
 }
 
+// 26. The Wave 2 dispatch, and the Wave 1 defect it exists to close.
+if (wave2) {
+  const base = wave2.captainBaseSha;
+  const baseIsAncestor = git(["merge-base", "--is-ancestor", base, "HEAD"]) !== null;
+  // The manifest must NOT be readable at the base it names -- that is the whole
+  // point of the two-commit method. A manifest present at its own base means the
+  // dispatch was folded into the baseline and the SHA is self-referential.
+  const manifestAtBase = git(["cat-file", "-t", `${base}:${WAVE2}`]) === "blob";
+  check("A34", "Wave 2 names a real ancestor as its base, and the manifest is not in that base",
+    baseIsAncestor && !manifestAtBase && /^[0-9a-f]{40}$/.test(base),
+    `base ${String(base).slice(0, 8)}, ancestor ${baseIsAncestor}, manifest at base ${manifestAtBase}`);
+
+  // Every worker is told where to read the assignment, since it is not in their
+  // checkout. This is the Wave 1 failure, stated as a check rather than a hope.
+  const missingRead = wave2.assignments.filter((a) => !a.readAssignmentFrom?.branch || !a.readAssignmentFrom?.file || a.readAssignmentFrom.file !== WAVE2);
+  check("A35", "every Wave 2 assignment says where to read itself from, and it is not the baseline",
+    missingRead.length === 0, missingRead.map((a) => a.assignmentId).join(", "));
+
+  const shards = wave2.assignments.filter((a) => a.lane === "independent-verification");
+  const verified = shards.flatMap((a) => a.items);
+  const built = c11.families.filter((f) => f.classification === "BUILT").map((f) => f.familyId);
+  const dupes = verified.filter((f, i) => verified.indexOf(f) !== i);
+  const omitted = built.filter((f) => !verified.includes(f));
+  check("A36", "every built family is independently verified exactly once, by someone who did not build it",
+    dupes.length === 0 && omitted.length === 0 && verified.length === built.length
+    && shards.every((a) => a.items.length >= 6 && a.items.length <= 8)
+    && shards.every((a) => a.workerBranch !== "codex/c11-packet-factory-accelerator"),
+    `${verified.length} of ${built.length} across ${shards.length} shard(s); ${dupes.length} duplicate, ${omitted.length} omitted`);
+
+  // A review package before an independent PASS would bind Lawrence's approval
+  // to hashes nobody has checked.
+  check("A37", "no output-legal review package exists before an independent PASS",
+    wave2.outputLegalReview.batchesPrepared === 0 && wave2.productPathVerification.lanesDispatched === 0,
+    `review batches ${wave2.outputLegalReview.batchesPrepared}, product-path lanes ${wave2.productPathVerification.lanesDispatched}`);
+
+  const undispatched = residual.lanes.filter((l) => !wave2.assignments.some((a) => a.assignmentId === l.residualLaneId));
+  check("A38", "every residual lane is dispatched in Wave 2", undispatched.length === 0, undispatched.map((l) => l.residualLaneId).join(", "));
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -468,7 +509,7 @@ if (MUTATIONS) {
     dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS),
     review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
     residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
-    counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11)
+    counsel: path.join(ROOT, COUNSEL), c11: path.join(ROOT, C11), wave2: path.join(ROOT, WAVE2)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -500,6 +541,11 @@ if (MUTATIONS) {
     { on: "lc", name: "a built packet family counted as independently verified is caught", mutate: (j) => { j.waveOne.packetFactory.packetsProvenIndependently = 43; return j; } },
     { on: "c11", name: "a stopped packet family dropped from the classification is caught", mutate: (j) => { j.summary.stopped = 3; return j; } },
     { on: "c11", name: "an output approval granted by the builder is caught", mutate: (j) => { j.summary.outputApprovalsGranted = 1; return j; } },
+    { on: "wave2", name: "a built family verified by two shards is caught", mutate: (j) => { const s = j.assignments.filter((a) => a.lane === "independent-verification"); s[1].items.push(s[0].items[0]); return j; } },
+    { on: "wave2", name: "a built family verified by nobody is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").items.pop(); return j; } },
+    { on: "wave2", name: "a shard handed to the builder is caught", mutate: (j) => { j.assignments.find((a) => a.lane === "independent-verification").workerBranch = "codex/c11-packet-factory-accelerator"; return j; } },
+    { on: "wave2", name: "an assignment that does not say where to read itself is caught", mutate: (j) => { j.assignments[0].readAssignmentFrom = null; return j; } },
+    { on: "wave2", name: "a review package prepared before an independent PASS is caught", mutate: (j) => { j.outputLegalReview.batchesPrepared = 6; return j; } },
     { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } },
     { on: "counsel", name: "New York's mandatory split dropped from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.mandatorySubroutes.length > 1); r.mandatorySubroutes = []; return j; } },
     { on: "counsel", name: "Utah's consent gate removed from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.gatedBranches.length); for (const b of r.gatedBranches) b.prosecutorConsentRequired = false; return j; } },
