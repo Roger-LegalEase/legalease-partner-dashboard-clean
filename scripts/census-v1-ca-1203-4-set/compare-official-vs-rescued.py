@@ -89,7 +89,14 @@ def rescue_provenance(rescued_name):
                 "method": t.get("successfulMethod"),
                 "invocation": "qpdf --decrypt <input> <output> "
                               "(no --password argument; the user password is empty)",
-                "readFromTree": report.get("sourceDir"),
+                # Quoted verbatim from the rescue report: the tree the 2026-06-17
+                # rescue read from. It is a historical Codespace path, recorded
+                # as evidence that the rescue read the OPERATIONAL tree rather
+                # than the Master Library -- not a path in any live container.
+                "readFromTreeAsRecordedIn2026_06_17": report.get("sourceDir"),
+                "readFromTreeNote": "historical value quoted from the rescue "
+                                    "report; not a path in this or any current "
+                                    "container",
                 "readFromRelativePath": t.get("sourceRelativePath"),
                 "sourceSha256Before": t.get("sourceSha256Before"),
                 "sourceSha256After": t.get("sourceSha256After"),
