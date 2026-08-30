@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "rcap-census-v1-product-wiring/v1",
+  "family": "ak-tf805-set",
+  "routeKey": "obligation:track-only:AK:ak-tf805",
+  "workType": "PRODUCT_WIRING_REQUIRED",
+  "status": "DECLARED_NOT_INSTALLED",
+  "authorityCreated": "none",
+  "explicitNonGrants": [
+    "This document opens no commercial route.",
+    "It creates no fulfillment record and consumes no packet credit.",
+    "It marks no packet proven and grants no output approval.",
+    "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
+    "It does not change any live RCAP route.",
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "currentState": {
+    "serviceDisposition": "missing_from_compiled_runtime",
+    "commercialState": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+    "existingArtifactIds": [],
+    "generationAllowed": false
+  },
+  "proposedRepresentation": {
+    "note": "This is a specification for a later lane to install once the source gate passes. Installing it now would represent, in runtime, a packet family that cannot be rendered.",
+    "trackId": "ak-tf805",
+    "packetSetId": "ak-tf805-set",
+    "outputStrategy": "official_pdf_fill",
+    "components": [
+      { "componentId": "ak-tf805-primary-filing-1", "role": "primary_filing", "order": 1, "officialFormId": "TF-805", "requirement": "required" },
+      { "componentId": "ak-tf805-certificate-of-service-2", "role": "certificate_of_service", "order": 2, "officialFormId": "TF-805", "requirement": "required" },
+      { "componentId": "ak-tf805-proposed-order-3", "role": "proposed_order", "order": 3, "officialFormId": "TF-805", "requirement": "required" }
+    ],
+    "componentNote": "All three components name TF-805 as their official form. The certificate of service and the proposed order are blocks carried on the one two-page document rather than separate binaries, which is consistent with the inherited census showing a service block on page 2.",
+    "participantFillable": true,
+    "renderStrategy": "acroform_fill"
+  },
+  "installPreconditions": [
+    "source-verification.json reports verified: true",
+    "a census-v1 field map is measured off the verified binary by the existing factory",
+    "canonical and boundary fixtures render, and are verified from the rendered bytes",
+    "an independent visual review is recorded against rastered pages",
+    "completed-output legal approval is granted by a reviewer with that authority -- this lane requests it and cannot grant it"
+  ],
+  "blockedBy": "source_binary_absent"
+}

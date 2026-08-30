@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-census-v1-local-variation/v1",
+  "family": "ak-tf805-set",
+  "routeKey": "obligation:track-only:AK:ak-tf805",
+  "workType": "LOCAL_VARIATION_REQUIRED",
+  "status": "recorded_with_named_gaps",
+  "basis": [
+    "data/record-clearing/legal-design-packet-set-manifests.json (packetSetId ak-tf805-set)",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json (routeKey obligation:track-only:AK:ak-tf805)",
+    "data/rcap-all50/overlays/production/alaska/tf-805-form-en/field-census.json (inherited; field names and printed label fragments only)"
+  ],
+  "basisLimits": "Every entry below is read from committed repository records. None was read from the official TF-805 binary, which is absent from this environment (see source-verification.json). Entries whose answer lives on the form itself are marked unresolved rather than inferred.",
+  "venue": {
+    "variation": "single_destination_no_county_variation_recorded",
+    "destination": "The local trial court",
+    "detail": "The route record names one destination kind (court) and no per-borough or per-district branching. Alaska's trial courts are a unitary state system, so no county-level filing-office variation is recorded.",
+    "unresolved": "Which specific trial court location receives the request -- the court that heard the underlying case -- is matter-specific and is a participant-supplied fact, not a route constant.",
+    "confidence": "medium",
+    "needsLocalConfirmation": true
+  },
+  "fee": {
+    "variation": "no_fee_stated_by_source_review",
+    "sourceReviewSays": "The source review does not state a filing fee for this request.",
+    "requirementAsRecorded": "required",
+    "unresolved": "Whether Administrative Rule 40(b)/(c) requests carry a filing fee, and whether any borough or court location varies it, is not established by any committed record. This must not be presented to a participant as fee-free.",
+    "confidence": "low",
+    "needsLocalConfirmation": true
+  },
+  "feeWaiver": {
+    "variation": "not_addressed_by_source_review",
+    "sourceReviewSays": "The source review does not address a fee waiver.",
+    "requirementAsRecorded": "conditional",
+    "conditionDescription": "Applies only when the participant cannot pay the filing fee.",
+    "unresolved": "Dependent on the unresolved fee question above. No waiver instrument is named in the packet set.",
+    "confidence": "low",
+    "needsLocalConfirmation": true
+  },
+  "verificationAndNotarization": {
+    "variation": "sworn_verification_on_form_no_separate_notarization_stated",
+    "sourceReviewSays": "The source review does not state a notarization requirement beyond the sworn verification.",
+    "participantAction": "The requestor signs and swears to their own request in the TF-805 verification block.",
+    "confidence": "medium",
+    "needsLocalConfirmation": true
+  },
+  "deliveryAndService": {
+    "variation": "certificate_of_service_carried_on_the_form_with_multiple_methods",
+    "instrument": "The certificate of service is part of TF-805 itself, on page 2. The packet set does not add a separate service document.",
+    "methodControlsObservedInInheritedCensus": [
+      { "field": "mail", "type": "checkbox", "page": 2, "readsAs": "mail", "confidence": "high" },
+      { "field": "hd", "type": "checkbox", "page": 2, "readsAs": "hand delivery", "confidence": "high" },
+      { "field": "tf", "type": "checkbox", "page": 2, "readsAs": "unresolved -- the printed label fragment carried in the inherited census is truncated and the binary is absent, so this abbreviation is not expanded here", "confidence": "none" },
+      { "field": "emailCB", "type": "checkbox", "page": 2, "readsAs": "email", "confidence": "medium" }
+    ],
+    "timingRule": "The certificate states service on a date and time. It is a statement of something that has already happened, so it cannot be completed before the participant actually serves.",
+    "unresolved": "Who must be served, and whether the served set varies by court location, is not established by any committed record. The form carries a free-text 'I served these people' field rather than a fixed list, which is consistent with a matter-specific served set.",
+    "confidence": "medium",
+    "needsLocalConfirmation": true
+  },
+  "filing": {
+    "variation": "participant_filed",
+    "detail": "File the request with the local trial court. The participant may initiate; the process actor is the court.",
+    "confidence": "high"
+  },
+  "postFilingConstraint": {
+    "variation": "re_request_window",
+    "detail": "A label fragment inherited from the census reads 'five years, you must file a new request if yo...'. This indicates a recurrence or re-request window attached to the relief.",
+    "unresolved": "The exact rule, its trigger and its duration are not established here; the fragment is truncated and the binary is absent. Do not state a five-year rule to a participant on the strength of this fragment.",
+    "confidence": "none",
+    "needsLocalConfirmation": true
+  },
+  "testStatus": {
+    "tested": false,
+    "because": "The route record requires each variation to be recorded AND tested. Testing a filing, fee, venue or delivery variation means exercising it against a rendered packet, and no packet can be rendered while the source binary is absent. Recording is complete to the limit of committed sources; testing is blocked."
+  }
+}

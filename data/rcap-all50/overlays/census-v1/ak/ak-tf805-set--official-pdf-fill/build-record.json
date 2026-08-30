@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "rcap-census-v1-build-record/v1",
+  "family": "ak-tf805-set",
+  "worklistGroupId": "ak-tf805-set",
+  "routeKey": "obligation:track-only:AK:ak-tf805",
+  "implementationStrategy": "official_pdf_fill",
+  "publicLabel": "Name-Only Removal From The Public Index",
+  "authority": "Alaska Court System form TF-805 (5/25), Administrative Rule 40(b) or (c)",
+  "outcome": "BLOCKED_AT_STEP_1_SOURCE_GATE",
+  "packetProven": false,
+  "outputApproval": "REQUESTED_NOT_GRANTED",
+  "commercialRouteOpened": false,
+  "fulfillmentRecordCreated": false,
+  "orderedSteps": [
+    {
+      "step": 1,
+      "name": "Verify source SHA-256 against the corpus index",
+      "status": "FAILED_CLOSED",
+      "evidence": "source-verification.json",
+      "detail": "The corpus index names AK TF-805 at sha256 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54, byteLength 93899, 2 pages, 17 AcroForm fields. The binary is not on disk. The corpus root private/source-imports/... is git-ignored and was never present in this fresh clone. Independently confirmed by hashing all 8647 files in the working tree: no file matches that SHA-256, and no file has that byte length. Acquisition was not attempted -- this environment refuses egress to court hosts and the task forbids it."
+    },
+    {
+      "step": 2,
+      "name": "Census fields with real geometry using the existing factory",
+      "status": "BLOCKED",
+      "blockedBy": "source_binary_absent",
+      "detail": "scripts/rcap-official-forms/operational-corpus-precondition.mjs was run and returned evaluable: false with refusal operational_corpus_absent. No second factory was written."
+    },
+    {
+      "step": 3,
+      "name": "Field map with every write box measured off the document",
+      "status": "NOT_DISCHARGED",
+      "evidence": "inherited-measurements.json",
+      "detail": "No box was measured by this lane. The prior production lane's measurements are recorded as inherited, with their source file hashes, and are explicitly not presented as this lane's measurement. Deriving a write box from a label position was available and was refused: it is the exact failure the task names and scripts/lib/pdf-stroked-boxes.mjs documents. That module was read; it is a CTM-aware graphics-state machine and is the correct detector, but it reads a content stream this lane does not have."
+    },
+    {
+      "step": 4,
+      "name": "Record every local filing, fee, venue or delivery variation",
+      "status": "RECORDED_WITH_NAMED_GAPS",
+      "evidence": "local-variation.json",
+      "detail": "Recorded to the limit of committed sources. Venue, filing, verification, service methods and the post-filing re-request constraint are captured. Fee and fee-waiver are unresolved in the source review itself and are marked so rather than guessed. Testing each variation is blocked, because testing means exercising it against a rendered packet."
+    },
+    {
+      "step": 5,
+      "name": "Product wiring without runtime or commercial authority",
+      "status": "DECLARED_NOT_INSTALLED",
+      "evidence": "product-wiring.json",
+      "detail": "A representation is specified for a later lane. Nothing was installed. Compiled profiles, the ledger, migrations, workflows, package.json, Stripe and Supabase were not touched."
+    },
+    {
+      "step": 6,
+      "name": "Render canonical and boundary fixtures through the existing factory",
+      "status": "BLOCKED",
+      "blockedBy": [
+        "source_binary_absent",
+        "render_dependency_absent"
+      ],
+      "detail": "An AcroForm fill needs the base document. The prior lane's filled fixtures were deliberately not used as a substitute source: a filled artifact carries the original page content but does not hash to the official binary, and using one would launder a prior lane's output into this lane's source of truth. Independently, the render dependency pdf-lib is not installed in this environment (node_modules is empty), so scripts/rcap-all50-overlay-factory-lib.mjs cannot be imported at all. Rendering is blocked twice over."
+    },
+    {
+      "step": 7,
+      "name": "Verify from the artifact bytes",
+      "status": "BLOCKED",
+      "blockedBy": "no_artifacts_rendered_by_this_lane",
+      "detail": "There are no bytes of this lane's making to verify. Nothing is asserted about coordinate fidelity, clipping, overlap, protected fields or untouched pages for any artifact of this lane, because no such artifact exists."
+    },
+    {
+      "step": 8,
+      "name": "Raster every page and record an independent visual review",
+      "status": "BLOCKED",
+      "blockedBy": "no_artifacts_rendered_by_this_lane"
+    }
+  ],
+  "workTypes": {
+    "OFFICIAL_FORM_MAP_REQUIRED": "NOT_DISCHARGED",
+    "LOCAL_VARIATION_REQUIRED": "PARTIALLY_DISCHARGED_RECORDED_NOT_TESTED",
+    "PRODUCT_WIRING_REQUIRED": "SPECIFIED_NOT_INSTALLED",
+    "ARTIFACT_REVIEW_REQUIRED": "NOT_DISCHARGED",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "REQUESTED_NOT_GRANTED"
+  },
+  "hardRulesObserved": [
+    "No participant signature, signature date, or certificate of mailing was prefilled -- nothing was filled at all.",
+    "No court-only, clerk-only, prosecutor-only or agency-only field was written.",
+    "No commercial route opened, no fulfillment record created, no packet marked proven.",
+    "The frozen census, the stale-artifact block, data/rcap-ledger/**, compiled profiles, migrations, .github/workflows/**, package.json, Stripe/Supabase and Production were not modified.",
+    "No verifier was weakened, skipped or quarantined. The source gate was added and it fails closed.",
+    "The production overlay under data/rcap-all50/overlays/production/alaska/ was read only; its artifacts were not adopted.",
+    "Nothing was written outside the owned path except scripts/rcap-census-v1-ak-tf805-set-verify.mjs, which is named for this family.",
+    "git add . / -A / --all were not used."
+  ],
+  "unblockBy": [
+    "Mount the Master Library at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, or set OFFICIAL_FORMS_SOURCE_DIR to a checkout containing it.",
+    "Run: node scripts/rcap-census-v1-ak-tf805-set-verify.mjs -- it must print PROCEED and write verified: true.",
+    "Then steps 2 through 8 can run against a document whose identity is established."
+  ],
+  "verifiersRun": [
+    {
+      "verifier": "scripts/rcap-official-forms/operational-corpus-precondition.mjs",
+      "result": "evaluable: false, refusal operational_corpus_absent",
+      "interpretation": "The corpus this build needs is absent. Expected."
+    },
+    {
+      "verifier": "scripts/verify-rcap-official-forms-d1.mjs",
+      "result": "PASSED",
+      "detail": "146 family packages structurally complete and sha-pinned, 57 completed implementation packages rendered with no unwritable field written. Confirms this lane broke nothing in the existing official-forms lane."
+    },
+    {
+      "verifier": "scripts/verify-all50-overlay-factory.mjs",
+      "result": "FAILED_PRE_EXISTING",
+      "detail": "ERR_MODULE_NOT_FOUND: cannot find package 'pdf-lib'. Confirmed pre-existing and unrelated to this lane: node_modules is empty, and the identical failure reproduces with this lane's files moved out of the tree. Not caused here, and not repaired here -- installing dependencies is outside this family's owned scope."
+    }
+  ],
+  "verifierIntegrity": "No verifier was weakened, skipped or quarantined. One verifier was added (the family source gate) and it fails closed."
+}
