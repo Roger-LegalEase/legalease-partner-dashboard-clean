@@ -4,20 +4,38 @@
   "workerBranch": "codex/v3-independent-packet-verification",
   "baseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
   "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
-  "environmentStop": {
-    "code": "DEPENDENCIES_UNINSTALLABLE",
-    "scope": "LANE",
-    "observedFreeDiskMib": 3318,
+  "setupEvidence": {
+    "controlBaseExists": true,
+    "controlBaseIsAncestorOfCaptain": true,
+    "manifestCaptainBaseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+    "observedFreeDiskMibBeforeInstall": 16949,
     "minimumFreeDiskMib": 4096,
-    "nodeModulesPresent": false,
-    "corpusEnvironmentPresent": false,
-    "observedAt": [
-      "df -Pm /workspaces",
-      "test -d node_modules",
-      "test -f private/source-corpus-environment.txt"
+    "dependencyInstall": {
+      "command": "npm ci --cache /tmp/legalease-npm-cache",
+      "result": "PASS",
+      "packagesAdded": 492
+    }
+  },
+  "sourceRecoveryStop": {
+    "scope": "ALL_SIX_ROWS",
+    "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "result": "BLOCKED_SOURCE",
+    "release": "Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28",
+    "asset": "Expungement_AI_RCAP_Master_Library_Edition_1.zip",
+    "exactObservedOutput": [
+      "curl: (22) The requested URL returned error: 404",
+      "asset not found in release",
+      "bootstrap-private-corpus: could not resolve the release asset (the token may lack access to Roger-LegalEase/legalease-source-artifacts)"
     ],
-    "contract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json#WEC-2",
-    "effect": "No dependency installation, corpus bootstrap, family preflight, artifact verification, or focused test was attempted. Tests that could not run are BLOCKED, never passed or skipped."
+    "exitCode": 1,
+    "corpusEnvironmentPresentAfterAttempt": false,
+    "masterLibrarySourceDirEstablished": false,
+    "readFrom": [
+      "scripts/rcap-corpus/bootstrap-private-corpus.sh (executed in this worktree)",
+      "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md#BEFORE-ANYTHING-ELSE-1-Recover-the-corpus",
+      "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions"
+    ],
+    "effect": "The pinned source bytes could not be opened or independently hashed. The assignment's BLOCKED_SOURCE row stop applies to each family. No source substitution, packet repair, preflight, artifact verification, or later proof obligation was attempted."
   },
   "proofObligationOrder": [
     "exact route identity",
@@ -41,38 +59,161 @@
     "commercial status remains closed"
   ],
   "rows": [
-    { "itemId": "ca-1203-41-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill", "proofObligations": { "exact route identity": "#/rowEvidenceTemplate/allOtherObligations", "exact packet-family identity": "#/rowEvidenceTemplate/allOtherObligations", "source identities and SHA-256 values": "#/rowEvidenceTemplate/sourceBinding", "complete component set": "#/rowEvidenceTemplate/allOtherObligations", "correct official form or approved composer": "#/rowEvidenceTemplate/allOtherObligations", "canonical and boundary artifact hashes": "#/rowEvidenceTemplate/allOtherObligations", "actual-write verification": "#/rowEvidenceTemplate/allOtherObligations", "zero protected-field writes": "#/rowEvidenceTemplate/allOtherObligations", "signatures and service blocks preserved": "#/rowEvidenceTemplate/allOtherObligations", "page count and page order": "#/rowEvidenceTemplate/allOtherObligations", "no clipping or overlap": "#/rowEvidenceTemplate/allOtherObligations", "fee and waiver treatment": "#/rowEvidenceTemplate/allOtherObligations", "filing destination": "#/rowEvidenceTemplate/allOtherObligations", "service and notice": "#/rowEvidenceTemplate/allOtherObligations", "later-completion fields": "#/rowEvidenceTemplate/allOtherObligations", "no stale artifact": "#/rowEvidenceTemplate/allOtherObligations", "no wrong-route reuse": "#/rowEvidenceTemplate/allOtherObligations", "no source substitution": "#/rowEvidenceTemplate/allOtherObligations", "commercial status remains closed": "#/rowEvidenceTemplate/allOtherObligations" } },
-    { "itemId": "ne-setaside-custodial-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
-    { "itemId": "ny_mrta_marijuana-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
-    { "itemId": "ri_nonconviction_sealing-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
-    { "itemId": "ut_pet_no_charges-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
-    { "itemId": "wa_vac_substance_use_disorder-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" }
-  ],
-  "rowEvidenceTemplate": {
-    "sourceBinding": {
-      "obligation": "source identities and SHA-256 values",
-      "result": "BLOCKED",
-      "observed": "MASTER_LIBRARY_SOURCE_DIR could not be established because corpus bootstrap was prohibited after the WEC-2 disk precondition failed; the pinned source bytes therefore could not be bound at their recorded SHA-256.",
-      "readFrom": [
-        "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json#WEC-2",
-        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md#BEFORE-ANYTHING-ELSE"
-      ]
+    {
+      "itemId": "ca-1203-41-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill",
+      "proofObligations": {
+        "exact route identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "exact packet-family identity": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "source identities and SHA-256 values": "#/sourceBindingEvidence/ca-1203-41-set",
+        "complete component set": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "correct official form or approved composer": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "canonical and boundary artifact hashes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "actual-write verification": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "zero protected-field writes": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "signatures and service blocks preserved": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "page count and page order": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "no clipping or overlap": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "fee and waiver treatment": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "filing destination": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "service and notice": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "later-completion fields": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "no stale artifact": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "no wrong-route reuse": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "no source substitution": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop",
+        "commercial status remains closed": "#/rowEvidenceTemplates/notEvaluatedAfterSourceStop"
+      }
     },
-    "allOtherObligations": {
+    {
+      "itemId": "ne-setaside-custodial-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
+      "proofObligationsRef": "#/rows/0/proofObligations",
+      "sourceIdentityEvidenceOverride": "#/sourceBindingEvidence/ne-setaside-custodial-set"
+    },
+    {
+      "itemId": "ny_mrta_marijuana-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill",
+      "proofObligationsRef": "#/rows/0/proofObligations",
+      "sourceIdentityEvidenceOverride": "#/sourceBindingEvidence/ny_mrta_marijuana-set"
+    },
+    {
+      "itemId": "ri_nonconviction_sealing-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill",
+      "proofObligationsRef": "#/rows/0/proofObligations",
+      "sourceIdentityEvidenceOverride": "#/sourceBindingEvidence/ri_nonconviction_sealing-set"
+    },
+    {
+      "itemId": "ut_pet_no_charges-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill",
+      "proofObligationsRef": "#/rows/0/proofObligations",
+      "sourceIdentityEvidenceOverride": "#/sourceBindingEvidence/ut_pet_no_charges-set"
+    },
+    {
+      "itemId": "wa_vac_substance_use_disorder-set",
+      "verdict": "BLOCKED_SOURCE",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill",
+      "proofObligationsRef": "#/rows/0/proofObligations",
+      "sourceIdentityEvidenceOverride": "#/sourceBindingEvidence/wa_vac_substance_use_disorder-set"
+    }
+  ],
+  "sourceBindingEvidence": {
+    "ca-1203-41-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "formNumber": "CR-180", "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe" },
+        { "formNumber": "CR-181", "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504" },
+        { "formNumber": "CR-106", "sha256": "f8a37a9a8c30a016b432bb39fd67407717c3dee7be74bc3e3d471127bf190c5a" },
+        { "formNumber": "MC-031", "sha256": "defc9108f6baa4c2ca444c1571d737d841af78289bef337f874f51e595191075" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill/source-receipt.json"
+    },
+    "ne-setaside-custodial-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "formNumber": "CC-6-11", "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492" },
+        { "formNumber": "CC-6-11.2", "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6" },
+        { "formNumber": "CC-6-11A", "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac" },
+        { "formNumber": "DC-1-15", "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill/source-receipt.json"
+    },
+    "ny_mrta_marijuana-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "documentId": "NY-MRTA-DESTRUCTION-REQUEST", "sha256": "55c8ec044ecd2adf30508b6a2403c690fc441419d6fba0ccc657eba182298544" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "The pinned identity was readable from the committed builder receipt, but the private release asset returned 404, so it could not be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill/source-receipt.json"
+    },
+    "ri_nonconviction_sealing-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "documentId": "RI-DC-33", "sha256": "342337451d61e363e03febb384431dba2f9bb08b44ee46380b94fc91901e9908" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "The pinned identity was readable from the committed builder receipt, but the private release asset returned 404, so it could not be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill/source-receipt.json"
+    },
+    "ut_pet_no_charges-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "formNumber": "1000EX", "sha256": "401e0563ae4dddee7a447c4b3fa9d043477402188c98fd3b108087c84c986611" },
+        { "formNumber": "1020EX", "sha256": "cc437e7fa0abaa1001f5309e1d842c6f7649b152fcab616bd9356293e241acd2" },
+        { "formNumber": "1044XX", "sha256": "b99586289df6304da5b34181bee95ec2b7f098806c1c949a0f112daeb0244a52" },
+        { "formNumber": "1146XX", "sha256": "39f1205f48bd73fc7b9686a101369be74a988b419697ea964c2ff5a5c0ce63ad" },
+        { "formNumber": "1148XX", "sha256": "43c6d4fd232f67453357b342794cac209da82373ce4e93c686c285b42e553288" },
+        { "formNumber": "1149XX", "sha256": "79f16112e639b74a3189dbde1a4bb725ea7e5f4f92988a476f8d1e9bd24662d3" },
+        { "formNumber": "1169XX", "sha256": "bd5594c76fd9d3b5a8017ae25c0df7951bf2fb9381b752ddd61c2c7a2d713244" },
+        { "formNumber": "UT-BCI-EXP-APPLICATION", "sha256": "b4eacb2b9f78c9d69da76ee6528d12c58d0d896a7d2869aeb7ba77de24a91b13" },
+        { "formNumber": "UT-BCI-THIRD-PARTY-RELEASE", "sha256": "c4b59e479aeb5dcef0229fdc924905e7cfaa5ea611403d05a7cf636a50528451" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so none could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill/source-receipt.json"
+    },
+    "wa_vac_substance_use_disorder-set": {
+      "result": "BLOCKED",
+      "pinnedIdentitiesObserved": [
+        { "formNumber": "CRRLJ-09.0100", "sha256": "1f72e901e93d576cf6c7ecad910d253da65b6af1a89ca75304c9739fa159909b" },
+        { "formNumber": "CRRLJ-09.0200", "sha256": "b53035ddc5ea31aa9bd6816d5f157a58c8c8201db8e4a2cbb15f9874b4c851f2" }
+      ],
+      "currentBytesOpened": false,
+      "currentSha256Recomputed": false,
+      "observed": "Pinned identities were readable from the committed builder receipt, but the private release asset returned 404, so neither could be independently bound from MASTER_LIBRARY_SOURCE_DIR.",
+      "readFrom": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill/source-receipt.json"
+    }
+  },
+  "rowEvidenceTemplates": {
+    "notEvaluatedAfterSourceStop": {
       "result": "NOT_EVALUATED_DUE_TO_ROW_STOP",
-      "observed": "No value was observed. The assignment requires a BLOCKED family rather than PASS when an obligation cannot be evaluated.",
+      "observed": "No value was observed. The BLOCKED_SOURCE row stop occurred at source binding, and the assignment forbids PASS on an unevaluated obligation.",
       "readFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions"
     }
   },
   "focusedTests": [
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ca-1203-41-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ny_mrta_marijuana-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ri_nonconviction_sealing-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_no_charges-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/verify-packet-build-environment.mjs --family wa_vac_substance_use_disorder-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
-    { "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." }
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ca-1203-41-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ny_mrta_marijuana-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ri_nonconviction_sealing-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_no_charges-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family wa_vac_substance_use_disorder-set", "result": "BLOCKED", "reason": "Required corpus recovery failed before preflight; MASTER_LIBRARY_SOURCE_DIR was not established." },
+    { "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs", "result": "PASS", "exitCode": 0, "observed": "10/13 criteria passed — ACCEPTED_WITH_FOUR_VALID_STOPS_AFTER_CORPUS_BINARY_EXCLUSION; C11_RETURN_REVIEW.json current." },
+    { "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs", "result": "PASS", "exitCode": 0, "observed": "33/33 checkpoint checks passed." }
   ],
   "commercialRoutesOpened": 0,
   "productionTouched": false
