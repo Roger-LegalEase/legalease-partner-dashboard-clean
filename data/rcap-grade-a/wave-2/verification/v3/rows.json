@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "rcap-grade-a-wave-2-independent-verification/v1",
+  "assignmentId": "V3_INDEPENDENT_PACKET_VERIFICATION",
+  "workerBranch": "codex/v3-independent-packet-verification",
+  "baseSha": "ebb99d663f857f58a173c1d29eb73d0f15e70cbd",
+  "assignmentReadFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:data/rcap-grade-a/launch-control/WAVE_2_ASSIGNMENTS.json",
+  "environmentStop": {
+    "code": "DEPENDENCIES_UNINSTALLABLE",
+    "scope": "LANE",
+    "observedFreeDiskMib": 3318,
+    "minimumFreeDiskMib": 4096,
+    "nodeModulesPresent": false,
+    "corpusEnvironmentPresent": false,
+    "observedAt": [
+      "df -Pm /workspaces",
+      "test -d node_modules",
+      "test -f private/source-corpus-environment.txt"
+    ],
+    "contract": "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json#WEC-2",
+    "effect": "No dependency installation, corpus bootstrap, family preflight, artifact verification, or focused test was attempted. Tests that could not run are BLOCKED, never passed or skipped."
+  },
+  "proofObligationOrder": [
+    "exact route identity",
+    "exact packet-family identity",
+    "source identities and SHA-256 values",
+    "complete component set",
+    "correct official form or approved composer",
+    "canonical and boundary artifact hashes",
+    "actual-write verification",
+    "zero protected-field writes",
+    "signatures and service blocks preserved",
+    "page count and page order",
+    "no clipping or overlap",
+    "fee and waiver treatment",
+    "filing destination",
+    "service and notice",
+    "later-completion fields",
+    "no stale artifact",
+    "no wrong-route reuse",
+    "no source substitution",
+    "commercial status remains closed"
+  ],
+  "rows": [
+    { "itemId": "ca-1203-41-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ca/ca-1203-41-set--official-pdf-fill", "proofObligations": { "exact route identity": "#/rowEvidenceTemplate/allOtherObligations", "exact packet-family identity": "#/rowEvidenceTemplate/allOtherObligations", "source identities and SHA-256 values": "#/rowEvidenceTemplate/sourceBinding", "complete component set": "#/rowEvidenceTemplate/allOtherObligations", "correct official form or approved composer": "#/rowEvidenceTemplate/allOtherObligations", "canonical and boundary artifact hashes": "#/rowEvidenceTemplate/allOtherObligations", "actual-write verification": "#/rowEvidenceTemplate/allOtherObligations", "zero protected-field writes": "#/rowEvidenceTemplate/allOtherObligations", "signatures and service blocks preserved": "#/rowEvidenceTemplate/allOtherObligations", "page count and page order": "#/rowEvidenceTemplate/allOtherObligations", "no clipping or overlap": "#/rowEvidenceTemplate/allOtherObligations", "fee and waiver treatment": "#/rowEvidenceTemplate/allOtherObligations", "filing destination": "#/rowEvidenceTemplate/allOtherObligations", "service and notice": "#/rowEvidenceTemplate/allOtherObligations", "later-completion fields": "#/rowEvidenceTemplate/allOtherObligations", "no stale artifact": "#/rowEvidenceTemplate/allOtherObligations", "no wrong-route reuse": "#/rowEvidenceTemplate/allOtherObligations", "no source substitution": "#/rowEvidenceTemplate/allOtherObligations", "commercial status remains closed": "#/rowEvidenceTemplate/allOtherObligations" } },
+    { "itemId": "ne-setaside-custodial-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
+    { "itemId": "ny_mrta_marijuana-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ny/ny-mrta-marijuana-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
+    { "itemId": "ri_nonconviction_sealing-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ri/ri-nonconviction-sealing-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
+    { "itemId": "ut_pet_no_charges-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/ut/ut-pet-no-charges-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" },
+    { "itemId": "wa_vac_substance_use_disorder-set", "verdict": "BLOCKED_SOURCE", "familyDirectory": "data/rcap-all50/overlays/census-v1/wa/wa-vac-substance-use-disorder-set--official-pdf-fill", "proofObligationsRef": "#/rows/0/proofObligations" }
+  ],
+  "rowEvidenceTemplate": {
+    "sourceBinding": {
+      "obligation": "source identities and SHA-256 values",
+      "result": "BLOCKED",
+      "observed": "MASTER_LIBRARY_SOURCE_DIR could not be established because corpus bootstrap was prohibited after the WEC-2 disk precondition failed; the pinned source bytes therefore could not be bound at their recorded SHA-256.",
+      "readFrom": [
+        "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json#WEC-2",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md#BEFORE-ANYTHING-ELSE"
+      ]
+    },
+    "allOtherObligations": {
+      "result": "NOT_EVALUATED_DUE_TO_ROW_STOP",
+      "observed": "No value was observed. The assignment requires a BLOCKED family rather than PASS when an obligation cannot be evaluated.",
+      "readFrom": "cbdfcd9ef9356182085ec1686e9084b244d5dc79:docs/rcap/grade-a/launch-control/wave-2-prompts/V3_INDEPENDENT_PACKET_VERIFICATION.md#Stop-conditions"
+    }
+  },
+  "focusedTests": [
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ca-1203-41-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ne-setaside-custodial-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ny_mrta_marijuana-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ri_nonconviction_sealing-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family ut_pet_no_charges-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/verify-packet-build-environment.mjs --family wa_vac_substance_use_disorder-set", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/grade-a-launch-control/verify-c11-return.mjs", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." },
+    { "command": "node scripts/grade-a-launch-control/verify-launch-control.mjs", "result": "BLOCKED", "reason": "WEC-2 free-disk precondition failed before dependency installation." }
+  ],
+  "commercialRoutesOpened": 0,
+  "productionTouched": false
+}
