@@ -6,109 +6,129 @@
   "implementationStrategy": "official_pdf_fill",
   "publicLabel": "Name-Only Removal From The Public Index",
   "authority": "Alaska Court System form TF-805 (5/25), Administrative Rule 40(b) or (c)",
-  "outcome": "BLOCKED_AT_STEP_1_SOURCE_GATE",
+  "outcome": "BUILT_ALL_EIGHT_STEPS_DISCHARGED_PENDING_HUMAN_REVIEW",
+  "previousOutcome": "BLOCKED_AT_STEP_1_SOURCE_GATE -- the corpus was absent in that container and the refusal was correct",
+  "howTheGateReopened": "The corpus was recovered in this container with scripts/rcap-corpus/bootstrap-private-corpus.sh, which verified the archive SHA-256 (a26e3ca7...) and the corpus's own 00_GOVERNANCE/CHECKSUMS.sha256 before extracting, and reported 51 jurisdictions / 499 files / 329 PDFs. node scripts/verify-packet-build-environment.mjs --family ak-tf805-set printed PACKET_BUILD_ENVIRONMENT_READY, 14/14 checks passed. Nothing was acquired; egress to court and agency hosts was neither attempted nor needed, and no mirror, cache or aggregator was used.",
   "packetProven": false,
   "outputApproval": "REQUESTED_NOT_GRANTED",
   "commercialRouteOpened": false,
   "fulfillmentRecordCreated": false,
+  "runtimeSelectable": false,
+  "generationAllowed": false,
+  "builtBy": "scripts/build-census-v1-ak-tf805-set.mjs",
   "orderedSteps": [
     {
       "step": 1,
       "name": "Verify source SHA-256 against the corpus index",
-      "status": "FAILED_CLOSED",
+      "status": "PASSED",
       "evidence": "source-verification.json",
-      "detail": "The corpus index names AK TF-805 at sha256 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54, byteLength 93899, 2 pages, 17 AcroForm fields. The binary is not on disk. The corpus root private/source-imports/... is git-ignored and was never present in this fresh clone. Independently confirmed by hashing all 8647 files in the working tree: no file matches that SHA-256, and no file has that byte length. Acquisition was not attempted -- this environment refuses egress to court hosts and the task forbids it."
+      "detail": "The binary at the indexed path hashes to 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 at 93899 bytes, matching the corpus index exactly on both. Verdict PROCEED. The build script re-verifies the same two facts independently before it reads a single rectangle, and stops on drift."
     },
     {
       "step": 2,
-      "name": "Census fields with real geometry using the existing factory",
-      "status": "BLOCKED",
-      "blockedBy": "source_binary_absent",
-      "detail": "scripts/rcap-official-forms/operational-corpus-precondition.mjs was run and returned evaluable: false with refusal operational_corpus_absent. No second factory was written."
+      "name": "Census fields with real geometry",
+      "status": "DISCHARGED",
+      "evidence": "field-census.census-v1.json",
+      "detail": "17 AcroForm fields across 2 pages of 612x792, matching the corpus index's declared pageCount and acroFieldCount. Every field carries its widget rectangle, printed label and label basis, region heading, protect category and descriptor matches, all read from this document by this lane."
     },
     {
       "step": 3,
       "name": "Field map with every write box measured off the document",
-      "status": "NOT_DISCHARGED",
-      "evidence": "inherited-measurements.json",
-      "detail": "No box was measured by this lane. The prior production lane's measurements are recorded as inherited, with their source file hashes, and are explicitly not presented as this lane's measurement. Deriving a write box from a label position was available and was refused: it is the exact failure the task names and scripts/lib/pdf-stroked-boxes.mjs documents. That module was read; it is a CTM-aware graphics-state machine and is the correct detector, but it reads a content stream this lane does not have."
+      "status": "DISCHARGED",
+      "evidence": "production-field-map.json, measurement-vs-inherited.json",
+      "detail": "Every write box is the AcroForm widget's own /Rect read from the binary. No box is derived from a label position. Stroked geometry was measured independently with scripts/lib/pdf-stroked-boxes.mjs from the DECODED content stream -- 2 rectangles on page 1, 9 on page 2 -- and used only as corroboration: the printed control box under each radio and checkbox, and the box the form draws around its certificate of service. Nothing new was drawn on the form.",
+      "inheritedComparison": "All 17 fields agree with the inherited record; 0 disagree. The inherited numbers were used as a cross-check only."
     },
     {
       "step": 4,
       "name": "Record every local filing, fee, venue or delivery variation",
-      "status": "RECORDED_WITH_NAMED_GAPS",
+      "status": "RECORDED_AND_TESTED_WITH_ONE_NAMED_GAP",
       "evidence": "local-variation.json",
-      "detail": "Recorded to the limit of committed sources. Venue, filing, verification, service methods and the post-filing re-request constraint are captured. Fee and fee-waiver are unresolved in the source review itself and are marked so rather than guessed. Testing each variation is blocked, because testing means exercising it against a rendered packet."
+      "detail": "Two questions the predecessor had to leave open are closed from the document: `tf` is TrueFiling, and the five-year re-request window attaches to Administrative Rule 40(c) only, not to 40(b). One correction was made: page 1 carries a full notarial jurat, so the request is sworn before a court clerk, notary or other authorized officer rather than merely signed. Each variation was exercised against the rendered fixtures and read back from the artifact bytes. The filing-fee question remains OPEN -- the form does not answer it -- and is recorded as open rather than guessed."
     },
     {
       "step": 5,
       "name": "Product wiring without runtime or commercial authority",
       "status": "DECLARED_NOT_INSTALLED",
       "evidence": "product-wiring.json",
-      "detail": "A representation is specified for a later lane. Nothing was installed. Compiled profiles, the ledger, migrations, workflows, package.json, Stripe and Supabase were not touched."
+      "detail": "Nothing installed. src/lib/rcap-engine/compiled/** untouched. Three of the five install preconditions are now met; the two that remain are human and this lane cannot satisfy either. Measurement confirmed the proposed_order component has zero write boxes: the ORDER block draws four checkboxes and carries no AcroForm widget at all."
     },
     {
       "step": 6,
-      "name": "Render canonical and boundary fixtures through the existing factory",
-      "status": "BLOCKED",
-      "blockedBy": [
-        "source_binary_absent",
-        "render_dependency_absent"
-      ],
-      "detail": "An AcroForm fill needs the base document. The prior lane's filled fixtures were deliberately not used as a substitute source: a filled artifact carries the original page content but does not hash to the official binary, and using one would launder a prior lane's output into this lane's source of truth. Independently, the render dependency pdf-lib is not installed in this environment (node_modules is empty), so scripts/rcap-all50-overlay-factory-lib.mjs cannot be imported at all. Rendering is blocked twice over."
+      "name": "Render canonical and boundary fixtures from the source binary",
+      "status": "DISCHARGED",
+      "evidence": "fixtures/, reports/rendered-artifacts.json",
+      "detail": "Rendered fresh from the pinned source bytes through finalizeOfficialForm. Canonical wrote 6 fields and refused 11; boundary wrote 5 and refused 12, the difference being the 88-character boundary email correctly refused as unfittable rather than clipped. Both output hashes were checked against data/rcap-grade-a/stale-artifact-block.json and match none of them. No blocked hash is cited as evidence for anything."
     },
     {
       "step": 7,
       "name": "Verify from the artifact bytes",
-      "status": "BLOCKED",
-      "blockedBy": "no_artifacts_rendered_by_this_lane",
-      "detail": "There are no bytes of this lane's making to verify. Nothing is asserted about coordinate fidelity, clipping, overlap, protected fields or untouched pages for any artifact of this lane, because no such artifact exists."
+      "status": "DISCHARGED",
+      "evidence": "reports/charge-caption-proof.json, reports/participant-name-placement.json, reports/service-block-proof.json, build-findings.json",
+      "detail": "Every assertion is read back from the flattened appearance streams at each field's own measured rectangle, not from the render report. Refused fields must be empty on the paper and written fields must be present; all eight fields inside the measured certificate-of-service box must be blank; every drawn participant-name token must sit in a blank this family listed. Zero blocking findings across both fixtures."
     },
     {
       "step": 8,
-      "name": "Raster every page and record an independent visual review",
-      "status": "BLOCKED",
-      "blockedBy": "no_artifacts_rendered_by_this_lane"
+      "name": "Raster every page and record a visual review",
+      "status": "DISCHARGED_MACHINE_SIDE_HUMAN_REVIEW_STILL_REQUIRED",
+      "evidence": "raster/, reports/independent-visual-review.json",
+      "detail": "All 4 pages (2 pages x 2 fixtures) rastered at scale 1.6 and looked at as images. No clipped value, no value on a wrong printed line, no ink in any signature, verification, notarial jurat, certificate-of-service or court-only rule. The reviewer was the same agent that rendered the pages, so f_independent_visual_review_required is NOT discharged and the record says so."
     }
   ],
   "workTypes": {
-    "OFFICIAL_FORM_MAP_REQUIRED": "NOT_DISCHARGED",
-    "LOCAL_VARIATION_REQUIRED": "PARTIALLY_DISCHARGED_RECORDED_NOT_TESTED",
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "DISCHARGED_AS_CUSTODY_NOT_ACQUISITION",
+    "OFFICIAL_FORM_MAP_REQUIRED": "DISCHARGED",
+    "LOCAL_VARIATION_REQUIRED": "DISCHARGED_EXCEPT_THE_FILING_FEE_QUESTION",
     "PRODUCT_WIRING_REQUIRED": "SPECIFIED_NOT_INSTALLED",
-    "ARTIFACT_REVIEW_REQUIRED": "NOT_DISCHARGED",
+    "ARTIFACT_REVIEW_REQUIRED": "MACHINE_SIDE_DISCHARGED_HUMAN_INDEPENDENT_REVIEW_OUTSTANDING",
     "OUTPUT_LEGAL_APPROVAL_REQUIRED": "REQUESTED_NOT_GRANTED"
   },
-  "hardRulesObserved": [
-    "No participant signature, signature date, or certificate of mailing was prefilled -- nothing was filled at all.",
-    "No court-only, clerk-only, prosecutor-only or agency-only field was written.",
-    "No commercial route opened, no fulfillment record created, no packet marked proven.",
-    "The frozen census, the stale-artifact block, data/rcap-ledger/**, compiled profiles, migrations, .github/workflows/**, package.json, Stripe/Supabase and Production were not modified.",
-    "No verifier was weakened, skipped or quarantined. The source gate was added and it fails closed.",
-    "The production overlay under data/rcap-all50/overlays/production/alaska/ was read only; its artifacts were not adopted.",
-    "Nothing was written outside the owned path except scripts/rcap-census-v1-ak-tf805-set-verify.mjs, which is named for this family.",
-    "git add . / -A / --all were not used."
-  ],
-  "unblockBy": [
-    "Mount the Master Library at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, or set OFFICIAL_FORMS_SOURCE_DIR to a checkout containing it.",
-    "Run: node scripts/rcap-census-v1-ak-tf805-set-verify.mjs -- it must print PROCEED and write verified: true.",
-    "Then steps 2 through 8 can run against a document whose identity is established."
-  ],
-  "verifiersRun": [
+  "artifacts": [
     {
-      "verifier": "scripts/rcap-official-forms/operational-corpus-precondition.mjs",
-      "result": "evaluable: false, refusal operational_corpus_absent",
-      "interpretation": "The corpus this build needs is absent. Expected."
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-canonical-filled.pdf",
+      "sha256": "8d3d25d62eec1c31b82c8b84e57478550ead2c2fa6f55b8e9d159e4189f33302",
+      "byteLength": 68922
     },
     {
-      "verifier": "scripts/verify-rcap-official-forms-d1.mjs",
-      "result": "PASSED",
-      "detail": "146 family packages structurally complete and sha-pinned, 57 completed implementation packages rendered with no unwritable field written. Confirms this lane broke nothing in the existing official-forms lane."
-    },
-    {
-      "verifier": "scripts/verify-all50-overlay-factory.mjs",
-      "result": "FAILED_PRE_EXISTING",
-      "detail": "ERR_MODULE_NOT_FOUND: cannot find package 'pdf-lib'. Confirmed pre-existing and unrelated to this lane: node_modules is empty, and the identical failure reproduces with this lane's files moved out of the tree. Not caused here, and not repaired here -- installing dependencies is outside this family's owned scope."
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/fixtures/tf805-boundary-filled.pdf",
+      "sha256": "e94397706b8dbef3453ea61edd4f59a4cfdad9c1ee09e619f61e8884816f297b",
+      "byteLength": 69096
     }
   ],
-  "verifierIntegrity": "No verifier was weakened, skipped or quarantined. One verifier was added (the family source gate) and it fails closed."
+  "hardRulesObserved": [
+    "No participant name was written into any charge, offence, count, statute or violation caption. TF-805 has no such blank on either page -- measured -- so the defect class cannot arise here, and reports/charge-caption-proof.json records that the set is empty by the document's construction rather than by a refusal that happened to hold.",
+    "No participant signature was prefilled. The Verification signature rule has no AcroForm field at all, and signature0 in the certificate of service is refused by the shared signature rule and proved blank in both fixtures.",
+    "No signature date and no certificate of mailing was prefilled. All eight certificate-of-service fields -- date, time, four method boxes, recipients and signature -- are blank in both fixtures, proved against the certificate box measured off the document.",
+    "No court-only or clerk-only field was written. The ORDER block has no AcroForm widget to write into, and the whole of page 2 is blank of participant ink in both fixtures.",
+    "No new box was drawn on the form. Every mark would have gone inside a measured widget rectangle, and in the event no checkbox or radio is marked at all.",
+    "No verifier was skipped, weakened or quarantined. One family verifier was added and it fails closed; the shared binder was neither modified nor bypassed, and two fields (certDate, signature0) were deliberately left to the shared rules so the shared channel stays observable.",
+    "No source binary was committed. private/ is git-ignored and tracks nothing.",
+    "git add . / -A / --all were not used.",
+    "Nothing outside the owned path was modified except scripts/build-census-v1-ak-tf805-set.mjs, which is named for this family. No other family's path, no shared manifest, no Production configuration, no legal eligibility record, no route identity, no payment or sponsorship code was touched.",
+    "No egress to a court or agency host was attempted. The source was already held."
+  ],
+  "findings": {
+    "blockingFindings": 0,
+    "observations": [
+      "region-channel-silent-on-this-document",
+      "stroked-box-detector-read-undecoded-in-the-reference-build",
+      "case-name-and-party-names-merged-into-one-slot",
+      "label-harvest-misreads-two-page-1-captions"
+    ],
+    "note": "Four observations are recorded in build-findings.json. Three concern shared code outside this family's owned path and are reported rather than edited; one concerns how a caption blank on this form is resolved."
+  },
+  "whatFinishingThisFamilyDoesNotDo": [
+    "It opens no commercial route.",
+    "It creates no fulfilment record and consumes no packet credit.",
+    "It marks no packet proven and approves nothing for participant delivery.",
+    "It does not add this track to compiled runtime.",
+    "Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+  ],
+  "whatIsStillOutstanding": [
+    "A human independent visual review of the four rastered pages.",
+    "Output-level legal approval, requested in approval-request.json and grantable only by a reviewer with that authority.",
+    "The Alaska filing-fee question for an Administrative Rule 40(b)/(c) request, which the form does not answer and which must not be presented to a participant as fee-free."
+  ]
 }

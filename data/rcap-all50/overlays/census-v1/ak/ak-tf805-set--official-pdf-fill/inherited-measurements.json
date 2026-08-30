@@ -3,7 +3,7 @@
   "family": "ak-tf805-set",
   "routeKey": "obligation:track-only:AK:ak-tf805",
   "workType": "OFFICIAL_FORM_MAP_REQUIRED",
-  "status": "NOT_DISCHARGED_measurements_inherited_not_remeasured",
+  "status": "SUPERSEDED_BY_FIRST_HAND_MEASUREMENT_retained_as_the_cross_check",
   "provenance": {
     "measurementsTakenBy": "the prior production lane, not by this lane",
     "inheritedFrom": [
@@ -26,7 +26,7 @@
       "that any artifact was rendered or verified from these coordinates by this lane"
     ]
   },
-  "reuseRule": "These coordinates may seed the census-v1 field map ONLY after source-verification.json reports verified: true against the same SHA-256 the original census declares. Until then they are a record of a prior measurement, not a measurement.",
+  "reuseRule": "Discharged. source-verification.json reported verified: true against the same SHA-256 the original census declares, and this lane then measured the document itself rather than seeding from these coordinates. These coordinates were used for one purpose only: to be compared against the measurement.",
   "pageGeometry": [
     {
       "page": 1,
@@ -441,6 +441,21 @@
     "liveRisk": "none observed in the production artifacts -- the fail-closed binder held and the service block was left entirely blank.",
     "riskIfReused": "A future lane that seeds a write set from field-classification.json class labels, rather than from bindingRefusals, could write a service date and a service-method checkbox into a certificate of service before service occurs.",
     "actionTakenHere": "Recorded only. This lane does not own the production overlay and has not modified it.",
-    "carriedForward": "Both fields are marked refusedBecause service_block in the fields[] above, so this census-v1 record does not repeat the omission."
+    "carriedForward": "Both fields are marked refusedBecause service_block in the fields[] above, so this census-v1 record does not repeat the omission.",
+    "statusNow": "Carried forward and independently confirmed against the binary. certDate is refused by the shared service_block name rule and emailCB by role in this family; both are blank in both rendered fixtures, proved from the artifact bytes at their measured rectangles. See reports/service-block-proof.json. The production overlay was still not modified -- this lane does not own it."
+  },
+  "resolution": {
+    "supersededOn": "the resume build, once the corpus was recovered and source-verification.json reported verified: true",
+    "supersededBy": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/field-census.census-v1.json",
+    "comparison": "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/measurement-vs-inherited.json",
+    "outcome": "AGREES -- all 17 fields and all 18 widgets. Every measured rectangle rounds to the inherited one, every page matches and every type matches.",
+    "whyThisFileIsKept": "It is the record of what was inherited and of the custody chain behind it, and the comparison is only meaningful with it. It is NOT the geometry this family builds on: every rectangle in the census and the field map was read off the binary by this lane. An inherited number is a cross-check, never a substitute for measuring, and the direction of the comparison is inherited-checked-against-measured.",
+    "whatMeasuringAddedThatInheritingCouldNot": [
+      "the stroked geometry of the document -- 2 rectangles on page 1 and 9 on page 2, including the box the form draws around its certificate of service, which is what makes this family's service-block proof geometric rather than name-based",
+      "the finding that pageRegions detects no region containing any widget on this document, so the region protection channel contributes nothing here",
+      "the finding that the ORDER block draws four checkboxes that have no AcroForm widget at all",
+      "the expansion of the `tf` service method to TrueFiling, and the five-year re-request window as attaching to Administrative Rule 40(c) only",
+      "the notarial jurat on page 1, which the inherited record did not carry"
+    ]
   }
 }

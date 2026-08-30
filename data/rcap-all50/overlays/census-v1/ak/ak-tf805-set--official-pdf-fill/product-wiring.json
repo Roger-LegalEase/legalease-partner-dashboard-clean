@@ -11,7 +11,8 @@
     "It marks no packet proven and grants no output approval.",
     "It does not add this track to compiled runtime. src/lib/rcap-engine/compiled/** is untouched.",
     "It does not change any live RCAP route.",
-    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record."
+    "Commercial authority comes from a Grade-A fulfillment record keyed to an exact route and packet family, and from nothing else. This is not that record.",
+    "Building this family opens no commercial route. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and this is not that record."
   ],
   "currentState": {
     "serviceDisposition": "missing_from_compiled_runtime",
@@ -20,25 +21,65 @@
     "generationAllowed": false
   },
   "proposedRepresentation": {
-    "note": "This is a specification for a later lane to install once the source gate passes. Installing it now would represent, in runtime, a packet family that cannot be rendered.",
+    "note": "A specification for a later lane. The source gate that previously blocked it has passed and the fixtures now render, but installing it would still represent in runtime a packet family whose output no human has reviewed or approved.",
     "trackId": "ak-tf805",
     "packetSetId": "ak-tf805-set",
     "outputStrategy": "official_pdf_fill",
     "components": [
-      { "componentId": "ak-tf805-primary-filing-1", "role": "primary_filing", "order": 1, "officialFormId": "TF-805", "requirement": "required" },
-      { "componentId": "ak-tf805-certificate-of-service-2", "role": "certificate_of_service", "order": 2, "officialFormId": "TF-805", "requirement": "required" },
-      { "componentId": "ak-tf805-proposed-order-3", "role": "proposed_order", "order": 3, "officialFormId": "TF-805", "requirement": "required" }
+      {
+        "componentId": "ak-tf805-primary-filing-1",
+        "role": "primary_filing",
+        "order": 1,
+        "officialFormId": "TF-805",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ak-tf805-certificate-of-service-2",
+        "role": "certificate_of_service",
+        "order": 2,
+        "officialFormId": "TF-805",
+        "requirement": "required"
+      },
+      {
+        "componentId": "ak-tf805-proposed-order-3",
+        "role": "proposed_order",
+        "order": 3,
+        "officialFormId": "TF-805",
+        "requirement": "required"
+      }
     ],
-    "componentNote": "All three components name TF-805 as their official form. The certificate of service and the proposed order are blocks carried on the one two-page document rather than separate binaries, which is consistent with the inherited census showing a service block on page 2.",
+    "componentNote": "All three components name TF-805 as their official form, and measurement confirms why: they are blocks on one two-page binary rather than separate documents. Measured -- the certificate of service is enclosed in a stroked box on page 2 at x 56.40..553.65, y 501.62..604.22, and the proposed order runs below it from the ORDER heading at y=483.30 to the foot of the page. The order block carries four stroked checkboxes and no AcroForm widget whatsoever, so the proposed_order component has ZERO write boxes and the platform can write nothing into it.",
     "participantFillable": true,
     "renderStrategy": "acroform_fill"
   },
   "installPreconditions": [
-    "source-verification.json reports verified: true",
-    "a census-v1 field map is measured off the verified binary by the existing factory",
-    "canonical and boundary fixtures render, and are verified from the rendered bytes",
-    "an independent visual review is recorded against rastered pages",
-    "completed-output legal approval is granted by a reviewer with that authority -- this lane requests it and cannot grant it"
+    {
+      "precondition": "source-verification.json reports verified: true",
+      "status": "MET",
+      "evidence": "source-verification.json -- sha256 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54, 93899 bytes, verdict PROCEED"
+    },
+    {
+      "precondition": "a census-v1 field map is measured off the verified binary",
+      "status": "MET",
+      "evidence": "field-census.census-v1.json and production-field-map.json; cross-checked in measurement-vs-inherited.json"
+    },
+    {
+      "precondition": "canonical and boundary fixtures render, and are verified from the rendered bytes",
+      "status": "MET",
+      "evidence": "reports/rendered-artifacts.json, reports/charge-caption-proof.json, reports/participant-name-placement.json, reports/service-block-proof.json; build-findings.json records zero blocking findings"
+    },
+    {
+      "precondition": "an independent visual review is recorded against rastered pages",
+      "status": "NOT_MET",
+      "detail": "All four pages were rastered and reviewed, but by the same agent that rendered them. reports/independent-visual-review.json records the observations and states plainly that it does not discharge f_independent_visual_review_required."
+    },
+    {
+      "precondition": "completed-output legal approval is granted by a reviewer with that authority",
+      "status": "NOT_MET",
+      "detail": "Requested in approval-request.json. This lane cannot grant it."
+    }
   ],
-  "blockedBy": "source_binary_absent"
+  "blockedBy": null,
+  "previouslyBlockedBy": "source_binary_absent -- discharged; the source is verified and the family is built",
+  "whyStillNotInstalled": "Installing is a separate act from building, and nothing here authorizes it. The two install preconditions that remained after this build are both human: an independent visual review by someone other than the agent that rendered the pages, and output-level legal approval. This lane can request both and grant neither."
 }
