@@ -27,7 +27,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -182,10 +181,12 @@ const bAudit = categoryB.map((route) => {
 });
 
 // ---- the freeze --------------------------------------------------------------
-const headSha = (() => {
-  try { return execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim(); }
-  catch { return null; }
-})();
+// The commit the census was integrated and regenerated at, pinned rather than
+// read from HEAD. A record that stamps the live HEAD goes stale on the next
+// unrelated commit, which is the opposite of a freeze -- and a scoreboard that
+// did the same would report drift every time anything else was committed.
+const CENSUS_INTEGRATION_COMMIT = "db5b848fc6c69aff5eb8cdaff88a5df05fe1ec30";
+const headSha = CENSUS_INTEGRATION_COMMIT;
 
 const counts = candidate.counts;
 const freeze = {
