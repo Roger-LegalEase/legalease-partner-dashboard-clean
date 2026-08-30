@@ -122,3 +122,104 @@ lane, so it is recorded in `local-variation-record.json` for whoever holds it.
 Output-level legal approval is **REQUESTED, NOT GRANTED**. No commercial route
 was opened, no fulfillment record created, and no packet marked proven or
 approved.
+
+---
+
+## Second attempt — 2026-08-30 — still blocked, but the blocker is now named exactly
+
+This lane was re-dispatched with the corrected brief
+(`docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md`), which
+supplies the one thing the first wave lacked: `scripts/rcap-corpus/bootstrap-private-corpus.sh`.
+That script was found and run. **It did not recover the corpus, and the build
+stopped again at step 1.**
+
+What was done this time, in order:
+
+1. Full (un-shallow) fetch; `origin/claude/census-v1-build-ak-courtview-set`
+   resolves at `a9ed042c`, and `origin/claude/legalease-sprint-captain-utucnw`
+   was merged in to pick up the brief, the preflight and the corrected
+   field-semantics binder.
+2. `npm ci` — dependencies installed. `pdf-lib` now imports; that half of the
+   first attempt's blocker is gone.
+3. `bash scripts/rcap-corpus/bootstrap-private-corpus.sh` — **failed.** It
+   resolves the Master Library archive from a release asset on the private repo
+   `Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28`, and the
+   credential available in this container is refused with **HTTP 403** on that
+   asset. The script's own diagnosis is correct and is reproduced verbatim: *"the
+   token may lack access to Roger-LegalEase/legalease-source-artifacts"*. The
+   script behaved properly — it refused rather than extracting a partial or
+   unverified tree.
+4. `node scripts/verify-packet-build-environment.mjs --family ak-courtview-set
+   --branch claude/census-v1-build-ak-courtview-set` — **10/14 passed, 4 failed**,
+   `PACKET_BUILD_ENVIRONMENT_NOT_READY`. The four failures are
+   `master_library_mounted`, `master_library_complete`,
+   `corpus_matches_committed_index` and `family_sources_bind`, and all four are
+   the same absence. Every check not rooted in the corpus passed, including
+   `clone_is_complete`, `assigned_branch_tip_visible`, `pdf_lib_importable` and
+   `private_is_git_ignored`.
+5. `node scripts/census-v1-ak-courtview-set-source-gate.mjs` — re-run as
+   instructed. **Exit 1**, `SOURCE_GATE_CLOSED`, refusal `corpus_root_absent`,
+   byte-identical to the committed report. `source-gate.json` is therefore
+   unchanged: the gate found exactly what it found before.
+
+### What this changes about the first attempt's record
+
+Nothing is retracted. The custody classification `SOURCE_ALREADY_HELD` is still
+not contradicted — the Captain independently re-verified TF-810 against the
+mounted corpus at sha256 `c5e55…b69582`, 85,386 bytes, exact match. The bytes
+exist and are correct. What the second attempt establishes is *why* they are not
+reachable here, which the first attempt could only describe as an absence:
+
+> The corpus is not merely unmounted. It is gated behind a private release this
+> container's credential cannot read, and the recovery script is working as
+> designed when it refuses.
+
+Attaching `Roger-LegalEase/legalease-source-artifacts` to this session was
+attempted and was declined by the environment's permission layer, so this lane
+had no way to widen its own access — nor should it have.
+
+### What was still not done, and why not
+
+Unchanged from the first attempt, and for the same reason: **no field census, no
+write-box measurement, no fixtures, no artifact hashes, no raster, no visual
+review.** Steps 2, 3 and 5–8 each consume the source binary, and the binary was
+never opened. In particular:
+
+- The measurements under `data/rcap-all50/overlays/production/alaska/tf-810-form-en/`
+  were **again** left uncopied. They were taken against this same pinned hash, and
+  the re-dispatch explicitly preserved the first attempt's refusal to carry them
+  forward. This lane cannot report agreement or disagreement with those numbers,
+  because it took no numbers of its own to compare them against. Saying they
+  agree would be the exact failure the refusal exists to prevent.
+- No verifier was skipped, weakened or quarantined, and no second factory was
+  written.
+
+`LOCAL_VARIATION_REQUIRED` remains the one work type discharged, and it was **not
+redone** — the 19 committed variation items stand as the first attempt recorded
+them.
+
+### Reopening the gate — corrected
+
+Step 1 of the first attempt's list is replaced by a specific, actionable grant.
+Steps 2 and 4 stand; step 3 is now satisfied.
+
+1. **Grant this session's credential read access to the private release** —
+   attach `Roger-LegalEase/legalease-source-artifacts` to the session, or supply a
+   `GITHUB_TOKEN` / `GH_TOKEN` that can read release
+   `source-corpus-2026-08-28`. Then re-run
+   `bash scripts/rcap-corpus/bootstrap-private-corpus.sh`. Mounting the corpus
+   directly, or pointing `OFFICIAL_FORMS_SOURCE_DIR` at an existing copy, works
+   equally well.
+2. `node scripts/verify-packet-build-environment.mjs --family ak-courtview-set
+   --branch claude/census-v1-build-ak-courtview-set` must print
+   `PACKET_BUILD_ENVIRONMENT_READY`, then
+   `node scripts/census-v1-ak-courtview-set-source-gate.mjs` must exit 0 — only
+   when the bytes at the pinned path hash to the pinned SHA-256 at 85,386 bytes.
+3. ~~Install dependencies.~~ **Done.** `npm ci` has run; `pdf-lib` 1.17.1 imports.
+4. Measure with `scripts/lib/pdf-stroked-boxes.mjs` — the corrected, CTM-tracking
+   detector. The older `re`-operator scan derived a mark into the margin.
+
+Nothing was acquired. `public.courts.alaska.gov` was not contacted, and no
+mirror, cache or aggregator was used. Approval posture is unchanged: output-level
+legal approval **REQUESTED, NOT GRANTED**; no commercial route opened, no
+fulfilment record created, no packet marked proven or approved.
