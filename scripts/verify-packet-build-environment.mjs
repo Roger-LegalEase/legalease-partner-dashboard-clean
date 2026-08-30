@@ -44,6 +44,7 @@ const MASTER_LIBRARY_RELATIVE = "private/source-imports/Expungement_AI_RCAP_Mast
 const OPERATIONAL_RELATIVE = "private/Nationwide Record Clearing";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const CUSTODY = "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json";
+const WORKLIST = "data/rcap-grade-a/route-obligation-census-candidate/packet-family-build-worklist.json";
 const STALE_BLOCK = "data/rcap-grade-a/stale-artifact-block.json";
 const BOOTSTRAP = "scripts/rcap-corpus/bootstrap-private-corpus.sh";
 
@@ -108,21 +109,70 @@ function filesUnder(dir) {
   return found;
 }
 
-/** The document sources a family must bind, from the committed custody record. */
+/**
+ * The document sources a family must bind.
+ *
+ * Two tiers, in order, and neither of them guesses.
+ *
+ * Tier 1 is the custody reconciliation, which already resolved each source to a
+ * held path and a pinned digest. It is authoritative where it has a row.
+ *
+ * Tier 2 exists because the reconciliation covers the 295 acquisition tasks
+ * only: a family whose sources are all held names no acquisition task and so
+ * has no row, which is exactly the position the three AK families are in. For
+ * those, the census route states `official-form:<number>` and the committed
+ * corpus index states what that form number is held as. Resolution is exact
+ * form-number equality within the index, and an ambiguous or absent form number
+ * is a refusal rather than a nearest match -- a wrong resolution sends a worker
+ * to measure the wrong document.
+ */
 function familySources(family, env = ROOT) {
   const custody = readJson(CUSTODY, env);
   const row = custody?.rows?.find((r) => r.worklistGroupId === family);
   if (row) {
     return {
+      tier: "custody_reconciliation",
       from: CUSTODY,
       custodyClass: row.custodyClass,
       commissionAcquisition: row.commissionAcquisition,
       sources: (row.documentSources || [])
         .filter((s) => s.resolved && s.heldAs?.sha256)
-        .map((s) => ({ sourceId: s.sourceId, path: s.heldAs.path, sha256: s.heldAs.sha256 }))
+        .map((s) => ({ sourceId: s.sourceId, path: s.heldAs.path, sha256: s.heldAs.sha256 })),
+      unresolvable: []
     };
   }
-  return null;
+
+  const worklist = readJson(WORKLIST, env);
+  const entry = worklist?.packetFamilies?.find((f) => f.worklistGroupId === family);
+  if (!entry) return null;
+
+  const index = readJson(CORPUS_INDEX, env);
+  if (!index?.entries?.length) return null;
+
+  const formNumbers = [...new Set(
+    (entry.routes || [])
+      .flatMap((r) => r.requiredSourceIds || [])
+      .filter((id) => typeof id === "string" && id.startsWith("official-form:"))
+      .map((id) => id.slice("official-form:".length))
+  )];
+
+  const sources = [];
+  const unresolvable = [];
+  for (const formNumber of formNumbers) {
+    const matches = index.entries.filter((e) => e.formNumber === formNumber);
+    if (matches.length === 1) {
+      sources.push({ sourceId: `official-form:${formNumber}`, path: matches[0].path, sha256: matches[0].sha256 });
+    } else {
+      unresolvable.push({
+        sourceId: `official-form:${formNumber}`,
+        indexMatches: matches.length,
+        why: matches.length === 0
+          ? "no entry in the committed corpus index carries this exact form number"
+          : "more than one index entry carries this exact form number, so the identity is ambiguous"
+      });
+    }
+  }
+  return { tier: "census_form_number_against_committed_index", from: WORKLIST, custodyClass: null, commissionAcquisition: null, sources, unresolvable };
 }
 
 // ==============================================================================
@@ -329,7 +379,13 @@ check(
   (env) => {
     if (!FAMILY) return { ok: true, skipped: true, detail: "no --family given; check not applicable" };
     const resolved = familySources(FAMILY, env);
-    if (!resolved) return { ok: false, family: FAMILY, detail: `${FAMILY} has no row in ${CUSTODY}; the Captain must resolve its sources before dispatch` };
+    if (!resolved) return { ok: false, family: FAMILY, detail: `${FAMILY} is not resolvable from ${CUSTODY} or ${WORKLIST}; the Captain must resolve its sources before dispatch` };
+    if (resolved.unresolvable.length) {
+      return {
+        ok: false, family: FAMILY, tier: resolved.tier, unresolvable: resolved.unresolvable,
+        detail: `${resolved.unresolvable.length} source(s) do not resolve to exactly one committed index entry: ${resolved.unresolvable.map((u) => u.sourceId).join(", ")}`
+      };
+    }
     if (resolved.sources.length === 0) {
       return {
         ok: false, family: FAMILY, custodyClass: resolved.custodyClass, sources: 0,
@@ -345,9 +401,9 @@ check(
     });
     const ok = results.every((r) => r.bound);
     return {
-      ok, family: FAMILY, custodyClass: resolved.custodyClass, commissionAcquisition: resolved.commissionAcquisition,
+      ok, family: FAMILY, tier: resolved.tier, custodyClass: resolved.custodyClass, commissionAcquisition: resolved.commissionAcquisition,
       sources: results.map((r) => ({ sourceId: r.sourceId, present: r.present, bound: r.bound, pinned: r.sha256, observed: r.observed })),
-      detail: ok ? `${results.length}/${results.length} source(s) bind by exact SHA-256`
+      detail: ok ? `${results.length}/${results.length} source(s) bind by exact SHA-256 (${resolved.tier})`
         : `${results.filter((r) => !r.bound).length} of ${results.length} source(s) do not bind`
     };
   }
