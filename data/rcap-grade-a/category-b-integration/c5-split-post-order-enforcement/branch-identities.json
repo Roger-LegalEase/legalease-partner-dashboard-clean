@@ -1,0 +1,833 @@
+{
+  "schemaVersion": "rcap-category-b-branch-identities/v1",
+  "assignmentId": "C5_SPLIT_POST_ORDER_ENFORCEMENT",
+  "workerBranch": "codex/c5-split-post-order-enforcement",
+  "baseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "assignmentManifest": {
+    "path": "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+    "commit": "1fa0f3328a614f73330256bee5df75fc655e9d79",
+    "note": "The dispatch manifest is the child commit of the required worker base and is read as evidence; it is not copied into this branch."
+  },
+  "sourceRecords": [
+    "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+    "docs/rcap/grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+    "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+    "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+    "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+    "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+    "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+    "data/rcap-grade-a/launch-control/category-b-revalidation/report.md",
+    "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json"
+  ],
+  "separationRule": "A retained B stage and a participant A branch must have different selectors, output strategies, product outcomes, and commercial treatment. The B stage is never participant-fileable or sellable. An A branch remains commercially closed unless an exact route-and-packet-family Grade-A fulfilment record later authorizes it.",
+  "counts": {
+    "assignedRoutes": 10,
+    "records": 10,
+    "routesCompleted": 3,
+    "routesStoppedAndReported": 7,
+    "existingABranchBindingsConfirmed": 2,
+    "newABranchIdentitiesCreated": 1,
+    "newABranchIdentitiesProposedButStopped": 2,
+    "commercialRoutesOpened": 0
+  },
+  "packetFamiliesNamedNotCreated": [
+    "rcap-ky-official-pdf-fill",
+    "rcap-md-official-pdf-fill",
+    "rcap-me-custom-pleading",
+    "rcap-mi-official-pdf-fill",
+    "rcap-va-custom-pleading",
+    "rcap-vt-custom-pleading",
+    "rcap-wi-official-pdf-fill"
+  ],
+  "productionTouched": false,
+  "records": [
+    {
+      "routeKey": "obligation:track-only:KY:ky_diversion_disposition_routing",
+      "jurisdiction": "KY",
+      "publicLabel": "Work out what your diverted Kentucky case counts as",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_PARTIAL_CROSSWALK",
+      "packetFamilyNamedNotCreated": "rcap-ky-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:KY:ky_diversion_disposition_routing",
+          "stageKind": "AUTOMATIC",
+          "description": "Upon successful completion, the court dismisses the charge and the case enters the nonconviction process.",
+          "participantFileable": false,
+          "custodians": [
+            "Court that approved and supervised diversion",
+            "Circuit Court Clerk"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:ky_diversion_disposition_routing:retained-b-stage",
+          "selectsWhen": "Successful diversion completion should produce dismissal and nonconviction processing without a participant filing."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_diversion_disposition_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076"
+          ],
+          "disposition": "PARTIAL_REUSE_ONLY"
+        },
+        "selector": {
+          "selectorId": "c5:ky_diversion_disposition_routing:participant-a-branch",
+          "selectsWhen": "Diversion was completed but dismissal, coding, or the expected expungement did not occur."
+        },
+        "outputStrategy": "official_pdf_fill_plus_unresolved_corrective_motion",
+        "productOutcome": "blocked_until_corrective_motion_coverage_is_bound",
+        "commercialTreatment": "blocked_due_incomplete_crosswalk",
+        "instrument": "Corrective motion or request to the supervising court, followed where applicable by participant-filed AOC-497.2. AOC-497.3 is court-generated and is not described as a participant filing.",
+        "filingActor": "The diversion participant or counsel.",
+        "destination": "The court that approved and supervised diversion.",
+        "custodians": [
+          "Court that approved and supervised diversion",
+          "Circuit Court Clerk"
+        ],
+        "trigger": "The person completed diversion but the charge was not dismissed, the disposition is miscoded, or dismissal did not lead to the expected expungement.",
+        "deadline": "Promptly after the expected dismissal; the KRS 431.076 petition follows the applicable dismissal or no-indictment timing."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The existing nonconviction-expungement A route proves AOC-497.2 coverage but does not prove coverage for the preceding corrective motion or request.",
+        "Treating AOC-497.3 as participant-filed would contradict the committed census, which identifies it as court-generated."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+          "recordSelector": "rows[originalRouteKey=obligation:track-only:KY:ky_diversion_disposition_routing]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-only:KY:ky_diversion_disposition_routing]",
+            "routes[routeKey=obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification]",
+            "routes[routeKey=obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076]"
+          ],
+          "observed": "The automatic-verification record identifies AOC-497.3 as court-generated and signed by the judge, with no defendant action."
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:MD:md_10104_pre_service",
+      "jurisdiction": "MD",
+      "publicLabel": "Clearing a case the State dropped before you were ever served",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "COMPLETED_WITH_SCENARIO_SPLIT",
+      "packetFamilyNamedNotCreated": "rcap-md-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:MD:md_10104_pre_service",
+          "stageKind": "COURT_INITIATED",
+          "description": "Section 10-104 permits the court to clear a pre-service nolle prosequi without a participant petition.",
+          "participantFileable": false,
+          "custodians": [
+            "Clerk of the court where the charging document was filed"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:md_10104_pre_service:retained-b-stage",
+          "selectsWhen": "A pre-service nolle prosequi qualifies for court-initiated clearance under Criminal Procedure § 10-104."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_pre_service_clearance_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "CONFIRMED",
+          "routeKeys": [
+            "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105",
+            "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+          ],
+          "disposition": "REUSE_EXISTING_CATEGORY_A_ROUTES_BY_TIMING_SCENARIO"
+        },
+        "selector": {
+          "selectorId": "c5:md_10104_pre_service:participant-a-branch",
+          "selectsWhen": "The State entered a pre-service nolle prosequi but the court did not enter the § 10-104 order, or the person elects relief under § 10-105.",
+          "scenarioSelectors": [
+            {
+              "when": "The ordinary favorable-disposition petition timing applies.",
+              "routeKey": "obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105"
+            },
+            {
+              "when": "The person seeks early filing instead of waiting three years and the General Waiver and Release path applies.",
+              "routeKey": "obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105"
+            }
+          ]
+        },
+        "outputStrategy": "scenario_split_existing_official_pdf_fill",
+        "productOutcome": "participant_nonconviction_expungement_packet_by_timing_scenario",
+        "commercialTreatment": "commercially_closed_until_exact_grade_a_fulfilment_record",
+        "instrument": "CC-DC-CR-072A for the ordinary favorable-disposition route; CC-DC-CR-072C with CC-DC-CR-078 General Waiver and Release for the existing early-filing route.",
+        "filingActor": "The person named as defendant or accused.",
+        "destination": "The court where the charging document was filed.",
+        "custodians": [
+          "Clerk of the court where the charging document was filed"
+        ],
+        "trigger": "The State entered a pre-service nolle prosequi but the court did not enter the § 10-104 order, or the person seeks relief under § 10-105.",
+        "deadline": "Use the CC-DC-CR-072A route after the applicable waiting period. If filing before the three-year period under the waiver path, use the existing CC-DC-CR-072C and CC-DC-CR-078 route."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+          "recordSelector": "pairs[bStageRouteKey=obligation:track-only:MD:md_10104_pre_service]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105]",
+            "routes[routeKey=obligation:track-pathway:MD:md_10105_early:adult-non-conviction-expungement-under-crim-proc-10-105]"
+          ],
+          "observed": "The favorable route requires CC-DC-CR-072A; the distinct early route requires CC-DC-CR-072C and CC-DC-CR-078. Both are A_MUST_FULFILL."
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:ME:me-deferred",
+      "jurisdiction": "ME",
+      "publicLabel": "Cases resolved through a deferred disposition",
+      "reuseDecision": "NO_EXISTING_WORK",
+      "completionStatus": "COMPLETED_WITH_SELF_HELP_STOPS",
+      "packetFamilyNamedNotCreated": "rcap-me-custom-pleading",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:ME:me-deferred",
+          "stageKind": "COURT_INITIATED",
+          "description": "The court creates the deferred disposition and enters the final disposition upon completion.",
+          "participantFileable": false,
+          "custodians": [
+            "Court that ordered the deferred disposition"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:me-deferred:retained-b-stage",
+          "selectsWhen": "The deferred-disposition period reaches ordinary court finalization without participant motion practice."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_deferred_disposition_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "CREATED",
+          "routeKeys": [
+            "obligation:track-only:ME:me-deferred::participant-branch"
+          ],
+          "disposition": "CREATE_NEW_SECTION_1902_CATEGORY_A_BRANCH_WITH_COUNSEL_HANDOFFS"
+        },
+        "selector": {
+          "selectorId": "c5:me-deferred:participant-a-branch",
+          "selectsWhen": "During the deferment period, a condition becomes impossible or unreasonably burdensome and the participant seeks relief through a § 1902 motion or application.",
+          "actionVariants": [
+            "section_1902_motion_or_application"
+          ],
+          "selfHelpStops": [
+            "contested_section_1903_violation_or_final_hearing",
+            "plea_withdrawal_or_adverse_sentencing",
+            "section_1904_appeal"
+          ]
+        },
+        "outputStrategy": "custom_pleading",
+        "productOutcome": "participant_section_1902_motion_packet_with_counsel_handoff_boundaries",
+        "commercialTreatment": "commercially_closed_until_exact_grade_a_fulfilment_record",
+        "instrument": "Application or motion under § 1902 to modify, add, or obtain relief from deferred-disposition requirements.",
+        "officialFormNumber": null,
+        "documentIdentityStatus": "SECTION_1902_MOTION_IDENTIFIED_FROM_COMMITTED_REVALIDATION_RECORD_NO_FORM_NUMBER_ASSERTED",
+        "filingActor": "The person granted deferred disposition, personally or through counsel.",
+        "destination": "The court that ordered the deferred disposition.",
+        "custodians": [
+          "Court that ordered the deferred disposition"
+        ],
+        "trigger": "A deferred-disposition condition becomes impossible or unreasonably burdensome and relief is sought during the deferment period.",
+        "deadline": "File the § 1902 motion or application during the deferment period.",
+        "manualReviewBoundary": "Final-hearing participation is not characterized as a filing. A contested violation hearing, plea-withdrawal issue, adverse sentencing, or § 1904 appeal stops for counsel or manual review; this branch does not generate an appeal pleading."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The committed record identifies § 1903 hearing participation and a limited § 1904 response, but also marks contested hearings, adverse sentencing, and appeals as self-help stops. Those variants are excluded from generated output."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "recordSelector": "rows[routeKey=obligation:track-only:ME:me-deferred]",
+          "observed": "Section 1902 expressly supports motion practice; selfHelpStop requires counsel or manual review for contested violations, adverse sentencing, and appeals."
+        },
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+          "recordSelector": "rows[originalRouteKey=obligation:track-only:ME:me-deferred]",
+          "observed": "requiredParticipantOutputStrategy=custom_pleading; requiredParticipantPacketFamily=rcap-me-custom-pleading"
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:MI:mi_auto_misd92",
+      "jurisdiction": "MI",
+      "publicLabel": "Lower-level misdemeanours that clear on their own",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_PARTIAL_CROSSWALK",
+      "packetFamilyNamedNotCreated": "rcap-mi-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:MI:mi_auto_misd92",
+          "stageKind": "AUTOMATIC",
+          "description": "The statewide process automatically sets aside eligible lower-level misdemeanors.",
+          "participantFileable": false,
+          "custodians": [
+            "Michigan State Police",
+            "Convicting court when the record was not fingerprinted to MSP"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_misd92:retained-b-stage",
+          "selectsWhen": "An eligible lower-level misdemeanor is awaiting or has received automatic set-aside treatment."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_automatic_set_aside_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "disposition": "PARTIAL_REUSE_ONLY"
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_misd92:participant-a-branch",
+          "selectsWhen": "An eligible misdemeanor remains visible, or the person seeks application-based relief instead of waiting for automation."
+        },
+        "outputStrategy": "official_pdf_fill_plus_unresolved_msp_correction_request",
+        "productOutcome": "blocked_until_msp_correction_coverage_is_bound",
+        "commercialTreatment": "blocked_due_incomplete_crosswalk",
+        "instrument": "MSP missing-record or correction request; MC 227 Application to Set Aside Conviction when independently eligible.",
+        "filingActor": "The person convicted.",
+        "destination": "Michigan State Police for correction; the convicting court for an application.",
+        "custodians": [
+          "Michigan State Police",
+          "Clerk of the convicting court"
+        ],
+        "trigger": "An eligible misdemeanor remains visible or the person seeks application-based relief rather than waiting for automation.",
+        "deadline": "Automatic timing follows MCL 780.621g. Application timing follows MCL 780.621d; no short correction deadline is stated."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The generic MC 227 A route covers the application but not the MSP correction request.",
+        "The delta's other Michigan candidates are form-token overlaps: first-OWI uses MC 227 item 2.c, marijuana uses MC 227a, and trafficking uses MC 227b."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+          "recordSelector": "rows[originalRouteKey=obligation:track-only:MI:mi_auto_misd92]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+          ],
+          "observed": "possibleCategory=A_MUST_FULFILL; requiredSourceIds includes official-form:MC 227"
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:MI:mi_auto_misd93",
+      "jurisdiction": "MI",
+      "publicLabel": "Higher-level misdemeanours that clear on their own",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_PARTIAL_CROSSWALK",
+      "packetFamilyNamedNotCreated": "rcap-mi-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:MI:mi_auto_misd93",
+          "stageKind": "AUTOMATIC",
+          "description": "The statewide system identifies and sets aside qualifying higher-level misdemeanors.",
+          "participantFileable": false,
+          "custodians": [
+            "Michigan State Police"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_misd93:retained-b-stage",
+          "selectsWhen": "A qualifying higher-level misdemeanor is awaiting or has received automatic set-aside treatment."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_automatic_set_aside_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "disposition": "PARTIAL_REUSE_ONLY"
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_misd93:participant-a-branch",
+          "selectsWhen": "The automatic system omits an eligible misdemeanor, or the participant seeks application-based relief."
+        },
+        "outputStrategy": "official_pdf_fill_plus_unresolved_msp_correction_request",
+        "productOutcome": "blocked_until_msp_correction_coverage_is_bound",
+        "commercialTreatment": "blocked_due_incomplete_crosswalk",
+        "instrument": "MSP correction or missing-case request; MC 227 Application to Set Aside Conviction.",
+        "filingActor": "The person convicted.",
+        "destination": "Michigan State Police for correction; the court of conviction for application-based relief.",
+        "custodians": [
+          "Michigan State Police",
+          "Clerk of the court of conviction"
+        ],
+        "trigger": "The automatic system omits an eligible misdemeanor or the participant seeks relief through the application route.",
+        "deadline": "Automation and application timing follow MCL 780.621g and MCL 780.621d; no short correction deadline is stated."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The generic MC 227 A route covers the application but not the MSP correction request.",
+        "Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+          "recordSelector": "pairs[bStageRouteKey=obligation:track-only:MI:mi_auto_misd93]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:MI:mi_deferral_status",
+      "jurisdiction": "MI",
+      "publicLabel": "What a completed deferral means for clearing your record",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_PARTIAL_CROSSWALK",
+      "packetFamilyNamedNotCreated": "rcap-mi-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:MI:mi_deferral_status",
+          "stageKind": "COURT_INITIATED",
+          "description": "The court and agencies carry out dismissal, nonpublic status, or other deferral consequences after completion.",
+          "participantFileable": false,
+          "custodians": [
+            "Sentencing or diversion court",
+            "Reporting agency",
+            "Michigan State Police"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:mi_deferral_status:retained-b-stage",
+          "selectsWhen": "A completed deferral should be finalized and transmitted by the court and reporting agencies without a new participant filing."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_deferral_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "disposition": "PARTIAL_REUSE_ONLY"
+        },
+        "selector": {
+          "selectorId": "c5:mi_deferral_status:participant-a-branch",
+          "selectsWhen": "Completion occurred but dismissal or nonpublic status was not entered or transmitted, or an independently eligible conviction remains."
+        },
+        "outputStrategy": "official_pdf_fill_plus_unresolved_court_and_msp_corrections",
+        "productOutcome": "blocked_until_court_and_custodian_correction_coverage_is_bound",
+        "commercialTreatment": "blocked_due_incomplete_crosswalk",
+        "instrument": "Motion to enforce or correct the promised deferral disposition; administrative criminal-history correction request; MC 227 if a conviction remains and is independently eligible.",
+        "filingActor": "The person who completed the deferral, or counsel.",
+        "destination": "The sentencing or diversion court; reporting agency or Michigan State Police; or court of conviction.",
+        "custodians": [
+          "Sentencing or diversion court",
+          "Reporting agency",
+          "Michigan State Police",
+          "Clerk of the court of conviction"
+        ],
+        "trigger": "Completion occurred but dismissal or nonpublic status was not entered or transmitted, or a conviction remains.",
+        "deadline": "Move promptly after completion or discovery; any MC 227 timing follows MCL 780.621d."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The generic MC 227 route covers only the application component, not the corrective motion or administrative correction request."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "recordSelector": "rows[routeKey=obligation:track-only:MI:mi_deferral_status]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "jurisdiction": "MI",
+      "publicLabel": "Felony convictions that clear on their own",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "STOPPED_PARTIAL_CROSSWALK",
+      "packetFamilyNamedNotCreated": "rcap-mi-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g",
+          "stageKind": "AUTOMATIC",
+          "description": "The state automatically sets aside a limited number of qualifying felony convictions after the statutory period.",
+          "participantFileable": false,
+          "custodians": [
+            "Michigan State Police"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_felony:retained-b-stage",
+          "selectsWhen": "A qualifying felony is within the automatic clean-slate cohort and statutory timing."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_automatic_felony_set_aside_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621"
+          ],
+          "disposition": "PARTIAL_REUSE_ONLY"
+        },
+        "selector": {
+          "selectorId": "c5:mi_auto_felony:participant-a-branch",
+          "selectsWhen": "An eligible felony was not processed automatically, underlying data is wrong, or the participant seeks application-based relief."
+        },
+        "outputStrategy": "official_pdf_fill_plus_unresolved_msp_correction_request",
+        "productOutcome": "blocked_until_msp_correction_coverage_is_bound",
+        "commercialTreatment": "blocked_due_incomplete_crosswalk",
+        "instrument": "Michigan State Police correction or missing-case submission; MC 227 Application to Set Aside Conviction.",
+        "filingActor": "The person convicted.",
+        "destination": "Michigan State Police for correction; the convicting court for application relief.",
+        "custodians": [
+          "Michigan State Police",
+          "Clerk of the convicting court"
+        ],
+        "trigger": "An eligible felony was not processed automatically, underlying data is wrong, or the participant seeks the application route.",
+        "deadline": "Automatic felony timing follows MCL 780.621g; application timing follows MCL 780.621d; no short correction deadline is stated."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The generic MC 227 route covers the application but not the Michigan State Police correction submission.",
+        "Specialized MC 227 item 2.c, MC 227a, and MC 227b routes are not universal bindings."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+          "recordSelector": "pairs[bStageRouteKey=obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e]",
+            "routes[routeKey=obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application]"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:VA:va_auto_seal_without_order",
+      "jurisdiction": "VA",
+      "publicLabel": "Old Virginia marijuana possession charges and traffic infractions are already sealed",
+      "reuseDecision": "NO_EXISTING_WORK",
+      "completionStatus": "STOPPED_EXISTING_ROUTE_OVERLAP",
+      "packetFamilyNamedNotCreated": "rcap-va-custom-pleading",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:VA:va_auto_seal_without_order",
+          "stageKind": "AUTOMATIC",
+          "description": "The listed legacy records are sealed by operation of law without an individual court order.",
+          "participantFileable": false,
+          "custodians": [
+            "Virginia State Police",
+            "Office of the Executive Secretary of the Supreme Court of Virginia",
+            "Circuit court clerks"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:va_auto_seal_without_order:retained-b-stage",
+          "selectsWhen": "The record is in the covered legacy no-order cohort and should seal by operation of law."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_no_order_sealing_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-only:VA:va_auto_seal_without_order::participant-branch"
+          ],
+          "disposition": "NEW_CORRECTION_IDENTITY_REQUIRES_SPLIT_FROM_EXISTING_PETITION_ROUTES"
+        },
+        "selector": {
+          "selectorId": "c5:va_auto_seal_without_order:participant-a-branch",
+          "selectsWhen": "A covered record remains public, or the person seeks petition-based relief beyond the no-order cohort."
+        },
+        "outputStrategy": "unresolved_custom_correction_plus_existing_official_pdf_petitions",
+        "productOutcome": "blocked_until_correction_and_petition_selectors_are_split",
+        "commercialTreatment": "blocked_due_duplicate_route_risk",
+        "instrument": "VSP or AOC correction request for a record that should already be sealed; petition under § 19.2-392.12 or § 19.2-392.12:1 for other eligible matters.",
+        "officialFormNumber": null,
+        "filingActor": "The person whose record is involved.",
+        "destination": "Virginia State Police and the Office of the Executive Secretary or court clerk for correction; court of conviction or disposition for a petition.",
+        "custodians": [
+          "Virginia State Police",
+          "Office of the Executive Secretary of the Supreme Court of Virginia",
+          "Clerk of the court of conviction or disposition"
+        ],
+        "trigger": "A legacy marijuana-possession charge or covered traffic infraction remains publicly accessible, or the person seeks petition-based relief beyond the automatic no-order cohort.",
+        "deadline": "Correction may be requested upon discovery. Petition timing follows the applicable sealing statute and operative date."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The committed census already has Category A CC-1201 routes under §§ 19.2-392.12 and 19.2-392.12:1, so treating the entire composite branch as NO_EXISTING_WORK would duplicate petition identities.",
+        "The new VSP or AOC correction request must be separated from those existing petition routes before a route is created."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "recordSelector": "rows[routeKey=obligation:track-only:VA:va_auto_seal_without_order]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-only:VA:va_seal_enumerated_seven_year]",
+            "routes[routeKey=obligation:track-only:VA:va_seal_petition_misdemeanor]",
+            "routes[routeKey=obligation:track-only:VA:va_seal_petition_felony]"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:VT:vt_diversion_post_charge",
+      "jurisdiction": "VT",
+      "publicLabel": "Records cleared after completing court diversion on a charge",
+      "reuseDecision": "NO_EXISTING_WORK",
+      "completionStatus": "STOPPED_EXISTING_ROUTE_OVERLAP",
+      "packetFamilyNamedNotCreated": "rcap-vt-custom-pleading",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:VT:vt_diversion_post_charge",
+          "stageKind": "COURT_INITIATED",
+          "description": "Modern qualifying diversion dismissals are expunged through court or program data exchange after the statutory period.",
+          "participantFileable": false,
+          "custodians": [
+            "Vermont Superior Court that handled the diverted charge",
+            "Diversion program",
+            "State's Attorney"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:vt_diversion_post_charge:retained-b-stage",
+          "selectsWhen": "A modern qualifying diversion dismissal is within the court or program automatic cohort and statutory period."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_diversion_expungement_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "STOPPED",
+          "proposedRouteKeys": [
+            "obligation:track-only:VT:vt_diversion_post_charge::participant-branch"
+          ],
+          "disposition": "NEW_APPLICATION_AND_CORRECTION_IDENTITY_REQUIRES_SPLIT_FROM_EXISTING_PETITION_ROUTES"
+        },
+        "selector": {
+          "selectorId": "c5:vt_diversion_post_charge:participant-a-branch",
+          "selectsWhen": "The record predates the automatic cohort, automatic expungement failed, or the matter is independently petition-eligible."
+        },
+        "outputStrategy": "unresolved_custom_application_and_correction_plus_existing_official_pdf_petitions",
+        "productOutcome": "blocked_until_application_correction_and_petition_selectors_are_split",
+        "commercialTreatment": "blocked_due_duplicate_route_risk",
+        "instrument": "Application under 3 V.S.A. § 164(f)(5), correction request after failed automatic deletion, or petition under 13 V.S.A. § 7603.",
+        "officialFormNumber": null,
+        "filingActor": "The person who completed diversion, or counsel.",
+        "destination": "The diversion program, State's Attorney, or court as § 164 directs; the Criminal Division that handled the charge for a Chapter 230 petition.",
+        "custodians": [
+          "Diversion program",
+          "State's Attorney",
+          "Criminal Division of the Vermont Superior Court that handled the charge"
+        ],
+        "trigger": "The charge was dismissed after diversion but the record was not automatically expunged, predates the automatic cohort, or is independently petition-eligible.",
+        "deadline": "Modern automatic expungement commonly follows two years after dismissal. Older cases use the participant application; Chapter 230 timing depends on disposition and offense."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [
+        "The committed census already has Category A § 7603 petition routes with forms 200-00130 and 200-00132, so the entire composite branch cannot safely be treated as new custom-pleading work.",
+        "The § 164(f)(5) application and failed-deletion correction request must be separated from the existing petition routes before a new identity is created."
+      ],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/launch-control/category-b-revalidation/results.json",
+          "recordSelector": "rows[routeKey=obligation:track-only:VT:vt_diversion_post_charge]"
+        },
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-ordinary-petition]",
+            "routes[routeKey=obligation:unit:VT:vt_seal_nonconviction:vt-nonconviction-stipulated-petition]"
+          ]
+        }
+      ]
+    },
+    {
+      "routeKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+      "jurisdiction": "WI",
+      "publicLabel": "Complete an expungement the judge already ordered",
+      "reuseDecision": "REUSE_AS_IS",
+      "completionStatus": "COMPLETED_WITH_SCENARIO_SPLIT",
+      "packetFamilyNamedNotCreated": "rcap-wi-official-pdf-fill",
+      "retainedBStage": {
+        "identity": {
+          "routeKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+          "stageKind": "AGENCY_CONTROLLED",
+          "description": "For probation or incarceration cases, the supervising authority forwards the discharge certificate and the court expunges if the statutory conditions are met.",
+          "participantFileable": false,
+          "custodians": [
+            "Wisconsin Department of Corrections or other detaining or probationary authority",
+            "Clerk of the sentencing court"
+          ]
+        },
+        "selector": {
+          "selectorId": "c5:wi_exp_certificate_of_discharge:retained-b-stage",
+          "selectsWhen": "A supervised or custodial sentence completed successfully and the supervising or detaining authority is expected to issue and forward the discharge certificate."
+        },
+        "outputStrategy": "process_guidance",
+        "productOutcome": "non_fileable_certificate_transmission_status_guidance",
+        "commercialTreatment": "excluded_stage_never_participant_purchasable"
+      },
+      "participantABranch": {
+        "identity": {
+          "status": "CONFIRMED",
+          "routeKeys": [
+            "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup",
+            "obligation:track-only:WI:wi_exp_cr266"
+          ],
+          "disposition": "REUSE_EXISTING_CATEGORY_A_ROUTES_BY_SENTENCE_SCENARIO"
+        },
+        "selector": {
+          "selectorId": "c5:wi_exp_certificate_of_discharge:participant-a-branch",
+          "selectsWhen": "Expungement was ordered at sentencing and the sentence was successfully completed, but either the supervised-case certificate was not issued or forwarded, or the person had no probation or incarceration and must use CR-266.",
+          "scenarioSelectors": [
+            {
+              "when": "Probation, incarceration, or another supervised sentence ended and the certificate is missing.",
+              "routeKey": "obligation:track-only:WI:wi_exp_certificate_of_discharge_followup"
+            },
+            {
+              "when": "The person was not placed on probation and was not sentenced to incarceration.",
+              "routeKey": "obligation:track-only:WI:wi_exp_cr266"
+            }
+          ]
+        },
+        "outputStrategy": "scenario_split_existing_custom_pleading_or_official_pdf_fill",
+        "productOutcome": "participant_certificate_followup_or_cr266_packet_by_sentence_scenario",
+        "commercialTreatment": "commercially_closed_until_each_exact_grade_a_route_family_record_exists",
+        "instrument": "Written certificate-of-discharge follow-up to the supervising or detaining authority for supervised cases; CR-266 with proposed CR-267 for a person who had no probation or incarceration.",
+        "filingActor": "The person for whom expungement was ordered at sentencing.",
+        "destination": "The supervising or detaining authority, with the circuit court clerk as certificate destination; or the sentencing court for CR-266 and CR-267.",
+        "custodians": [
+          "Wisconsin Department of Corrections or other detaining or probationary authority",
+          "Clerk of the sentencing circuit court"
+        ],
+        "trigger": "The sentencing judge ordered expungement, the sentence was successfully completed, and the required agency certificate was not issued or forwarded, or the no-probation and no-incarceration CR-266 scenario applies.",
+        "deadline": "Seek correction promptly after successful completion. Eligibility must have been ordered at sentencing and normally cannot be added later."
+      },
+      "separationCheck": {
+        "selectorDistinct": true,
+        "outputStrategyDistinct": true,
+        "productOutcomeDistinct": true,
+        "commercialTreatmentDistinct": true
+      },
+      "unresolved": [],
+      "evidence": [
+        {
+          "path": "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+          "recordSelectors": [
+            "routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge]",
+            "routes[routeKey=obligation:track-only:WI:wi_exp_certificate_of_discharge_followup]",
+            "routes[routeKey=obligation:track-only:WI:wi_exp_cr266]"
+          ],
+          "observed": "The B row explicitly delegates a missing certificate to the follow-up A route; CR-266 is a separate no-probation and no-incarceration scenario."
+        }
+      ]
+    }
+  ]
+}
