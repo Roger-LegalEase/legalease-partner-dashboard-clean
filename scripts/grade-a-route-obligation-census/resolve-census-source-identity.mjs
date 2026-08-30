@@ -981,6 +981,57 @@ for (const row of resolvedRows) {
     }
   }
 }
+
+// The Illinois audit read the current official PDF faces and then reconciled
+// those exact bytes to the Nationwide inventory. The generic resolver cannot
+// recover issuer numbers or printed revision legends from prose labels, so the
+// narrow corrections below are keyed by the exact reviewed row and obligation.
+// They change identity metadata only; corpus custody remains untouched.
+const IL_CASE_LIST_IDENTITY = {
+  formNumber: "ATJ 2902.1",
+  officialTitle: "Case List for Request to Expunge and/or Seal Criminal Records",
+  officialTitleBasis: "The exact issuer title and form number are printed in reference/illinois/il-expungement-companion-forms.html and on the official PDF face reconciled in data/rcap-grade-a/route-obligation-census-v1/identity-resolution/il-shard/illinois-delta-against-canonical.json.",
+  currentRevision: "06/26",
+  revisionCurrentnessEvidence: "The official PDF face prints Page 1 of 1 (06/26); the audited bytes have SHA-256 b72d30d274b061e0671933b8bd65abf7d2c37a6f1dd4ebfbf3968bc55b9bed0c."
+};
+const IL_IDENTITY_CORRECTIONS = new Map([
+  ...[
+    "il-exp-precompletion-set",
+    "il-exp-qualprob-set",
+    "il-exp-supervision-set",
+    "il-seal-2yr-set",
+    "il-seal-3yr-set",
+    "il-seal-edu-set",
+    "il-seal-nonconv-set"
+  ].map((worklistGroupId) => [`${worklistGroupId}|EXP-AD Case List`, IL_CASE_LIST_IDENTITY]),
+  ["il-prb-cert-set|PRB Certificate of Sealing Application", {
+    officialTitle: "Certificate of Sealing",
+    officialTitleBasis: "Title printed on the current official PDF face; reconciled to SHA-256 5aa1b7803bfae4fe320a84201416c0882b956e778bc5c24024cd86655155eedd in the Illinois canonical delta.",
+    currentRevision: "9.18.24 (publisher filename; no printed revision legend)",
+    revisionCurrentnessEvidence: "The current official URL and held filename carry 9.18.24; the PDF face has no separate revision legend."
+  }],
+  ["il-prb-cert-set|PRB Certificate of Sealing Eligibility Acknowledgement", {
+    currentRevision: null,
+    revisionCurrentnessEvidence: "The current official acknowledgement PDF has no printed revision legend; its audited SHA-256 is b204190533f203005fc2a70690d5630ace9d862a03e61f0352d33062ee8b8361."
+  }],
+  ["il-prb-cert-set|PRB Certificate of Expungement for Military Application", {
+    officialTitle: "Certificate of Expungement for Military",
+    officialTitleBasis: "Title printed on the current official PDF face; reconciled to SHA-256 87d693a24931de3bd17ad0f38a848cadbb5500aacb8c5468517baa6a1869bd1e in the Illinois canonical delta.",
+    currentRevision: "v9.18.24 (publisher filename; no printed revision legend)",
+    revisionCurrentnessEvidence: "The current official URL and held filename carry v9.18.24; the PDF face has no separate revision legend."
+  }],
+  ["il-prb-cert-set|PRB Certificate of Expungement for Military Eligibility Acknowledgement", {
+    currentRevision: "08/11/2014 (printed)",
+    revisionCurrentnessEvidence: "The current official acknowledgement PDF prints 08/11/2014; its audited SHA-256 is 691ce0bffc30190f76c4ad555be454685d8da24cf772fd1ccbbf4b33cf23664c."
+  }]
+]);
+for (const row of resolvedRows) {
+  for (const document of row.documentsTheRouteNeeds) {
+    const correction = IL_IDENTITY_CORRECTIONS.get(`${row.worklistGroupId}|${document.obligationLabel}`);
+    if (correction) Object.assign(document, correction);
+  }
+}
+
 for (const row of resolvedRows) {
   const documents = row.documentsTheRouteNeeds;
   row.documentsResolved = documents.filter((d) => d.identityResolved).length;
