@@ -181,8 +181,25 @@ const serialized = JSON.stringify(doc, null, 2) + "\n";
 const outPath = path.join(ROOT, OUT);
 if (CHECK) {
   const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : null;
-  if (current !== serialized) { console.error(`${OUT} is stale. Run the generator.`); process.exit(1); }
-  console.log(`launch control current: ${doc.denominator.packetFamilies} families, GO/HOLD ${doc.goHold.decision}.`);
+  if (current === null) { console.error(`${OUT} is missing. Run the generator.`); process.exit(1); }
+  // lineage.captainSha is provenance, not a finding — committing this record
+  // moves HEAD past the value it recorded. Comparing it byte-for-byte would
+  // report the launch record stale on every commit, including commits that
+  // changed nothing it depends on. The findings are compared exactly; whether
+  // the record is still CURRENT is a different question, and the checkpoint
+  // verifier's A14/A15 answer it properly by asking whether any consumed
+  // record has moved since.
+  const committed = JSON.parse(current);
+  const strip = (value) => {
+    const copy = JSON.parse(JSON.stringify(value));
+    delete copy.lineage.captainSha;
+    return JSON.stringify(copy, null, 2) + "\n";
+  };
+  if (strip(committed) !== strip(doc)) {
+    console.error(`${OUT} is stale: a reported value has changed. Run the generator.`);
+    process.exit(1);
+  }
+  console.log(`launch control current: ${doc.denominator.packetFamilies} families, GO/HOLD ${doc.goHold.decision}; recorded at ${committed.lineage.captainSha.slice(0, 8)}.`);
   process.exit(0);
 }
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
