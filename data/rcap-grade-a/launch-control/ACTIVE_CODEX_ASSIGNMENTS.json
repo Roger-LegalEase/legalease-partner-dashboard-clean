@@ -1,0 +1,2149 @@
+{
+  "schemaVersion": "rcap-grade-a-active-codex-assignments/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-active-codex-assignments.mjs",
+  "thisIsTheControllingAssignmentManifest": "One manifest says what is dispatched, and this is it. It replaces first-wave-assignments.json, which was renamed to this path rather than copied, so no second manifest can claim a lane.",
+  "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+  "controllingLaunchRecord": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+  "launchStatusMirror": "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+  "reuseIndex": "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+  "categoryBIntegrationDelta": "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+  "stageBranchCrosswalk": "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+  "promptDirectory": "docs/rcap/grade-a/launch-control/prompts",
+  "twoCommitMethod": "Workers branch from captainBaseSha and read this manifest from the dispatch commit that follows it. The base is a constant rather than a lookup, because a manifest that recorded its own commit could not exist before it was committed.",
+  "waveRevision": {
+    "supersedes": "data/rcap-grade-a/launch-control/first-wave-assignments.json, renamed to this path",
+    "why": "The four Category B evidence-shard lanes existed to get the 55 medium-confidence routes classified. They came back classified — 49 splits, 3 confirmations, 3 conversions, 0 still needing a legal decision — so the lanes have nothing left to research and are replaced by implementation archetypes.",
+    "obsoleteLanesNotDispatched": [
+      {
+        "assignmentId": "C1_CATEGORY_B_EVIDENCE_SHARD_1",
+        "why": "the research it was to perform is complete and recorded in CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json; dispatching it would buy a second, contradictory classification"
+      },
+      {
+        "assignmentId": "C2_CATEGORY_B_EVIDENCE_SHARD_2",
+        "why": "the research it was to perform is complete and recorded in CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json; dispatching it would buy a second, contradictory classification"
+      },
+      {
+        "assignmentId": "C3_CATEGORY_B_EVIDENCE_SHARD_3",
+        "why": "the research it was to perform is complete and recorded in CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json; dispatching it would buy a second, contradictory classification"
+      },
+      {
+        "assignmentId": "C4_CATEGORY_B_EVIDENCE_SHARD_4",
+        "why": "the research it was to perform is complete and recorded in CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json; dispatching it would buy a second, contradictory classification"
+      }
+    ]
+  },
+  "familiesNamedByMoreThanOneLane": {
+    "families": {
+      "rcap-ca-official-pdf-fill": [
+        "C1_SPLIT_AUTOMATIC_CORRECTION_STATUS",
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION"
+      ],
+      "rcap-ky-official-pdf-fill": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C5_SPLIT_POST_ORDER_ENFORCEMENT"
+      ],
+      "rcap-md-official-pdf-fill": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION",
+        "C5_SPLIT_POST_ORDER_ENFORCEMENT"
+      ],
+      "rcap-mi-official-pdf-fill": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION",
+        "C5_SPLIT_POST_ORDER_ENFORCEMENT"
+      ],
+      "rcap-ne-custom-pleading": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C6_CONVERT_ALL_TO_A"
+      ],
+      "rcap-ny-official-pdf-fill": [
+        "C1_SPLIT_AUTOMATIC_CORRECTION_STATUS",
+        "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION"
+      ],
+      "rcap-va-custom-pleading": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C5_SPLIT_POST_ORDER_ENFORCEMENT"
+      ],
+      "rcap-wv-custom-pleading": [
+        "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+        "C6_CONVERT_ALL_TO_A"
+      ]
+    },
+    "rule": "A jurisdiction's packet family is shared across archetypes. The branch-identity lanes NAME the family a branch will belong to and none of them creates it; family creation follows the identities, as Captain work."
+  },
+  "notDispatched": {
+    "familiesAlreadyBuiltInTree": [
+      "ak-tf805-set",
+      "ar-arrest-seal-set",
+      "ar-misdemeanor-dwi-seal-set",
+      "ca-1203-4-set",
+      "ct-cleanslate-petition-set",
+      "mi_setaside_marihuana-set"
+    ],
+    "familiesFinishedOnBranchesAwaitingIntegration": [
+      {
+        "family": "ak-courtview-set",
+        "branch": "claude/census-v1-build-ak-courtview-set"
+      },
+      {
+        "family": "ak-tf800-set",
+        "branch": "claude/census-v1-build-ak-tf800-set"
+      },
+      {
+        "family": "ar-pardon-seal-set",
+        "branch": "claude/census-v1-build-ar-pardon-seal-set"
+      },
+      {
+        "family": "az_record_sealing_arrest_no_charges-set",
+        "branch": "claude/census-v1-build-az-record-sealing-arrest-no-charges"
+      },
+      {
+        "family": "az_record_sealing_dismissal_not_guilty-set",
+        "branch": "claude/census-v1-build-az-record-sealing-dismissal-not-guilty"
+      },
+      {
+        "family": "ma-expunge-mj-set",
+        "branch": "claude/census-v1-build-ma-expunge-mj-set"
+      }
+    ],
+    "why": "These twelve families are complete or complete-on-a-branch. Integrating them is Captain work; handing them to a packet lane would rebuild finished work on top of itself."
+  },
+  "commercialPosture": "Every assignment here creates implementation obligations and nothing else. None authorizes checkout, sponsorship, packet-credit consumption, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status or COMPLETE_PACKET_PROVEN. Every fail-closed commercial gate stands unchanged.",
+  "totals": {
+    "assignments": 12,
+    "routeKeysAllocated": 125,
+    "obligationsAllocated": 112,
+    "familiesAllocated": 47,
+    "classifiedRoutesCovered": 55,
+    "collisions": 0,
+    "placeholders": 0
+  },
+  "assignments": [
+    {
+      "assignmentId": "C1_SPLIT_AUTOMATIC_CORRECTION_STATUS",
+      "archetype": "Automatic process plus participant correction/status branch",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c1-split-automatic-correction-status",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "The relief runs on its own, and the participant's branch is an administrative correction or status request to the repository that holds the record. Build the branch identity, not the packet.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 9,
+      "routeKeys": [
+        "obligation:track-only:CA:ca-auto-conviction",
+        "obligation:track-only:MD:md_10103_1_automatic",
+        "obligation:track-only:MN:mn_ceb_felony_cannabis",
+        "obligation:track-only:MN:mn_mistaken_identity_iddata",
+        "obligation:track-only:MT:mt_auto_nonconviction",
+        "obligation:track-only:NY:ny_clean_slate_dwai",
+        "obligation:track-only:VT:vt_diversion_pre_charge",
+        "obligation:track-pathway:DE:de_auto_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+        "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ca-official-pdf-fill",
+        "rcap-de-participant-agency-application",
+        "rcap-il-participant-agency-application",
+        "rcap-md-participant-agency-application",
+        "rcap-mn-participant-agency-application",
+        "rcap-mt-participant-agency-application",
+        "rcap-ny-official-pdf-fill",
+        "rcap-vt-participant-agency-application"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "NO_EXISTING_WORK",
+      "reuseByRow": {
+        "obligation:track-only:CA:ca-auto-conviction": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "no existing Category A route in this jurisdiction requires any form this instrument names"
+        },
+        "obligation:track-only:MD:md_10103_1_automatic": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:MN:mn_ceb_felony_cannabis": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:MN:mn_mistaken_identity_iddata": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:MT:mt_auto_nonconviction": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:NY:ny_clean_slate_dwai": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "no existing Category A route in this jurisdiction requires any form this instrument names"
+        },
+        "obligation:track-only:VT:vt_diversion_pre_charge": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:DE:de_auto_expungement:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:IL:il-cannabis-auto:cannabis-specific-automatic-or-petition-expungement": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c1-split-automatic-correction-status/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c1-split-automatic-correction-status/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c1-split-automatic-correction-status/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c1-split-automatic-correction-status/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C1_SPLIT_AUTOMATIC_CORRECTION_STATUS.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C2_SPLIT_AUTOMATIC_COURT_PETITION",
+      "archetype": "Automatic process plus participant court-petition backstop",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c2-split-automatic-court-petition",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "The relief runs on its own, and the participant's branch is a court petition or motion filed when it does not. Build the branch identity and name the exact filing; the packet is a later wave.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 25,
+      "routeKeys": [
+        "obligation:track-only:CO:co_auto_seal_arrest",
+        "obligation:track-only:CO:co_auto_seal_nonconviction",
+        "obligation:track-only:CT:ct-nonconviction-auto",
+        "obligation:track-only:IN:in_auto_expungement",
+        "obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification",
+        "obligation:track-only:MI:mi_arrest_acquittal_dismissal",
+        "obligation:track-only:NC:nc_auto_146_a4",
+        "obligation:track-only:NJ:nj_automated_clean_slate",
+        "obligation:track-only:VA:va_auto_seal_clean_record",
+        "obligation:track-only:VA:va_auto_seal_nonconvictions",
+        "obligation:track-only:WV:wv_dui_test_and_lock_dismissal",
+        "obligation:track-pathway:CA:ca-auto-arrest:tool-2-automatic-relief",
+        "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+        "obligation:track-pathway:DC:dc_auto_expungement:dc_auto_expungement_16_802",
+        "obligation:track-pathway:DC:dc_auto_sealing:dc_auto_sealing_16_805",
+        "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief",
+        "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1",
+        "obligation:track-pathway:MO:mo-610-141-automatic-drug:state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141",
+        "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing",
+        "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing",
+        "obligation:track-pathway:NH:nh_auto_vacated:annulment-of-a-vacated-conviction",
+        "obligation:track-pathway:PA:pa_9122_2_clean_slate:path-j-clean-slate-automatic-limited-access",
+        "obligation:track-pathway:UT:ut_auto_nonconviction:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice",
+        "obligation:track-pathway:UT:ut_auto_traffic:path-i-traffic-offense-expungement-or-deletion",
+        "obligation:track-pathway:VA:va_auto_seal_convictions:automatic-sealing-no-filing"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ca-official-pdf-fill",
+        "rcap-co-official-pdf-fill",
+        "rcap-ct-custom-pleading",
+        "rcap-dc-custom-pleading",
+        "rcap-il-custom-pleading",
+        "rcap-in-custom-pleading",
+        "rcap-ky-official-pdf-fill",
+        "rcap-md-official-pdf-fill",
+        "rcap-mi-official-pdf-fill",
+        "rcap-mo-custom-pleading",
+        "rcap-nc-official-pdf-fill",
+        "rcap-ne-custom-pleading",
+        "rcap-nh-official-pdf-fill",
+        "rcap-nj-custom-pleading",
+        "rcap-pa-custom-pleading",
+        "rcap-ut-custom-pleading",
+        "rcap-va-custom-pleading",
+        "rcap-wv-custom-pleading"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "MIXED: NO_EXISTING_WORK + REUSE_AS_IS",
+      "reuseByRow": {
+        "obligation:track-only:CO:co_auto_seal_arrest": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:CO:co_petition_seal_arrest:petition-based-non-conviction-sealing-jdf-417-24-72-704); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:CO:co_auto_seal_nonconviction": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-only:CO:co_motion_seal_nonconviction); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:CT:ct-nonconviction-auto": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:IN:in_auto_expungement": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:KY:ky_automatic_nonconviction_expungement_verification": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:MI:mi_arrest_acquittal_dismissal": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "no existing Category A route in this jurisdiction requires any form this instrument names"
+        },
+        "obligation:track-only:NC:nc_auto_146_a4": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-branch:NC:nc_146_dismissal_petition:dna-expunction-application-15a-146-b1, obligation:track-only:NC:nc_146_dismissal_petition); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:NJ:nj_automated_clean_slate": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:VA:va_auto_seal_clean_record": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:VA:va_auto_seal_nonconvictions": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:WV:wv_dui_test_and_lock_dismissal": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:CA:ca-auto-arrest:tool-2-automatic-relief": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-only:CA:ca-851-91); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-pathway:CT:ct-diversion:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:DC:dc_auto_expungement:dc_auto_expungement_16_802": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:DC:dc_auto_sealing:dc_auto_sealing_16_805": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:IL:il-prostitution-j-auto:felony-prostitution-relief": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:MD:md_10105_1_automatic:automatic-expungement-under-crim-proc-10-105-1": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-pathway:MO:mo-610-141-automatic-drug:state-initiated-automatic-expungement-of-eligible-drug-offenses-under-610-141": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-automatic-sealing": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:NE:ne-nonconviction-auto:automatic-nonconviction-sealing": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:NH:nh_auto_vacated:annulment-of-a-vacated-conviction": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-only:NH:nh_petition_nonconviction_pre2019, obligation:track-only:NH:nh_petition_vacated, obligation:track-pathway:NH:nh_conviction_standard:conviction-annulment-under-rsa-651-5, obligation:track-pathway:NH:nh_conviction_standard:dwi-dui-annulment); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-pathway:PA:pa_9122_2_clean_slate:path-j-clean-slate-automatic-limited-access": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:UT:ut_auto_nonconviction:path-b-automatic-expungement-after-acquittal-or-dismissal-with-prejudice": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:UT:ut_auto_traffic:path-i-traffic-offense-expungement-or-deletion": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:VA:va_auto_seal_convictions:automatic-sealing-no-filing": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c2-split-automatic-court-petition/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c2-split-automatic-court-petition/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c2-split-automatic-court-petition/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c2-split-automatic-court-petition/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C2_SPLIT_AUTOMATIC_COURT_PETITION.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION",
+      "archetype": "Agency or prosecutor-controlled stage plus participant application or request",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c3-split-agency-prosecutor-application",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "An agency or prosecutor controls the stage, and the participant's branch is an application or request into it. Build the branch identity and the destination that actually receives it.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 4,
+      "routeKeys": [
+        "obligation:track-only:AK:ak-nonconviction-confidential",
+        "obligation:track-only:MD:md_10112_dpscs_cannabis",
+        "obligation:track-only:MI:mi_arrest_no_charge",
+        "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ak-participant-agency-application",
+        "rcap-md-official-pdf-fill",
+        "rcap-mi-official-pdf-fill",
+        "rcap-ny-official-pdf-fill"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "MIXED: NO_EXISTING_WORK + REUSE_AS_IS",
+      "reuseByRow": {
+        "obligation:track-only:AK:ak-nonconviction-confidential": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:MD:md_10112_dpscs_cannabis": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:MI:mi_arrest_no_charge": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "no existing Category A route in this jurisdiction requires any form this instrument names"
+        },
+        "obligation:track-pathway:NY:ny_clean_slate_convictions:automatic-clean-slate-sealing-under-cpl-160-57": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:NY:ny_160_59_petition:discretionary-conviction-sealing-by-petition-under-cpl-160-59); crosswalk it rather than creating a second route"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c3-split-agency-prosecutor-application/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c3-split-agency-prosecutor-application/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c3-split-agency-prosecutor-application/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c3-split-agency-prosecutor-application/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C3_SPLIT_AGENCY_PROSECUTOR_APPLICATION.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C4_SPLIT_OBJECTION_HEARING_APPEAL",
+      "archetype": "Participant objection, hearing request, response, appeal or judicial review",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c4-split-objection-hearing-appeal",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "The participant's branch is adversarial: an objection, a hearing request, a response, an appeal or judicial review of a decision already made. Build the branch identity, its deadline and what triggers it.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 1,
+      "routeKeys": [
+        "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ct-official-pdf-fill"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "REUSE_AS_IS",
+      "reuseByRow": {
+        "obligation:track-pathway:CT:ct-cleanslate-auto:automatic-clean-slate-erasure-for-eligible-post-2000-convictions": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202); crosswalk it rather than creating a second route"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c4-split-objection-hearing-appeal/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c4-split-objection-hearing-appeal/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c4-split-objection-hearing-appeal/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c4-split-objection-hearing-appeal/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C4_SPLIT_OBJECTION_HEARING_APPEAL.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C5_SPLIT_POST_ORDER_ENFORCEMENT",
+      "archetype": "Post-order correction, omitted record, custodian enforcement and failed implementation",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c5-split-post-order-enforcement",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "An order or disposition was already entered and the record did not follow. The participant's branch enforces or corrects it against a named custodian. Build the branch identity and name the custodian.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 10,
+      "routeKeys": [
+        "obligation:track-only:KY:ky_diversion_disposition_routing",
+        "obligation:track-only:MD:md_10104_pre_service",
+        "obligation:track-only:ME:me-deferred",
+        "obligation:track-only:MI:mi_auto_misd92",
+        "obligation:track-only:MI:mi_auto_misd93",
+        "obligation:track-only:MI:mi_deferral_status",
+        "obligation:track-only:VA:va_auto_seal_without_order",
+        "obligation:track-only:VT:vt_diversion_post_charge",
+        "obligation:track-only:WI:wi_exp_certificate_of_discharge",
+        "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ky-official-pdf-fill",
+        "rcap-md-official-pdf-fill",
+        "rcap-me-custom-pleading",
+        "rcap-mi-official-pdf-fill",
+        "rcap-va-custom-pleading",
+        "rcap-vt-custom-pleading",
+        "rcap-wi-official-pdf-fill"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "MIXED: NO_EXISTING_WORK + REUSE_AS_IS",
+      "reuseByRow": {
+        "obligation:track-only:KY:ky_diversion_disposition_routing": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:KY:ky_nonconviction_expungement:nonconviction-431076); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:MD:md_10104_pre_service": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MD:md_10105_favorable:adult-non-conviction-expungement-under-crim-proc-10-105); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:ME:me-deferred": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:MI:mi_auto_misd92": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621, obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application, obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e, obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:MI:mi_auto_misd93": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621, obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application, obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e, obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:MI:mi_deferral_status": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621, obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application, obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e, obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-only:VA:va_auto_seal_without_order": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:VT:vt_diversion_post_charge": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:WI:wi_exp_certificate_of_discharge": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-only:WI:wi_exp_cr266); crosswalk it rather than creating a second route"
+        },
+        "obligation:track-pathway:MI:mi_auto_felony:automatic-clean-slate-set-aside-under-mcl-780-621g": {
+          "decision": "REUSE_AS_IS",
+          "basis": "an existing Category A route already requires this instrument (obligation:track-pathway:MI:mi_setaside_application:set-aside-by-application-under-mcl-780-621, obligation:track-pathway:MI:mi_setaside_first_owi:first-offense-owi-set-aside-by-application, obligation:track-pathway:MI:mi_setaside_marihuana:misdemeanor-marijuana-set-aside-under-mcl-780-621e, obligation:track-pathway:MI:mi_setaside_trafficking:human-trafficking-related-set-aside-application); crosswalk it rather than creating a second route"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c5-split-post-order-enforcement/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C5_SPLIT_POST_ORDER_ENFORCEMENT.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C6_CONVERT_ALL_TO_A",
+      "archetype": "The three routes the revalidation converted entirely to participant-facing",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c6-convert-all-to-a",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "These three routes are participant-facing in full: no B stage is retained. Retire the exclusion, build the Category A identity, and make sure nothing still selects them as track-only.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 3,
+      "routeKeys": [
+        "obligation:track-only:NE:ne-firearm-restoration-routing",
+        "obligation:track-only:WV:wv_common_nc_procedure",
+        "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26"
+      ],
+      "familyIdsImplicated": [
+        "rcap-ne-custom-pleading",
+        "rcap-wv-custom-pleading"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "NO_EXISTING_WORK",
+      "reuseByRow": {
+        "obligation:track-only:NE:ne-firearm-restoration-routing": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-only:WV:wv_common_nc_procedure": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        },
+        "obligation:track-pathway:WV:wv_common_conv_procedure:eligible-conviction-expungement-under-w-va-code-61-11-26": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the instrument names no form number, so no form-level crosswalk could be attempted; this is 'no match attempted', not 'no match exists'"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c6-convert-all-to-a/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c6-convert-all-to-a/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c6-convert-all-to-a/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c6-convert-all-to-a/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C6_CONVERT_ALL_TO_A.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C7_CONFIRM_B_GUIDANCE",
+      "archetype": "Guidance, verification, correction escalation and handoff for the confirmed exclusions",
+      "lane": "category-b-implementation",
+      "workerBranch": "codex/c7-confirm-b-guidance",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "These three exclusions were confirmed: there is no participant filing to build. Write what the participant can actually do — how to verify the record cleared, how to escalate a correction, and where the handoff goes when it did not.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 3,
+      "routeKeys": [
+        "obligation:track-only:MN:mn_pardon_auto_expungement",
+        "obligation:track-only:NE:ne-out-of-jurisdiction-routing",
+        "obligation:track-only:VA:va_exp_actual_innocence"
+      ],
+      "familyIdsImplicated": [
+        "rcap-mn-guidance-implementation",
+        "rcap-ne-guidance-implementation",
+        "rcap-va-guidance-implementation"
+      ],
+      "familiesAreNamedNotCreated": "These families are NAMED by this lane and created by nobody in this wave. A jurisdiction's family is shared across archetypes, so three lanes each creating it would produce three conflicting families for one jurisdiction.",
+      "reuseDecisionSummary": "SALVAGE_SPECIFIC_ASSETS",
+      "reuseByRow": {
+        "obligation:track-only:MN:mn_pardon_auto_expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "the exclusion is confirmed; rcap-mn-guidance-implementation already carries this route's guidance and is extended rather than replaced"
+        },
+        "obligation:track-only:NE:ne-out-of-jurisdiction-routing": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "the exclusion is confirmed; rcap-ne-guidance-implementation already carries this route's guidance and is extended rather than replaced"
+        },
+        "obligation:track-only:VA:va_exp_actual_innocence": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "the exclusion is confirmed; rcap-va-guidance-implementation already carries this route's guidance and is extended rather than replaced"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/category-b-integration/c7-confirm-b-guidance/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_REVALIDATION_INTEGRATION_DELTA.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json",
+        "data/rcap-grade-a/launch-control/category-b-revalidation/report.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/category-b-integration/c7-confirm-b-guidance/branch-identities.json — one record per assigned route: the retained B stage, the participant A branch, and for each the selector, output strategy, product outcome and commercial treatment, stated as four different things",
+        "data/rcap-grade-a/category-b-integration/c7-confirm-b-guidance/crosswalks.json — for every route whose reuse decision is REUSE_AS_IS, the existing Category A route it binds to and the evidence for the binding",
+        "data/rcap-grade-a/category-b-integration/c7-confirm-b-guidance/README.md — what each branch files, where it goes, what triggers it and what the deadline is"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/generate-category-b-integration-delta.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A route whose participant instrument names no document you can identify from a committed record stops and is reported unresolved. Naming a form you have not seen sends a participant to file the wrong thing.",
+        "A route whose reuse decision is REUSE_AS_IS and whose crosswalk you cannot confirm stops. Reporting a crosswalk that does not hold silently drops a participant branch nothing else covers.",
+        "A B stage and its A branch that would end up sharing a selector, an output strategy, a product outcome or a commercial treatment stops. They are two different things; if they collapse into one, the automatic stage becomes purchasable."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROUTES COMPLETED:",
+        "CROSSWALKS CONFIRMED:",
+        "NEW BRANCH IDENTITIES CREATED:",
+        "PACKET FAMILIES NAMED (not created):",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C7_CONFIRM_B_GUIDANCE.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C8_ALREADY_ANSWERED_ENGINEERING",
+      "archetype": "Already-answered engineering effects the 55-row results did not supersede or absorb",
+      "lane": "legal-implementation",
+      "workerBranch": "codex/c8-already-answered-engineering",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "Implement the 37 legal-review rows a controlling decision already answers, citing the decision record by id for each. These are not questions to ask again, and none of them is one of the 55: the integration delta checked, and the overlap is zero.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 37,
+      "routeKeys": [
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error",
+        "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory",
+        "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch",
+        "obligation:runtime-only:SC:juvenile-expungement",
+        "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions",
+        "obligation:track-only:AK:ak-sej",
+        "obligation:track-only:AR:ar-preadjudication-probation",
+        "obligation:track-only:DE:de_attorney_general_expungement",
+        "obligation:track-only:GA:ga-fo-sentencing-post2026",
+        "obligation:track-only:GA:ga-time-expired",
+        "obligation:track-only:LA:la-999-expedited-expungement",
+        "obligation:track-only:ND:nd-juvenile-records-routing",
+        "obligation:track-only:NE:ne-pardon-routing",
+        "obligation:track-only:WI:wi_def_961_47",
+        "obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300",
+        "obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop",
+        "obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing",
+        "obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure",
+        "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal",
+        "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330",
+        "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3",
+        "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103",
+        "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss",
+        "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop",
+        "obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution",
+        "obligation:track-pathway:NM:nm_cannabis:cannabis-expungement",
+        "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211",
+        "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c",
+        "obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement",
+        "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement",
+        "obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12",
+        "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement",
+        "obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases",
+        "obligation:track-pathway:SD:sd_diversion:diversion-expungement",
+        "obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106",
+        "obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals",
+        "obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015"
+      ],
+      "familyIdsImplicated": [],
+      "reuseDecisionSummary": "SALVAGE_SPECIFIC_ASSETS",
+      "reuseByRow": {
+        "obligation:failure-disposition:ND:non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05:nd_agency_history_error": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:runtime-contract-cohort:DE:juvenile-expungement-under-10-del-c-1017-1019-1017a:section_1017_favorable_termination_mandatory": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:runtime-contract-cohort:UT:path-m-juvenile-expungement:favorable_outcome_branch": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:runtime-only:SC:juvenile-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:runtime-only:SC:pardon-guidance-for-otherwise-ineligible-convictions": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:AK:ak-sej": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:AR:ar-preadjudication-probation": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:DE:de_attorney_general_expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:GA:ga-fo-sentencing-post2026": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:GA:ga-time-expired": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:LA:la-999-expedited-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:ND:nd-juvenile-records-routing": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:NE:ne-pardon-routing": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-only:WI:wi_def_961_47": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:AK:ak-juvenile:juvenile-record-sealing-as-47-12-300": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:AK:ak-pardon:executive-pardon-backstop": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:CA:ca-851-8:tool-4-arrest-record-sealing": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:CT:ct-cannabis-auto:cannabis-conviction-erasure": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-automatic-dismissal": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:KY:ky_juvenile_record_expungement:juvenile-petition-610330": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:LA:la-985-3-immediate-expungement:immediate-expungement-after-successful-court-program-completion-art-985-3": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:MD:md_10103_legacy_police:police-record-expungement-when-no-charge-was-filed-under-10-103": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:MT:mt_nonconviction_removal:non-conviction-criminal-history-removal-through-criss": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:NE:ne-juvenile-sealing-routing:juvenile-petition-backstop": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:NH:nh_auto_nonconviction:annulment-after-dismissal-acquittal-or-nonprosecution": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:NM:nm_cannabis:cannabis-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:NV:nv_seal_deferred:deferred-judgment-dismissal-and-sealing-under-nrs-176-211": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:OR:or_acquittal:set-aside-of-arrests-or-charges-without-conviction-under-ors-137-225-1-c": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:PA:pa_acquittal_auto:path-b-complete-acquittal-not-guilty-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-2-SIGNED-RECLASSIFICATION already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:PA:pa_ard_expungement:path-d-ard-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:RI:ri_filed_complaints:path-e-filed-complaint-relief-under-12-10-12": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:SC:sc_pti_17_22_150:diversion-or-program-completion-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:SD:sd_23a_3_34_auto:automatic-public-record-removal-for-petty-municipal-and-class-2-misdemeanor-cases": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:SD:sd_diversion:diversion-expungement": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:TN:tn_acquittal_immediate:pathway-1-free-non-conviction-expunction-under-tenn-code-40-32-101-a-40-32-106": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:UT:ut_auto_clean_slate:path-c-clean-slate-eligible-convictions-and-plea-in-abeyance-dismissals": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-1-AUTHORITY-DECISION-NAMES-THIS-ROUTE already answers this row; the record is the asset and the work is to implement what it says"
+        },
+        "obligation:track-pathway:WI:wi_exp_942_08_mandatory:adult-conviction-expungement-under-wis-stat-973-015": {
+          "decision": "SALVAGE_SPECIFIC_ASSETS",
+          "basis": "AA-3-MEMO-RECORDS-THE-GUIDANCE-RATIONALE already answers this row; the record is the asset and the work is to implement what it says"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/already-answered-implementation/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2-retriage.json",
+        "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/already-answered-implementation/implemented.json — one record per row: the decision record id, the file and field it lives in, and the exact engineering effect that decision has on this route"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A row whose cited decision record cannot be found in this tree stops and is reported. An asserted answer no record backs is the most dangerous outcome in this lane.",
+        "A row whose decision record says something different from what the retriage claims stops and is reported; the record wins and the retriage is the defect."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROWS IMPLEMENTED:",
+        "DECISION RECORDS CITED:",
+        "ROWS WHOSE RECORD COULD NOT BE FOUND:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C8_ALREADY_ANSWERED_ENGINEERING.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C9_ROUTE_MAPPING_RECONCILIATION",
+      "archetype": "Captain route-mapping reconciliation, including its overlap with the 49 split routes",
+      "lane": "engineering",
+      "workerBranch": "codex/c9-route-mapping-reconciliation",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "Reconcile the 33 rows whose route mapping is wrong rather than unanswered: a runtime pathway bound to the wrong stage, a track with no pathway, or two identities for one filing. The integration delta measured the overlap with the 49 split routes and it is 0; the 49 stage/branch pairs are still yours to bind once C1-C7 land their identities.",
+      "rowKind": "routeKey",
+      "routeKeyCount": 33,
+      "routeKeys": [
+        "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing",
+        "obligation:runtime-only:CO:juvenile-expungement-19-1-306",
+        "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335",
+        "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement",
+        "obligation:runtime-only:ID:juvenile-expungement",
+        "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch",
+        "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement",
+        "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement",
+        "obligation:runtime-only:MD:juvenile-expungement",
+        "obligation:runtime-only:ME:pardon-route",
+        "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+        "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance",
+        "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365",
+        "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58",
+        "obligation:runtime-only:OH:juvenile-sealing-and-expungement",
+        "obligation:runtime-only:SC:human-trafficking-survivor-expungement",
+        "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route",
+        "obligation:runtime-only:SD:juvenile-delinquency-sealing",
+        "obligation:runtime-only:VT:juvenile-sealing",
+        "obligation:runtime-only:WI:executive-pardon-guidance",
+        "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m",
+        "obligation:runtime-only:WV:juvenile-record-relief",
+        "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241",
+        "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief",
+        "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117",
+        "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11",
+        "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06",
+        "obligation:track-pathway:WY:wy_misd_1501:misdemeanor-conviction-expungement-w-s-7-13-1501",
+        "obligation:track-pathway:WY:wy_nc_1401:adult-non-conviction-expungement-w-s-7-13-1401",
+        "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1",
+        "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing",
+        "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies",
+        "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry"
+      ],
+      "familyIdsImplicated": [],
+      "reuseDecisionSummary": "REBUILD_REQUIRED_WITH_REASON",
+      "reuseByRow": {
+        "obligation:runtime-only:CA:tool-3-petition-based-felony-sealing": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:CO:juvenile-expungement-19-1-306": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:DC:dc_juvenile_sealing_16_2335": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:ID:human-trafficking-survivor-vacatur-and-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:ID:juvenile-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:ID:withheld-judgment-idaho-code-19-2604-review-branch": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:IL:human-trafficking-survivor-vacatur-and-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:IL:juvenile-automatic-or-petition-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:MD:juvenile-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:ME:pardon-route": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:ND:general-conviction-sealing-under-n-d-c-c-chapter-12-60-1": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:NH:out-of-state-federal-or-military-record-guidance": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:NV:controlled-substance-possession-sealing-under-nrs-453-3365": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:NY:conditional-treatment-sealing-under-cpl-160-58": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:OH:juvenile-sealing-and-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:SC:human-trafficking-survivor-expungement": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:SD:controlled-substance-deferred-disposition-route": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:SD:juvenile-delinquency-sealing": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:VT:juvenile-sealing": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:WI:executive-pardon-guidance": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:WI:juvenile-adjudication-expungement-under-wis-stat-938-355-4m": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:WV:juvenile-record-relief": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:runtime-only:WY:juvenile-minor-expungement-w-s-14-6-241": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:CA:ca-prop64:tool-5-proposition-64-marijuana-relief": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:CO:co_clean_slate:automatic-clean-slate-sealing-13-3-117": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:MN:mn_299c11_arrest_demand:arrest-identification-data-destruction-when-no-charges-were-filed-minn-stat-299c-11": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-1-CONFLICT-OR-CONTRADICTION-WITH-NO-DECIDING-RECORD places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:MN:mn_auto_cannabis_nonfelony:cannabis-automatic-or-board-reviewed-expungement-under-609a-055-06": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-1-CONFLICT-OR-CONTRADICTION-WITH-NO-DECIDING-RECORD places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:WY:wy_misd_1501:misdemeanor-conviction-expungement-w-s-7-13-1501": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:track-pathway:WY:wy_nc_1401:adult-non-conviction-expungement-w-s-7-13-1401": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-4-CROSSWALK-RELATION-THE-REGISTRY-HAS-NOT-ABSORBED places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:unit:IN:in_infraction_nondisclosure:in_infraction_nondisclosure-stage-1": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-5-AVAILABLE-UNIT-WITH-NO-PACKET-IDENTITY-AND-NO-DOCUMENT places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:unit:MN:mn_prosecutor_agreed:mn_prosecutor_agreed-court-sealing": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-2-ROUTE-KIND-ADJUDICATION-STILL-PENDING places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:unit:RI:ri_deferred_sentence:ri-deferred-sentence-stage-3-notice-hearing-and-certified-copies": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-1-CONFLICT-OR-CONTRADICTION-WITH-NO-DECIDING-RECORD places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        },
+        "obligation:unit:SD:sd_arrest_expungement:sd-arrest-stage-3-filing-service-and-notice-of-entry": {
+          "decision": "REBUILD_REQUIRED_WITH_REASON",
+          "basis": "MAP-3-PARENT-EXPANSION-WITHOUT-UNIT-ASSIGNMENT places this row in Captain mapping: a mapping exists and is wrong, so it is corrected rather than reused"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/captain-route-mapping/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2-retriage.json",
+        "data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/captain-route-mapping/reconciled.json — one record per row: the current mapping, what is wrong with it, the corrected mapping and the evidence",
+        "data/rcap-grade-a/captain-route-mapping/stage-binding.json — for each stage/branch pair in the crosswalk, the runtime pathway that serves the stage and the one that will serve the branch, or an explicit statement that the branch has none yet"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-route-obligation-census/verify-national-route-obligation-census.mjs",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs",
+        "npm run typecheck"
+      ],
+      "stopConditions": [
+        "A correction that would move the census denominator stops and is reported. The denominator moves only through the national census generator and only with an explanation.",
+        "A runtime pathway with no census stage, or two stages claiming one pathway, stops and is reported rather than being resolved by picking one."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "ROWS RECONCILED:",
+        "STAGE/BRANCH PAIRS BOUND:",
+        "DENOMINATOR MOVEMENT: 0",
+        "ROWS STOPPED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C9_ROUTE_MAPPING_RECONCILIATION.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C10_SOURCE_IDENTITY_ACQUISITION",
+      "archetype": "Remaining exact source identity and governed acquisition",
+      "lane": "source",
+      "workerBranch": "codex/c10-source-identity-acquisition",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "Resolve 30 document obligations whose identity or official URL is still unknown, then acquire the 49 whose exact official source is already identified and promote the 33 held in the nationwide inventory but absent from the verified corpus. Identity first: acquisition of a wrongly named document is worse than an open row.",
+      "rowKind": "obligation",
+      "routeKeyCount": 0,
+      "routeKeys": [],
+      "rowGroups": [
+        {
+          "name": "IDENTITY — runs now",
+          "obligations": [
+            "ar-act346-set::The ACIC petition counterpart to the Act 346 order to dismiss and seal.",
+            "ar-misdemeanor-seal-set::The ACIC petition for the misdemeanour branch, A.C.A. 16-90-1405.",
+            "ar-veterans-court-set::The ACIC order counterpart for the veterans treatment court route.",
+            "de_mandatory_expungement-set::The application for mandatory expungement to the State Bureau of Identification under 11 Del. C. 4373.",
+            "fl-administrative-set::The FDLE application for administrative expunction under section 943.0581, Fla. Stat.",
+            "ia-12346-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+            "ia-12347-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+            "ia-7251-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+            "ia-901c2-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+            "ia-901c3-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 2.",
+            "ia-901c3-set::The certification of service filed with an Iowa Rule 2.86 expungement application.",
+            "in_arrest_no_charges-set::CCA-GF-0120-3016",
+            "in_arrest_no_charges-set::CCA-XP-0120-7002 Form ACR",
+            "in_arrest_no_charges-set::Confidential Information Form",
+            "in_conviction_d6-set::CCA-GF-0120-3016",
+            "in_conviction_d6-set::CCA-XP-0120-7002 Form ACR",
+            "in_conviction_d6-set::Confidential Information Form",
+            "in_conviction_felony-set::CCA-GF-0120-3016",
+            "in_conviction_felony-set::CCA-XP-0120-7002 Form ACR",
+            "in_conviction_felony-set::Confidential Information Form",
+            "in_conviction_misd-set::CCA-GF-0120-3016",
+            "in_conviction_misd-set::CCA-XP-0120-7002 Form ACR",
+            "in_conviction_misd-set::Confidential Information Form",
+            "in_section1_petition-set::CCA-GF-0120-3016",
+            "in_section1_petition-set::CCA-XP-0120-7002 Form ACR",
+            "in_section1_petition-set::Confidential Information Form",
+            "mi_setaside_trafficking-set::Proof of Service",
+            "rcap-in-custom-pleading::CCA-GF-0120-3016",
+            "rcap-in-custom-pleading::CCA-XP-0120-7002 Form ACR",
+            "rcap-in-custom-pleading::Confidential Information Form"
+          ],
+          "reuseDecision": "NO_EXISTING_WORK",
+          "note": "Name the document from committed records. Do not guess a form number."
+        },
+        {
+          "name": "ACQUISITION — blocked on egress",
+          "obligations": [
+            "la-976-arrest-no-conviction-set::LA-CCRP-ART-988",
+            "la-976-arrest-no-conviction-set::LA-CCRP-ART-989",
+            "la-976-arrest-no-conviction-set::LA-CCRP-ART-991",
+            "la-976-arrest-no-conviction-set::LA-CCRP-ART-992",
+            "la-977-misdemeanor-conviction-set::LA-CCRP-ART-988",
+            "la-977-misdemeanor-conviction-set::LA-CCRP-ART-989",
+            "la-977-misdemeanor-conviction-set::LA-CCRP-ART-991",
+            "la-977-misdemeanor-conviction-set::LA-CCRP-ART-992",
+            "la-977d-marijuana-first-offense-set::LA-CCRP-ART-988",
+            "la-977d-marijuana-first-offense-set::LA-CCRP-ART-991",
+            "la-977d-marijuana-first-offense-set::LA-CCRP-ART-992",
+            "la-978-felony-conviction-set::LA-CCRP-ART-988",
+            "la-978-felony-conviction-set::LA-CCRP-ART-989",
+            "la-978-felony-conviction-set::LA-CCRP-ART-991",
+            "la-978-felony-conviction-set::LA-CCRP-ART-992",
+            "la-985-1-interim-expungement-set::LA-CCRP-ART-988",
+            "la-985-1-interim-expungement-set::LA-CCRP-ART-994",
+            "la-985-expungement-by-redaction-set::LA-CCRP-ART-988",
+            "la-985-expungement-by-redaction-set::LA-CCRP-ART-989",
+            "la-985-expungement-by-redaction-set::LA-CCRP-ART-991",
+            "la-985-expungement-by-redaction-set::LA-CCRP-ART-992",
+            "la-987-set-aside-and-dismiss-set::LA-CCRP-ART-987",
+            "mt_mmrta_completed-set::EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+            "mt_mmrta_completed-set::MT-FORM-B",
+            "mt_mmrta_completed-set::MT-OCA-MMRTA",
+            "mt_mmrta_serving-set::EXPUNGEMENTREMOVALREQUESTFORM.DOCX",
+            "mt_mmrta_serving-set::MT-FORM-A",
+            "mt_mmrta_serving-set::MT-OCA-MMRTA",
+            "nd-prohibit-remote-public-access-set::ND-BRIEF-PROHIBIT-PUBLIC-ACCESS",
+            "nd-prohibit-remote-public-access-set::ND-DECLARATION-OF-SERVICE",
+            "nd-prohibit-remote-public-access-set::ND-MOTION-PROHIBIT-PUBLIC-ACCESS",
+            "nd-prohibit-remote-public-access-set::ND-PROPOSED-FINDINGS-PROHIBIT-PUBLIC-ACCESS",
+            "rcap-tx-custom-pleading::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_exp_acquittal-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_automatic_misdemeanor_deferred-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_conviction_no_supervision-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_deferred_other-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_dwi_conviction-set::OCA Model Order of Nondisclosure under Section 411.0736",
+            "tx_nd_dwi_conviction-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_dwi_deferred-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_dwi_probation-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_probation_misdemeanor-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_veterans_court-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "tx_nd_veterans_reemployment-set::Statement of Inability to Afford Payment of Court Costs or an Appeal Bond",
+            "ut_pet_remove_link-set::1110GE",
+            "ut_pet_remove_link-set::1111GE",
+            "ut_pet_remove_link-set::1501CR",
+            "ut_pet_remove_link-set::1501CR-C",
+            "ut_pet_remove_link-set::1502CR"
+          ],
+          "reuseDecision": "NO_EXISTING_WORK",
+          "note": "Runs only in an environment whose egress policy permits the issuing authorities' own domains."
+        },
+        {
+          "name": "PROMOTION — runs now",
+          "obligations": [
+            "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260::The motion, notice and order for sealing the records of a juvenile offender under RCW 13.50.260.",
+            "fl-early-juvenile-set::The FDLE application for early juvenile expunction under section 943.0515, Fla. Stat.",
+            "fl-juvenile-diversion-set::The FDLE application for juvenile diversion expunction under section 943.0582, Fla. Stat.",
+            "ia-12346-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 3.",
+            "ia-901c2-set::The Iowa expungement application prescribed as Iowa R. Crim. P. 2.86 Form 1.",
+            "ia-dci77-set::The Iowa criminal history record check request the section 901C.3 route requires.",
+            "ia-dci77-set::The billing form that accompanies the DCI-77 request.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Cannabis Convictions.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Additional Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Getting Started Motion to Vacate & Expunge Eligible Cannabis Convictions.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Motion to Vacate & Expunge Eligible Cannabis Convictions.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Notice of Court Date for Motion to Vacate & Expunge Eligible Cannabis Convictions.",
+            "il-cannabis-vacate-set::The Illinois standardised cannabis-expungement form: Order Granting or Denying Motion to Vacate & Expunge Eligible Cannabis Convictions.",
+            "il-exp-nonconv-set::The EXP-AD continuation sheet for additional expungement cases.",
+            "il-exp-nonconv-set::The Illinois EXP-AD case list that accompanies the request to expunge or seal.",
+            "il-exp-pardon-set::The Illinois EXP-AD case list that accompanies the pardon-based request to expunge.",
+            "il-exp-precompletion-set::EXP-AD Case List",
+            "il-exp-qualprob-set::EXP-AD Case List",
+            "il-exp-supervision-set::EXP-AD Case List",
+            "il-prb-cert-set::PRB Certificate of Expungement for Military Application",
+            "il-prb-cert-set::PRB Certificate of Expungement for Military Eligibility Acknowledgement",
+            "il-prb-cert-set::PRB Certificate of Sealing Application",
+            "il-prb-cert-set::PRB Certificate of Sealing Eligibility Acknowledgement",
+            "il-seal-2yr-set::EXP-AD Case List",
+            "il-seal-3yr-set::EXP-AD Case List",
+            "il-seal-edu-set::EXP-AD Case List",
+            "il-seal-nonconv-set::EXP-AD Case List",
+            "in_conviction_d6-set::CCA conviction expungement petition",
+            "in_conviction_felony-set::CCA conviction expungement petition",
+            "in_conviction_misd-set::CCA conviction expungement petition",
+            "ma-expunge-k-set::Petition for Expungement, G.L. c. 276, § 100K",
+            "ma-seal-admin-set::Petition to Seal (Office of the Commissioner of Probation)",
+            "mi_setaside_application-set::MC 227"
+          ],
+          "reuseDecision": "SALVAGE_SPECIFIC_ASSETS",
+          "note": "The bytes are already in private/Nationwide Record Clearing/; promote them into the verified corpus with an exact SHA-256."
+        }
+      ],
+      "familyIdsImplicated": [
+        "ar-act346-set",
+        "ar-misdemeanor-seal-set",
+        "ar-veterans-court-set",
+        "census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260",
+        "de_mandatory_expungement-set",
+        "fl-administrative-set",
+        "fl-early-juvenile-set",
+        "fl-juvenile-diversion-set",
+        "ia-12346-set",
+        "ia-12347-set",
+        "ia-7251-set",
+        "ia-901c2-set",
+        "ia-901c3-set",
+        "ia-dci77-set",
+        "il-cannabis-vacate-set",
+        "il-exp-nonconv-set",
+        "il-exp-pardon-set",
+        "il-exp-precompletion-set",
+        "il-exp-qualprob-set",
+        "il-exp-supervision-set",
+        "il-prb-cert-set",
+        "il-seal-2yr-set",
+        "il-seal-3yr-set",
+        "il-seal-edu-set",
+        "il-seal-nonconv-set",
+        "in_arrest_no_charges-set",
+        "in_conviction_d6-set",
+        "in_conviction_felony-set",
+        "in_conviction_misd-set",
+        "in_section1_petition-set",
+        "la-976-arrest-no-conviction-set",
+        "la-977-misdemeanor-conviction-set",
+        "la-977d-marijuana-first-offense-set",
+        "la-978-felony-conviction-set",
+        "la-985-1-interim-expungement-set",
+        "la-985-expungement-by-redaction-set",
+        "la-987-set-aside-and-dismiss-set",
+        "ma-expunge-k-set",
+        "ma-seal-admin-set",
+        "mi_setaside_application-set",
+        "mi_setaside_trafficking-set",
+        "mt_mmrta_completed-set",
+        "mt_mmrta_serving-set",
+        "nd-prohibit-remote-public-access-set",
+        "rcap-in-custom-pleading",
+        "rcap-tx-custom-pleading",
+        "tx_exp_acquittal-set",
+        "tx_nd_automatic_misdemeanor_deferred-set",
+        "tx_nd_conviction_no_supervision-set",
+        "tx_nd_deferred_other-set",
+        "tx_nd_dwi_conviction-set",
+        "tx_nd_dwi_deferred-set",
+        "tx_nd_dwi_probation-set",
+        "tx_nd_probation_misdemeanor-set",
+        "tx_nd_veterans_court-set",
+        "tx_nd_veterans_reemployment-set",
+        "ut_pet_remove_link-set"
+      ],
+      "reuseDecisionSummary": "MIXED: NO_EXISTING_WORK + SALVAGE_SPECIFIC_ASSETS",
+      "reuseByRow": {},
+      "ownedPaths": [
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/wave-2/**",
+        "data/rcap-grade-a/source-acquisition/wave-1/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/route-obligation-census-v1/source-queue-reconciliation.json",
+        "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+        "docs/rcap/grade-a/route-obligation-census/ACQUISITION_EGRESS_PROBE.md"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/wave-2/resolved.json — one record per obligation: the document's exact name, issuing authority, form number where one exists, and the official URL, or an explicit unresolved with what would settle it",
+        "data/rcap-grade-a/source-acquisition/wave-1/acquired.json — one record per acquired document: issuing authority, official URL, retrieval time, byte length and SHA-256"
+      ],
+      "focusedTests": [
+        "node scripts/grade-a-route-obligation-census/reconcile-source-queue.mjs --check",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "An identity that cannot be settled from committed records is recorded unresolved with what would settle it. A wrong resolution sends someone to acquire the wrong document, which is worse than an open row.",
+        "ACQUISITION IS BLOCKED ON EGRESS. Every Captain-reachable environment refuses court and agency hosts. Acquire from the issuing authority or not at all — no mirror, cache, aggregator or lookalike form. If the environment refuses the issuing authority, the acquisition group stops and the identity and promotion groups still run.",
+        "Never commit the acquired PDFs, the archive, or any extracted source file. Commit the receipt."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "IDENTITIES RESOLVED:",
+        "IDENTITIES STILL OPEN:",
+        "DOCUMENTS ACQUIRED:",
+        "DOCUMENTS PROMOTED:",
+        "ACQUISITION BLOCKED:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C10_SOURCE_IDENTITY_ACQUISITION.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C11_PACKET_FACTORY_ACCELERATOR",
+      "archetype": "Highest-value buildable official-form, composed-pleading and agency-application packet families",
+      "lane": "packet",
+      "workerBranch": "codex/c11-packet-factory-accelerator",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "Build the 47 packet families whose source bytes are already held and whose reuse decision is NO_EXISTING_WORK. Nothing here has evidence anywhere: the six families already built in the tree and the six finished on branches are excluded by the reuse index, not by anyone remembering.",
+      "rowKind": "worklistGroupId",
+      "routeKeyCount": 0,
+      "routeKeys": [],
+      "rowGroups": [
+        {
+          "name": "OFFICIAL PDF FILL",
+          "families": [
+            "az_marijuana_expungement_arrest_no_charges-set",
+            "az_marijuana_expungement_superior_court-set",
+            "ca-1203-41-set",
+            "ca-1203-42-set",
+            "ca-1203-43-set",
+            "ca-1203-4a-set",
+            "ca-17b-reduction-set",
+            "ca-851-91-set",
+            "ca-prop64-set",
+            "ne-setaside-custodial-set",
+            "ne-trafficking-setaside-and-seal-set",
+            "nj_arrest_no_conviction-set",
+            "nj_clean_slate-set",
+            "nj_disorderly_persons-set",
+            "nj_indictable_conviction-set",
+            "nj_ordinance-set",
+            "ny_160_59_petition-set",
+            "ny_mrta_marijuana-set",
+            "pa_490_nonconviction-set",
+            "pa_790_nonconviction-set",
+            "pa_9122_1_limited_access-set",
+            "pa_summary_conviction-set",
+            "ri_nonconviction_sealing-set",
+            "sd_arrest_expungement-set",
+            "ut_pet_acquittal-set",
+            "ut_pet_conviction-set",
+            "ut_pet_dismissed_with_prejudice-set",
+            "ut_pet_dismissed_without_prejudice-set",
+            "ut_pet_limitations-set",
+            "ut_pet_no_charges-set",
+            "ut_pet_traffic-set",
+            "wa_blake_vacatur_and_lfo_refund-set",
+            "wa_vac_cannabis-set",
+            "wa_vac_domestic_violence-set",
+            "wa_vac_felony-set",
+            "wa_vac_homicide_victim_prostitution-set",
+            "wa_vac_misdemeanor_ordinary-set",
+            "wa_vac_substance_use_disorder-set",
+            "wa_vac_survivor_felony-set",
+            "wa_vac_survivor_misdemeanor-set",
+            "wa_vac_treaty_fishing-set",
+            "wv_conv_multiple_misdemeanors-set",
+            "wv_conv_single_misdemeanor-set"
+          ],
+          "reuseDecision": "NO_EXISTING_WORK",
+          "note": "Each family's source binds by exact SHA-256 before a field is written."
+        },
+        {
+          "name": "COMPOSED PLEADING AND AGENCY APPLICATION",
+          "families": [
+            "ne-setaside-noncustodial-set",
+            "oh_marijuana_expungement-set",
+            "pa_6308_underage-set",
+            "rcap-oh-custom-pleading-clean-tracks"
+          ],
+          "reuseDecision": "NO_EXISTING_WORK",
+          "note": "The output vehicle is a legal-design decision. A family whose vehicle is unresolved in its memo stops."
+        }
+      ],
+      "familyIdsImplicated": [
+        "az_marijuana_expungement_arrest_no_charges-set",
+        "az_marijuana_expungement_superior_court-set",
+        "ca-1203-41-set",
+        "ca-1203-42-set",
+        "ca-1203-43-set",
+        "ca-1203-4a-set",
+        "ca-17b-reduction-set",
+        "ca-851-91-set",
+        "ca-prop64-set",
+        "ne-setaside-custodial-set",
+        "ne-trafficking-setaside-and-seal-set",
+        "nj_arrest_no_conviction-set",
+        "nj_clean_slate-set",
+        "nj_disorderly_persons-set",
+        "nj_indictable_conviction-set",
+        "nj_ordinance-set",
+        "ny_160_59_petition-set",
+        "ny_mrta_marijuana-set",
+        "pa_490_nonconviction-set",
+        "pa_790_nonconviction-set",
+        "pa_9122_1_limited_access-set",
+        "pa_summary_conviction-set",
+        "ri_nonconviction_sealing-set",
+        "sd_arrest_expungement-set",
+        "ut_pet_acquittal-set",
+        "ut_pet_conviction-set",
+        "ut_pet_dismissed_with_prejudice-set",
+        "ut_pet_dismissed_without_prejudice-set",
+        "ut_pet_limitations-set",
+        "ut_pet_no_charges-set",
+        "ut_pet_traffic-set",
+        "wa_blake_vacatur_and_lfo_refund-set",
+        "wa_vac_cannabis-set",
+        "wa_vac_domestic_violence-set",
+        "wa_vac_felony-set",
+        "wa_vac_homicide_victim_prostitution-set",
+        "wa_vac_misdemeanor_ordinary-set",
+        "wa_vac_substance_use_disorder-set",
+        "wa_vac_survivor_felony-set",
+        "wa_vac_survivor_misdemeanor-set",
+        "wa_vac_treaty_fishing-set",
+        "wv_conv_multiple_misdemeanors-set",
+        "wv_conv_single_misdemeanor-set",
+        "ne-setaside-noncustodial-set",
+        "oh_marijuana_expungement-set",
+        "pa_6308_underage-set",
+        "rcap-oh-custom-pleading-clean-tracks"
+      ],
+      "reuseDecisionSummary": "NO_EXISTING_WORK",
+      "reuseByRow": {
+        "az_marijuana_expungement_arrest_no_charges-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "az_marijuana_expungement_superior_court-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-1203-41-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-1203-42-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-1203-43-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-1203-4a-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-17b-reduction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-851-91-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ca-prop64-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ne-setaside-custodial-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ne-trafficking-setaside-and-seal-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "nj_arrest_no_conviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "nj_clean_slate-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "nj_disorderly_persons-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "nj_indictable_conviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "nj_ordinance-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ny_160_59_petition-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ny_mrta_marijuana-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "pa_490_nonconviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "pa_790_nonconviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "pa_9122_1_limited_access-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "pa_summary_conviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ri_nonconviction_sealing-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "sd_arrest_expungement-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_acquittal-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_conviction-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_dismissed_with_prejudice-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_dismissed_without_prejudice-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_limitations-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_no_charges-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ut_pet_traffic-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_blake_vacatur_and_lfo_refund-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_cannabis-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_domestic_violence-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_felony-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_homicide_victim_prostitution-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_misdemeanor_ordinary-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_substance_use_disorder-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_survivor_felony-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_survivor_misdemeanor-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wa_vac_treaty_fishing-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wv_conv_multiple_misdemeanors-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "wv_conv_single_misdemeanor-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "ne-setaside-noncustodial-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "oh_marijuana_expungement-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "pa_6308_underage-set": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        },
+        "rcap-oh-custom-pleading-clean-tracks": {
+          "decision": "NO_EXISTING_WORK",
+          "basis": "the reuse index classifies this family free to dispatch: no evidence in the Captain tree and none on any branch"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-all50/overlays/census-v1/**  (only the families listed in this assignment)",
+        "data/rcap-all50/pleadings/**  (only the families listed in this assignment)",
+        "scripts/build-census-v1-<family>.mjs"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md",
+        "data/rcap-grade-a/route-obligation-census-v1/source-custody-reconciliation.json",
+        "data/rcap-grade-a/stale-artifact-block.json"
+      ],
+      "requiredOutputs": [
+        "per official-PDF family: one field census, field map, canonical and boundary fixtures, an actual-write report and page rasters",
+        "per composed family: one pleading configuration, fixtures, rendered output and participant instructions"
+      ],
+      "focusedTests": [
+        "node scripts/verify-packet-build-environment.mjs --family <family>",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "The packet-build environment preflight must print PACKET_BUILD_ENVIRONMENT_READY 14/14 before anything is written. A family whose source does not bind by exact SHA-256 stops.",
+        "Never prefill a participant signature, a signature date, a certificate of mailing before actual mailing, or any court-only or prosecutor-only field.",
+        "A family whose output vehicle is unresolved in its legal-design memo stops and is reported; the vehicle is a legal-design decision, not a build choice."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "FAMILIES BUILT:",
+        "FAMILIES STOPPED:",
+        "PREFLIGHT:",
+        "SOURCES BOUND BY SHA-256:",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C11_PACKET_FACTORY_ACCELERATOR.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    },
+    {
+      "assignmentId": "C12_NONPRODUCTION_ACCEPTANCE_PREP",
+      "archetype": "Nonproduction participant-data-rights and hosted-acceptance preparation",
+      "lane": "platform",
+      "workerBranch": "codex/c12-nonproduction-acceptance-prep",
+      "captainBaseSha": "227f095d5d1493feca56779cf60c6f177caebd61",
+      "mission": "Stand up the dedicated synthetic nonproduction acceptance project, apply the participant-data-rights migration there under the standing one-time authorization, and run hosted export, matter-deletion and account-deletion acceptance against it.",
+      "rowKind": "environment",
+      "routeKeyCount": 0,
+      "routeKeys": [],
+      "familyIdsImplicated": [],
+      "reuseDecisionSummary": "RESUME_FROM_COMMIT",
+      "reuseByRow": {
+        "supabase/migrations/20260830120000_participant_data_rights.sql": {
+          "decision": "RESUME_FROM_COMMIT",
+          "basis": "the migration and the code are integrated on the Captain branch and the focused suite passes 117/117; what is missing is an environment to apply them in, not an implementation"
+        }
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/participant-data-rights/**"
+      ],
+      "prohibitedPaths": [
+        "data/rcap-grade-a/route-obligation-census-candidate/category-b-medium-confidence-revalidation.json",
+        "docs/rcap/grade-a/route-obligation-census/CATEGORY_B_MEDIUM_CONFIDENCE_REVALIDATION.md",
+        "data/rcap-grade-a/route-obligation-census-candidate/route-obligation-candidate.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "data/rcap-grade-a/launch-control/**",
+        "data/rcap-ledger/**",
+        "supabase/migrations/**",
+        "package.json",
+        "package-lock.json",
+        ".github/workflows/**"
+      ],
+      "requiredInputs": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_STATUS.md",
+        "data/rcap-grade-a/launch-control/EXISTING_WORK_REUSE_INDEX.json",
+        "data/rcap-grade-a/launch-control/ACTIVE_CODEX_ASSIGNMENTS.json",
+        "data/rcap-grade-a/route-obligation-census-v1/FREEZE.json",
+        "supabase/migrations/20260830120000_participant_data_rights.sql",
+        "data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json"
+      ],
+      "requiredOutputs": [
+        "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json — the project ref, the proof it is synthetic, the migration's SHA-256 as applied, and the result of each acceptance case"
+      ],
+      "focusedTests": [
+        "node scripts/verify-participant-data-rights.mjs",
+        "node scripts/grade-a-launch-control/verify-launch-control.mjs"
+      ],
+      "stopConditions": [
+        "SYNTHETIC NONPRODUCTION ONLY. No Production migration, deployment, environment-variable change or real participant data. The authorization covers one dedicated synthetic acceptance project and nothing else.",
+        "If the project ref cannot be recorded and proven synthetic, this lane stops rather than proceeding.",
+        "Do not contact real downstream processors with deletion requests. The processor adapters run against the synthetic project's own fixtures."
+      ],
+      "returnFormat": [
+        "ASSIGNMENT:",
+        "WORKER BRANCH:",
+        "BASE SHA:",
+        "COMMIT:",
+        "PROJECT REF:",
+        "PROVEN SYNTHETIC:",
+        "MIGRATION APPLIED:",
+        "ACCEPTANCE CASES PASSED:",
+        "REAL PARTICIPANT DATA TOUCHED: NO",
+        "STOPPED AND REPORTED:",
+        "COMMERCIAL ROUTES OPENED: 0",
+        "PRODUCTION TOUCHED: NO"
+      ],
+      "promptFile": "docs/rcap/grade-a/launch-control/prompts/C12_NONPRODUCTION_ACCEPTANCE_PREP.md",
+      "reuseChecked": true,
+      "grantsNothing": "Completing this assignment opens no commercial route, proves no packet and approves no output. Commercial authority comes from a Grade-A fulfilment record keyed to an exact route and packet family, and from nothing else."
+    }
+  ]
+}
