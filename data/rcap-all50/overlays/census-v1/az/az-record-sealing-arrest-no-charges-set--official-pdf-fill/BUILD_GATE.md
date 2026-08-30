@@ -81,14 +81,19 @@ official source, and no mirror, cache or aggregator was consulted.
 `node scripts/verify-packet-build-environment.mjs --family
 az_record_sealing_arrest_no_charges-set --branch
 claude/census-v1-build-az-record-sealing-arrest-no-charges`
-→ `PACKET_BUILD_ENVIRONMENT_NOT_READY: 9/14 passed, 5 failed`.
+→ `PACKET_BUILD_ENVIRONMENT_NOT_READY: 10/14 passed, 4 failed`.
 
-Four failures are one cause — `master_library_mounted`,
+All four failures are one cause — `master_library_mounted`,
 `master_library_complete`, `corpus_matches_committed_index`,
-`family_sources_bind` (2 of 2 sources do not bind). The fifth,
-`assigned_branch_tip_visible`, is an artefact of this branch not yet existing on
-the remote and clears on first push. The clone was unshallowed as instructed and
-`clone_is_complete` passes.
+`family_sources_bind` (2 of 2 sources do not bind). Every check that does not
+need the corpus passes: the clone was unshallowed as instructed so
+`clone_is_complete` passes, `private_is_git_ignored` passes, and
+`absent_is_not_empty` — the check that keeps an unmounted corpus from reading as
+an empty one — passes.
+
+(Before this branch was first pushed the run was 9/14, the extra failure being
+`assigned_branch_tip_visible`, which clears once the branch exists on the
+remote. It does now.)
 
 ## What I did not do, and would not do
 
