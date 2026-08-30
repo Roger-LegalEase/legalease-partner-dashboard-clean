@@ -1389,6 +1389,34 @@
         "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
         "a96372dd5e8b4c7e274aa89dc98c3bcde51eb6d12b0bab7e8e3d6fbe80011077"
       ]
+    },
+    {
+      "id": "auth-2026-08-30-phase-57-participant-data-rights",
+      "kind": "migration",
+      "phase": 57,
+      "title": "Participant data rights: export, single-matter deletion, account deletion",
+      "artifacts": [
+        "supabase/phase-57-participant-data-rights.sql"
+      ],
+      "status": "pending_authorization",
+      "decision": "not_yet_requested_of_roger",
+      "requestedBy": "claude-participant-data-rights",
+      "requestedAt": "2026-08-30",
+      "why": "Creates the durable participant privacy-request workflow the three data-rights controls run on: participant_privacy_requests, participant_privacy_request_steps, participant_legal_holds, participant_account_tombstones and participant_processor_propagations, with the security-definer functions that write them. It also re-creates four EXISTING guard functions with one narrow, named exception each, gated on a session-local erasure authority: packet_render_jobs_consumer_binding_immutable and consumer_payment_consumption_binding_guard may substitute a keyed pseudonym for consumer_auth_user_id; guard_packet_delivery_events may substitute one for actor_user_id; guard_packet_render_job_transition permits queued -> failed under the cancel_participant_render_jobs authority, because a queued job holds no fencing token and the canonical failure function cannot reach it. packet_render_jobs_error_code_check gains one value, participant_deletion_cancelled. packet_credit_ledger is deliberately untouched.",
+      "risk": "high",
+      "riskNote": "Two reasons this is not routine. First, it re-creates four functions that other phases own, so applying it out of order — before phase 50, 52 or 55 — would silently revert their guards to the phase-57 text; the loose_order recipe applies phase files in numeric order, which puts 57 last, but an operator applying files by hand must not deviate. Second, the erasure path deletes participant records irreversibly and deletes the Auth user; a defect in it is not recoverable by rollback. Against that: no existing refusal is weakened. Without rcap.participant_erasure_authority set, every original refusal still fires, and the accounting fields — amount, currency, product id, receipt reference, event type, ledger rows — refuse to move even with it. The new tables carry RLS with a single participant SELECT policy on participant_privacy_requests and no policy at all on the other four. EXECUTE on every new function is revoked from PUBLIC, not merely from anon and authenticated, because PostgreSQL's default PUBLIC grant would otherwise leave them callable by a browser role.",
+      "rollback": "Forward-only in the chain, reversible by statement. Drop the five new tables (they are referenced by nothing outside this phase), drop the eleven new functions, drop the reject_tombstoned_consumer_briefcase_writes trigger, restore packet_render_jobs_error_code_check without participant_deletion_cancelled, and re-apply the phase-50, phase-52 and phase-55 bodies of guard_packet_render_job_transition, guard_packet_delivery_events, packet_render_jobs_consumer_binding_immutable and consumer_payment_consumption_binding_guard by re-running those three files' relevant sections. No existing table is dropped, no column is removed and no data is rewritten by the migration itself, so no data recovery is involved in reverting the schema. Erasures already performed by the application are by design not reversible; that is the point of the feature, and it is why the tombstone and the receipt outlive the account.",
+      "evidence": [
+        "node scripts/verify-participant-data-rights.mjs — 96/96 against an ephemeral PostgreSQL cluster with phases 24, 26, 27, 28, 31, 32, 33, 34, 35b, 38, 40, 49, 50, 51, 52, 53, 54, 55 and 57 applied in order, driving the real route handlers and the real deletion pipeline",
+        "Checks G1–G10: every refusal the four re-created guards made before phase 57 still fires without the erasure authority, and amount, paid-item binding, delivery-event deletion and started-job cancellation still refuse WITH it",
+        "Checks Q1–Q5: a participant reads only their own privacy requests, cannot write one, cannot read the step ledger, holds, tombstones or processor rows, and cannot execute the erasure functions",
+        "Checks N1–N10: an interrupted run (GoTrue admin logout returning 500) stops at revoke_sessions, leaves the account frozen and the Auth user intact, runs no later step, and a re-submission of the same idempotency key resumes without re-running a completed step",
+        "Checks D1–D17 and A1–A6: sessions revoked at the identity provider, Auth user deleted last, matters/screenings/packets/uploads/follow-up entries gone, private packet URL dead, reminders stopped, assisted partner access ended, partner records untouched, packet_credit_ledger byte-for-byte intact, retained payment and delivery records pseudonymized, deleted account refused, restore-from-backup refused",
+        "Existing coverage unchanged: verify-expungement-consumer-payment-http, verify-rcap-phase51-consumer-payment-security, verify-rcap-phase52-consumer-payment-authority, verify-rcap-phase53-consumer-job-binding, verify-rcap-mutation-authority, verify-rcap-money-gate-delivery-binding, verify-rcap-packet-delivery-db and verify-expungement-dtc-flow-unchanged all pass",
+        "docs/PARTICIPANT_DATA_RIGHTS.md"
+      ],
+      "appliedTo": "local ephemeral test clusters only; no Supabase project was connected to",
+      "blockedOn": "Roger's authorization. Nothing about this entry authorizes a Production migration, db push, migration repair, deploy or flag change."
     }
   ],
   "statusVocabulary": {
