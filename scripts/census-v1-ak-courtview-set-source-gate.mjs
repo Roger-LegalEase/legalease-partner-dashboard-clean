@@ -43,7 +43,25 @@ export const FAMILY = {
 export const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 export const CORPUS_ROOT_RELATIVE =
   "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1";
-export const OPERATIONAL_CORPUS_ENV = "OFFICIAL_FORMS_SOURCE_DIR";
+/**
+ * The Master Library mount point, and the only environment variable that may
+ * move this gate.
+ *
+ * `OFFICIAL_FORMS_SOURCE_DIR` used to be read here. That was wrong, and it was
+ * a trap: it names the *operational* Nationwide tree, which is a different
+ * corpus answering a different question. The packet-worker brief forbids
+ * pointing it at the Master Library, and
+ * `scripts/verify-packet-build-environment.mjs` actively refuses that
+ * substitution by name (`master_library_not_at_operational_path`). So the one
+ * variable that would have moved this gate was the one variable that makes the
+ * preflight fail — a worker who mounted the corpus anywhere but the default
+ * path could satisfy either check but never both.
+ *
+ * `MASTER_LIBRARY_SOURCE_DIR` is what the brief tells workers to export and
+ * what the preflight already resolves the corpus from. Reading the same
+ * variable is what makes the two agree.
+ */
+export const MASTER_LIBRARY_ENV = "MASTER_LIBRARY_SOURCE_DIR";
 
 /** The corpus index entry this family is pinned to, by form number. */
 export function pinnedEntry(rootDir) {
@@ -87,7 +105,7 @@ export function resolveSourceGate(rootDir) {
     return { open: false, entry: null, refusals, corpusIndex: CORPUS_INDEX };
   }
 
-  const envOverride = process.env[OPERATIONAL_CORPUS_ENV] || null;
+  const envOverride = process.env[MASTER_LIBRARY_ENV] || null;
   const corpusRoot = envOverride
     ? path.resolve(envOverride)
     : path.join(rootDir, CORPUS_ROOT_RELATIVE);
@@ -113,7 +131,13 @@ export function resolveSourceGate(rootDir) {
       `The verified private corpus is not mounted at ${envOverride ? envOverride : CORPUS_ROOT_RELATIVE}. private/ is git-ignored, so a fresh clone never carries it. An absent corpus is not an empty corpus: reading it as one would make a form with a pinned hash look like a form with no source.`,
       {
         expectedCorpusRoot: envOverride ? envOverride : CORPUS_ROOT_RELATIVE,
-        orSetTheEnvironmentVariable: OPERATIONAL_CORPUS_ENV,
+        recoverWith: "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+        orSetTheEnvironmentVariable: MASTER_LIBRARY_ENV,
+        doNotSet: {
+          variable: "OFFICIAL_FORMS_SOURCE_DIR",
+          because:
+            "It names the operational Nationwide tree, not the Master Library. Pointing it here is refused by the preflight check master_library_not_at_operational_path."
+        },
         environmentVariableSet: Boolean(envOverride)
       }
     );

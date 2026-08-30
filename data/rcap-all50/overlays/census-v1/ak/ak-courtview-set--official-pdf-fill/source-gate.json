@@ -13,7 +13,8 @@
     "No verifier was weakened, skipped or quarantined to make this lane report green."
   ],
   "toReopenThisGate": [
-    "Mount the verified private corpus at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, or point OFFICIAL_FORMS_SOURCE_DIR at it.",
+    "Grant this container's credential read access to the private release Roger-LegalEase/legalease-source-artifacts@source-corpus-2026-08-28, then run bash scripts/rcap-corpus/bootstrap-private-corpus.sh. This is the blocker for all three attempts: the bootstrap resolves the asset with the container's GITHUB_TOKEN and is refused HTTP 403. Attaching the repo from inside the session was attempted on attempts 2 and 3 and declined by the permission layer both times, so the grant has to come from outside the container.",
+    "Or mount the verified private corpus at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, or point MASTER_LIBRARY_SOURCE_DIR at it. Do NOT point OFFICIAL_FORMS_SOURCE_DIR at it: that names the operational Nationwide tree and the preflight check master_library_not_at_operational_path refuses the substitution.",
     "Re-run scripts/census-v1-ak-courtview-set-source-gate.mjs; it exits 0 only when the bytes at the pinned path hash to c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 and measure 85386 bytes.",
     "Install dependencies (node_modules is absent in this container; scripts/rcap-all50-overlay-factory-lib.mjs cannot import pdf-lib), then run the existing factory. Do not write a second factory.",
     "Measure every write box off the document using scripts/lib/pdf-stroked-boxes.mjs, which is the corrected detector; the older re-operator scan tracked no CTM and produced a mark in the margin."
@@ -56,7 +57,12 @@
       "code": "corpus_root_absent",
       "because": "The verified private corpus is not mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. private/ is git-ignored, so a fresh clone never carries it. An absent corpus is not an empty corpus: reading it as one would make a form with a pinned hash look like a form with no source.",
       "expectedCorpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-      "orSetTheEnvironmentVariable": "OFFICIAL_FORMS_SOURCE_DIR",
+      "recoverWith": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+      "orSetTheEnvironmentVariable": "MASTER_LIBRARY_SOURCE_DIR",
+      "doNotSet": {
+        "variable": "OFFICIAL_FORMS_SOURCE_DIR",
+        "because": "It names the operational Nationwide tree, not the Master Library. Pointing it here is refused by the preflight check master_library_not_at_operational_path."
+      },
       "environmentVariableSet": false
     }
   ],

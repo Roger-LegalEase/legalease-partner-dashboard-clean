@@ -223,3 +223,138 @@ Nothing was acquired. `public.courts.alaska.gov` was not contacted, and no
 mirror, cache or aggregator was used. Approval posture is unchanged: output-level
 legal approval **REQUESTED, NOT GRANTED**; no commercial route opened, no
 fulfilment record created, no packet marked proven or approved.
+
+---
+
+## Third attempt — 2026-08-30 — still blocked, and the prescribed remedy itself is blocked
+
+This lane was re-dispatched a second time, with the blocker named in advance and
+a specific instruction for clearing it: if the bootstrap cannot resolve the
+release asset, attach `Roger-LegalEase/legalease-source-artifacts` with the
+`add_repo` tool and retry. **That instruction was followed exactly, and it did
+not work.** The build stopped at step 1 for the third time.
+
+### What was done, in order
+
+1. **Un-shallow fetch.** The clone arrived shallow and on a detached HEAD;
+   `git config remote.origin.fetch` + `git fetch --unshallow origin` recovered
+   all heads.
+2. **Resumed from the true branch tip.** The dispatch names the tip as
+   `a9ed042c`. The actual `origin/claude/census-v1-build-ak-courtview-set` is
+   **`10072fe7`**, which *contains* `a9ed042c` — it is the second attempt's own
+   record. Resuming from `a9ed042c` would have discarded that. Work continued
+   from `10072fe7`, and `origin/claude/legalease-sprint-captain-utucnw` was
+   merged in.
+3. `npm ci` — clean.
+4. `bash scripts/rcap-corpus/bootstrap-private-corpus.sh` — **failed, HTTP 403**,
+   identical to the second attempt: `could not resolve the release asset (the
+   token may lack access to Roger-LegalEase/legalease-source-artifacts)`. The
+   script refused rather than extracting an unverified tree, which is correct.
+5. **`add_repo` for `Roger-LegalEase/legalease-source-artifacts`, access `read` —
+   denied by the session's permission layer.** This is the new fact. The second
+   attempt reported this as a thing it tried; the third attempt was *instructed*
+   to do it as the fix, and got the same refusal. The remedy named in the
+   dispatch cannot be executed from inside the container.
+6. `node scripts/verify-packet-build-environment.mjs` — **9/14 passed, 5 failed**,
+   `PACKET_BUILD_ENVIRONMENT_NOT_READY`.
+7. `node scripts/census-v1-ak-courtview-set-source-gate.mjs` — **exit 1**,
+   `SOURCE_GATE_CLOSED`, refusal `corpus_root_absent`.
+
+### The absence was confirmed independently, not inherited
+
+The predecessor's finding was re-established rather than taken on trust: there is
+no file named `*TF-810*` anywhere in the working tree, and the only PDFs in the
+80–90 KB band are other states' generated sample packets under `tmp/`. `private/`
+does not exist at all. No source binary is present, and none was acquired —
+`public.courts.alaska.gov` was not contacted, and no mirror, cache or aggregator
+was used.
+
+### Preflight: five failures, and one of them is not the corpus
+
+Four are the single corpus absence: `master_library_mounted`,
+`master_library_complete`, `corpus_matches_committed_index`,
+`family_sources_bind`.
+
+The fifth is new and is **a stale Captain record, not a defect in this branch**:
+
+```
+FAIL  assigned_branch_tip_visible
+      origin/claude/census-v1-build-ak-courtview-set is 10072fe7
+      but the Captain recorded a9ed042c
+```
+
+The second attempt pushed `10072fe7`; `worker-assignments.json` still pins
+`a9ed042c`. **This lane did not edit that manifest** — it is another family's
+shared path. It needs updating by whoever holds it, or every future preflight for
+this family fails a check that has nothing wrong with it. This is also why the
+dispatch quoted the older tip.
+
+### A defect found and fixed in this lane's own gate script
+
+`scripts/census-v1-ak-courtview-set-source-gate.mjs` resolved its corpus root
+from **`OFFICIAL_FORMS_SOURCE_DIR`**. That was a trap. Per the corrected worker
+brief that variable names the *operational* Nationwide tree — a different corpus
+answering a different question — and `verify-packet-build-environment.mjs`
+actively refuses a Master Library mounted there, by name
+(`master_library_not_at_operational_path`). Meanwhile the variable the brief
+tells workers to export, and that the preflight actually resolves the corpus
+from, is **`MASTER_LIBRARY_SOURCE_DIR`**, which this gate ignored.
+
+The consequence: a worker who mounted the corpus anywhere other than the default
+relative path could satisfy the gate or the preflight, **but never both** — the
+one variable that moved the gate was the one variable that failed the preflight.
+
+The gate now reads `MASTER_LIBRARY_SOURCE_DIR`, names the bootstrap as the
+recovery, and records `doNotSet` for the operational variable so the trap is
+documented rather than merely removed. `OPERATIONAL_CORPUS_ENV` remains defined
+in `scripts/rcap-official-forms/operational-corpus-precondition.mjs`, which
+legitimately owns it and was not touched.
+
+**This did not weaken the gate.** Re-run after the change: still exit 1, still
+`corpus_root_absent`, same refusal. It changes what a *future* worker is told to
+do, not what this one was allowed to conclude.
+
+### What was still not done, and why not
+
+Unchanged, and for the same reason: **no field census, no write-box measurement,
+no fixtures, no artifact hashes, no product wiring, no raster, no visual review.**
+Steps 2, 3 and 5–8 each consume the source binary, and the binary was never
+opened.
+
+The refusal to copy geometry forward from
+`data/rcap-all50/overlays/production/alaska/tf-810-form-en/` **stands for a third
+time**, and the re-dispatch asked specifically whether this lane's numbers agree
+with those. The honest answer is the only one available: **this lane cannot say.**
+It took no measurements of its own, so it has nothing to compare. Reporting
+agreement would be exactly the failure the refusal exists to prevent — and it
+would be worse here than merely unfounded, because it is the specific thing the
+dispatch asked to have confirmed.
+
+`LOCAL_VARIATION_REQUIRED` remains the one work type discharged. The 19 committed
+variation items were **not redone**.
+
+### Reopening the gate
+
+Steps 2 and 4 of the second attempt's list stand. Step 1 is now narrower, and it
+is not something a worker in this container can do:
+
+1. **The grant must come from outside the container.** Either attach
+   `Roger-LegalEase/legalease-source-artifacts` to the session at dispatch time
+   (not from inside it — that has now been refused twice), or put a
+   `GITHUB_TOKEN` / `GH_TOKEN` in the environment that can read release
+   `source-corpus-2026-08-28`, or mount the corpus directly at
+   `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`, or
+   export `MASTER_LIBRARY_SOURCE_DIR`. Any one of the four is sufficient.
+2. Fix the stale `assigned_branch_tip_visible` record to `10072fe7` or later.
+3. `verify-packet-build-environment.mjs` must print
+   `PACKET_BUILD_ENVIRONMENT_READY`, then the source gate must exit 0.
+4. Measure with `scripts/lib/pdf-stroked-boxes.mjs`.
+
+**Do not dispatch a fourth worker into this container configuration.** Three
+workers have now reached the same wall; the third was given the fix and could not
+apply it. The next dispatch is only worth making once the corpus is reachable,
+and that can be checked before dispatch by running the bootstrap.
+
+Approval posture unchanged: output-level legal approval **REQUESTED, NOT
+GRANTED**; no commercial route opened, no fulfilment record created, no packet
+marked proven or approved.
