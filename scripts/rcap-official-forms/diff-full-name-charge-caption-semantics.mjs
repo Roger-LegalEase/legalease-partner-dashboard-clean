@@ -13,6 +13,19 @@
 // ARTIFACTS already contain. The binder is fixed here. An artifact rendered
 // before the fix still carries what the old binder wrote, and no change to a
 // rule reaches back into bytes.
+//
+// WHAT THE RECORD SPANS.
+//
+// This diff is BASE_SHA -> the binder as it stands, so it accumulates every
+// correction landed on the shared binder since that base, not the charge-caption
+// one alone. The verifier that reads `expectedChangeKeys` asks only "did anything
+// move that no record accounts for", and that question is answered correctly by
+// an accumulating record; it would be answered wrongly by a frozen one, which
+// would report a later correction as unexplained drift.
+//
+// So each correction states its own scope, and this file records the union.
+// `correctionsCovered` below names them and points at the per-correction record
+// that enumerates and justifies each field it moves.
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
@@ -132,6 +145,26 @@ const diff = {
   fieldsUnexpectedlyChanged: 0,
   fieldsUnexpectedlyChangedNote:
     "The expected-change set is this diff. It is asserted rather than declared: verify-full-name-charge-caption-semantics recomputes both projections and fails if any field outside this list moves, or if any field in it stops moving.",
+  correctionsCovered: [
+    {
+      correction: "full-name charge-caption",
+      what: "A blank whose caption says it holds a charge, offence, count, statute or violation no longer takes participant.full_legal_name.",
+      record: "data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-diff.json (this file)",
+      verifier: "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs"
+    },
+    {
+      correction: "shared name/date field semantics",
+      what:
+        "A field NAME that is a date component (day, month, year) no longer takes a fact from the printed-label "
+        + "fallback, and a caption naming first, middle and last at once resolves to the whole name rather than to "
+        + "the surname.",
+      record: "data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json",
+      verifier: "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs"
+    }
+  ],
+  correctionsCoveredNote:
+    "This diff is cumulative from baseCommit. Every key in expectedChangeKeys is enumerated and justified in "
+    + "exactly one of the per-correction records above.",
   invariant: {
     statement:
       "No field may resolve, through decideBinding, to a writable participant.full_legal_name while its own name or its printed caption says the blank holds a charge, offence, count, statute or violation.",
