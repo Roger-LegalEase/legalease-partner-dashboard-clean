@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "rcap-route-reachability-finding/v1",
+  "familyId": "az_record_sealing_arrest_no_charges-set",
+  "routeKey": "obligation:track-pathway:AZ:az_record_sealing_arrest_no_charges:remedy-1-record-sealing",
+
+  "question": "If this family's two documents were mapped and rendered today, could a participant reach this route through the compiled Arizona engine?",
+  "answer": "NO. As compiled, no answer a participant can give selects the arrest-without-charges situation.",
+
+  "foundWithoutTheSourceBytes": true,
+  "whyThatMatters": "This finding does not depend on the unmounted corpus. It would still stand on the day the binaries are bound, and closing the source gate does not close it.",
+
+  "evidence": [
+    {
+      "artifact": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "at": "caseOutcomeOptions",
+      "observed": [
+        { "value": "dismissed", "label": "Dismissed, no-billed, nolle prosequi, or not prosecuted" },
+        { "value": "acquitted", "label": "Acquitted or found not guilty" },
+        { "value": "convicted_other", "label": "Other conviction or adjudication" }
+      ],
+      "reading": "Three options. None of them is 'arrested, and no charges were ever filed'. The nearest is `dismissed`, whose label enumerates no-billed / nolle prosequi / not prosecuted — all of which are prosecutorial dispositions of a charge that was brought or considered by a prosecutor, not the absence of any charging decision. `dismissed` is also the option the sibling family az_record_sealing_dismissal_not_guilty-set is built for."
+    },
+    {
+      "artifact": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "at": "pathways[remedy-1-record-sealing].caseOutcomes",
+      "observed": ["dismissed", "acquitted", "convicted_other"],
+      "reading": "The sealing pathway accepts the same three. Its triggerFields are case_outcome, disposition_date and charge — the arrest-without-charges situation supplies none of the last two."
+    },
+    {
+      "artifact": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "at": "pathways[remedy-1-record-sealing].ruleClauses",
+      "observed": "Convictions … Dismissals / acquittals … Effect …",
+      "reading": "The compiled rule clauses for § 13-911 carry a conviction limb and a dismissal/acquittal limb. They do not carry an arrest-without-charges limb at all. The same absence runs through sourceSections['Case outcome rules'] and sourceSections['Waiting periods'], neither of which has a row for an arrest that produced no charge."
+    },
+    {
+      "artifact": "src/lib/rcap-engine/compiled/profiles/AZ-arizona.json",
+      "at": "packetGenerator.pathways[remedy-1-record-sealing]",
+      "observed": { "formCandidates": [], "formMappingStatus": "custom_or_manual_mapping_required" },
+      "reading": "No form is wired to the sealing pathway at all, for any limb. This is the wiring point a completed family would attach to, and it is empty today."
+    }
+  ],
+
+  "consequenceForThisFamily": "The route this family is assigned to build for is, in the compiled engine, unreachable. Mapping AOCCRSL1F-050825 and AOCCRSL2F-050825 would produce a correct packet for a situation the questionnaire cannot express. Building the documents is still the right work — the forms are the same instrument — but the family cannot be called complete on the strength of rendered artifacts alone.",
+
+  "notFixedHere": {
+    "why": "caseOutcomeOptions, the pathway's caseOutcomes and the compiled rule clauses are legal eligibility and route identity. This family's owned path is its overlay directory and its own scripts; the worker brief and the dispatch both exclude shared manifests, Production configuration, legal eligibility and route identities. Adding a fourth case outcome to Arizona would be a change to what the engine tells participants they are eligible for, made by a worker with no source for the underlying rule.",
+    "andAlso": "The committed corpus does not state the eligibility test or the waiting period for the no-charges-filed limb (see local-filing-variation.json). Wiring a route whose rule is unstated would be creating authority, which the brief forbids in terms."
+  },
+
+  "whoOwnsIt": "Whoever owns the AZ state pack and the compiled profile, with counsel, since it is an eligibility question.",
+
+  "whatWouldSettleIt": [
+    "A.R.S. § 13-911 read at the statute, for whether the no-charges-filed limb exists as the route assumes and on what terms — currently behind refused egress (azleg.gov).",
+    "The situation selection printed on AOCCRSL1F-050825, read from the pinned binary, for whether the form itself offers an arrest-without-charges option distinct from dismissal. The sibling family measured that control as `Check Box9` and took export value `/2` for dismissal-and-not-guilty; which export value, if any, denotes an arrest with no charges filed is not knowable from that record and is exactly what this family must read for itself."
+  ],
+
+  "relationshipToTheSibling": "az_record_sealing_dismissal_not_guilty-set is built and its route is `obligation:track-only:AZ:az_record_sealing_dismissal_not_guilty`. Its situation maps onto the compiled `dismissed` and `acquitted` options; this family's does not map onto any. The two families sharing both binaries does not make them one route, and the sibling's completion is not evidence about this one.",
+
+  "grantsNoAuthority": "This is a finding, not a change. Nothing outside this family's owned path was edited."
+}

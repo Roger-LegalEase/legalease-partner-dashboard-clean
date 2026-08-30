@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-census-v1-family-source-bind/v1",
+  "worklistGroupId": "az_record_sealing_arrest_no_charges-set",
+  "implementationStrategy": "official_pdf_fill",
+  "jurisdictions": [
+    "AZ"
+  ],
+  "custodyClass": "SOURCE_ALREADY_HELD",
+  "acquisitionCommissioned": false,
+  "corpus": {
+    "root": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "present": false,
+    "declaredRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "environmentOverride": "MASTER_LIBRARY_SOURCE_DIR"
+  },
+  "nonDocumentSourceIds": 6,
+  "sources": [
+    {
+      "sourceId": "official-form:AOCCRSL1F-050825",
+      "resolvedInCustody": true,
+      "corpusPath": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "formNumber": "AOCCRSL1F-050825",
+      "revision": "REV-2025-05-08",
+      "indexEntryFound": true,
+      "custodySha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "indexSha256": "32c1e54d8a4135cfefe5d85d25f62afdb7c212f6a475e18664188524de34db05",
+      "indexByteLength": 299110,
+      "indexPageCount": 5,
+      "indexAcroFieldCount": 71,
+      "indexStructuralClassObserved": "acroform",
+      "agree": true,
+      "bound": false,
+      "observed": null,
+      "refusal": "corpus_absent",
+      "expectedAt": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL1F-050825__petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf"
+    },
+    {
+      "sourceId": "official-form:AOCCRSL2F-050825",
+      "resolvedInCustody": true,
+      "corpusPath": "STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf",
+      "formNumber": "AOCCRSL2F-050825",
+      "revision": "REV-2025-05-08",
+      "indexEntryFound": true,
+      "custodySha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+      "indexSha256": "436df2e10722ff26b30069d4b0913825fa304202d6538a70e45ad8bafbca61b1",
+      "indexByteLength": 213882,
+      "indexPageCount": 3,
+      "indexAcroFieldCount": 41,
+      "indexStructuralClassObserved": "acroform",
+      "agree": true,
+      "bound": false,
+      "observed": null,
+      "refusal": "corpus_absent",
+      "expectedAt": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AZ/02_PACKET_FORMS/AZ__FORM__AOCCRSL2F-050825__order-regarding-petition-to-seal-criminal-case-records__REV-2025-05-08__EN.pdf"
+    }
+  ],
+  "recordsAgreeOnEverySource": true,
+  "everySourceBoundToItsOwnBytes": false,
+  "refusals": [
+    {
+      "code": "corpus_absent",
+      "because": "The Master Library corpus is not mounted, so no source file can be hashed and no bind is possible. An absent corpus is not an empty one: treating it as nothing-to-check would let a family whose bytes were never opened report as bound. private/ is git-ignored, so the corpus is a working input that must be mounted, not something the clone carries.",
+      "expectedAt": "/home/user/legalease-partner-dashboard-clean/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "orSetTheEnvironmentVariable": "MASTER_LIBRARY_SOURCE_DIR",
+      "recoverWith": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh"
+    }
+  ],
+  "sharedBinariesNote": "AOCCRSL1F-050825 and AOCCRSL2F-050825 are also bound by az_record_sealing_dismissal_not_guilty-set. A sibling's successful bind of the same digests is evidence the bytes exist and hash as pinned; it is not this family's bind, and it is not a census this family may adopt.",
+  "grantsNoAuthority": "A source bind is custody of bytes and nothing else. It maps no field, proves no packet, opens no route, and requests no approval."
+}
