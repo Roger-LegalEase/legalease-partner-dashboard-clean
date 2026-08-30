@@ -178,8 +178,28 @@ const serialized = JSON.stringify(doc, null, 2) + "\n";
 const outPath = path.join(ROOT, OUT);
 if (CHECK) {
   const current = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : null;
-  if (current !== serialized) { console.error(`${OUT} is stale. Run the generator.`); process.exit(1); }
-  console.log(`reuse index current: ${branchRows.length} branch(es), ${familyRows.length} family(ies).`);
+  if (current === null) { console.error(`${OUT} is missing. Run the generator.`); process.exit(1); }
+  // atCaptainHead is provenance, not a finding. Committing this file moves HEAD
+  // past the value it recorded, so a byte comparison including that field would
+  // report the index stale on every commit whether or not a single reuse
+  // decision had changed — and the fix a reader would reach for is to
+  // regenerate, which churns the file without learning anything.
+  //
+  // So the FINDINGS are compared byte-for-byte and the recorded head is checked
+  // for what it can actually promise: that it is still in this history.
+  const committed = JSON.parse(current);
+  const strip = (value) => { const copy = { ...value }; delete copy.atCaptainHead; return JSON.stringify(copy, null, 2) + "\n"; };
+  if (strip(committed) !== strip(doc)) {
+    console.error(`${OUT} is stale: a reuse decision has changed. Run the generator.`);
+    process.exit(1);
+  }
+  const stillInHistory = committed.atCaptainHead === HEAD
+    || execFileSync("git", ["merge-base", "--is-ancestor", committed.atCaptainHead, "HEAD"], { cwd: ROOT }) !== undefined;
+  if (!stillInHistory) {
+    console.error(`${OUT} records ${committed.atCaptainHead}, which is not an ancestor of HEAD.`);
+    process.exit(1);
+  }
+  console.log(`reuse index current: ${branchRows.length} branch(es), ${familyRows.length} family(ies); recorded at ${committed.atCaptainHead.slice(0, 8)}.`);
   process.exit(0);
 }
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
