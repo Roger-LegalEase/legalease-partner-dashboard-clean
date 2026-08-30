@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "rcap-local-variation/v1",
+  "familyId": "ak-tf800-set",
+  "jurisdiction": "AK",
+  "routeKeys": [
+    "obligation:track-only:AK:ak-tf800"
+  ],
+  "basis": "Read off the pinned TF-800 binary's own printed text. Nothing here is sourced from a court host, a mirror or an aggregator, and nothing is inferred from another jurisdiction. Where the document's text extraction interleaves (the form sets some lines in overlapping runs), the extracted string is quoted verbatim and marked, rather than being tidied into text the document does not demonstrably carry.",
+  "createsNoLegalAuthority": "This records what the form says about its own filing, service and delivery. It is not legal eligibility, it is not a route identity, and it opens nothing.",
+  "filing": {
+    "where": "The Clerk's Office at the participant's local trial court.",
+    "printedText": "Filing Instructions: File this request with the Clerk's Office at your local trial court.",
+    "textBasis": "rendered_page_raster",
+    "extractionNote": "Text extraction returns this line scrambled — 'File this request wiloctalh t rialt choue Crt. lerk's Office at your' — because the form sets it in interleaved runs, with 'local trial court' as a link styled separately. The extracted string is NOT what the form says. The printedText above is read off raster/request-canonical/page-01.png, which Chromium's PDF engine rendered from these same pinned bytes: a second measurement channel on the same document, not a reconstruction and not an outside source. Both channels are recorded so the disagreement between them stays visible.",
+    "verbatimTextExtraction": "File this request wiloctalh t rialt choue Crt. lerk's Office at your",
+    "timeLimit": [
+      "when you first open your case",
+      "while the case is still open",
+      "or if it has been less than 90 days since the case was closed"
+    ],
+    "timeLimitCaveat": "If the case was reopened after being closed, the request applies only to records filed or created since the case was reopened."
+  },
+  "fee": {
+    "statedOnTheFormsFace": false,
+    "note": "TF-800 states no filing fee anywhere on its three pages. That is a measured absence of a statement about fees on this document; it is not a finding that no fee is payable. Whether a motion fee attaches is not something this form answers."
+  },
+  "venue": {
+    "court": "The trial court in which the case is pending.",
+    "note": "The form binds itself to an existing case — it carries a Case Name, a Case No. and Party Names, and its time limit is expressed relative to the case being open, closed or reopened. There is no venue election for the participant to make."
+  },
+  "relief": {
+    "choice": "confidential OR sealed",
+    "choiceIsTheParticipants": true,
+    "confidentialMeans": "the record is restricted to the case parties, the parties' attorneys, persons authorized by written court order, and court staff for case processing purposes only",
+    "sealedMeans": "the record is restricted to the judge and persons authorized by written court order",
+    "scopeOptions": [
+      "Entire case file",
+      "Document(s)",
+      "Log notes",
+      "Audio Recording",
+      "Transcript"
+    ],
+    "effectIfEntireCase": "the case is removed from the public index (CourtView) and the court file is unavailable to the public",
+    "effectIfSpecificRecords": "the case remains on public CourtView but the specified records are unavailable to the public",
+    "judgeMustFind": "that the public interest in access to court records is outweighed by at least one of (1) risk of injury to individuals, (2) individual privacy rights and interests, (3) proprietary business information, (4) the deliberative process, or (5) public safety; AND that the requestor's interest in confidentiality is distinguishable from the confidentiality interests of parties in similar case types."
+  },
+  "courtBlocksCarryNoFields": {
+    "finding": "The ORDER block on page 2 prints six checkboxes — DENIED, GRANTED, confidential, sealed, Entire Case File, The following specific records — and page 3 prints the judge's findings block, two signature-and-date pairs, the clerk's distribution certificate and a JA/Clerk line. NONE of them is an AcroForm widget. They are printed marks and printed rules.",
+    "basis": "Measured: the census finds 19 widgets on page 1, 9 on page 2 and 1 on page 3, and the 10 on pages 2 and 3 are the case-number header plus the Certificate of Service. Confirmed visually in raster/request-canonical/page-02.png and page-03.png, where every court control renders empty.",
+    "consequence": "The court's own elections and signatures on this form cannot be filled by any fill path, correct or defective. That is a property of the document, not a protection this family built, and it is recorded so nobody credits the map with it."
+  },
+  "verification": {
+    "required": true,
+    "form": "I state on oath or affirm that I read this document and believe all statements in it are true.",
+    "administeredBy": "Court clerk, notary public, or other person authorized to administer oaths.",
+    "carriesSeal": true,
+    "structuralNote": "The Verification block's 'Date' and 'Your Signature' lines on page 2 carry NO AcroForm widget at all — measured, not assumed. They cannot be filled by any fill path, correct or defective."
+  },
+  "service": {
+    "required": "A copy of this form and everything attached to it must be given to every party in the case.",
+    "useTrueFilingIf": [
+      "both you and the other party are using TrueFiling",
+      "you are using TrueFiling and the other party gave their email address to the court"
+    ],
+    "useCertificateOfServiceIf": [
+      "the other party is not using TrueFiling and did not give their email address to the court",
+      "TrueFiling is not available",
+      "you are exempt from using TrueFiling"
+    ],
+    "trueFilingAvailabilityReference": "https://ak-courts.info/tfcourts",
+    "referenceNote": "Printed on the form's own face and recorded as printed. It was not fetched, resolved or checked — egress to court hosts is refused by policy."
+  },
+  "delivery": {
+    "methods": [
+      "mail",
+      "hand-delivery",
+      "TrueFiling",
+      "email"
+    ],
+    "emailCondition": "email may be used only if the other party provided an email address to the court",
+    "platformSelectsAMethod": false,
+    "why": "Which method was used is a statement about an act of service that has not happened when the packet is produced. All four delivery checkboxes are refused by role."
+  },
+  "relatedForms": [
+    {
+      "form": "TF-810",
+      "whenInstead": "If the participant believes the case should automatically be confidential or sealed by statute or rule and is listed on public CourtView by mistake."
+    }
+  ],
+  "citation": "Alaska Administrative Rule 37.6 (the form also cites Administrative Rule 37.5 in the court's own findings on page 3)."
+}

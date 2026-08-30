@@ -9,12 +9,22 @@
   "routeKey": "obligation:track-only:AK:ak-tf800",
   "evaluatedAt": "2026-08-30",
   "evaluatedBy": "scripts/rcap-census-v1-ak-tf800-set-source-gate.mjs",
-
-  "verdict": "SOURCE_BYTES_ABSENT",
-  "exitCode": 2,
-  "buildProceeded": false,
-  "buildStoppedAtStep": 1,
-
+  "verdict": "VERIFIED",
+  "exitCode": 0,
+  "buildProceeded": true,
+  "buildStoppedAtStep": null,
+  "howTheCorpusWasRecovered": {
+    "command": "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "archiveSha256Verified": "a26e3ca7d52db4460e53c2eddd893109037702f5c8035f2c698a7e16bad84e89",
+    "corpusGovernanceChecksumsVerified": true,
+    "extracted": {
+      "jurisdictions": 51,
+      "files": 499,
+      "pdfs": 329
+    },
+    "acquisitionAttempted": false,
+    "note": "Recovered from the pinned private release into the git-ignored private tree. Nothing was fetched from a court or agency host, and no mirror, cache or aggregator was consulted. No source binary is committed; `private/` is git-ignored and tracks nothing."
+  },
   "pinnedIdentity": {
     "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
     "byteLength": 130602,
@@ -31,25 +41,17 @@
     ],
     "corroborationResult": "All four independent records state the same digest and the same byte length. The pinned identity is internally consistent."
   },
-
   "observedIdentity": {
-    "sha256": null,
-    "byteLength": null,
-    "reason": "No bytes to hash."
+    "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+    "byteLength": 130602,
+    "pageCount": 3,
+    "acroFieldCount": 26,
+    "widgetAnnotationCount": 29,
+    "measuredBy": "first-hand inspection of the mounted binary in this build",
+    "matchesPin": true,
+    "matchesCorpusIndexByteLength": true
   },
-
   "expectedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
-
-  "absenceEvidence": [
-    "private/ does not exist in this checkout.",
-    "private/ is git-ignored at .gitignore:53, and `git ls-files` tracks 0 paths beneath it, so no clone of this repository can carry the bytes.",
-    "The operational tree private/Nationwide Record Clearing is likewise absent; scripts/rcap-official-forms/operational-corpus-precondition.mjs reports exists:false for both trees.",
-    "scripts/rcap-all50-overlay-factory-lib.mjs:568 assertSourceDir() throws `Nationwide source directory not found` for this same absence.",
-    "A filesystem-wide sweep found no file of the pinned length 130602 bytes and no Master Library or Nationwide tree at any path.",
-    "OFFICIAL_FORMS_SOURCE_DIR and RCAP_MASTER_LIBRARY_DIR are both unset.",
-    "Egress to court hosts is refused in this environment and re-acquisition was not attempted; the build order forbids acquiring anything."
-  ],
-
   "gateDiscriminationProof": {
     "why": "A gate that refuses unconditionally proves nothing about the thing it refused. All four branches were exercised against synthetic roots before this verdict was recorded.",
     "branches": {
@@ -60,26 +62,62 @@
     },
     "result": "All four discriminate. SOURCE_BYTES_ABSENT is a positive finding of absence, not a degenerate default."
   },
-
-  "whyThisStopsTheBuild": [
-    "The build order's first step is verify-or-stop, and an unverifiable absence is strictly weaker than a mismatch: there is nothing to compare.",
-    "Steps 2, 3, 6, 7 and 8 all consume the source binary. Field geometry must be measured off the document, fixtures must be rendered from it, and verification must read the resulting artifact bytes. None of that is reachable without the file.",
-    "OFFICIAL_FORM_MAP_REQUIRED cannot be discharged by a map whose write boxes were not measured, and ARTIFACT_REVIEW_REQUIRED cannot be discharged with no artifact to review.",
-    "Recording the remaining work types as complete on documentary grounds alone would reproduce the exact failure named in operational-corpus-precondition.mjs: a missing directory read as a passing condition."
-  ],
-
-  "whatWasNotCreated": {
-    "fieldMap": "not created — write boxes cannot be measured without the document",
-    "fixtures": "none rendered — canonical and boundary both require the source binary",
-    "artifactHashes": "none — no artifact was produced, so none is reported",
-    "rasterOrVisualReview": "not performed",
-    "productWiring": "not created",
-    "runtimeAuthority": "none created",
+  "whyThisVerdictIsWorthSomething": "The gate's four branches were exercised against synthetic roots before the earlier refusal was recorded, so VERIFIED here is a discriminating result rather than a default. The same argument was then applied to the BUILD's own verification, which reports zero findings: see reports/verification-discrimination.json, where every role refusal is dropped in turn and ink is injected directly into the hard-blank fields and controls. A check that cannot fail is not a check.",
+  "priorVerdict": {
+    "verdict": "SOURCE_BYTES_ABSENT",
+    "exitCode": 2,
+    "evaluatedAt": "2026-08-30",
+    "whyItWasCorrect": "A true finding about that container: the Master Library was not mounted, so the pinned digest had nothing to verify against. An absent file is not a verified one and is not an empty one. It was not a fact about the corpus \u2014 the bytes were in a private release each container must recover for itself, which the brief did not say at the time.",
+    "absenceEvidence": [
+      "private/ does not exist in this checkout.",
+      "private/ is git-ignored at .gitignore:53, and `git ls-files` tracks 0 paths beneath it, so no clone of this repository can carry the bytes.",
+      "The operational tree private/Nationwide Record Clearing is likewise absent; scripts/rcap-official-forms/operational-corpus-precondition.mjs reports exists:false for both trees.",
+      "scripts/rcap-all50-overlay-factory-lib.mjs:568 assertSourceDir() throws `Nationwide source directory not found` for this same absence.",
+      "A filesystem-wide sweep found no file of the pinned length 130602 bytes and no Master Library or Nationwide tree at any path.",
+      "OFFICIAL_FORMS_SOURCE_DIR and RCAP_MASTER_LIBRARY_DIR are both unset.",
+      "Egress to court hosts is refused in this environment and re-acquisition was not attempted; the build order forbids acquiring anything."
+    ],
+    "whyThisStoppedTheBuild": [
+      "The build order's first step is verify-or-stop, and an unverifiable absence is strictly weaker than a mismatch: there is nothing to compare.",
+      "Steps 2, 3, 6, 7 and 8 all consume the source binary. Field geometry must be measured off the document, fixtures must be rendered from it, and verification must read the resulting artifact bytes. None of that is reachable without the file.",
+      "OFFICIAL_FORM_MAP_REQUIRED cannot be discharged by a map whose write boxes were not measured, and ARTIFACT_REVIEW_REQUIRED cannot be discharged with no artifact to review.",
+      "Recording the remaining work types as complete on documentary grounds alone would reproduce the exact failure named in operational-corpus-precondition.mjs: a missing directory read as a passing condition."
+    ],
+    "whatWasNotCreatedThen": {
+      "fieldMap": "not created \u2014 write boxes cannot be measured without the document",
+      "fixtures": "none rendered \u2014 canonical and boundary both require the source binary",
+      "artifactHashes": "none \u2014 no artifact was produced, so none is reported",
+      "rasterOrVisualReview": "not performed",
+      "productWiring": "not created",
+      "runtimeAuthority": "none created",
+      "commercialAuthority": "none created; no fulfillment record, no route opened",
+      "outputApproval": "not requested and not granted \u2014 approval is not requestable for a family with no output",
+      "packetProvenOrApproved": false
+    },
+    "record": "SOURCE-GATE-HISTORY.md (this family's former BLOCKED.md, kept unaltered)"
+  },
+  "corroborationAgainstTheProductionOverlay": {
+    "read": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/** (read only, unmodified)",
+    "identity": "All four independent production records state the same digest and byte length as the pin, and the mounted bytes hash to it exactly. Five records and the file itself now agree.",
+    "geometry": "Every first-widget rectangle measured in this build agrees with the production field-census within half a point; production rounds to whole points, this census records two decimal places. The geometry was MEASURED here rather than copied forward \u2014 see field-census.census-v1.json#productionOverlayCrossCheck for the row-by-row comparison.",
+    "whereTheyDiffer": "The production census records one widget per field. This one records all 29. The two it omits are caseNo on pages 2 and 3 and the second Group1 radio widget \u2014 the substance of inherited finding F3, and the reason verification here reads every widget."
+  },
+  "whatWasCreated": {
+    "fieldCensus": "field-census.census-v1.json \u2014 26 fields, 29 widgets, geometry measured off the document",
+    "fieldMap": "production-field-map.json \u2014 5 write boxes, 21 role refusals, generationAllowed false",
+    "fixtures": "canonical and boundary, rendered from the pinned source bytes",
+    "artifactVerification": "reports/artifact-byte-verification.json \u2014 every widget read back from the bytes",
+    "rasters": "all three pages of both fixtures",
+    "visualReview": "reports/independent-visual-review.json \u2014 every page looked at",
+    "verificationDiscrimination": "reports/verification-discrimination.json",
+    "localVariation": "reports/local-variation.json"
+  },
+  "whatWasStillNotCreated": {
+    "runtimeAuthority": "none \u2014 runtimeSelectable is false and generationAllowed is false",
     "commercialAuthority": "none created; no fulfillment record, no route opened",
-    "outputApproval": "not requested and not granted — approval is not requestable for a family with no output",
+    "outputApproval": "REQUESTED in approval-request.json, not granted",
     "packetProvenOrApproved": false
   },
-
   "protectedPathsUntouched": [
     "data/rcap-grade-a/route-obligation-census-v1/",
     "data/rcap-grade-a/stale-artifact-block.json",
@@ -89,14 +127,5 @@
     "package.json",
     "compiled profiles and migrations"
   ],
-
-  "verifiersWeakened": "none",
-
-  "remediation": {
-    "action": "Mount the Edition 1 Master Library, or set RCAP_MASTER_LIBRARY_DIR to a tree containing the pinned path.",
-    "thenRun": "node scripts/rcap-census-v1-ak-tf800-set-source-gate.mjs",
-    "resumeWhen": "verdict is VERIFIED",
-    "alsoRequired": "npm install — pdf-lib is absent from this container, so the factory cannot be imported even with the corpus mounted.",
-    "doNotResumeOn": "DIGEST_MISMATCH. Bytes that are present but not the pinned edition are a stop-and-report, not a build."
-  }
+  "verifiersWeakened": "none"
 }

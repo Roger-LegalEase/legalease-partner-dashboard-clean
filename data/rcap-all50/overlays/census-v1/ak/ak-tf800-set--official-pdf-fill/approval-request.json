@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ak-tf800-set",
+  "routeKeys": [
+    "obligation:track-only:AK:ak-tf800"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfillment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: the source was already held and is bound by pinned SHA-256 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd at 130602 bytes.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from measured widget geometry — all 29 widgets of all 26 fields.",
+    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered and verified from the artifact bytes at every measured rectangle; all three pages rastered for both fixtures.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "reviewerShouldLookAt": [
+    "The `address` partial fill in reports/blanks-left-for-the-participant.json — the only value this family writes that is incomplete against what its line asks for.",
+    "The two role refusals in production-field-map.json that the shared binder does not make: caseName and partyNames. If a reviewer disagrees that these are not name blanks, the map changes.",
+    "That 21 of 26 fields are deliberately blank, including the whole substance of the request."
+  ],
+  "independentVisualReviewRequired": true
+}

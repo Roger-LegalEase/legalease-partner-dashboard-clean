@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "rcap-inherited-findings-resolution/v1",
+  "familyId": "ak-tf800-set",
+  "resolves": "reports/inherited-evidence-findings.json",
+  "basis": "Each inherited finding was re-tested first-hand against the now-mounted pinned binary, not accepted on the predecessor's report. The predecessor derived them by reading the production overlay; this build derived them by measuring the document.",
+  "resolutions": [
+    {
+      "id": "AK-TF800-F1",
+      "inherited": "Inherited effectiveLabel values are positional inferences and mis-bind.",
+      "verdict": "CONFIRMED, and it reproduces on a fresh harvest of the verified binary.",
+      "evidenceMeasuredHere": {
+        "fieldsWhoseHarvestedLabelBelongsToAnotherLine": [
+          {
+            "field": "name",
+            "printedCaptionIs": "Name:",
+            "harvestedLabel": "Addres",
+            "consequenceIfTheLabelHadDecided": "descriptorsMatching('Addres') yields participant.street_address — the participant's street address would have been printed on the Name line."
+          },
+          {
+            "field": "email",
+            "printedCaptionIs": "Email*:",
+            "harvestedLabel": "Address",
+            "consequenceIfTheLabelHadDecided": "participant.street_address on the Email line."
+          },
+          {
+            "field": "dayPhone",
+            "printedCaptionIs": "Daytime Phone:",
+            "harvestedLabel": "*By providing an email address, you agree that the court and",
+            "consequenceIfTheLabelHadDecided": "participant.email on the Daytime Phone line."
+          },
+          {
+            "field": "caseName",
+            "printedCaptionIs": "Case Name:",
+            "harvestedLabel": "documents t",
+            "consequenceIfTheLabelHadDecided": "nothing — the fragment matches no descriptor. The hazard on this field comes from the NAME channel, not the label channel."
+          },
+          {
+            "field": "dateHearing",
+            "printedCaptionIs": "Log notes (list date and type of hearing):",
+            "harvestedLabel": "Audio Recording (list date and type of hea",
+            "consequenceIfTheLabelHadDecided": "nothing today; the harvested caption belongs to the line below."
+          }
+        ],
+        "distinctHarvestedLabels": 20,
+        "fieldsWithNoHarvestedLabel": 5
+      },
+      "whatThisBuildDid": "The harvested label is recorded on every field and marked labelIsReliable:false, and it decides nothing. decideBinding asks the field-name channel first and only falls back to the label when the name matches nothing, so on this document the label never decides a written field. Every semantic call in this family's role refusals was re-derived from the document's own printed text, quoted in the `why` of each refusal.",
+      "stillTrue": "The widget rects. They are structural annotation geometry and they agree with the production record."
+    },
+    {
+      "id": "AK-TF800-F2",
+      "inherited": "certDate is classed deterministic but is the certificate-of-mailing date; emailCB is classed participant while its three siblings are not.",
+      "verdict": "CONFIRMED as a hazard, and already closed in the shared binder — but not by a channel this family should lean on alone.",
+      "evidenceMeasuredHere": {
+        "certDate": {
+          "printedSentence": "I certify on ____ at [date/time] I gave a copy of this document",
+          "measuredRect": {
+            "x": 127.76,
+            "y": 356.64,
+            "width": 89.2,
+            "height": 13.97
+          },
+          "descriptorsMatchingTheFieldName": [
+            "deterministic.filing_date"
+          ],
+          "sharedBinderDecision": {
+            "writable": false,
+            "factId": null,
+            "reason": "protected_category",
+            "category": "service_block",
+            "factBasis": null
+          },
+          "note": "descriptorsMatching('certDate') still yields deterministic.filing_date — the production overlay's classification was not arbitrary. What stops it now is the shared service_block protect rule, whose own comment names this exact field. This family also refuses it by role, so the refusal does not depend on the field keeping the spelling 'certDate'."
+        },
+        "deliveryCheckboxGroup": [
+          {
+            "field": "mail",
+            "measuredRect": {
+              "x": 198.99,
+              "y": 344.6,
+              "width": 11.53,
+              "height": 11.44
+            },
+            "descriptorsMatchingTheFieldName": [],
+            "sharedBinderDecision": {
+              "writable": false,
+              "factId": null,
+              "reason": "non_text_field_type",
+              "category": "type_guard",
+              "factBasis": null
+            }
+          },
+          {
+            "field": "hd",
+            "measuredRect": {
+              "x": 245.73,
+              "y": 344.6,
+              "width": 11.53,
+              "height": 11.44
+            },
+            "descriptorsMatchingTheFieldName": [],
+            "sharedBinderDecision": {
+              "writable": false,
+              "factId": null,
+              "reason": "non_text_field_type",
+              "category": "type_guard",
+              "factBasis": null
+            }
+          },
+          {
+            "field": "tf",
+            "measuredRect": {
+              "x": 335.08,
+              "y": 344.6,
+              "width": 11.53,
+              "height": 11.44
+            },
+            "descriptorsMatchingTheFieldName": [],
+            "sharedBinderDecision": {
+              "writable": false,
+              "factId": null,
+              "reason": "non_text_field_type",
+              "category": "type_guard",
+              "factBasis": null
+            }
+          },
+          {
+            "field": "emailCB",
+            "measuredRect": {
+              "x": 406.02,
+              "y": 344.6,
+              "width": 11.52,
+              "height": 11.52
+            },
+            "descriptorsMatchingTheFieldName": [
+              "participant.email"
+            ],
+            "sharedBinderDecision": {
+              "writable": false,
+              "factId": null,
+              "reason": "non_text_field_type",
+              "category": "type_guard",
+              "factBasis": null
+            }
+          }
+        ],
+        "emailCBAsymmetryResolved": "First-hand, all four sit on the same printed line — 'and any attachments by mail. hand-delivery. TrueFiling. email.' — inside the Certificate of Service, and all four are the same kind of election about an act of service that has not happened. emailCB is the only one of the four whose NAME matches a descriptor (participant.email), and only the type guard stops it being written. This family refuses all four by role, symmetrically, so the group is no longer asymmetric and no member's refusal rests on it being a checkbox."
+      }
+    },
+    {
+      "id": "AK-TF800-F3",
+      "inherited": "The 29-vs-26 count gap is a units mismatch; caseNo carries three widgets and page 3 is legitimately written.",
+      "verdict": "CONFIRMED exactly.",
+      "evidenceMeasuredHere": {
+        "fields": 26,
+        "widgets": 29,
+        "multiWidgetFields": [
+          {
+            "field": "Group1",
+            "widgets": 2,
+            "pages": [
+              1
+            ]
+          },
+          {
+            "field": "caseNo",
+            "widgets": 3,
+            "pages": [
+              1,
+              2,
+              3
+            ]
+          }
+        ],
+        "widgetsPerPage": [
+          {
+            "page": 1,
+            "widgets": 19
+          },
+          {
+            "page": 2,
+            "widgets": 9
+          },
+          {
+            "page": 3,
+            "widgets": 1
+          }
+        ],
+        "pageThreeOccupancy": [
+          {
+            "field": "caseNo",
+            "rect": {
+              "x": 122.41,
+              "y": 741.97,
+              "width": 130.25,
+              "height": 15.84
+            }
+          }
+        ]
+      },
+      "whatThisBuildDid": "Verification reads EVERY widget of every field rather than widget[0], and asserts a written field is present at all of its widgets. The page-3 rule is stated positively and checked positively: pages 2 and 3 may carry the case-number header and nothing else, which is asserted against the artifact bytes by the ink_on_a_court_page_outside_the_case_number_header check. A verifier demanding page 3 stay untouched is not written, because satisfying it would mean the case number was left blank in that page's header."
+    }
+  ]
+}

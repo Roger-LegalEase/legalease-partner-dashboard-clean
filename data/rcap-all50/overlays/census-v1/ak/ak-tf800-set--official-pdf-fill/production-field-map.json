@@ -1,0 +1,515 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ak-tf800-set",
+  "routeKeys": [
+    "obligation:track-only:AK:ak-tf800"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "wiringCreatesNoAuthority": "generationAllowed is false and runtimeSelectable is false. This map describes what a fill WOULD write. It opens no route, marks no packet proven and approves no output for participant delivery.",
+  "document": {
+    "documentId": "AK-TF-800",
+    "documentRole": "PARTICIPANT_REQUEST",
+    "ownership": "participant_completed",
+    "captionOnly": false,
+    "explicitMappings": {},
+    "roleRefusals": [
+      {
+        "field": "caseName",
+        "class": "case_caption_not_a_person",
+        "sharedRefusalIs": "none — decideBinding returns writable=true, factId=participant.full_legal_name",
+        "why": "The printed caption is 'Case Name:'. In Alaska this is the case's own caption, not the requestor's name. The field name matches participant.full_legal_name's /case\\s*name/ alternative, so the shared binder writes the participant's name here; that misstates the caption of the case to the court. The platform holds no case-name fact. The harvested printed caption for this widget is the fragment 'documents t' — the tail of the email sentence printed one line above — so the label channel could not have corrected it either."
+      },
+      {
+        "field": "partyNames",
+        "class": "all_parties_not_the_participant",
+        "sharedRefusalIs": "none — decideBinding returns writable=true, factId=participant.full_legal_name",
+        "why": "The printed caption is 'Party Names:' and asks for the parties to the case. The participant is one party; page 2 of this form is a Certificate of Service that exists because there are others. Writing one name asserts the participant is the only party. The platform holds no party list."
+      },
+      {
+        "field": "documents",
+        "class": "participant_statement_of_records",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "The free-text list beside the 'Document(s):' checkbox: which specific records the participant asks the court to close. This is the substance of the request and is the participant's to state."
+      },
+      {
+        "field": "dateHearing",
+        "class": "participant_statement_of_records",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "Despite the field name, this is not a hearing date. It is the free text beside 'Log notes (list date and type of hearing):' and asks which log notes, by date and hearing type. The platform holds no hearing record. The harvested caption for this widget is 'Audio Recording (list date and type of hea' — the line BELOW it — so the label channel mis-binds it by one line."
+      },
+      {
+        "field": "audioRecording",
+        "class": "participant_statement_of_records",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "Free text beside 'Audio Recording (list date and type of hearing):'. Which recordings, by date and hearing type. The platform holds no hearing record."
+      },
+      {
+        "field": "transcript",
+        "class": "participant_statement_of_records",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "Free text beside 'Transcript (list date and type of hearing):'. Same class as the two above."
+      },
+      {
+        "field": "confidentialBecause",
+        "class": "participant_legal_argument",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "The 469x62pt block under 'These court records should be made confidential or sealed, because:'. This is the legal argument the judge must weigh against the public interest in access under Administrative Rule 37.6. It is the participant's own statement and the platform must not compose it."
+      },
+      {
+        "field": "Group1",
+        "class": "relief_election_confidential_or_sealed",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "The two-widget radio on the line 'the following court case records be made confidential: sealed:'. Choosing between confidential and sealed is the relief the participant asks for; the two have different legal consequences and the platform does not choose between them."
+      },
+      {
+        "field": "Check Box1",
+        "class": "relief_election_scope",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "'Entire case file'. Selecting it asks the court to close the whole case rather than named records. That is the participant's election."
+      },
+      {
+        "field": "Check Box2",
+        "class": "relief_election_scope",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "'Document(s):' — the scope checkbox governing the `documents` free-text list."
+      },
+      {
+        "field": "Check Box3",
+        "class": "relief_election_scope",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "'Log notes (list date and type of hearing):' scope checkbox."
+      },
+      {
+        "field": "Check Box4",
+        "class": "relief_election_scope",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "'Audio Recording (list date and type of hearing):' scope checkbox."
+      },
+      {
+        "field": "Check Box5",
+        "class": "relief_election_scope",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "'Transcript (list date and type of hearing):' scope checkbox."
+      },
+      {
+        "field": "certDate",
+        "class": "certificate_of_service_date",
+        "sharedRefusalIs": "robust — protected_category, category=service_block",
+        "why": "The date in 'I certify on ____ at [date/time] I gave a copy of this document'. Service has not happened. A date here certifies a mailing that has not occurred. The shared service_block rule refuses it and its comment names this very field; it is restated by role so the refusal does not depend on the field keeping the spelling 'certDate'. The production overlay classes this field `deterministic` — that classification does not carry over and is the subject of inherited finding F2."
+      },
+      {
+        "field": "time2",
+        "class": "certificate_of_service_time",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "The time in the same sentence, at [date/time]. Same certification, same refusal. Refused by the shared binder only because no fact matches the name 'time2', which is not a decision about the field."
+      },
+      {
+        "field": "mail",
+        "class": "certificate_of_service_delivery_method",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "One of four mutually-exclusive delivery-method boxes in 'and any attachments by mail. hand-delivery. TrueFiling. email.' Which method was used is a statement about an act of service that has not happened."
+      },
+      {
+        "field": "hd",
+        "class": "certificate_of_service_delivery_method",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "Hand-delivery, same block, same refusal."
+      },
+      {
+        "field": "tf",
+        "class": "certificate_of_service_delivery_method",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "TrueFiling, same block, same refusal."
+      },
+      {
+        "field": "emailCB",
+        "class": "certificate_of_service_delivery_method",
+        "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+        "why": "Email, same block, same refusal — and the one the production overlay classes `participant` (writable) while classing its three siblings unwritable. That asymmetry is inherited finding F2's secondary concern. First-hand: all four are the same kind of election inside the same certification, `emailCB` alone matches participant.email by name, and only the type guard stops it. All four are refused by role here, symmetrically."
+      },
+      {
+        "field": "needText1",
+        "class": "certificate_of_service_recipients",
+        "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+        "why": "The list under 'I served these people:'. Who was served is a statement about an act of service; the platform holds no party list and no service record."
+      },
+      {
+        "field": "signature0",
+        "class": "certificate_of_service_signature",
+        "sharedRefusalIs": "robust — protected_category, category=signature",
+        "why": "The 'Signature:' line at the foot of the Certificate of Service. A participant signature is never prefilled. Restated by role so the refusal does not rest on the field name containing the word 'signature'."
+      }
+    ],
+    "writeBoxes": [
+      {
+        "field": "address",
+        "factId": "participant.street_address",
+        "widgets": [
+          {
+            "index": 0,
+            "page": 1,
+            "rect": {
+              "x": 115.88,
+              "y": 386.74,
+              "width": 425.01,
+              "height": 14.4
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          }
+        ],
+        "widgetCount": 1,
+        "pagesTouched": [
+          1
+        ],
+        "rectBasis": "acroform_widget_rect_read_from_the_document",
+        "measuredRuleUnderWriteBox": null,
+        "measuredNearestPrintedLine": {
+          "y": 389.7,
+          "text": "Address:",
+          "deltaY": 2.96
+        },
+        "harvestedLabel": "Address",
+        "harvestedLabelIsReliable": false
+      },
+      {
+        "field": "caseNo",
+        "factId": "matter.case_number",
+        "widgets": [
+          {
+            "index": 0,
+            "page": 1,
+            "rect": {
+              "x": 413.83,
+              "y": 328.79,
+              "width": 127.06,
+              "height": 14.4
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          },
+          {
+            "index": 1,
+            "page": 2,
+            "rect": {
+              "x": 119.94,
+              "y": 741.15,
+              "width": 134.39,
+              "height": 15.84
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          },
+          {
+            "index": 2,
+            "page": 3,
+            "rect": {
+              "x": 122.41,
+              "y": 741.97,
+              "width": 130.25,
+              "height": 15.84
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          }
+        ],
+        "widgetCount": 3,
+        "pagesTouched": [
+          1,
+          2,
+          3
+        ],
+        "rectBasis": "acroform_widget_rect_read_from_the_document",
+        "measuredRuleUnderWriteBox": null,
+        "measuredNearestPrintedLine": {
+          "y": 332.7,
+          "text": "Case Name: Case No.:",
+          "deltaY": 3.91
+        },
+        "harvestedLabel": "Case No",
+        "harvestedLabelIsReliable": false
+      },
+      {
+        "field": "name",
+        "factId": "participant.full_legal_name",
+        "widgets": [
+          {
+            "index": 0,
+            "page": 1,
+            "rect": {
+              "x": 106.98,
+              "y": 402.31,
+              "width": 433.91,
+              "height": 14.4
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          }
+        ],
+        "widgetCount": 1,
+        "pagesTouched": [
+          1
+        ],
+        "rectBasis": "acroform_widget_rect_read_from_the_document",
+        "measuredRuleUnderWriteBox": null,
+        "measuredNearestPrintedLine": {
+          "y": 405.1,
+          "text": "Name:",
+          "deltaY": 2.79
+        },
+        "harvestedLabel": "Addres",
+        "harvestedLabelIsReliable": false
+      },
+      {
+        "field": "dayPhone",
+        "factId": "participant.phone",
+        "widgets": [
+          {
+            "index": 0,
+            "page": 1,
+            "rect": {
+              "x": 442.56,
+              "y": 371.12,
+              "width": 98.33,
+              "height": 14.4
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          }
+        ],
+        "widgetCount": 1,
+        "pagesTouched": [
+          1
+        ],
+        "rectBasis": "acroform_widget_rect_read_from_the_document",
+        "measuredRuleUnderWriteBox": null,
+        "measuredNearestPrintedLine": {
+          "y": 374.5,
+          "text": "Email*: Daytime Phone:",
+          "deltaY": 3.38
+        },
+        "harvestedLabel": "*By providing an email address, you agree that the court and",
+        "harvestedLabelIsReliable": false
+      },
+      {
+        "field": "email",
+        "factId": "participant.email",
+        "widgets": [
+          {
+            "index": 0,
+            "page": 1,
+            "rect": {
+              "x": 111.11,
+              "y": 372.17,
+              "width": 249.18,
+              "height": 14.4
+            },
+            "rectBasis": "acroform_widget_rect_read_from_the_document"
+          }
+        ],
+        "widgetCount": 1,
+        "pagesTouched": [
+          1
+        ],
+        "rectBasis": "acroform_widget_rect_read_from_the_document",
+        "measuredRuleUnderWriteBox": null,
+        "measuredNearestPrintedLine": {
+          "y": 374.5,
+          "text": "Email*: Daytime Phone:",
+          "deltaY": 2.33
+        },
+        "harvestedLabel": "Address",
+        "harvestedLabelIsReliable": false
+      }
+    ],
+    "refused": [
+      {
+        "field": "caseName",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "partyNames",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Group1",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Check Box1",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Check Box2",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "documents",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Check Box3",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "dateHearing",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Check Box4",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "audioRecording",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "Check Box5",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "transcript",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "confidentialBecause",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "certDate",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "time2",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "mail",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "hd",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "tf",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "emailCB",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "needText1",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      },
+      {
+        "field": "signature0",
+        "reason": "classified_unwritable_by_role",
+        "category": "role"
+      }
+    ],
+    "protectedFields": [
+      {
+        "field": "caseName",
+        "category": "role"
+      },
+      {
+        "field": "partyNames",
+        "category": "role"
+      },
+      {
+        "field": "Group1",
+        "category": "role"
+      },
+      {
+        "field": "Check Box1",
+        "category": "role"
+      },
+      {
+        "field": "Check Box2",
+        "category": "role"
+      },
+      {
+        "field": "documents",
+        "category": "role"
+      },
+      {
+        "field": "Check Box3",
+        "category": "role"
+      },
+      {
+        "field": "dateHearing",
+        "category": "role"
+      },
+      {
+        "field": "Check Box4",
+        "category": "role"
+      },
+      {
+        "field": "audioRecording",
+        "category": "role"
+      },
+      {
+        "field": "Check Box5",
+        "category": "role"
+      },
+      {
+        "field": "transcript",
+        "category": "role"
+      },
+      {
+        "field": "confidentialBecause",
+        "category": "role"
+      },
+      {
+        "field": "certDate",
+        "category": "role"
+      },
+      {
+        "field": "time2",
+        "category": "role"
+      },
+      {
+        "field": "mail",
+        "category": "role"
+      },
+      {
+        "field": "hd",
+        "category": "role"
+      },
+      {
+        "field": "tf",
+        "category": "role"
+      },
+      {
+        "field": "emailCB",
+        "category": "role"
+      },
+      {
+        "field": "needText1",
+        "category": "role"
+      },
+      {
+        "field": "signature0",
+        "category": "role"
+      }
+    ]
+  }
+}

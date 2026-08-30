@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "rcap-charge-caption-proof/v1",
+  "familyId": "ak-tf800-set",
+  "question": "Does any blank whose caption or field name names a charge, offence, count, statute or violation carry a participant name token in the rendered artifact bytes?",
+  "method": "Read back from the flattened appearance streams of each rendered fixture with scripts/rcap-official-forms/pdf-flattened-widgets.mjs, at each field's own measured widget rectangle — every widget, not only the first. This is the artifact answering, not the render report.",
+  "consistentWith": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs",
+  "documentNote": "TF-800 is a records-access request under Administrative Rule 37.6. It asks about court RECORDS, not about an offence, and carries no charge, offence, count, statute or violation blank at all — so the population this question ranges over is legitimately empty on this form. The zero below is the absence of the hazard, not the absence of the check: the wider participant-name-placement proof in reports/participant-name-placement.json reads EVERY appearance the artifact draws and is what actually constrains this family.",
+  "participantNameTokensSearchedFor": [
+    "Jordan Avery Reyes",
+    "Jordan",
+    "Avery",
+    "Reyes",
+    "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+    "Alexandrina",
+    "Katharine",
+    "Montgomery",
+    "Vandenberg",
+    "Oyelaran",
+    "Fitzwilliam"
+  ],
+  "chargeBlanksExamined": 0,
+  "chargeBlanksCarryingAParticipantName": 0,
+  "answer": "NO — no participant name lands in any charge-caption blank in any fixture",
+  "blanks": [],
+  "guardProjection": {
+    "question": "Applying the corpus guard's own offending-row test to this family's census: does any blank bind a writable participant.full_legal_name while its name or caption uses the charge vocabulary?",
+    "fieldsScanned": 26,
+    "offendingRows": 0,
+    "offending": []
+  },
+  "theHazardThisFormActuallyHas": {
+    "note": "The charge-caption question is empty here, but the SHAPE of that defect is present and is what this family's role refusals exist for. decideBinding makes `caseName` and `partyNames` writable with factId participant.full_legal_name — a participant's name bound into a blank that holds something else. Neither is a charge blank, so no shared rule refuses either.",
+    "fields": [
+      {
+        "field": "caseName",
+        "sharedBinderWouldWrite": "participant.full_legal_name",
+        "refusedByThisFamily": true,
+        "roleClass": "case_caption_not_a_person"
+      },
+      {
+        "field": "partyNames",
+        "sharedBinderWouldWrite": "participant.full_legal_name",
+        "refusedByThisFamily": true,
+        "roleClass": "all_parties_not_the_participant"
+      },
+      {
+        "field": "name",
+        "sharedBinderWouldWrite": "participant.full_legal_name",
+        "refusedByThisFamily": false,
+        "roleClass": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "rcap-independent-visual-review/v1",
+  "familyId": "ak-tf800-set",
+  "why": "Text extraction cannot see a value clipped by its widget rectangle, a value written over preprinted wording, a value in the wrong column, a page that renders blank, or text that runs past a margin. Every page of both fixtures was rendered and looked at.",
+  "renderer": "Chromium's bundled PDF engine, via scripts/rcap-official-forms/rcap-pdf-rasterize.mjs at scale 1.6",
+  "pagesReviewed": 6,
+  "observations": [
+    {
+      "fixture": "canonical",
+      "page": 1,
+      "observed": "Name, Address, Email*, Daytime Phone and Case No. each sit on their own printed line, inside the line, at full size, with no overlap of preprinted wording and no run past the right margin. 'Case Name:' and 'Party Names:' are blank — the two refusals this family exists to make, visible on the paper. Both radio circles and all five scope checkboxes are unmarked. The Document(s), Log notes, Audio Recording and Transcript lines and the 'because:' block are blank."
+    },
+    {
+      "fixture": "canonical",
+      "page": 2,
+      "observed": "The case-number header carries the value. Everything else is blank: the Verification block, the whole Certificate of Service (date, time, all four delivery boxes, 'I served these people', Signature), and the whole ORDER block."
+    },
+    {
+      "fixture": "canonical",
+      "page": 3,
+      "observed": "The case-number header carries the value and nothing else on the page does. The judge's findings, both signature-and-date pairs, the clerk's distribution certificate and the JA/Clerk line are all blank."
+    },
+    {
+      "fixture": "boundary",
+      "page": 1,
+      "observed": "The 70-character name and the 76-character address both fit within their printed lines, auto-reduced, without clipping and without crossing into the margin. 'Case No.:' is BLANK — the visible consequence of advisory finding AK-TF800-B1. Everything else matches canonical."
+    },
+    {
+      "fixture": "boundary",
+      "pages": [
+        2,
+        3
+      ],
+      "observed": "Both pages render with no participant ink at all, including the case-number headers, which are blank for the same reason as page 1. Consistent with the byte verification, which reports no appearance carrying text on either page."
+    }
+  ],
+  "defectsFound": [],
+  "verdict": "No clipping, no overwriting of preprinted text, no value in a wrong column, no blank page that should carry content, and no margin overrun. The one visible gap — the boundary fixture's blank case-number headers — is recorded as advisory finding AK-TF800-B1 and is a limitation of the shared finalizer, not a defect in this map.",
+  "doesNotConstitute": "This is the build's own visual review. It is not the independent legal review requested in approval-request.json, and it approves nothing."
+}

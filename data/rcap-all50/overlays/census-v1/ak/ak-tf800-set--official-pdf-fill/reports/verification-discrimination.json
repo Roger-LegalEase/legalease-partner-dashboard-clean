@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "rcap-verification-discrimination/v1",
+  "familyId": "ak-tf800-set",
+  "producedBy": "scripts/rcap-census-v1-ak-tf800-set-verification-discrimination.mjs",
+  "question": "This family's build reports zero findings. Is that because the artifacts are clean, or because the checks cannot fail?",
+  "why": "The predecessor on this family proved its SOURCE GATE discriminated before recording a refusal, on the principle that a gate which always says no proves nothing. The same argument runs the other way for a build that goes green: '0 findings' from a blind verifier is indistinguishable from '0 findings' from a clean artifact unless the verifier is shown to fail on a defect.",
+  "method": "Three probes, all rendered from the pinned source bytes into a scratch directory and thrown away. (1) The shipped map must verify clean. (2) Each role refusal is dropped in turn and the same questions are re-asked. (3) Ink is injected directly into the hard-blank fields and controls, bypassing both the role refusals and the shared binder, so checks that had nothing to find are given something. Plus the selection-mark detector against known appearance streams.",
+  "readingTheDroppedRefusalResults": "Dropping a role refusal and seeing NOTHING written is not a hole. It means the shared rules in rcap-field-semantics.mjs refuse that field independently of this family's classification — which is the defence in depth this family claims, and probe 3 is what exercises those checks instead. The rows that matter are the ones where dropping this family's refusal DOES write the field: those are the fields nothing but this map protects.",
+  "summary": {
+    "baselineFindings": 0,
+    "roleRefusalsDropped": 21,
+    "droppedAndCaught": 2,
+    "droppedAndHeldByTheSharedRules": 19,
+    "droppedAndMissed": 0,
+    "fieldsOnlyThisMapProtects": [
+      "caseName",
+      "partyNames"
+    ],
+    "injectedInkFindings": 11,
+    "checksProvenToFire": [
+      "signature_date_or_service_field_is_not_blank",
+      "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+      "ink_on_a_court_page_outside_the_case_number_header",
+      "a_control_this_family_refuses_carries_a_selection_mark"
+    ],
+    "detectorUnitCasesPassed": "5/5"
+  },
+  "verdict": "THE VERIFICATION DISCRIMINATES. The shipped map verifies clean; every field that only this map protects is caught when its refusal is dropped; and all four artifact checks fire on injected ink.",
+  "baseline": {
+    "fieldsWritten": [
+      "address",
+      "caseNo",
+      "name",
+      "dayPhone",
+      "email"
+    ],
+    "findings": 0,
+    "detail": []
+  },
+  "droppedRoleRefusals": [
+    {
+      "roleRefusalDropped": "caseName",
+      "theFieldWasThenWritten": true,
+      "findingsRaised": 1,
+      "outcome": "CAUGHT — the field was written and the artifact check fired",
+      "findings": [
+        {
+          "check": "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+          "field": "caseName",
+          "page": 1,
+          "drawnText": "Jordan Avery Reyes"
+        }
+      ]
+    },
+    {
+      "roleRefusalDropped": "partyNames",
+      "theFieldWasThenWritten": true,
+      "findingsRaised": 1,
+      "outcome": "CAUGHT — the field was written and the artifact check fired",
+      "findings": [
+        {
+          "check": "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+          "field": "partyNames",
+          "page": 1,
+          "drawnText": "Jordan Avery Reyes"
+        }
+      ]
+    },
+    {
+      "roleRefusalDropped": "documents",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "dateHearing",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "audioRecording",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "transcript",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "confidentialBecause",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Group1",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Check Box1",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Check Box2",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Check Box3",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Check Box4",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "Check Box5",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "certDate",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "time2",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "mail",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "hd",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "tf",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "emailCB",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "needText1",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    },
+    {
+      "roleRefusalDropped": "signature0",
+      "theFieldWasThenWritten": false,
+      "findingsRaised": 0,
+      "outcome": "HELD BY THE SHARED RULES — dropping this family's refusal wrote nothing, because the shared binder refuses it too",
+      "findings": []
+    }
+  ],
+  "injectedInk": {
+    "why": "Dropping a role refusal on a field the shared rules also refuse writes nothing, which leaves those checks unexercised. Here the ink is placed into the boxes DIRECTLY, bypassing the role refusals AND the shared binder, so the checks have something to find.",
+    "injectedInto": {
+      "text": [
+        "certDate",
+        "time2",
+        "needText1",
+        "signature0"
+      ],
+      "checkbox": [
+        "emailCB"
+      ],
+      "radio": [
+        "Group1=Choice1"
+      ]
+    },
+    "findingsRaised": 11,
+    "checksThatFired": [
+      "signature_date_or_service_field_is_not_blank",
+      "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+      "ink_on_a_court_page_outside_the_case_number_header",
+      "a_control_this_family_refuses_carries_a_selection_mark"
+    ],
+    "findings": [
+      {
+        "check": "signature_date_or_service_field_is_not_blank",
+        "field": "certDate",
+        "page": 2,
+        "drawnText": "2026-08-12"
+      },
+      {
+        "check": "signature_date_or_service_field_is_not_blank",
+        "field": "time2",
+        "page": 2,
+        "drawnText": "9:00 am"
+      },
+      {
+        "check": "signature_date_or_service_field_is_not_blank",
+        "field": "needText1",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "signature_date_or_service_field_is_not_blank",
+        "field": "signature0",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+        "field": "needText1",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "participant_name_drawn_in_a_blank_not_listed_as_a_name_blank",
+        "field": "signature0",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "ink_on_a_court_page_outside_the_case_number_header",
+        "field": "certDate",
+        "page": 2,
+        "drawnText": "2026-08-12"
+      },
+      {
+        "check": "ink_on_a_court_page_outside_the_case_number_header",
+        "field": "time2",
+        "page": 2,
+        "drawnText": "9:00 am"
+      },
+      {
+        "check": "ink_on_a_court_page_outside_the_case_number_header",
+        "field": "needText1",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "ink_on_a_court_page_outside_the_case_number_header",
+        "field": "signature0",
+        "page": 2,
+        "drawnText": "Jordan Avery Reyes"
+      },
+      {
+        "check": "a_control_this_family_refuses_carries_a_selection_mark",
+        "field": "emailCB",
+        "page": 2,
+        "basis": "stroked_diagonal_segment_in_a_control_appearance"
+      }
+    ]
+  },
+  "detectorUnitCases": [
+    {
+      "case": "TF-800's own selected state — the stroked X every control on this form uses",
+      "expectedMarked": true,
+      "observedMarked": true,
+      "basis": "stroked_diagonal_segment_in_a_control_appearance",
+      "pass": true
+    },
+    {
+      "case": "an unselected checkbox border, axis-aligned",
+      "expectedMarked": false,
+      "observedMarked": false,
+      "basis": "border_geometry_only",
+      "pass": true
+    },
+    {
+      "case": "pdf-lib's synthesised RADIO border: a stroked circle of four Beziers. This is the false positive that withdrew an earlier `curve operator means selected` rule — it reported both Group1 widgets as selected in a clean render. A ring is a border, not a mark.",
+      "expectedMarked": false,
+      "observedMarked": false,
+      "basis": "border_geometry_only",
+      "pass": true
+    },
+    {
+      "case": "an empty appearance",
+      "expectedMarked": false,
+      "observedMarked": false,
+      "basis": "border_geometry_only",
+      "pass": true
+    },
+    {
+      "case": "a ZapfDingbats glyph mark, the other way a form draws a tick",
+      "expectedMarked": true,
+      "observedMarked": true,
+      "basis": "text_showing_operator_in_a_control_appearance",
+      "pass": true
+    }
+  ]
+}

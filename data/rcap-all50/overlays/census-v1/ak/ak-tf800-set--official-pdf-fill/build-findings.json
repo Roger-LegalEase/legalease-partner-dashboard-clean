@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "ak-tf800-set",
+  "blocking": [],
+  "findingCount": 0,
+  "advisoryNote": "Advisory findings are defects this build MEASURED but did not cause and does not own. They do not fail the build, and none was worked around: each names the file that owns the fix.",
+  "advisory": [
+    {
+      "severity": "advisory",
+      "id": "AK-TF800-B1",
+      "title": "A multi-widget field's fit is decided by widget[0], not by its narrowest box.",
+      "field": "caseNo",
+      "where": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (outside this family's owned path)",
+      "detail": "caseNo's three widgets are 127.06pt (page 1), 134.39pt (page 2) and 130.25pt (page 3). finalizeOfficialForm fits against widget[0] and writes or refuses the whole field on that result. The boundary case number needs 131pt at the 6pt floor, so the field is refused entirely and the page-2 and page-3 case-number headers are left blank although both boxes would have held it. It fails safe here only because widget[0] is the narrowest of the three; with the widest first, a value fitted to page 1 would be written to all three and clipped on the narrower two. See reports/artifact-byte-verification.json#multiWidgetFitHazard.",
+      "thisFamilyDidNot": "tune the boundary fixture to avoid it, or edit the shared finalizer to work around it"
+    },
+    {
+      "severity": "advisory",
+      "id": "AK-TF800-B2",
+      "title": "The 'Address:' line is a complete mailing address; the platform binds only its street component.",
+      "field": "address",
+      "where": "scripts/rcap-official-forms/rcap-field-semantics.mjs (outside this family's owned path)",
+      "detail": "TF-800 prints one 425pt line captioned 'Address:' with no companion city, state or zip field, and the form's own note says the court sends documents to the contact details given here. `address` binds participant.street_address by name and there is no combined mailing-address fact, so the rendered line is partial by construction. See reports/blanks-left-for-the-participant.json#partialFills.",
+      "thisFamilyDidNot": "invent a fact, edit the descriptor list, or leave the correct street address unwritten"
+    }
+  ]
+}

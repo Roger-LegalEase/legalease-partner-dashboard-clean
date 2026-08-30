@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "ak-tf800-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, or a value the platform does not hold. 21 of this form's 26 fields are left blank, which is what a records-access request looks like — the substance of TF-800 is the participant's own account of which records and why, and the platform composes none of it.",
+  "count": 21,
+  "partialFills": [
+    {
+      "field": "address",
+      "severity": "high",
+      "whatIsWritten": "participant.street_address",
+      "whatTheFormAsksFor": "TF-800 prints one 425pt line captioned 'Address:' and has no companion city, state or zip field. The line is the participant's complete mailing address — the form's own note says the court and other parties send court documents to the contact details given here.",
+      "finding": "The descriptor list holds participant.street_address, participant.city, participant.state, participant.zip and participant.city_state_zip, but no single complete-mailing-address fact, and `address` binds street_address by name. The rendered line is therefore PARTIAL by construction: it carries the street and not the city, state or zip. It is not wrong — it is the participant's own street address on a line captioned Address — but a participant who files without completing it gives the court an address it cannot mail to.",
+      "whyItIsStillWritten": "A street address on an address line is incomplete, not incorrect, and TF-800 must be sworn before a clerk, notary or other person authorised to administer oaths, so the participant necessarily handles the page. Leaving it blank would discard a correct fact the platform holds.",
+      "whoOwnsTheFix": "scripts/rcap-official-forms/rcap-field-semantics.mjs, which is outside this family's owned path. A combined mailing-address fact, or an explicit mapping channel for one-line address blanks, is where this closes. This family does not edit that file and does not work around it."
+    }
+  ],
+  "blanks": [
+    {
+      "document": "AK-TF-800",
+      "field": "caseName",
+      "page": 1,
+      "printedCaptionNearest": "Case Name: Case No.:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "case_caption_not_a_person",
+      "sharedRefusalIs": "none — decideBinding returns writable=true, factId=participant.full_legal_name",
+      "why": "The printed caption is 'Case Name:'. In Alaska this is the case's own caption, not the requestor's name. The field name matches participant.full_legal_name's /case\\s*name/ alternative, so the shared binder writes the participant's name here; that misstates the caption of the case to the court. The platform holds no case-name fact. The harvested printed caption for this widget is the fragment 'documents t' — the tail of the email sentence printed one line above — so the label channel could not have corrected it either."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "partyNames",
+      "page": 1,
+      "printedCaptionNearest": "Party Names:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "all_parties_not_the_participant",
+      "sharedRefusalIs": "none — decideBinding returns writable=true, factId=participant.full_legal_name",
+      "why": "The printed caption is 'Party Names:' and asks for the parties to the case. The participant is one party; page 2 of this form is a Certificate of Service that exists because there are others. Writing one name asserts the participant is the only party. The platform holds no party list."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Group1",
+      "page": 1,
+      "printedCaptionNearest": "following court case records be made confidential: sealed:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_confidential_or_sealed",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "The two-widget radio on the line 'the following court case records be made confidential: sealed:'. Choosing between confidential and sealed is the relief the participant asks for; the two have different legal consequences and the platform does not choose between them."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Check Box1",
+      "page": 1,
+      "printedCaptionNearest": "Entire case file",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_scope",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "'Entire case file'. Selecting it asks the court to close the whole case rather than named records. That is the participant's election."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Check Box2",
+      "page": 1,
+      "printedCaptionNearest": "Document(s):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_scope",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "'Document(s):' — the scope checkbox governing the `documents` free-text list."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "documents",
+      "page": 1,
+      "printedCaptionNearest": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_statement_of_records",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "The free-text list beside the 'Document(s):' checkbox: which specific records the participant asks the court to close. This is the substance of the request and is the participant's to state."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Check Box3",
+      "page": 1,
+      "printedCaptionNearest": "Log notes (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_scope",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "'Log notes (list date and type of hearing):' scope checkbox."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "dateHearing",
+      "page": 1,
+      "printedCaptionNearest": "Log notes (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_statement_of_records",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "Despite the field name, this is not a hearing date. It is the free text beside 'Log notes (list date and type of hearing):' and asks which log notes, by date and hearing type. The platform holds no hearing record. The harvested caption for this widget is 'Audio Recording (list date and type of hea' — the line BELOW it — so the label channel mis-binds it by one line."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Check Box4",
+      "page": 1,
+      "printedCaptionNearest": "Audio Recording (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_scope",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "'Audio Recording (list date and type of hearing):' scope checkbox."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "audioRecording",
+      "page": 1,
+      "printedCaptionNearest": "Audio Recording (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_statement_of_records",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "Free text beside 'Audio Recording (list date and type of hearing):'. Which recordings, by date and hearing type. The platform holds no hearing record."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "Check Box5",
+      "page": 1,
+      "printedCaptionNearest": "Transcript (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "relief_election_scope",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "'Transcript (list date and type of hearing):' scope checkbox."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "transcript",
+      "page": 1,
+      "printedCaptionNearest": "Transcript (list date and type of hearing):",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_statement_of_records",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "Free text beside 'Transcript (list date and type of hearing):'. Same class as the two above."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "confidentialBecause",
+      "page": 1,
+      "printedCaptionNearest": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "participant_legal_argument",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "The 469x62pt block under 'These court records should be made confidential or sealed, because:'. This is the legal argument the judge must weigh against the public interest in access under Administrative Rule 37.6. It is the participant's own statement and the platform must not compose it."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "certDate",
+      "page": 2,
+      "printedCaptionNearest": "I certify on at [date/time] I gave a copy of this document",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_date",
+      "sharedRefusalIs": "robust — protected_category, category=service_block",
+      "why": "The date in 'I certify on ____ at [date/time] I gave a copy of this document'. Service has not happened. A date here certifies a mailing that has not occurred. The shared service_block rule refuses it and its comment names this very field; it is restated by role so the refusal does not depend on the field keeping the spelling 'certDate'. The production overlay classes this field `deterministic` — that classification does not carry over and is the subject of inherited finding F2."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "time2",
+      "page": 2,
+      "printedCaptionNearest": "I certify on at [date/time] I gave a copy of this document",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_time",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "The time in the same sentence, at [date/time]. Same certification, same refusal. Refused by the shared binder only because no fact matches the name 'time2', which is not a decision about the field."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "mail",
+      "page": 2,
+      "printedCaptionNearest": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_delivery_method",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "One of four mutually-exclusive delivery-method boxes in 'and any attachments by mail. hand-delivery. TrueFiling. email.' Which method was used is a statement about an act of service that has not happened."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "hd",
+      "page": 2,
+      "printedCaptionNearest": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_delivery_method",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "Hand-delivery, same block, same refusal."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "tf",
+      "page": 2,
+      "printedCaptionNearest": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_delivery_method",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "TrueFiling, same block, same refusal."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "emailCB",
+      "page": 2,
+      "printedCaptionNearest": "and any attachments by mail. hand-delivery. TrueFiling. email. [You can only",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_delivery_method",
+      "sharedRefusalIs": "structural — non_text_field_type (type_guard)",
+      "why": "Email, same block, same refusal — and the one the production overlay classes `participant` (writable) while classing its three siblings unwritable. That asymmetry is inherited finding F2's secondary concern. First-hand: all four are the same kind of election inside the same certification, `emailCB` alone matches participant.email by name, and only the type guard stops it. All four are refused by role here, symmetrically."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "needText1",
+      "page": 2,
+      "printedCaptionNearest": "I served these people:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_recipients",
+      "sharedRefusalIs": "incidental — no_allowlisted_fact_matches",
+      "why": "The list under 'I served these people:'. Who was served is a statement about an act of service; the platform holds no party list and no service record."
+    },
+    {
+      "document": "AK-TF-800",
+      "field": "signature0",
+      "page": 2,
+      "printedCaptionNearest": "Signature:",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "roleClass": "certificate_of_service_signature",
+      "sharedRefusalIs": "robust — protected_category, category=signature",
+      "why": "The 'Signature:' line at the foot of the Certificate of Service. A participant signature is never prefilled. Restated by role so the refusal does not rest on the field name containing the word 'signature'."
+    }
+  ]
+}

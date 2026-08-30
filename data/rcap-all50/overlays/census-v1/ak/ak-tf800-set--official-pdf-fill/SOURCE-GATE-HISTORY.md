@@ -1,3 +1,70 @@
+# ak-tf800-set — source gate history
+
+**Status: RESOLVED on 2026-08-30. The family is built.** This file was
+`BLOCKED.md`. It is kept, renamed and unedited below, because the refusal it
+records was correct and the reasoning in it is what made the resume safe. Only
+this header is new — a file called BLOCKED.md in a tree where nothing is
+blocked is a worse lie than a stale record.
+
+## What the block was, and what it was not
+
+The gate recorded `SOURCE_BYTES_ABSENT` (exit 2). That was a true finding **about
+that container**, and it was the right call: an absent corpus is not an empty
+one, and a family whose bytes were never opened must not report as built.
+
+What it was not was a fact about the corpus. The bytes existed the whole time,
+in a private release that each container has to recover for itself with
+`scripts/rcap-corpus/bootstrap-private-corpus.sh`. The first brief did not say
+so. Five of six workers in the first wave stopped at exactly this point, and
+`docs/rcap/grade-a/route-obligation-census/PACKET_WORKER_BRIEF.md` now opens by
+saying so.
+
+## How it was reopened
+
+The `toReopenThisGate` instruction below was followed exactly:
+
+1. `bash scripts/rcap-corpus/bootstrap-private-corpus.sh` — archive SHA-256
+   verified, corpus governance checksums verified, 499 files / 329 PDFs /
+   51 jurisdictions extracted.
+2. `node scripts/verify-packet-build-environment.mjs --family ak-tf800-set` —
+   `PACKET_BUILD_ENVIRONMENT_READY`, 14/14.
+3. `node scripts/rcap-census-v1-ak-tf800-set-source-gate.mjs` — **`VERIFIED`,
+   exit 0.**
+
+The observed digest is
+`94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd` at 130602
+bytes: byte-exact against the pin, and against all five records the predecessor
+corroborated it with. Nothing was acquired, and no court host, mirror, cache or
+aggregator was contacted.
+
+## What became of the findings recorded here
+
+All three were re-tested first-hand against the mounted binary rather than
+carried forward, and all three hold. See
+`reports/inherited-evidence-findings-resolution.json`. In short:
+
+- **F1** — confirmed. The harvested labels do mis-bind, and they decide nothing
+  in this build: `name`, `email` and `dayPhone` would each have taken the wrong
+  fact from the label channel, and bind correctly only because `decideBinding`
+  asks the field-name channel first.
+- **F2** — confirmed as a hazard and already closed in the shared binder, whose
+  `service_block` rule names this form's `certDate` explicitly. Restated as a
+  role refusal so it does not rest on one channel. The `emailCB` asymmetry is
+  resolved by refusing all four delivery boxes symmetrically.
+- **F3** — confirmed exactly. `caseNo` carries three widgets on pages 1, 2 and 3,
+  and verification now reads every widget of every field rather than the first.
+
+## The three blanks this file said must stay blank
+
+They stayed blank, and it is proved from the artifact bytes rather than
+asserted: `signature0`, `certDate` and `emailCB` are empty at their measured
+rectangles in both fixtures, and the check that says so is shown to fail on
+injected ink in `reports/verification-discrimination.json`.
+
+---
+
+*Everything below this line is the original record, unaltered.*
+
 # ak-tf800-set — BLOCKED at step 1 (source verification)
 
 **Family:** `ak-tf800-set` · **Strategy:** `official_pdf_fill` · **Jurisdiction:** AK
