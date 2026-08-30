@@ -41,6 +41,23 @@ const MUTATIONS = process.argv.includes("--mutations");
 
 const FILTER = { possibleCategory: "B_LEGITIMATE_EXCLUSION", classificationConfidence: "medium" };
 const EXPECTED_COUNT = 55;
+const EXPECTED_JURISDICTIONS = 26;
+
+// ---- the frozen source snapshot ----------------------------------------------
+//
+// The assignment is pinned to one exact commit, one exact blob and one exact
+// digest, written here as constants rather than read from the file being
+// verified. That distinction is the whole point: an earlier version took the
+// blob sha out of the committed assignment and then fetched THAT blob, so a
+// mutation to the recorded sha simply redirected the check at a different
+// source and the two agreed with each other. A pin a document supplies about
+// itself is not a pin.
+//
+// All three are asserted against each other on every run: the commit must still
+// hold that blob, and the blob's bytes must still hash to that digest.
+const SNAPSHOT_COMMIT = "1b0ce4de0c56ce88853e53bbed42016e33a91227";
+const SNAPSHOT_BLOB = "0673c2e3ca934ff7e20fd5abc3214eebf7bb6148";
+const SNAPSHOT_SHA256 = "9b4399fee98537c1e44f3f9041269c4f475aacf958befe22eba51908f5312cc2";
 
 /** Every field carried through, in a fixed order so the export is stable. */
 const CARRIED_FIELDS = [
@@ -156,6 +173,20 @@ function validate(doc, sourceText) {
   const unique = new Set(keys);
   if (unique.size !== EXPECTED_COUNT) problems.push(`${unique.size} unique routeKey(s), expected ${EXPECTED_COUNT}`);
 
+  const jurisdictions = new Set(doc.rows.map((row) => row.jurisdiction));
+  if (jurisdictions.size !== EXPECTED_JURISDICTIONS) {
+    problems.push(`${jurisdictions.size} jurisdiction(s), expected ${EXPECTED_JURISDICTIONS}`);
+  }
+  if (doc.generatedFrom.captainHead !== SNAPSHOT_COMMIT) {
+    problems.push(`generatedFrom.captainHead is ${doc.generatedFrom.captainHead}, expected the snapshot commit ${SNAPSHOT_COMMIT}`);
+  }
+  if (doc.generatedFrom.sourceGitBlobSha !== SNAPSHOT_BLOB) {
+    problems.push(`generatedFrom.sourceGitBlobSha is ${doc.generatedFrom.sourceGitBlobSha}, expected ${SNAPSHOT_BLOB}`);
+  }
+  if (doc.generatedFrom.sourceSha256 !== SNAPSHOT_SHA256) {
+    problems.push(`generatedFrom.sourceSha256 is ${doc.generatedFrom.sourceSha256}, expected ${SNAPSHOT_SHA256}`);
+  }
+
   for (const row of doc.rows) {
     const origin = byKey.get(row.routeKey);
     if (!origin) { problems.push(`${row.routeKey} is not in the source ledger`); continue; }
@@ -199,22 +230,41 @@ function validate(doc, sourceText) {
  * post-regeneration delta record instead, where it belongs.
  */
 function pinnedSource() {
-  const committed = JSON.parse(read(JSON_OUT));
-  const { sourceGitBlobSha, captainHead } = committed.generatedFrom;
-  const text = execFileSync("git", ["cat-file", "blob", sourceGitBlobSha], {
+  const blobAtSnapshot = git(["rev-parse", `${SNAPSHOT_COMMIT}:${SOURCE}`]);
+  if (blobAtSnapshot !== SNAPSHOT_BLOB) {
+    console.error(
+      `frozen snapshot drift: ${SNAPSHOT_COMMIT.slice(0, 8)} holds ${SOURCE} at blob ${blobAtSnapshot}, ` +
+      `but the assignment is pinned to ${SNAPSHOT_BLOB}. The frozen assignment is traceable to one blob; ` +
+      `a commit that no longer holds it cannot stand in for it.`
+    );
+    process.exit(1);
+  }
+  const text = execFileSync("git", ["cat-file", "blob", SNAPSHOT_BLOB], {
     cwd: ROOT, encoding: "utf8", maxBuffer: 1024 * 1024 * 512
   });
-  return { text, pinned: { sourceGitBlobSha, captainHead } };
+  const digest = crypto.createHash("sha256").update(text).digest("hex");
+  if (digest !== SNAPSHOT_SHA256) {
+    console.error(
+      `frozen snapshot byte drift: blob ${SNAPSHOT_BLOB} hashes to ${digest}, pinned ${SNAPSHOT_SHA256}.`
+    );
+    process.exit(1);
+  }
+  // captainHead is the SNAPSHOT commit, never the live HEAD. The assignment
+  // records the tree it was cut from; recording today's HEAD would make a
+  // frozen document claim a provenance it does not have.
+  return { text, pinned: { sourceGitBlobSha: SNAPSHOT_BLOB, captainHead: SNAPSHOT_COMMIT } };
 }
 
 let sourceText;
 let pinned = null;
-if ((CHECK || MUTATIONS) && fs.existsSync(path.join(ROOT, JSON_OUT))) {
+// The frozen assignment is ALWAYS built from its snapshot — on --check, on
+// --mutations, and on a plain run. The live ledger is deliberately not a valid
+// input to it: regenerating this file against a moved ledger is the one thing
+// that must not happen, so the exporter cannot be made to do it by accident.
+{
   const resolved = pinnedSource();
   sourceText = resolved.text;
   pinned = resolved.pinned;
-} else {
-  sourceText = read(SOURCE);
 }
 const doc = build(sourceText, pinned);
 const problems = validate(doc, sourceText);
@@ -285,7 +335,44 @@ async function runMutations() {
 
   const originalJson = fs.readFileSync(jsonPath);
   const originalMd = fs.readFileSync(mdPath);
+  const selfPath = fileURLToPath(import.meta.url);
+  const originalSelf = fs.readFileSync(selfPath);
   let undetected = 0;
+
+  // Two mutations act on the PIN rather than on the export, because the pin is
+  // the thing an earlier version got wrong: it read the blob sha out of the
+  // document it was checking, so redirecting the sha redirected the check and
+  // the two agreed. These mutate the constants in this file and require the
+  // run to refuse.
+  const pinCases = [
+    {
+      name: "snapshot-blob drift is caught (the pinned commit no longer holds that blob)",
+      from: `const SNAPSHOT_BLOB = "${SNAPSHOT_BLOB}";`,
+      to: 'const SNAPSHOT_BLOB = "0000000000000000000000000000000000000000";'
+    },
+    {
+      name: "snapshot-byte SHA drift is caught (the blob no longer hashes to the pin)",
+      from: `const SNAPSHOT_SHA256 = "${SNAPSHOT_SHA256}";`,
+      to: `const SNAPSHOT_SHA256 = "${"0".repeat(64)}";`
+    }
+  ];
+  try {
+    for (const pinCase of pinCases) {
+      const mutatedSelf = originalSelf.toString("utf8").replace(pinCase.from, pinCase.to);
+      if (mutatedSelf === originalSelf.toString("utf8")) {
+        console.log(`  MISSED    ${pinCase.name} (the constant it mutates was not found)`);
+        undetected += 1;
+        continue;
+      }
+      fs.writeFileSync(selfPath, mutatedSelf);
+      let caught = false;
+      try { execFileSync(process.execPath, [selfPath, "--check"], { cwd: ROOT, stdio: "pipe" }); }
+      catch { caught = true; }
+      console.log(`  ${caught ? "detected " : "MISSED   "} ${pinCase.name}`);
+      if (!caught) undetected += 1;
+      fs.writeFileSync(selfPath, originalSelf);
+    }
+  } finally { fs.writeFileSync(selfPath, originalSelf); }
   try {
     for (const testCase of cases) {
       const mutated = testCase.mutate(JSON.parse(originalJson.toString("utf8")));
@@ -302,9 +389,11 @@ async function runMutations() {
     fs.writeFileSync(jsonPath, originalJson);
     fs.writeFileSync(mdPath, originalMd);
   }
-  const restored = fs.readFileSync(jsonPath).equals(originalJson) && fs.readFileSync(mdPath).equals(originalMd);
+  const restored = fs.readFileSync(jsonPath).equals(originalJson)
+    && fs.readFileSync(mdPath).equals(originalMd)
+    && fs.readFileSync(selfPath).equals(originalSelf);
   console.log(`\n  every mutated file restored byte-for-byte: ${restored}`);
   if (!restored) { console.error("a mutation was left on disk"); process.exit(1); }
   if (undetected > 0) { console.error(`\n${undetected} mutation(s) undetected — the check proves less than it claims.`); process.exit(1); }
-  console.log(`\nOK category B export mutations — ${cases.length} case(s), every mutation caught.`);
+  console.log(`\nOK category B export mutations — ${cases.length + pinCases.length} case(s), every mutation caught.`);
 }

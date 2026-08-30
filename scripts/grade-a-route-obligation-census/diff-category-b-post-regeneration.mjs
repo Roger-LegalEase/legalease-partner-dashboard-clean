@@ -91,11 +91,22 @@ const rows = frozen.rows.map((frozenRow) => {
     routeKey: frozenRow.routeKey,
     jurisdiction: frozenRow.jurisdiction,
     existsInCurrentLedger: exists,
+    // Both sides of every field a revalidator's answer depends on, side by
+    // side. Reporting only the current value would leave a reader unable to
+    // tell whether it moved without going back to the frozen file to compare —
+    // which is the comparison this record exists to have already done.
+    frozenPossibleCategory: frozenRow.possibleCategory ?? null,
     currentPossibleCategory: live ? live.possibleCategory ?? null : null,
+    frozenPossibleCategoryBReason: frozenRow.possibleCategoryBReason ?? null,
     currentPossibleCategoryBReason: live ? live.possibleCategoryBReason ?? null : null,
+    frozenClassificationConfidence: frozenRow.classificationConfidence ?? null,
     currentClassificationConfidence: live ? live.classificationConfidence ?? null : null,
     sourceFingerprintChanged: fingerprintChanged,
     substantiveClassificationChanged: changed.length > 0,
+    // Two names for one list: the field names, and the same entries with their
+    // before and after. Neither is derived from the other at read time, so a
+    // reader cannot be handed a summary that disagrees with its own detail.
+    changedFields: changed.map((entry) => entry.field),
     exactChangedFields: changed,
     supersededBy: exists ? null : (supersededBy.get(frozenRow.routeKey) ?? null)
   };
@@ -123,6 +134,18 @@ for (const row of rows) {
       && !enumerated.has("classificationConfidence")) {
       problems.push(`${row.routeKey}: the confidence changed but is not in exactChangedFields`);
     }
+  }
+}
+
+// The summary and the detail must agree. A changedFields that has drifted from
+// exactChangedFields is a record telling a reader two different stories.
+for (const row of rows) {
+  const detail = row.exactChangedFields.map((entry) => entry.field);
+  if (JSON.stringify(row.changedFields) !== JSON.stringify(detail)) {
+    problems.push(`${row.routeKey}: changedFields disagrees with exactChangedFields`);
+  }
+  if (row.substantiveClassificationChanged !== (detail.length > 0)) {
+    problems.push(`${row.routeKey}: substantiveClassificationChanged disagrees with the enumerated fields`);
   }
 }
 
