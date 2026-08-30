@@ -248,6 +248,15 @@ jobs:
       - name: Prove the stale-artifact block is load-bearing
         run: node scripts/verify-rcap-stale-artifact-block.mjs --mutations
 
+      # Participant data rights: export, single-matter deletion, account
+      # deletion. Wired here rather than in the npm test chain because
+      # package.json is an image input for both worker images, and adding a
+      # script entry would invalidate the worker-image fingerprint. It builds
+      # its own ephemeral PostgreSQL cluster and a loopback processor endpoint,
+      # so it needs no external service.
+      - name: Verify participant data rights
+        run: node scripts/verify-participant-data-rights.mjs
+
       - name: Verify the factory_v2 route registry is current
         run: node scripts/generate-rcap-factory-v2-registry.mjs --check
 

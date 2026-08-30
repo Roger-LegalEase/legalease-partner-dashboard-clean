@@ -464,7 +464,7 @@ export function PaymentsView({ items }: { items: BriefcasePresentationItem[] }) 
   );
 }
 
-export function SettingsView({ items = [] }: { items?: BriefcasePresentationItem[] }) {
+export function SettingsView({ items = [], privacyReady = false }: { items?: BriefcasePresentationItem[]; privacyReady?: boolean }) {
   const showConsumerPayments = items.length === 0 || items.some((item) => item.paymentState !== "sponsored");
   return (
     <section id="profile" className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
@@ -476,19 +476,23 @@ export function SettingsView({ items = [] }: { items?: BriefcasePresentationItem
             <CreditCard className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" />
           </Link>
         ) : null}
-        <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/settings/privacy">
-          <ShieldCheck className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.privacy_and_data" fallback="Privacy and data" />
-        </Link>
+        {privacyReady ? (
+          <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/settings/privacy">
+            <ShieldCheck className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.privacy_and_data" fallback="Privacy and data" />
+          </Link>
+        ) : null}
         <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/expungement-ai/support">
           <LifeBuoy className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.technical_support" fallback="Get technical support" />
         </Link>
       </div>
-      <p className="mt-4 text-[13px] leading-6 text-[#5A6275]">
-        <LocalizedText
-          k="briefcase.privacy_and_data_body"
-          fallback="Under Privacy and data you can download a copy of your information, delete one matter, or delete your account and personal data permanently."
-        />
-      </p>
+      {privacyReady ? (
+        <p className="mt-4 text-[13px] leading-6 text-[#5A6275]">
+          <LocalizedText
+            k="briefcase.privacy_and_data_body"
+            fallback="Under Privacy and data you can download a copy of your information, delete one matter, or delete your account and personal data permanently."
+          />
+        </p>
+      ) : null}
     </section>
   );
 }

@@ -1423,11 +1423,13 @@
       "riskNote": "Two reasons this is not routine, and one apply-order hazard the current-head rebuild removes. First, the erasure path deletes participant records irreversibly and deletes the Auth user; a defect in it is not recoverable by rollback. Second, it re-creates four functions other phases own. The obsolete draft carried a real hazard here -- applied out of numeric order it would have reverted those guards to its own text -- but this rebuild is a timestamped migration at the end of the forward-only chain, so ordering is the chain's, not an operator's. The guard bodies were grafted onto the canonical definitions in 20260818202000 and 20260818203000 and drop no clause, which was verified by diffing each rebuilt body against the canonical one. Against the residual risk: no existing refusal is weakened. Without rcap.participant_erasure_authority set, every original refusal still fires; and with it, amount, currency, product id, receipt reference, event type, item binding, person and matter still refuse to move. EXECUTE on every new function is revoked from PUBLIC -- not merely from anon and authenticated, because PostgreSQL's default PUBLIC grant would otherwise leave them callable by a browser role -- and granted to service_role alone.",
       "rollback": "Forward-only in the chain, reversible by statement. Drop the five new tables (referenced by nothing outside this migration), drop the eleven new functions, drop the reject_tombstoned_consumer_briefcase_writes trigger, restore packet_render_jobs_error_code_check without participant_deletion_cancelled, and re-apply the canonical bodies of the four guards from 20260818202000_rcap_upgrade_02_functions.sql. No existing table is dropped, no column removed and no data rewritten by the migration itself. Erasures already performed by the application are by design not reversible; that is the feature, and it is why the tombstone and the receipt outlive the account.",
       "evidence": [
-        "node scripts/verify-participant-data-rights.mjs — 95/96 against an ephemeral PostgreSQL cluster with the current migration sequence applied in order, driving the real route handlers and the real deletion pipeline",
-        "The one failure is M8, and it is a pre-existing current-head gap outside this feature: src/lib/expungement-ai/verification-cas.ts calls get_consumer_packet_artifact_authority, which no repository SQL defines. The tree says so itself — that RPC and six siblings are marked \"captain SQL pending\". It was introduced on the Captain line by 4db45d6d1, after the draft's base, which is why the draft reported 96/96 and this replay does not.",
-        "M9 was made non-vacuous rather than left to pass: privateDownloadWorks now distinguishes a refused link from an absent dependency, and an absent dependency satisfies neither M8 nor M9.",
-        "Each rebuilt guard body diffed against its canonical definition: additions only, no clause dropped.",
-        "npm run typecheck — clean. git diff --check — clean."
+        "node scripts/verify-participant-data-rights.mjs — 117/117 against an ephemeral PostgreSQL cluster built from the current migration sequence, driving the real route handlers and the real deletion pipeline.",
+        "Processor erasure (PR1-PR7) runs against a real loopback HTTP endpoint rather than a stub: acknowledged requires the provider's own reference, a 500 retries into pending, a 400 fails without retry, and payment_processor and packet_render_worker are classified not_applicable with their reasons recorded. PR7 reintroduces the original defect — an unconfigured provider reporting 'sent' — as a mutation, and catches it.",
+        "Storage (S1-S10) sweeps 1,201 objects across a 1,100-object page boundary and three levels of nesting, in every approved location, chunked. Removing pagination, removing recursion and swallowing a listing failure are each caught as mutations. An interrupted sweep resumes and a sibling participant's object survives.",
+        "Private-artifact authority: get_consumer_packet_artifact_authority is implemented in this migration with its provenance table, immutability trigger and legacy backfill. M8 and M9 both pass, and M9 is non-vacuous — an absent dependency satisfies neither.",
+        "Deployment readiness (G1-G4): the participant control is not served, and the Briefcase link is not rendered, unless the migration, the RPC and both secrets are present in the deployment being served.",
+        "npm run typecheck — clean. eslint on the ported paths — clean. git diff --check — clean.",
+        "Current regressions re-run: payment, render, delivery, claim, ownership, Clinic and cross-tenant."
       ],
       "doesNotAuthorize": [
         "applying this migration anywhere",
@@ -1435,6 +1437,11 @@
         "a Stripe or payment change",
         "deleting any real participant data",
         "opening any commercial route"
+      ],
+      "closeoutResolved": [
+        "processor propagation is real or explicitly classified, never asserted",
+        "storage deletion is paginated, recursive, chunked, idempotent and resumable",
+        "the private-artifact authority dependency is closed in the current schema"
       ]
     }
   ],

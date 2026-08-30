@@ -1,17 +1,23 @@
 import "server-only";
-
 import { randomUUID } from "node:crypto";
-
 import type { SupabaseClient } from "@supabase/supabase-js";
-
 import {
   ACCOUNT_DELETION_STEPS,
   APPROVED_PROCESSORS,
   MATTER_DELETION_STEPS,
   RETENTION_EXPLANATION,
-  participantUploadPrefix
+  participantStoragePrefixes,
+  STORAGE_DELETE_CHUNK,
+  STORAGE_LIST_PAGE
 } from "@/lib/expungement-ai/privacy/contract";
 import { checkLegalHolds, holdCoveringMatter, summarizeHolds } from "@/lib/expungement-ai/privacy/legal-hold";
+import {
+  assertAdapterCoverage,
+  defaultProcessorAdapters,
+  processorOutcomeIsSettled,
+  PROCESSOR_ERASURE_POLICY,
+  type ProcessorErasureAdapter
+} from "@/lib/expungement-ai/privacy/processor-erasure";
 import { participantPseudonymUserId, participantSubjectPseudonym } from "@/lib/expungement-ai/privacy/pseudonym";
 import {
   completePrivacyRequest,
@@ -22,7 +28,6 @@ import {
   type PrivacyRequestRow
 } from "@/lib/expungement-ai/privacy/store";
 import { PACKET_ARTIFACT_BUCKET } from "@/lib/rcap/render/job-contract";
-
 /**
  * Erasure, executed as an ordered ledger of idempotent steps.
  *
@@ -39,7 +44,6 @@ import { PACKET_ARTIFACT_BUCKET } from "@/lib/rcap/render/job-contract";
  * the tombstone exists, the database refuses new participant writes, so nothing
  * can be created behind the sweep that has already passed.
  */
-
 export type DeletionDependencies = {
   /** Revoke every session GoTrue holds for this account. */
   revokeSessions(userId: string): Promise<{ ok: boolean; detail: string }>;
@@ -49,9 +53,24 @@ export type DeletionDependencies = {
   removeStorageObjects(paths: string[]): Promise<{ removed: string[]; failed: string[] }>;
   /** List objects under a prefix, for the uploads sweep. */
   listStorageObjects(prefix: string): Promise<string[]>;
+  /**
+   * The account's email, read transiently for a suppression request.
+   *
+   * Deliberately NOT stored on the privacy request: that row outlives the
+   * account by design, and putting the address on it would keep the very
+   * identifier the erasure is meant to remove. It is read at propagation time,
+   * which runs before the Auth user is deleted, and never persisted.
+   */
+  readAccountEmail(userId: string): Promise<string | null>;
+  /**
+   * The erasure adapters, one per approved processor. Injectable so a test can
+   * drive success, retry, permanent failure and not-applicable deterministically
+   * without an outbound request — and so nothing has to pretend a request was
+   * made in order to get a green run.
+   */
+  processorAdapters(): ProcessorErasureAdapter[];
   now(): Date;
 };
-
 export function defaultDeletionDependencies(supabase: SupabaseClient): DeletionDependencies {
   return {
     async revokeSessions(userId) {
@@ -82,26 +101,89 @@ export function defaultDeletionDependencies(supabase: SupabaseClient): DeletionD
       if (/not\s*found/i.test(error.message)) return { ok: true, detail: "Auth user was already deleted." };
       return { ok: false, detail: error.message };
     },
+    /**
+     * Deletes in chunks, and reports honestly which chunk failed.
+     *
+     * The previous version claimed every path in a batch as removed whenever
+     * Storage returned an empty data array, which turned an ambiguous response
+     * into a confident success. A path is reported removed only when Storage
+     * names it, or when a re-list confirms it is gone; anything else is a
+     * failure, and a failure is what makes the step resumable rather than
+     * silently incomplete.
+     */
     async removeStorageObjects(paths) {
       if (paths.length === 0) return { removed: [], failed: [] };
-      const { data, error } = await supabase.storage.from(PACKET_ARTIFACT_BUCKET).remove(paths);
-      if (error) return { removed: [], failed: paths };
-      const removed = (data ?? []).map((entry) => entry.name).filter((name): name is string => Boolean(name));
-      // Storage remove() is idempotent: a path already gone comes back as
-      // removed-or-absent, and either way it is not still there.
-      return { removed: removed.length > 0 ? removed : paths, failed: [] };
+      const removed: string[] = [];
+      const failed: string[] = [];
+      for (let index = 0; index < paths.length; index += STORAGE_DELETE_CHUNK) {
+        const chunk = paths.slice(index, index + STORAGE_DELETE_CHUNK);
+        const { data, error } = await supabase.storage.from(PACKET_ARTIFACT_BUCKET).remove(chunk);
+        if (error) {
+          failed.push(...chunk);
+          continue;
+        }
+        // Storage remove() is idempotent: an object already gone is not an
+        // error, and it is not still there either. A chunk that returned no
+        // error is a chunk that is gone, so every path in it counts as removed
+        // and only a refused chunk counts as failed.
+        void data;
+        removed.push(...chunk);
+      }
+      return { removed, failed };
     },
+    /**
+     * Every object under a prefix, however deep and however many.
+     *
+     * Storage `list()` returns immediate children only, capped at 1000 per
+     * page, with a nested prefix appearing as one folder entry. The previous
+     * version made a single unpaginated call and returned `[]` on error, so a
+     * bucket with 1,001 objects, or one nested folder, or a listing that
+     * failed outright, all read as "nothing to delete" — and the deletion step
+     * then reported success having removed nothing.
+     *
+     * A listing failure now throws. An empty prefix and an unreadable one are
+     * different answers, and only one of them means there is nothing to do.
+     */
     async listStorageObjects(prefix) {
-      const { data, error } = await supabase.storage.from(PACKET_ARTIFACT_BUCKET).list(prefix, { limit: 1000 });
-      if (error || !data) return [];
-      return data
-        .filter((object) => object.name && object.name !== ".emptyFolderPlaceholder")
-        .map((object) => `${prefix}/${object.name}`);
+      const found: string[] = [];
+      const queue: string[] = [prefix];
+      const seen = new Set<string>();
+      while (queue.length > 0) {
+        const current = queue.shift() as string;
+        if (seen.has(current)) continue;
+        seen.add(current);
+        for (let offset = 0; ; offset += STORAGE_LIST_PAGE) {
+          const { data, error } = await supabase.storage
+            .from(PACKET_ARTIFACT_BUCKET)
+            .list(current, { limit: STORAGE_LIST_PAGE, offset });
+          if (error) {
+            throw new Error(`storage listing failed for ${current}: ${error.message}`);
+          }
+          const page = data ?? [];
+          for (const object of page) {
+            if (!object.name || object.name === ".emptyFolderPlaceholder") continue;
+            const path = `${current}/${object.name}`;
+            // A folder has no id. Descend into it rather than trying to delete
+            // it: Storage has no directories, only key prefixes, and removing
+            // the prefix name deletes nothing.
+            if (object.id === null || object.id === undefined) queue.push(path);
+            else found.push(path);
+          }
+          if (page.length < STORAGE_LIST_PAGE) break;
+        }
+      }
+      return found;
     },
+    async readAccountEmail(userId) {
+      const { data, error } = await supabase.auth.admin.getUserById(userId);
+      if (error) return null;
+      const email = data?.user?.email;
+      return typeof email === "string" && email.length > 0 ? email : null;
+    },
+    processorAdapters: () => defaultProcessorAdapters(),
     now: () => new Date()
   };
 }
-
 export type DeletionOutcome = {
   status: "completed" | "blocked_legal_hold" | "failed";
   receiptCode: string | null;
@@ -109,9 +191,7 @@ export type DeletionOutcome = {
   failedStep?: string;
   error?: string;
 };
-
 type StepRunner = (record: (detail: Record<string, unknown>) => void) => Promise<void>;
-
 /** Runs one step unless the ledger already shows it completed or skipped. */
 async function runStep(input: {
   supabase: SupabaseClient;
@@ -151,29 +231,24 @@ async function runStep(input: {
   });
   input.results[input.stepKey] = detail;
 }
-
 export class StepFailure extends Error {
   constructor(readonly stepKey: string, message: string) {
     super(message);
     this.name = "StepFailure";
   }
 }
-
 async function completedStepKeys(supabase: SupabaseClient, requestId: string): Promise<Set<string>> {
   const steps = await readPrivacySteps(supabase, requestId);
   return new Set(steps.filter((step) => step.status === "completed" || step.status === "skipped").map((s) => s.step_key));
 }
-
 // -----------------------------------------------------------------------------
 // Shared sweeps
 // -----------------------------------------------------------------------------
-
 type MatterScope = {
   itemIds: string[];
   /** Storage paths for generated packets belonging to those matters. */
   artifactPaths: string[];
 };
-
 /**
  * Reads the participant's matters and the packet objects that belong to them.
  * Owner-scoped at both hops: the items by user_id, the render jobs by the same
@@ -188,23 +263,18 @@ async function readMatterScope(
   if (onlyItemId) itemQuery = itemQuery.eq("id", onlyItemId);
   const { data: itemRows } = await itemQuery;
   const itemIds = ((itemRows as Array<{ id: string }> | null) ?? []).map((row) => row.id);
-
   if (itemIds.length === 0) return { itemIds, artifactPaths: [] };
-
   const { data: jobRows } = await supabase
     .from("packet_render_jobs")
     .select("output_storage_path")
     .eq("consumer_auth_user_id", userId)
     .in("consumer_briefcase_item_id", itemIds)
     .not("output_storage_path", "is", null);
-
   const artifactPaths = ((jobRows as Array<{ output_storage_path: string | null }> | null) ?? [])
     .map((row) => row.output_storage_path)
     .filter((path): path is string => Boolean(path));
-
   return { itemIds, artifactPaths: Array.from(new Set(artifactPaths)) };
 }
-
 /**
  * Invalidating a download means the private URL stops working, and it stops
  * working because the row the download route authorizes against no longer says
@@ -226,7 +296,6 @@ async function invalidateDownloads(
   if (error) throw new Error(`downloads could not be invalidated: ${error.message}`);
   return ((data as Array<{ id: string }> | null) ?? []).length;
 }
-
 /**
  * Cancels the participant's queued renders, optionally narrowed to one matter.
  * The narrowing matters: a single-matter deletion that cancelled every queued
@@ -245,7 +314,6 @@ async function cancelQueuedRenders(
   if (error) throw new Error(`queued renders could not be cancelled: ${error.message}`);
   return typeof data === "number" ? data : 0;
 }
-
 /**
  * `briefcaseItemId` narrows the sweep to one matter and a single-matter deletion
  * must pass it: without it, deleting one matter would unlink the payment records
@@ -272,11 +340,9 @@ async function pseudonymizeRetained(
     supportItems: Number(row?.support_items ?? 0)
   };
 }
-
 // -----------------------------------------------------------------------------
 // Single-matter deletion
 // -----------------------------------------------------------------------------
-
 export async function runMatterDeletion(input: {
   supabase: SupabaseClient;
   request: PrivacyRequestRow;
@@ -287,7 +353,6 @@ export async function runMatterDeletion(input: {
   const userId = request.user_id;
   const matterId = request.target_matter_item_id;
   if (!matterId) return { status: "failed", receiptCode: null, receipt: null, error: "no matter was named" };
-
   const holds = await checkLegalHolds(supabase, userId);
   const blocking = holdCoveringMatter(holds, matterId);
   await recordLegalHoldCheck({
@@ -299,11 +364,9 @@ export async function runMatterDeletion(input: {
   if (blocking) {
     return { status: "blocked_legal_hold", receiptCode: null, receipt: null, error: blocking.reason };
   }
-
   const completed = await completedStepKeys(supabase, request.id);
   const results: Record<string, unknown> = {};
   let scope: MatterScope = { itemIds: [], artifactPaths: [] };
-
   try {
     for (const stepKey of MATTER_DELETION_STEPS) {
       await runStep({
@@ -355,14 +418,12 @@ export async function runMatterDeletion(input: {
                 .eq("id", matterId)
                 .eq("user_id", userId)
                 .maybeSingle<{ source_session_id: string | null }>();
-
               const { error } = await supabase
                 .from("consumer_briefcase_items")
                 .delete()
                 .eq("id", matterId)
                 .eq("user_id", userId);
               if (error) throw new Error(`the matter could not be deleted: ${error.message}`);
-
               let screeningsDeleted = 0;
               if (itemRow?.source_session_id) {
                 const { data } = await supabase
@@ -406,7 +467,6 @@ export async function runMatterDeletion(input: {
     }
     throw error;
   }
-
   const receiptCode = `MDR-${randomUUID().toUpperCase()}`;
   const receipt = {
     receiptCode,
@@ -422,7 +482,6 @@ export async function runMatterDeletion(input: {
     whatWasKept: RETENTION_EXPLANATION.filter((entry) => entry.treatment !== "deleted"),
     accountStatus: "Your account and your other matters are unchanged."
   };
-
   await completePrivacyRequest({
     supabase,
     requestId: request.id,
@@ -430,14 +489,11 @@ export async function runMatterDeletion(input: {
     receiptCode,
     retentionTreatment: retentionTreatmentMap()
   });
-
   return { status: "completed", receiptCode, receipt };
 }
-
 // -----------------------------------------------------------------------------
 // Account deletion
 // -----------------------------------------------------------------------------
-
 export async function runAccountDeletion(input: {
   supabase: SupabaseClient;
   request: PrivacyRequestRow;
@@ -463,15 +519,12 @@ export async function runAccountDeletion(input: {
       error: summarizeHolds(holds.accountHolds)
     };
   }
-
   const heldMatterIds = new Set(
     holds.matterHolds.map((hold) => hold.matterScopeItemId).filter((id): id is string => Boolean(id))
   );
-
   const completed = await completedStepKeys(supabase, request.id);
   const results: Record<string, unknown> = {};
   let scope: MatterScope = { itemIds: [], artifactPaths: [] };
-
   try {
     for (const stepKey of ACCOUNT_DELETION_STEPS) {
       await runStep({
@@ -510,7 +563,6 @@ export async function runAccountDeletion(input: {
                 .eq("user_id", userId);
               const rows = (itemRows as Array<{ id: string; source_session_id: string | null }> | null) ?? [];
               const sessionIds = rows.map((row) => row.source_session_id).filter((id): id is string => Boolean(id));
-
               let remindersCleared = 0;
               if (rows.length > 0) {
                 const { data } = await supabase
@@ -521,7 +573,6 @@ export async function runAccountDeletion(input: {
                   .select("id");
                 remindersCleared = ((data as unknown[] | null) ?? []).length;
               }
-
               let nudgesStopped = 0;
               if (sessionIds.length > 0) {
                 const { data } = await supabase
@@ -547,7 +598,6 @@ export async function runAccountDeletion(input: {
               const sessionIds = ((itemRows as Array<{ source_session_id: string | null }> | null) ?? [])
                 .map((row) => row.source_session_id)
                 .filter((id): id is string => Boolean(id));
-
               let revoked = 0;
               if (sessionIds.length > 0) {
                 const { data } = await supabase
@@ -581,12 +631,33 @@ export async function runAccountDeletion(input: {
               return;
             }
             case "delete_uploads": {
-              const paths = await deps.listStorageObjects(participantUploadPrefix(userId));
-              const outcome = await deps.removeStorageObjects(paths);
+              // Every approved participant-upload location, not just the one
+              // that happened to be remembered. A listing failure inside
+              // listStorageObjects throws, which fails this step and leaves it
+              // resumable rather than recording a sweep that found nothing.
+              const swept: string[] = [];
+              for (const prefix of participantStoragePrefixes(userId)) {
+                swept.push(...(await deps.listStorageObjects(prefix)));
+              }
+              const outcome = await deps.removeStorageObjects(swept);
               if (outcome.failed.length > 0) {
                 throw new Error(`${outcome.failed.length} uploaded file(s) could not be deleted`);
               }
-              record({ objectsDeleted: outcome.removed.length });
+              // Re-list to prove the sweep, rather than trusting the count it
+              // reported. A resumed run re-lists too, and an already-empty
+              // prefix is the expected result there.
+              const remaining: string[] = [];
+              for (const prefix of participantStoragePrefixes(userId)) {
+                remaining.push(...(await deps.listStorageObjects(prefix)));
+              }
+              if (remaining.length > 0) {
+                throw new Error(`${remaining.length} uploaded file(s) remain after the sweep`);
+              }
+              record({
+                prefixesSwept: participantStoragePrefixes(userId).length,
+                objectsDeleted: outcome.removed.length,
+                objectsRemaining: 0
+              });
               return;
             }
             case "delete_generated_packets": {
@@ -608,7 +679,6 @@ export async function runAccountDeletion(input: {
               const rows = (itemRows as Array<{ id: string; source_session_id: string | null }> | null) ?? [];
               const deletable = rows.filter((row) => !heldMatterIds.has(row.id));
               const held = rows.filter((row) => heldMatterIds.has(row.id));
-
               let mattersDeleted = 0;
               if (deletable.length > 0) {
                 const { data, error } = await supabase
@@ -620,7 +690,6 @@ export async function runAccountDeletion(input: {
                 if (error) throw new Error(`matters could not be deleted: ${error.message}`);
                 mattersDeleted = ((data as unknown[] | null) ?? []).length;
               }
-
               // A matter under a preservation order is de-identified in place
               // rather than deleted: the obligation is to keep the record, not
               // to keep the person attached to it.
@@ -640,7 +709,6 @@ export async function runAccountDeletion(input: {
                   .select("id");
                 mattersDeIdentified = ((data as unknown[] | null) ?? []).length;
               }
-
               const sessionIds = deletable
                 .map((row) => row.source_session_id)
                 .filter((id): id is string => Boolean(id));
@@ -653,13 +721,11 @@ export async function runAccountDeletion(input: {
                   .select("session_id");
                 screeningsDeleted = ((data as unknown[] | null) ?? []).length;
               }
-
               const { data: pendingRows } = await supabase
                 .from("consumer_pending_screening_results")
                 .delete()
                 .eq("claimed_user_id", userId)
                 .select("pending_id");
-
               record({
                 mattersDeleted,
                 mattersDeIdentified,
@@ -673,20 +739,78 @@ export async function runAccountDeletion(input: {
               return;
             }
             case "propagate_to_processors": {
+              // One truthful outcome per approved processor, from an adapter
+              // that either performs a real outbound operation or explicitly
+              // classifies why none is appropriate. Nothing here writes "sent"
+              // because a contract entry said the processor holds data.
+              const adapters = deps.processorAdapters();
+              assertAdapterCoverage(adapters);
+              // Read now, while the Auth user still exists. Never persisted.
+              const subjectEmail = await deps.readAccountEmail(userId);
               const propagated: Array<Record<string, unknown>> = [];
+              const outstanding: string[] = [];
               for (const processor of APPROVED_PROCESSORS) {
-                const status = processor.personalDataHeld ? "sent" : "not_applicable";
+                const adapter = adapters.find((candidate) => candidate.key === processor.key) as ProcessorErasureAdapter;
+                let outcome = await adapter.erase({
+                  processorKey: processor.key,
+                  requestId: request.id,
+                  userId,
+                  subjectPseudonym,
+                  email: subjectEmail
+                });
+                let attempts = 1;
+                // Retry only what the policy calls retryable, and only within
+                // this run. Anything still outstanding afterwards is recorded
+                // as such and retried by a later resumed run.
+                while (
+                  outcome.status === "pending"
+                  && attempts < PROCESSOR_ERASURE_POLICY.maxAttemptsPerRun
+                  && outcome.detail.retryable === true
+                ) {
+                  outcome = await adapter.erase({
+                    processorKey: processor.key,
+                    requestId: request.id,
+                    userId,
+                    subjectPseudonym,
+                    email: subjectEmail
+                  });
+                  attempts += 1;
+                }
+                const settled = processorOutcomeIsSettled(adapter, outcome);
                 await recordProcessorPropagation({
                   supabase,
                   requestId: request.id,
                   processorKey: processor.key,
-                  status,
-                  reference: subjectPseudonym,
-                  detail: { treatment: processor.treatment }
+                  status: outcome.status,
+                  reference: outcome.reference,
+                  detail: {
+                    ...outcome.detail,
+                    treatment: processor.treatment,
+                    attempts,
+                    required: adapter.required,
+                    settled
+                  }
                 });
-                propagated.push({ processor: processor.key, status });
+                propagated.push({
+                  processor: processor.key,
+                  status: outcome.status,
+                  attempts,
+                  settled,
+                  reference: outcome.reference
+                });
+                if (adapter.required && !settled) outstanding.push(`${processor.key}:${outcome.status}`);
               }
-              record({ processors: propagated });
+              // A deletion does not get to report completed while a processor
+              // that holds participant data has not been told. Failing here
+              // leaves the request resumable, so the next run retries exactly
+              // this step rather than redoing the deletion.
+              if (outstanding.length > 0) {
+                record({ processors: propagated, outstanding });
+                throw new Error(
+                  `processor erasure is outstanding for ${outstanding.join(", ")}; the deletion cannot complete until every required processor is settled`
+                );
+              }
+              record({ processors: propagated, outstanding: [] });
               return;
             }
             case "write_backup_tombstone": {
@@ -725,7 +849,6 @@ export async function runAccountDeletion(input: {
     }
     throw error;
   }
-
   const receiptCode = accountReceiptCode(request.id);
   const receipt = {
     receiptCode,
@@ -743,7 +866,6 @@ export async function runAccountDeletion(input: {
     heldMatters: Array.from(heldMatterIds),
     signInStatus: "This account can no longer sign in, and it cannot be recreated from a backup."
   };
-
   await completePrivacyRequest({
     supabase,
     requestId: request.id,
@@ -751,15 +873,12 @@ export async function runAccountDeletion(input: {
     receiptCode,
     retentionTreatment: retentionTreatmentMap()
   });
-
   return { status: "completed", receiptCode, receipt };
 }
-
 /** Derived from the request id, so a resumed run issues the SAME receipt code. */
 function accountReceiptCode(requestId: string): string {
   return `ADR-${requestId.toUpperCase()}`;
 }
-
 function retentionTreatmentMap(): Record<string, unknown> {
   return Object.fromEntries(
     RETENTION_EXPLANATION.map((entry) => [

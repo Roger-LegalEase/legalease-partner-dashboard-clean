@@ -5,10 +5,11 @@
   "counts": {
     "keep_available": 212,
     "wired": 184,
-    "fix_then_wire": 33,
+    "fix_then_wire": 32,
     "retire": 1,
     "quarantine": 2,
-    "blocked_on_family": 5
+    "blocked_on_family": 5,
+    "wire": 1
   },
   "entries": {
     "audit-all50-state-pack-substance.mjs": {
@@ -1822,8 +1823,8 @@
       "decidedBy": "generated"
     },
     "verify-participant-data-rights.mjs": {
-      "disposition": "fix_then_wire",
-      "reason": "The 96-check acceptance contract for the three participant data-rights controls: download my data, delete one matter, delete my account. It builds an ephemeral PostgreSQL cluster from the current migration sequence, drives the real route handlers and the real deletion pipeline rather than a model of them, and reads its answers out of the database. Its strongest checks are the ones that prove the feature did NOT overreach: a second matter on the same account survives a single-matter deletion with its payment history, queued render, packet and Briefcase access intact; the packet-credit ledger comes back byte-for-byte identical; amount, currency, product and receipt reference refuse to move even under the erasure authority; the partner's own records are untouched; and an unrelated participant is unaffected. It also proves the ordering that makes the rest meaningful -- the Auth user is deleted last, every session is revoked, a mid-pipeline failure resumes without re-running a completed step, and a legal hold outranks the erasure ask. 95 of 96 pass. NOT WIRED for exactly one reason, and it is not this feature's: M8 needs a private packet link to work BEFORE the deletion, and on the current head that path calls get_consumer_packet_artifact_authority, which no repository SQL defines. src/lib/expungement-ai/verification-cas.ts says so itself -- that RPC and six siblings carry 'captain SQL pending'. The draft this was replayed from reported 96/96 because its base predated the caller. Wiring a red step into a blocking chain, or relaxing M8 to go green, would both be worse than saying this out loud: the after-deletion check M9 was instead made non-vacuous, so an absent dependency now satisfies neither M8 nor M9 rather than letting M9 pass on a link that never worked. Wire it when the protected-artifact RPCs exist. Like the hosted matrix above, it belongs on rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input.",
+      "disposition": "wire",
+      "reason": "The 117-check acceptance contract for the three participant data-rights controls: download my data, delete one matter, delete my account. It builds an ephemeral PostgreSQL cluster from the current migration sequence, drives the real route handlers and the real deletion pipeline rather than a model of them, and reads its answers out of the database. Its strongest checks are the ones proving the feature did NOT overreach: a second matter on the same account survives a single-matter deletion with its payment history, queued render, packet and Briefcase access intact; the packet-credit ledger comes back byte-for-byte identical; amount, currency, product and receipt reference refuse to move even under the erasure authority; the partner's own records are untouched; an unrelated participant is unaffected. It also proves the ordering that makes the rest meaningful -- Auth user deleted last, every session revoked, a mid-pipeline failure resuming without re-running a completed step, and a legal hold outranking the erasure ask. Three closeout areas are proved rather than asserted. Processor erasure runs against a real loopback endpoint, not a stub, because the defect it replaces was a step reporting 'sent' without transmitting: acknowledged needs the provider's own reference, a 500 retries into pending, a 400 fails without retry, and the payment processor and render worker are classified not_applicable with their reasons; PR7 reintroduces the original defect as a mutation and catches it. Storage is swept across a 1,100-object page boundary AND three levels of nesting, because an earlier fixture spread objects across 21 folders where no folder exceeded a page and so proved nothing about pagination -- disabling pagination still passed it. Removing pagination, removing recursion and swallowing a listing failure are each caught now. The private-artifact authority M8/M9 pair is non-vacuous: an absent dependency satisfies neither, so the after-deletion check cannot pass on a link that never worked. Belongs on rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both worker images.",
       "observedStatus": "added_since_audit",
       "decidedBy": "recorded_decision"
     },
