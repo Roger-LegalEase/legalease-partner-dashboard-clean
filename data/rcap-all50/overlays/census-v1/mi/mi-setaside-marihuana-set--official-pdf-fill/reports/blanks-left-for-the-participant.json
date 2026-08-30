@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "rcap-participant-blanks/v1",
+  "familyId": "mi-setaside-marihuana-set",
+  "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, an identifier somebody else assigns, or a value the platform does not hold.",
+  "unreachableParticipantBlocks": [
+    {
+      "field": "dinfo",
+      "printedCaption": "Defendant’s name, address, and telephone no.",
+      "whyUnreachable": "The caption is printed INSIDE the widget rectangle (caption baseline y=623.6; widget y 580.66 to 628.66), so captureWidgetContext finds no caption above or beside the box and reports `no_printed_caption_within_reach`. The field name `dinfo` matches no fact descriptor. This is the applicant's own name, address and telephone block — the single most obviously participant-owned block on the form — and it is left blank.",
+      "consequence": "The participant completes it by hand. Nothing incorrect is printed, but this family cannot claim to produce a substantially completed application."
+    },
+    {
+      "field": "caseno",
+      "printedCaption": "CASE NO. and JUDGE",
+      "whyUnreachable": "Binds matter.case_number on the field-name channel, then is refused as `protected_page_region` because the region heading harvested for it is the squashed band 'STATE OF MICHIGANCASE NO. and JUDGE', which contains the word JUDGE. The cell genuinely does hold both the case number (top) and the judge (bottom), so the heading is not wrong — it is shared. An over-refusal.",
+      "consequence": "The caption case number is left for the participant. Safe direction; reported, not worked around."
+    },
+    {
+      "field": "cno1",
+      "printedCaption": "CASE NUMBER (row a of the conviction listing)",
+      "whyUnreachable": "Refused as `disposition_or_hearing` because the caption harvested for it is the single word CONVICTION — the second line of the THIRD column's header, mis-attributed to the fourth column. The platform holds case numbers and this cell wants one.",
+      "consequence": "An over-refusal produced by the same squashed header band that mis-binds `ch1`."
+    }
+  ],
+  "count": 36,
+  "blanks": [
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "district",
+      "page": 1,
+      "effectiveLabel": "STATE OF MICHIGANCASE NO. and JUDGE",
+      "reason": "protected_category",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "circuit",
+      "page": 1,
+      "effectiveLabel": "JUDICIAL DISTRICT",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The JUDICIAL CIRCUIT number box. Binds matter.court via a caption that belongs to the JUDICIAL DISTRICT row above it: on this form each caption is printed to the right of its own box on the same line, and the harvester reads the line above. The box wants a circuit number, which the platform does not hold."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "caseno",
+      "page": 1,
+      "effectiveLabel": "APPLICATION TO SET ASIDE",
+      "reason": "protected_page_region",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "judge",
+      "page": 1,
+      "effectiveLabel": "APPLICATION TO SET ASIDE",
+      "reason": "protected_category",
+      "category": "court",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "multcaseno",
+      "page": 1,
+      "effectiveLabel": "CONVICTION(S)",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ori",
+      "page": 1,
+      "effectiveLabel": "ORI",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The Originating Agency Identifier. Assigned to a Michigan court by the state; the form prints the 'MI-' stem beside it. Nothing matches it today, but 'nothing happens to match it' is not a refusal."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "prno",
+      "page": 1,
+      "effectiveLabel": "Police Report No",
+      "reason": "protected_category",
+      "category": "agency",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ctaddress",
+      "page": 1,
+      "effectiveLabel": "ORICourt addressCourt telephone no",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The COURT'S address box. Binds participant.phone through the squashed 'ORICourt addressCourt telephone no' caption band. A participant's telephone number is not a court address, and the court's address is not a fact this platform holds."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cttelno",
+      "page": 1,
+      "effectiveLabel": "ORICourt addressCourt telephone no",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The COURT'S telephone number box. Binds participant.phone through the same squashed band. The participant's telephone number is not the court's."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "somcheck",
+      "page": 1,
+      "effectiveLabel": "THE PEOPLE OF",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "peoplecheck",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "peopleof",
+      "page": 1,
+      "effectiveLabel": "The State of Michigan",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The local-unit line in the 'THE PEOPLE OF' block, used when the conviction was under a city, village or township ordinance. Binds participant.state through the caption of the adjacent option, 'The State of Michigan'. The prosecuting authority is a legal election the participant makes with the checkbox beside it, and that checkbox is refused by the type guard."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "dinfo",
+      "page": 1,
+      "effectiveLabel": "v",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ctntcn",
+      "page": 1,
+      "effectiveLabel": "CTN/TCNSID",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The CTN/TCN, assigned when a case is tracked through Michigan's criminal-history system. The agency's to state, not the platform's."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "sid",
+      "page": 1,
+      "effectiveLabel": "Defendant’s attorney",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The State Identification number. Refused today as `attorney`, because the caption harvested for it is 'Defendant's attorney' from the cell to its left — an incidental refusal on the wrong ground. An SID is a government identifier and is refused as one here."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "dattyinfo",
+      "page": 1,
+      "effectiveLabel": "If you are asking to have a non-marihuana related misdemeano",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The defendant's attorney, bar number, address and telephone block. The shared attorney rule matches 'atty' on a word boundary and this field name is one squashed token, so it does not reach it. A platform that fills this asserts the applicant is represented by counsel who is the applicant."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "c1",
+      "page": 1,
+      "effectiveLabel": "a",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ch1",
+      "page": 1,
+      "effectiveLabel": "CRIMEMCL citation/PACC CodeCONVICTIONCASE NUMBER",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "Row a of the 'CHARGE CODE(S) / MCL citation/PACC Code' column. Binds matter.charges[0].case_number through the printed-label fallback, because the harvested label is the whole four-column header line and the words CASE NUMBER belong to the fourth column. The statutory citation and the case number are different facts and this family refuses to print one as the other."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cdate1",
+      "page": 1,
+      "effectiveLabel": "MCL citation/PACC Code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cno1",
+      "page": 1,
+      "effectiveLabel": "CONVICTION",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "c2",
+      "page": 1,
+      "effectiveLabel": "a",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ch2",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cdate2",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cno2",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "c3",
+      "page": 1,
+      "effectiveLabel": "b",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ch3",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cdate3",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cno3",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "c4",
+      "page": 1,
+      "effectiveLabel": "d",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "ch4",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cdate4",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "cno4",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "datesig",
+      "page": 1,
+      "effectiveLabel": "2. A certified copy of each conviction is attached",
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The date beside the applicant's signature. Refused today only because the caption above it mentions a conviction; refused here because the participant signs and dates the application themselves, per the form's own instruction 5."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "sig",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "protected_category",
+      "category": "signature",
+      "why": null
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "comdate",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The date on the Certificate of Mailing. The form's instruction 8 has the participant complete this AFTER mailing the packet to the prosecuting official; a date here certifies a mailing that has not occurred. The shared service_block rule does not reach the words 'certificate of mailing', so this is refused by role."
+    },
+    {
+      "document": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "field": "comsig",
+      "page": 1,
+      "effectiveLabel": null,
+      "reason": "classified_unwritable_by_role",
+      "category": "role",
+      "why": "The signature on the Certificate of Mailing, made under penalty of perjury. Never prefilled, and refused here rather than left to a caption."
+    }
+  ]
+}

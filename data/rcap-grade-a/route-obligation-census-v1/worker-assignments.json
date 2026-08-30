@@ -216,7 +216,7 @@
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_01WDoy31FT5CqbHevjTwMYrc",
+      "sessionId": "session_01B2miiHkST3dsP1rHSPZNzh",
       "worklistGroupId": "ar-pardon-seal-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "AR",
@@ -237,7 +237,7 @@
     },
     {
       "kind": "packet_build",
-      "sessionId": "session_01TREJi8RyXdNvuWy2VH5UqB",
+      "sessionId": "session_01MKcRz9vMCHnTtCDm6FJEtX",
       "worklistGroupId": "az_record_sealing_arrest_no_charges-set",
       "implementationStrategy": "official_pdf_fill",
       "jurisdiction": "AZ",
@@ -349,6 +349,30 @@
       "completesFamily": false,
       "provesArtifact": false,
       "opensRoute": false
+    },
+    {
+      "kind": "shared_infrastructure",
+      "sessionId": "session_01SbGMbv2tWZRXurbkyhGcNa",
+      "branch": "claude/census-v1-shared-caption-infrastructure",
+      "scope": "six shared caption/protection defects; protections before precision",
+      "occupiesBuildSlot": false,
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "completesFamily": false,
+      "provesArtifact": false,
+      "opensRoute": false
+    },
+    {
+      "kind": "source_pipeline",
+      "sessionId": "session_019KNPDuRniVACu2bBFVY41m",
+      "branch": "claude/census-v1-ca-official-source-pipeline",
+      "scope": "controlled CA official-source transform + finish CA 1203.4",
+      "occupiesBuildSlot": true,
+      "status": "started",
+      "startedAt": "2026-08-30",
+      "completesFamily": false,
+      "provesArtifact": false,
+      "opensRoute": false
     }
   ],
   "statusVocabulary": {
@@ -361,8 +385,8 @@
     "resumed": "a new worker session was created against the branch's pushed tip, under a passing packet-environment preflight. The predecessor's committed research is inherited, not redone."
   },
   "classificationRecord": "data/rcap-grade-a/route-obligation-census-v1/first-packet-wave-return-classification.json",
-  "buildSlotsInFlight": 11,
-  "buildSlotsFree": 1,
+  "buildSlotsInFlight": 8,
+  "buildSlotsFree": 4,
   "packetWorkersMayLaunch": true,
   "packetWorkersMayLaunchBecause": "The preflight exists, discriminates on every check, and passes 14/14 in this environment for every family dispatched. Each worker runs it itself before writing anything.",
   "packetEnvironment": {
@@ -397,5 +421,20 @@
     "whyItMatters": "legalease-source-artifacts is where the pinned Master Library release lives. Without it the bootstrap cannot resolve the asset, and the worker is back in exactly the position the first national wave was in -- correctly refusing, for want of bytes that exist.",
     "remedy": "the packet worker brief now instructs the worker to call add_repo for that repository itself when the bootstrap cannot resolve the release, which recovers the container without a relaunch.",
     "doNotMisreadThisAs": "evidence that the sources are missing. They are held, verified and byte-exact; this is an attachment problem in the container, not a custody problem in the corpus."
+  },
+  "candidateEvidenceIntegrated": {
+    "at": "2026-08-30",
+    "captainSha": "0c429cbee66bf1fe92c4fc4c9dcbb7871c103a4a",
+    "families": [
+      "ar-arrest-seal-set",
+      "ar-misdemeanor-dwi-seal-set",
+      "mi_setaside_marihuana-set",
+      "ct-cleanslate-petition-set",
+      "ak-tf805-set",
+      "ca-1203-4-set"
+    ],
+    "status": "CANDIDATE_EVIDENCE",
+    "notCompletePacketProven": "None has an independent technical verification, an independent visual review, an output-review package, a Lawrence approval, a schema-v2 fulfilment record, product wiring or a commercial admission. Six families of candidate evidence is not six proven packets.",
+    "rerunOnConsolidatedHead": "All five committed generators re-ran on the consolidated head after the shared semantics fix landed. Zero drift: every artifact, raster and report reproduced byte-identically."
   }
 }

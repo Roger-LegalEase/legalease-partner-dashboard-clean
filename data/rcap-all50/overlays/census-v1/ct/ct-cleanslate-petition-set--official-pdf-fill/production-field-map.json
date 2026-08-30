@@ -1,0 +1,351 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "routeKeys": [
+    "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+  ],
+  "renderStrategy": "acroform_fill",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "wiringNote": "This map describes the family; it creates no authority. generationAllowed is false and runtimeSelectable is false, no route is promoted, no fulfillment record is created and no packet is marked proven.",
+  "documents": [
+    {
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "documentRole": "PETITION_WITH_COURT_ORDER_SECTION",
+      "ownership": "participant_completed_with_a_court_completed_section",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "explicitMappingsNote": "Empty by decision. decideBinding refuses a field whose explicit mapping disagrees with the channel-selected descriptor rather than redirecting it, so an explicit mapping cannot repair a misbinding — it can only turn it into a differently-worded refusal. The misbound fields are refused by role instead, which states the true reason.",
+      "roleRefusals": [
+        {
+          "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+          "class": "charge_caption_blank_binding_a_participant_name",
+          "protectedTodayBy": "nothing",
+          "survivesCaptionFix": "n/a — wrong under both captures",
+          "why": "The blank listing the convictions the petitioner asks the court to erase, captioned 'Crime(s) defendant asks the court to erase'. decideBinding makes it WRITABLE with participant.full_legal_name because the caption contains the word 'defendant'; the unguided dry run wrote the participant's name across it. The corpus charge-caption guard does not see this because CHARGE_VALUE_WORDS has no word for 'crime'. Refused by role so no name can reach it. The blank is left for the participant: which convictions are Clean Slate eligible is an eligibility question this family does not decide."
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFNAME[0]",
+          "class": "misbound_by_run_on_table_header_caption",
+          "protectedTodayBy": "nothing",
+          "survivesCaptionFix": "the fix REPAIRS this field (cell caption 'Name of defendant' binds full_legal_name)",
+          "why": "The defendant's name in the page-1 caption block. Its own field name matches no descriptor, so the printed-label fallback runs and harvests the whole four-cell header row; most-specific-first resolves that to participant.date_of_birth. The unguided dry run wrote '1991-04-17' into the name box. A petition whose caption names the defendant as a date misidentifies the petitioner to the court; a blank line does not."
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+          "class": "misbound_by_run_on_table_header_caption",
+          "protectedTodayBy": "nothing",
+          "survivesCaptionFix": "the fix REPAIRS this field (cell caption 'E-mail address' binds participant.email)",
+          "why": "The defendant's e-mail address. Same harvested caption as DEFNAME, same resolution to participant.date_of_birth; the dry run wrote the date of birth into the e-mail box."
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+          "class": "misbound_by_run_on_table_header_caption",
+          "protectedTodayBy": "nothing",
+          "survivesCaptionFix": "the fix REPAIRS this field (cell caption 'Phone number' binds participant.phone)",
+          "why": "The defendant's phone number. Same harvested caption, same resolution to participant.date_of_birth; the dry run wrote the date of birth into the phone box."
+        },
+        {
+          "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+          "class": "court_identity_field_binding_a_participant_fact",
+          "protectedTodayBy": "nothing",
+          "survivesCaptionFix": "the fix does not reach this — it binds through the NAME channel, not the label",
+          "why": "'Address of court' — the address of the Superior Court location the petition is filed in. The field NAME contains the substring 'ADDRESS', so participant.street_address binds through the name channel before the label is ever consulted, and the dry run printed the participant's home address as the court's address. The platform does not hold Connecticut court addresses; the six the document itself prints are the closed-court redirection chart on page 2, not a directory. Refused."
+        },
+        {
+          "field": "form1[0].PAGE1[0].JDGANUM[0]",
+          "class": "court_identity_field_binding_a_participant_fact",
+          "protectedTodayBy": "width only — value_exceeds_widget_width_at_minimum_font",
+          "survivesCaptionFix": "the fix REPAIRS this field (cell caption 'JD/GA number' matches no fact and refuses)",
+          "why": "The Judicial District / Geographical Area number identifying the court location. The run-on header caption resolves to matter.case_number, so the factory binds the DOCKET number to it. In the dry run it did not appear on the paper — but only because 'N23N-CR99-0123456-S' does not fit 51.84pt at the minimum font, which is cleanliness by luck rather than by decision: a shorter docket number would be written. Refused by role so the outcome does not depend on the length of a value."
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[0]",
+          "class": "participant_attestation_block",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption containing the word 'Signature'",
+          "survivesCaptionFix": "NO — cell caption 'Print name' carries no protect category and binds writable participant.full_legal_name",
+          "why": "The defendant's printed name beside their own signature, on the row the petition is sworn on. JD-CR-202 is sworn before a Notary Public, Commissioner of the Superior Court, Clerk or other proper officer; the attestation row is completed at the swearing, by the person swearing, in the officer's presence. Prefilling any part of it presents a sworn block as further along than it is. Refused by role so the refusal does not rest on a caption-harvest defect."
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[0]",
+          "class": "participant_signature_date",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption",
+          "survivesCaptionFix": "NO — cell caption 'Date' falls to `no_allowlisted_fact_matches`, a weaker refusal",
+          "why": "The date beside the defendant's signature. Dating a signature that has not been made asserts the petition was signed on a day it was not."
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[1]",
+          "class": "officer_attestation_block",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption",
+          "survivesCaptionFix": "NO — cell caption 'Print name' binds writable participant.full_legal_name",
+          "why": "The printed name of the Notary, Commissioner of the Superior Court or Clerk who administers the oath. This is the officer's own identification, not the participant's, and writing the participant's name here would name them as the officer who swore them."
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[1]",
+          "class": "officer_signature_date",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption",
+          "survivesCaptionFix": "NO — cell caption 'Date' falls to `no_allowlisted_fact_matches`",
+          "why": "The date the oath was administered. The officer dates their own jurat."
+        },
+        {
+          "field": "form1[0].#subform[1].GRANTED[0]",
+          "class": "court_only_decision",
+          "protectedTodayBy": "type guard (checkbox) and protect rule `protected_page_region` court",
+          "survivesCaptionFix": "yes — region heading 'Order of the Court' is unaffected",
+          "why": "The box the court ticks to grant the petition. Marking it would render an order the court has not made."
+        },
+        {
+          "field": "form1[0].#subform[1].DENIED[0]",
+          "class": "court_only_decision",
+          "protectedTodayBy": "type guard (checkbox) and protect rule `protected_page_region` court",
+          "survivesCaptionFix": "yes",
+          "why": "The box the court ticks to deny the petition. The court's decision, made after the petition is filed."
+        },
+        {
+          "field": "form1[0].#subform[1].MODIFIED[0]",
+          "class": "court_only_decree",
+          "protectedTodayBy": "protect rule `protected_page_region` court",
+          "survivesCaptionFix": "yes",
+          "why": "'Granted, as to the following convictions' — the operative text of the court's decree, naming which convictions are erased. This is the court stating its own order, and it is also the exact question of eligibility this family does not decide."
+        },
+        {
+          "field": "form1[0].#subform[1].TOWNJUDGMNT[0]",
+          "class": "court_only_signature",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption",
+          "survivesCaptionFix": "yes, but as `court` rather than `signature` (cell caption 'By the Court (Name of Judge)')",
+          "why": "'By the Court (Name of Judge)' / 'Signed (Clerk/Assistant Clerk)'. Court-only."
+        },
+        {
+          "field": "form1[0].#subform[1].DATEJUDGMNT[0]",
+          "class": "court_only_signature_date",
+          "protectedTodayBy": "protect rule `signature`, via the run-on caption",
+          "survivesCaptionFix": "NO — cell caption 'On (Date)' carries no protect category at all",
+          "why": "The date the court signs its order. The court dates its own instrument, and this refusal must not depend on a caption that a pending fix will narrow."
+        }
+      ],
+      "writeBoxes": [
+        {
+          "field": "form1[0].PAGE1[0].DOCKETNO[0]",
+          "factId": "matter.case_number",
+          "page": 1,
+          "rect": {
+            "x": 424.8,
+            "y": 606,
+            "width": 159.84,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Phone number"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DOB[0]",
+          "factId": "participant.date_of_birth",
+          "page": 1,
+          "rect": {
+            "x": 496.8,
+            "y": 582,
+            "width": 87.84,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Name of defendantE-mail addressPhone numberDate of birth"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFADDRESS[0]",
+          "factId": "participant.street_address",
+          "page": 1,
+          "rect": {
+            "x": 28.8,
+            "y": 558,
+            "width": 555.84,
+            "height": 15.12
+          },
+          "rectBasis": "acroform_widget_rect_read_from_the_document",
+          "measuredRuleUnderWriteBox": null,
+          "effectiveLabel": "Address"
+        }
+      ],
+      "refused": [
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+          "reason": "protected_category",
+          "category": "money",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+          "reason": "non_text_field_type",
+          "category": "type_guard",
+          "regionHeading": null
+        },
+        {
+          "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFNAME[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].JDGANUM[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[1]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[1]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].MODIFIED[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].DENIED[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].GRANTED[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].TOWNJUDGMNT[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].DATEJUDGMNT[0]",
+          "reason": "classified_unwritable_by_role",
+          "category": "role"
+        }
+      ],
+      "protectedFields": [
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].ResetButton1[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[0].PrintButton1[0]",
+          "category": "money"
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].ResetButton1[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].#pageSet[0].Page1[1].PrintButton1[0]",
+          "category": "type_guard"
+        },
+        {
+          "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFNAME[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].COURTADDRESS[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].JDGANUM[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DATESIGN[1]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].PRINTNAME[1]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].MODIFIED[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].DENIED[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].GRANTED[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].TOWNJUDGMNT[0]",
+          "category": "role"
+        },
+        {
+          "field": "form1[0].#subform[1].DATEJUDGMNT[0]",
+          "category": "role"
+        }
+      ]
+    }
+  ]
+}

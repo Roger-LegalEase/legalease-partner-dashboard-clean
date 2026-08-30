@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "rcap-build-findings/v1",
+  "familyId": "mi-setaside-marihuana-set",
+  "blocking": [],
+  "findingCount": 0,
+  "nonBlockingObservations": [
+    "reports/squashed-caption-band-findings.json — five wrong bindings refused by role, four over-refusals reported.",
+    "reports/shared-vocabulary-gaps.json — CHARGE_VALUE_WORDS does not contain 'crime'; the service-block vocabulary does not contain 'certificate of mailing'.",
+    "The AcroForm field name for the county box is \"county \" with a trailing space, preserved verbatim everywhere in this family's records.",
+    "The boundary fixture writes NOTHING. Its county value needs 143.6pt at the 6pt minimum readable size and the measured box is 118.15pt wide, so the single writable field is refused as `value_exceeds_widget_width_at_minimum_font`. The value is refused rather than shrunk below legibility or overflowed past the measured rectangle, which is the correct outcome; the consequence is that the boundary artifact is a blank form and its listing cells are empty for two independent reasons.",
+    "Neither fixture writes anything into the conviction listing, so the multi-conviction boundary case is proved safe rather than proved correct: reports/charge-caption-proof.json records, row by row, that a conviction WAS supplied for every printed row and that every cell is nonetheless empty."
+  ],
+  "whatThisBuildDoesNotClaim": [
+    "That MC 227a can be usefully filled by the shared binder. It cannot: 1 of 37 fields is written on the canonical fixture and 0 on the boundary fixture.",
+    "That the conviction listing is mapped. It is measured, censused and proved safe, and no cell of it binds any fact.",
+    "That the absence of a participant name in the listing was achieved by the charge-caption correction. On this form nothing binds a participant name anywhere, so the correction was never exercised here."
+  ]
+}

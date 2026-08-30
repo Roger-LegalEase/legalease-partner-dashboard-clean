@@ -248,6 +248,42 @@ jobs:
       - name: Prove the stale-artifact block is load-bearing
         run: node scripts/verify-rcap-stale-artifact-block.mjs --mutations
 
+      # The consumer price gate. createConsumerPaymentPlaceholder used to decide
+      # from packetRouteCanRender — a fact about a state, true for every
+      # legacy_retired generator and every shadow factory_v2 route — and from a
+      # ledger that is not a Grade-A fulfillment record. A forged row there
+      # restored a live direct-consumer price. This censuses all 337 compiled
+      # pathways and proves none can price, check out, reserve sponsorship,
+      # reach credit accounting, or deliver.
+      #
+      # Wired here rather than in the npm test chain because package.json is an
+      # image input for both worker images; the originating commit added a test
+      # entry there, which would have invalidated the worker-image fingerprint
+      # and required a freeze-owner republish.
+      # The shared binder's name/date correction: a DAY/MONTH/YEAR blank must not
+      # acquire a participant name from neighbouring sentence text, and a
+      # caption naming every part of a name must resolve to the whole name.
+      - name: Verify the shared name and date-component semantics
+        run: node scripts/rcap-official-forms/verify-name-date-component-semantics.mjs
+
+      - name: Prove the name/date semantics record is load-bearing
+        run: node scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs
+
+      - name: Verify the census-v1 money and credit gate
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs
+
+      - name: Prove the money and credit gate is load-bearing
+        run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs --mutations
+
+      # Participant data rights: export, single-matter deletion, account
+      # deletion. Wired here rather than in the npm test chain because
+      # package.json is an image input for both worker images, and adding a
+      # script entry would invalidate the worker-image fingerprint. It builds
+      # its own ephemeral PostgreSQL cluster and a loopback processor endpoint,
+      # so it needs no external service.
+      - name: Verify participant data rights
+        run: node scripts/verify-participant-data-rights.mjs
+
       - name: Verify the factory_v2 route registry is current
         run: node scripts/generate-rcap-factory-v2-registry.mjs --check
 

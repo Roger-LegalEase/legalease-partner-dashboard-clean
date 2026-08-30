@@ -2,17 +2,8 @@
   "schemaVersion": "rcap-participant-blanks/v1",
   "familyId": "ar-arrest-seal-set",
   "note": "Every blank this family does not fill, and why. A blank here is not an omission to be closed later by widening the map: each is either the participant's to complete, the court's, or a value the platform does not hold.",
-  "count": 53,
+  "count": 51,
   "blanks": [
-    {
-      "document": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
-      "field": "First Middle and Last name",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "explicit_mapping_conflicts_with_field_name",
-      "category": "mapping_conflict",
-      "why": null
-    },
     {
       "document": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
       "field": "and charged with the offenses of 2",
@@ -173,7 +164,7 @@
       "effectiveLabel": "1.The Defendant was arrested on the",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Day component of the arrest date. The platform holds no day fact, and the printed-label fallback binds participant.full_legal_name here via the word 'Defendant' in the harvested sentence fragment."
+      "why": "Day component of the arrest date. The platform holds no day fact. The shared binder also withholds the printed-label fallback from a date-component name, so the sentence fragment mentioning the Defendant can no longer bind participant.full_legal_name here."
     },
     {
       "document": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
@@ -182,7 +173,7 @@
       "effectiveLabel": "Comes the Defendant and for his/her petition to seal the r",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Month component of the arrest date. Proven to receive participant.full_legal_name through the printed-label fallback; refused by role so no name can reach it."
+      "why": "Month component of the arrest date. This is the blank that was proven to receive participant.full_legal_name through the printed-label fallback. It is now refused twice over: by the shared date-component guard, and by role because the platform holds no month fact."
     },
     {
       "document": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
@@ -191,7 +182,7 @@
       "effectiveLabel": "1",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form."
+      "why": "Year component of the arrest date. Refused with the other two: the trio is one fact the platform does not hold in component form. Its previous refusal depended on the harvested caption happening to be the digit '1', which was never a decision; the shared guard now refuses it by name."
     },
     {
       "document": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
@@ -276,15 +267,6 @@
     },
     {
       "document": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
-      "field": "First Middle and Last name",
-      "page": 1,
-      "effectiveLabel": null,
-      "reason": "explicit_mapping_conflicts_with_field_name",
-      "category": "mapping_conflict",
-      "why": null
-    },
-    {
-      "document": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
       "field": "1",
       "page": 1,
       "effectiveLabel": "________, and charged with the offense(s) of",
@@ -344,7 +326,7 @@
       "effectiveLabel": "1.The Defendant was arrested on t",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Day component of the arrest date in the court's findings. Binds participant.full_legal_name through the printed-label fallback; refused by role rather than by the document title."
+      "why": "Day component of the arrest date in the court's findings. Bound participant.full_legal_name through the printed-label fallback; now refused by the shared date-component guard, by role, and — incidentally — by the document title."
     },
     {
       "document": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
@@ -353,7 +335,7 @@
       "effectiveLabel": "1.The Defendant was arrested on the _______ day of",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Month component of the arrest date in the court's findings. Same binding, same refusal."
+      "why": "Month component of the arrest date in the court's findings. Same binding, same refusals."
     },
     {
       "document": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
@@ -362,7 +344,7 @@
       "effectiveLabel": "1",
       "reason": "classified_unwritable_by_role",
       "category": "role",
-      "why": "Year component of the arrest date in the court's findings."
+      "why": "Year component of the arrest date in the court's findings. The platform holds no year fact."
     },
     {
       "document": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",

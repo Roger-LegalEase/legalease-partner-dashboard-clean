@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "rcap-census-v1-captain-reproduction/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "howToReproduce": [
+    "bash scripts/rcap-corpus/bootstrap-private-corpus.sh",
+    "node scripts/verify-packet-build-environment.mjs --family ct-cleanslate-petition-set --branch claude/census-v1-build-ct-cleanslate-petition-set",
+    "node scripts/build-census-v1-ct-cleanslate-petition-set.mjs"
+  ],
+  "determinism": "The build takes no input but the pinned source bytes and the two fixture fact sets declared in the script, and writes no timestamp, so it reproduces byte-identically. Re-running it over its own output leaves every fixture hash and every report unchanged.",
+  "sourceSha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c",
+  "fixtures": [
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "canonical",
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-canonical-filled.pdf",
+      "sha256": "9e08185d448e7ead4f8c43a3334b60050ccbb45f5e459900799ecc3989f81e87"
+    },
+    {
+      "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fixture": "boundary",
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/fixtures/petition-boundary-filled.pdf",
+      "sha256": "e16727a71d3f91cde63c15aa4b6cb585cc743578dbc4b9aae4b7a3ebe2ea6bd5"
+    }
+  ],
+  "rasterPageHashes": [
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-canonical/page-01.png",
+      "sha256": "46468663c4358d1909460aded45eed11bf2ab6efba65005cc18c78ff7cdb0089"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-canonical/page-02.png",
+      "sha256": "7cb07ec4253558605f5eb67e2102154b39c866cca104ed0753242da5281b2f80"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-boundary/page-01.png",
+      "sha256": "e711ed68aee25295cfad248bcbecf19521f5eb53b62c3e57def8640d13a740f0"
+    },
+    {
+      "file": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/raster/petition-boundary/page-02.png",
+      "sha256": "7cb07ec4253558605f5eb67e2102154b39c866cca104ed0753242da5281b2f80"
+    }
+  ]
+}

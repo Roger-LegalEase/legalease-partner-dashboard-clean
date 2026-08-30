@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-family-finding/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "severity": "reportable_defect_in_shared_infrastructure",
+  "ownedBy": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs — outside this family's owned path",
+  "summary": "captureWidgetContext's 'printed directly above in the same column' branch takes the whole printed LINE, while its 'printed to the left in the same cell' branch is cell-aware via cellTextLeftOf. On a form whose caption row is a multi-cell table header, every widget beneath that row harvests the same concatenated caption. JD-CR-202 prints 'Name of defendant | E-mail address | Phone number | Date of birth' as one such row.",
+  "evidence": {
+    "harvestedCaptionSharedByFourWidgets": "Name of defendantE-mail addressPhone numberDate of birth",
+    "whatTheUnguidedFactoryWrote": [
+      {
+        "field": "form1[0].PAGE1[0].DEFNAME[0]",
+        "factId": "participant.date_of_birth",
+        "value": "1971-04-17",
+        "shouldHaveBeen": "participant.full_legal_name"
+      },
+      {
+        "field": "form1[0].PAGE1[0].DEFEMAIL[0]",
+        "factId": "participant.date_of_birth",
+        "value": "1971-04-17",
+        "shouldHaveBeen": "participant.email"
+      },
+      {
+        "field": "form1[0].PAGE1[0].DEFPHONE[0]",
+        "factId": "participant.date_of_birth",
+        "value": "1971-04-17",
+        "shouldHaveBeen": "participant.phone"
+      },
+      {
+        "field": "form1[0].PAGE1[0].DOB[0]",
+        "factId": "participant.date_of_birth",
+        "value": "1971-04-17",
+        "shouldHaveBeen": "participant.date_of_birth",
+        "note": "correct — but by the name channel, not the caption"
+      }
+    ],
+    "cellAccurateCaptionsWouldResolveTo": {
+      "Name of defendant": "participant.full_legal_name (writable)",
+      "E-mail address": "participant.email (writable)",
+      "Phone number": "participant.phone (writable)",
+      "JD/GA number": "no_allowlisted_fact_matches (correctly refused)",
+      "Address of court": "no_allowlisted_fact_matches (correctly refused)",
+      "Print name": "participant.full_legal_name (WRITABLE — see the warning below)",
+      "On (Date)": "no protect category at all"
+    }
+  },
+  "theWarning": "The same defect is currently the ONLY thing preventing the platform from prefilling a sworn attestation block. PRINTNAME[0] and PRINTNAME[1] are refused today because the harvested run-on caption contains the word 'Signature' and protectCategoryOf returns `signature`. Given the cell-accurate caption they deserve — 'Print name' — both resolve to WRITABLE participant.full_legal_name, and the court's own DATEJUDGMNT ('On (Date)') loses its protect category entirely. Repairing the caption harvest without adding a protect rule for a print-name or date cell inside a jurat or court signature row would move this form from six misbound data fields to a prefilled oath. This family refuses all of them BY ROLE so that none of its own refusals depends on the defect either way.",
+  "thisFamilysResponse": "Nothing shared was edited. Every affected field is refused by role, the refusal reasons record what protects each field today and whether that protection survives the fix, and the refusals are proved from the rendered artifact bytes rather than from this report."
+}
