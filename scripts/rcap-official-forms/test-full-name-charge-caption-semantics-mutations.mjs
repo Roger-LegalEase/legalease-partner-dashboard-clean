@@ -78,10 +78,15 @@ must("removing refuseWhenCaption from the descriptor is caught",
     " },")));
 
 // 11b. Deleting the fallback guard, which is what reaches the field NAME.
+//      The fallback now carries a second filter as well -- a blank whose own name
+//      says it holds a date may take only a date from its label -- so this
+//      removes THIS correction's filter alone and leaves the other in place.
+//      A mutation that removed both would be caught by either verifier and would
+//      prove less about this one.
 must("removing the printed-label fallback guard is caught",
   !underMutation(SEMANTICS, (s) => s.replace(
-    "    matches = descriptorsMatching(effectiveLabel)\n      .filter((d) => !(d.refuseWhenCaption && d.refuseWhenCaption(name, haystack(name))));",
-    "    matches = descriptorsMatching(effectiveLabel);")));
+    "      .filter((d) => !(d.refuseWhenCaption && d.refuseWhenCaption(name, haystack(name))))\n",
+    "")));
 
 // 12. Widening the expected-change set by one unrelated field.
 must("adding one unrelated field to the expected-change set is caught",

@@ -14,7 +14,13 @@
 //      included -- and the set of fields that move must be exactly the set the
 //      committed record enumerates, with none of them unexplained.
 //   3. Protection. No protect category removed, no protect rule term lost, no
-//      field that was refused made writable.
+//      field that was refused made writable, and no field's protect category
+//      moved BY THIS CORRECTION. Once a later correction lands on the same
+//      binder the moved set is the union of both, so the rows the record
+//      attributes to a later correction are asked a separate and equally strict
+//      question: none may give up a protect category and become writable by
+//      doing so. The global "nothing protected today is writable" check below is
+//      unscoped and covers every row either way.
 //   4. The invariants, recomputed rather than read out of the record.
 import fs from "node:fs";
 import os from "node:os";
@@ -220,8 +226,34 @@ for (const [category, pattern] of baseModule.PROTECT_RULES) {
 }
 check("no protect rule is weakened", weakened.length === 0, weakened.join("; "));
 
+// Whose correction moved each row. This diff runs from THIS correction's base
+// commit to the binder as it stands, so once a later correction lands the moved
+// set is the union of both. The record names which rows belong to which, and the
+// two questions are asked separately rather than as one that no later correction
+// could ever satisfy:
+//
+//   * THIS correction moves no field's protect category, asserted exactly;
+//   * a later correction may add one, or report a more specific one, and what
+//     must hold for those rows is the direction -- a row that gives up a
+//     category must not become writable by doing so.
+//
+// Both are stricter together than the single check they replace: that one said
+// nothing at all about a row it did not expect, because it simply failed.
+const laterRows = new Set((record?.changed ?? [])
+  .filter((c) => String(c.defect ?? "").startsWith("later:")).map((c) => c.key));
 const protectMoved = movedKeys.filter((k) => before.get(k).protectCategory !== after.get(k).protectCategory);
-check("no field's protect category changes", protectMoved.length === 0, protectMoved.slice(0, 6).join("; "));
+const ownProtectMoved = protectMoved.filter((k) => !laterRows.has(k));
+check("this correction moves no field's protect category",
+  ownProtectMoved.length === 0, ownProtectMoved.slice(0, 6).join("; "));
+const laterGaveUpProtectionAndBecameWritable = protectMoved.filter((k) => laterRows.has(k)
+  && before.get(k).protectCategory !== null && after.get(k).protectCategory === null
+  && after.get(k).bindingWritable === true);
+check("no row a later correction moves gives up a protect category and becomes writable",
+  laterGaveUpProtectionAndBecameWritable.length === 0,
+  laterGaveUpProtectionAndBecameWritable.slice(0, 6).join("; "));
+check("every row this verifier attributes to a later correction is named by that correction's record",
+  [...laterRows].every((k) => movedKeys.includes(k)),
+  [...laterRows].filter((k) => !movedKeys.includes(k)).slice(0, 6).join("; "));
 
 const nowWritable = movedKeys.filter((k) => before.get(k).bindingWritable === false && after.get(k).bindingWritable === true);
 check("no refused field becomes writable", nowWritable.length === 0, nowWritable.slice(0, 6).join("; "));

@@ -1720,7 +1720,19 @@ function writeRecords({ documents, rasters, allFindings }) {
           + "family's output at once. Reported rather than patched.",
         howToReproduce:
           "Call finalizeFlatOverlay with an anchor labelled 'Date' whose write box sits under a printed "
-          + "'Certificate of Service' heading, and observe that it is written."
+          + "'Certificate of Service' heading, and observe that it is written.",
+        closedBy: {
+          correction: "shared caption infrastructure",
+          status: "CLOSED — the finding is kept as the history of how it was found and measured.",
+          record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+          verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs",
+          what: 
+            "finalizeFlatOverlay passes `regionHeading` and `regionIsDocumentTitle` to decideBinding now. The "
+            + "heading is taken from the anchor where a caller measured one, and otherwise measured from the "
+            + "page's own content stream through captureWidgetContext -- the same measurement the widget path "
+            + "uses -- so the protection does not depend on a caller having remembered to look. The verifier "
+            + "reproduces exactly the case named above on a synthetic page and asserts the refusal."
+        }
       },
       {
         id: "signature-date-descriptor-is-unreachable-through-haystack",
@@ -1744,7 +1756,20 @@ function writeRecords({ documents, rasters, allFindings }) {
           "The shared semantics module is not this family's owned path, and changing that pattern would change "
           + "bindings across every family at once.",
         howToReproduce:
-          "node -e \"import('./scripts/rcap-official-forms/rcap-field-semantics.mjs').then(m => console.log(m.haystack('Date'), m.descriptorsMatching('Date')))\" — prints 'date || date' and []."
+          "node -e \"import('./scripts/rcap-official-forms/rcap-field-semantics.mjs').then(m => console.log(m.haystack('Date'), m.descriptorsMatching('Date')))\" — prints 'date || date' and [].",
+        closedBy: {
+          correction: "shared caption infrastructure",
+          status: "CLOSED — the finding is kept as the history of how it was found and measured.",
+          record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+          verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs",
+          what: 
+            "The unreachable alternative is removed rather than repaired, for exactly the reason this finding "
+            + "gives about the direction of risk: a bare 'Date' does not say WHICH date, and the three it most "
+            + "often is on these forms are a signature date, a court's own date and a component of an arrest "
+            + "date. In its place the signature rule now reaches the squashed `datesigned` spelling that "
+            + "deterministic.filing_date could see and `\\bsigned\\b` could not, and a blank whose own NAME "
+            + "says it holds a date may take only a DATE from its printed label."
+        }
       },
       {
         id: "flat-overlay-derivation-check-cannot-pass-in-a-container-with-the-corpus-mounted",
@@ -1770,7 +1795,20 @@ function writeRecords({ documents, rasters, allFindings }) {
           + "nothing outside the owned path is left changed.",
         whoeverOwnsItShould:
           "either exclude private/ from binariesBySha so the record means the same thing in every container, or "
-          + "regenerate the record with the corpus mounted and state that as the condition it is checked under."
+          + "regenerate the record with the corpus mounted and state that as the condition it is checked under.",
+        closedBy: {
+          correction: "shared caption infrastructure",
+          status: "CLOSED — the finding is kept as the history of how it was found and measured.",
+          record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+          verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs",
+          what: 
+            "The first of the two. `private/` is excluded from binariesBySha, and from the same walk in "
+            + "generate-rcap-problematic-pdf-master-list.mjs, which asked the identical question for the "
+            + "currentness lanes and had the identical hole. The committed derivation record is NOT regenerated "
+            + "here: it had already drifted for reasons this finding itself shows are not this correction's, "
+            + "and regenerating it would sweep five new Colorado families and a semantics change into a record "
+            + "nothing in this commit measured."
+        }
       },
       {
         id: "no-fact-descriptor-recognises-the-arkansas-caption-line",

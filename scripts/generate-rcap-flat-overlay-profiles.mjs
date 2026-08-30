@@ -53,10 +53,26 @@ const readJson = (file, fallback = null) => {
   try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; }
 };
 
-/** Every PDF in the clone by SHA-256, so a pinned source can be located. */
+/**
+ * Every PDF in the clone by SHA-256, so a pinned source can be located.
+ *
+ * IN THE CLONE means in the repository, and `private/` is not the repository.
+ * It is where scripts/rcap-corpus/bootstrap-private-corpus.sh mounts the Master
+ * Library: 329 source PDFs, git-ignored, present in a container that has run the
+ * bootstrap and absent in one that has not. Walking into it made this record say
+ * different things in the two containers -- committed at 24 families / 26
+ * anchors / 213 refused captions, and 29 / 79 / 477 with the corpus mounted,
+ * with 22 of the 24 committed rows citing a `sourceBinaryPath` under
+ * private/source-imports/ that no fresh clone has. A record of what the
+ * repository contains must not depend on what happens to be mounted beside it.
+ *
+ * Excluding it does not lose a source: a family whose binary lives only in the
+ * mounted corpus is correctly reported as awaiting its binary, which is what a
+ * fresh clone would find.
+ */
 function binariesBySha() {
   const found = new Map();
-  const skip = new Set(["node_modules", ".git", ".next", "tmp"]);
+  const skip = new Set(["node_modules", ".git", ".next", "tmp", "private"]);
   const walk = (dir) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (skip.has(entry.name)) continue;

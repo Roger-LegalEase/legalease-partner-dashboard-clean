@@ -153,6 +153,19 @@ const diff = {
       verifier: "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs"
     },
     {
+      correction: "shared caption infrastructure",
+      what:
+        "Six corrections to the shared binder and its caption harvest, landed protections-first: a court's own "
+        + "contact block, a jurat, an oath, an affidavit, a verification and a certificate of mailing are protected "
+        + "at classification; the squashed `datesigned` spelling and the welded `JUDGMNT` spelling are reached; a "
+        + "venue recital no longer asks for the participant's state; `crime` joins the charge vocabulary except "
+        + "where it names a victim; a blank whose name says it holds a date may take only a date from its label; "
+        + "the flat-overlay path passes the printed region it used to drop; and the caption printed directly above "
+        + "a blank is harvested from the cell over that blank rather than from the whole table row.",
+      record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+      verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+    },
+    {
       correction: "shared name/date field semantics",
       what:
         "A field NAME that is a date component (day, month, year) no longer takes a fact from the printed-label "

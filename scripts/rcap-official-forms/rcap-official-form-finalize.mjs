@@ -12,6 +12,7 @@ import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChoos
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
+import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-pdf-anchor-capture.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
@@ -283,6 +284,31 @@ export async function finalizeFlatOverlay({
   const pages = pdfDoc.getPages();
   const report = { sourceSha256: sourceSha, written: [], refused: [], unfittable: [], expectedValues: [], normalized: [] };
 
+  // The printed section each write box lands in, measured once per page from
+  // the page's own text. captureWidgetContext is the shared measurement the
+  // widget path already uses, so a flat overlay and a widget form answer the
+  // same question the same way rather than through two implementations that
+  // can drift apart. A page whose content stream cannot be decoded yields no
+  // region rather than a guess -- the refusals that depend on a NAME are
+  // unaffected either way.
+  const linesByPage = new Map();
+  const regionOf = (anchor) => {
+    if (anchor.regionHeading !== undefined && anchor.regionHeading !== null) {
+      return { heading: anchor.regionHeading, isDocumentTitle: anchor.regionIsDocumentTitle === true };
+    }
+    const page = pages[anchor.page - 1];
+    if (!page || !anchor.writeBox) return { heading: null, isDocumentTitle: false };
+    try {
+      if (!linesByPage.has(anchor.page)) linesByPage.set(anchor.page, groupIntoLines(extractTextItems(page)));
+      const [context] = captureWidgetContext(page, [{ name: anchor.label, rect: anchor.writeBox }], {
+        precomputedLines: linesByPage.get(anchor.page), isFirstPage: anchor.page === 1
+      });
+      return { heading: context?.regionHeading ?? null, isDocumentTitle: context?.regionIsDocumentTitle === true };
+    } catch {
+      return { heading: null, isDocumentTitle: false };
+    }
+  };
+
   for (const anchor of anchors) {
     const page = pages[anchor.page - 1];
     if (!page) {
@@ -327,8 +353,32 @@ export async function finalizeFlatOverlay({
     // An anchor is only ever placed against an allowlisted label, but the
     // protect rules are applied again here: the drawing path must not be a way
     // around them.
+    //
+    // Including the printed REGION, which this path used to drop. The widget
+    // path has always passed `regionHeading`, so a widget under a printed
+    // "Certificate of Service" or "VERIFICATION" is refused by region whatever
+    // it is called; the flat path passed { name, pdfType, effectiveLabel } and
+    // nothing else, so on a flat overlay the region channel never ran at all.
+    // The family that measured this recorded the consequence: on the Arkansas
+    // misdemeanour petition, page 4 is a Certificate of Service and page 3 is a
+    // VERIFICATION, and a blank captioned "Date" under the certificate binds
+    // deterministic.filing_date through its printed caption with nothing to
+    // object.
+    //
+    // The heading is taken from the anchor when a caller measured one, and
+    // otherwise measured here from the page's own content stream. That second
+    // clause is deliberate and follows `documentTextLines` above: a path that
+    // can only be protected when the caller remembered to look inherits every
+    // future miss the same way.
+    const region = regionOf(anchor);
     const decision = decideBinding(
-      { name: anchor.label, pdfType: "text", effectiveLabel: anchor.label },
+      {
+        name: anchor.label,
+        pdfType: "text",
+        effectiveLabel: anchor.label,
+        regionHeading: region.heading,
+        regionIsDocumentTitle: region.isDocumentTitle
+      },
       {
         explicitMappings,
         captionOnly: anchor.captionOnly === true,
@@ -336,7 +386,8 @@ export async function finalizeFlatOverlay({
       }
     );
     if (!decision.writable) {
-      report.refused.push({ anchor: anchor.label, reason: decision.reason, category: decision.category ?? null });
+      report.refused.push({ anchor: anchor.label, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
       continue;
     }
     const factId = anchor.factId ?? decision.factId;

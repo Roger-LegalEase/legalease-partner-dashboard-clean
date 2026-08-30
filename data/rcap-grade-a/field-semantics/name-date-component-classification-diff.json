@@ -4,9 +4,14 @@
   "baseCommit": "6f7f139d71d968598806a7bf951a1d91db6c5d1f",
   "semanticsModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
   "question": "Which committed blanks does the shared name/date correction move, and does a stated defect explain every one?",
-  "censusesScanned": 157,
+  "censusesScanned": 162,
   "censusFiles": [
+    "data/rcap-all50/overlays/census-v1/ak/ak-tf805-set--official-pdf-fill/field-census.census-v1.json",
     "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ar/ar-misdemeanor-dwi-seal-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/ca/ca-1203-4-set--official-pdf-fill/reports/field-census.json",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
     "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-adult-set-aside-packet-motion-and-declaration/field-census.json",
     "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-cla-request-for-set-aside-criminal-record-check/field-census.json",
     "data/rcap-all50/overlays/lane-c-candidates/oregon/or-ojd-motion-and-declaration-to-set-aside-marijuana-conviction/field-census.json",
@@ -164,22 +169,306 @@
     "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en/field-census.json",
     "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en/field-census.json"
   ],
-  "familiesScanned": 157,
-  "totalFieldsScanned": 5352,
+  "familiesScanned": 162,
+  "totalFieldsScanned": 5428,
   "scanNote": "Every committed census is read, under either filename. The 156 flat censuses carry 5,286 blanks and ar-arrest-seal-set's census-v1 carries 66 more across its two documents, which the flat-filename walk used by the charge-caption guard does not see.",
-  "fieldsChanged": 47,
-  "fieldsExplained": 47,
+  "correctionsCovered": [
+    {
+      "correction": "shared name/date field semantics",
+      "what": "A field NAME that is a date component no longer takes a fact from the printed-label fallback, and a caption naming first, middle and last at once resolves to the whole name rather than to the surname.",
+      "record": "data/rcap-grade-a/field-semantics/name-date-component-classification-diff.json",
+      "verifier": "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs"
+    },
+    {
+      "correction": "shared caption infrastructure",
+      "what": "Enumerated and justified in that correction's own record; this diff spans the union because it runs to the current binder.",
+      "record": "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+      "verifier": "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+    }
+  ],
+  "fieldsChanged": 99,
+  "fieldsExplained": 99,
   "fieldsUnexplained": 0,
   "byChangeClass": {
     "caption_naming_every_part_now_resolves_to_the_whole_name": 21,
     "date_component_no_longer_takes_the_participant_name": 21,
-    "date_component_refusal_reason_now_states_the_real_reason": 5
+    "moved_by_a_later_correction__judgment_block_is_now_protected_by_stem": 2,
+    "moved_by_a_later_correction__court_contact_block_is_now_protected": 16,
+    "moved_by_a_later_correction__crime_caption_is_now_a_charge_value_and_refuses_a_name": 1,
+    "moved_by_a_later_correction__caption_harvest_is_now_cell_accurate": 2,
+    "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised": 5,
+    "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state": 8,
+    "moved_by_a_later_correction__jurat_field_is_now_protected_by_name": 4,
+    "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label": 6,
+    "date_component_refusal_reason_now_states_the_real_reason": 5,
+    "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected": 8
   },
   "protection": {
-    "statement": "No protected field becomes writable and no protect rule loses a term. This correction only ever withholds a fallback or re-points a name caption from a part of a name to the whole of it.",
+    "statement": "No protected field becomes writable and no protect rule loses a term. This correction only ever withholds a fallback or re-points a name caption from a part of a name to the whole of it, and moves no field's protect category at all. Rows a later correction moves are listed separately: for those, what is required is that none gives up a protect category and becomes writable by doing so.",
     "protectCategoriesRemoved": [],
     "protectRulesWeakened": [],
-    "fieldsWhoseProtectCategoryChanged": [],
+    "fieldsWhoseProtectCategoryChanged": [
+      "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].#subform[1].DATEJUDGMNT[0]",
+      "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].COURTADDRESS[0]",
+      "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[0]",
+      "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[1]",
+      "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].JDGANUM[0]",
+      "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|ctaddress",
+      "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|cttelno",
+      "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date",
+      "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Text29",
+      "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|day of",
+      "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|Sworn to and subscribed before me this",
+      "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|-|Court Address",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|-|datesigned",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-11|-|datesigned",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|-|datesigned",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-12|-|datesigned",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|Check Box6",
+      "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|datesigned",
+      "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|-|datesigned",
+      "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PetitionNotFiledSignDate",
+      "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PresidingJudgeOrderSignDate"
+    ],
+    "fieldsWhoseProtectCategoryThisCorrectionChanged": [],
+    "fieldsWhoseProtectCategoryALaterCorrectionChanged": [
+      {
+        "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].#subform[1].DATEJUDGMNT[0]",
+        "from": null,
+        "to": "court",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].COURTADDRESS[0]",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[0]",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[1]",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].JDGANUM[0]",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|ctaddress",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|cttelno",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date",
+        "from": null,
+        "to": "notarization",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Text29",
+        "from": null,
+        "to": "notarization",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|day of",
+        "from": null,
+        "to": "notarization",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|Sworn to and subscribed before me this",
+        "from": null,
+        "to": "notarization",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|-|Court Address",
+        "from": null,
+        "to": "court_contact",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|Check Box6",
+        "from": null,
+        "to": "court",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|-|datesigned",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PetitionNotFiledSignDate",
+        "from": null,
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      },
+      {
+        "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PresidingJudgeOrderSignDate",
+        "from": "court",
+        "to": "signature",
+        "stillRefused": true,
+        "defect": "later:shared caption infrastructure"
+      }
+    ],
+    "laterRowsThatGaveUpProtectionAndBecameWritable": [],
     "fieldsThatBecameWritable": [],
     "holds": true
   },
@@ -201,8 +490,8 @@
   ],
   "latentWithoutTheRegionChannel": {
     "question": "With the printed-region channel withheld -- which is what a correct regionIsDocumentTitle flag would do to a heading that is only the form's own title -- which further blanks does this correction move?",
-    "totalMoved": 62,
-    "additionalBeyondThePrimaryDiff": 15,
+    "totalMoved": 110,
+    "additionalBeyondThePrimaryDiff": 16,
     "keys": [
       "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill|AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460|Day",
       "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill|AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460|Month",
@@ -218,7 +507,8 @@
       "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-|-|DAY 1",
       "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-|-|MONTH 1",
       "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-|-|MONTH 2",
-      "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-|-|YEAR 1"
+      "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-|-|YEAR 1",
+      "data/rcap-all50/overlays/production/virginia/cc-1473-form-en|-|User.HearDateTime"
     ],
     "note": "ar-arrest-seal-set's proposed order is the case. Its `Day` and `Month` bind participant.full_legal_name by the identical printed-label route as the petition's, and are refused today only because the order's region heading is its own title and the court region rule matches it. This correction refuses them by name, so they no longer depend on that accident."
   },
@@ -227,6 +517,24 @@
     "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill|AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460|DAY",
     "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill|AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460|First Middle and Last name",
     "data/rcap-all50/overlays/census-v1/ar/ar-arrest-seal-set--official-pdf-fill|AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460|MONTH",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].#subform[1].DATEJUDGMNT[0]",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].COURTADDRESS[0]",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].CRIMES2ERASE[0]",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[0]",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[1]",
+    "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].JDGANUM[0]",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|comdate",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|comsig",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|ctaddress",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|cttelno",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|district",
+    "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|peopleof",
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date",
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date_3",
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Text29",
+    "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|City State and Zip_2",
+    "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|day of",
+    "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|Sworn to and subscribed before me this",
     "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en|-|First Middle and Last name",
@@ -234,6 +542,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-|-|Day",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-|-|Month",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|-|Date Completed",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|-|Day",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|-|Month",
@@ -250,6 +559,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e|-|Day",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e|-|Month",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|DATE 01",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|DAY",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|MONTH",
@@ -259,6 +569,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en|-|MONTH",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en|-|YEAR",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-|-|First Middle and Last name",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|-|Date_2",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e|-|DAY 1",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e|-|First Middle and Last name",
@@ -269,7 +580,38 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-|-|MONTH 1",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-|-|MONTH 2",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-|-|YEAR 1",
-    "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f|-|First Middle and Last name"
+    "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f|-|First Middle and Last name",
+    "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|-|Court Address",
+    "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en|-|Date",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|-|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-11|-|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|-|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-12|-|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|Check Box6",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|-|datesigned",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|-|CountyName",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en|-|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|-|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en|-|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en|-|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|CountyName",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|YesHaveServedInUnitedStatesArmedForcesCkBox",
+    "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PetitionNotFiledSignDate",
+    "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PresidingJudgeOrderSignDate",
+    "data/rcap-all50/overlays/production/virginia/cc-1201-form-en|-|User.DateOfDismissal"
   ],
   "changed": [
     {
@@ -404,6 +746,562 @@
           "participant.full_legal_name"
         ],
         "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].#subform[1].DATEJUDGMNT[0]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].#subform[1].DATEJUDGMNT[0]",
+      "effectiveLabel": "On (Date)",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__judgment_block_is_now_protected_by_stem",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as judgment_block_is_now_protected_by_stem and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].COURTADDRESS[0]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].PAGE1[0].COURTADDRESS[0]",
+      "effectiveLabel": "JD/GA number",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.street_address",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "participant.street_address"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [
+          "participant.street_address"
+        ],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].CRIMES2ERASE[0]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
+      "effectiveLabel": "Crime(s) defendant asks the court to erase",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__crime_caption_is_now_a_charge_value_and_refuses_a_name",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as crime_caption_is_now_a_charge_value_and_refuses_a_name and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[0]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].PAGE1[0].DATESIGN[0]",
+      "effectiveLabel": "Date",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__caption_harvest_is_now_cell_accurate",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as caption_harvest_is_now_cell_accurate and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].DATESIGN[1]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].PAGE1[0].DATESIGN[1]",
+      "effectiveLabel": "Date",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__caption_harvest_is_now_cell_accurate",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as caption_harvest_is_now_cell_accurate and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill|CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000|form1[0].PAGE1[0].JDGANUM[0]",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/ct/ct-cleanslate-petition-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
+      "fieldName": "form1[0].PAGE1[0].JDGANUM[0]",
+      "effectiveLabel": "JD/GA numberAddress of court",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|comdate",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "comdate",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as blank_sits_in_a_sworn_or_mailing_region_now_recognised and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|comsig",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "comsig",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as blank_sits_in_a_sworn_or_mailing_region_now_recognised and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|ctaddress",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "ctaddress",
+      "effectiveLabel": "Court address",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|cttelno",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "cttelno",
+      "effectiveLabel": "Court telephone no",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.phone",
+        "reason": null,
+        "firstDescriptor": "participant.phone",
+        "byName": [],
+        "byLabel": [
+          "participant.phone"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "participant.phone",
+        "byName": [],
+        "byLabel": [
+          "participant.phone"
+        ],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|district",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "district",
+      "effectiveLabel": "STATE OF MICHIGAN",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": "participant.state",
+        "byName": [],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill|MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS|peopleof",
+      "familyDirectory": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill",
+      "censusFile": "data/rcap-all50/overlays/census-v1/mi/mi-setaside-marihuana-set--official-pdf-fill/field-census.census-v1.json",
+      "documentId": "MI-MC-227A-APPLICATION-TO-SET-ASIDE-MISDEMEANOR-MARIHUANA-CONVICTIONS",
+      "fieldName": "peopleof",
+      "effectiveLabel": "The State of Michigan",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.state",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Date",
+      "effectiveLabel": "Sworn to and subscribed before this _____________\u0000\u0003\u0000G\u0000D\u0000\\\u0000\u0003\u0000",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__jurat_field_is_now_protected_by_name",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as jurat_field_is_now_protected_by_name and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "notarization"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Date_3",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Date_3",
+      "effectiveLabel": "in __________________________ County, Alabama on____________",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "matter.county",
+        "byName": [],
+        "byLabel": [
+          "matter.county"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "matter.county",
+        "byName": [],
+        "byLabel": [
+          "matter.county"
+        ],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|-|Text29",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Text29",
+      "effectiveLabel": "Sworn to and subscribed before this _____________\u0000\u0003\u0000G\u0000D\u0000\\\u0000\u0003\u0000",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__jurat_field_is_now_protected_by_name",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as jurat_field_is_now_protected_by_name and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "notarization"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|City State and Zip_2",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "City State and Zip_2",
+      "effectiveLabel": "City, State and Zip City, State and Zip",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as blank_sits_in_a_sworn_or_mailing_region_now_recognised and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.city",
+        "reason": null,
+        "firstDescriptor": "participant.city",
+        "byName": [
+          "participant.city",
+          "participant.zip",
+          "participant.state"
+        ],
+        "byLabel": [
+          "participant.city",
+          "participant.zip",
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": "participant.city",
+        "byName": [
+          "participant.city",
+          "participant.zip",
+          "participant.state"
+        ],
+        "byLabel": [
+          "participant.city",
+          "participant.zip",
+          "participant.state"
+        ],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|day of",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "day of",
+      "effectiveLabel": "Sworn to and subscribed before me this day of , 20",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__jurat_field_is_now_protected_by_name",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as jurat_field_is_now_protected_by_name and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "notarization"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|-|Sworn to and subscribed before me this",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Sworn to and subscribed before me this",
+      "effectiveLabel": "Sworn to and subscribed before me this day of , 20",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__jurat_field_is_now_protected_by_name",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as jurat_field_is_now_protected_by_name and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "notarization"
       }
     },
     {
@@ -619,6 +1517,39 @@
       "defect": "A",
       "changeClass": "date_component_no_longer_takes_the_participant_name",
       "why": "A day, month or year blank was bound to participant.full_legal_name through the printed-label fallback, because the sentence harvested beside it mentions the Defendant. A date component is not a name. The fallback is now withheld from a field whose own name is a date component, so the blank is refused.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|-|Date Completed",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "censusFile": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-/field-census.json",
+      "documentId": null,
+      "fieldName": "Date Completed",
+      "effectiveLabel": "4.On __________the Defendant successfully completed the drug",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
       "from": {
         "writable": true,
         "factId": "participant.full_legal_name",
@@ -1178,6 +2109,39 @@
       }
     },
     {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|DATE 01",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "censusFile": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/field-census.json",
+      "documentId": null,
+      "fieldName": "DATE 01",
+      "effectiveLabel": "4.On __________the Defendant successfully completed the drug",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      }
+    },
+    {
       "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|-|DAY",
       "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
       "censusFile": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/field-census.json",
@@ -1474,6 +2438,39 @@
           "participant.full_legal_name"
         ],
         "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|-|Date_2",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "censusFile": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Date_2",
+      "effectiveLabel": "Defendant or D\u0000H\u0000I\u0000H\u0000Q\u0000G\u0000Ds Att\u0000Qor\u0000Wne\u0000¶y",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
         "protectCategory": null
       }
     },
@@ -1841,6 +2838,973 @@
           "participant.full_legal_name"
         ],
         "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|-|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en",
+      "censusFile": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__court_contact_block_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as court_contact_block_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court_contact"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en|-|Date",
+      "familyDirectory": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Date",
+      "effectiveLabel": "The above-named Defendant has successfully completed the ter",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "participant.full_legal_name",
+        "reason": null,
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "participant.full_legal_name",
+        "byName": [],
+        "byLabel": [
+          "participant.full_legal_name"
+        ],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": "Date",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-11",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-11/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": "Date",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-12",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-12/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|Check Box6",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "Check Box6",
+      "effectiveLabel": "after a deferred judgment; or",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__judgment_block_is_now_protected_by_stem",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as judgment_block_is_now_protected_by_stem and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "non_text_field_type",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|-|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "deterministic.filing_date",
+        "reason": null,
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": "deterministic.filing_date",
+        "byName": [
+          "deterministic.filing_date"
+        ],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|-|CountyName",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "CountyName",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en|-|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|-|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en|-|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en|-|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|CountyName",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "CountyName",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__venue_recital_no_longer_asks_for_the_participants_state",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as venue_recital_no_longer_asks_for_the_participants_state and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": "participant.state",
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [
+          "participant.state"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": true,
+        "factId": "matter.county",
+        "reason": null,
+        "firstDescriptor": null,
+        "byName": [
+          "matter.county"
+        ],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+      "effectiveLabel": "the United States Armed Forces?      Yes",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as blank_sits_in_a_sworn_or_mailing_region_now_recognised and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "non_text_field_type",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|-|YesHaveServedInUnitedStatesArmedForcesCkBox",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/field-census.json",
+      "documentId": null,
+      "fieldName": "YesHaveServedInUnitedStatesArmedForcesCkBox",
+      "effectiveLabel": "the United States Armed Forces?",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__blank_sits_in_a_sworn_or_mailing_region_now_recognised",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as blank_sits_in_a_sworn_or_mailing_region_now_recognised and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "non_text_field_type",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_page_region",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PetitionNotFiledSignDate",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/cr287-1",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/cr287-1/field-census.json",
+      "documentId": null,
+      "fieldName": "PetitionNotFiledSignDate",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|-|PresidingJudgeOrderSignDate",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/cr287-1",
+      "censusFile": "data/rcap-all50/overlays/production/north-carolina/cr287-1/field-census.json",
+      "documentId": null,
+      "fieldName": "PresidingJudgeOrderSignDate",
+      "effectiveLabel": null,
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__signature_date_spelled_without_the_space_is_now_protected",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as signature_date_spelled_without_the_space_is_now_protected and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "court"
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "protected_category",
+        "firstDescriptor": null,
+        "byName": [],
+        "byLabel": [],
+        "protectCategory": "signature"
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en|-|User.DateOfDismissal",
+      "familyDirectory": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "censusFile": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/field-census.json",
+      "documentId": null,
+      "fieldName": "User.DateOfDismissal",
+      "effectiveLabel": "a.[  ]  The deferred charge against me was dismissed. Date o",
+      "defect": "later:shared caption infrastructure",
+      "changeClass": "moved_by_a_later_correction__date_named_blank_no_longer_takes_a_non_date_fact_from_its_label",
+      "why": "Neither defect above moves this row. The shared caption infrastructure correction does: its record data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json enumerates the row as date_named_blank_no_longer_takes_a_non_date_fact_from_its_label and justifies it, and its verifier scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs holds it. Recorded here because this diff spans the base commit to the binder as it stands, and so accumulates every correction landed since.",
+      "from": {
+        "writable": false,
+        "factId": "matter.charge",
+        "reason": "requires_explicit_mapping",
+        "firstDescriptor": "matter.charge",
+        "byName": [],
+        "byLabel": [
+          "matter.charge"
+        ],
+        "protectCategory": null
+      },
+      "to": {
+        "writable": false,
+        "factId": null,
+        "reason": "no_allowlisted_fact_matches",
+        "firstDescriptor": "matter.charge",
+        "byName": [],
+        "byLabel": [
+          "matter.charge"
+        ],
         "protectCategory": null
       }
     }

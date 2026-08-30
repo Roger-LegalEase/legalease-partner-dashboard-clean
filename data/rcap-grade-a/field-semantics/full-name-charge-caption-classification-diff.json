@@ -5,11 +5,11 @@
   "semanticsModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
   "totalFieldsScannedBefore": 5286,
   "totalFieldsScannedAfter": 5286,
-  "familiesScanned": 156,
-  "fieldsWhoseFirstDescriptorChanged": 34,
-  "fieldsWhoseDescriptorSetChanged": 47,
-  "fieldsWhoseBindingDecisionChanged": 64,
-  "fieldsWhoseProtectCategoryChanged": 0,
+  "familiesScanned": 157,
+  "fieldsWhoseFirstDescriptorChanged": 40,
+  "fieldsWhoseDescriptorSetChanged": 53,
+  "fieldsWhoseBindingDecisionChanged": 77,
+  "fieldsWhoseProtectCategoryChanged": 25,
   "fieldsWhoseArtifactBytesChanged": 0,
   "fieldsWhoseArtifactBytesChangedNote": "No artifact is re-rendered by this change. The only generator that renders these families is corpus-wide, and every affected family is retired from the operational inventory and source-gated. See the live-impact record.",
   "fieldsUnexpectedlyChanged": 0,
@@ -20,6 +20,12 @@
       "what": "A blank whose caption says it holds a charge, offence, count, statute or violation no longer takes participant.full_legal_name.",
       "record": "data/rcap-grade-a/field-semantics/full-name-charge-caption-classification-diff.json (this file)",
       "verifier": "scripts/rcap-official-forms/verify-full-name-charge-caption-semantics.mjs"
+    },
+    {
+      "correction": "shared caption infrastructure",
+      "what": "Six corrections to the shared binder and its caption harvest, landed protections-first: a court's own contact block, a jurat, an oath, an affidavit, a verification and a certificate of mailing are protected at classification; the squashed `datesigned` spelling and the welded `JUDGMNT` spelling are reached; a venue recital no longer asks for the participant's state; `crime` joins the charge vocabulary except where it names a victim; a blank whose name says it holds a date may take only a date from its label; the flat-overlay path passes the printed region it used to drop; and the caption printed directly above a blank is harvested from the cell over that blank rather than from the whole table row.",
+      "record": "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+      "verifier": "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
     },
     {
       "correction": "shared name/date field semantics",
@@ -38,6 +44,11 @@
     "holds": true
   },
   "expectedChangeKeys": [
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Date",
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Date_3",
+    "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Text29",
+    "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|day of",
+    "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|Sworn to and subscribed before me this",
     "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en|DOES 1",
@@ -52,6 +63,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-|Month",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Check Box66",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Date Completed",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Day",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Month",
@@ -93,6 +105,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e|Month",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|Check Box3",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|DATE 01",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|DAY",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|MONTH",
@@ -106,6 +119,7 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|9",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|and charged with the offenses of",
+    "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|Date_2",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|First Middle and Last name",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|offenses of 1",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|undefined_3",
@@ -123,11 +137,119 @@
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-|PENDING CHARGE 1",
     "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-|YEAR 1",
     "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f|First Middle and Last name",
+    "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|Court Address",
+    "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|Court Address",
     "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en|Company",
     "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en|following agencies",
-    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|FindsAllDismissedCkBox"
+    "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en|Date",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-11|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-12|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|Check Box6",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|datesigned",
+    "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|datesigned",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|CountyName",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|FindsAllDismissedCkBox",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en|County",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|CountyName",
+    "data/rcap-all50/overlays/production/north-carolina/cr287-1|PetitionNotFiledSignDate",
+    "data/rcap-all50/overlays/production/north-carolina/cr287-1|PresidingJudgeOrderSignDate",
+    "data/rcap-all50/overlays/production/virginia/cc-1201-form-en|User.DateOfDismissal",
+    "data/rcap-all50/overlays/production/virginia/cc-1473-form-en|User.HearDateTime"
   ],
   "changed": [
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Date",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "fieldName": "Date",
+      "effectiveLabel": "Sworn to and subscribed before this _____________\u0000\u0003\u0000G\u0000D\u0000\\\u0000\u0003\u0000",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "notarization"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Date_3",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "fieldName": "Date_3",
+      "effectiveLabel": "in __________________________ County, Alabama on____________",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "matter.county",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en|Text29",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "fieldName": "Text29",
+      "effectiveLabel": "Sworn to and subscribed before this _____________\u0000\u0003\u0000G\u0000D\u0000\\\u0000\u0003\u0000",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "notarization"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|day of",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "fieldName": "day of",
+      "effectiveLabel": "Sworn to and subscribed before me this day of , 20",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "notarization"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en|Sworn to and subscribed before me this",
+      "familyDirectory": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "fieldName": "Sworn to and subscribed before me this",
+      "effectiveLabel": "Sworn to and subscribed before me this day of , 20",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "notarization"
+      },
+      "bindingDecisionChanged": null
+    },
     {
       "key": "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023|First Middle and Last name",
       "familyDirectory": "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023",
@@ -478,6 +600,28 @@
       },
       "protectCategoryChanged": null,
       "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Date Completed",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "fieldName": "Date Completed",
+      "effectiveLabel": "4.On __________the Defendant successfully completed the drug",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.full_legal_name",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
     },
     {
       "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-|Day",
@@ -1469,6 +1613,28 @@
       "bindingDecisionChanged": null
     },
     {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|DATE 01",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "fieldName": "DATE 01",
+      "effectiveLabel": "4.On __________the Defendant successfully completed the drug",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.full_legal_name",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
+    },
+    {
       "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-|DAY",
       "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
       "fieldName": "DAY",
@@ -1764,6 +1930,28 @@
       "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
       "fieldName": "and charged with the offenses of",
       "effectiveLabel": "1.The Defendant was arrested on theday of ,",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.full_legal_name",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en|Date_2",
+      "familyDirectory": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "fieldName": "Date_2",
+      "effectiveLabel": "Defendant or D\u0000H\u0000I\u0000H\u0000Q\u0000G\u0000Ds Att\u0000Qor\u0000Wne\u0000¶y",
       "firstDescriptorChanged": null,
       "byNameDescriptorsChanged": null,
       "byLabelDescriptorsChanged": null,
@@ -2199,6 +2387,174 @@
       }
     },
     {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2363-form-form-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2371-form-motion-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-2374-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-417-form-petition-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-418-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-477-form-motion-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-478-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-612-form-motion-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-615-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-641-form-motion-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-642-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en|Court Address",
+      "familyDirectory": "data/rcap-all50/overlays/production/colorado/jdf-681-form-order-en",
+      "fieldName": "Court Address",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court_contact"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
       "key": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en|Company",
       "familyDirectory": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en",
       "fieldName": "Company",
@@ -2254,6 +2610,211 @@
       "bindingDecisionChanged": null
     },
     {
+      "key": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en|Date",
+      "familyDirectory": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "fieldName": "Date",
+      "effectiveLabel": "The above-named Defendant has successfully completed the ter",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.full_legal_name",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "fieldName": "datesigned",
+      "effectiveLabel": "Date",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-11|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-11",
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "fieldName": "datesigned",
+      "effectiveLabel": "Date",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-12|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-12",
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|Check Box6",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "fieldName": "Check Box6",
+      "effectiveLabel": "after a deferred judgment; or",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "court"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en|datesigned",
+      "familyDirectory": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "fieldName": "datesigned",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "deterministic.filing_date",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "protected_category"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|CountyName",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "fieldName": "CountyName",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
       "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en|FindsAllDismissedCkBox",
       "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
       "fieldName": "FindsAllDismissedCkBox",
@@ -2271,6 +2832,173 @@
       },
       "protectCategoryChanged": null,
       "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en|County",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "fieldName": "County",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en|CountyName",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "fieldName": "CountyName",
+      "effectiveLabel": "STATE OF NORTH CAROLINA",
+      "firstDescriptorChanged": {
+        "from": "participant.state",
+        "to": null
+      },
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": {
+        "from": [
+          "participant.state"
+        ],
+        "to": []
+      },
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|PetitionNotFiledSignDate",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/cr287-1",
+      "fieldName": "PetitionNotFiledSignDate",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": null,
+        "to": "signature"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/north-carolina/cr287-1|PresidingJudgeOrderSignDate",
+      "familyDirectory": "data/rcap-all50/overlays/production/north-carolina/cr287-1",
+      "fieldName": "PresidingJudgeOrderSignDate",
+      "effectiveLabel": null,
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": {
+        "from": "court",
+        "to": "signature"
+      },
+      "bindingDecisionChanged": null
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en|User.DateOfDismissal",
+      "familyDirectory": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "fieldName": "User.DateOfDismissal",
+      "effectiveLabel": "a.[  ]  The deferred charge against me was dismissed. Date o",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": false,
+          "factId": "matter.charge",
+          "reason": "requires_explicit_mapping"
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
+    },
+    {
+      "key": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en|User.HearDateTime",
+      "familyDirectory": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "fieldName": "User.HearDateTime",
+      "effectiveLabel": "[  ]  I certify that I provided the petitioner a certified c",
+      "firstDescriptorChanged": null,
+      "byNameDescriptorsChanged": null,
+      "byLabelDescriptorsChanged": null,
+      "protectCategoryChanged": null,
+      "bindingDecisionChanged": {
+        "from": {
+          "writable": true,
+          "factId": "participant.full_legal_name",
+          "reason": null
+        },
+        "to": {
+          "writable": false,
+          "factId": null,
+          "reason": "no_allowlisted_fact_matches"
+        }
+      }
     }
   ]
 }

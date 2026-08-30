@@ -55,8 +55,33 @@ export const PROTECT_RULES = [
   // were already impossible -- but "nothing happens to match it" is not the same
   // guarantee as "it is refused".
   ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|\bfpn\b|finger\s*print\s*(number|no|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
-  ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
-  ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
+  // `date signed` is spelled without the space on two of these forms and the
+  // rule read only the spaced form. NC AOC-CR-287 names a blank `datesigned`
+  // and CT JD-CR-202 names two `DATESIGN`; the haystack carries a squashed
+  // copy of every name, so `\bsigned\b` cannot see either -- and
+  // deterministic.filing_date matches /date\s*signed/, which can. `datesigned`
+  // therefore took the platform's filing date and dated a signature the
+  // participant has not made. The date beside a signature line belongs to the
+  // act of signing, so it is the signature block's, not the filing's.
+  ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b|\bdate\s*sign(?:ed)?\b|\bsign(?:ed)?\s*date\b/],
+  // A jurat is an officer's certificate, and the officer is not the platform.
+  // The rule carried `notar` and `jurat` and stopped there, so the other four
+  // ways these forms mark the same block -- an affiant, a verification, an
+  // oath administered, and the "sworn to and subscribed" clause itself -- were
+  // unguarded at classification. Alabama SBI Form 46 is the case that shows the
+  // cost: its jurat block prints two witness rows and its blanks are named
+  // "City State and Zip_2", which matches nothing protected, so the
+  // participant's own city was writable into a WITNESS's address on a sworn
+  // affidavit.
+  //
+  // The terms added here are OFFICER constructions, never the bare words.
+  // `oath` and `affidavit` are deliberately absent from this rule and appear
+  // only in the heading vocabulary below, for the same reason `order` does:
+  // Kentucky's petition opens "Comes the Petitioner, ______, under oath and
+  // states", where the blank is the petitioner's own name and refusing it
+  // leaves a required allegation of the petition blank. A word inside a
+  // sentence is not a section of a page.
+  ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office|sworn\s*(to\s*)?and\s*subscribed|subscribed\s*and\s*sworn|sworn\s*(or|\/)\s*affirmed|administer\w*\s*(of\s*)?oaths?|\baffiant\b|\bverification\b|under\s*penalty\s*of\s*perjury/],
   // `cert date` was the hole. The rule matched the printed heading and the
   // filing_date descriptor matched /cert\s*date/, so on AK TF-800 and TF-805 a
   // field named certDate — sitting 28pt under a printed "Certificate of
@@ -64,7 +89,17 @@ export const PROTECT_RULES = [
   // sworn certification: "I certify on 2026-08-12 at ______". A service block
   // is a statement about something a person did, so nothing in it is
   // deterministic.
-  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
+  // A certificate of MAILING is the same instrument as a certificate of
+  // service and the rule spelled only the second. Michigan MC 227a heads its
+  // block "CERTIFICATE OF MAILING" and the form's own instruction 8 has the
+  // participant complete it AFTER mailing the packet to the prosecuting
+  // official, so anything written into it before that certifies a mailing that
+  // has not happened. rcap-official-form-finalize already refuses to draw one,
+  // but that is a refusal at write time; the family that found this recorded
+  // that its two blanks were refused only because nothing happened to match
+  // their names, and "nothing matches it" is not the same guarantee as "it is
+  // refused".
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)|certificate\s*of\s*mailing|proof\s*of\s*mailing|\bcert\s*of\s*mailing\b/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
   // The records-custody clause is the second half of this rule and it earns its
   // place on KY AOC-334. The form prints "The Kentucky State Police and other
@@ -78,8 +113,41 @@ export const PROTECT_RULES = [
   // Matching the directive rather than the agency names closes it wherever the
   // caption is truncated.
   ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|records?\s*in\s*(their|our|its)\s*custody|\bcustody\s*regarding\b|ordered\s*to\s*seal|records?\s*custodian/],
-  ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
+  // `judgm` is a bare stem, with no word boundary, because CT JD-CR-202 spells
+  // its two
+  // judgment blanks TOWNJUDGMNT and DATEJUDGMNT -- vowel dropped, and welded to
+  // the word before them, so there is no boundary for `\b` to find. Both
+  // sit in the court's own order block, and both were refused today only
+  // because the run-on caption harvested across that block happens to contain
+  // "By the Court (Name of Judge)". A caption harvest is not a protection, and
+  // the cell-accurate harvest below takes that accident away.
+  ["court", /\bjudge\b|judgm|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
+  // WHERE THE COURT IS, which is never where the participant is.
+  //
+  // Nothing protected a court's own contact block and three descriptors were
+  // happy to fill it. `participant.phone` matches a bare /telephone/, so a
+  // "Court Telephone" line took the participant's phone number;
+  // `participant.email` matches a bare /e-mail/, so a "Court E-Mail" line took
+  // theirs; and `participant.street_address` refuses the word "court" but not
+  // "courthouse", so a "Courthouse Address" line took their home address. CT
+  // JD-CR-202 names a blank COURTADDRESS outright, and the family that built it
+  // recorded that the participant's home address would be written into the
+  // court's address line.
+  //
+  // Deliberately an OWNER plus a CONTACT DETAIL, in either order, and nothing
+  // looser. "Court Name" and "Type Of Court" are not contact details and still
+  // bind matter.court; "County" is not one either. This describes a box on the
+  // page rather than an area of it, so it is not a regional category -- a form
+  // headed with the court's address does not make the page the court's.
+  // The detail list is exactly the contact block -- where to write to the court,
+  // and how to reach it -- and nothing wider. `room` was in it and had to come
+  // out: Nebraska DC 1:15 prints "in ______ County, Courtroom No. ______ on the
+  // ______", and "Courtroom No." matched, so a county blank on a hearing notice
+  // was refused for naming the room the hearing sits in. A courtroom number is
+  // not a contact detail, and a protection that refuses more than it means is
+  // not read as a real one for long.
+  ["court_contact", /\b(court|courthouse|clerk)\s*(?:'|\u2019)?s?\s*(?:mailing\s*|street\s*|business\s*|physical\s*)?(address|addr|telephone|phone|fax|e[-\s]?mail|email|zip(?:\s*code)?|postal\s*code)\b|\b(address|telephone|phone|fax|e[-\s]?mail|email)\s*(?:number\s*)?(?:of|for|at)\s*(?:the\s*)?(court|courthouse|clerk)\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
   // `atty` is how North Carolina's AOC forms abbreviate it, and the rule
   // spelled only the long form. NC AOC-CR-288 names the attorney block
@@ -98,6 +166,9 @@ export const PROTECT_RULES = [
 //
 // The rest are deliberately absent. A "$" or a race question is a property of
 // one field; a heading that mentions a fee does not make the page a fee block.
+// `court_contact` is deliberately absent for the same reason: a court's phone
+// number is one box, and a heading that prints the courthouse address does not
+// make the page below it court-owned.
 export const REGIONAL_PROTECT_CATEGORIES = new Set([
   "service_block", "notarization", "court", "clerk", "prosecutor",
   "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
@@ -121,8 +192,25 @@ export const REGIONAL_PROTECT_CATEGORIES = new Set([
 export const REGION_HEADING_RULES = [
   ["court", /findings?\s*of\s*fact|conclusions?\s*of\s*law|^\s*order\b|\border\s*of\s*(the\s*)?court\b|\bjudgment\b|\bdecree\b|\bdetermination\b|to\s*be\s*completed\s*by\s*the\s*court|court\s*findings/i],
   ["clerk", /certification\s*by\s*(the\s*)?clerk|clerk\s*s?\s*certificate|entry\s*of\s*(judgment|record)/i],
-  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|return\s*of\s*service/i],
-  ["notarization", /acknowledg(e?ment|ed)|jurat|verification|sworn\s*statement/i]
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|return\s*of\s*service|certificate\s*of\s*mailing|proof\s*of\s*mailing/i],
+  // `oath` and `affidavit` are heading words rather than field-name words, for
+  // the reason the court rule gives about `order`: Kentucky's petition says
+  // "under oath" inside the sentence whose blank is the petitioner's own name,
+  // and the oath term is anchored or qualified for the same reason -- Arkansas
+  // prints "Comes the Defendant/Petitioner, ______, under oath and states"
+  // inside its VERIFICATION block, and a bare /oath/ promoted that sentence to
+  // a section heading of its own, displacing the block heading it sits under,
+  // and a form may be titled an affidavit and still be the participant's to
+  // complete -- which is what regionIsDocumentTitle exists to say. As a
+  // SECTION heading, both mark an attestation block. Alabama SBI Form 46 heads
+  // one "AFFIDAVIT FOR RELEASE INFORMATION" mid-page, over two witness rows and
+  // a notary jurat.
+  //
+  // The verification clause is spelled out because Michigan MC 227a's
+  // certificate of mailing heads its block with the clause rather than the
+  // words: "...has been examined by me and that its contents are true to the
+  // best of my information, knowledge, and belief."
+  ["notarization", /acknowledg(e?ment|ed)|jurat|verification|sworn\s*statement|^\s*oaths?\b|\boath\s*of\s*(petitioner|applicant|movant|affiant|office)\b|\boaths?\s*(and|or)\s*affirmations?\b|\baffidavit\b|sworn\s*(or|\/)\s*affirmed|subscribed\s*and\s*sworn|sworn\s*(to\s*)?and\s*subscribed|under\s*penalty\s*of\s*perjury|true\s*to\s*the\s*best\s*of\s*(my|his|her|their)\s*(information|knowledge|belief)/i]
 ];
 
 /**
@@ -163,7 +251,25 @@ export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*
  * charge itself. `statute` and `violation` are here because a form that asks for
  * "the statute violated" is asking the same question in other words.
  */
-export const CHARGE_VALUE_WORDS = /\b(charges?|offen[cs]es?|counts?|statutes?|violations?)\b/i;
+export const CHARGE_VALUE_WORDS = /\b(charges?|offen[cs]es?|counts?|statutes?|violations?|crimes?)\b/i;
+
+/**
+ * The one construction where "crime" names a PERSON rather than a charge.
+ *
+ * `crime` is added to the vocabulary above narrowly, and this is the narrowing.
+ * A crime victim is a person and a victim-services caption is about that
+ * person, so neither describes what a blank holds in the way "offence" does.
+ * The phrase is removed from the text before the charge vocabulary is asked,
+ * rather than being tested afterwards, so that a caption naming both -- "Crime
+ * Victim Name / Offense" -- still answers yes on the offence.
+ *
+ * `outside_party` already protects a field captioned with `victim`, so nothing
+ * here decides whether such a blank may be written. It decides only that the
+ * word "crime" in it is not evidence the blank holds a charge, which is the
+ * question full_legal_name's caption refusal actually asks.
+ */
+export const CRIME_WORD_THAT_NAMES_A_PERSON =
+  /\bcrime\s*victims?(?:\s*(?:services|assistance|compensation|rights|notification|advocate|advocacy|fund|board|unit))?\b|\bvictims?\s+of\s+(?:a\s+)?crimes?\b/gi;
 
 /**
  * Constructions that ASK for a person's name.
@@ -208,7 +314,14 @@ const ASKS_FOR_A_PERSONS_NAME_RE = new RegExp(ASKS_FOR_A_PERSONS_NAME, "i");
  */
 export function captionDescribesChargeValue(subject) {
   const text = String(subject ?? "");
-  if (!CHARGE_VALUE_WORDS.test(text)) return false;
+  // Michigan MC 227a heads the offence column of its conviction listing with
+  // the single word CRIME, and this vocabulary spelled charge, offence, count,
+  // statute and violation. So a correctly harvested caption of that column
+  // answered "no, this is not a charge value", and full_legal_name's refusal
+  // never ran over it. Nothing bound a name there today -- which is the whole
+  // reason the family that measured it could only report the gap rather than
+  // exercise it -- but the guarantee was missing, not merely unexercised.
+  if (!CHARGE_VALUE_WORDS.test(text.replace(CRIME_WORD_THAT_NAMES_A_PERSON, " "))) return false;
   return !ASKS_FOR_A_PERSONS_NAME_RE.test(text);
 }
 
@@ -239,7 +352,22 @@ export const FACT_DESCRIPTORS = [
   { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.state", valueType: "string", match: /\bstate\b/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  // "State of ____" is a VENUE RECITAL, not a question about the participant.
+  // Michigan MC 227a captions its parties "THE PEOPLE OF The State of
+  // Michigan" and its venue block "STATE OF MICHIGAN ____ JUDICIAL DISTRICT";
+  // `\bstate\b` matched both, so the participant's residence state was writable
+  // as the prosecuting sovereign and, once the caption harvest below became
+  // cell-accurate, as the court's judicial district too. A sovereign a court
+  // sits in is the form's own fact and never the platform's.
+  //
+  // The lookahead keeps the questions that really are about the participant:
+  // "State of Residence", "State of Birth", "State of Issue" are all still this
+  // fact. The word alone -- "State", "City, State and Zip", "Issuing State" --
+  // is untouched. It is written against the SPACED half of the haystack (\s+
+  // rather than \s*) so that the lookahead is tested at the word after "of"
+  // rather than at the space before it; with \s* the engine backtracks the
+  // whitespace out and every exception silently stops working.
+  { factId: "participant.state", valueType: "string", match: /\bstate\b/, refuseWhen: /\bstate\s+of\b(?!\s*(?:residence|birth|issu|origin))|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },
@@ -257,7 +385,16 @@ export const FACT_DESCRIPTORS = [
   // table headings and by design could not reach a sentence; the predicate
   // catches both, so there is one rule here rather than two overlapping ones.
   { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/, refuseWhenCaption: captionDescribesChargeValue },
-  { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
+  // `^\s*dated?\s*$` used to sit in this alternation, meaning to claim a blank
+  // captioned with the bare word "Date". It never could: every rule here is
+  // matched against `haystack()`, which is always "<normalized> || <squashed>",
+  // so an anchored single-word pattern cannot match anything. It is removed
+  // rather than repaired, because repairing it is the wrong direction. A bare
+  // "Date" does not say WHICH date, and on these forms the three it most often
+  // is are a signature date, a court's own date and a component of an arrest
+  // date -- none of which the platform may state. A caption that does say which
+  // date it wants still binds through the alternatives that remain.
+  { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
   // match alone -- the caller must name the field.
@@ -321,6 +458,32 @@ export function haystack(name) {
 export const DATE_COMPONENT_FIELD_NAME = /^(?:day|month|year)(?:\s+\d{1,2})?$/;
 export function isDateComponentFieldName(name) {
   return DATE_COMPONENT_FIELD_NAME.test(normalizedFieldWords(name));
+}
+
+/**
+ * A field whose own NAME says the blank holds a date.
+ *
+ * Wider than the day/month/year rule above and used for a weaker purpose. That
+ * rule withholds the printed-label fallback outright, because a widget named
+ * MONTH has nothing a label could usefully add. This one only says what KIND of
+ * thing the blank holds, so that a label may still supply a fact -- but only a
+ * fact of that kind.
+ *
+ * The corpus is the reason it exists. Arkansas's community-punishment order
+ * names blanks `DATE 01` and `Date Completed` and prints across them
+ * "4.On __________the Defendant successfully completed the drug court
+ * programme". Neither name matches a descriptor, so the label decided; the
+ * harvested sentence says "Defendant"; and the participant's own name bound to
+ * the date they completed the programme. `DATE 01` is a date component in every
+ * sense that matters and the day/month/year rule could not see it, because the
+ * form spells it with the word "date".
+ *
+ * Matched against the normalized words, so `Date_2`, `FULL DATE` and `DATED
+ * this` are all this and `DateField`, `Birthday` and `DayPhone` are not.
+ */
+export const FIELD_NAME_DECLARES_A_DATE = /(?:^|\s)dat(?:e|es|ed)(?:\s|$)/;
+export function fieldNameDeclaresADate(name) {
+  return isDateComponentFieldName(name) || FIELD_NAME_DECLARES_A_DATE.test(normalizedFieldWords(name));
 }
 
 /**
@@ -519,7 +682,15 @@ export function decideBinding(field, options = {}) {
     // label says "Defendant"; so the label won, and the participant's own name
     // was written as the offences they were charged with.
     matches = descriptorsMatching(effectiveLabel)
-      .filter((d) => !(d.refuseWhenCaption && d.refuseWhenCaption(name, haystack(name))));
+      .filter((d) => !(d.refuseWhenCaption && d.refuseWhenCaption(name, haystack(name))))
+      // A blank whose own name says it holds a DATE may take only a date from
+      // its printed label. The name is the reliable signal about what kind of
+      // value the blank carries -- it was authored for this widget -- and the
+      // label is a sentence the page happens to print near it. Where the two
+      // disagree about the KIND of thing, the name settles it; where they agree,
+      // the label still supplies which date. This cannot bind anything the
+      // label did not already offer: it only removes offers of the wrong kind.
+      .filter((d) => !fieldNameDeclaresADate(name) || d.valueType === "date");
     factBasis = matches.length > 0 ? "printed_label" : factBasis;
   }
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };

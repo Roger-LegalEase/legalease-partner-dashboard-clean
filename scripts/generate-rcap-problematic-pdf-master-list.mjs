@@ -109,7 +109,13 @@ const placementByFamily = new Map((placement.families ?? []).map((f) => [f.famil
 // which records presence in the source bundle and not in this repository.
 function pdfsInClone() {
   const found = new Map();
-  const skip = new Set(["node_modules", ".git", ".next"]);
+  // `private/` is excluded because this function's whole question is presence
+  // in THIS REPOSITORY rather than in the source bundle -- which is what the
+  // comment above says and what the walk did not do. The bootstrap mounts the
+  // Master Library under private/source-imports/, so with the corpus mounted
+  // every bundled binary counted as present in the clone and the currentness
+  // lanes were computed against a tree that a fresh clone does not have.
+  const skip = new Set(["node_modules", ".git", ".next", "private"]);
   const walk = (dir) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (skip.has(entry.name)) continue;

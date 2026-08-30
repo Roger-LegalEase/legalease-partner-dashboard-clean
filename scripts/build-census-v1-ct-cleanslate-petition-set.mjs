@@ -1138,7 +1138,7 @@ async function main() {
   writeJson(`${OUT}/reports/caption-channel-defect.json`, {
     schemaVersion: "rcap-family-finding/v1",
     familyId: FAMILY_ID,
-    severity: "reportable_defect_in_shared_infrastructure",
+    severity: "reportable_defect_in_shared_infrastructure — since closed; see closedBy below",
     ownedBy: "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs — outside this family's owned path",
     summary:
       "captureWidgetContext's 'printed directly above in the same column' branch takes the whole printed LINE, "
@@ -1180,7 +1180,30 @@ async function main() {
     thisFamilysResponse:
       "Nothing shared was edited. Every affected field is refused by role, the refusal reasons record what "
       + "protects each field today and whether that protection survives the fix, and the refusals are proved "
-      + "from the rendered artifact bytes rather than from this report."
+      + "from the rendered artifact bytes rather than from this report.",
+    closedBy: {
+      correction: "shared caption infrastructure",
+      status: "CLOSED — the finding above is kept as the history of how the defect was found and measured.",
+      what:
+        "captureWidgetContext's directly-above branch is cell-aware now: it splits the printed line into the "
+        + "cells the line is actually made of, at the same column break cellTextLeftOf uses, and takes the cell "
+        + "printed over the widget. Whitespace is collapsed exactly as groupIntoLines collapses it, so a line "
+        + "that is one cell returns byte-for-byte what it returned before and a caption that moves means the "
+        + "line really was a table row. This family's own census now records 'Name of defendant', 'E-mail "
+        + "address', 'Phone number' and 'Date of birth' on the four widgets beneath that row.",
+      andTheWarningItCarried:
+        "The warning above is the reason the correction was sequenced the way it was. The protections were "
+        + "added FIRST and the harvest narrowed second, so no window existed in which a jurat or a court date "
+        + "was unguarded. DATESIGN[0] and DATESIGN[1] carry the caption 'Date' now and are still refused, "
+        + "because the signature rule reaches the squashed `DATESIGN` spelling by name; DATEJUDGMNT carries "
+        + "'On (Date)' and is still refused, because the court rule reaches the welded `JUDGMNT` spelling by "
+        + "stem; and COURTADDRESS is refused as court_contact rather than binding the participant's address. "
+        + "PRINTNAME[0] and PRINTNAME[1] harvest their captions from the LEFT branch, which this correction "
+        + "does not touch, so both keep the signature protection they had. The verifier below asserts each of "
+        + "those under the cell-accurate caption, and asserts that the base-commit binder would NOT have.",
+      record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+      verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+    }
   });
 
   writeJson(`${OUT}/reports/route-date-boundary.json`, {

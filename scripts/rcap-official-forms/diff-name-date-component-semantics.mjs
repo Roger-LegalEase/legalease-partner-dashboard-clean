@@ -144,7 +144,41 @@ const comparable = (r) => JSON.stringify({
  * returns null for anything the two defects do not account for, and the null
  * count is what the verifier holds at zero.
  */
-function classify(before, after) {
+/**
+ * The corrections that have landed on this binder SINCE this one.
+ *
+ * This diff runs BASE_SHA -> the binder as it stands, so it accumulates every
+ * later correction as well as its own two defects, exactly as the charge-caption
+ * record does and for the reason recorded there: a frozen record would report a
+ * later correction as unexplained drift. A row moved by a later correction IS
+ * explained -- by that correction's own record, which enumerates and justifies
+ * it field by field, and by that correction's own verifier.
+ *
+ * A row is explained only where that record actually names it and classifies it.
+ * A record that is missing, stale, or silent about the key leaves the row
+ * unexplained, which is where it belongs.
+ */
+const LATER_CORRECTIONS = [
+  {
+    correction: "shared caption infrastructure",
+    record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+    verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+  }
+];
+export const explainedByALaterCorrection = new Map();
+for (const later of LATER_CORRECTIONS) {
+  const laterRecord = readJson(later.record);
+  for (const side of ["semanticsOnly", "endToEnd"]) {
+    for (const row of laterRecord?.[side]?.changed ?? []) {
+      if (row.changeClass === "unexplained") continue;
+      if (!explainedByALaterCorrection.has(row.key)) {
+        explainedByALaterCorrection.set(row.key, { ...later, changeClass: row.changeClass, defect: row.defect });
+      }
+    }
+  }
+}
+
+function classify(before, after, key) {
   const isDateComponent = nowModule.isDateComponentFieldName(before.fieldName);
   const asksEveryNamePart = nowModule.captionAsksForEveryNamePart(before.fieldName);
 
@@ -184,6 +218,18 @@ function classify(before, after) {
         + "name is the only match left."
     };
   }
+  const later = explainedByALaterCorrection.get(key);
+  if (later) {
+    return {
+      defect: `later:${later.correction}`,
+      class: `moved_by_a_later_correction__${later.changeClass}`,
+      why:
+        `Neither defect above moves this row. The ${later.correction} correction does: its record `
+        + `${later.record} enumerates the row as ${later.changeClass} and justifies it, and its verifier `
+        + `${later.verifier} holds it. Recorded here because this diff spans the base commit to the binder as it `
+        + "stands, and so accumulates every correction landed since."
+    };
+  }
   return null;
 }
 
@@ -194,7 +240,7 @@ const changed = [];
 for (const [key, b] of before) {
   const a = after.get(key);
   if (comparable(b) === comparable(a)) continue;
-  const reason = classify(b, a);
+  const reason = classify(b, a, key);
   changed.push({
     key,
     familyDirectory: b.familyDirectory,
@@ -245,6 +291,16 @@ for (const [category, pattern] of baseModule.PROTECT_RULES) {
 }
 const protectCategoryMoved = changed.filter((c) => JSON.stringify(c.from.protectCategory) !== JSON.stringify(c.to.protectCategory));
 const becameWritable = changed.filter((c) => c.from.writable === false && c.to.writable === true);
+// Split by whose correction moved the row. THIS correction moves no field's
+// protect category and that is still asserted exactly. A later correction may
+// move one -- adding a category where there was none, or reporting a more
+// specific one -- and what has to hold for those rows is the direction: a row
+// that gives up a category must not become writable by doing so.
+const isOwnRow = (c) => !String(c.defect ?? "").startsWith("later:");
+const ownProtectCategoryMoved = protectCategoryMoved.filter(isOwnRow);
+const laterProtectCategoryMoved = protectCategoryMoved.filter((c) => !isOwnRow(c));
+const laterRowsThatGaveUpProtectionAndBecameWritable = laterProtectCategoryMoved
+  .filter((c) => c.from.protectCategory !== null && c.to.protectCategory === null && c.to.writable === true);
 
 const record = {
   schemaVersion: "rcap-name-date-component-diff/v1",
@@ -261,6 +317,22 @@ const record = {
     "Every committed census is read, under either filename. The 156 flat censuses carry 5,286 blanks and "
     + "ar-arrest-seal-set's census-v1 carries 66 more across its two documents, which the flat-filename walk used "
     + "by the charge-caption guard does not see.",
+  correctionsCovered: [
+    {
+      correction: "shared name/date field semantics",
+      what:
+        "A field NAME that is a date component no longer takes a fact from the printed-label fallback, and a "
+        + "caption naming first, middle and last at once resolves to the whole name rather than to the surname.",
+      record: OUT,
+      verifier: "scripts/rcap-official-forms/verify-name-date-component-semantics.mjs"
+    },
+    ...LATER_CORRECTIONS.map((c) => ({
+      correction: c.correction,
+      what: "Enumerated and justified in that correction's own record; this diff spans the union because it runs to the current binder.",
+      record: c.record,
+      verifier: c.verifier
+    }))
+  ],
   fieldsChanged: changed.length,
   fieldsExplained: changed.filter((c) => c.changeClass !== "unexplained").length,
   fieldsUnexplained: changed.filter((c) => c.changeClass === "unexplained").length,
@@ -268,13 +340,23 @@ const record = {
   protection: {
     statement:
       "No protected field becomes writable and no protect rule loses a term. This correction only ever withholds a "
-      + "fallback or re-points a name caption from a part of a name to the whole of it.",
+      + "fallback or re-points a name caption from a part of a name to the whole of it, and moves no field's "
+      + "protect category at all. Rows a later correction moves are listed separately: for those, what is required "
+      + "is that none gives up a protect category and becomes writable by doing so.",
     protectCategoriesRemoved: baseCategories.filter((c) => !nowCategories.includes(c)),
     protectRulesWeakened: lostTerms,
     fieldsWhoseProtectCategoryChanged: protectCategoryMoved.map((c) => c.key),
+    fieldsWhoseProtectCategoryThisCorrectionChanged: ownProtectCategoryMoved.map((c) => c.key),
+    fieldsWhoseProtectCategoryALaterCorrectionChanged: laterProtectCategoryMoved.map((c) => ({
+      key: c.key, from: c.from.protectCategory, to: c.to.protectCategory,
+      stillRefused: c.to.writable === false, defect: c.defect
+    })),
+    laterRowsThatGaveUpProtectionAndBecameWritable: laterRowsThatGaveUpProtectionAndBecameWritable.map((c) => c.key),
     fieldsThatBecameWritable: becameWritable.map((c) => c.key),
     holds: baseCategories.every((c) => nowCategories.includes(c)) && lostTerms.length === 0
-      && protectCategoryMoved.length === 0 && becameWritable.length === 0
+      && ownProtectCategoryMoved.length === 0
+      && laterRowsThatGaveUpProtectionAndBecameWritable.length === 0
+      && becameWritable.length === 0
   },
   invariants: [
     {

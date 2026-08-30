@@ -269,6 +269,25 @@ jobs:
       - name: Prove the name/date semantics record is load-bearing
         run: node scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs
 
+      # The shared caption infrastructure, corrected protections-first: a court's
+      # own contact block, a jurat, an oath, an affidavit, a verification and a
+      # certificate of mailing are refused at classification; a signature date
+      # spelled without its space and a judgment block spelled without its vowel
+      # are reached; a venue recital is not a question about the participant;
+      # `crime` is a charge value except where it names a victim; a blank whose
+      # name says it holds a date takes only a date from its printed label; the
+      # flat-overlay path passes the printed region it used to drop; and a
+      # caption directly above a blank is harvested from the cell over that
+      # blank rather than from the whole printed row.
+      #
+      # Wired here rather than in the npm test chain for the same reason as the
+      # two above: package.json is an image input for both worker images.
+      - name: Verify the shared caption infrastructure semantics
+        run: node scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs
+
+      - name: Prove the shared caption infrastructure record is load-bearing
+        run: node scripts/rcap-official-forms/test-shared-caption-infrastructure-mutations.mjs
+
       - name: Verify the census-v1 money and credit gate
         run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs
 

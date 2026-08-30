@@ -626,6 +626,66 @@ function cellTextLeftOf(line, nearestRun) {
 }
 
 const overlaps1d = (a1, a2, b1, b2) => Math.min(a2, b2) - Math.max(a1, b1) > 0;
+const overlapWidth = (a1, a2, b1, b2) => Math.min(a2, b2) - Math.max(a1, b1);
+
+/**
+ * One printed line split into the cells it is actually made of.
+ *
+ * The same column break `cellTextLeftOf` uses, applied to the whole line rather
+ * than walked leftward from one run: consecutive runs closer than CELL_GAP are
+ * one cell, and a wider gap starts the next.
+ */
+function cellsOf(line) {
+  const cells = [];
+  for (const run of [...line.runs].sort((a, b) => a.x - b.x)) {
+    const last = cells[cells.length - 1];
+    if (last && run.x - last.x2 <= CELL_GAP) {
+      last.x2 = Math.max(last.x2, run.x2);
+      last.runs.push(run);
+    } else {
+      cells.push({ x: run.x, x2: run.x2, runs: [run] });
+    }
+  }
+  return cells.map((c) => ({ x: c.x, x2: c.x2, text: c.runs.map((r) => r.text).join("") }));
+}
+
+/**
+ * The caption cell printed directly above a widget, rather than the whole row.
+ *
+ * The mirror of `cellTextLeftOf`, and it was missing. The "above" branch tested
+ * the whole LINE's extent against the widget and then handed back the whole
+ * line's TEXT, so on a form whose caption row is a multi-cell table header every
+ * widget under that row harvested the same concatenated string. CT JD-CR-202
+ * prints "Name of defendant | E-mail address | Phone number | Date of birth" as
+ * one such row: all four widgets beneath it harvested
+ * "Name of defendantE-mail addressPhone numberDate of birth", and
+ * most-specific-first ordering resolved that to participant.date_of_birth for
+ * every one of them -- the participant's date of birth into the name box, the
+ * e-mail box and the phone box. The same row also gave JD/GA number the docket
+ * caption and gave the court's address line the participant's own address.
+ *
+ * The cell chosen is the one that overlaps the widget most, so a caption that
+ * merely clips the edge of a neighbouring column cannot take a box from the
+ * cell actually printed over it. A line no cell of which overlaps the widget is
+ * not this widget's caption at all and is skipped, where before the line's full
+ * width could reach across a table into another column.
+ *
+ * This is strictly narrowing: it can only return a subset of the text the whole
+ * line held, or nothing. It never reaches a line the old test rejected.
+ */
+function cellTextAbove(line, rect) {
+  let best = null;
+  for (const cell of cellsOf(line)) {
+    const width = overlapWidth(cell.x, cell.x2, rect.x, rect.x + rect.width);
+    if (width <= 0) continue;
+    if (!best || width > best.width || (width === best.width && cell.x < best.cell.x)) best = { cell, width };
+  }
+  // Whitespace is collapsed exactly as groupIntoLines collapses it for
+  // `line.text`, so a line that is ONE cell returns byte-for-byte what the
+  // whole-line branch returned. A caption that moves here therefore means the
+  // line really was a printed row of several cells, and nothing else.
+  return best ? best.cell.text.replace(/\s+/g, " ").trim().slice(0, CAPTION_MAX_CHARS * 2) : null;
+}
 
 /** The modal font size of a page's body text, used to recognise a heading. */
 function bodySizeOf(lines) {
@@ -739,14 +799,14 @@ export function captureWidgetContext(page, widgets, { precomputedLines = null, i
       }
     }
 
-    // Above, in the same column.
+    // Above, in the same column -- and now in the same CELL of it.
     if (!best) {
       for (const line of lines) {
         const gap = line.y - top;
         if (gap < 0 || gap > CAPTION_GAP_ABOVE) continue;
-        const lineX2 = Math.max(...line.runs.map((r) => r.x2));
-        if (!overlaps1d(line.x, lineX2, rect.x, rect.x + rect.width)) continue;
-        if (!best || gap < best.gap) best = { text: line.text, gap, basis: "printed_directly_above_in_the_same_column" };
+        const text = cellTextAbove(line, rect);
+        if (text === null) continue;
+        if (!best || gap < best.gap) best = { text, gap, basis: "printed_directly_above_in_the_same_cell" };
       }
     }
 

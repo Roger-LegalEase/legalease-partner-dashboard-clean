@@ -71,10 +71,19 @@ console.log("  defect A — a date component must not take a name from its print
 // A1. Delete the guard outright. This is the exact defect: the label fallback
 //     runs on DAY/MONTH/YEAR again and the harvested "Defendant" sentence binds
 //     the participant's own name to the month of their arrest.
-must("removing the date-component guard from the label fallback is caught",
-  !underMutation(SEMANTICS, (s) => s.replace(
-    " && !isDateComponentFieldName(name)) {",
-    ") {")));
+//
+//     BOTH guards are removed, because a later correction added a second one
+//     that covers the same blanks by a wider rule: a field whose own name says
+//     it holds a date may take only a date from its printed label, and
+//     fieldNameDeclaresADate is true of DAY, MONTH and YEAR. Removing this
+//     correction's guard alone therefore no longer reproduces the defect -- the
+//     other one still refuses -- and a mutation that cannot fail proves nothing.
+//     Removing both restores exactly the binding this correction was raised
+//     about, and this verifier still catches it.
+must("removing both date guards from the label fallback is caught",
+  !underMutation(SEMANTICS, (s) => s
+    .replace(" && !isDateComponentFieldName(name)) {", ") {")
+    .replace("      .filter((d) => !fieldNameDeclaresADate(name) || d.valueType === \"date\");\n", "")));
 
 // A2. Leave the guard in place and neuter the predicate it calls. A rule that is
 //     wired up but always answers "no" is the failure mode a wiring check misses.

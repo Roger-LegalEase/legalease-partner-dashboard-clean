@@ -1236,6 +1236,12 @@ async function main() {
       + "value on this form's artifacts — the role refusals close both — but 'nothing happens to match it' is "
       + "not the same guarantee as 'it is refused', and the next form in these words may not have a caller "
       + "listing them. Reported for whoever owns the module; not patched from here.",
+    status:
+      "CLOSED — both gaps were closed in the shared binder after this family reported them. The observation is "
+      + "kept as the history of how each was found, and `closedBy` on each gap names the correction, its "
+      + "classification record and its verifier. Nothing in this family's own refusals changed: both certificate "
+      + "blanks and every cell of the conviction listing are still refused by role, so the artifacts are "
+      + "byte-identical either way.",
     gaps: [
       {
         vocabulary: "CHARGE_VALUE_WORDS",
@@ -1251,7 +1257,18 @@ async function main() {
           + "exercised.",
         howThisFamilyCovered:
           "The charge-caption proof asks the question geometrically instead — every measured cell of the "
-          + "listing, whatever its header says."
+          + "listing, whatever its header says.",
+        closedBy: {
+          correction: "shared caption infrastructure",
+          what:
+            "CHARGE_VALUE_WORDS now spells `crimes?` alongside charge, offence, count, statute and violation, "
+            + "narrowly: the crime-victim construction is removed from the text before the vocabulary is asked, "
+            + "because a crime victim is a person rather than a charge value. This family's own charge-caption "
+            + "proof now reports headerUsesChargeVocabulary true for the CRIME column, which is the observable "
+            + "proof that the gap is shut.",
+          record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+          verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+        }
       },
       {
         vocabulary: "PROTECT_RULES / service_block, and REGION_HEADING_RULES / service_block",
@@ -1264,7 +1281,17 @@ async function main() {
           + "`comsig`.",
         howThisFamilyCovered:
           "Both are refused by role as certificate_of_mailing_date and certificate_of_mailing_signature, and "
-          + "the artifact verification asserts by name that both are blank in every fixture."
+          + "the artifact verification asserts by name that both are blank in every fixture.",
+        closedBy: {
+          correction: "shared caption infrastructure",
+          what:
+            "The service-block rule now spells the certificate and proof of MAILING as well as of service, in "
+            + "both the field-name and the region-heading vocabularies, and the region vocabulary also spells "
+            + "the verification clause this block is actually headed with. `comdate` and `comsig` are refused "
+            + "as protected_page_region now, rather than for want of a descriptor that happened to match.",
+          record: "data/rcap-grade-a/field-semantics/shared-caption-infrastructure-classification-diff.json",
+          verifier: "scripts/rcap-official-forms/verify-shared-caption-infrastructure-semantics.mjs"
+        }
       }
     ]
   });

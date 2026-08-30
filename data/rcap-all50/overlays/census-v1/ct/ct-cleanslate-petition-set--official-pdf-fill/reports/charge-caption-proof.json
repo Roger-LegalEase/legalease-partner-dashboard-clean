@@ -21,7 +21,7 @@
     "Montgomery-Vandenberg-Oyelaran"
   ],
   "chargeBlanksExamined": 4,
-  "chargeBlanksMatchedBySharedVocabulary": 0,
+  "chargeBlanksMatchedBySharedVocabulary": 2,
   "chargeBlanksCarryingAParticipantName": 0,
   "answer": "NO — no participant name lands in any crime or charge caption blank in any fixture",
   "blanks": [
@@ -37,8 +37,8 @@
         "height": 45.12
       },
       "effectiveLabel": "Crime(s) defendant asks the court to erase",
-      "captionDescribesChargeValue": false,
-      "matchedSharedGuardVocabulary": false,
+      "captionDescribesChargeValue": true,
+      "matchedSharedGuardVocabulary": true,
       "drawnText": null,
       "participantNameTokensFound": []
     },
@@ -71,8 +71,8 @@
         "height": 45.12
       },
       "effectiveLabel": "Crime(s) defendant asks the court to erase",
-      "captionDescribesChargeValue": false,
-      "matchedSharedGuardVocabulary": false,
+      "captionDescribesChargeValue": true,
+      "matchedSharedGuardVocabulary": true,
       "drawnText": null,
       "participantNameTokensFound": []
     },
@@ -101,16 +101,9 @@
     "offending": [],
     "andTheSameTestWidenedToThisFormsVocabulary": {
       "question": "The identical test, asking instead whether the caption or name mentions a crime or conviction in ANY vocabulary — which is the question the guard is trying to ask.",
-      "offendingRows": 1,
-      "offending": [
-        {
-          "document": "CT-JD-CR-202-PETITION-FOR-CLEAN-SLATE-ERASURE-CONVICTIONS-BEFORE-2000",
-          "field": "form1[0].PAGE1[0].CRIMES2ERASE[0]",
-          "effectiveLabel": "Crime(s) defendant asks the court to erase",
-          "matchedSharedGuardVocabulary": false
-        }
-      ]
+      "offendingRows": 0,
+      "offending": []
     },
-    "finding": "GUARD GAP CONFIRMED: the shared vocabulary reports 0 offending rows while the widened test reports 1. The corpus guard cannot see this defect on this form. It is refused here by ROLE; closing the gap means adding 'crime' and 'conviction' to CHARGE_VALUE_WORDS in scripts/rcap-official-forms/rcap-field-semantics.mjs, which is outside this family's owned path."
+    "finding": "No offending row under either vocabulary."
   }
 }
