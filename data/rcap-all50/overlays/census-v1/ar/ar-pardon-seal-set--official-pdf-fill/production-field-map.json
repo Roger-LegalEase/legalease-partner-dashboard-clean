@@ -1,0 +1,1163 @@
+{
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "familyId": "ar-pardon-seal-set",
+  "routeKeys": [
+    "obligation:unit:AR:ar-pardon-seal:ar-pardon-seal-stage-2"
+  ],
+  "renderStrategy": "flat_overlay_draw",
+  "renderedBy": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs finalizeFlatOverlay",
+  "generationAllowed": false,
+  "runtimeSelectable": false,
+  "writeBoxesAreConfirmedFromTheArtifact": true,
+  "noBoxWasDrawn": {
+    "statement": "Every write box below is a rectangle one of these two documents already draws. No box was invented, widened, or moved, and no selection control was marked: scripts/lib/pdf-stroked-boxes.mjs measures ZERO stroked rectangles on every page of both documents, so there is no measured box for markSelections to mark. The order's '[_] Felony [_] Misdemeanor' controls are text glyphs inside the text-showing operators, not stroked paths, and are withheld by the measured-width gate at 12.98pt.",
+    "selectionsMade": 0
+  },
+  "geometryGates": {
+    "write_box_falls_outside_the_page_media_box": "A rectangle measuring outside the 612x792 media box is withheld. Six blanks across the two documents do: the order's conviction-date trio reaches x=952 and the petition's page 2 signature and date rules reach x=739.6. Ink there is on no page anybody prints, and it would still satisfy every per-blank check, because it lands inside a blank the census really did measure.",
+    "write_box_not_exactly_measured": "An underscore leader run whose line reports metricsExact=false has a rectangle estimated from the type size rather than measured from the font's glyph widths. Those are withheld. Drawn rules are exempt: their geometry comes from the path operators. This is what the off-page rectangles above are evidence for — the same fallback, on the same lines, walking a line 340pt past the edge of the paper.",
+    "write_box_too_narrow_to_hold_a_value": "Fewer than 20pt between the measured ends of the blank."
+  },
+  "documents": [
+    {
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL",
+      "documentRole": "PETITION",
+      "ownership": "participant_completed",
+      "captionOnly": false,
+      "explicitMappings": {},
+      "explicitMappingsNote": "Empty on purpose, and matter.charge is the mapping deliberately absent. Unlike the flat DWI sibling, these two documents DO draw charge blanks, so the absence is a decision. Paragraph 1 asks what the defendant was CHARGED with and paragraph 2 what they pled or were found GUILTY of; the platform holds one matter.charge, and writing it into both would assert the charged and convicted offences are the same, which a plea to a lesser offence makes false — on a PARDON route, reached after a conviction that may well have been pled down. Each offence also runs onto a full-measure continuation rule, and the shared factory does not split a value across continuation rules. The class and statute blanks beside them are facts the platform does not hold at all. not_mapped is not a map: these blanks are left for the participant and listed in reports/blanks-left-for-the-participant.json.",
+      "roleRefusals": [
+        {
+          "blankId": "p1-y427.27-x282.65",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date. The platform holds no day fact, and this blank's measured caption binds participant.full_legal_name with writable=true through the word 'Defendant' in it."
+        },
+        {
+          "blankId": "p1-y427.27-x423.43",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date. Same sentence, same fact the platform does not hold in component form."
+        },
+        {
+          "blankId": "p1-y410.83-x187.70",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date. Its measured caption is ', and charged with the offense(s) of', so the shared charge-caption rule refuses a name here as well; the role refusal is stated so the blank does not depend on that one channel."
+        },
+        {
+          "blankId": "p2-y653.45-x152.78",
+          "class": "pardon_grant_date_component",
+          "why": "Day component of the date the Governor issued the Pardon. The platform holds no pardon fact; this packet is the sealing step that follows a pardon and must not assert or imply the pardon itself."
+        },
+        {
+          "blankId": "p2-y653.45-x309.56",
+          "class": "pardon_grant_date_component",
+          "why": "Month component of the pardon-grant date. Same sentence, same absent fact."
+        },
+        {
+          "blankId": "p2-y653.93-x419.15",
+          "class": "pardon_grant_date_component",
+          "why": "Year component of the pardon-grant date, measured as its own rule at y=653.93 immediately before the printed words 'the Governor'."
+        },
+        {
+          "blankId": "p2-y368.60-x361.13",
+          "class": "participant_signature",
+          "why": "The Defendant's signature rule on page 2, captioned 'Defendant's Signature' beneath it. The shared protect rules classify that caption as a signature too; the role refusal is stated so it does not rest on one channel."
+        },
+        {
+          "blankId": "p2-y312.30-x361.13",
+          "class": "participant_signature_date",
+          "why": "The date under the Defendant's signature on page 2. Dating a signature that has not been made asserts the petition was signed on a day it was not. Nothing shared refuses it: its measured caption is the printed word 'Date', which reaches no descriptor at all. This role refusal is the whole of the protection."
+        },
+        {
+          "blankId": "p3-y648.46-x185.54",
+          "class": "notarial_jurat_venue",
+          "why": "The county on the VERIFICATION page's jurat, 'STATE OF ARKANSAS / COUNTY OF ___'. This is where the oath is administered, which is the notary's to record and is not necessarily the county of the case. The page's VERIFICATION heading also places it in a protected region, which this family runs because the shared flat path does not."
+        },
+        {
+          "blankId": "p3-y515.75-x325.05",
+          "class": "participant_signature",
+          "why": "The Petitioner's signature rule on the VERIFICATION page, captioned 'Petitioner' beneath it. The census records that caption binding participant.full_legal_name with writable=true, so without this refusal the name would be printed on a signature line."
+        },
+        {
+          "blankId": "p3-y434.71-x313.97",
+          "class": "notarial_jurat_date_component",
+          "why": "Day component of 'Subscribed and sworn to before me on this ___ day of ___, 20___'. The oath has not been taken; the notary records when it was."
+        },
+        {
+          "blankId": "p3-y418.27-x101.78",
+          "class": "notarial_jurat_date_component",
+          "why": "Month component of the same jurat date."
+        },
+        {
+          "blankId": "p3-y418.27-x309.89",
+          "class": "notarial_jurat_date_component",
+          "why": "Year component of the same jurat date, printed as '20___'."
+        },
+        {
+          "blankId": "p3-y351.75-x323.05",
+          "class": "notarial_signature",
+          "why": "The Notary Public's signature rule. The notary's, and only after the oath is administered."
+        },
+        {
+          "blankId": "p3-y126.14-x127.70",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Race, in the block headed 'THE FOLLOWING INFORMATION IS REQUIRED FOR PROPER IDENTIFICATION OF THE DEFENDANT IN THE STATE AND NATIONAL RECORD SYSTEMS'. The platform holds no race fact and will not derive one."
+        },
+        {
+          "blankId": "p3-y92.90-x126.98",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Sex, in the same identification block. The platform holds no sex fact and will not derive one."
+        },
+        {
+          "blankId": "p3-y92.90-x391.27",
+          "class": "agency_assigned_identifier",
+          "why": "The State Identification (SID) number is assigned by Arkansas ACIC. It is the agency's to state; the shared vocabulary classifies the caption as a government identifier as well."
+        },
+        {
+          "blankId": "p4-y635.38-x115.10",
+          "class": "certificate_of_service_attestation",
+          "why": "The certifying party's name in 'I, ___, do hereby certify that a true and correct copy ... has been provided'. This is a sworn statement about an act of service, not a caption, and it is the filer's to make after mailing. The page's own heading is scrambled in the content stream, so the shared region channel does NOT protect this blank; this refusal is the only thing that does."
+        },
+        {
+          "blankId": "p4-y471.50-x311.10",
+          "class": "participant_signature",
+          "why": "The signature rule captioned 'Defendant or Defendant's Attorney' beneath it, on the Certificate of Service."
+        },
+        {
+          "blankId": "p4-y389.00-x311.10",
+          "class": "certificate_of_service_date",
+          "why": "The date on the page 4 Certificate of Service. Service has not happened; a date here certifies a mailing that has not occurred."
+        }
+      ],
+      "anchorsOffered": 14,
+      "writeBoxes": [
+        {
+          "blankId": "p1-y618.22-x275.21",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 276.71,
+            "y": 620.22,
+            "width": 102.72,
+            "height": 12
+          },
+          "rectBasis": "thin_filled_rectangle_measured_from_the_page_path_operators",
+          "baselineBasis": "rule_y_plus_2pt",
+          "measuredBlank": {
+            "x0": 275.21,
+            "x1": 381.43,
+            "baselineY": 618.22,
+            "width": 106.22,
+            "underscoreGlyphs": null,
+            "rule": {
+              "x": 275.21,
+              "endX": 381.43,
+              "y": 618.22,
+              "height": 1.2,
+              "operator": "re",
+              "paintedBy": "f*"
+            }
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "vs. Case No",
+          "captionBasis": "same_line_before_the_blank",
+          "printedLine": "vs. Case No.",
+          "confirmedInkInTheArtifact": "24-CR-001234"
+        },
+        {
+          "blankId": "p1-y575.85-x77.05",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 78.55,
+            "y": 577.85,
+            "width": 234.9,
+            "height": 12
+          },
+          "rectBasis": "thin_filled_rectangle_measured_from_the_page_path_operators",
+          "baselineBasis": "rule_y_plus_2pt",
+          "measuredBlank": {
+            "x0": 77.05,
+            "x1": 315.45,
+            "baselineY": 575.85,
+            "width": 238.4,
+            "underscoreGlyphs": null,
+            "rule": {
+              "x": 77.05,
+              "endX": 315.45,
+              "y": 575.85,
+              "height": 0,
+              "operator": "l",
+              "paintedBy": "S"
+            }
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "DEFENDANT",
+          "captionBasis": "same_line_after_the_blank",
+          "printedLine": "DEFENDANT",
+          "confirmedInkInTheArtifact": "Jordan Avery Reyes"
+        }
+      ],
+      "anchorsOfferedButRefusedByTheFactory": [
+        {
+          "blankId": "p1-y706.54-x253.85",
+          "caption": "IN THE CIRCUIT COURT OF",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y681.70-x234.41",
+          "caption": "DIVISION",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y386.76-x108.00",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y367.71-x108.00",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y344.81-x143.54",
+          "caption": "A Class",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y305.46-x110.10",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y264.05-x184.82",
+          "caption": "offense(s) of",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y234.36-x108.00",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y214.49-x145.70",
+          "caption": "A Class",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y179.26-x108.00",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p2-y440.37-x250.13",
+          "caption": "WHEREFOthREe ,D ef",
+          "page": 2
+        },
+        {
+          "blankId": "p3-y59.78-x128.54",
+          "caption": "DO",
+          "page": 3
+        }
+      ],
+      "withheldBeforeTheFactory": [
+        {
+          "blankId": "p1-y427.27-x282.65",
+          "page": 1,
+          "caption": "1.The Defendant was arrested on the",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date. The platform holds no day fact, and this blank's measured caption binds participant.full_legal_name with writable=true through the word 'Defendant' in it.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": true,
+          "wouldHaveBound": "participant.full_legal_name"
+        },
+        {
+          "blankId": "p1-y427.27-x423.43",
+          "page": 1,
+          "caption": "day of",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date. Same sentence, same fact the platform does not hold in component form.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y410.83-x187.70",
+          "page": 1,
+          "caption": ", and charged with the offense(s) of",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date. Its measured caption is ', and charged with the offense(s) of', so the shared charge-caption rule refuses a name here as well; the role refusal is stated so the blank does not depend on that one channel.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": "matter.charge"
+        },
+        {
+          "blankId": "p2-y653.93-x419.15",
+          "page": 2,
+          "caption": "the Governor",
+          "channel": "family_role_refusal",
+          "class": "pardon_grant_date_component",
+          "why": "Year component of the pardon-grant date, measured as its own rule at y=653.93 immediately before the printed words 'the Governor'.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y653.45-x152.78",
+          "page": 2,
+          "caption": "5.On th",
+          "channel": "family_role_refusal",
+          "class": "pardon_grant_date_component",
+          "why": "Day component of the date the Governor issued the Pardon. The platform holds no pardon fact; this packet is the sealing step that follows a pardon and must not assert or imply the pardon itself.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y653.45-x309.56",
+          "page": 2,
+          "caption": "da oy",
+          "channel": "family_role_refusal",
+          "class": "pardon_grant_date_component",
+          "why": "Month component of the pardon-grant date. Same sentence, same absent fact.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y368.60-x361.13",
+          "page": 2,
+          "caption": "Defendant’s Signature",
+          "channel": "family_role_refusal",
+          "class": "participant_signature",
+          "why": "The Defendant's signature rule on page 2, captioned 'Defendant's Signature' beneath it. The shared protect rules classify that caption as a signature too; the role refusal is stated so it does not rest on one channel.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "signature",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y347.40-x106.94",
+          "page": 2,
+          "caption": "",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y323.30-x106.94",
+          "page": 2,
+          "caption": "_",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y312.30-x361.13",
+          "page": 2,
+          "caption": "Date",
+          "channel": "family_role_refusal",
+          "class": "participant_signature_date",
+          "why": "The date under the Defendant's signature on page 2. Dating a signature that has not been made asserts the petition was signed on a day it was not. Nothing shared refuses it: its measured caption is the printed word 'Date', which reaches no descriptor at all. This role refusal is the whole of the protection.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y299.20-x138.86",
+          "page": 2,
+          "caption": "Ci",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y299.20-x293.04",
+          "page": 2,
+          "caption": "",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y274.90-x205.19",
+          "page": 2,
+          "caption": "State",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": true,
+          "wouldHaveBound": "participant.state"
+        },
+        {
+          "blankId": "p2-y274.90-x415.52",
+          "page": 2,
+          "caption": "Zip code",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": true,
+          "wouldHaveBound": "participant.zip"
+        },
+        {
+          "blankId": "p3-y648.46-x185.54",
+          "page": 3,
+          "caption": "COUNTOY",
+          "channel": "family_role_refusal",
+          "class": "notarial_jurat_venue",
+          "why": "The county on the VERIFICATION page's jurat, 'STATE OF ARKANSAS / COUNTY OF ___'. This is where the oath is administered, which is the notary's to record and is not necessarily the county of the case. The page's VERIFICATION heading also places it in a protected region, which this family runs because the shared flat path does not.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y515.75-x325.05",
+          "page": 3,
+          "caption": "Peti tioner",
+          "channel": "family_role_refusal",
+          "class": "participant_signature",
+          "why": "The Petitioner's signature rule on the VERIFICATION page, captioned 'Petitioner' beneath it. The census records that caption binding participant.full_legal_name with writable=true, so without this refusal the name would be printed on a signature line.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": true,
+          "wouldHaveBound": "participant.full_legal_name"
+        },
+        {
+          "blankId": "p3-y434.71-x313.97",
+          "page": 3,
+          "caption": "Subscribed to anbedfo mes rwonoe",
+          "channel": "family_role_refusal",
+          "class": "notarial_jurat_date_component",
+          "why": "Day component of 'Subscribed and sworn to before me on this ___ day of ___, 20___'. The oath has not been taken; the notary records when it was.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y418.27-x101.78",
+          "page": 3,
+          "caption": ", 2",
+          "channel": "family_role_refusal",
+          "class": "notarial_jurat_date_component",
+          "why": "Month component of the same jurat date.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y418.27-x309.89",
+          "page": 3,
+          "caption": ", 2",
+          "channel": "family_role_refusal",
+          "class": "notarial_jurat_date_component",
+          "why": "Year component of the same jurat date, printed as '20___'.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y351.75-x323.05",
+          "page": 3,
+          "caption": "Notary Public",
+          "channel": "family_role_refusal",
+          "class": "notarial_signature",
+          "why": "The Notary Public's signature rule. The notary's, and only after the oath is administered.",
+          "alsoInAProtectedRegion": "notarization",
+          "alsoProtectedByItsCaption": "notarization",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y126.14-x127.70",
+          "page": 3,
+          "caption": "Ra",
+          "channel": "family_role_refusal",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Race, in the block headed 'THE FOLLOWING INFORMATION IS REQUIRED FOR PROPER IDENTIFICATION OF THE DEFENDANT IN THE STATE AND NATIONAL RECORD SYSTEMS'. The platform holds no race fact and will not derive one.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y92.90-x126.98",
+          "page": 3,
+          "caption": "Se",
+          "channel": "family_role_refusal",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Sex, in the same identification block. The platform holds no sex fact and will not derive one.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y92.90-x391.27",
+          "page": 3,
+          "caption": "SID",
+          "channel": "family_role_refusal",
+          "class": "agency_assigned_identifier",
+          "why": "The State Identification (SID) number is assigned by Arkansas ACIC. It is the agency's to state; the shared vocabulary classifies the caption as a government identifier as well.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "government_identifier",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p4-y635.38-x115.10",
+          "page": 4,
+          "caption": "do, hereby certiand fycor t crehaopctofyt at htruee",
+          "channel": "family_role_refusal",
+          "class": "certificate_of_service_attestation",
+          "why": "The certifying party's name in 'I, ___, do hereby certify that a true and correct copy ... has been provided'. This is a sworn statement about an act of service, not a caption, and it is the filer's to make after mailing. The page's own heading is scrambled in the content stream, so the shared region channel does NOT protect this blank; this refusal is the only thing that does.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p4-y471.50-x311.10",
+          "page": 4,
+          "caption": "Defeornd Daefnte ndant ’s Attorney",
+          "channel": "family_role_refusal",
+          "class": "participant_signature",
+          "why": "The signature rule captioned 'Defendant or Defendant's Attorney' beneath it, on the Certificate of Service.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "attorney",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p4-y389.00-x311.10",
+          "page": 4,
+          "caption": "atDe",
+          "channel": "family_role_refusal",
+          "class": "certificate_of_service_date",
+          "why": "The date on the page 4 Certificate of Service. Service has not happened; a date here certifies a mailing that has not occurred.",
+          "alsoInAProtectedRegion": "attorney",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        }
+      ],
+      "refusedByTheFactory": [
+        {
+          "anchor": "IN THE CIRCUIT COURT OF",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "DIVISION",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "A Class",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "offense(s) of",
+          "reason": "requires_explicit_mapping",
+          "category": "sensitive_fact"
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "A Class",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "WHEREFOthREe ,D ef",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "DO",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        }
+      ],
+      "protectedRulesHandedToTheFactory": [
+        {
+          "page": 3,
+          "x": 185.54,
+          "endX": 387.31,
+          "y": 648.46,
+          "category": "notarization",
+          "caption": "COUNTOY"
+        },
+        {
+          "page": 3,
+          "x": 325.05,
+          "endX": 540.35,
+          "y": 515.75,
+          "category": "notarization",
+          "caption": "Peti tioner"
+        },
+        {
+          "page": 3,
+          "x": 313.97,
+          "endX": 503.5,
+          "y": 434.71,
+          "category": "notarization",
+          "caption": "Subscribed to anbedfo mes rwonoe"
+        },
+        {
+          "page": 3,
+          "x": 101.78,
+          "endX": 280.36,
+          "y": 418.27,
+          "category": "notarization",
+          "caption": ", 2"
+        },
+        {
+          "page": 3,
+          "x": 309.89,
+          "endX": 353.47,
+          "y": 418.27,
+          "category": "notarization",
+          "caption": ", 2"
+        },
+        {
+          "page": 3,
+          "x": 323.05,
+          "endX": 538.35,
+          "y": 351.75,
+          "category": "notarization",
+          "caption": "Notary Public"
+        },
+        {
+          "page": 3,
+          "x": 391.27,
+          "endX": 538.77,
+          "y": 92.9,
+          "category": "government_identifier",
+          "caption": "SID"
+        },
+        {
+          "page": 4,
+          "x": 311.1,
+          "endX": 521.45,
+          "y": 471.5,
+          "category": "attorney",
+          "caption": "Defeornd Daefnte ndant ’s Attorney"
+        },
+        {
+          "page": 4,
+          "x": 311.1,
+          "endX": 521.45,
+          "y": 389,
+          "category": "attorney",
+          "caption": "atDe"
+        }
+      ]
+    },
+    {
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "documentRole": "PROPOSED_ORDER",
+      "ownership": "court_issued_order",
+      "captionOnly": true,
+      "explicitMappings": {},
+      "explicitMappingsNote": "Empty on purpose, and matter.charge is the mapping deliberately absent. Unlike the flat DWI sibling, these two documents DO draw charge blanks, so the absence is a decision. Paragraph 1 asks what the defendant was CHARGED with and paragraph 2 what they pled or were found GUILTY of; the platform holds one matter.charge, and writing it into both would assert the charged and convicted offences are the same, which a plea to a lesser offence makes false — on a PARDON route, reached after a conviction that may well have been pled down. Each offence also runs onto a full-measure continuation rule, and the shared factory does not split a value across continuation rules. The class and statute blanks beside them are facts the platform does not hold at all. not_mapped is not a map: these blanks are left for the participant and listed in reports/blanks-left-for-the-participant.json.",
+      "roleRefusals": [
+        {
+          "blankId": "p1-y354.20-x315.52",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date in the court's findings. Binds participant.full_legal_name with writable=true through the printed-label route, and captionOnly does not stop a caption fact. Refused by role."
+        },
+        {
+          "blankId": "p1-y354.20-x408.61",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date in the court's findings. Same binding, same refusal."
+        },
+        {
+          "blankId": "p1-y331.70-x108.02",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date in the court's findings."
+        },
+        {
+          "blankId": "p1-y188.80-x536.02",
+          "class": "conviction_date_component",
+          "why": "Day component of the date the plea or finding of guilt was entered. The platform holds matter.conviction_date as a whole date and holds no day fact."
+        },
+        {
+          "blankId": "p1-y188.80-x744.02",
+          "class": "conviction_date_component",
+          "why": "Month component of the same conviction date."
+        },
+        {
+          "blankId": "p1-y188.80-x874.02",
+          "class": "conviction_date_component",
+          "why": "Year component of the same conviction date."
+        },
+        {
+          "blankId": "p2-y175.70-x324.05",
+          "class": "court_only_signature",
+          "why": "The judge's signature rule, captioned 'Judge' beneath it. Court-only. The shared protect rules refuse it by that caption too; the role refusal is stated so it does not rest on one channel."
+        },
+        {
+          "blankId": "p2-y119.30-x324.05",
+          "class": "court_only_signature_date",
+          "why": "The date beneath the judge's signature. The court dates its own order. Its caption is the printed word 'Date', which reaches no descriptor, so the caption channel is never even consulted; this role refusal is the whole of the protection."
+        },
+        {
+          "blankId": "p3-y618.50-x108.72",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Race. The platform holds no race fact and will not derive one."
+        },
+        {
+          "blankId": "p3-y618.50-x404.62",
+          "class": "agency_assigned_identifier",
+          "why": "The Arrest Tracking Number is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of and is the agency's to state. No allowlisted fact matches its caption either; the refusal is stated so it does not rest on that absence."
+        },
+        {
+          "blankId": "p3-y594.30-x107.90",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Sex. The platform holds no sex fact and will not derive one."
+        },
+        {
+          "blankId": "p3-y594.30-x367.99",
+          "class": "agency_assigned_identifier",
+          "why": "The State Identification (SID) number, assigned by ACIC and the agency's to state."
+        },
+        {
+          "blankId": "p3-y570.20-x364.06",
+          "class": "agency_assigned_identifier",
+          "why": "The FBI number, assigned by the FBI and marked '(if known)' on the form itself. Not the platform's to supply."
+        }
+      ],
+      "anchorsOffered": 9,
+      "writeBoxes": [
+        {
+          "blankId": "p1-y608.30-x279.99",
+          "factId": "matter.case_number",
+          "page": 1,
+          "writeBox": {
+            "x": 281.49,
+            "y": 608.3,
+            "width": 105.51,
+            "height": 12
+          },
+          "rectBasis": "underscore_leader_glyph_run_measured_from_the_text_showing_operators",
+          "baselineBasis": "underscore_leader_glyph_baseline",
+          "measuredBlank": {
+            "x0": 279.99,
+            "x1": 389,
+            "baselineY": 608.3,
+            "width": 109.01,
+            "underscoreGlyphs": 14,
+            "rule": null
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "vs. Case No",
+          "captionBasis": "same_line_before_the_blank",
+          "printedLine": "vs. Case No. ______________",
+          "confirmedInkInTheArtifact": "24-CR-001234"
+        },
+        {
+          "blankId": "p1-y557.90-x72.02",
+          "factId": "participant.full_legal_name",
+          "page": 1,
+          "writeBox": {
+            "x": 73.52,
+            "y": 557.9,
+            "width": 175.65,
+            "height": 12
+          },
+          "rectBasis": "underscore_leader_glyph_run_measured_from_the_text_showing_operators",
+          "baselineBasis": "underscore_leader_glyph_baseline",
+          "measuredBlank": {
+            "x0": 72.02,
+            "x1": 251.17,
+            "baselineY": 557.9,
+            "width": 179.15,
+            "underscoreGlyphs": 23,
+            "rule": null
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "DEFENDANT",
+          "captionBasis": "same_line_after_the_blank",
+          "printedLine": "_______________________ DEFENDANT",
+          "confirmedInkInTheArtifact": "Jordan Avery Reyes"
+        },
+        {
+          "blankId": "p2-y417.20-x275.12",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "writeBox": {
+            "x": 276.62,
+            "y": 417.2,
+            "width": 159.85,
+            "height": 12
+          },
+          "rectBasis": "underscore_leader_glyph_run_measured_from_the_text_showing_operators",
+          "baselineBasis": "underscore_leader_glyph_baseline",
+          "measuredBlank": {
+            "x0": 275.12,
+            "x1": 438.47,
+            "baselineY": 417.2,
+            "width": 163.35,
+            "underscoreGlyphs": 21,
+            "rule": null
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "case may be, of the Defendant,",
+          "captionBasis": "same_line_before_the_blank",
+          "printedLine": "case may be, of the Defendant, _____________________, should be, and",
+          "confirmedInkInTheArtifact": "Jordan Avery Reyes"
+        },
+        {
+          "blankId": "p3-y570.20-x110.27",
+          "factId": "participant.date_of_birth",
+          "page": 3,
+          "writeBox": {
+            "x": 111.77,
+            "y": 570.2,
+            "width": 89.88,
+            "height": 12
+          },
+          "rectBasis": "underscore_leader_glyph_run_measured_from_the_text_showing_operators",
+          "baselineBasis": "underscore_leader_glyph_baseline",
+          "measuredBlank": {
+            "x0": 110.27,
+            "x1": 203.65,
+            "baselineY": 570.2,
+            "width": 93.38,
+            "underscoreGlyphs": 12,
+            "rule": null
+          },
+          "writeBoxIsExactlyMeasured": true,
+          "withinTheMediaBox": true,
+          "caption": "DOB",
+          "captionBasis": "same_line_before_the_blank",
+          "printedLine": "DOB ____________ FBI No. (if known)______________________",
+          "confirmedInkInTheArtifact": "1991-04-17"
+        }
+      ],
+      "anchorsOfferedButRefusedByTheFactory": [
+        {
+          "blankId": "p1-y729.00-x123.98",
+          "caption": "IN THE",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y729.00-x286.59",
+          "caption": "COURT OF",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y704.90-x226.61",
+          "caption": "DIVISION",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y309.30-x108.02",
+          "caption": "",
+          "page": 1
+        },
+        {
+          "blankId": "p1-y264.60-x160.04",
+          "caption": "A.C.A. §",
+          "page": 1
+        }
+      ],
+      "withheldBeforeTheFactory": [
+        {
+          "blankId": "p1-y354.20-x315.52",
+          "page": 1,
+          "caption": "1.The Defendant was arrested on the",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Day component of the arrest date in the court's findings. Binds participant.full_legal_name with writable=true through the printed-label route, and captionOnly does not stop a caption fact. Refused by role.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": true,
+          "wouldHaveBound": "participant.full_legal_name"
+        },
+        {
+          "blankId": "p1-y354.20-x408.61",
+          "page": 1,
+          "caption": "day of",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Month component of the arrest date in the court's findings. Same binding, same refusal.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y331.70-x108.02",
+          "page": 1,
+          "caption": ", and charged with the offense(s) of",
+          "channel": "family_role_refusal",
+          "class": "arrest_date_component",
+          "why": "Year component of the arrest date in the court's findings.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": "matter.charge"
+        },
+        {
+          "blankId": "p1-y331.70-x385.60",
+          "page": 1,
+          "caption": ", and charged with the offense(s) of",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": "matter.charge"
+        },
+        {
+          "blankId": "p1-y286.90-x211.92",
+          "page": 1,
+          "caption": "A Class",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y286.90-x328.82",
+          "page": 1,
+          "caption": "[",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y286.90-x484.67",
+          "page": 1,
+          "caption": "] Felony [In violation of",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": "matter.charge"
+        },
+        {
+          "blankId": "p1-y211.10-x251.50",
+          "page": 1,
+          "caption": "the offense(s) of",
+          "channel": "measured_geometry",
+          "class": "write_box_falls_outside_the_page_media_box",
+          "why": "measured x 251.5..693.5 on a page 612pt wide",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": "matter.charge"
+        },
+        {
+          "blankId": "p1-y188.80-x211.02",
+          "page": 1,
+          "caption": "A.C.A §",
+          "channel": "measured_geometry",
+          "class": "write_box_not_exactly_measured",
+          "why": "The blank is an underscore leader run on a line whose glyph widths the shared walker could not resolve from the font (metricsExact=false), so its rectangle is estimated from the type size rather than measured. A write box is offered only where the geometry is exact.",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y188.80-x536.02",
+          "page": 1,
+          "caption": "on the",
+          "channel": "family_role_refusal",
+          "class": "conviction_date_component",
+          "why": "Day component of the date the plea or finding of guilt was entered. The platform holds matter.conviction_date as a whole date and holds no day fact.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y188.80-x744.02",
+          "page": 1,
+          "caption": "day of",
+          "channel": "family_role_refusal",
+          "class": "conviction_date_component",
+          "why": "Month component of the same conviction date.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p1-y188.80-x874.02",
+          "page": 1,
+          "caption": ",",
+          "channel": "family_role_refusal",
+          "class": "conviction_date_component",
+          "why": "Year component of the same conviction date.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y175.70-x324.05",
+          "page": 2,
+          "caption": "Judge",
+          "channel": "family_role_refusal",
+          "class": "court_only_signature",
+          "why": "The judge's signature rule, captioned 'Judge' beneath it. Court-only. The shared protect rules refuse it by that caption too; the role refusal is stated so it does not rest on one channel.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "court",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p2-y119.30-x324.05",
+          "page": 2,
+          "caption": "Date",
+          "channel": "family_role_refusal",
+          "class": "court_only_signature_date",
+          "why": "The date beneath the judge's signature. The court dates its own order. Its caption is the printed word 'Date', which reaches no descriptor, so the caption channel is never even consulted; this role refusal is the whole of the protection.",
+          "alsoInAProtectedRegion": "court",
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y618.50-x108.72",
+          "page": 3,
+          "caption": "Race",
+          "channel": "family_role_refusal",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Race. The platform holds no race fact and will not derive one.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "race",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y618.50-x404.62",
+          "page": 3,
+          "caption": "Arrest Tracking Number",
+          "channel": "family_role_refusal",
+          "class": "agency_assigned_identifier",
+          "why": "The Arrest Tracking Number is assigned by Arkansas ACIC when an arrest is processed. It identifies the arrest through a system the platform has no knowledge of and is the agency's to state. No allowlisted fact matches its caption either; the refusal is stated so it does not rest on that absence.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y594.30-x107.90",
+          "page": 3,
+          "caption": "Sex",
+          "channel": "family_role_refusal",
+          "class": "fact_not_held_by_the_platform",
+          "why": "Sex. The platform holds no sex fact and will not derive one.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": null,
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y594.30-x367.99",
+          "page": 3,
+          "caption": "SID No",
+          "channel": "family_role_refusal",
+          "class": "agency_assigned_identifier",
+          "why": "The State Identification (SID) number, assigned by ACIC and the agency's to state.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "government_identifier",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        },
+        {
+          "blankId": "p3-y570.20-x364.06",
+          "page": 3,
+          "caption": "FBI No. (if known)",
+          "channel": "family_role_refusal",
+          "class": "agency_assigned_identifier",
+          "why": "The FBI number, assigned by the FBI and marked '(if known)' on the form itself. Not the platform's to supply.",
+          "alsoInAProtectedRegion": null,
+          "alsoProtectedByItsCaption": "government_identifier",
+          "wouldTheSharedFactoryHaveWritten": false,
+          "wouldHaveBound": null
+        }
+      ],
+      "refusedByTheFactory": [
+        {
+          "anchor": "IN THE",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "COURT OF",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "DIVISION",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        },
+        {
+          "anchor": "A.C.A. §",
+          "reason": "no_allowlisted_fact_matches",
+          "category": null
+        }
+      ],
+      "protectedRulesHandedToTheFactory": []
+    }
+  ]
+}
