@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "rcap-local-filing-variation/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "routeKeys": [
+    "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+  ],
+  "jurisdiction": "CT",
+  "evidenceRule": "Every entry below is either read first-hand off the pinned source document's own printed instructions, or taken from a source this route already names in its requiredSourceIds. Nothing was fetched. Where no held source records a value, the entry says so rather than supplying one.",
+  "sourcesUsed": [
+    {
+      "sourceId": "official-form:JD-CR-202",
+      "use": "the form's own printed instructions and page-2 chart",
+      "sha256": "b5a917c2cd07727172a50534a4884a63e8ae08704b631c62a199c3454623062c"
+    },
+    {
+      "sourceId": "compiled-profile:src/lib/rcap-engine/compiled/profiles/CT-connecticut.json",
+      "use": "fee schedule and filing-destination rules"
+    }
+  ],
+  "filingMethod": {
+    "value": "Paper petition filed with the Superior Court clerk at the court location where the petitioner was sentenced.",
+    "basis": "printed instruction 3 on the source document",
+    "quote": "File the form in the court location where you were sentenced for the crime that you are asking the court to erase."
+  },
+  "venue": {
+    "value": "The sentencing court location.",
+    "basis": "printed instruction 3, and the compiled CT profile's filing-destination rules",
+    "closedCourtRedirections": [
+      {
+        "sentencedIn": "G.A. 6 at New Haven",
+        "fileIn": "G.A. 23 at New Haven, 121 Elm Street, New Haven 06510"
+      },
+      {
+        "sentencedIn": "G.A. 8 at New Haven",
+        "fileIn": "G.A. 23 at New Haven, 121 Elm Street, New Haven 06510"
+      },
+      {
+        "sentencedIn": "G.A. 13 at Enfield",
+        "fileIn": "G.A. 14 at Hartford, 101 Lafayette Street, Hartford 06106"
+      },
+      {
+        "sentencedIn": "G.A. 16 at West Hartford",
+        "fileIn": "G.A. 14 at Hartford, 101 Lafayette Street, Hartford 06106"
+      },
+      {
+        "sentencedIn": "G.A. 17 at Bristol",
+        "fileIn": "G.A. 15 at New Britain, 20 Franklin Square, New Britain 06051"
+      },
+      {
+        "sentencedIn": "G.A. 20 at Norwalk",
+        "fileIn": "G.A. 1 at Stamford, 123 Hoyt Street, Stamford 06905"
+      }
+    ],
+    "closedCourtRedirectionsBasis": "the chart printed on page 2 of the source document, read first-hand. This is the document's own list of six closed locations and is not a Connecticut court directory: the platform holds no court addresses, which is why COURTADDRESS is refused rather than filled.",
+    "caseLookup": "The compiled CT profile records that the Judicial Branch case look-up confirms the sentencing court and disposition for a JD-CR-202 petition. This family does not query it."
+  },
+  "fee": {
+    "value": "$0 — no fee for the JD-CR-202 Clean Slate erasure petition.",
+    "basis": "compiled CT profile packetGenerator.feeRules, citing C.G.S. § 54-142a",
+    "quote": "JD-CR-202 petition $0 No fee for Clean Slate erasure",
+    "relatedCosts": "The profile separately records an SPBI criminal-history check fee, which is an agency records-check cost and not a court filing fee, and notes that that fee can change.",
+    "courtDebt": "The profile records that unpaid court debt does not bar erasure."
+  },
+  "verification": {
+    "value": "Sworn. The petitioner completes the form, swears to its contents and signs before a Notary Public, Commissioner of the Superior Court, Clerk, or other proper officer.",
+    "basis": "printed instruction 2 on the source document",
+    "quote": "Complete the form, swear to the contents, and sign it before a Notary Public, Commissioner of the Superior Court, Clerk, or other proper officer.",
+    "consequenceForThisBuild": "The jurat rows — signature, printed name and date, for both the petitioner and the officer — are refused. A sworn block prefilled by a platform presents an oath as further along than it is."
+  },
+  "serviceMethod": {
+    "value": null,
+    "recorded": false,
+    "why": "NOT RECORDED IN ANY HELD SOURCE. The source document carries no certificate of service, no service section and no service instruction; its four printed instructions concern eligibility, swearing, venue and one-case-per-form. The compiled CT profile's serviceAndNoticeRules is empty. This is reported as an open question, not resolved by inference: an absent record is not a finding that no service is required."
+  },
+  "serviceRecipients": {
+    "value": null,
+    "recorded": false,
+    "why": "As serviceMethod — no held source records recipients."
+  },
+  "serviceTiming": {
+    "value": null,
+    "recorded": false,
+    "why": "As serviceMethod — no held source records timing."
+  },
+  "certificateOfService": {
+    "value": "The form contains none.",
+    "basis": "first-hand inspection of the pinned binary: no certificate-of-service region and no such field among the 22",
+    "note": "Recorded as a document fact. Whether Connecticut practice requires service by another instrument is the open question above."
+  },
+  "delivery": {
+    "value": "The court's decision is returned on page 2 of the same sheet. JD-CR-202 carries the 'Order of the Court' section — Denied / Granted as to the following convictions, signed by the court and dated — on the reverse of the petition itself.",
+    "basis": "first-hand inspection of the pinned binary",
+    "consequenceForThisBuild": "Connecticut issues no separate proposed order for this route, so the family is a single document that is both instruments. captionOnly is a per-document flag and cannot express 'the second half belongs to the court', so all five fields of the court's section are refused by role."
+  },
+  "oneCasePerForm": {
+    "value": "One docket number per petition. A petitioner with crimes in more than one case files a separate form per case.",
+    "basis": "printed instruction 4 and the DOCKETNO caption on the source document",
+    "quote": "If you have crimes from more than 1 case, you must file a separate form for each case. The court cannot process forms with crimes from more than 1 case on the form.",
+    "consequenceForThisBuild": "matter.charges is a multi-row fact and this form has no charge table — it has one free-text crimes box and one docket box. The boundary fixture therefore supplies a single charge row, not three: supplying several would model a filing the court says it cannot process."
+  },
+  "proposedOrder": {
+    "value": "Not a separate instrument for this route — printed on page 2 of the petition.",
+    "recorded": true
+  },
+  "coverSheet": {
+    "value": null,
+    "recorded": false,
+    "why": "No held source records a cover sheet for this route."
+  },
+  "requiredParticipantAttachments": {
+    "value": "No attachment is required by the form itself. The compiled CT profile records that an SPBI criminal-history check dated on or after 1 January 2024 is the practical starting point for Clean Slate work and supports a missed-erasure hearing request.",
+    "basis": "first-hand inspection, plus the compiled CT profile",
+    "note": "Recorded as research. This family attaches nothing and composes nothing."
+  },
+  "schedulesOrContinuationPages": {
+    "value": "None. The form provides one free-text crimes box (45.12pt tall) and no continuation page.",
+    "basis": "first-hand inspection of the pinned binary"
+  },
+  "postFilingInstructions": {
+    "value": null,
+    "recorded": false,
+    "why": "No held source records post-filing steps for this route."
+  },
+  "contestedHearingOrOppositionHandoff": {
+    "value": null,
+    "recorded": false,
+    "why": "No held source records an opposition or contested-hearing path for the JD-CR-202 petition. The profile's hearing material concerns the separate missed-automatic-erasure route, which is a different family."
+  },
+  "whatThisRecordDoesNotEstablish": [
+    "that any of these values is current",
+    "that a legal reviewer has approved them",
+    "that the open service questions are answered by their absence"
+  ]
+}
