@@ -25,8 +25,22 @@ bytes were one command away.
 ## BEFORE ANYTHING ELSE — 1. Recover the corpus
 
 ```sh
+npm ci --cache /tmp/legalease-npm-cache
 bash scripts/rcap-corpus/bootstrap-private-corpus.sh
+source private/source-corpus-environment.txt
+export MASTER_LIBRARY_SOURCE_DIR="$RCAP_BUNDLE_EXTRACT"
 ```
+
+Run all four. The bootstrap writes `private/source-corpus-environment.txt`
+itself and it is git-ignored; sourcing it exports `RCAP_BUNDLE_EXTRACT` pointing
+at the extracted Master Library. Setting `MASTER_LIBRARY_SOURCE_DIR` from it
+makes the corpus root explicit rather than relying on the default path.
+
+Note what that file also says, and do not undo it: `OFFICIAL_FORMS_SOURCE_DIR`
+is left commented out on purpose. It names the *operational* Nationwide tree,
+which is a different corpus answering a different question. Do not point it at
+the Master Library — the operational-corpus precondition refuses that
+substitution by name, and is right to.
 
 This recovers the pinned Master Library from its private release into
 `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`, which is
