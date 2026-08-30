@@ -44,6 +44,7 @@ const c9bind = read("data/rcap-grade-a/captain-route-mapping/stage-binding.json"
 const c10id = read(`${V1}/identity-resolution/wave-2/resolved.json`);
 const c10acq = read("data/rcap-grade-a/source-acquisition/wave-1/acquired.json");
 const c12 = read("data/rcap-grade-a/participant-data-rights/hosted-acceptance.json");
+const counsel = read(`${LC}/COUNSEL_DETERMINATION_DELTA.json`);
 
 const completedRoutes = new Set(status.rows.filter((r) => r.integrationStatus === "COMPLETED").map((r) => r.routeKey));
 
@@ -187,6 +188,39 @@ const lanes = [
     ownedPaths: ["data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**"]
   },
   {
+    residualLaneId: "R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+    replaces: [],
+    what: `The four true counsel questions came back answered, and three of the four are Category A. This lane implements what each determination requires -- including New York's mandatory split into two date-specific subroutes and Utah's gate on ${counsel.counts.branchesGatedBehindConsent} of nine branches. It is new work, not a remainder: nobody was dispatched to build these because nobody could be until the determinations existed.`,
+    itemKind: "routeKey",
+    items: counsel.rows.map((r) => r.routeKey).sort(),
+    detail: {
+      decisionRecord: counsel.decisionRecord,
+      decisionOwner: counsel.decisionOwner,
+      perRoute: counsel.rows.map((r) => ({
+        routeKey: r.routeKey,
+        jurisdiction: r.jurisdiction,
+        questionId: r.questionId,
+        decisionId: r.decisionId,
+        determinedCategory: r.determinedCategory,
+        determinedCategoryBReason: r.determinedCategoryBReason,
+        classification: r.classification,
+        mandatorySubroutes: r.mandatorySubroutes,
+        gatedBranches: r.gatedBranches,
+        remainingEngineeringWork: r.remainingEngineeringWork,
+        selfHelpStopConditions: r.selfHelpStopConditions
+      })),
+      denominatorRule: counsel.projectedDenominator.thisIsAProjectionNotAFact,
+      sourceIdentityObligations: counsel.sourceIdentityObligations,
+      hardStops: [
+        "New York may not be built as one generic pre-November 1991 motion. The screening must ask the exact conviction date, and the date selects the motion theory.",
+        "Utah's consent-dependent and joint-motion branches refuse without signed prosecutorial consent. A participant's assertion that the prosecutor agrees is not consent.",
+        "Nebraska generates no merits pleading. This lane may build guidance, a deadline warning, a records checklist and referrals, and must stop before selecting, framing, drafting, verifying or filing any postconviction ground.",
+        "Alabama's circuit petition is available only after the AJIC administrative process is exhausted; the packet must verify exhaustion before it generates."
+      ]
+    },
+    ownedPaths: ["data/rcap-grade-a/wave-2/r6-counsel-determination-implementation/**"]
+  },
+  {
     residualLaneId: "R5_NONPRODUCTION_ACCEPTANCE",
     replaces: ["C12_NONPRODUCTION_ACCEPTANCE_PREP"],
     what: "Hosted participant-data-rights acceptance, held until the external environment is repaired. The standing one-time authorization is unspent.",
@@ -267,7 +301,8 @@ const doc = {
     c8: "data/rcap-grade-a/already-answered-implementation/stopped.json",
     c9: ["data/rcap-grade-a/captain-route-mapping/reconciled.json", "data/rcap-grade-a/captain-route-mapping/stage-binding.json"],
     c10: [`${V1}/identity-resolution/wave-2/resolved.json`, "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"],
-    c12: "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json"
+    c12: "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json",
+    counselDeterminations: `${LC}/COUNSEL_DETERMINATION_DELTA.json`
   },
   nothingCompletedIsRepeated:
     "Every route here is STOPPED in the integration status, and the generator refuses if a COMPLETED route appears. The already-answered queue is filtered against the same record rather than against a remembered claim that the overlap is zero.",
@@ -282,6 +317,7 @@ const doc = {
     "No residual lane opens a commercial route, proves a packet, or consumes an authorization. C12's one-time nonproduction authorization remains unspent.",
   counts: {
     residualLanes: lanes.length,
+    counselDeterminationRoutes: counsel.rows.length,
     residualRoutes: openIdentities.length,
     residualAlreadyAnsweredRows: alreadyAnsweredOpen.length,
     residualMappingRows: openMappingRows.length,
@@ -290,6 +326,8 @@ const doc = {
     residualOfficialUrls: openUrlRows.length,
     residualAcquisitions: c10acq.summary.allocatedAcquisitionObligations,
     residualPromotions: c10acq.summary.allocatedPromotionObligations,
+    counselDeterminationSubroutes: counsel.counts.subroutesRequired,
+    counselDeterminationGatedBranches: counsel.counts.branchesGatedBehindConsent,
     totalDistinctItems: seen.size,
     collisions: 0
   },
@@ -314,7 +352,9 @@ if (MUTATIONS) {
     { name: "a residual lane claiming C11's reserved paths is caught", mutate: (j) => { j.lanes[0].ownedPaths = ["data/rcap-all50/overlays/census-v1/**"]; return j; } },
     { name: "two lanes claiming one item is caught", mutate: (j) => { j.lanes[2].items.push(j.lanes[0].items[0]); return j; } },
     { name: "an understated acquisition count is caught", mutate: (j) => { j.counts.residualAcquisitions = 0; return j; } },
-    { name: "the spent-authorization claim is caught", mutate: (j) => { j.lanes[4].detail.authorizationConsumed = true; return j; } }
+    { name: "the spent-authorization claim is caught", mutate: (j) => { const l = j.lanes.find((x) => x.residualLaneId === "R5_NONPRODUCTION_ACCEPTANCE"); l.detail.authorizationConsumed = true; return j; } },
+    { name: "a counsel-determined route dropped from the residual is caught", mutate: (j) => { const l = j.lanes.find((x) => x.residualLaneId === "R6_COUNSEL_DETERMINATION_IMPLEMENTATION"); l.items.pop(); return j; } },
+    { name: "New York's mandatory split collapsed in the residual is caught", mutate: (j) => { const l = j.lanes.find((x) => x.residualLaneId === "R6_COUNSEL_DETERMINATION_IMPLEMENTATION"); const r = l.detail.perRoute.find((x) => x.mandatorySubroutes.length > 1); r.mandatorySubroutes = [r.mandatorySubroutes[0]]; return j; } }
   ];
   let undetected = 0;
   console.log("mutations:");

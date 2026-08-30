@@ -14,7 +14,8 @@
       "data/rcap-grade-a/route-obligation-census-v1/identity-resolution/wave-2/resolved.json",
       "data/rcap-grade-a/source-acquisition/wave-1/acquired.json"
     ],
-    "c12": "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json"
+    "c12": "data/rcap-grade-a/participant-data-rights/hosted-acceptance.json",
+    "counselDeterminations": "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json"
   },
   "nothingCompletedIsRepeated": "Every route here is STOPPED in the integration status, and the generator refuses if a COMPLETED route appears. The already-answered queue is filtered against the same record rather than against a remembered claim that the overlap is zero.",
   "notYetResidual": {
@@ -29,7 +30,8 @@
   "notDispatchable": "This record describes work; it dispatches none. A residual wave is dispatched only after a new Captain head and a new ownership manifest are committed, by the same two-commit method.",
   "commercialPosture": "No residual lane opens a commercial route, proves a packet, or consumes an authorization. C12's one-time nonproduction authorization remains unspent.",
   "counts": {
-    "residualLanes": 5,
+    "residualLanes": 6,
+    "counselDeterminationRoutes": 4,
     "residualRoutes": 14,
     "residualAlreadyAnsweredRows": 37,
     "residualMappingRows": 29,
@@ -38,7 +40,9 @@
     "residualOfficialUrls": 30,
     "residualAcquisitions": 49,
     "residualPromotions": 33,
-    "totalDistinctItems": 110,
+    "counselDeterminationSubroutes": 2,
+    "counselDeterminationGatedBranches": 4,
+    "totalDistinctItems": 114,
     "collisions": 0
   },
   "lanes": [
@@ -927,6 +931,201 @@
       },
       "ownedPaths": [
         "data/rcap-grade-a/wave-2/r4-source-identity-and-acquisition/**"
+      ]
+    },
+    {
+      "residualLaneId": "R6_COUNSEL_DETERMINATION_IMPLEMENTATION",
+      "replaces": [],
+      "what": "The four true counsel questions came back answered, and three of the four are Category A. This lane implements what each determination requires -- including New York's mandatory split into two date-specific subroutes and Utah's gate on 4 of nine branches. It is new work, not a remainder: nobody was dispatched to build these because nobody could be until the determinations existed.",
+      "itemKind": "routeKey",
+      "items": [
+        "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+        "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+        "obligation:track-only:NE:ne-postconviction-routing",
+        "obligation:track-only:UT:ut_adj_reduction_402"
+      ],
+      "detail": {
+        "decisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+        "decisionOwner": "Lawrence Blackmon",
+        "perRoute": [
+          {
+            "routeKey": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+            "jurisdiction": "AL",
+            "questionId": "Q4",
+            "decisionId": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+            "determinedCategory": "A_MUST_FULFILL",
+            "determinedCategoryBReason": null,
+            "classification": "CATEGORY_A_BOUNDED_PARTICIPANT_FILED_APPEAL",
+            "mandatorySubroutes": [],
+            "gatedBranches": [],
+            "remainingEngineeringWork": [
+              "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+              "assemble the 2-document packet in the order the determination names",
+              "bind the 8 self-help stop conditions as refusals rather than as copy"
+            ],
+            "selfHelpStopConditions": 8
+          },
+          {
+            "routeKey": "obligation:track-only:NE:ne-postconviction-routing",
+            "jurisdiction": "NE",
+            "questionId": "Q47",
+            "decisionId": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+            "determinedCategory": "B_LEGITIMATE_EXCLUSION",
+            "determinedCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+            "classification": "CATEGORY_B_EXCLUSION",
+            "mandatorySubroutes": [],
+            "gatedBranches": [],
+            "remainingEngineeringWork": [
+              "record the exclusion with reason UNSUITABLE_FOR_SELF_HELP and build only what the determination permits: 6 guidance and referral outputs, and no merits pleading",
+              "bind the 7 self-help stop conditions as refusals rather than as copy"
+            ],
+            "selfHelpStopConditions": 7
+          },
+          {
+            "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+            "jurisdiction": "NY",
+            "questionId": "Q54",
+            "decisionId": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+            "determinedCategory": "A_MUST_FULFILL",
+            "determinedCategoryBReason": null,
+            "classification": "CATEGORY_A_MANDATORY_ROUTE_SPLIT",
+            "mandatorySubroutes": [
+              {
+                "proposedRouteKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-1",
+                "cohortId": "NY-160-55-LEGACY-COHORT-1",
+                "conviction": "before September 1, 1980",
+                "governedBy": "the current CPL § 160.55(3) motion, expressly",
+                "instrument": "Motion for an Order Granting Relief Under CPL § 160.55(3)",
+                "noticeRule": "The full motion must be provided to the district attorney on not less than 20 days' notice before the motion is submitted or heard."
+              },
+              {
+                "proposedRouteKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-2",
+                "cohortId": "NY-160-55-LEGACY-COHORT-2",
+                "conviction": "September 1, 1980 through October 31, 1991",
+                "governedBy": "former CPL § 160.55, through a motion to enter or enforce the omitted legacy sealing order",
+                "instrument": "Motion to Enter and Enforce a Legacy Sealing Order Under Former CPL § 160.55",
+                "noticeRule": "No current statewide statute supplies a separate legacy notice period. Serve the district attorney and comply with the terminating court's local criminal-motion return-date and service rules. 20 days may be used as a conservative operational minimum only where consistent with local practice, and must not be stated as an express statutory requirement for this cohort."
+              }
+            ],
+            "gatedBranches": [],
+            "remainingEngineeringWork": [
+              "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+              "split the obligation into the two date-specific subroutes; a single generic motion would be legally inaccurate",
+              "bind the screening question that identifies the exact conviction date, because that date selects the motion theory",
+              "bind the 8 self-help stop conditions as refusals rather than as copy"
+            ],
+            "selfHelpStopConditions": 8
+          },
+          {
+            "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
+            "jurisdiction": "UT",
+            "questionId": "Q76",
+            "decisionId": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+            "determinedCategory": "A_MUST_FULFILL",
+            "determinedCategoryBReason": null,
+            "classification": "CATEGORY_A_WITH_SEPARATELY_GATED_BRANCHES",
+            "mandatorySubroutes": [],
+            "gatedBranches": [
+              {
+                "branchId": "UT-402-SENTENCING",
+                "when": "at sentencing",
+                "prosecutorConsentRequired": false,
+                "selfHelpFulfilled": true,
+                "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+              },
+              {
+                "branchId": "UT-402-AFTER-SUCCESSFUL-PROBATION",
+                "when": "after successful completion of probation or parole",
+                "prosecutorConsentRequired": false,
+                "selfHelpFulfilled": true,
+                "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+              },
+              {
+                "branchId": "UT-402-AFTER-REHAB-PROGRAM",
+                "when": "after a qualifying rehabilitation program",
+                "prosecutorConsentRequired": false,
+                "selfHelpFulfilled": true,
+                "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+              },
+              {
+                "branchId": "UT-402-LATER-CASE-FIVE-YEAR",
+                "when": "after successful probation or parole in a later case, five years from sentencing in the later case",
+                "prosecutorConsentRequired": false,
+                "selfHelpFulfilled": true,
+                "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+              },
+              {
+                "branchId": "UT-402-LATER-CASE-THREE-YEAR",
+                "when": "after successful probation or parole in a later case, three years from sentencing in the later case",
+                "prosecutorConsentRequired": true,
+                "selfHelpFulfilled": false,
+                "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+              },
+              {
+                "branchId": "UT-402-AFTER-UNSUCCESSFUL-DISCHARGE",
+                "when": "after an unsuccessful probation or parole discharge, five years",
+                "prosecutorConsentRequired": false,
+                "selfHelpFulfilled": true,
+                "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+              },
+              {
+                "branchId": "UT-402-TWO-DEGREE",
+                "when": "any branch where a two-degree reduction is sought",
+                "prosecutorConsentRequired": true,
+                "selfHelpFulfilled": false,
+                "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+              },
+              {
+                "branchId": "UT-402-VIOLENT-FELONY",
+                "when": "the offense is a statutorily defined violent felony under the applicable post-sentence branches",
+                "prosecutorConsentRequired": true,
+                "selfHelpFulfilled": false,
+                "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+              },
+              {
+                "branchId": "UT-402-SUBSTANTIAL-ASSISTANCE",
+                "when": "within one year after sentencing",
+                "prosecutorConsentRequired": true,
+                "selfHelpFulfilled": false,
+                "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+              }
+            ],
+            "remainingEngineeringWork": [
+              "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+              "build the branch gate: the consent-dependent and joint-motion branches refuse without signed prosecutorial consent",
+              "bind the 35-day prosecutor response window and the Request to Submit workflow",
+              "assemble the 5-document packet in the order the determination names",
+              "bind the 10 self-help stop conditions as refusals rather than as copy"
+            ],
+            "selfHelpStopConditions": 10
+          }
+        ],
+        "denominatorRule": "The census is unchanged. These four routes are still NEEDS_LEGAL_REVIEW in the frozen ledger and move only when their identities exist and the national census generator recomputes them, with an explanation.",
+        "sourceIdentityObligations": [
+          {
+            "jurisdiction": "UT",
+            "constraint": {
+              "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+              "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+              "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+            },
+            "hardCodedInThisTree": [
+              "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+              "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
+            ],
+            "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+            "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+          }
+        ],
+        "hardStops": [
+          "New York may not be built as one generic pre-November 1991 motion. The screening must ask the exact conviction date, and the date selects the motion theory.",
+          "Utah's consent-dependent and joint-motion branches refuse without signed prosecutorial consent. A participant's assertion that the prosecutor agrees is not consent.",
+          "Nebraska generates no merits pleading. This lane may build guidance, a deadline warning, a records checklist and referrals, and must stop before selecting, framing, drafting, verifying or filing any postconviction ground.",
+          "Alabama's circuit petition is available only after the AJIC administrative process is exhausted; the packet must verify exhaustion before it generates."
+        ]
+      },
+      "ownedPaths": [
+        "data/rcap-grade-a/wave-2/r6-counsel-determination-implementation/**"
       ]
     },
     {

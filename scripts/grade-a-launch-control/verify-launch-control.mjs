@@ -3,7 +3,7 @@
 //
 //   node scripts/grade-a-launch-control/verify-launch-control.mjs [--mutations]
 //
-// Twenty-seven refusals. Each is a way the control plane could look healthy while
+// Thirty refusals. Each is a way the control plane could look healthy while
 // being wrong, and each has cost something in this sprint or in the one before
 // it. A checkpoint that only reports numbers tells you what it was told; this
 // asks whether it was told the truth.
@@ -26,6 +26,7 @@ const WAVE_REVIEW = "data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.json"
 const INTEGRATION = "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json";
 const RESIDUAL = "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json";
 const CONTRACT = "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json";
+const COUNSEL = "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json";
 const PROMPTS = "docs/rcap/grade-a/launch-control/prompts";
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
@@ -51,6 +52,7 @@ const waveReview = read(WAVE_REVIEW);
 const integration = read(INTEGRATION);
 const residual = read(RESIDUAL);
 const contract = read(CONTRACT);
+const counsel = read(COUNSEL);
 
 /** Everything an assignment owns, whatever shape its rows take. */
 const rowsOf = (a) => [
@@ -366,6 +368,40 @@ const familiesOf = (a) => (a.rowGroups ?? []).flatMap((g) => g.families ?? []);
     uncovered.length === 0 && contract.clauses.length > 0, uncovered.join(", "));
 }
 
+// 23. A counsel determination read as a simpler instruction than it is.
+//
+// Three of the four answers are Category A, and two of those three carry a
+// condition that changes what may be built: New York's obligation splits into
+// two date-specific subroutes, and four of Utah's nine branches refuse without
+// signed prosecutorial consent. A tree that recorded "Category A" and dropped
+// the condition would generate a legally inaccurate packet, which is the exact
+// failure the determination exists to prevent.
+{
+  const nySplit = counsel.rows.find((r) => r.classification === "CATEGORY_A_MANDATORY_ROUTE_SPLIT");
+  const utGated = counsel.rows.find((r) => r.classification === "CATEGORY_A_WITH_SEPARATELY_GATED_BRANCHES");
+  const gatedCount = (utGated?.gatedBranches ?? []).filter((b) => b.prosecutorConsentRequired).length;
+  check("A28", "every counsel determination keeps the condition attached to its answer",
+    counsel.counts.questionsAnswered === counsel.counts.questionsAsked
+    && (nySplit?.mandatorySubroutes.length ?? 0) >= 2
+    && gatedCount > 0
+    && gatedCount === counsel.counts.branchesGatedBehindConsent,
+    `answered ${counsel.counts.questionsAnswered}/${counsel.counts.questionsAsked}, NY subroutes ${nySplit?.mandatorySubroutes.length ?? 0}, UT gated ${gatedCount}`);
+
+  // The determinations are projections. The frozen census must still hold them
+  // as NEEDS_LEGAL_REVIEW: an answer that silently moved the ledger would be a
+  // denominator movement nobody explained.
+  const stillUnmoved = counsel.rows.every((r) => r.censusCategoryBefore === "NEEDS_LEGAL_REVIEW");
+  check("A29", "no counsel determination has moved the census by hand",
+    stillUnmoved && counsel.projectedDenominator.frozen.needsLegalReview === freeze.totals.needsLegalReview,
+    `frozen legal review ${counsel.projectedDenominator.frozen.needsLegalReview} vs census ${freeze.totals.needsLegalReview}`);
+
+  // Every answered route has to be carried by a residual lane, or the answer
+  // produces no work and the four questions were asked for nothing.
+  const residualRoutes = new Set(residual.lanes.flatMap((l) => (l.itemKind === "routeKey" ? l.items : [])));
+  const uncarried = counsel.rows.map((r) => r.routeKey).filter((k) => !residualRoutes.has(k));
+  check("A30", "every counsel-determined route is carried into a residual lane", uncarried.length === 0, uncarried.join(", "));
+}
+
 console.log(`\n${results.length - failures}/${results.length} checkpoint checks passed.`);
 
 if (MUTATIONS) {
@@ -373,7 +409,8 @@ if (MUTATIONS) {
   const targets = {
     dispatch: path.join(ROOT, DISPATCH), lc: path.join(ROOT, LC), status: path.join(ROOT, STATUS),
     review: path.join(ROOT, WAVE_REVIEW), integration: path.join(ROOT, INTEGRATION),
-    residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT)
+    residual: path.join(ROOT, RESIDUAL), contract: path.join(ROOT, CONTRACT),
+    counsel: path.join(ROOT, COUNSEL)
   };
   const originals = Object.fromEntries(Object.entries(targets).map(([k, p]) => [k, fs.readFileSync(p)]));
   const cases = [
@@ -399,7 +436,11 @@ if (MUTATIONS) {
     { on: "review", name: "an out-of-scope write in a return is caught", mutate: (j) => { j.summary.outOfScopeWrites = 1; return j; } },
     { on: "integration", name: "a stopped route flipped to completed is caught", mutate: (j) => { const r = j.rows.find((x) => x.integrationStatus === "STOPPED"); r.integrationStatus = "COMPLETED"; return j; } },
     { on: "residual", name: "a residual lane reaching into the still-running lane is caught", mutate: (j) => { j.lanes[0].ownedPaths = ["data/rcap-all50/overlays/census-v1/**"]; return j; } },
-    { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } }
+    { on: "contract", name: "a residual lane left uncovered by the execution contract is caught", mutate: (j) => { j.appliesTo.residualLanes.pop(); return j; } },
+    { on: "counsel", name: "New York's mandatory split dropped from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.mandatorySubroutes.length > 1); r.mandatorySubroutes = []; return j; } },
+    { on: "counsel", name: "Utah's consent gate removed from the determination is caught", mutate: (j) => { const r = j.rows.find((x) => x.gatedBranches.length); for (const b of r.gatedBranches) b.prosecutorConsentRequired = false; return j; } },
+    { on: "counsel", name: "a counsel answer that silently moved the census is caught", mutate: (j) => { j.rows[0].censusCategoryBefore = "A_MUST_FULFILL"; return j; } },
+    { on: "residual", name: "a counsel-determined route carried by no residual lane is caught", mutate: (j) => { const l = j.lanes.find((x) => x.residualLaneId === "R6_COUNSEL_DETERMINATION_IMPLEMENTATION"); l.items = []; l.itemKind = "environment"; return j; } }
   ];
   let undetected = 0;
   try {

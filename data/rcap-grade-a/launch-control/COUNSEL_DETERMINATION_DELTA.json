@@ -1,0 +1,320 @@
+{
+  "schemaVersion": "rcap-grade-a-counsel-determination-delta/v1",
+  "generatedBy": "scripts/grade-a-launch-control/generate-counsel-determination-delta.mjs",
+  "question": "The four true counsel questions are answered. What does each determination require of this tree?",
+  "decisionRecord": "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
+  "decisionOwner": "Lawrence Blackmon",
+  "decisionDate": "2026-08-30",
+  "answersQueue": "data/rcap-grade-a/route-obligation-census-v1/legal-review-queue-v2.json",
+  "determinationsAreObligationsOnly": "The four true counsel questions from the 86-row triage, answered. These are legal determinations. They create implementation obligations and nothing else: no checkout, sponsorship, packet-credit consumption, provider dispatch, artifact attachment, delivery, repeat download, commercially eligible status or COMPLETE_PACKET_PROVEN. Every fail-closed commercial gate stands unchanged. Output-level approval for any packet built from these determinations is a separate act on exact hashes.",
+  "counts": {
+    "questionsAsked": 4,
+    "questionsAnswered": 4,
+    "categoryA": 3,
+    "categoryB": 1,
+    "mandatoryRouteSplits": 1,
+    "subroutesRequired": 2,
+    "gatedRoutes": 1,
+    "branchesGatedBehindConsent": 4,
+    "branchesParticipantFiled": 5,
+    "obligationDelta": 1,
+    "overlapWithCategoryBRevalidation": 0
+  },
+  "projectedDenominator": {
+    "frozen": {
+      "terminalObligations": 694,
+      "categoryA": 451,
+      "categoryB": 157,
+      "needsLegalReview": 86
+    },
+    "afterCategoryBIntegration": {
+      "terminalObligations": 729,
+      "categoryA": 486,
+      "categoryB": 154,
+      "needsLegalReview": 86
+    },
+    "afterCounselDeterminations": {
+      "terminalObligations": 730,
+      "categoryA": 490,
+      "categoryB": 155,
+      "needsLegalReview": 82
+    },
+    "thisIsAProjectionNotAFact": "The census is unchanged. These four routes are still NEEDS_LEGAL_REVIEW in the frozen ledger and move only when their identities exist and the national census generator recomputes them, with an explanation.",
+    "arithmeticShown": "4 questions answered: 3 Category A and 1 Category B, plus 1 obligation(s) from New York's mandatory split. Utah's gate adds no obligation: nine branches, 4 of them refused without signed consent, all inside one route."
+  },
+  "sourceIdentityObligations": [
+    {
+      "jurisdiction": "UT",
+      "constraint": {
+        "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+        "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+        "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+      },
+      "hardCodedInThisTree": [
+        "data/rcap-grade-a/launch-control/GRADE_A_LAUNCH_CONTROL.json",
+        "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json"
+      ],
+      "verdict": "LIVE_DEFECT — the placeholder is already committed and must be removed before any Utah 402 packet is built.",
+      "routeToLane": "R4_SOURCE_IDENTITY_AND_ACQUISITION"
+    }
+  ],
+  "whatThisDoesNotDo": [
+    "It moves no census count.",
+    "It opens no commercial route and proves no packet.",
+    "It creates no packet family and no fulfilment record.",
+    "It does not build any of the four routes; it states exactly what building each one requires."
+  ],
+  "rows": [
+    {
+      "questionId": "Q4",
+      "decisionId": "LWD-2026-08-30-AL-Q4-DE-NOVO-REVIEW",
+      "jurisdiction": "AL",
+      "routeKey": "obligation:research-decision-route:AL:al-uncharged-arrest:de_novo_court_review_after_final_denial",
+      "publicLabel": "Alabama de novo circuit-court review after final agency denial",
+      "answer": "A — LEGALEASE MUST FULFILL",
+      "classification": "CATEGORY_A_BOUNDED_PARTICIPANT_FILED_APPEAL",
+      "censusCategoryBefore": "NEEDS_LEGAL_REVIEW",
+      "determinedCategory": "A_MUST_FULFILL",
+      "determinedCategoryBReason": null,
+      "categoryBReasonAlreadyInVocabulary": null,
+      "participantFiledFallbackExists": true,
+      "existingTrackId": null,
+      "existingRuntimePathwayId": null,
+      "existingRouteContractId": null,
+      "existingPacketFamilyId": null,
+      "existingPacketSetId": null,
+      "existingSourceIds": [],
+      "existingProductWiring": "NO_APPROVED_TRACK_RUNTIME_OR_GRADE_A_FULFILLMENT_RECORD",
+      "mandatorySubroutes": [],
+      "gatedBranches": [],
+      "obligationDelta": 0,
+      "remainingEngineeringWork": [
+        "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+        "assemble the 2-document packet in the order the determination names",
+        "bind the 8 self-help stop conditions as refusals rather than as copy"
+      ],
+      "selfHelpStopConditions": 8,
+      "controllingAuthority": [
+        "Ala. Code § 41-9-625",
+        "Ala. Code § 41-9-645",
+        "Ala. Code § 41-9-646",
+        "Ala. Code § 41-22-20",
+        "Ala. Admin. Code r. 265-X-2-.03",
+        "Stowe v. Alabama Board of Pardons & Paroles, 216 So. 3d 423 (Ala. Civ. App. 2017)",
+        "Mobile Press Register, Inc. v. Lackey, 938 So. 2d 398 (Ala. 2006)"
+      ],
+      "sourceIdentityConstraint": null,
+      "grantsNothing": "This determination creates an implementation obligation. It opens no commercial route and proves no packet."
+    },
+    {
+      "questionId": "Q47",
+      "decisionId": "LWD-2026-08-30-NE-Q47-POSTCONVICTION",
+      "jurisdiction": "NE",
+      "routeKey": "obligation:track-only:NE:ne-postconviction-routing",
+      "publicLabel": "Where to go if you want your Nebraska conviction overturned",
+      "answer": "B — LEGITIMATE EXCLUSION",
+      "classification": "CATEGORY_B_EXCLUSION",
+      "censusCategoryBefore": "NEEDS_LEGAL_REVIEW",
+      "determinedCategory": "B_LEGITIMATE_EXCLUSION",
+      "determinedCategoryBReason": "UNSUITABLE_FOR_SELF_HELP",
+      "categoryBReasonAlreadyInVocabulary": true,
+      "participantFiledFallbackExists": true,
+      "existingTrackId": "ne-postconviction-routing",
+      "existingRuntimePathwayId": null,
+      "existingRouteContractId": null,
+      "existingPacketFamilyId": "rcap-ne-guidance-implementation",
+      "existingPacketSetId": "ne-postconviction-routing-set",
+      "existingSourceIds": [
+        "source-url:https://nebraskalegislature.gov/laws/statutes.php?statute=29-3001"
+      ],
+      "existingProductWiring": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+      "mandatorySubroutes": [],
+      "gatedBranches": [],
+      "obligationDelta": 0,
+      "remainingEngineeringWork": [
+        "record the exclusion with reason UNSUITABLE_FOR_SELF_HELP and build only what the determination permits: 6 guidance and referral outputs, and no merits pleading",
+        "bind the 7 self-help stop conditions as refusals rather than as copy"
+      ],
+      "selfHelpStopConditions": 7,
+      "controllingAuthority": [
+        "Neb. Rev. Stat. § 29-3001",
+        "Neb. Rev. Stat. § 29-3003",
+        "Neb. Rev. Stat. § 29-3004",
+        "State v. Jaeger, 311 Neb. 69 (2022)",
+        "State v. Boeggeman, 316 Neb. 581 (2024)",
+        "State v. Anthony, 320 Neb. 757 (2026)"
+      ],
+      "sourceIdentityConstraint": null,
+      "grantsNothing": "This determination creates an implementation obligation. It opens no commercial route and proves no packet."
+    },
+    {
+      "questionId": "Q54",
+      "decisionId": "LWD-2026-08-30-NY-Q54-LEGACY-160-55",
+      "jurisdiction": "NY",
+      "routeKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion",
+      "publicLabel": "Possible pre-November 1, 1991 legacy motion",
+      "answer": "A — LEGALEASE MUST FULFILL, BUT ONLY AS TWO DATE-SPECIFIC SUBROUTES",
+      "classification": "CATEGORY_A_MANDATORY_ROUTE_SPLIT",
+      "censusCategoryBefore": "NEEDS_LEGAL_REVIEW",
+      "determinedCategory": "A_MUST_FULFILL",
+      "determinedCategoryBReason": null,
+      "categoryBReasonAlreadyInVocabulary": null,
+      "participantFiledFallbackExists": true,
+      "existingTrackId": null,
+      "existingRuntimePathwayId": null,
+      "existingRouteContractId": null,
+      "existingPacketFamilyId": null,
+      "existingPacketSetId": null,
+      "existingSourceIds": [],
+      "existingProductWiring": "NO_APPROVED_TRACK_RUNTIME_OR_GRADE_A_FULFILLMENT_RECORD",
+      "mandatorySubroutes": [
+        {
+          "proposedRouteKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-1",
+          "cohortId": "NY-160-55-LEGACY-COHORT-1",
+          "conviction": "before September 1, 1980",
+          "governedBy": "the current CPL § 160.55(3) motion, expressly",
+          "instrument": "Motion for an Order Granting Relief Under CPL § 160.55(3)",
+          "noticeRule": "The full motion must be provided to the district attorney on not less than 20 days' notice before the motion is submitted or heard."
+        },
+        {
+          "proposedRouteKey": "obligation:research-decision-route:NY:ny_160_55_violation:pre_1991_legacy_motion::ny-160-55-legacy-cohort-2",
+          "cohortId": "NY-160-55-LEGACY-COHORT-2",
+          "conviction": "September 1, 1980 through October 31, 1991",
+          "governedBy": "former CPL § 160.55, through a motion to enter or enforce the omitted legacy sealing order",
+          "instrument": "Motion to Enter and Enforce a Legacy Sealing Order Under Former CPL § 160.55",
+          "noticeRule": "No current statewide statute supplies a separate legacy notice period. Serve the district attorney and comply with the terminating court's local criminal-motion return-date and service rules. 20 days may be used as a conservative operational minimum only where consistent with local practice, and must not be stated as an express statutory requirement for this cohort."
+        }
+      ],
+      "gatedBranches": [],
+      "obligationDelta": 1,
+      "remainingEngineeringWork": [
+        "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+        "split the obligation into the two date-specific subroutes; a single generic motion would be legally inaccurate",
+        "bind the screening question that identifies the exact conviction date, because that date selects the motion theory",
+        "bind the 8 self-help stop conditions as refusals rather than as copy"
+      ],
+      "selfHelpStopConditions": 8,
+      "controllingAuthority": [
+        "CPL § 160.55(1), (2), (3) and (4)",
+        "L. 1980, ch. 192, effective September 1, 1980",
+        "L. 1991, ch. 142",
+        "New York State Unified Court System, 'Sealed Records: Violations and Traffic Infractions'",
+        "People v. Gartenberg, 105 Misc. 2d 657 (Crim. Ct. Queens County 1980)",
+        "People v. Nicholas, 19 Misc. 3d 322 (Watertown City Ct. 2008)"
+      ],
+      "sourceIdentityConstraint": null,
+      "grantsNothing": "This determination creates an implementation obligation. It opens no commercial route and proves no packet."
+    },
+    {
+      "questionId": "Q76",
+      "decisionId": "LWD-2026-08-30-UT-Q76-402-REDUCTION",
+      "jurisdiction": "UT",
+      "routeKey": "obligation:track-only:UT:ut_adj_reduction_402",
+      "publicLabel": "Not eligible yet? Reducing the conviction level may open a route",
+      "answer": "A — LEGALEASE MUST FULFILL THE DEFENDANT-FILED BRANCHES; SEPARATELY GATE THE CONSENT-DEPENDENT AND JOINT-MOTION BRANCHES",
+      "classification": "CATEGORY_A_WITH_SEPARATELY_GATED_BRANCHES",
+      "censusCategoryBefore": "NEEDS_LEGAL_REVIEW",
+      "determinedCategory": "A_MUST_FULFILL",
+      "determinedCategoryBReason": null,
+      "categoryBReasonAlreadyInVocabulary": null,
+      "participantFiledFallbackExists": true,
+      "existingTrackId": "ut_adj_reduction_402",
+      "existingRuntimePathwayId": null,
+      "existingRouteContractId": null,
+      "existingPacketFamilyId": "rcap-ut-guidance-implementation",
+      "existingPacketSetId": "ut_adj_reduction_402-set",
+      "existingSourceIds": [
+        "source-url:https://le.utah.gov/xcode/Title77/Chapter40A/Section205.html",
+        "source-url:https://le.utah.gov/xcode/Title77/Chapter40A/Section303.html",
+        "source-url:https://www.utcourts.gov/en/self-help/case-categories/criminal-justice/expunge.html"
+      ],
+      "existingProductWiring": "NO_ROUTE_LEVEL_GRADE_A_AUTHORITY_FROM_TRACK_MEMBERSHIP",
+      "mandatorySubroutes": [],
+      "gatedBranches": [
+        {
+          "branchId": "UT-402-SENTENCING",
+          "when": "at sentencing",
+          "prosecutorConsentRequired": false,
+          "selfHelpFulfilled": true,
+          "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+        },
+        {
+          "branchId": "UT-402-AFTER-SUCCESSFUL-PROBATION",
+          "when": "after successful completion of probation or parole",
+          "prosecutorConsentRequired": false,
+          "selfHelpFulfilled": true,
+          "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+        },
+        {
+          "branchId": "UT-402-AFTER-REHAB-PROGRAM",
+          "when": "after a qualifying rehabilitation program",
+          "prosecutorConsentRequired": false,
+          "selfHelpFulfilled": true,
+          "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+        },
+        {
+          "branchId": "UT-402-LATER-CASE-FIVE-YEAR",
+          "when": "after successful probation or parole in a later case, five years from sentencing in the later case",
+          "prosecutorConsentRequired": false,
+          "selfHelpFulfilled": true,
+          "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+        },
+        {
+          "branchId": "UT-402-LATER-CASE-THREE-YEAR",
+          "when": "after successful probation or parole in a later case, three years from sentencing in the later case",
+          "prosecutorConsentRequired": true,
+          "selfHelpFulfilled": false,
+          "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+        },
+        {
+          "branchId": "UT-402-AFTER-UNSUCCESSFUL-DISCHARGE",
+          "when": "after an unsuccessful probation or parole discharge, five years",
+          "prosecutorConsentRequired": false,
+          "selfHelpFulfilled": true,
+          "gate": "PARTICIPANT_FILED_NO_CONSENT_GATE"
+        },
+        {
+          "branchId": "UT-402-TWO-DEGREE",
+          "when": "any branch where a two-degree reduction is sought",
+          "prosecutorConsentRequired": true,
+          "selfHelpFulfilled": false,
+          "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+        },
+        {
+          "branchId": "UT-402-VIOLENT-FELONY",
+          "when": "the offense is a statutorily defined violent felony under the applicable post-sentence branches",
+          "prosecutorConsentRequired": true,
+          "selfHelpFulfilled": false,
+          "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+        },
+        {
+          "branchId": "UT-402-SUBSTANTIAL-ASSISTANCE",
+          "when": "within one year after sentencing",
+          "prosecutorConsentRequired": true,
+          "selfHelpFulfilled": false,
+          "gate": "REFUSE_WITHOUT_SIGNED_CONSENT — the packet must not generate this branch on the participant's assertion that the prosecutor agrees"
+        }
+      ],
+      "obligationDelta": 0,
+      "remainingEngineeringWork": [
+        "create the participant-facing Category A identity with its selector, output strategy, product outcome and commercial treatment",
+        "build the branch gate: the consent-dependent and joint-motion branches refuse without signed prosecutorial consent",
+        "bind the 35-day prosecutor response window and the Request to Submit workflow",
+        "assemble the 5-document packet in the order the determination names",
+        "bind the 10 self-help stop conditions as refusals rather than as copy"
+      ],
+      "selfHelpStopConditions": 10,
+      "controllingAuthority": [
+        "Utah Code § 76-3-402, current version effective May 6, 2026",
+        "Utah Rule of Criminal Procedure 12(c)(2)",
+        "Utah State Courts, 'Motion to Reduce Conviction (402 Motion)'"
+      ],
+      "sourceIdentityConstraint": {
+        "observed": "Utah Courts currently displays the required motion form identifier as '1023XX', which appears to be a placeholder rather than a final usable form number.",
+        "classification": "SOURCE_IDENTITY_ISSUE_NOT_A_ROUTE_RETIREMENT",
+        "requirement": "Do not hard-code '1023XX' as the final production form identity. This is a source-identity issue, not a reason to retire the legal route."
+      },
+      "grantsNothing": "This determination creates an implementation obligation. It opens no commercial route and proves no packet."
+    }
+  ]
+}

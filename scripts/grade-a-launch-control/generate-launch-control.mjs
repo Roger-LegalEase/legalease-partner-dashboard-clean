@@ -48,6 +48,7 @@ const waveReview = read("data/rcap-grade-a/launch-control/WAVE_1_RETURN_REVIEW.j
 const integration = read("data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json");
 const residual = read("data/rcap-grade-a/launch-control/RESIDUAL_WORK.json");
 const contract = read("data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json");
+const counsel = read("data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json");
 const crosswalk = read("data/rcap-grade-a/launch-control/CATEGORY_B_STAGE_BRANCH_CROSSWALK.json");
 const dataRights = exists("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json")
   ? read("data/rcap-grade-a/participant-data-rights/nonproduction-application-readiness.json") : null;
@@ -76,6 +77,8 @@ const doc = {
     categoryBIntegrationStatus: "data/rcap-grade-a/launch-control/CATEGORY_B_INTEGRATION_STATUS.json",
     residualWork: "data/rcap-grade-a/launch-control/RESIDUAL_WORK.json",
     workerExecutionContract: "data/rcap-grade-a/launch-control/WORKER_EXECUTION_CONTRACT.json",
+    counselDeterminationDelta: "data/rcap-grade-a/launch-control/COUNSEL_DETERMINATION_DELTA.json",
+    counselDecisionRecord: "data/record-clearing/legal-decisions/2026-08-30-lawrence-four-counsel-determinations.json",
     executionOrder: "docs/LAUNCH_SEQUENCE.md",
     productContract: "docs/PRODUCT_CONTRACT.md"
   },
@@ -182,7 +185,30 @@ const doc = {
 
   legalWork: {
     trueCounselQuestions: legalQueue.trueCounselQueue.count,
-    trueCounselDetail: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction} — ${q.publicLabel}`),
+    trueCounselAnswered: legalQueue.trueCounselQueue.answered ?? 0,
+    trueCounselOpen: legalQueue.trueCounselQueue.open ?? legalQueue.trueCounselQueue.count,
+    trueCounselDetail: legalQueue.trueCounselQueue.questions.map((q) =>
+      `#${q.number} ${q.jurisdiction} — ${q.publicLabel}${q.answered ? ` — ANSWERED ${q.answeredOn}: ${q.answerSummary}` : ""}`),
+    // WHAT THE FOUR ANSWERS COST THE TREE.
+    //
+    // Three of the four are Category A, but "Category A" is not an instruction
+    // on its own: New York's answer splits one obligation into two date-specific
+    // subroutes, and Utah's keeps one obligation while refusing four of nine
+    // branches without signed prosecutorial consent. The counts come from the
+    // reconciliation, not from the answers.
+    counselDeterminations: {
+      answered: counsel.counts.questionsAnswered,
+      categoryA: counsel.counts.categoryA,
+      categoryB: counsel.counts.categoryB,
+      mandatoryRouteSplits: counsel.counts.mandatoryRouteSplits,
+      subroutesRequired: counsel.counts.subroutesRequired,
+      branchesGatedBehindConsent: counsel.counts.branchesGatedBehindConsent,
+      branchesParticipantFiled: counsel.counts.branchesParticipantFiled,
+      obligationDelta: counsel.counts.obligationDelta,
+      projectedDenominator: counsel.projectedDenominator.afterCounselDeterminations,
+      sourceIdentityObligations: counsel.sourceIdentityObligations,
+      grantsNothing: "These determinations create implementation obligations only. No commercial route opens and no packet is proven."
+    },
     alreadyAnsweredImplementationQueue: retriage.counts.ALREADY_ANSWERED,
     captainMappingQueue: retriage.counts.CAPTAIN_MAPPING_CORRECTION,
     sourceIdentityQuestions: retriage.counts.SOURCE_IDENTITY_QUESTION,
@@ -251,7 +277,9 @@ const doc = {
     // dispatch wrote, not on an observed refusal. Egress is now recorded per
     // exact source.
     { id: "BLK-1", blocker: "Official-source acquisition has not run, and the reason is per source rather than a blanket policy refusal", detail: `A HEAD probe from a worker host reached ${residual.lanes.find((l) => l.residualLaneId === "R4_SOURCE_IDENTITY_AND_ACQUISITION").detail.egressByExactSource.filter((h) => h.reachableOnHeadProbe).length} of ${residual.lanes.find((l) => l.residualLaneId === "R4_SOURCE_IDENTITY_AND_ACQUISITION").detail.egressByExactSource.length} official hosts tested; the rest refused. No document body was downloaded, so reachability is proven and acquisition is not. The 49 obligations stopped on this dispatch's blanket egress stop condition, which the worker execution contract removes.`, owner: "Captain — reissue acquisition per reachable source; Roger — escalate the refused hosts", blocks: "49 acquisition obligations and 33 promotion candidates" },
-    { id: "BLK-2", blocker: "Four true counsel questions are unanswered", detail: legalQueue.trueCounselQueue.questions.map((q) => `#${q.number} ${q.jurisdiction}`).join(", "), owner: "Lawrence Blackmon", blocks: "the routes those four decisions govern" },
+    // CLOSED AT CHECKPOINT 1. Lawrence answered all four on 2026-08-30. What
+    // replaces the blocker is engineering work, not a wait.
+    { id: "BLK-2", blocker: "CLOSED — the four true counsel questions are answered", detail: `${counsel.counts.questionsAnswered} of ${legalQueue.trueCounselQueue.count} answered on ${counsel.decisionDate} by ${counsel.decisionOwner}: ${counsel.counts.categoryA} Category A, ${counsel.counts.categoryB} legitimate exclusion. New York requires a mandatory split into ${counsel.counts.subroutesRequired} date-specific subroutes and Utah gates ${counsel.counts.branchesGatedBehindConsent} of nine branches behind prosecutorial consent. What remains is implementation, carried as residual lane R6.`, owner: "Captain — residual lane R6_COUNSEL_DETERMINATION_IMPLEMENTATION", blocks: "nothing; this blocker is closed" },
     { id: "BLK-3", blocker: "No packet family has an independent review or output approval", detail: "Six families carry candidate evidence in the tree and six more await integration; none has passed independent technical verification, independent visual review or Lawrence approval.", owner: "Captain then Lawrence", blocks: "COMPLETE_PACKET_PROVEN for every family, and therefore every commercial route" },
     { id: "BLK-4", blocker: "The data-rights migration cannot be applied from this environment", detail: "Authorized for the synthetic acceptance project and unspent; the preconditions are observations about a project this environment cannot reach.", owner: "an environment with the project ref and egress", blocks: "hosted data-rights acceptance" },
     { id: "BLK-5", blocker: "238 families are held for a missing source", detail: "Released automatically as sources resolve; the scoreboard recomputes releasability rather than relying on anyone remembering.", owner: "source lane C10, continued as residual lane R4", blocks: "238 of 352 families entering a build slot" },
@@ -370,9 +398,25 @@ function renderStatus(d) {
   lines.push("");
   lines.push("## Legal work");
   lines.push("");
-  lines.push(`Four questions are genuinely for counsel. The other ${d.legalWork.total - d.legalWork.trueCounselQuestions} rows of the 86 are Captain work.`);
+  lines.push(`Four questions were genuinely for counsel; **${d.legalWork.trueCounselAnswered} are answered and ${d.legalWork.trueCounselOpen} remain open**. The other ${d.legalWork.total - d.legalWork.trueCounselQuestions} rows of the 86 are Captain work.`);
   lines.push("");
   for (const q of d.legalWork.trueCounselDetail) lines.push(`- ${q}`);
+  lines.push("");
+  lines.push("### What the four answers require");
+  lines.push("");
+  lines.push("| | |");
+  lines.push("| --- | ---: |");
+  lines.push(row("Category A", d.legalWork.counselDeterminations.categoryA));
+  lines.push(row("Category B (legitimate exclusion)", d.legalWork.counselDeterminations.categoryB));
+  lines.push(row("Mandatory route splits", d.legalWork.counselDeterminations.mandatoryRouteSplits));
+  lines.push(row("Subroutes required", d.legalWork.counselDeterminations.subroutesRequired));
+  lines.push(row("Branches gated behind prosecutorial consent", d.legalWork.counselDeterminations.branchesGatedBehindConsent));
+  lines.push(row("Branches participant-filed with no consent gate", d.legalWork.counselDeterminations.branchesParticipantFiled));
+  lines.push(row("Obligations added", d.legalWork.counselDeterminations.obligationDelta));
+  lines.push("");
+  lines.push(`New York cannot be built as one generic pre-November 1991 motion: the screening must ask the exact conviction date, and that date selects the motion theory. Utah's consent-dependent and joint-motion branches refuse without signed prosecutorial consent. Nebraska generates no merits pleading at all.`);
+  lines.push("");
+  lines.push(d.legalWork.counselDeterminations.grantsNothing);
   lines.push("");
   lines.push("| Queue | Rows |");
   lines.push("| --- | ---: |");
