@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "rcap-census-v1-local-variation-record/v1",
+  "worklistGroupId": "ak-courtview-set",
+  "jurisdiction": "AK",
+  "wave": "census-v1-wave-AK-01",
+  "workType": "LOCAL_VARIATION_REQUIRED",
+  "routeKey": "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40",
+  "documentId": "TF-810",
+
+  "whyThisRecordExistsWhileTheSourceGateIsClosed": "Local filing, fee, venue and delivery variation is a question about the route's procedure, not about the geometry of the form's blanks. It is answerable from committed authority that is present in this clone, so it was completed rather than left undone. Nothing here depends on the TF-810 binary, and nothing here is a field map.",
+
+  "authorityUsed": [
+    {
+      "id": "compiled-profile",
+      "path": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+      "read": "read-only; not modified",
+      "nodesCited": [
+        "pathways[id=confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40]",
+        "packetGenerator.filingDestinationRules",
+        "packetGenerator.feeRules"
+      ],
+      "tier": "compiled secondary source derived from the AK corpus units named in the pathway sourceRef"
+    },
+    {
+      "id": "frozen-census",
+      "path": "data/rcap-grade-a/route-obligation-census-v1/",
+      "read": "read-only; not modified",
+      "nodesCited": ["packet-family-build-worklist.json packetFamilies[8].routes[0].deliverable"]
+    }
+  ],
+
+  "evidenceTiers": {
+    "recorded_from_committed_authority": "Supported by a cited node in the compiled profile or the frozen census.",
+    "requires_source_bytes": "A question about the face of TF-810 itself. Cannot be answered while the source gate is closed, and was not guessed.",
+    "requires_counsel": "A question committed authority does not resolve and that a build lane has no standing to settle."
+  },
+
+  "variations": {
+    "venue": {
+      "status": "recorded_from_committed_authority",
+      "finding": "Statewide Alaska Court System process with per-case venue. The request is filed with the trial court that handled the underlying case, in the judicial district where that case was filed.",
+      "localVariationCharacter": "Venue varies by case, not by policy. There is one statewide form and one statewide rule; what changes per participant is which trial court and which of Alaska's four judicial districts the original case sits in.",
+      "citations": [
+        "packetGenerator.filingDestinationRules: 'File TF-810 with the trial court that handled the case; it's a short request with proof attached, not an adversarial petition.'",
+        "packetGenerator.filingDestinationRules: '...and file with the trial court where the case was filed.'",
+        "census deliverable.filingDestination: 'The form carries a judicial district and location caption.'"
+      ],
+      "runtimeConsequence": "The route must collect the originating court and judicial district from the participant; they are not derivable from the jurisdiction alone."
+    },
+
+    "filingMethod": {
+      "status": "recorded_from_committed_authority",
+      "finding": "An administrative request to the court, not an adversarial petition and not a motion. Filed with proof attached.",
+      "citations": [
+        "packetGenerator.filingDestinationRules: 'it's a short request with proof attached, not an adversarial petition.'",
+        "packetGenerator.feeRules: 'Administrative request to the court'"
+      ],
+      "notRecorded": "Whether a given trial court location accepts this request by mail, in person, by email, or through an e-filing portal is not resolved by committed authority.",
+      "openQuestion": "requires_counsel"
+    },
+
+    "filingFee": {
+      "status": "recorded_from_committed_authority",
+      "finding": "Typically $0. The CourtView exclusion request ordinarily carries no filing fee.",
+      "citations": [
+        "packetGenerator.feeRules: 'Form TF-810 (Courtview exclusion) Typically $0 Administrative request to the court'",
+        "packetGenerator.feeRules: 'Removing an acquittal or dismissal from the public Courtview index via Form TF-810 is an administrative request and typically carries no fee.'",
+        "packetGenerator.feeRules: 'Reassure users that the Courtview exclusion (TF-810) is generally free -- the limiting factor in Alaska is what relief exists, not the fee.'"
+      ],
+      "cautionOnTheWordTypically": "The authority says 'typically' and 'generally', not 'never'. This is recorded as the ordinary case, not as a guarantee that no location assesses a charge."
+    },
+
+    "feeWaiverTreatment": {
+      "status": "recorded_from_committed_authority",
+      "finding": "No fee waiver step on the ordinary path, because the ordinary fee is $0. There is nothing to waive.",
+      "consequenceIfTheOrdinaryCaseDoesNotHold": "If a location does assess a fee, the waiver treatment for that location is unrecorded and this route has no tested branch for it.",
+      "openQuestion": "requires_counsel"
+    },
+
+    "serviceRecipients": {
+      "status": "recorded_from_committed_authority",
+      "finding": "No participant-side service on an opposing party. The route is a request to the court, expressly not adversarial, so there is no prosecutor or respondent to serve.",
+      "citations": [
+        "packetGenerator.filingDestinationRules: '...not an adversarial petition.'"
+      ],
+      "courtSideDeliveryIsNotParticipantService": "The frozen census records that the clerk emails the request and the final disposition order to the court system HelpDesk. That is a court-side step performed after filing by court staff. It is not service the participant performs and must not be rendered as one.",
+      "citations2": [
+        "census deliverable.filingDestination: 'The clerk emails the request and the final disposition order to the court system HelpDesk.'"
+      ]
+    },
+
+    "serviceMethod": {
+      "status": "recorded_from_committed_authority",
+      "finding": "Not applicable to the participant. No service method is required of the filer on this route."
+    },
+
+    "serviceTiming": {
+      "status": "recorded_from_committed_authority",
+      "finding": "Not applicable to the participant, service not being required of the filer."
+    },
+
+    "filingDeadline": {
+      "status": "recorded_from_committed_authority",
+      "finding": "No filing deadline. The 60-day period in AS 22.35.030 is an eligibility precondition running from acquittal or dismissal, not a deadline by which the participant must file. There is no point at which the right to ask expires.",
+      "citations": [
+        "pathway.waitingRules: 'Courtview non-publication 60 days after acquittal or dismissal AS 22.35.030'",
+        "pathway.waitingRules: 'The court system may NOT publish on the public Courtview website a criminal case if 60 days have passed and the person was acquitted of all charges...'"
+      ],
+      "orderingRuleThatMattersMoreThanAnyDeadline": "Removal at 60 days is automatic by rule. TF-810 is a backstop for cases that slipped through. The participant should check CourtView first and file only if the case is still showing.",
+      "citations2": [
+        "pathway.waitingRules: 'For acquittals/dismissals, the relief should be automatic at 60 days -- have the user check Courtview first and only file TF-810 if the case is still showing.'",
+        "orderedDecisionRules[id=rule-45-and-only-file-tf-810-if-the-case-is-still-showing]"
+      ]
+    },
+
+    "postFilingInstructions": {
+      "status": "recorded_from_committed_authority",
+      "finding": "The court responds on the face of the form. The frozen census records a response block reading 'Case removed' or 'Case not removed', with a date sent to the requestor.",
+      "citations": [
+        "census deliverable.filingDestination: 'The form carries a response block for \"Case removed\" or \"Case not removed\" with a date sent to the requestor.'"
+      ],
+      "protectedFieldConsequence": "That response block is court-completed. It is named here so that whichever lane reopens the source gate treats it as unwritable rather than as an empty blank to fill.",
+      "effectOfRelief": "Non-publication on the public CourtView index only. The underlying record is not destroyed and remains available to law enforcement and agencies.",
+      "citations2": [
+        "pathway.ruleClauses: 'This makes the record non-public on Courtview; it does not destroy the underlying record.'",
+        "pathway.exclusionRules: 'Courtview non-publication only hides the case from the public website -- law enforcement and agencies retain the record...'"
+      ]
+    },
+
+    "uncontestedHearingTreatment": {
+      "status": "recorded_from_committed_authority",
+      "finding": "No hearing on the ordinary path. The request is administrative and resolved on the papers by the court's response block."
+    },
+
+    "contestedHearingOrOppositionHandoff": {
+      "status": "recorded_from_committed_authority",
+      "finding": "No opposition mechanism on this route, there being no served party. The recorded adverse outcome is a 'Case not removed' response on the form rather than a contested proceeding.",
+      "handoffConsequence": "A 'Case not removed' answer is where this route ends. TF-800, a request asking a judge to seal a still-public case or document, is the neighbouring mechanism the profile names, and it is a different route with its own obligations.",
+      "citations": [
+        "pathway.ruleClauses: 'Form TF-810 asks the court to exclude such a case; TF-805 removes just the person's name; TF-800 asks a judge to seal a still-public case or document.'"
+      ]
+    },
+
+    "requiredParticipantAttachments": {
+      "status": "recorded_from_committed_authority",
+      "finding": "Proof of the acquittal or dismissal, and proof that 60 days have elapsed.",
+      "citations": [
+        "packetGenerator.filingDestinationRules: 'complete Form TF-810 ... attach proof of the acquittal/dismissal and that 60 days have elapsed, and file with the trial court where the case was filed.'"
+      ]
+    },
+
+    "notarizationRequirements": {
+      "status": "requires_source_bytes",
+      "finding": "Not determined. Committed authority does not state whether TF-810 requires notarization, and the answer is a question about the face of the form. It was not guessed."
+    },
+
+    "coverSheet": { "status": "requires_source_bytes", "finding": "Not determined. Whether this route requires a separate cover sheet is not stated in committed authority." },
+    "proposedOrder": { "status": "requires_source_bytes", "finding": "Not determined. The census records a court response block on the form itself; whether a separate proposed order is required cannot be settled without the form." },
+    "notice": { "status": "requires_source_bytes", "finding": "Not determined." },
+    "certificateOfService": {
+      "status": "requires_source_bytes",
+      "finding": "Not determined whether the form carries a certificate-of-service block. No service is required of the participant on this route, so on the recorded procedure there would be nothing to certify, but that is an inference about a block this lane has not seen.",
+      "hardRuleReminder": "If such a block exists it must not be prefilled before actual mailing."
+    },
+    "affidavitOrVerification": { "status": "requires_source_bytes", "finding": "Not determined." },
+    "schedulesOrContinuationPages": { "status": "requires_source_bytes", "finding": "Not determined. The corpus index records TF-810 as a single page, which makes continuation pages unlikely, but page count is not the same as the absence of an overflow instruction." }
+  },
+
+  "discrepancyReferredUpwardNotFixedHere": {
+    "what": "The frozen census records requiredParticipantAttachments for this route as 'Ask the sentencing court for proof of the SIS and any set-aside order, and attach them.'",
+    "why_it_looks_wrong": "A suspended imposition of sentence and its set-aside order belong to the AS 12.55.085(e) set-aside mechanism, which is a motion filed in the underlying criminal case. This route is the AS 22.35.030 / Administrative Rule 40 CourtView exclusion for acquittals and dismissals. The attachment the compiled profile names for this route is proof of the acquittal or dismissal and proof that 60 days have elapsed.",
+    "why_it_is_not_corrected_here": "data/rcap-grade-a/route-obligation-census-v1/ is frozen and this lane must not modify it. Recorded so that whoever holds the census can decide.",
+    "recordedAttachmentThisLaneBuiltAgainst": "Proof of the acquittal or dismissal, and proof that 60 days have elapsed."
+  },
+
+  "approvalPosture": {
+    "outputLegalApproval": "REQUESTED_NOT_GRANTED",
+    "statement": "This lane grants no approval. Nothing here marks the packet family proven, approved, or sellable, no commercial route was opened, and no fulfillment record was created.",
+    "whatCounselStillNeedsToSettle": [
+      "Per-location filing channel: mail, in person, email, or e-filing.",
+      "Whether any location assesses a fee, and the waiver treatment if one does.",
+      "Every item marked requires_source_bytes, once the source gate is reopened."
+    ]
+  }
+}

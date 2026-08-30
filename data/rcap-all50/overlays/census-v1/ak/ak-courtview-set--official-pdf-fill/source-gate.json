@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "rcap-census-v1-source-gate/v1",
+  "generatedBy": "scripts/census-v1-ak-courtview-set-source-gate.mjs",
+  "determination": "SOURCE_GATE_CLOSED",
+  "buildOutcome": "BLOCKED_AT_STEP_1_NO_VERIFIABLE_SOURCE_BYTES",
+  "custodyClassificationInCensus": "SOURCE_ALREADY_HELD",
+  "custodyVsAvailability": "SOURCE_ALREADY_HELD is a statement about the verified private corpus, not about this container. The corpus is real and was hash-verified at import (499/499 files, 0 missing, 0 mismatched). It is simply not mounted here, and private/ is git-ignored so a fresh clone never carries it. Held is not the same as reachable, and the difference is the whole build.",
+  "egressPosture": "No acquisition was attempted. This environment refuses egress to court hosts by policy, and the build instruction is explicit that nothing is to be acquired. The pinned source-url in the route (public.courts.alaska.gov) was not contacted.",
+  "whatWasNotDoneAndWhyNot": [
+    "No field map was derived from data/rcap-all50/overlays/production/alaska/tf-810-form-en/. Those numbers were measured in an earlier session against the same pinned hash, but copying them forward would report a measurement this lane did not take, and that overlay still carries the hold f_independent_visual_review_required with status implemented_pending_independent_review.",
+    "No fixtures were rendered. The factory fills the source binary; with no binary there is no artifact, and an artifact hash invented without one would be a fabricated proof.",
+    "No page was rastered and no visual review was recorded, because a visual review of a document that was never produced is not a review.",
+    "No verifier was weakened, skipped or quarantined to make this lane report green."
+  ],
+  "toReopenThisGate": [
+    "Mount the verified private corpus at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1, or point OFFICIAL_FORMS_SOURCE_DIR at it.",
+    "Re-run scripts/census-v1-ak-courtview-set-source-gate.mjs; it exits 0 only when the bytes at the pinned path hash to c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 and measure 85386 bytes.",
+    "Install dependencies (node_modules is absent in this container; scripts/rcap-all50-overlay-factory-lib.mjs cannot import pdf-lib), then run the existing factory. Do not write a second factory.",
+    "Measure every write box off the document using scripts/lib/pdf-stroked-boxes.mjs, which is the corrected detector; the older re-operator scan tracked no CTM and produced a mark in the margin."
+  ],
+  "open": false,
+  "family": {
+    "worklistGroupId": "ak-courtview-set",
+    "jurisdiction": "AK",
+    "implementationStrategy": "official_pdf_fill",
+    "wave": "census-v1-wave-AK-01",
+    "documentId": "TF-810",
+    "routeKey": "obligation:track-pathway:AK:ak-courtview:confidentiality-of-acquittals-and-dismissals-as-22-35-030-administrative-rule-40"
+  },
+  "corpusIndex": "data/rcap-all50/local-source-corpus-index.json",
+  "importVerification": {
+    "shardsDeclared": 11,
+    "sourceArchiveSha256": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
+    "filesDeclared": 499,
+    "filesPresent": 499,
+    "filesHashVerified": 499,
+    "filesMissing": [],
+    "filesHashMismatched": []
+  },
+  "pinned": {
+    "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+    "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+    "byteLength": 85386,
+    "pageCount": 1,
+    "acroFieldCount": 23,
+    "structuralClassObserved": "acroform"
+  },
+  "resolved": {
+    "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "corpusRootPresent": false,
+    "binaryPresent": false,
+    "observed": null
+  },
+  "refusals": [
+    {
+      "code": "corpus_root_absent",
+      "because": "The verified private corpus is not mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. private/ is git-ignored, so a fresh clone never carries it. An absent corpus is not an empty corpus: reading it as one would make a form with a pinned hash look like a form with no source.",
+      "expectedCorpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "orSetTheEnvironmentVariable": "OFFICIAL_FORMS_SOURCE_DIR",
+      "environmentVariableSet": false
+    }
+  ],
+  "whatAClosedGateRefuses": [
+    "field census with real geometry -- there is no document to census",
+    "official-form field map -- every write box must be measured off the document",
+    "canonical and boundary fixtures -- the factory fills the source binary",
+    "byte-level artifact verification -- there are no artifact bytes to verify",
+    "independent visual review -- there is nothing to raster"
+  ]
+}
