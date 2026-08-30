@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rcap-output-approval-request/v1",
+  "familyId": "ct-cleanslate-petition-set",
+  "routeKeys": [
+    "obligation:track-pathway:CT:ct-cleanslate-petition:petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+  ],
+  "status": "REQUESTED",
+  "grantedBy": null,
+  "note": "This is a REQUEST for output-level legal review. This build grants no approval, opens no commercial route, creates no fulfillment record and marks no packet proven. The family remains not runtime-selectable and generationAllowed is false.",
+  "workTypesAddressed": {
+    "OFFICIAL_SOURCE_ACQUISITION_REQUIRED": "Resolved as custody, not acquisition: the source was already held and is bound by pinned SHA-256 proved three ways. commissionAcquisition was false and nothing was acquired.",
+    "OFFICIAL_FORM_MAP_REQUIRED": "Field map built from measured widget geometry. All 22 fields carry an explicit decision and a reason in field-decisions.json; `not_mapped` appears nowhere.",
+    "ARTIFACT_REVIEW_REQUIRED": "Canonical and boundary fixtures rendered from the pinned bytes and verified from the artifact bytes at their measured rectangles; both pages of both fixtures rastered.",
+    "OUTPUT_LEGAL_APPROVAL_REQUIRED": "NOT addressed. Requested here; a human legal reviewer grants it or does not."
+  },
+  "mattersForTheReviewersAttention": [
+    "reports/caption-channel-defect.json — a shared-infrastructure defect that both misbinds six fields on this form and is the only thing currently preventing a sworn attestation block from being prefilled.",
+    "reports/charge-caption-proof.json — the corpus charge-caption guard reports zero offending rows on this form because its vocabulary has no word for 'crime', while the widened test finds one.",
+    "reports/route-date-boundary.json — the form carries no conviction-date field, so the pre-2000 boundary that defines this route cannot be stated on it.",
+    "reports/local-filing-variation.json — service method, recipients and timing are recorded as NOT FOUND in any held source rather than inferred."
+  ],
+  "independentVisualReviewRequired": true
+}
