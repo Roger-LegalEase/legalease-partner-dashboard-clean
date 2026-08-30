@@ -260,6 +260,15 @@ jobs:
       # image input for both worker images; the originating commit added a test
       # entry there, which would have invalidated the worker-image fingerprint
       # and required a freeze-owner republish.
+      # The shared binder's name/date correction: a DAY/MONTH/YEAR blank must not
+      # acquire a participant name from neighbouring sentence text, and a
+      # caption naming every part of a name must resolve to the whole name.
+      - name: Verify the shared name and date-component semantics
+        run: node scripts/rcap-official-forms/verify-name-date-component-semantics.mjs
+
+      - name: Prove the name/date semantics record is load-bearing
+        run: node scripts/rcap-official-forms/test-name-date-component-semantics-mutations.mjs
+
       - name: Verify the census-v1 money and credit gate
         run: node scripts/verify-rcap-census-v1-money-credit-gate.mjs
 
