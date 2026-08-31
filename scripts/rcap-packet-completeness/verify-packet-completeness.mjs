@@ -36,7 +36,23 @@ const normalizeRow = (row, document = null) => ({
   refusalClass: row.refusalClass ?? null,
   role: row.role ?? null,
   page: row.page ?? row.widgets?.[0]?.page ?? row.widgets?.[0]?.pageIndex ?? null,
-  document: row.documentId ?? row.formNumber ?? document
+  document: row.documentId ?? row.formNumber ?? document,
+  factId: row.factId ?? row.fact ?? null,
+  /*
+   * What the row DECLARES, kept separate from what it says.
+   *
+   * REQUIRED_BEFORE_FILING is the one disposition a build must claim explicitly,
+   * so the claim travels as typed data and never as prose. A legacy row declares
+   * nothing and `declared` carries no boolean, which is how the contract tells a
+   * row that says nothing from a row that says false.
+   */
+  declared: {
+    disposition: row.completenessDisposition ?? null,
+    ...(Object.hasOwn(row, "requiredBeforeFiling") ? { requiredBeforeFiling: row.requiredBeforeFiling === true } : {}),
+    routeDetermined: row.routeDetermined === true,
+    factId: row.factId ?? row.fact ?? null,
+    identity: row.field ?? row.blankId ?? row.fieldId ?? row.fieldName ?? null
+  }
 });
 
 /**
@@ -81,7 +97,7 @@ function readFieldRows(fieldMap) {
       }
       for (const w of doc.withheld ?? []) {
         shape = shape ?? "anchors-and-withheld";
-        blanks.push(normalizeRow({ fieldId: w.blankId, label: w.printedCaption ?? w.label, reason: w.reason, refusalClass: w.category, page: w.page }, id));
+        blanks.push(normalizeRow({ ...w, fieldId: w.blankId, label: w.printedCaption ?? w.label, reason: w.reason, refusalClass: w.completenessClass ?? w.category ?? null, page: w.page }, id));
       }
     }
     if (shape) return { writes, blanks, schema: shape };
@@ -92,11 +108,11 @@ function readFieldRows(fieldMap) {
     for (const map of fieldMap.maps) {
       const id = map.formNumber ?? null;
       for (const w of map.canonicalWrites ?? []) writes.push(normalizeRow({ fieldId: w.field, label: w.field, ...w }, id));
-      for (const r of map.canonicalRefusals ?? []) blanks.push(normalizeRow({ fieldId: r.field, label: r.regionHeading ? `${r.regionHeading} ${r.field}` : r.field, reason: r.reason, refusalClass: r.category }, id));
-      for (const r of map.roleRefusals ?? []) blanks.push(normalizeRow({ fieldId: r.field, label: r.field, reason: r.why, refusalClass: r.class }, id));
+      for (const r of map.canonicalRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.regionHeading ? `${r.regionHeading} ${r.field}` : r.field, reason: r.reason, refusalClass: r.completenessClass ?? r.category ?? null }, id));
+      for (const r of map.roleRefusals ?? []) blanks.push(normalizeRow({ ...r, fieldId: r.field, label: r.field, reason: r.why, refusalClass: r.completenessClass ?? r.class ?? null }, id));
       for (const c of map.selectionControls ?? []) {
         if (String(c.disposition ?? "").toLowerCase().startsWith("select")) writes.push(normalizeRow({ fieldId: c.selectionId, label: c.field }, id));
-        else blanks.push(normalizeRow({ fieldId: c.selectionId, label: `${c.field} (selection)`, reason: c.reason, refusalClass: c.kind }, id));
+        else blanks.push(normalizeRow({ ...c, fieldId: c.selectionId, label: `${c.field} (selection)`, reason: c.reason, refusalClass: c.completenessClass ?? c.category ?? c.class ?? c.kind ?? null }, id));
       }
     }
     return { writes, blanks, schema: "maps-with-canonical-and-boundary" };
@@ -134,10 +150,30 @@ function auditFamily(dir, familyId) {
     };
   }
 
+  // ---- what the platform actually holds for this family --------------------------
+  //
+  // "The platform does not hold this fact" is the whole justification for a
+  // required-before-filing blank, so it is measured rather than believed. A fact
+  // this packet writes anywhere -- on any document, in either fixture -- is a
+  // fact the platform holds, and refusing it on another field is a missing known
+  // fact wearing a disclosure.
+  const availableFacts = new Set();
+  for (const w of writes) if (w.factId) availableFacts.add(String(w.factId));
+  for (const doc of actualWrites?.documents ?? []) {
+    for (const w of doc.actualWrites ?? []) {
+      const value = String(w.drawnText ?? w.expected ?? "").trim();
+      if (w.factId && value) availableFacts.add(String(w.factId));
+    }
+  }
+  for (const [factId, value] of Object.entries(fieldMap?.factMap ?? fieldMap?.availableFacts ?? {})) {
+    if (String(value ?? "").trim()) availableFacts.add(String(factId));
+  }
+
   // ---- every blank earns its blankness ------------------------------------------
   const blankLedger = [];
   for (const blank of blanks) {
-    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass);
+    const declared = { ...blank.declared, factAvailable: blank.declared?.factId ? availableFacts.has(String(blank.declared.factId)) : false };
+    const verdict = classifyBlank(blank, blank.reason, blank.refusalClass, declared);
     blankLedger.push({ ...blank, ...verdict });
     const spec = BLANK_DISPOSITIONS[verdict.disposition];
     if (spec.allowed) continue;
@@ -150,16 +186,29 @@ function auditFamily(dir, familyId) {
     }
   }
 
-  // A REQUIRED_BEFORE_FILING blank is only allowed when the packet actually tells
-  // the participant to supply it. Nothing in these families does, so a required
-  // fact the platform does not hold is counted as not collected rather than
-  // quietly forgiven.
-  const instructions = fs.existsSync(path.join(ROOT, `${dir}/participant-instructions.md`))
-    ? fs.readFileSync(path.join(ROOT, `${dir}/participant-instructions.md`), "utf8") : "";
-  for (const b of blankLedger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING")) {
-    if (!instructions || !new RegExp(String(b.label).slice(0, 24).replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i").test(instructions)) {
-      note("requiredFactsNotCollected", { field: b.id, label: b.label, why: "classified required-before-filing but not surfaced to the participant anywhere in the packet" });
-    }
+  // The last condition: a required-before-filing blank is allowed only because the
+  // packet tells the participant to supply it. The disclosure is the entire
+  // difference between a fact the participant will bring and a fact nobody asked
+  // for, so a missing instructions file makes every one of them uncollected --
+  // and it is checked here, where the packet's own files can be read, rather than
+  // in the contract, which sees one row at a time.
+  const instructionsPath = path.join(ROOT, `${dir}/participant-instructions.md`);
+  const hasInstructions = fs.existsSync(instructionsPath);
+  const instructions = hasInstructions ? fs.readFileSync(instructionsPath, "utf8") : "";
+  const declaredRequired = blankLedger.filter((x) => x.disposition === "REQUIRED_BEFORE_FILING");
+  const namedInInstructions = (b) => {
+    if (!instructions.trim()) return false;
+    const needles = [b.label, b.id, b.declared?.identity].map((x) => String(x ?? "").trim()).filter((x) => x.length >= 3);
+    return needles.some((n) => instructions.toLowerCase().includes(n.toLowerCase().slice(0, 60)));
+  };
+  for (const b of declaredRequired) {
+    if (namedInInstructions(b)) continue;
+    note("requiredFactsNotCollected", {
+      field: b.id, label: b.label, factId: b.factId ?? null,
+      why: hasInstructions
+        ? "classified required-before-filing and not named in participant-instructions.md, so the participant is never asked for it"
+        : "classified required-before-filing and the packet carries no participant-instructions.md, so nothing asks the participant for it"
+    });
   }
 
   // ---- rows are complete or they are not rows -----------------------------------
@@ -357,26 +406,100 @@ if (MUTATIONS) {
     { name: "an invisible field value is caught", counter: "invisibleWrites", mutate: (a) => { a.artifacts[0].valuesReportedByFinalizer = 12; a.artifacts[0].addedGlyphsReadFromOutputBytes = 0; a.artifacts[0].flattenedWidgetAppearancesReadFromOutputBytes = 0; return a; } },
     { name: "an unintended graphic outside every write box is caught", counter: "visualDefects", mutate: (a) => { a.artifacts[0].nonWhitespaceGlyphsOutsideMeasuredWriteBoxes = 4; return a; } }
   ] : [];
+  /*
+   * The required-before-filing group.
+   *
+   * Every case here is the SAME row with one condition broken, and the group
+   * opens with a control that shows the unbroken row is actually accepted. That
+   * control is the point: REQUIRED_BEFORE_FILING sat in the vocabulary with no
+   * path returning it, so "an unavailable fact is caught" was true for a reason
+   * that had nothing to do with the check -- it was caught because the
+   * disposition was unreachable. A negative test whose subject cannot exist
+   * proves nothing, so the control proves it can.
+   */
+  const RBF_LABEL = "ARRESTING AGENCY:";
+  const rbfRow = (over = {}) => ({
+    fieldId: "mut-rbf", fieldName: "mut-rbf", field: "mut-rbf",
+    effectiveLabel: RBF_LABEL,
+    reason: "the arresting agency is a case fact the participant holds from the record they screened with",
+    requiredBeforeFiling: true,
+    factId: "mut.arresting_agency",
+    ...over
+  });
+  const instructionsPath = path.join(ROOT, `${sample.dir}/participant-instructions.md`);
+  const hadInstructions = fs.existsSync(instructionsPath);
+  const originalInstructions = hadInstructions ? fs.readFileSync(instructionsPath) : null;
+  const INSTRUCTIONS = `# Before you file\n\nSupply these before filing:\n\n- ${RBF_LABEL} the agency that arrested or cited you, from your record.\n`;
+  const anyWrittenFactId = (() => {
+    const map = JSON.parse(original.toString("utf8"));
+    const w = (map.writes ?? []).find((x) => x.factId);
+    return w?.factId ?? null;
+  })();
+  const rbfCases = [
+    { name: "CONTROL — a properly declared, disclosed, unavailable fact IS accepted", control: true,
+      mutate: (m) => { m.refusals.push(rbfRow()); return m; } },
+    { name: "a required-before-filing claim over an available fact is caught", counter: "knownRequiredFieldsMissing",
+      skipIf: () => anyWrittenFactId === null,
+      mutate: (m) => { m.refusals.push(rbfRow({ factId: anyWrittenFactId })); return m; } },
+    { name: "a required-before-filing claim the participant is never asked for is caught", counter: "requiredFactsNotCollected",
+      withoutInstructions: true, mutate: (m) => { m.refusals.push(rbfRow()); return m; } },
+    { name: "a route election mislabelled required-before-filing is caught", counter: "requiredOptionsMissing",
+      mutate: (m) => { m.refusals.push(rbfRow({ effectiveLabel: "Eligible for reduction to misdemeanor under Penal Code, § 17(b) (yes or no)" })); return m; } },
+    { name: "a required-before-filing claim made only in prose is caught", counter: "knownRequiredFieldsMissing",
+      mutate: (m) => { const r = rbfRow({ reason: "this fact is required before filing and must be supplied by the participant" }); delete r.requiredBeforeFiling; m.refusals.push(r); return m; } },
+    { name: "a disposition outside the closed vocabulary is caught", counter: "unclassifiedBlanks",
+      mutate: (m) => { m.refusals.push(rbfRow({ completenessDisposition: "PROBABLY_FINE" })); return m; } },
+    { name: "a required-before-filing claim with no field identity is caught", counter: "unclassifiedBlanks",
+      mutate: (m) => { m.refusals.push(rbfRow({ fieldId: null, fieldName: null, field: null })); return m; } }
+  ];
+
   const baseline = auditFamily(sample.dir, sample.familyId);
   let undetected = 0;
   const run = (file, originalBuf, testCase) => {
+    if (testCase.skipIf?.()) { console.log(`  skipped   ${testCase.name}`); return; }
+    if (testCase.withoutInstructions && fs.existsSync(instructionsPath)) fs.rmSync(instructionsPath);
     fs.writeFileSync(file, JSON.stringify(testCase.mutate(JSON.parse(originalBuf.toString("utf8"))), null, 2) + "\n");
     const after = auditFamily(sample.dir, sample.familyId);
     fs.writeFileSync(file, originalBuf);
-    const caught = after.counters[testCase.counter] > baseline.counters[testCase.counter];
-    console.log(`  ${caught ? "detected " : "MISSED   "} ${testCase.name}`);
+    // Compared against the state this case actually starts from: the plain tree
+    // for the original cases, the tree with the disclosure present for the
+    // required-before-filing group. Comparing a disclosed run against an
+    // undisclosed baseline would credit every case with the disclosure's effect.
+    const before = testCase.baselineOverride ?? baseline;
+    let caught;
+    if (testCase.control) {
+      const accepted = (after.totals.blanksByDisposition?.REQUIRED_BEFORE_FILING ?? 0)
+        > (before.totals.blanksByDisposition?.REQUIRED_BEFORE_FILING ?? 0);
+      const noNewDefect = PASS_COUNTERS.every((c) => after.counters[c] <= before.counters[c]);
+      caught = accepted && noNewDefect;
+    } else {
+      caught = after.counters[testCase.counter] > before.counters[testCase.counter];
+    }
+    console.log(`  ${caught ? (testCase.control ? "accepted " : "detected ") : "MISSED   "} ${testCase.name}`);
     if (!caught) undetected += 1;
   };
   try {
     for (const c of cases) run(path.join(ROOT, `${sample.dir}/production-field-map.json`), original, c);
     for (const c of writeCases) run(path.join(ROOT, `${sample.dir}/reports/actual-writes.json`), originalWrites, c);
+    // The whole group runs with the disclosure present except the case that
+    // removes it, so every failure below is the condition it names and not a
+    // missing instructions file standing in for all of them.
+    fs.writeFileSync(instructionsPath, INSTRUCTIONS);
+    const withDisclosure = auditFamily(sample.dir, sample.familyId);
+    for (const c of rbfCases) {
+      if (!c.withoutInstructions) fs.writeFileSync(instructionsPath, INSTRUCTIONS);
+      run(path.join(ROOT, `${sample.dir}/production-field-map.json`), original, { ...c, baselineOverride: withDisclosure });
+    }
   } finally {
     fs.writeFileSync(path.join(ROOT, `${sample.dir}/production-field-map.json`), original);
     if (originalWrites) fs.writeFileSync(path.join(ROOT, `${sample.dir}/reports/actual-writes.json`), originalWrites);
+    if (hadInstructions) fs.writeFileSync(instructionsPath, originalInstructions);
+    else if (fs.existsSync(instructionsPath)) fs.rmSync(instructionsPath);
   }
-  const restored = fs.readFileSync(path.join(ROOT, `${sample.dir}/production-field-map.json`)).equals(original);
+  const restored = fs.readFileSync(path.join(ROOT, `${sample.dir}/production-field-map.json`)).equals(original)
+    && (hadInstructions ? fs.readFileSync(instructionsPath).equals(originalInstructions) : !fs.existsSync(instructionsPath));
   console.log(`\n  sample family: ${sample.familyId}`);
   console.log(`  every mutated file restored byte-for-byte: ${restored}`);
   if (!restored || undetected > 0) { console.error("the completeness verifier proves less than it claims."); process.exit(1); }
-  console.log(`\nOK completeness mutations — ${cases.length + writeCases.length} case(s), every injected defect caught.`);
+  console.log(`\nOK completeness mutations — ${cases.length + writeCases.length + rbfCases.length} case(s), every injected defect caught and the accepted path proved reachable.`);
 }

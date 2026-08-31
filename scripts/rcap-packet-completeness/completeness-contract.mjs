@@ -23,6 +23,38 @@
 // platform holds or must collect, and declaring a policy does not make the
 // filing complete.
 
+/**
+ * REQUIRED_BEFORE_FILING is the one disposition a build must DECLARE.
+ *
+ * It was in the vocabulary from the first version of this contract and no path
+ * through classifyBlank returned it, so a genuinely unavailable participant fact
+ * was always counted as KNOWN_FACT_NOT_WRITTEN even when the family classified
+ * it, disclosed it and told the participant to supply it. That is the same
+ * failure this contract was written to catch, inverted: a disposition that
+ * exists in the vocabulary and is unreachable proves nothing, and a family doing
+ * the right thing failed for it.
+ *
+ * The disposition is now reachable, and only through an explicit declaration on
+ * the field-map row. It is never inferred from prose: a reason that says "this
+ * must be supplied before filing" is a sentence, and a sentence is what the
+ * policy-shaped reasons above already taught us not to accept. Every condition
+ * below must hold, and each one is a way the declaration could otherwise be used
+ * to excuse a blank that is not excusable.
+ */
+export const REQUIRED_BEFORE_FILING_CONDITIONS = [
+  "DECLARED: the field-map row sets requiredBeforeFiling explicitly. Prose is never enough and is never read for it.",
+  "IDENTIFIED: the row names the field and carries a printed label, so the packet can tell the participant which blank to fill.",
+  "GENUINELY UNAVAILABLE: the platform holds no value for the fact. A fact written anywhere else in the same packet is available, and refusing it here is a missing known fact.",
+  "PARTICIPANT-COMPLETABLE: the field is one the participant may fill. A protected, court-completed or attorney-only field is not required-before-filing; it is not theirs to fill at all.",
+  "NOT ROUTE-DETERMINED: an election the route determines may never be required-before-filing. A packet built for one statutory route must state which route it is, rather than asking the participant.",
+  "DISCLOSED: the item is named in the packet's participant-instructions.md. Without the disclosure the blank is a required fact nobody was asked for, which is what requiredFactsNotCollected counts."
+];
+
+/** Field requirements a participant may complete themselves. */
+export const PARTICIPANT_COMPLETABLE_REQUIREMENTS = new Set([
+  "REQUIRED_KNOWN", "OPTIONAL_OR_REQUIRED_BEFORE_FILING", "UNKNOWN"
+]);
+
 /** Every blank on a rendered packet resolves to exactly one of these. */
 export const BLANK_DISPOSITIONS = {
   PROTECTED_FIELD: {
@@ -43,7 +75,9 @@ export const BLANK_DISPOSITIONS = {
   REQUIRED_BEFORE_FILING: {
     allowed: true,
     meaning: "A required fact the platform does not hold. The blank is permitted only because the packet tells the participant it must be supplied before filing.",
-    requires: "The fact is surfaced to the participant as a required-before-filing item."
+    requires: "The fact is surfaced to the participant as a required-before-filing item.",
+    declaredOnly: true,
+    conditions: REQUIRED_BEFORE_FILING_CONDITIONS
   },
   PARTICIPANT_ELECTION_GENUINE: {
     allowed: true,
@@ -185,9 +219,37 @@ export function classifyField(label) {
  * reason is a defect even when it sounds authoritative, and only then is an
  * approved reason accepted. A blank with neither is UNCLASSIFIED.
  */
-export function classifyBlank(field, reason, refusalClass = null) {
+export function classifyBlank(field, reason, refusalClass = null, declared = null) {
   const cls = classifyField(field.label);
   const text = String(reason ?? "");
+  const dec = declared ?? {};
+  // A row "uses the declared channel" when it states a disposition or states
+  // requiredBeforeFiling as a boolean. A legacy row states neither, and nothing
+  // below changes how a legacy row is read.
+  const declaresDisposition = dec.disposition !== undefined && dec.disposition !== null;
+  const declaresRequiredBeforeFiling = typeof dec.requiredBeforeFiling === "boolean";
+  const usesDeclaredChannel = declaresDisposition || declaresRequiredBeforeFiling;
+
+  // An unknown disposition fails closed. A build that invents a disposition name
+  // is not classifying a blank, and reading it as unrecognised-and-therefore-fine
+  // is exactly how UNCLASSIFIED_BLANK became a defect class in the first place.
+  if (declaresDisposition && !Object.hasOwn(BLANK_DISPOSITIONS, String(dec.disposition))) {
+    return {
+      disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+      basis: `the field map declares the disposition "${dec.disposition}", which is outside the closed vocabulary`,
+      declaredDisposition: String(dec.disposition)
+    };
+  }
+  // Same rule for a refusal class, but only on the declared channel: a legacy row
+  // whose category happens to be an unrecognised string is read as it always was,
+  // so this correction cannot silently move families it was not written for.
+  if (usesDeclaredChannel && refusalClass && !Object.hasOwn(REFUSAL_CLASSES, refusalClass)) {
+    return {
+      disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+      basis: `the field map declares the refusal class "${refusalClass}", which is outside the closed vocabulary`,
+      declaredRefusalClass: String(refusalClass)
+    };
+  }
 
   // A typed refusal class is consulted before prose, but it is not obeyed
   // blindly: each carries the field classes it may NOT excuse, so a protected
@@ -217,6 +279,64 @@ export function classifyBlank(field, reason, refusalClass = null) {
   if (cls.requirement === "ATTORNEY" && /attorney|representation/i.test(text)) {
     return { disposition: "NOT_APPLICABLE_ON_THIS_ROUTE", fieldClass: cls.id, basis: "no attorney-representation fact is held for this participant" };
   }
+  // ---- the declared required-before-filing gate ---------------------------------
+  //
+  // Reachable only from an explicit declaration, and only when every condition in
+  // REQUIRED_BEFORE_FILING_CONDITIONS holds. Each failure below returns the
+  // defect the declaration was standing in front of, rather than a generic one,
+  // so a family reading its own report can tell which condition it missed.
+  if (declaresRequiredBeforeFiling ? dec.requiredBeforeFiling === true : String(dec.disposition) === "REQUIRED_BEFORE_FILING") {
+    if (dec.routeDetermined === true || cls.requirement === "ROUTE_DETERMINED") {
+      return {
+        disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+        basis: "declared required-before-filing, but the route determines this election; a packet built for one statutory route states which route it is rather than asking the participant",
+        declaredRequiredBeforeFiling: true
+      };
+    }
+    const identity = String(dec.identity ?? field.name ?? field.id ?? "").trim();
+    const label = String(field.label ?? "").trim();
+    if (!identity || !label) {
+      return {
+        disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+        basis: "declared required-before-filing with no field identity or no printed label; the packet cannot tell the participant which blank to fill",
+        declaredRequiredBeforeFiling: true
+      };
+    }
+    if (dec.factAvailable === true) {
+      return {
+        disposition: "KNOWN_FACT_NOT_WRITTEN", fieldClass: cls.id,
+        basis: `declared required-before-filing, but the packet holds a value for ${dec.factId ?? "this fact"} and writes it elsewhere; an available fact is not an unavailable one`,
+        declaredRequiredBeforeFiling: true, factId: dec.factId ?? null
+      };
+    }
+    if (!PARTICIPANT_COMPLETABLE_REQUIREMENTS.has(cls.requirement)) {
+      return {
+        disposition: "UNCLASSIFIED_BLANK", fieldClass: cls.id,
+        basis: `declared required-before-filing on a ${cls.id} field, which is not the participant's to complete`,
+        declaredRequiredBeforeFiling: true
+      };
+    }
+    return {
+      disposition: "REQUIRED_BEFORE_FILING", fieldClass: cls.id,
+      basis: "the field map declares this fact required before filing, the packet holds no value for it, and it is the participant's to supply",
+      declaredRequiredBeforeFiling: true,
+      requiresParticipantDisclosure: true,
+      factId: dec.factId ?? null,
+      identity
+    };
+  }
+
+  // A declared route election is a route election whatever its prose says. The
+  // build states this as typed data so the audit does not have to recognise a
+  // sentence to reach the same conclusion.
+  if (dec.routeDetermined === true) {
+    return {
+      disposition: "ROUTE_OPTION_NOT_SELECTED", fieldClass: cls.id,
+      basis: "the field map declares this election route-determined and left unmade; a packet built for one statutory route must state which route it is",
+      declaredRouteDetermined: true
+    };
+  }
+
   for (const p of POLICY_SHAPED_REASONS) {
     if (p.re.test(text)) {
       if (cls.requirement === "REQUIRED_KNOWN" || cls.requirement === "ROUTE_DETERMINED" || cls.requirement === "UNKNOWN") {
