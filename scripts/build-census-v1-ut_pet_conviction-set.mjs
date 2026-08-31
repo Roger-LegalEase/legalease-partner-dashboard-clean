@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-import { runFamilyById } from "./build-census-v1-ne-setaside-custodial-set.mjs";
-await runFamilyById("ut_pet_conviction-set");
+import { runUtahCompletenessRepair } from "./build-census-v1-ut_pet_acquittal-set.mjs";
+await runUtahCompletenessRepair("ut_pet_conviction-set");
