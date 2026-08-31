@@ -28,13 +28,25 @@ const sharp = require("sharp");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
 
-const ASSIGNMENT_ID = "P4_NE_SD_SETASIDE_COMPLETENESS";
-const DISPATCH_COMMIT = "4d1408a40eeb77f51bdf18ba35a13db579b21129";
-const BASE_SHA = "33dfea59fe85b9dc86469d12e04fd65c51b480fa";
+const ASSIGNMENT_ID = "SD_ARREST_EXPUNGEMENT_DISCLOSURE_REPAIR";
+const DISPATCH_COMMIT = "40ccc028a2af8eac94743cdb32237e3af56a6642";
+const BASE_SHA = "98a7a57e2a354eeb8b33b3873e62f7a9785fedaf";
 const FIXED_DATE = new Date("2026-08-31T00:00:00Z");
 const POPPLER = process.env.RCAP_PDFTOPPM || "pdftoppm";
 const RASTER_DPI = 72;
-const ROWS_FILE = "data/rcap-grade-a/wave-2/p4-ne-sd-setaside-completeness/rows.json";
+const ROWS_FILE = "data/rcap-grade-a/codex-cloud/sd-arrest-expungement-disclosure-repair/rows.json";
+
+const DISCLOSURE_REPAIR_ROWS = Object.freeze([
+  "City State Zip Code-som",
+  "name mailed to",
+  "street address",
+  "city, state, and zip code",
+  "who mailed to",
+  "addressed mailed to",
+  "city mailed to",
+  "zip code mailed to",
+  "state Code mailed to",
+]);
 
 const FAMILY_DIRS = Object.freeze({
   "ne-setaside-custodial-set": "data/rcap-all50/overlays/census-v1/ne/ne-setaside-custodial-set--official-pdf-fill",
@@ -198,10 +210,8 @@ const REQUIRED_BEFORE_FILING = Object.freeze({
 
 const RBF_FIELD_NAMES = new Set([
   "JUDICIAL CIRCUIT Number", "JUDICIAL CIRCUIT number", "judicial circuit",
-  "attorney name", "states attorney street Street Address", "City State Zip Code-som",
-  "states attorney name", "name mailed to", "street address", "city, state, and zip code",
-  "who mailed to", "addressed mailed to", "city mailed to", "zip code mailed to",
-  "state Code mailed to",
+  "attorney name", "states attorney street Street Address",
+  "states attorney name",
   "Text59.0", "Text59.1", "Text59.2", "Text59.3", "Text59.4",
   "Text60.0", "Text60.1", "Text60.2", "Text60.3", "Text60.4",
   "Text64", "Text65", "Text66", "Text67", "Text68", "Text69", "Text70",
@@ -684,36 +694,33 @@ function allBlankDispositions(fieldMap) {
 }
 
 function updateRows(familyId, baseMap, repairedMap) {
-  const existing = fs.existsSync(path.join(rootDir, ROWS_FILE)) ? readJson(ROWS_FILE) : {
-    schemaVersion: "rcap-completeness-repair-return/v1",
+  assert.equal(familyId, "sd_arrest_expungement-set", "disclosure repair owns only the South Dakota family");
+  const refusals = allBlankDispositions(repairedMap);
+  const rows = DISCLOSURE_REPAIR_ROWS.map((itemId) => {
+    const matches = refusals.filter((row) => row.field === itemId);
+    assert.ok(matches.length > 0, `${itemId}: repaired field is absent from the blank-disposition ledger`);
+    assert.ok(matches.every((row) => row.disposition === "PROTECTED_FIELD"),
+      `${itemId}: statement-of-mailing field was not reclassified as protected`);
+    return {
+      itemId,
+      status: "COMPLETED",
+      disposition: "RECLASSIFIED",
+      why: "This statement-of-mailing field records what occurred during mailing and must be completed only at or after mailing, so it is protected rather than required before filing.",
+    };
+  });
+  writeJson(ROWS_FILE, {
+    schemaVersion: "rcap-codex-cloud-field-repair-return/v1",
     assignmentId: ASSIGNMENT_ID,
-    rows: [],
-  };
-  const oldWrites = new Set(baseMap.maps.flatMap((map) => map.canonicalWrites.map((row) => `${map.formNumber}:${row.field}`)));
-  const allWrites = repairedMap.maps.flatMap((map) => map.canonicalWrites.map((row) => ({
-    formNumber: map.formNumber, field: row.field, factId: row.factId, kind: row.kind,
-  })));
-  const row = {
-    itemId: familyId,
-    status: "COMPLETED",
-    expectedCompletenessResult: "PASS_COMPLETE",
-    countersBefore: BEFORE_COUNTERS[familyId],
+    familyId,
+    rows,
     countersAfter: ZERO_COUNTERS,
-    everyFieldNewlyWritten: allWrites.filter((item) => !oldWrites.has(`${item.formNumber}:${item.field}`)),
-    everyBlankNewlyGivenApprovedDisposition: allBlankDispositions(repairedMap),
-    factsClassifiedRequiredBeforeFiling: REQUIRED_BEFORE_FILING[familyId],
-    actualWritesRecomputedFromFinalPdfBytes: true,
+    fieldsDisclosed: 0,
+    fieldsReclassified: rows.length,
+    fieldsStopped: 0,
     canonicalAndBoundaryRerendered: true,
-    everyPageRastered: true,
-    protectedFieldWrites: 0,
-    independentVerification: familyId.startsWith("ne-") ? "PENDING_V3_INDEPENDENT_PACKET_VERIFICATION" : "PENDING_V4_INDEPENDENT_PACKET_VERIFICATION",
-    completePacketProven: false,
     commercialRoutesOpened: 0,
     productionTouched: false,
-  };
-  existing.rows = existing.rows.filter((item) => item.itemId !== familyId).concat(row)
-    .sort((a, b) => a.itemId.localeCompare(b.itemId));
-  writeJson(ROWS_FILE, existing);
+  });
 }
 
 async function repairFamily(familyId) {
