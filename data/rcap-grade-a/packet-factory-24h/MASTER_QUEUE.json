@@ -31,6 +31,7 @@
   "stateVocabulary": [
     "SOURCE_BLOCKED",
     "SOURCE_READY",
+    "LEGAL_BLOCKED",
     "ASSIGNED_TO_BUILD",
     "BUILD_IN_PROGRESS",
     "PASS_COMPLETE",
@@ -44,6 +45,12 @@
     "COMPLETE_PACKET_PROVEN",
     "LEGITIMATE_GUIDANCE_ONLY"
   ],
+  "stateMeanings": {
+    "SOURCE_BLOCKED": "a required source is not held; the conveyor can resolve it",
+    "LEGAL_BLOCKED": "every source is held and a legal question is unresolved; only counsel can resolve it and no builder may be sent at it",
+    "LEGAL_REVIEW_READY": "a built packet awaiting counsel review",
+    "LEGAL_APPROVED": "counsel has answered"
+  },
   "denominator": {
     "liveFamilyDenominator": 346,
     "activeFamiliesExcluded": 14,

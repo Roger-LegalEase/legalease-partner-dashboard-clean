@@ -527,6 +527,28 @@ function run() {
       false, "no STALE_LANE_RETURNS.json, so the lane-return legal holds cannot be checked at all");
   }
 
+  // 27. Nothing is in a state the queue has not declared.
+  //
+  // LEGAL_BLOCKED was emitted for thirteen families before it appeared in the
+  // vocabulary, and every check here passed anyway, because nothing compared
+  // what the queue emits against what it declares. A closed vocabulary that
+  // nobody closes is a list.
+  const declaredStates = new Set(master.stateVocabulary ?? []);
+  const emittedStates = [...new Set(master.families.map((f) => f.state))];
+  const undeclaredStates = emittedStates.filter((x) => !declaredStates.has(x));
+  const byStateKeys = Object.keys(master.byState ?? {});
+  const undeclaredByState = byStateKeys.filter((k) => !declaredStates.has(k));
+  // And the other direction: byState must account for every family exactly once.
+  const byStateTotal = Object.values(master.byState ?? {}).reduce((n, v) => n + Number(v || 0), 0);
+  const stateProblems = [];
+  if (declaredStates.size === 0) stateProblems.push("the queue declares no state vocabulary at all");
+  for (const x of undeclaredStates) stateProblems.push(`families are in undeclared state ${x}`);
+  for (const k of undeclaredByState) stateProblems.push(`byState carries undeclared key ${k}`);
+  if (byStateTotal !== master.families.length) stateProblems.push(`byState sums to ${byStateTotal} and there are ${master.families.length} families`);
+  check("F27", "every family is in a declared state, and byState carries no undeclared key",
+    stateProblems.length === 0,
+    `${declaredStates.size} declared, ${emittedStates.length} in use, ${byStateKeys.length} byState key(s); ${stateProblems.length} problem(s): ${stateProblems.slice(0, 2).join(" | ")}`);
+
   // The arithmetic that makes the rest readable.
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
@@ -579,6 +601,9 @@ if (MUTATIONS) {
     { on: "active", id: "F22", name: "an executable family dropped from every builder is caught", mutate: (j) => { firstPF(j).items.pop(); return j; } },
     /* No builder claims a shared host in a correct dispatch, so this hands a
      * real shared host from the master queue to two of them. */
+    { on: "master", id: "F27", name: "an undeclared byState value is caught", mutate: (j) => { j.byState = { ...j.byState, INVENTED_STATE: 1 }; return j; } },
+    { on: "master", id: "F27", name: "a family in an undeclared state is caught", mutate: (j) => { j.families[0].state = "NOT_IN_THE_VOCABULARY"; return j; } },
+    { on: "master", id: "F27", name: "dropping a state from the vocabulary while families are still in it is caught", mutate: (j) => { j.stateVocabulary = j.stateVocabulary.filter((x) => x !== "LEGAL_BLOCKED"); return j; } },
     { on: "stale", id: "F26", name: "a legally blocked family handed to a builder is caught", mutate: (j) => { const legal = j.rows.find((r) => r.destination === "LEGAL"); const built = read(ACTIVE).assignments.find((x) => x.lane === "packet-build" && x.items.length); legal.familyId = built.items[0]; return j; } },
     { on: "stale", id: "F26", name: "dropping every legal finding is caught by the master queue still holding them", mutate: (j) => { j.rows = j.rows.map((r) => (r.destination === "LEGAL" ? { ...r, destination: "SOURCE" } : r)); return j; } },
     { on: "ledger", id: "F24", name: "one family granted to two verifiers is caught", mutate: (j) => { const v = j.claims.filter((c) => c.laneKind === "independent-verification"); v[1] = { ...v[1], familyId: v[0].familyId }; j.claims = j.claims.map((c) => (c === v[1] ? v[1] : c)); j.claims.push({ ...v[0], lane: "VF99" }); return j; } },

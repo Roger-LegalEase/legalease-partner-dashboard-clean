@@ -85,12 +85,36 @@ const SOURCE_LANES = 16;
 const PREFLIGHT_DENOMINATOR = preflightDenominator("__denominator_probe__");
 const PREFLIGHT_MUST_RETURN = PREFLIGHT_DENOMINATOR.mustReturn;
 
+/*
+ * The closed state vocabulary.
+ *
+ * LEGAL_BLOCKED was emitted for thirteen families before it was declared here.
+ * That is the defect this repository refuses everywhere else -- an unknown
+ * disposition fails closed -- committed by the generator that enforces it, and
+ * nothing caught it because nothing was comparing what the queue emits against
+ * what it declares. F27 does that now.
+ *
+ * LEGAL_BLOCKED is distinct from the three states it sits near, and the
+ * distinctions are the point:
+ *   SOURCE_BLOCKED     the bytes are missing. The conveyor can fix it.
+ *   LEGAL_BLOCKED      the bytes are held and the law is unresolved. Only
+ *                      counsel can fix it, and no builder may touch it.
+ *   LEGAL_REVIEW_READY a built packet awaiting counsel's review.
+ *   LEGAL_APPROVED     counsel has answered.
+ * Collapsing the first two sent the conveyor after documents already held.
+ */
 const STATES = [
-  "SOURCE_BLOCKED", "SOURCE_READY", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
+  "SOURCE_BLOCKED", "SOURCE_READY", "LEGAL_BLOCKED", "ASSIGNED_TO_BUILD", "BUILD_IN_PROGRESS",
   "PASS_COMPLETE", "VERIFY_PENDING", "VERIFYING", "FAIL_REPAIR_REQUIRED",
   "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING",
   "COMPLETE_PACKET_PROVEN", "LEGITIMATE_GUIDANCE_ONLY"
 ];
+const STATE_MEANINGS = {
+  SOURCE_BLOCKED: "a required source is not held; the conveyor can resolve it",
+  LEGAL_BLOCKED: "every source is held and a legal question is unresolved; only counsel can resolve it and no builder may be sent at it",
+  LEGAL_REVIEW_READY: "a built packet awaiting counsel review",
+  LEGAL_APPROVED: "counsel has answered"
+};
 
 const read = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), "utf8"));
 const readIf = (rel) => (fs.existsSync(path.join(ROOT, rel)) ? read(rel) : null);
@@ -1237,6 +1261,13 @@ if (placeholders.length) problems.push(`${placeholders.length} assignment(s) wit
 if (blockedInPF.length) problems.push(`${blockedInPF.length} blocked famil(ies) assigned to a builder`);
 if (!/^[0-9a-f]{40}$/.test(MINIMUM_CAPTAIN_SHA)) problems.push("no real minimum Captain SHA");
 if (git(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) problems.push("the minimum Captain SHA is not an ancestor of HEAD");
+/* Nothing may leave this generator in a state it has not declared. */
+{
+  const declared = new Set(STATES);
+  const emitted = [...new Set(families.map((f) => f.state))];
+  const undeclared = emitted.filter((x) => !declared.has(x));
+  if (undeclared.length) problems.push(`${undeclared.length} undeclared state(s) emitted: ${undeclared.join(", ")}`);
+}
 if (assignments.length !== PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected ${PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES}`);
 for (const e of ELASTICITY) {
   const have = assignments.filter((a) => e.creates.includes(a.assignmentId)).length;
@@ -1262,6 +1293,7 @@ const masterQueue = {
   minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
   inputs: Object.fromEntries(Object.entries(INPUTS).map(([, p]) => [p, sha(p)])),
   stateVocabulary: STATES,
+  stateMeanings: STATE_MEANINGS,
   denominator: {
     liveFamilyDenominator: families.length,
     activeFamiliesExcluded: active.length,
