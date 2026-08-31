@@ -1,0 +1,1713 @@
+{
+  "schemaVersion": "rcap-completeness-repair-return/v1",
+  "assignmentId": "P3_WV_CONVICTION_COMPLETENESS",
+  "workerBranch": "codex/p3-wv-conviction-completeness",
+  "baseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+  "dispatchCommit": "4d1408a40eeb77f51bdf18ba35a13db579b21129",
+  "rows": [
+    {
+      "itemId": "wv_conv_multiple_misdemeanors-set",
+      "status": "COMPLETED",
+      "result": "PASS_COMPLETE",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 128,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "fieldsNewlyWritten": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "CircuitCaseNo",
+          "factId": "matter.case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConvictionDate",
+          "factId": "matter.conviction_date",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBDay",
+          "factId": "participant.birth_month",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBMonth",
+          "factId": "participant.birth_day",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBYear",
+          "factId": "participant.birth_year",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetPhoneNum",
+          "factId": "participant.phone",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetArrestDate",
+          "factId": "matter.arrest_date",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "County",
+          "factId": "matter.county",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionerName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionerName2",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersCurrentName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersOffenseAddress1",
+          "factId": "participant.current_address",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge1",
+          "factId": "matter.charges[0].charge",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo1",
+          "factId": "matter.charges[0].case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge2",
+          "factId": "matter.charges[1].charge",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo2",
+          "factId": "matter.charges[1].case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge3",
+          "factId": "matter.charges[2].charge",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo3",
+          "factId": "matter.charges[2].case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charges1",
+          "factId": "matter.charges",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charges2",
+          "factId": "matter.charges",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultipleFelonyCB",
+          "factId": "route.selection",
+          "kind": "selection_mark"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ExpungementCB2",
+          "factId": "screening.prior_relief",
+          "kind": "selection_mark"
+        }
+      ],
+      "fieldsRepaired": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetAdd1",
+          "factId": "participant.street_address",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetAdd2",
+          "factId": "participant.city_state_zip",
+          "kind": "overlay_text"
+        }
+      ],
+      "blanksNewlyGivenApprovedDisposition": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "PrintForm",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ResetButton",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MagCaseNo",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (lower-court-case-number); the platform does not invent it.",
+          "participantInstructionId": "lower-court-case-number"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetSocSecno",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (ssn-last-four); the platform does not invent it.",
+          "participantInstructionId": "ssn-last-four"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge4",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 3 complete offense row(s), so offense row 4 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo4",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 3 complete offense row(s), so offense row 4 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonyCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonyCompletionDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultipleFelonyCompletionDate",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (eligibility-date); the platform does not invent it.",
+          "participantInstructionId": "eligibility-date"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleSatisfiedCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonySatisfiesDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultilpleSatisfiedCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MulitipleFelonlySatisfiesDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: multiple-misdemeanor standard waiting-period route selects MultipleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyName",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyDay",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyMonth",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyYear",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ProsecutingAttCounty",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ProsecutingAttAdd",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MagDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MunicipalDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "FirstClassMailCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "HandDeliveryCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifiedMailCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SignDate",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CoDrop",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersCurrentName2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-names-and-aliases); the platform does not invent it.",
+          "participantInstructionId": "prior-names-and-aliases"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "VictimsNames1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it.",
+          "participantInstructionId": "victim-information"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "VictimsNames2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it.",
+          "participantInstructionId": "victim-information"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Verdict1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it.",
+          "participantInstructionId": "verdict-and-punishment"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Verdict2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it.",
+          "participantInstructionId": "verdict-and-punishment"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "GroundsForExpungement1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it.",
+          "participantInstructionId": "grounds-for-expungement"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "GroundsForExpungement2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it.",
+          "participantInstructionId": "grounds-for-expungement"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps3",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps4",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps5",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "StatePoliceSuperintendent1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "OffensesCommittedAt1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "OffensesCommittedAt2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ChiefLEO1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ChiefLEO2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConfinedInstitution1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConfinedInstitution2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CircuitDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CurrentOrderCB1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CurrentOrderCB2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PriorOrderCB1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PriorOrderCB2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ExpungementCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this fixture: the known prior-relief answer is No, so ExpungementCB2 is selected instead.",
+          "participantInstructionId": null
+        }
+      ],
+      "factsClassifiedRequiredBeforeFiling": [
+        {
+          "instructionId": "lower-court-case-number",
+          "fields": [
+            "MagCaseNo"
+          ]
+        },
+        {
+          "instructionId": "ssn-last-four",
+          "fields": [
+            "PetSocSecno"
+          ]
+        },
+        {
+          "instructionId": "eligibility-date",
+          "fields": [
+            "MultipleFelonyCompletionDate"
+          ]
+        },
+        {
+          "instructionId": "prior-names-and-aliases",
+          "fields": [
+            "PetitionersCurrentName2"
+          ]
+        },
+        {
+          "instructionId": "victim-information",
+          "fields": [
+            "VictimsNames1",
+            "VictimsNames2"
+          ]
+        },
+        {
+          "instructionId": "verdict-and-punishment",
+          "fields": [
+            "Verdict1",
+            "Verdict2"
+          ]
+        },
+        {
+          "instructionId": "grounds-for-expungement",
+          "fields": [
+            "GroundsForExpungement1",
+            "GroundsForExpungement2"
+          ]
+        },
+        {
+          "instructionId": "rehabilitation-history",
+          "fields": [
+            "RehabilitationSteps1",
+            "RehabilitationSteps2",
+            "RehabilitationSteps3",
+            "RehabilitationSteps4",
+            "RehabilitationSteps5"
+          ]
+        },
+        {
+          "instructionId": "current-protective-order",
+          "fields": [
+            "CurrentOrderCB1",
+            "CurrentOrderCB2"
+          ]
+        },
+        {
+          "instructionId": "prior-protective-order",
+          "fields": [
+            "PriorOrderCB1",
+            "PriorOrderCB2"
+          ]
+        },
+        {
+          "instructionId": "address-history",
+          "fields": [
+            "PetitionersOffenseAddress1"
+          ],
+          "knownPartialPrefill": true,
+          "why": "The held current address is written, but the form also requires any other address from the offense date through filing."
+        }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    },
+    {
+      "itemId": "wv_conv_single_misdemeanor-set",
+      "status": "COMPLETED",
+      "result": "PASS_COMPLETE",
+      "countersBefore": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 272,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "countersAfter": {
+        "knownRequiredFieldsMissing": 0,
+        "requiredFactsNotCollected": 0,
+        "unclassifiedBlanks": 0,
+        "incompleteRows": 0,
+        "requiredOptionsMissing": 0,
+        "requiredComponentsMissing": 0,
+        "invisibleWrites": 0,
+        "protectedWrites": 0,
+        "visualDefects": 0
+      },
+      "fieldsNewlyWritten": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "CircuitCaseNo",
+          "factId": "matter.case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConvictionDate",
+          "factId": "matter.conviction_date",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBDay",
+          "factId": "participant.birth_month",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBMonth",
+          "factId": "participant.birth_day",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetDOBYear",
+          "factId": "participant.birth_year",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetPhoneNum",
+          "factId": "participant.phone",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetArrestDate",
+          "factId": "matter.arrest_date",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "County",
+          "factId": "matter.county",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionerName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionerName2",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersCurrentName1",
+          "factId": "participant.full_legal_name",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersOffenseAddress1",
+          "factId": "participant.current_address",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge1",
+          "factId": "matter.charges[0].charge",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo1",
+          "factId": "matter.charges[0].case_number",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charges1",
+          "factId": "matter.charges",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonyCB",
+          "factId": "route.selection",
+          "kind": "selection_mark"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ExpungementCB2",
+          "factId": "screening.prior_relief",
+          "kind": "selection_mark"
+        }
+      ],
+      "fieldsRepaired": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetAdd1",
+          "factId": "participant.street_address",
+          "kind": "overlay_text"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetAdd2",
+          "factId": "participant.city_state_zip",
+          "kind": "overlay_text"
+        }
+      ],
+      "blanksNewlyGivenApprovedDisposition": [
+        {
+          "formNumber": "SCA-C906",
+          "field": "PrintForm",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ResetButton",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MagCaseNo",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (lower-court-case-number); the platform does not invent it.",
+          "participantInstructionId": "lower-court-case-number"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetSocSecno",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (ssn-last-four); the platform does not invent it.",
+          "participantInstructionId": "ssn-last-four"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 2 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 3 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charge4",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CaseNo4",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the fixture contains 1 complete offense row(s), so offense row 4 is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonyCompletionDate",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (eligibility-date); the platform does not invent it.",
+          "participantInstructionId": "eligibility-date"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultipleFelonyCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultipleFelonyCompletionDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleSatisfiedCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SingleFelonySatisfiesDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MultilpleSatisfiedCB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MulitipleFelonlySatisfiesDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: single-misdemeanor standard waiting-period route selects SingleFelonyCB, not this alternate eligibility branch.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyName",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyDay",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyMonth",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifyYear",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ProsecutingAttCounty",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ProsecutingAttAdd",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MagDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "MunicipalDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "FirstClassMailCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "HandDeliveryCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CertifiedMailCB",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "SignDate",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CoDrop",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Viewer UI control; never a filing fact.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PetitionersCurrentName2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-names-and-aliases); the platform does not invent it.",
+          "participantInstructionId": "prior-names-and-aliases"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Charges2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: the complete single-offense description fits the first charge line, so this continuation line is unused.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "VictimsNames1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it.",
+          "participantInstructionId": "victim-information"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "VictimsNames2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (victim-information); the platform does not invent it.",
+          "participantInstructionId": "victim-information"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Verdict1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it.",
+          "participantInstructionId": "verdict-and-punishment"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "Verdict2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (verdict-and-punishment); the platform does not invent it.",
+          "participantInstructionId": "verdict-and-punishment"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "GroundsForExpungement1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it.",
+          "participantInstructionId": "grounds-for-expungement"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "GroundsForExpungement2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (grounds-for-expungement); the platform does not invent it.",
+          "participantInstructionId": "grounds-for-expungement"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps3",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps4",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "RehabilitationSteps5",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (rehabilitation-history); the platform does not invent it.",
+          "participantInstructionId": "rehabilitation-history"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "StatePoliceSuperintendent1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "OffensesCommittedAt1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "OffensesCommittedAt2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ChiefLEO1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ChiefLEO2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConfinedInstitution1",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ConfinedInstitution2",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CircuitDisposedCharges",
+          "disposition": "PROTECTED_FIELD",
+          "reason": "Court, clerk, prosecutor, agency, or hearing field, or a signature/service event field; protected until the responsible actor and event.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CurrentOrderCB1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "CurrentOrderCB2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (current-protective-order); the platform does not invent it.",
+          "participantInstructionId": "current-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PriorOrderCB1",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "PriorOrderCB2",
+          "disposition": "REQUIRED_BEFORE_FILING",
+          "reason": "Required before filing and surfaced in participant instructions (prior-protective-order); the platform does not invent it.",
+          "participantInstructionId": "prior-protective-order"
+        },
+        {
+          "formNumber": "SCA-C906",
+          "field": "ExpungementCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this fixture: the known prior-relief answer is No, so ExpungementCB2 is selected instead.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "ResetButton",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PrintForm",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "CoDrop",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "CircuitCaseNo1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Offense1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Offense2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "CaseNo",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "OffenseDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "DOB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner4",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner5",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerNames1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerNames2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerAddress1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerAddress2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerDOB",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PetitionerSSN",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "DateOfArrest",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Jurisdiction",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "ComplaintNumber",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Statute1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Statute2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Statute3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "VictimName1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "VictimName2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "VictimName3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "ApplicableDate",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "RestitutionCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "RestitutionCB2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PriorRestitutionCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PriorRestitutionCB2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Disposition1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Disposition2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Disposition3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Reason1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Reason2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Reason3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Steps1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Steps2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "GrantedCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "County",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "LowerCaseNo1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "CircuitCaseNo2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "LowerCaseNo2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Petitioner6",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "Steps3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "StatePolice1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "County2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PACounty2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "StatePolice2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PAAddress1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "PAAddress2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "MunicipalAdd2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "MunicipalAdd1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "InstitutionAdd1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "InstitutionAdd2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "MagCourtAdd1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "MagCourtAdd2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "OtherAgencyAdd1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "OtherAgencyAdd2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "GrantedCB2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "DeliveryCB1",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "DeliveryCB2",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        },
+        {
+          "formNumber": "SCA-C900",
+          "field": "DeliveryCB3",
+          "disposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "reason": "Never a filing fact on this route: SCA-C900 is the instructions/reference component and its embedded petition is materially out of date; SCA-C906 is the operative petition.",
+          "participantInstructionId": null
+        }
+      ],
+      "factsClassifiedRequiredBeforeFiling": [
+        {
+          "instructionId": "lower-court-case-number",
+          "fields": [
+            "MagCaseNo"
+          ]
+        },
+        {
+          "instructionId": "ssn-last-four",
+          "fields": [
+            "PetSocSecno"
+          ]
+        },
+        {
+          "instructionId": "eligibility-date",
+          "fields": [
+            "SingleFelonyCompletionDate"
+          ]
+        },
+        {
+          "instructionId": "prior-names-and-aliases",
+          "fields": [
+            "PetitionersCurrentName2"
+          ]
+        },
+        {
+          "instructionId": "victim-information",
+          "fields": [
+            "VictimsNames1",
+            "VictimsNames2"
+          ]
+        },
+        {
+          "instructionId": "verdict-and-punishment",
+          "fields": [
+            "Verdict1",
+            "Verdict2"
+          ]
+        },
+        {
+          "instructionId": "grounds-for-expungement",
+          "fields": [
+            "GroundsForExpungement1",
+            "GroundsForExpungement2"
+          ]
+        },
+        {
+          "instructionId": "rehabilitation-history",
+          "fields": [
+            "RehabilitationSteps1",
+            "RehabilitationSteps2",
+            "RehabilitationSteps3",
+            "RehabilitationSteps4",
+            "RehabilitationSteps5"
+          ]
+        },
+        {
+          "instructionId": "current-protective-order",
+          "fields": [
+            "CurrentOrderCB1",
+            "CurrentOrderCB2"
+          ]
+        },
+        {
+          "instructionId": "prior-protective-order",
+          "fields": [
+            "PriorOrderCB1",
+            "PriorOrderCB2"
+          ]
+        },
+        {
+          "instructionId": "address-history",
+          "fields": [
+            "PetitionersOffenseAddress1"
+          ],
+          "knownPartialPrefill": true,
+          "why": "The held current address is written, but the form also requires any other address from the offense date through filing."
+        }
+      ],
+      "commercialRoutesOpened": 0,
+      "productionTouched": false
+    }
+  ]
+}
