@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "rcap-official-form-field-map/v1-census-v1",
+  "schemaVersion": "rcap-official-form-field-map/v1-census-v1-completeness-repair",
   "familyId": "ne-setaside-custodial-set",
   "routeKeys": [
     "obligation:track-pathway:NE:ne-setaside-custodial:set-aside-incarceration-one-year-or-less"
@@ -15,48 +15,7 @@
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
-      "roleRefusals": [
-        {
-          "field": "defendant",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "datesigned",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "streetaddress",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "emailaddress",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "TYPEOFCOURTRESULTS",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "enter the type of court",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "enter the county",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        }
-      ],
+      "roleRefusals": [],
       "selectionControls": [
         {
           "selectionId": "Check Box7",
@@ -77,7 +36,8 @@
           ],
           "sourceSelection": false,
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "optional participant-authored election on an unselected branch; the platform does not invent it",
+          "blankDisposition": "PARTICIPANT_ELECTION_GENUINE"
         },
         {
           "selectionId": "TYPEOFCOURTDROPDOWN",
@@ -99,8 +59,11 @@
           "sourceSelection": [
             "IN THE                   COURT OF"
           ],
-          "disposition": "explicit_refusal",
-          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "route.court_type",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -122,244 +85,432 @@
           "sourceSelection": [
             "                            COUNTY, NEBRASKA "
           ],
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "matter.county",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "offeredAnchors": null,
       "protectedRules": null,
       "canonicalWrites": [
         {
+          "field": "Text2",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text5",
+          "factId": "matter.charge",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text6",
+          "factId": "matter.conviction_date",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
           "field": "printedname",
           "factId": "participant.full_legal_name",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "citystatezip",
           "factId": "participant.city_state_zip",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "telephone number",
           "factId": "participant.phone",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "canonicalRefusals": [
         {
-          "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Text5",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
-        },
-        {
-          "field": "Text6",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
-        },
-        {
           "field": "Check Box7",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored election on an unselected branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "noemailreason",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "noemailreason2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "datesigned",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "streetaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "emailaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the type of court",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the county",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         }
       ],
       "boundaryWrites": [
         {
+          "field": "Text2",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 4.958,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 5.708,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text5",
+          "factId": "matter.charge",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text6",
+          "factId": "matter.conviction_date",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
           "field": "printedname",
           "factId": "participant.full_legal_name",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 6.458,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "citystatezip",
           "factId": "participant.city_state_zip",
           "kind": "text",
-          "fontSize": 9.5,
-          "outcome": "shrunk",
-          "lines": 1
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "telephone number",
           "factId": "participant.phone",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 6.458,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 1,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "boundaryRefusals": [
         {
-          "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Text5",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
-        },
-        {
-          "field": "Text6",
-          "reason": "protected_category",
-          "category": "disposition_or_hearing",
-          "regionHeading": null
-        },
-        {
           "field": "Check Box7",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored election on an unselected branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "PARTICIPANT_ELECTION_GENUINE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "noemailreason",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "OPTIONAL_PARTICIPANT_CONTENT",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "noemailreason2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "datesigned",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "streetaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "emailaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "CRIMINAL CONVICTION",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the type of court",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the county",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         }
-      ]
+      ],
+      "roleRefusalDuplicatesRetired": true
     },
     {
       "formNumber": "CC-6-11.2",
@@ -370,33 +521,7 @@
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
-      "roleRefusals": [
-        {
-          "field": "defendant",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "TYPEOFCOURTRESULTS",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "enter the type of court",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "enter the county",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        }
-      ],
+      "roleRefusals": [],
       "selectionControls": [
         {
           "selectionId": "TYPEOFCOURTDROPDOWN",
@@ -418,8 +543,11 @@
           "sourceSelection": [
             "IN THE                   COURT OF"
           ],
-          "disposition": "explicit_refusal",
-          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "route.court_type",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -441,116 +569,210 @@
           "sourceSelection": [
             "                            COUNTY, NEBRASKA "
           ],
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "matter.county",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "offeredAnchors": null,
       "protectedRules": null,
-      "canonicalWrites": [],
-      "canonicalRefusals": [
+      "canonicalWrites": [
         {
           "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "Text4",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "enter the type of court",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "enter the county",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
-      "boundaryWrites": [],
-      "boundaryRefusals": [
-        {
-          "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
+      "canonicalRefusals": [
         {
           "field": "Text4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the type of court",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "enter the county",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         }
-      ]
+      ],
+      "boundaryWrites": [
+        {
+          "field": "Text2",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 4.958,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 5.458,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 2,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        }
+      ],
+      "boundaryRefusals": [
+        {
+          "field": "Text4",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "TYPEOFCOURTRESULTS",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "fullcountystatementRIGHT",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "enter the type of court",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
+        },
+        {
+          "field": "enter the county",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
+        }
+      ],
+      "roleRefusalDuplicatesRetired": true
     },
     {
       "formNumber": "CC-6-11A",
@@ -562,296 +784,7 @@
       },
       "structuralClass": "flat_pdf",
       "explicitMappings": {},
-      "roleRefusals": [
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 262.78,
-            "y0": 490.27,
-            "x1": 269.25,
-            "y1": 496.16,
-            "width": 6.47,
-            "height": 5.89
-          },
-          "label": "drop-down lists.",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 408.07,
-            "y0": 471.99,
-            "x1": 414.74,
-            "y1": 477.72,
-            "width": 6.67,
-            "height": 5.73
-          },
-          "label": "case number.",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 186.2,
-            "y0": 433.49,
-            "x1": 192.75,
-            "y1": 439.31,
-            "width": 6.55,
-            "height": 5.82
-          },
-          "label": "exactly as it was",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 251.75,
-            "y0": 355.67,
-            "x1": 258,
-            "y1": 361.64,
-            "width": 6.25,
-            "height": 5.97
-          },
-          "label": "you are asking to",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 191.4,
-            "y0": 337.82,
-            "x1": 198,
-            "y1": 343.57,
-            "width": 6.6,
-            "height": 5.75
-          },
-          "label": "have set aside and",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 404.14,
-            "y0": 273.08,
-            "x1": 410.85,
-            "y1": 278.58,
-            "width": 6.71,
-            "height": 5.5
-          },
-          "label": "telephone number,",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 172.65,
-            "y0": 200.41,
-            "x1": 179.35,
-            "y1": 206,
-            "width": 6.7,
-            "height": 5.59
-          },
-          "label": "statement carefully.",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
-          "kind": "selection_control",
-          "page": 1,
-          "construction": "recursive_ctm_path_stroked_path_box",
-          "measured": {
-            "x0": 178.56,
-            "y0": 127.93,
-            "x1": 185.25,
-            "y1": 133.48,
-            "width": 6.69,
-            "height": 5.55
-          },
-          "label": "the box, and use the",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 493.02,
-            "x1": 264.35,
-            "y1": 513.8,
-            "width": 104.6,
-            "height": 20.78
-          },
-          "label": "bnter the original",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 412.3,
-            "y0": 474.65,
-            "x1": 448.57,
-            "y1": 497.49,
-            "width": 36.27,
-            "height": 22.84
-          },
-          "label": "case number.",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 436.16,
-            "x1": 187.9,
-            "y1": 443.19,
-            "width": 28.15,
-            "height": 7.03
-          },
-          "label": "exactly as it was",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 202.9,
-            "x1": 175.01,
-            "y1": 211.66,
-            "width": 15.26,
-            "height": 8.76
-          },
-          "label": "statement carefully.",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 130.32,
-            "x1": 180.63,
-            "y1": 138.92,
-            "width": 20.88,
-            "height": 8.6
-          },
-          "label": "receive emails, check",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 408.54,
-            "y0": 275.47,
-            "x1": 448.39,
-            "y1": 297.08,
-            "width": 39.85,
-            "height": 21.61
-          },
-          "label": "signed, your address,",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 350.2,
-            "x1": 253.02,
-            "y1": 358.75,
-            "width": 93.27,
-            "height": 8.55
-          },
-          "label": "you are asking to",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        },
-        {
-          "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
-          "kind": "boxed_entry_control",
-          "page": 1,
-          "construction": "recursive_ctm_closed_path_boxed_entry",
-          "measured": {
-            "x0": 159.75,
-            "y0": 340.41,
-            "x1": 193.2,
-            "y1": 350.25,
-            "width": 33.45,
-            "height": 9.84
-          },
-          "label": "have set aside and",
-          "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
-          "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
-        }
-      ],
+      "roleRefusals": [],
       "selectionControls": [
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x262.78-y490.27",
@@ -869,7 +802,8 @@
           "label": "drop-down lists.",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x408.07-y471.99",
@@ -887,7 +821,8 @@
           "label": "case number.",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x186.2-y433.49",
@@ -905,7 +840,8 @@
           "label": "exactly as it was",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x251.75-y355.67",
@@ -923,7 +859,8 @@
           "label": "you are asking to",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x191.4-y337.82",
@@ -941,7 +878,8 @@
           "label": "have set aside and",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x404.14-y273.08",
@@ -959,7 +897,8 @@
           "label": "telephone number,",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x172.65-y200.41",
@@ -977,7 +916,8 @@
           "label": "statement carefully.",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_path_stroked_path_box-x178.56-y127.93",
@@ -995,7 +935,8 @@
           "label": "the box, and use the",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y493.02",
@@ -1013,7 +954,8 @@
           "label": "bnter the original",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x412.3-y474.65",
@@ -1031,7 +973,8 @@
           "label": "case number.",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y436.16",
@@ -1049,7 +992,8 @@
           "label": "exactly as it was",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y202.9",
@@ -1067,7 +1011,8 @@
           "label": "statement carefully.",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y130.32",
@@ -1085,7 +1030,8 @@
           "label": "receive emails, check",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x408.54-y275.47",
@@ -1103,7 +1049,8 @@
           "label": "signed, your address,",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y350.2",
@@ -1121,7 +1068,8 @@
           "label": "you are asking to",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         },
         {
           "selectionId": "p1-recursive_ctm_closed_path_boxed_entry-x159.75-y340.41",
@@ -1139,7 +1087,8 @@
           "label": "have set aside and",
           "geometryBasis": "CTM-tracked source glyph or painted-path geometry",
           "disposition": "explicit_refusal",
-          "reason": "boxed_entry_requires_participant_or_authorized_official_completion"
+          "reason": "viewer UI control; never a filing fact on the official instruction component",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE"
         }
       ],
       "offeredAnchors": [],
@@ -1147,7 +1096,8 @@
       "canonicalWrites": [],
       "canonicalRefusals": [],
       "boundaryWrites": [],
-      "boundaryRefusals": []
+      "boundaryRefusals": [],
+      "roleRefusalDuplicatesRetired": true
     },
     {
       "formNumber": "DC-1-15",
@@ -1158,98 +1108,7 @@
       },
       "structuralClass": "acroform",
       "explicitMappings": {},
-      "roleRefusals": [
-        {
-          "field": "plaintiffdefendant",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "emancipationpetitioner",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "defendant",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "Text44",
-          "class": "actor_or_post_event_field_not_owned_by_participant",
-          "why": "actor_or_post_event_field_not_owned_by_participant"
-        },
-        {
-          "field": "Text46",
-          "class": "actor_or_post_event_field_not_owned_by_participant",
-          "why": "actor_or_post_event_field_not_owned_by_participant"
-        },
-        {
-          "field": "Text47",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "Text48",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "Text49",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "Text74",
-          "class": "actor_or_post_event_field_not_owned_by_participant",
-          "why": "actor_or_post_event_field_not_owned_by_participant"
-        },
-        {
-          "field": "Text59.0",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "Text64",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "TYPEOFCOURTRESULTS",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "streetaddress",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "citystatezip",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "telephone number",
-          "class": "binding_not_approved_by_exact_caption_gate",
-          "why": "binding_not_approved_by_exact_caption_gate"
-        },
-        {
-          "field": "datesigned",
-          "class": "fact_class_is_not_permitted_for_prefill_in_this_lane",
-          "why": "fact_class_is_not_permitted_for_prefill_in_this_lane"
-        },
-        {
-          "field": "Text1",
-          "class": "actor_or_post_event_field_not_owned_by_participant",
-          "why": "actor_or_post_event_field_not_owned_by_participant"
-        }
-      ],
+      "roleRefusals": [],
       "selectionControls": [
         {
           "selectionId": "Group27",
@@ -1319,8 +1178,11 @@
             }
           ],
           "sourceSelection": [],
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "route.case_type",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "selectionId": "TYPEOFCOURTDROPDOWN",
@@ -1342,8 +1204,11 @@
           "sourceSelection": [
             "IN THE ___________ COURT OF"
           ],
-          "disposition": "explicit_refusal",
-          "reason": "fact_class_is_not_permitted_for_prefill_in_this_lane"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "route.court_type",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "selectionId": "DROPDOWNCOUNTY2",
@@ -1365,883 +1230,1553 @@
           "sourceSelection": [
             "______________ COUNTY, NEBRASKA "
           ],
-          "disposition": "explicit_refusal",
-          "reason": "selection_requires_participant_or_authorized_official_choice"
+          "disposition": "selected_route_option",
+          "reason": "selection_requires_participant_or_authorized_official_choice",
+          "factId": "matter.county",
+          "blankDisposition": null,
+          "selectedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "offeredAnchors": null,
       "protectedRules": null,
       "canonicalWrites": [
         {
+          "field": "plaintiff",
+          "factId": "route.fixed_plaintiff",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text38",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
           "field": "printedname",
           "factId": "participant.full_legal_name",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "emailaddress",
           "factId": "participant.email",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Group27",
+          "factId": "route.case_type",
+          "kind": "selection",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "canonical",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "canonicalRefusals": [
         {
           "field": "Text20",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text24",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "divorce",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "Group27",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text12",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipation",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text19",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "adoptionof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "NOTICE OF HEARING",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "plaintiffdefendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipationof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "namechange",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "adultnamechangeof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "probateof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "NOTICE OF HEARING",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "firstkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "secondkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "plaintiff",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "thirdkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipationpetitioner",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "fourthkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "parent",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "Text38",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text39",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text40",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text41",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text43",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text44",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text45",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text46",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text47",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text48",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text49",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text50",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text51",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text52",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text74",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "Certificate of Service",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button4",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.3",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.2",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.1",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.0",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text59.0",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.1",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.3",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.0",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.1",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.3",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text64",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text65",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text66",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text67",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text68",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text69",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text70",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text71",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text72",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text73",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "streetaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "citystatezip",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "telephone number",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "datesigned",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text1",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "Certificate of Service",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         }
       ],
       "boundaryWrites": [
         {
+          "field": "plaintiff",
+          "factId": "route.fixed_plaintiff",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "defendant",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 5.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Text38",
+          "factId": "matter.case_number",
+          "kind": "text",
+          "fontSize": 3.708,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
           "field": "printedname",
           "factId": "participant.full_legal_name",
           "kind": "text",
-          "fontSize": 10,
+          "fontSize": 8.208,
           "outcome": "fit",
-          "lines": 1
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "printedname",
+          "factId": "participant.full_legal_name",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 6.708,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "streetaddress",
+          "factId": "participant.street_address",
+          "kind": "text",
+          "fontSize": 6.708,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "citystatezip",
+          "factId": "participant.city_state_zip",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "telephone number",
+          "factId": "participant.phone",
+          "kind": "text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         },
         {
           "field": "emailaddress",
           "factId": "participant.email",
           "kind": "text",
-          "fontSize": 7,
-          "outcome": "shrunk",
-          "lines": 1
+          "fontSize": 6.458,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "emailaddress",
+          "factId": "participant.email",
+          "kind": "text",
+          "fontSize": 6.458,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 2,
+          "packetPage": 5,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "Group27",
+          "factId": "route.case_type",
+          "kind": "selection",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "TYPEOFCOURTDROPDOWN",
+          "factId": "route.court_type",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
+        },
+        {
+          "field": "DROPDOWNCOUNTY2",
+          "factId": "matter.county",
+          "kind": "route_selection_text",
+          "fontSize": 8.208,
+          "outcome": "fit",
+          "lines": 1,
+          "sourcePage": 1,
+          "packetPage": 4,
+          "fixture": "boundary",
+          "repairedBy": "P4_NE_SD_SETASIDE_COMPLETENESS"
         }
       ],
       "boundaryRefusals": [
         {
           "field": "Text20",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text24",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "divorce",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "Group27",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text12",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipation",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text19",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "adoptionof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "NOTICE OF HEARING",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "plaintiffdefendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipationof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "namechange",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "adultnamechangeof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "probateof",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "NOTICE OF HEARING",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "firstkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "secondkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "plaintiff",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "thirdkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "emancipationpetitioner",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "fourthkid",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "defendant",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "parent",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "Text38",
-          "reason": "no_allowlisted_fact_matches",
-          "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text39",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text40",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text41",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text43",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text44",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text45",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text46",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text47",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text48",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "court, clerk, prosecutor, agency, or hearing field; completed only after the named court or service event",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "LATER_COMPLETION",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text49",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text50",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text51",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text52",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text74",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "Certificate of Service",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button4",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.3",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.2",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.1",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Button63.0",
-          "reason": "non_text_field_type",
-          "category": "type_guard",
-          "regionHeading": null
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text59.0",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.1",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.3",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text59.4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.0",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.1",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.3",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text60.4",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text64",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
+          "category": null,
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text65",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text66",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text67",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text68",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text69",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text70",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text71",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text72",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "Text73",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored required-before-filing content is surfaced in participant instructions; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": "SERVICE",
+          "blankDisposition": "REQUIRED_BEFORE_FILING",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": true
         },
         {
           "field": "fullcountystatementRIGHT",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
+          "regionHeading": null,
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "TYPEOFCOURTRESULTS",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "TYPEOFCOURTDROPDOWN",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "DROPDOWNCOUNTY2",
-          "reason": "no_allowlisted_fact_matches",
+          "reason": "optional participant-authored content on an unselected route branch; the platform does not invent it",
           "category": null,
-          "regionHeading": null
-        },
-        {
-          "field": "streetaddress",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "citystatezip",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
-        },
-        {
-          "field": "telephone number",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "regionHeading": "DC1:15 NEW 08/19",
+          "blankDisposition": "NOT_APPLICABLE_ON_THIS_ROUTE",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "datesigned",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "SERVICE",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         },
         {
           "field": "Text1",
-          "reason": "classified_unwritable_by_role",
-          "category": "role"
+          "reason": "signature and date are completed by the participant; court, clerk, prosecutor, agency, and service certifications remain protected",
+          "category": null,
+          "regionHeading": "Certificate of Service",
+          "blankDisposition": "PROTECTED_FIELD",
+          "dispositionBasis": "P4 exact-form route and role classification",
+          "requiredBeforeFiling": false
         }
-      ]
+      ],
+      "roleRefusalDuplicatesRetired": true
     }
   ],
   "generationAllowed": false,
   "runtimeSelectable": false,
-  "commercialRoutesOpened": 0
+  "commercialRoutesOpened": 0,
+  "completenessRepair": {
+    "assignmentId": "P4_NE_SD_SETASIDE_COMPLETENESS",
+    "dispatchCommit": "4d1408a40eeb77f51bdf18ba35a13db579b21129",
+    "captainBaseSha": "33dfea59fe85b9dc86469d12e04fd65c51b480fa",
+    "intentionalBlankVocabularyClosed": true,
+    "protectedFieldsRemainUnwritten": true,
+    "independentVerificationPending": true
+  }
 }
