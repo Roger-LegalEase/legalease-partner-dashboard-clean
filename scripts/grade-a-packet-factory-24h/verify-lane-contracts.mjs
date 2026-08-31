@@ -137,6 +137,34 @@ check("L4", "no family is proven without a hash-bound RASTER_PASS from the centr
   proofProblems.length === 0,
   `${(queue?.rows ?? []).length} famil(ies) queued; ${proofProblems.length} problem(s): ${proofProblems.slice(0, 3).join(" | ")}`);
 
+/* ---- L6. a gate nobody can run may not be treated as one that passed ----- */
+/*
+ * The raster workflow is dispatchable only from the default branch -- that is
+ * how GitHub scopes workflow_dispatch -- and it is not on main yet. Dispatching
+ * it from the Captain branch answers 404, which I confirmed by trying. So the
+ * visual gate is built and unreachable, and those are different states.
+ *
+ * The risk is not that somebody notices; it is that somebody does not, and
+ * relaxes PASS_COMPLETE because "the raster never passes anyway". This refuses
+ * that directly: while the workflow is unreachable, a family in a proven state
+ * is a family proven by a gate that cannot have run.
+ */
+const reach = queue?.workflowReachability ?? null;
+const reachProblems = [];
+if (!reach) reachProblems.push("the queue does not record whether the raster workflow can actually be dispatched");
+else {
+  const proven = (master?.families ?? []).filter((f) => ["PASS_COMPLETE", "VERIFIED_PASS", "LEGAL_REVIEW_READY", "LEGAL_APPROVED", "PRODUCT_PATH_PENDING", "COMPLETE_PACKET_PROVEN"].includes(f.state));
+  if (reach.presentOnDefaultBranch !== true && proven.length > 0) {
+    reachProblems.push(`${proven.length} famil(ies) are in a proven state while the raster workflow is undispatchable, so their verdict cannot have come from it`);
+  }
+  if (typeof reach.consequence !== "string" || !/RASTER_PASS/.test(reach.consequence)) {
+    reachProblems.push("the recorded consequence does not say what being unreachable costs");
+  }
+}
+check("L6", "the raster gate's reachability is recorded, and no family is proven while it cannot be dispatched",
+  reachProblems.length === 0,
+  `present on default branch: ${reach?.presentOnDefaultBranch}; ${reachProblems.length} problem(s): ${reachProblems.slice(0, 2).join(" | ")}`);
+
 /* ---- L5. the canary and the controls stayed with the rendering ----------- */
 const rasterWf = fs.existsSync(path.join(ROOT, RASTER_WORKFLOW)) ? read(RASTER_WORKFLOW) : "";
 const wfProblems = [];
@@ -176,7 +204,11 @@ if (MUTATIONS) {
     { name: "a queued PDF with no exact hash is caught", id: "L4", file: `${DIR}/RASTER_QUEUE.json`,
       edit: (t) => { const j = JSON.parse(t); j.rows[0].canonicalPdfSha256 = null; return `${JSON.stringify(j, null, 2)}\n`; } },
     { name: "moving the canary out of the raster workflow is caught", id: "L5", file: RASTER_WORKFLOW,
-      edit: (t) => t.replace(/rcap-raster-canary\.mjs/g, "rcap-raster-nothing.mjs") }
+      edit: (t) => t.replace(/rcap-raster-canary\.mjs/g, "rcap-raster-nothing.mjs") },
+    { name: "a family proven while the raster gate cannot be dispatched is caught", id: "L6", file: `${DIR}/MASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t); (j.families.find((x) => x.state === "VERIFY_PENDING") ?? j.families[0]).state = "COMPLETE_PACKET_PROVEN"; return `${JSON.stringify(j, null, 2)}\n`; } },
+    { name: "dropping the reachability record is caught", id: "L6", file: `${DIR}/RASTER_QUEUE.json`,
+      edit: (t) => { const j = JSON.parse(t); delete j.workflowReachability; return `${JSON.stringify(j, null, 2)}\n`; } }
   ];
   let allCaught = true;
   for (const c of cases) {

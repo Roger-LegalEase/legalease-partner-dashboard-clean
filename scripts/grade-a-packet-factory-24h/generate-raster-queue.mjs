@@ -161,6 +161,30 @@ const doc = {
     RASTER_BLOCKED_ENVIRONMENT: "the runner could not render at all; this is an environment defect and not a packet defect, and it never becomes RASTER_FAIL"
   },
   workflow: WORKFLOW,
+  /*
+   * The gate is correct and it is not yet reachable, which is a different thing
+   * from working and must not be recorded as the same.
+   *
+   * GitHub dispatches a workflow_dispatch workflow only from the DEFAULT
+   * branch. This one exists on the Captain branch and not on main, so
+   * dispatching it answers 404 -- confirmed by trying. Until this branch
+   * merges, no family can obtain a RASTER_PASS, and because PASS_COMPLETE now
+   * requires one, no family can become PASS_COMPLETE either.
+   *
+   * That is the honest state of the visual gate. Left unrecorded, the factory
+   * would read as having a working renderer that simply has not run yet, and
+   * the difference would surface as a mystery the first time somebody asked why
+   * nothing ever passes. Merging to main is Roger's call, not mine.
+   */
+  workflowReachability: {
+    dispatchableFrom: "the repository default branch only, which is how GitHub scopes workflow_dispatch",
+    defaultBranch: "main",
+    presentOnDefaultBranch: false,
+    observed: "POST .../rcap-packet-raster-acceptance-batch.yml/dispatches answered 404 from the Captain branch",
+    consequence: "No family can obtain a RASTER_PASS until this workflow lands on main. PASS_COMPLETE requires one, so no family can reach PASS_COMPLETE until then.",
+    whatThisIsNot: "This is not a defect in the gate and not a reason to relax it. The gate is built and proven locally; it is not yet deployed.",
+    whoDecides: "merging to the default branch is Roger's decision"
+  },
   maxParallel: 20,
   lanes: LANES,
   counts: {
