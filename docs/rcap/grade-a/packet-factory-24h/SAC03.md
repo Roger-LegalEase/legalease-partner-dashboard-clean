@@ -1,6 +1,6 @@
-# SRC03
+# SAC03
 
-**Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-identity-acquisition-promotion
+**Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
 **Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
@@ -14,7 +14,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family ga-fo-active-pre2026-set::source-sha256:05e8621c5addcf06a7e2c52e909035c54ce55a3df5e8894bef06973a98ad8be5 \
+  --family agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission::NO_DOCUMENT_SOURCE_NAMED \
   --codex-cloud \
   --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
 ```
@@ -33,40 +33,30 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Reconcile every pinned content hash the corpus cannot produce. Either the revision moved or the pin was wrong, and those have different remedies.
+Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.
 
 ## What bounds this lane
 
-the issuing host for each pinned content hash that no longer resolves
+one issuing host per lane, so a host that rate-limits blocks only its own lane
 
-**15 obligations · 7 families released if all clear · hosts: GA, MT, SC, VA, WV**
+**26 obligations · 26 families released if all clear · hosts: CT, MN, MT, NM, NV, NY, RI, SC, SD, WA**
 
-> This environment refuses outbound egress to court and agency hosts. Resolution against committed inventories runs here; anything needing a fetch is recorded as an exact acquisition instruction naming its host, not attempted and not faked.
+> This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
 ### Every acquired or promoted source records
 
-- official publisher
-- exact title
-- form number
-- revision
-- official URL
-- MIME type
-- page count
-- technology (acroform, xfa, flat)
-- SHA-256
-- byte size
-- custody path
 
-**As soon as a family becomes source-ready, report it in the checkpoint. Captain assigns it to the next available PF lane without waiting for this lane to finish.**
+
+**undefined**
 
 ### Families this lane releases
 
-`ga-fo-active-pre2026-set`, `ga-fo-discharged-pre2026-set`, `mt_mmrta_completed-set`, `mt_mmrta_serving-set`, `rcap-sc-custom-pleading`, `va_exp_identity_used_by_another-set`, `wv_acc_treatment_job_readiness-set`
+`agency-application-treatment:obligation:research-decision-route:NY:ny_160_55_violation:dcjs_correction_submission`, `agency-application-treatment:obligation:runtime-only:NM:dna-sample-profile-expungement`, `agency-application-treatment:obligation:track-only:CT:ct-destruction-request`, `agency-application-treatment:obligation:track-only:CT:ct-provisional-pardon`, `agency-application-treatment:obligation:track-pathway:CT:ct-absolute-pardon:absolute-pardon-resulting-in-erasure`, `census-pending-family:WA:juvenile-record-sealing-under-rcw-13-50-260`, `composed-treatment:obligation:research-decision-route:NY:ny_160_55_violation:sentencing_court_transmission_correction_request`, `composed-treatment:obligation:runtime-only:NV:trafficking-victim-vacatur-and-sealing-under-nrs-179-247`, `composed-treatment:obligation:runtime-only:SD:juvenile-trafficking-expungement`, `composed-treatment:sc_17_22_950_summary`, `composed-treatment:sd_sis_sealing`, `ct-cannabis-petition-set`, `ct-decriminalized-set`, `ct-missed-erasure-set`, `ct-nolle-auto-set`, `ct-pardon-erasure-set`, `ct-under18-misdemeanor-set`, `mn_prosecutor_agreed-set`, `mt_deferred_dismissal-set`, `mt_misdemeanor_expungement-set`, `nv_repository_removal-set`, `nv_seal_probation_family-set`, `rcap-nv-custom-pleading`, `rcap-wa-custom-pleading-clean-tracks`, `ri_marijuana-set`, `wa_crop_certificate_of_restoration-set`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/src03/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/src03/**`
+- `data/rcap-grade-a/packet-factory-24h/sac03/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sac03/**`
 
 ## Never write here
 
@@ -97,8 +87,8 @@ the issuing host for each pinned content hash that no longer resolves
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/src03/rows.json — one row per obligation: itemId, status, the identity resolved or the exact acquisition instruction, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/src03/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/sac03/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/sac03/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 
@@ -115,9 +105,10 @@ An unrecognised status is refused at integration rather than translated.
 ## Stop conditions
 
 - NEVER guess a form number and never accept an unofficial mirror. A secondary copy does not override an available official original.
-- NEVER commit a source body, an extracted archive or anything under private/.
+- NEVER commit a source body, an extracted archive or anything under private/. A receipt carrying an exact hash is the deliverable.
+- NEVER promote a source without exact bytes. A promotion is a release, and a released family goes to a builder that will try to open the file.
 - LANE STOP — you build no packet and you touch no overlay directory.
-- ROW STOP — an identity that cannot be settled from committed inventories is a STOPPED row naming the exact host to fetch from.
+- ROW STOP — an obligation that cannot be settled here is STOPPED naming the exact host and the next operation that owns it.
 
 Stopping with an honest account of what is missing is a complete return. One blocked family never stops the lane.
 
@@ -127,13 +118,16 @@ Commit locally. Leave the final diff for the Codex Cloud interface. There is no 
 
 ```text
 ASSIGNMENT:
+OPERATION:
 BASE SHA:
 COMMIT:
 OBLIGATIONS RESOLVED:
 OBLIGATIONS STOPPED:
-FAMILIES RELEASED INTO THE BUILD QUEUE:
+HANDED OFF:
+FAMILIES RELEASED:
 IDENTITIES GUESSED: 0
 SOURCE BODIES COMMITTED: 0
+PROMOTIONS WITHOUT EXACT BYTES: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
 PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14

@@ -39,8 +39,13 @@ const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
 const MINIMUM_CAPTAIN_SHA = "40ccc028a2af8eac94743cdb32237e3af56a6642";
 
 const PF_LANES = 16;
+/* Micro-batch: a lane returns work in hours, not at the end of a wave. Five is
+ * the ceiling and two to four is the shape; a shared-host lane may exceed it
+ * only because its machinery makes splitting the families unsound. */
+const PF_MAX_FAMILIES = 5;
+const PF_PREFERRED_MAX = 4;
 const VF_LANES = 8;
-const SRC_LANES = 4;
+const SOURCE_LANES = 16;
 const FIX_LANES = 4;
 
 const STATES = [
@@ -407,31 +412,141 @@ const packGroups = (pool, laneCount) => {
 };
 
 const pfBuckets = packGroups(sourceReady, PF_LANES);
+/* Any lane over the ceiling sheds its smallest group to the emptiest lane that
+ * can take it, unless the group is a single shared-host group that cannot be
+ * split without two writers on one script. */
+const bucketSize = (b) => b.reduce((n, g) => n + g.families.length, 0);
+for (let guard = 0; guard < 60; guard += 1) {
+  const over = pfBuckets.findIndex((b) => bucketSize(b) > PF_MAX_FAMILIES);
+  if (over < 0) break;
+  const donor = [...pfBuckets[over]].sort((a, b) => a.families.length - b.families.length)[0];
+  if (!donor || pfBuckets[over].length === 1) break;
+  const target = pfBuckets
+    .map((b, j) => ({ j, size: bucketSize(b) }))
+    .filter((x) => x.j !== over && x.size + donor.families.length <= PF_MAX_FAMILIES)
+    .sort((a, b) => a.size - b.size)[0];
+  if (!target) break;
+  pfBuckets[over].splice(pfBuckets[over].indexOf(donor), 1);
+  pfBuckets[target.j].push(donor);
+}
 
 /* Source lanes: bounded by issuing host and identity class, never by state. */
-const SOURCE_CLASSES = [
-  { id: "SRC01", absence: ["named_form_number_not_in_corpus"], bound: "the issuing court or agency that publishes each named form number", mission: "Acquire the exact published edition of every form number the census names and the corpus does not carry, one issuing host at a time." },
-  { id: "SRC02", absence: ["label_does_not_identify_a_document"], bound: "the committed Nationwide inventory and the state packs, read only", mission: "Turn a descriptive label into a document identity: an exact form number or an exact content hash, resolved against committed inventories." },
-  { id: "SRC03", absence: ["named_content_hash_not_in_corpus"], bound: "the issuing host for each pinned content hash that no longer resolves", mission: "Reconcile every pinned content hash the corpus cannot produce. Either the revision moved or the pin was wrong, and those have different remedies." },
-  { id: "SRC04", absence: ["no_document_shaped_source_named", "inexact_tier"], bound: "families whose match is a token subset, and those naming no document-shaped source", mission: "Promote a near-match to an exact identity or refuse it. A token-subset match inside the right jurisdiction is not an identity." }
-];
+const blockedBySource = [...sourceBlocked, ...legalBlocked];
 const sourceRows = [];
-for (const f of [...sourceBlocked, ...legalBlocked]) {
+for (const f of blockedBySource) {
   const custody = custodyByGroup.get(f.worklistGroupId);
   const docs = custody?.documentSources ?? [];
   let emitted = 0;
   for (const d of docs) {
     if (d.resolved && EXACT_TIERS.has(d.tier)) continue;
     emitted += 1;
-    sourceRows.push({ familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: d.sourceId, absence: d.absence ?? (d.resolved ? "inexact_tier" : "unresolved"), tier: d.tier ?? null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT" });
+    sourceRows.push({
+      familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: d.sourceId,
+      absence: d.absence ?? (d.resolved ? "inexact_tier" : "unresolved"),
+      tier: d.tier ?? null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT"
+    });
   }
-  if (emitted === 0) sourceRows.push({ familyId: f.familyId, jurisdiction: f.jurisdiction, sourceId: null, absence: "no_document_shaped_source_named", tier: null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT" });
+  if (emitted === 0) {
+    /* A family blocked with no unresolved document source is blocked on a source
+     * it NAMES and does not hold: the readiness reasons say which. Every one of
+     * them becomes an obligation, because a blocked family with no obligation is
+     * a family nobody is working on. */
+    for (const reason of (f.sourceReadiness?.reasons ?? ["no document-shaped source named"])) {
+      const named = reason.match(/^(official-form:[^:]+):/);
+      sourceRows.push({
+        familyId: f.familyId, jurisdiction: f.jurisdiction,
+        sourceId: named ? named[1] : null,
+        absence: named ? "named_form_number_not_in_corpus" : "no_document_shaped_source_named",
+        tier: null, legalBlocked: f.legalInputStatus === "OPEN_LEGAL_INPUT", fromReadiness: reason
+      });
+    }
+  }
 }
-const classifyRow = (row) => {
-  if (row.tier && !EXACT_TIERS.has(row.tier)) return "SRC04";
-  return SOURCE_CLASSES.find((c) => c.absence.includes(row.absence))?.id ?? "SRC04";
+/* One obligation, one row: a family that names the same source twice is one
+ * obligation, not two, and a duplicate would be dispatched to two lanes. */
+const seenObligation = new Set();
+const duplicateObligations = [];
+for (let i = sourceRows.length - 1; i >= 0; i -= 1) {
+  const key = `${sourceRows[i].familyId}::${sourceRows[i].sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`;
+  if (seenObligation.has(key)) { duplicateObligations.push(key); sourceRows.splice(i, 1); continue; }
+  seenObligation.add(key);
+}
+
+/*
+ * The source swarm.
+ *
+ * Four monolithic lanes made every obligation wait behind the slowest one in its
+ * class. Sixteen exclusive lanes split the work by CUSTODY OPERATION -- identity,
+ * inventory reconciliation, acquisition, promotion -- and then by issuer host
+ * inside each, so an obligation moves through four short queues instead of one
+ * long one and an exact official URL can be dispatched the moment it is known.
+ *
+ * The operations are ordered but not blocking: SID hands a URL to SAC as soon as
+ * it has one, SIN can bind a held byte without waiting for any acquisition, and
+ * SPR releases a family the moment its last source is promoted.
+ */
+const SOURCE_OPERATIONS = [
+  {
+    prefix: "SID", operation: "exact-source-identity",
+    absence: ["label_does_not_identify_a_document"],
+    mission: "Turn a descriptive label into a document identity: exact form number, official publisher, revision and the official URL it is published at. Resolve against committed inventories; never guess a form number.",
+    records: ["official publisher", "exact title", "form number", "revision", "official URL"],
+    handsOffTo: "SAC, the moment an exact official URL is known — do not wait for the rest of this lane",
+    bounded: "the issuing court or agency that publishes the document"
+  },
+  {
+    prefix: "SIN", operation: "held-inventory-reconciliation",
+    absence: ["named_form_number_not_in_corpus", "named_content_hash_not_in_corpus"],
+    mission: "Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.",
+    records: ["custody path", "SHA-256", "byte size", "MIME", "pages", "technology"],
+    handsOffTo: "SPR where the byte is held and binds; SID where the identity itself turns out to be wrong",
+    bounded: "the private corpus and the committed inventory, read only — nothing is fetched here"
+  },
+  {
+    prefix: "SAC", operation: "official-acquisition-dispatch",
+    absence: ["no_document_shaped_source_named"],
+    mission: "Dispatch one exact acquisition per official URL through .github/workflows/rcap-official-source-acquisition.yml. One URL, one dispatch, one receipt. This environment cannot fetch; the workflow does it where egress is allowed.",
+    records: ["official URL", "dispatch id", "workflow run", "receipt path"],
+    handsOffTo: "SPR, on the acquired artifact receipt",
+    bounded: "one issuing host per lane, so a host that rate-limits blocks only its own lane"
+  },
+  {
+    prefix: "SPR", operation: "promotion-and-release",
+    absence: ["inexact_tier"],
+    mission: "Take an acquired or reconciled artifact, register its custody, promote it into the governed index, and release every family whose last source is now bound. A promotion without exact bytes is refused.",
+    records: ["custody path", "SHA-256", "indexed entry", "families released"],
+    handsOffTo: "Captain, who assigns every released family to the next available PF lane immediately",
+    bounded: "the custody register and the governed corpus index"
+  }
+];
+
+/** Which operation an obligation belongs to, from its own absence class. */
+const operationFor = (row) => {
+  if (row.tier && !EXACT_TIERS.has(row.tier)) return "SPR";
+  const op = SOURCE_OPERATIONS.find((o) => o.absence.includes(row.absence));
+  return op ? op.prefix : "SPR";
 };
-for (const row of sourceRows) row.lane = classifyRow(row);
+/* Inside an operation, four lanes by issuer host. Hosts are sorted and dealt
+ * round-robin by total obligation weight so no lane inherits every large host. */
+const laneWithinOperation = (rows) => {
+  const byHost = new Map();
+  for (const r of rows) byHost.set(r.jurisdiction || "UNKNOWN", [...(byHost.get(r.jurisdiction || "UNKNOWN") ?? []), r]);
+  const hosts = [...byHost.entries()].sort((a, b) => b[1].length - a[1].length);
+  const buckets = [[], [], [], []];
+  for (const [, rs] of hosts) {
+    const smallest = buckets.reduce((best, b, i) => (b.length < buckets[best].length ? i : best), 0);
+    buckets[smallest].push(...rs);
+  }
+  return buckets;
+};
+for (const row of sourceRows) row.operation = operationFor(row);
+for (const op of SOURCE_OPERATIONS) {
+  const rows = sourceRows.filter((r) => r.operation === op.prefix);
+  const buckets = laneWithinOperation(rows);
+  buckets.forEach((bucket, i) => {
+    for (const r of bucket) r.lane = `${op.prefix}${String(i + 1).padStart(2, "0")}`;
+  });
+}
 
 /* ---------------------------------------------------------------- *
  * Assignments
@@ -587,6 +702,11 @@ for (let i = 0; i < VF_LANES; i += 1) {
   const id = `VF${String(i + 1).padStart(2, "0")}`;
   const slug = id.toLowerCase();
   const seedItems = verifiablePool.filter((_, j) => j % VF_LANES === i).map((f) => f.familyId);
+  /* A verifier with nothing to inspect must not be launched: its checkout would
+   * predate the packet commit it exists to read, and it would verify an artifact
+   * that is not there yet. It is PROVISIONED and started by Captain on the first
+   * integrated checkpoint that gives it families. */
+  const launchable = seedItems.length > 0;
   assignments.push(base(id, "independent-verification", slug, {
     mission: "Verify returned packet families independently, in rolling checkpoints, as builders land them. You claim, you measure, you record a verdict. You never edit what you verify.",
     itemKind: "streamingClaim",
@@ -641,52 +761,69 @@ for (let i = 0; i < VF_LANES; i += 1) {
   }));
 }
 
-/* ---- SRC01..SRC04 ---- */
-for (const cls of SOURCE_CLASSES) {
-  const slug = cls.id.toLowerCase();
-  const rows = sourceRows.filter((r) => r.lane === cls.id);
-  const fams = [...new Set(rows.map((r) => r.familyId))].sort();
-  const hosts = [...new Set(rows.map((r) => r.jurisdiction))].filter(Boolean).sort();
-  assignments.push(base(cls.id, "source-identity-acquisition-promotion", slug, {
-    mission: cls.mission,
-    itemKind: "sourceObligation",
-    itemCount: rows.length,
-    items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
-    boundedBy: cls.bound,
-    familiesUnblocked: fams,
-    familiesUnblockedCount: fams.length,
-    issuingHosts: hosts,
-    absenceClasses: cls.absence,
-    continueAfterFailure: "An individual source that cannot be settled is a STOPPED row. The lane continues to the next one.",
-    everyAcquiredSourceRecords: [
-      "official publisher", "exact title", "form number", "revision", "official URL",
-      "MIME type", "page count", "technology (acroform, xfa, flat)", "SHA-256", "byte size", "custody path"
-    ],
-    releaseRule: "As soon as a family becomes source-ready, report it in the checkpoint. Captain assigns it to the next available PF lane without waiting for this lane to finish.",
-    egressReality: "This environment refuses outbound egress to court and agency hosts. Resolution against committed inventories runs here; anything needing a fetch is recorded as an exact acquisition instruction naming its host, not attempted and not faked.",
-    ownedPaths: [`${FACT}/${slug}/**`, `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/**`],
-    prohibitedPaths: [`${OVERLAYS}/**`, "scripts/build-census-v1-*.mjs", `${LC}/**`, "private/**", ...activePaths.map((p) => p.path)],
-    requiredOutputs: [
-      `${FACT}/${slug}/rows.json — one row per obligation: itemId, status, the identity resolved or the exact acquisition instruction, and the families it releases`,
-      `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/receipts.json — the eleven recorded fields per resolved source; no body is committed`
-    ],
-    outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
-    focusedTests: ["node scripts/grade-a-packet-factory-24h/verify.mjs"],
-    stopConditions: [
-      "NEVER guess a form number and never accept an unofficial mirror. A secondary copy does not override an available official original.",
-      "NEVER commit a source body, an extracted archive or anything under private/.",
-      "LANE STOP — you build no packet and you touch no overlay directory.",
-      "ROW STOP — an identity that cannot be settled from committed inventories is a STOPPED row naming the exact host to fetch from."
-    ],
-    returnFormat: [
-      "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
-      "OBLIGATIONS RESOLVED:", "OBLIGATIONS STOPPED:", "FAMILIES RELEASED INTO THE BUILD QUEUE:",
-      "IDENTITIES GUESSED: 0", "SOURCE BODIES COMMITTED: 0",
-      "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
-      "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
-    ],
-    grantsNothing: "A bound source is a bound source. It builds nothing, proves nothing and approves nothing."
-  }));
+/* ---- the sixteen-lane source swarm ---- */
+for (const op of SOURCE_OPERATIONS) {
+  for (let i = 1; i <= 4; i += 1) {
+    const id = `${op.prefix}${String(i).padStart(2, "0")}`;
+    const slug = id.toLowerCase();
+    const rows = sourceRows.filter((r) => r.lane === id);
+    const fams = [...new Set(rows.map((r) => r.familyId))].sort();
+    const hosts = [...new Set(rows.map((r) => r.jurisdiction))].filter(Boolean).sort();
+    assignments.push(base(id, "source-swarm", slug, {
+      operation: op.operation,
+      mission: rows.length === 0
+        ? `${op.mission} No obligation of this class is queued for this host group at dispatch; the lane starts the moment one arrives.`
+        : op.mission,
+      itemKind: "sourceObligation",
+      itemCount: rows.length,
+      items: rows.map((r) => `${r.familyId}::${r.sourceId ?? "NO_DOCUMENT_SOURCE_NAMED"}`),
+      boundedBy: op.bounded,
+      issuingHosts: hosts,
+      familiesUnblocked: fams,
+      familiesUnblockedCount: fams.length,
+      absenceClasses: op.absence,
+      everyResolvedSourceRecords: [
+        "official publisher", "exact title", "form number", "revision", "official URL",
+        "MIME type", "page count", "technology (acroform, xfa, flat)", "SHA-256", "byte size", "custody path"
+      ],
+      recordsForThisOperation: op.records,
+      handsOffTo: op.handsOffTo,
+      dispatchImmediately: op.prefix === "SID"
+        ? "The moment you know an exact official URL, hand it to the SAC lane for this host. Do not hold it until the rest of your obligations resolve."
+        : op.prefix === "SPR"
+          ? "The moment a family's last source is promoted, report it released. Captain assigns it to the next available PF lane without waiting for this lane to finish."
+          : "Report each resolution as it lands rather than at the end of the lane.",
+      acquisitionWorkflow: op.prefix === "SAC" ? ".github/workflows/rcap-official-source-acquisition.yml" : null,
+      oneDispatchPerUrl: op.prefix === "SAC" ? "One official URL, one dispatch, one receipt. A second dispatch for a URL already dispatched is a duplicate obligation and is refused." : null,
+      promotionRule: op.prefix === "SPR" ? "A source is promoted only with exact bytes: a custody path that exists and a SHA-256 that matches the indexed entry. A promotion without bytes releases a family into a builder that cannot open its source." : null,
+      continueAfterFailure: "An obligation that cannot be settled is a STOPPED row. The lane continues to the next one.",
+      egressReality: "This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.",
+      ownedPaths: [`${FACT}/${slug}/**`, `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/**`],
+      prohibitedPaths: [`${OVERLAYS}/**`, "scripts/build-census-v1-*.mjs", `${LC}/**`, "private/**", ...activePaths.map((p) => p.path)],
+      requiredOutputs: [
+        `${FACT}/${slug}/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases`,
+        `data/rcap-grade-a/source-acquisition/packet-factory-24h/${slug}/receipts.json — the eleven recorded fields per resolved source; no body is committed`
+      ],
+      outputSchema: { arrayKey: "rows", itemKeyField: "itemId", completionVocabulary: ["COMPLETED", "STOPPED"], rule: "An unrecognised status is refused at integration rather than translated." },
+      focusedTests: ["node scripts/grade-a-packet-factory-24h/verify.mjs"],
+      stopConditions: [
+        "NEVER guess a form number and never accept an unofficial mirror. A secondary copy does not override an available official original.",
+        "NEVER commit a source body, an extracted archive or anything under private/. A receipt carrying an exact hash is the deliverable.",
+        "NEVER promote a source without exact bytes. A promotion is a release, and a released family goes to a builder that will try to open the file.",
+        "LANE STOP — you build no packet and you touch no overlay directory.",
+        "ROW STOP — an obligation that cannot be settled here is STOPPED naming the exact host and the next operation that owns it."
+      ],
+      returnFormat: [
+        "ASSIGNMENT:", "OPERATION:", "BASE SHA:", "COMMIT:",
+        "OBLIGATIONS RESOLVED:", "OBLIGATIONS STOPPED:",
+        "HANDED OFF:", "FAMILIES RELEASED:",
+        "IDENTITIES GUESSED: 0", "SOURCE BODIES COMMITTED: 0", "PROMOTIONS WITHOUT EXACT BYTES: 0",
+        "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
+        "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
+      ],
+      grantsNothing: "A bound source is a bound source. It builds nothing, proves nothing and approves nothing."
+    }));
+  }
 }
 
 /* ---- FIX01..FIX04 ---- */
@@ -822,7 +959,7 @@ if (placeholders.length) problems.push(`${placeholders.length} assignment(s) wit
 if (blockedInPF.length) problems.push(`${blockedInPF.length} blocked famil(ies) assigned to a builder`);
 if (!/^[0-9a-f]{40}$/.test(MINIMUM_CAPTAIN_SHA)) problems.push("no real minimum Captain SHA");
 if (git(["merge-base", "--is-ancestor", MINIMUM_CAPTAIN_SHA, "HEAD"]) === null) problems.push("the minimum Captain SHA is not an ancestor of HEAD");
-if (assignments.length !== PF_LANES + VF_LANES + SRC_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected 32`);
+if (assignments.length !== PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES) problems.push(`${assignments.length} lanes, expected ${PF_LANES + VF_LANES + SOURCE_LANES + FIX_LANES}`);
 if (problems.length) {
   console.error(`packet factory 24h: ${problems.length} problem(s)`);
   for (const p of problems.slice(0, 12)) console.error(`  - ${p}`);
@@ -868,14 +1005,14 @@ const masterQueue = {
     familiesPerBuilder: PF_LANES > 0 ? Number((sourceReady.length / PF_LANES).toFixed(1)) : 0,
     targetPerBuilder: "15 to 25",
     finding: `Thirty-two lanes are created and queued as instructed. The builders are limited by how many families hold an exactly-identified official source: ${sourceReady.length} do, so a full roster of ${PF_LANES} builders averages ${(sourceReady.length / PF_LANES).toFixed(1)} families each rather than 15 to 25.`,
-    whatWouldChangeIt: `The source conveyor. ${sourceRows.length} source obligations across ${sourceBlocked.length + legalBlocked.length} families stand between this dispatch and a full builder roster, and SRC01 to SRC04 hold every one of them.`,
+    whatWouldChangeIt: `The source conveyor. ${sourceRows.length} source obligations across ${sourceBlocked.length + legalBlocked.length} families stand between this dispatch and a full builder roster, and the sixteen-lane source swarm holds every one of them.`,
     whyNotFewerBuilders: "The roster is kept at sixteen because the instruction is a 24-hour rolling factory: a lane that is empty at dispatch is the lane a released family starts in an hour from now, and provisioning it later costs a cycle.",
     noFalsePass: "No source-blocked or legally blocked family is assigned to a builder. Each carries one exact blocker, one owner and one next action instead."
   },
   families,
   totals: {
     lanes: assignments.length,
-    builders: PF_LANES, verifiers: VF_LANES, sourceLanes: SRC_LANES, repairLanes: FIX_LANES,
+    builders: PF_LANES, verifiers: VF_LANES, sourceLanes: SOURCE_LANES, repairLanes: FIX_LANES,
     familiesAssignedToBuilders: sourceReady.length,
     sourceObligationsAssigned: sourceRows.length,
     commercialRoutesOpened: 0,
@@ -952,7 +1089,7 @@ const checkpointRecord = {
     exactBlocker: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "an open legal input on one of its routes"
       : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "no census route binds this id to a packet family"
       : `${f.sourceStatus}: ${(f.sourceIds ?? []).join(", ") || "no document-shaped source named"}`,
-    owner: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "counsel" : (sourceRows.find((r) => r.familyId === f.familyId)?.lane ?? "SRC04"),
+    owner: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "counsel" : (sourceRows.find((r) => r.familyId === f.familyId)?.lane ?? "SPR04"),
     nextAction: f.legalInputStatus === "OPEN_LEGAL_INPUT" ? "await the counsel determination; do not research it here"
       : f.routeMappingStatus === "UNBOUND_TO_A_PACKET_FAMILY" ? "Captain route/family binding"
       : "resolve or acquire the exact source identity, then release into the next available PF lane"
@@ -1072,7 +1209,7 @@ console.log(`Wrote ${assignments.length} prompts into ${PROMPT_DIR}/`);
 console.log("");
 console.log(`  live denominator ${families.length} = ${active.length} active + ${guidance.length} guidance-only + ${remaining.length} remaining`);
 console.log(`  source-ready ${sourceReady.length} · source-blocked ${sourceBlocked.length} · legal-blocked ${legalBlocked.length} · verify-pending ${verifyPending.length} · repair ${repairRequired.length}`);
-console.log(`  lanes: ${PF_LANES} PF · ${VF_LANES} VF · ${SRC_LANES} SRC · ${FIX_LANES} FIX = ${assignments.length}`);
+console.log(`  lanes: ${PF_LANES} PF · ${VF_LANES} VF · ${SOURCE_LANES} SRC · ${FIX_LANES} FIX = ${assignments.length}`);
 console.log(`  collisions ${collisions.length} · duplicates ${duplicateFamilies.length} · shared-host collisions ${sharedHostCollisions.length} · placeholders ${placeholders.length}`);
 for (const a of assignments.filter((x) => x.lane === "packet-build")) console.log(`    ${a.assignmentId}: ${String(a.itemCount).padStart(2)} famil(ies)  ${a.sharedAxes?.join(", ") || ""}`);
-for (const a of assignments.filter((x) => x.lane === "source-identity-acquisition-promotion")) console.log(`    ${a.assignmentId}: ${a.itemCount} obligations, ${a.familiesUnblockedCount} families`);
+for (const a of assignments.filter((x) => x.lane === "source-swarm")) console.log(`    ${a.assignmentId}: ${String(a.itemCount).padStart(3)} obligations, ${a.familiesUnblockedCount} families`);

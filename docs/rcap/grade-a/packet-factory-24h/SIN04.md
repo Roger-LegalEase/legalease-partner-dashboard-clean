@@ -1,6 +1,6 @@
-# SRC02
+# SIN04
 
-**Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-identity-acquisition-promotion
+**Environment:** LegalEase Packet Factory (Codex Cloud)  ·  **Lane:** source-swarm
 **Repository branch to select:** `claude/legalease-sprint-captain-utucnw`
 **Branch in the container:** `work` — Codex Cloud names it. Do not rename it and do not create another.
 **Minimum required ancestor:** `40ccc028a2af8eac94743cdb32237e3af56a6642` (or the newer dispatch base)
@@ -14,7 +14,7 @@
 ```sh
 source $HOME/.legalease-corpus-env
 node scripts/verify-packet-build-environment.mjs \
-  --family agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record::official-form:Request to Correct Criminal Justice Information \
+  --family ca-diversion-seal-set::official-form:SDSC-CRM-307 \
   --codex-cloud \
   --minimum-captain-sha 40ccc028a2af8eac94743cdb32237e3af56a6642
 ```
@@ -33,40 +33,30 @@ It must print **`PACKET_BUILD_ENVIRONMENT_READY: 14/14`**. A 13/14 in cloud mode
 
 ## Mission
 
-Turn a descriptive label into a document identity: an exact form number or an exact content hash, resolved against committed inventories.
+Reconcile a named form number or pinned content hash against the private corpus and the committed inventory, and bind it by exact SHA-256 where the bytes are already held. A form the corpus already carries needs no acquisition.
 
 ## What bounds this lane
 
-the committed Nationwide inventory and the state packs, read only
+the private corpus and the committed inventory, read only — nothing is fetched here
 
-**152 obligations · 72 families released if all clear · hosts: AK, AL, AR, DE, FL, IA, ID, IL, IN, LA, MA, MI, MT, ND, TX, UT**
+**46 obligations · 28 families released if all clear · hosts: CA, FL, IN, KY, MA, ME, MN, NC**
 
-> This environment refuses outbound egress to court and agency hosts. Resolution against committed inventories runs here; anything needing a fetch is recorded as an exact acquisition instruction naming its host, not attempted and not faked.
+> This environment refuses outbound egress to court and agency hosts. Identity and inventory work runs here; anything needing a fetch is dispatched through the acquisition workflow, never attempted locally and never faked.
 
 ### Every acquired or promoted source records
 
-- official publisher
-- exact title
-- form number
-- revision
-- official URL
-- MIME type
-- page count
-- technology (acroform, xfa, flat)
-- SHA-256
-- byte size
-- custody path
 
-**As soon as a family becomes source-ready, report it in the checkpoint. Captain assigns it to the next available PF lane without waiting for this lane to finish.**
+
+**undefined**
 
 ### Families this lane releases
 
-`agency-application-treatment:obligation:unattached-decision-route:AK:ak-correct-record`, `ak-mistaken-identity-set`, `ar-act346-set`, `ar-cs-possession-seal-set`, `ar-drug-court-set`, `ar-felony-seal-set`, `ar-misdemeanor-seal-set`, `ar-nonconviction-seal-set`, `ar-veterans-court-set`, `de_mandatory_expungement-set`, `fl-10yr-bridge-set`, `fl-administrative-set`, `fl-early-juvenile-set`, `fl-expunction-set`, `fl-juvenile-diversion-set`, `fl-sealing-set`, `fl-self-defense-set`, `ia-12346-set`, `ia-12347-set`, `ia-7251-set`, `ia-901c2-set`, `ia-901c3-set`, `ia-dci77-set`, `id_isp_expungement-set`, `il-cannabis-vacate-set`, `il-exp-nonconv-set`, `il-exp-pardon-set`, `il-exp-precompletion-set`, `il-exp-qualprob-set`, `il-exp-supervision-set`, `il-prb-cert-set`, `il-seal-2yr-set`, `il-seal-3yr-set`, `il-seal-edu-set`, `il-seal-nonconv-set`, `in_arrest_no_charges-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`, `in_section1_petition-set`, `la-976-arrest-no-conviction-set`, `la-977-misdemeanor-conviction-set`, `la-977d-marijuana-first-offense-set`, `la-978-felony-conviction-set`, `la-985-1-interim-expungement-set`, `la-985-expungement-by-redaction-set`, `la-987-set-aside-and-dismiss-set`, `ma-expunge-k-set`, `ma-expunge-time-set`, `ma-seal-admin-set`, `ma-seal-decrim-set`, `mi_setaside_application-set`, `mi_setaside_first_owi-set`, `mi_setaside_trafficking-set`, `mt_mmrta_completed-set`, `mt_mmrta_serving-set`, `nd-nonconviction-close-petition-set`, `nd-prohibit-remote-public-access-set`, `official-form-treatment:obligation:research-decision-route:AL:al-olr`, `rcap-in-custom-pleading`, `rcap-tx-custom-pleading`, `tx_exp_acquittal-set`, `tx_nd_automatic_misdemeanor_deferred-set`, `tx_nd_conviction_no_supervision-set`, `tx_nd_deferred_other-set`, `tx_nd_dwi_conviction-set`, `tx_nd_dwi_deferred-set`, `tx_nd_dwi_probation-set`, `tx_nd_probation_misdemeanor-set`, `tx_nd_veterans_court-set`, `tx_nd_veterans_reemployment-set`, `ut_pet_remove_link-set`
+`ca-diversion-seal-set`, `composed-treatment:nc_146_dismissal_petition`, `fl-10yr-bridge-set`, `fl-expunction-set`, `fl-sealing-set`, `fl-trafficking-set`, `in_arrest_no_charges-set`, `in_conviction_d6-set`, `in_conviction_felony-set`, `in_conviction_misd-set`, `in_section1_petition-set`, `ky_expungement_certification-set`, `ky_nonconviction_expungement-set`, `ky_protective_order_record_expungement-set`, `ma-seal-court-set`, `me-seal-gen-set`, `me-seal-survivor-set`, `mn_petition_15218-set`, `mn_petition_609a02_subd3-set`, `mn_petition_juvenile_as_adult-set`, `nc_145_5_felony-set`, `nc_145_5_misdemeanor-set`, `nc_145_8a_youthful-set`, `nc_146_acquittal_petition-set`, `nc_146_dismissal_petition-set`, `nc_auto_146_a4_agency_followup-set`, `official-form-treatment:obligation:research-decision-route:CA:ca-1203-4b`, `rcap-in-custom-pleading`
 
 ## Owned paths — write only here
 
-- `data/rcap-grade-a/packet-factory-24h/src02/**`
-- `data/rcap-grade-a/source-acquisition/packet-factory-24h/src02/**`
+- `data/rcap-grade-a/packet-factory-24h/sin04/**`
+- `data/rcap-grade-a/source-acquisition/packet-factory-24h/sin04/**`
 
 ## Never write here
 
@@ -97,8 +87,8 @@ the committed Nationwide inventory and the state packs, read only
 
 ## Required outputs
 
-- data/rcap-grade-a/packet-factory-24h/src02/rows.json — one row per obligation: itemId, status, the identity resolved or the exact acquisition instruction, and the families it releases
-- data/rcap-grade-a/source-acquisition/packet-factory-24h/src02/receipts.json — the eleven recorded fields per resolved source; no body is committed
+- data/rcap-grade-a/packet-factory-24h/sin04/rows.json — one row per obligation: itemId, status, the identity or receipt, and the families it releases
+- data/rcap-grade-a/source-acquisition/packet-factory-24h/sin04/receipts.json — the eleven recorded fields per resolved source; no body is committed
 
 ### Output schema
 
@@ -115,9 +105,10 @@ An unrecognised status is refused at integration rather than translated.
 ## Stop conditions
 
 - NEVER guess a form number and never accept an unofficial mirror. A secondary copy does not override an available official original.
-- NEVER commit a source body, an extracted archive or anything under private/.
+- NEVER commit a source body, an extracted archive or anything under private/. A receipt carrying an exact hash is the deliverable.
+- NEVER promote a source without exact bytes. A promotion is a release, and a released family goes to a builder that will try to open the file.
 - LANE STOP — you build no packet and you touch no overlay directory.
-- ROW STOP — an identity that cannot be settled from committed inventories is a STOPPED row naming the exact host to fetch from.
+- ROW STOP — an obligation that cannot be settled here is STOPPED naming the exact host and the next operation that owns it.
 
 Stopping with an honest account of what is missing is a complete return. One blocked family never stops the lane.
 
@@ -127,13 +118,16 @@ Commit locally. Leave the final diff for the Codex Cloud interface. There is no 
 
 ```text
 ASSIGNMENT:
+OPERATION:
 BASE SHA:
 COMMIT:
 OBLIGATIONS RESOLVED:
 OBLIGATIONS STOPPED:
-FAMILIES RELEASED INTO THE BUILD QUEUE:
+HANDED OFF:
+FAMILIES RELEASED:
 IDENTITIES GUESSED: 0
 SOURCE BODIES COMMITTED: 0
+PROMOTIONS WITHOUT EXACT BYTES: 0
 COMMERCIAL ROUTES OPENED: 0
 PRODUCTION TOUCHED: NO
 PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14

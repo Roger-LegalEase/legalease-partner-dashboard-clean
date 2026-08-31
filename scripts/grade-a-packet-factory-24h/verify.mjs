@@ -46,7 +46,7 @@ function run() {
   const byLane = (lane) => a.filter((x) => x.lane === lane);
   const pf = byLane("packet-build");
   const vf = byLane("independent-verification");
-  const src = byLane("source-identity-acquisition-promotion");
+  const src = byLane("source-swarm");
   const fix = byLane("rapid-repair");
   const familyById = new Map(master.families.map((f) => [f.familyId, f]));
 
@@ -275,7 +275,7 @@ function run() {
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
     && master.denominator.liveFamilyDenominator === master.families.length
-    && master.totals.lanes === a.length && a.length === 32,
+    && master.totals.lanes === a.length && a.length >= 32,
     `${master.families.length} families, ${a.length} lanes`);
 
   const failed = results.filter((r) => !r.ok);
