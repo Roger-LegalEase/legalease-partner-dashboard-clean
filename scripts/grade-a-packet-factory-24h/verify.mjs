@@ -169,6 +169,108 @@ function run() {
     && checkpoint.codex.queuedTasks === a.length,
     `${unassignedSourceReady.length} source-ready unassigned, ${emptyPF.length} empty builder(s), ${unassignedSourceObligations} source obligation(s) unassigned`);
 
+  // 13. SOURCE_READY means held bytes, not a named identity.
+  const falselyReady = master.families.filter((f) => {
+    if (f.state !== "SOURCE_READY") return false;
+    const r = f.sourceReadiness;
+    if (!r) return true;
+    if (!r.ready || r.reasons.length > 0) return true;
+    if (r.boundCount === 0) return true;
+    return r.boundSources.some((b) => !b.path || !b.sha256 || !b.tier);
+  }).map((f) => f.familyId);
+  const blockedWithNoReason = master.families.filter((f) => f.state === "SOURCE_BLOCKED" && (f.sourceReadiness?.reasons ?? []).length === 0).map((f) => f.familyId);
+  check("F13", "SOURCE_READY means every required source is held, indexed and hash-matched",
+    falselyReady.length === 0 && blockedWithNoReason.length === 0,
+    `${falselyReady.length} falsely ready [${falselyReady.slice(0, 3).join(", ")}]; ${blockedWithNoReason.length} blocked with no stated reason`);
+
+  // 14. The row-stop contract is in every builder prompt, and it is executable.
+  const pfPrompts = pf.map((x) => ({ id: x.assignmentId, file: path.join(ROOT, PROMPTS, `${x.assignmentId}.md`) }))
+    .filter((x) => fs.existsSync(x.file))
+    .map((x) => ({ ...x, text: fs.readFileSync(x.file, "utf8") }));
+  const REQUIRED_PROMPT_CLAUSES = [
+    { id: "isolation", re: /THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK/ },
+    { id: "isolation-not-all", re: /DO NOT EXECUTE PF01-PF16 IN ONE TASK/ },
+    { id: "isolation-not-another", re: /DO NOT EXECUTE ANOTHER PF PROMPT IN THIS CONTAINER/ },
+    { id: "lane-gate", re: /Lane gate/i },
+    { id: "row-gate", re: /Row gate/i },
+    { id: "blocked-source-continues", re: /BLOCKED_SOURCE row[\s\S]{0,160}CONTINUE TO THE NEXT FAMILY/ },
+    { id: "blocked-legal-continues", re: /BLOCKED_LEGAL_INPUT row[\s\S]{0,160}CONTINUE TO THE NEXT FAMILY/ },
+    { id: "one-row-per-family", re: /one row per assigned family/i },
+    { id: "stopped-writes-nothing", re: /leave its overlay directory byte-for-byte unchanged/i }
+  ];
+  const missingClauses = [];
+  for (const p of pfPrompts) {
+    for (const c of REQUIRED_PROMPT_CLAUSES) if (!c.re.test(p.text)) missingClauses.push(`${p.id}: ${c.id}`);
+  }
+  check("F14", "every builder prompt carries task isolation and the row-stop contract",
+    pfPrompts.length === pf.length && missingClauses.length === 0,
+    `${pfPrompts.length}/${pf.length} prompt(s); ${missingClauses.length} missing clause(s): ${missingClauses.slice(0, 3).join(" | ")}`);
+
+  /*
+   * 15. The row-stop contract, executed rather than described.
+   *
+   * A prompt clause is a promise; this is the evaluator that says whether a
+   * returned rows.json kept it. The positive control is the shape that matters:
+   * a lane whose FIRST family is blocked must still complete the other two.
+   */
+  const evaluateLane = (assignedFamilies, rows) => {
+    const problems = [];
+    const byFamily = new Map();
+    for (const r of rows) {
+      const id = r.itemId ?? r.familyId;
+      if (byFamily.has(id)) problems.push(`${id} has two rows`);
+      byFamily.set(id, r);
+    }
+    for (const f of assignedFamilies) if (!byFamily.has(f)) problems.push(`${f} has no row`);
+    for (const [id, r] of byFamily) {
+      if (!assignedFamilies.includes(id)) problems.push(`${id} was not assigned to this lane`);
+      if (!["COMPLETED", "STOPPED"].includes(r.status)) problems.push(`${id} has status ${r.status}`);
+      /* A STOPPED row must name a blocker from the closed vocabulary. "not
+       * attempted after the first stop" is a lane halt wearing a row: it looks
+       * like an accounted family and is a family nobody tried. */
+      const ALLOWED_BLOCKERS = /^(BLOCKED_SOURCE|BLOCKED_LEGAL_INPUT|knownRequiredFieldsMissing|requiredFactsNotCollected|unclassifiedBlanks|incompleteRows|requiredOptionsMissing|requiredComponentsMissing|invisibleWrites|protectedWrites|visualDefects)\b/;
+      if (r.status === "STOPPED" && !r.blocker) problems.push(`${id} is STOPPED with no blocker`);
+      else if (r.status === "STOPPED" && !ALLOWED_BLOCKERS.test(String(r.blocker))) {
+        problems.push(`${id} is STOPPED with "${r.blocker}", which is outside the closed blocker vocabulary; a family nobody attempted is a lane halt, not a row`);
+      }
+      if (r.status === "STOPPED" && r.overlayFilesChanged > 0) problems.push(`${id} is STOPPED and changed ${r.overlayFilesChanged} overlay file(s)`);
+    }
+    const stoppedIndexes = rows.map((r, i) => (r.status === "STOPPED" ? i : -1)).filter((i) => i >= 0);
+    const lastStopped = stoppedIndexes.length ? Math.max(...stoppedIndexes) : -1;
+    const completedAfterAStop = rows.slice(lastStopped + 1).some((r) => r.status === "COMPLETED");
+    if (stoppedIndexes.length > 0 && rows.length > lastStopped + 1 && !completedAfterAStop) {
+      problems.push("every family after the last stop is also stopped; the lane may have halted on a row stop");
+    }
+    return { ok: problems.length === 0, problems };
+  };
+  const CONTROL_FAMILIES = ["family-one", "family-two", "family-three"];
+  const control = evaluateLane(CONTROL_FAMILIES, [
+    { itemId: "family-one", status: "STOPPED", blocker: "BLOCKED_SOURCE", overlayFilesChanged: 0 },
+    { itemId: "family-two", status: "COMPLETED", overlayFilesChanged: 12 },
+    { itemId: "family-three", status: "COMPLETED", overlayFilesChanged: 14 }
+  ]);
+  const haltedOnFirstStop = evaluateLane(CONTROL_FAMILIES, [
+    { itemId: "family-one", status: "STOPPED", blocker: "BLOCKED_SOURCE", overlayFilesChanged: 0 }
+  ]);
+  const haltedOnLegalInput = evaluateLane(CONTROL_FAMILIES, [
+    { itemId: "family-one", status: "STOPPED", blocker: "BLOCKED_LEGAL_INPUT", overlayFilesChanged: 0 },
+    { itemId: "family-two", status: "STOPPED", blocker: "not attempted after the first stop", overlayFilesChanged: 0 },
+    { itemId: "family-three", status: "STOPPED", blocker: "not attempted after the first stop", overlayFilesChanged: 0 }
+  ]);
+  const omittedBlocked = evaluateLane(CONTROL_FAMILIES, [
+    { itemId: "family-two", status: "COMPLETED", overlayFilesChanged: 12 },
+    { itemId: "family-three", status: "COMPLETED", overlayFilesChanged: 14 }
+  ]);
+  const stoppedButWrote = evaluateLane(CONTROL_FAMILIES, [
+    { itemId: "family-one", status: "STOPPED", blocker: "BLOCKED_SOURCE", overlayFilesChanged: 7 },
+    { itemId: "family-two", status: "COMPLETED", overlayFilesChanged: 12 },
+    { itemId: "family-three", status: "COMPLETED", overlayFilesChanged: 14 }
+  ]);
+  check("F15", "the row-stop contract is executable: a blocked first family does not stop the lane, and four ways of breaking that are refused",
+    control.ok
+    && !haltedOnFirstStop.ok && !haltedOnLegalInput.ok && !omittedBlocked.ok && !stoppedButWrote.ok,
+    `control ${control.ok ? "accepted" : `REFUSED: ${control.problems.join("; ")}`}; refusals ${[haltedOnFirstStop, haltedOnLegalInput, omittedBlocked, stoppedButWrote].filter((x) => !x.ok).length}/4`);
+
   // The arithmetic that makes the rest readable.
   check("F12", "the live denominator closes",
     master.denominator.sumsToDenominator === true
@@ -205,7 +307,16 @@ if (MUTATIONS) {
     { on: "checkpoint", id: "F11", name: "a queue count that disagrees with the lanes is caught", mutate: (j) => { j.codex.queuedTasks = 7; return j; } },
     { on: "master", id: "F12", name: "a denominator that does not close is caught", mutate: (j) => { j.denominator.sumsToDenominator = false; return j; } },
     { on: "collisions", id: "F2", name: "a collision record reporting a collision it did not fail on is caught", mutate: (j) => { j.counts.pathCollisions = 1; return j; } },
-    { on: "prompt", id: "F10", name: "a prompt instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git push origin work when you are finished.\n` }
+    { on: "prompt", id: "F10", name: "a prompt instructing a Git network command is caught", mutateText: (t) => `${t}\n\nRun git push origin work when you are finished.\n` },
+    { on: "master", id: "F13", name: "an exact identity with no held byte classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_BLOCKED"); f.state = "SOURCE_READY"; return j; } },
+    { on: "master", id: "F13", name: "a held path with no SHA classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].sha256 = null; return j; } },
+    { on: "master", id: "F13", name: "a held SHA with no indexed path classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources[0].path = null; return j; } },
+    { on: "master", id: "F13", name: "a readiness verdict with a stated reason still called ready is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.reasons = ["indexed SHA-256 does not equal the held SHA-256"]; return j; } },
+    { on: "master", id: "F13", name: "a family with zero bound sources classified SOURCE_READY is caught", mutate: (j) => { const f = j.families.find((x) => x.state === "SOURCE_READY"); f.sourceReadiness.boundSources = []; f.sourceReadiness.boundCount = 0; return j; } },
+    { on: "prompt", id: "F14", name: "a builder prompt without the task-isolation banner is caught", mutateText: (t) => t.replace(/THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK\./, "This is a task.") },
+    { on: "prompt", id: "F14", name: "a builder prompt whose blocked family does not continue the lane is caught", mutateText: (t) => t.replace(/CONTINUE TO THE NEXT FAMILY/g, "stop the lane") },
+    { on: "prompt", id: "F14", name: "a builder prompt that drops the one-row-per-family rule is caught", mutateText: (t) => t.replace(/one row per assigned family/gi, "some rows") },
+    { on: "prompt", id: "F14", name: "a builder prompt that lets a stopped family write is caught", mutateText: (t) => t.replace(/leave its overlay directory byte-for-byte unchanged/i, "may leave partial output") }
   ];
   let undetected = 0;
   try {

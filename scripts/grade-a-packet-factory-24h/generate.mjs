@@ -86,6 +86,27 @@ const IN = Object.fromEntries(Object.entries(INPUTS).map(([k, p]) => [k, read(p)
 
 const EXACT_TIERS = new Set(["exact_form_number", "content_hash", "exact_content_hash"]);
 
+/*
+ * SOURCE_READY means a builder can open the bytes, not that the census can name
+ * them.
+ *
+ * ks-21-6614-conviction-set was classified SOURCE_READY while none of its six
+ * required binaries binds. It has no custody row at all, so the old test --
+ * "no missing_source hold, and no source resolved to an inexact tier" -- found
+ * an empty list of inexact sources and read the emptiness as satisfaction. That
+ * is the absent-versus-empty failure this whole sprint keeps meeting, arriving
+ * this time through the readiness classifier.
+ *
+ * A source is bound only when all seven hold: an exact identity, an accepted
+ * tier, a held path, a held SHA-256, an entry for that path in the governed
+ * corpus index, an indexed SHA-256 equal to the held one, and at least one
+ * source resolved at all. An exact title with no held byte is SOURCE_BLOCKED,
+ * and so is a family that names official forms and resolves none of them.
+ */
+const CUSTODY_CLASSES_NEVER_READY = new Set([
+  "SOURCE_GENUINELY_MISSING", "SOURCE_IDENTITY_UNRESOLVED", "SOURCE_IDENTITY_NOT_EXACT"
+]);
+
 /* routes, keyed by packet family */
 const routesByFamily = new Map();
 for (const r of IN.census.routes) {
@@ -109,6 +130,68 @@ for (const st of fs.readdirSync(path.join(ROOT, OVERLAYS))) {
   if (!fs.statSync(full).isDirectory()) continue;
   for (const d of fs.readdirSync(full)) overlayDirs.push(`${OVERLAYS}/${st}/${d}`);
 }
+/** Every corpus-index entry, by path and by form number. */
+const indexByPath = new Map((IN.corpusIndex.entries ?? []).map((e) => [e.path, e]));
+const indexByForm = new Map();
+for (const e of IN.corpusIndex.entries ?? []) {
+  indexByForm.set(e.formNumber, [...(indexByForm.get(e.formNumber) ?? []), e]);
+}
+
+/**
+ * Can a builder actually open every byte this family needs?
+ *
+ * Two tiers, matching the preflight's own resolution so the two cannot disagree.
+ * Tier 1 is the custody row, which already resolved each source to a held path
+ * and a pinned digest. Tier 2 is the census route's `official-form:<number>`
+ * against the committed corpus index, for a family that names no acquisition
+ * task. A family whose route names official forms and resolves none of them is
+ * blocked, whatever its custody class says.
+ */
+function sourceReadiness(familyId, worklistGroupId, custody, routes, holds) {
+  const reasons = [];
+  const bound = [];
+  if ((holds ?? []).some((h) => h.kind === "missing_source")) reasons.push("the census carries a missing_source hold");
+  if (custody && CUSTODY_CLASSES_NEVER_READY.has(custody.custodyClass)) reasons.push(`custody class ${custody.custodyClass}`);
+
+  const named = [...new Set(routes.flatMap((r) => (r.requiredSourceIds ?? [])
+    .filter((x) => typeof x === "string" && x.startsWith("official-form:"))))];
+
+  if (custody && (custody.documentSources ?? []).length > 0) {
+    for (const d of custody.documentSources) {
+      if (!d.resolved) { reasons.push(`${d.sourceId}: unresolved identity`); continue; }
+      if (!EXACT_TIERS.has(d.tier)) { reasons.push(`${d.sourceId}: tier ${d.tier} is not exact`); continue; }
+      if (!d.heldAs?.path) { reasons.push(`${d.sourceId}: exact identity with no held path`); continue; }
+      if (!d.heldAs?.sha256) { reasons.push(`${d.sourceId}: held path with no SHA-256`); continue; }
+      const entry = indexByPath.get(d.heldAs.path);
+      if (!entry) { reasons.push(`${d.sourceId}: held path is not in the governed corpus index`); continue; }
+      if (entry.sha256 !== d.heldAs.sha256) { reasons.push(`${d.sourceId}: indexed SHA-256 does not equal the held SHA-256`); continue; }
+      bound.push({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier, resolvedBy: "custody_reconciliation" });
+    }
+  } else {
+    for (const id of named) {
+      const formNumber = id.slice("official-form:".length);
+      const matches = indexByForm.get(formNumber) ?? [];
+      if (matches.length !== 1) { reasons.push(`${id}: ${matches.length === 0 ? "no" : `${matches.length}`} corpus index entr${matches.length === 1 ? "y" : "ies"} for this form number`); continue; }
+      if (!matches[0].sha256) { reasons.push(`${id}: corpus entry carries no SHA-256`); continue; }
+      bound.push({ sourceId: id, path: matches[0].path, sha256: matches[0].sha256, tier: "exact_form_number", resolvedBy: "census_form_number_against_committed_index" });
+    }
+  }
+
+  if (bound.length === 0) {
+    reasons.push(named.length > 0
+      ? "no named official form resolves to a held, indexed, hash-matching binary"
+      : "the family names no document-shaped source, so nothing binds");
+  }
+  return {
+    ready: reasons.length === 0,
+    reasons,
+    boundSources: bound,
+    namedOfficialForms: named.length,
+    boundCount: bound.length,
+    custodyClass: custody?.custodyClass ?? "NO_ACQUISITION_TASK_NAMED"
+  };
+}
+
 const slugOf = (id) => id.replace(/_/g, "-").toLowerCase();
 const suffixOf = (s) => (s === "custom_pleading" ? "custom-pleading" : "official-pdf-fill");
 
@@ -190,10 +273,12 @@ for (const f of IN.scoreboard.familiesDetail) {
 
   const docs = custody?.documentSources ?? [];
   const inexact = docs.filter((d) => !d.resolved || !EXACT_TIERS.has(d.tier));
-  const sourceBound = !(f.holds ?? []).some((h) => h.kind === "missing_source");
-  const sourceStatus = !sourceBound ? (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED")
-    : inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT"
-    : custody ? custody.custodyClass : "NO_ACQUISITION_TASK_NAMED";
+  const readiness = sourceReadiness(familyId, f.worklistGroupId, custody, routes, f.holds);
+  const sourceBound = readiness.ready;
+  const sourceStatus = readiness.ready ? "SOURCE_BOUND_BY_HELD_BYTES"
+    : !((f.holds ?? []).some((h) => h.kind === "missing_source"))
+      ? (inexact.length > 0 ? "SOURCE_IDENTITY_NOT_EXACT" : `SOURCE_NAMED_BUT_NOT_HELD: ${readiness.reasons[0]}`)
+      : (custody?.custodyClass ?? "SOURCE_IDENTITY_UNRESOLVED");
   const sourceIds = docs.map((d) => d.sourceId);
   const sourceHashes = docs.filter((d) => d.heldAs?.sha256).map((d) => ({ sourceId: d.sourceId, path: d.heldAs.path, sha256: d.heldAs.sha256, tier: d.tier }));
 
@@ -221,7 +306,7 @@ for (const f of IN.scoreboard.familiesDetail) {
   else if (comp && nineZero) state = "VERIFY_PENDING";
   else if (comp && !nineZero) state = "FAIL_REPAIR_REQUIRED";
   else if (legalBlocked) state = "SOURCE_BLOCKED";
-  else if (!sourceBound || inexact.length > 0) state = "SOURCE_BLOCKED";
+  else if (!readiness.ready) state = "SOURCE_BLOCKED";
   else if (notAFamily) state = "SOURCE_BLOCKED";
   else state = "SOURCE_READY";
 
@@ -240,6 +325,7 @@ for (const f of IN.scoreboard.familiesDetail) {
     sourceHashes,
     sourceStatus,
     sourceBound,
+    sourceReadiness: readiness,
     legalInputStatus: legalBlocked ? "OPEN_LEGAL_INPUT" : "SETTLED",
     routeMappingStatus: routeMappingOpen ? "UNBOUND_TO_A_PACKET_FAMILY" : "BOUND",
     artifactStatus: artifactPresent ? "RENDERED" : "NOT_RENDERED",
@@ -354,6 +440,43 @@ const FACT = "data/rcap-grade-a/packet-factory-24h";
 const VERDICTS = ["PASS_COMPLETE_INDEPENDENT", "FAIL_REPAIR_REQUIRED", "BLOCKED_SOURCE", "BLOCKED_LEGAL_INPUT"];
 const CLOUD_PROHIBITED = ["git fetch", "git pull", "git push", "gh ", "git worktree", "git remote add", "git clone"];
 
+/*
+ * The lane gate and the row gate are different questions, and a prompt that
+ * asked one of them for both stopped every lane on its first blocked family.
+ *
+ * The environment is a LANE question: node, pdf-lib, the corpus, the checkout,
+ * private/ ignored. If it fails, nothing in the lane can run and the lane stops.
+ * A family's own sources are a ROW question: one family whose bytes do not bind
+ * is one BLOCKED_SOURCE row, and the lane continues. The old prompt ran a single
+ * named-family preflight under "Before anything else" and demanded 14/14 before
+ * any work, so the first blocked family took fifteen good ones with it.
+ */
+const ROW_STOP_CONTRACT = {
+  laneGate: {
+    what: "global environment integrity",
+    command: `node ${PREFLIGHT} --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA} --assignment ${FACT}/ACTIVE_ASSIGNMENTS.json`,
+    mustReturn: "PACKET_BUILD_ENVIRONMENT_READY: 14/14",
+    onFailure: "If it does not, STOP THE LANE: nothing in it can run and no row is written.",
+    note: "family_sources_bind reports 'not applicable' here on purpose: it is a row question, asked once per family below."
+  },
+  rowGate: {
+    what: "this family's own sources",
+    command: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
+    onFamilySourcesBindFailure: "write a BLOCKED_SOURCE row for that family naming the exact source identity that did not bind, and CONTINUE TO THE NEXT FAMILY.",
+    onOpenLegalInput: "write a BLOCKED_LEGAL_INPUT row naming the open input, and CONTINUE TO THE NEXT FAMILY. Never guess a legal answer and never research one.",
+    onAnyOtherCheckFailing: "that is a lane-level environment change, not a family defect. Stop the lane and say which check moved."
+  },
+  everyFamilyGetsExactlyOneRow: "COMPLETED or STOPPED, one row per assigned family, no family missing and none twice. A lane that returns fewer rows than it was assigned families has lost work silently.",
+  aStoppedFamilyWritesNothing: "A family you stop must leave its overlay directory byte-for-byte unchanged. A half-built packet that reads as built is worse than one that was never started.",
+  theLaneCompletesNormally: "A lane with blocked families still completes. Blocked rows are the finding, not a failure of the lane."
+};
+
+const TASK_ISOLATION = [
+  "THIS PROMPT IS ONE INDEPENDENT CODEX CLOUD TASK.",
+  "DO NOT EXECUTE PF01-PF16 IN ONE TASK.",
+  "DO NOT EXECUTE ANOTHER PF PROMPT IN THIS CONTAINER."
+];
+
 const BUILDER_OBLIGATIONS = [
   "bind every source by exact SHA-256, and stop the family rather than build on a source that does not bind",
   "render canonical and boundary artifacts",
@@ -417,6 +540,8 @@ for (let i = 0; i < PF_LANES; i += 1) {
       sharedBuildHost: f.sharedBuildHost, sourceStatus: f.sourceStatus, sourceHashes: f.sourceHashes
     })),
     builderObligations: BUILDER_OBLIGATIONS,
+    rowStopContract: ROW_STOP_CONTRACT,
+    taskIsolation: TASK_ISOLATION,
     checkpointRule: "Return every five completed families, or every two hours, whichever comes first. Do not hold a whole assignment back for the last family.",
     neverSelfVerify: "You do not verify your own packets. A builder verdict is not a verdict, and a VF lane that did not build them decides.",
     ownedPaths: [`${FACT}/${slug}/**`, ...fams.map((f) => `${f.directory}/**`), ...scriptsOwned],
@@ -443,9 +568,12 @@ for (let i = 0; i < PF_LANES; i += 1) {
     ],
     returnFormat: [
       "ASSIGNMENT:", "BASE SHA:", "COMMIT:",
+      "FAMILIES ASSIGNED:", "ROWS RETURNED (must equal FAMILIES ASSIGNED):",
       "FAMILIES COMPLETED:", "FAMILIES STOPPED:", "NINE COUNTERS ZERO ON:",
       "BLOCKED_SOURCE:", "BLOCKED_LEGAL_INPUT:",
+      "OVERLAY DIRECTORIES TOUCHED BY A STOPPED FAMILY: 0",
       "CHECKPOINTS RETURNED:", "PACKETS SELF-VERIFIED: 0",
+      "OTHER PF PROMPTS EXECUTED IN THIS CONTAINER: 0",
       "COMMERCIAL ROUTES OPENED: 0", "PRODUCTION TOUCHED: NO",
       "PREFLIGHT: PACKET_BUILD_ENVIRONMENT_READY 14/14", "DIFF LEFT FOR THE CODEX UI: YES"
     ],
@@ -847,14 +975,34 @@ const promptFor = (a) => {
   p.push(`**Execution contract:** \`${a.executionContract}\` — read it before you start.`);
   p.push("**Repository:** Roger-LegalEase/legalease-partner-dashboard-clean", "");
   p.push("> There is no origin, the checkout is shallow, and your finished diff returns through the Codex Cloud interface. That is the design.", "");
-  p.push("## Before anything else", "", "```sh",
-    "source $HOME/.legalease-corpus-env",
-    `node ${PREFLIGHT} \\`,
-    `  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`,
-    "  --codex-cloud \\",
-    `  --minimum-captain-sha ${a.minimumCaptainSha}`,
-    "```", "");
-  p.push(`It must print **\`${a.preflightMustReturn}\`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
+  if (a.taskIsolation) {
+    p.push("> ## " + a.taskIsolation[0], ">", ...a.taskIsolation.slice(1).map((l) => `> **${l}**`), "");
+  }
+  if (a.rowStopContract) {
+    const rc = a.rowStopContract;
+    p.push("## Two gates, and only one of them stops the lane", "");
+    p.push(`### 1. Lane gate — ${rc.laneGate.what}`, "", "```sh",
+      "source $HOME/.legalease-corpus-env",
+      rc.laneGate.command.replace(" --codex-cloud", " \\\n  --codex-cloud").replace(" --minimum-captain-sha", " \\\n  --minimum-captain-sha").replace(" --assignment", " \\\n  --assignment"),
+      "```", "");
+    p.push(`Must print **\`${rc.laneGate.mustReturn}\`**. ${rc.laneGate.onFailure}`, "", `_${rc.laneGate.note}_`, "");
+    p.push(`### 2. Row gate — ${rc.rowGate.what}, once per family`, "", "```sh", rc.rowGate.command, "```", "");
+    p.push(`- **family_sources_bind fails** → ${rc.rowGate.onFamilySourcesBindFailure}`);
+    p.push(`- **an open legal input** → ${rc.rowGate.onOpenLegalInput}`);
+    p.push(`- **any other check fails** → ${rc.rowGate.onAnyOtherCheckFailing}`, "");
+    p.push(`**${rc.everyFamilyGetsExactlyOneRow}**`, "");
+    p.push(`**${rc.aStoppedFamilyWritesNothing}**`, "");
+    p.push(rc.theLaneCompletesNormally, "");
+  } else {
+    p.push("## Before anything else", "", "```sh",
+      "source $HOME/.legalease-corpus-env",
+      `node ${PREFLIGHT} \\`,
+      `  --family ${a.items?.[0] ?? "<FAMILY_ID>"} \\`,
+      "  --codex-cloud \\",
+      `  --minimum-captain-sha ${a.minimumCaptainSha}`,
+      "```", "");
+    p.push(`It must print **\`${a.preflightMustReturn}\`**. A 13/14 in cloud mode is a real failure, not the shallow checkout being tolerated.`, "");
+  }
   p.push("## Never run these", "", bullet(a.prohibitedCommands.map((c) => `\`${c}\``)), "");
   p.push("## Mission", "", a.mission, "");
   if (a.provisionedEmpty) p.push(`**This lane has no families at dispatch.** ${a.refillRule}`, "");
