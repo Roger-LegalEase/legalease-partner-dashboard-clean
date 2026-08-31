@@ -1,6 +1,6 @@
 # Roger — what is actually left for a person
 
-**RESIDUAL HUMAN-ACTION ITEMS: 1**
+**RESIDUAL HUMAN-ACTION ITEMS: 0**
 
 **UNIQUE CANONICAL ARTIFACTS: 238**  ·  **UNIQUE FAMILIES: 152**
 
@@ -17,27 +17,7 @@ The defect underneath: four action kinds absorbed every blocker class. A public 
 
 Blocker class is preserved now, and a human task has to earn itself.
 
-## TX — Statement of Inability to Afford Payment of Court Costs or an Appeal Bond
-
-**Unlocks 10 famil(ies).**  State: `PUBLIC_DOWNLOAD_BOT_BLOCKED`.
-
-- **Official page:** https://www.txcourts.gov/11thcoa/practice-before-the-court/forms/
-- **Artifact:** https://www.txcourts.gov/media/1456942/statement-of-inability-to-afford-payment-of-court-costs-or-an-appeal-bond-bilingual.pdf
-- **Why you and not a lane:** The identity is settled and the official host refuses automated acquisition. A browser session is the only part of this a machine here cannot do.
-- **Do:** Save the untouched official PDF in a normal browser; return file, exact URL, date, and printed revision.
-
-**Return:**
-- the file exactly as downloaded — no print-to-PDF, no optimize, no re-save, no export, because a round trip through a viewer changes the bytes and the hash is the identity
-- the exact URL from the address bar
-- the download date
-- the form's own printed revision line, if it has one
-
-**Does not count:**
-- a screenshot, a photograph or a printout
-- a copy from a commercial forms site — uslegalforms, pdffiller, formsworkflow and the rest are refused by name
-- a file re-saved by a PDF editor
-
-**After you return it:** ACQ records the bytes and their SHA-256; PROMO verifies the receipt and creates custody; Captain regenerates the queue and releases the families. None of that is yours.
+_Nothing currently requires a person._
 
 ## Everything else, routed by name
 
@@ -50,7 +30,7 @@ Blocker class is preserved now, and a human task has to earn itself.
 | `SOURCE_SCOPE_AND_VERSION_AMBIGUITY` | 1 | DISC and Captain settle statewide versus local scope and the alias relationship before any inquiry |
 | `MISSING_SOURCE_BINARY` | 1 | ACQ, once DISC has settled an exact official address |
 | `MISSING_CANONICAL_RELATIONSHIP_METADATA` | 145 | DISC settles source identity and the route or family relationship |
-| `CURRENTNESS_UNVERIFIED` | 58 | DISC compares the held edition against the publisher's own forms index |
+| `CURRENTNESS_UNVERIFIED` | 59 | DISC compares the held edition against the publisher's own forms index |
 | `FAMILY_IDENTITY_AMBIGUOUS` | 8 | DISC settles which document the route actually requires |
 | `UNSUPPORTED_RELATIONSHIP` | 1 | DISC and legal decide which families the artifact genuinely serves |
 | `STATUTORY_CUSTOM_PLEADING` | 6 | a packet-build lane, drafting against the statute |

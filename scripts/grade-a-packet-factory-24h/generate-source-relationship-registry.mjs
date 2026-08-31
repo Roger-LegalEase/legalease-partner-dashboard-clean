@@ -96,6 +96,7 @@ const fail = (why) => { console.error(`REFUSED source-relationship registry — 
 const master = read(`${DIR}/MASTER_QUEUE.json`) ?? fail("the master queue is not readable");
 const verification = read(VERIFICATION) ?? fail(`${VERIFICATION} is not readable; the corrected dispositions are evidence and cannot be reconstructed here`);
 const artifacts = (read("data/record-clearing/source-artifact-registry.json", { artifacts: [] }).artifacts) ?? [];
+
 const checkpoint = read(`${DIR}/CHECKPOINT.json`, {});
 
 /* A bare statutory citation is not a form and nobody can download one. A title
@@ -105,6 +106,39 @@ const checkpoint = read(`${DIR}/CHECKPOINT.json`, {});
 const CITATION_SHAPED = /^[A-Z]{2}-(CCRP|RS|CRS|STAT|CODE)-[A-Z-]*\d+$|^\d+\s*U\.?S\.?C\.?\s*§?\s*[\d.]+$|^[A-Z. ]*§\s*[\d.A-Z]+$/i;
 
 const norm = (s) => String(s ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+/*
+ * Bytes a person went and fetched, recorded by
+ * scripts/rcap-record-human-source-return.mjs.
+ *
+ * A returned file closes the part only a person could do, and it does not close
+ * the record. The Texas statement came back as a real 12-page AcroForm with 132
+ * fields and a filename matching the expected artifact URL exactly -- but the
+ * address it was downloaded from, the date, and the form's printed revision line
+ * were not stated, and only the person who opened the browser can witness those.
+ *
+ * So the state becomes CURRENTNESS_UNVERIFIED, which is the accurate one: we
+ * hold the bytes, and what is open is whether they are the edition the
+ * publisher issues today. That is not a nag about paperwork -- the download date
+ * and the printed revision are exactly what would settle it.
+ */
+const humanReturns = new Map();
+const HR_DIR = "data/rcap-grade-a/source-verification/human-source-returns";
+try {
+  for (const f of fs.readdirSync(path.join(ROOT, HR_DIR)).filter((x) => x.endsWith(".receipt.json"))) {
+    const r = JSON.parse(fs.readFileSync(path.join(ROOT, HR_DIR, f), "utf8"));
+    humanReturns.set(`${r.jurisdiction}::${norm(r.canonicalArtifactId)}`, r);
+  }
+} catch (e) {
+  /*
+   * ENOENT only. A bare catch here turned a real bug into silence: this block
+   * used `norm` before it was defined, the temporal-dead-zone ReferenceError
+   * was swallowed, and the generator reported "none returned yet" while a
+   * receipt sat on disk. A catch that cannot tell a missing directory from a
+   * broken program will always eventually report the second as the first.
+   */
+  if (e?.code !== "ENOENT") throw e;
+}
 const artifactsByJur = new Map();
 for (const a of artifacts) {
   const j = (a.jurisdiction ?? "").toUpperCase();
@@ -171,9 +205,15 @@ const registry = [...records.values()].map((rec) => {
    * State, in priority order. Verified evidence outranks inference, always: an
    * external reviewer looked at the publisher's live page and I cannot.
    */
+  const humanReturn = humanReturns.get(`${rec.jurisdiction}::${norm(rec.canonicalArtifactId)}`) ?? null;
+
   let sourceState;
   let basis;
-  if (verified) { sourceState = verified.mappedState; basis = `externally verified ${verification.verified_on}: ${verified.disposition}`; }
+  if (humanReturn) {
+    sourceState = "CURRENTNESS_UNVERIFIED";
+    basis = `a person returned the bytes (${humanReturn.observedByteLength} bytes, ${humanReturn.observedPageCount} pages, ${humanReturn.observedStructuralClass}, sha ${humanReturn.sha256.slice(0, 12)}). ${humanReturn.provenanceNotSupplied?.length ? `Not witnessed: ${humanReturn.provenanceNotSupplied.join("; ")}. Until the download date and the printed revision are stated, nothing establishes that this is the current edition.` : "The chain is witnessed end to end."}`;
+  }
+  else if (verified) { sourceState = verified.mappedState; basis = `externally verified ${verification.verified_on}: ${verified.disposition}`; }
   else if (CITATION_SHAPED.test(rec.canonicalArtifactId.trim())) { sourceState = "STATUTORY_CUSTOM_PLEADING"; basis = "the identity is a bare statutory citation, and there is no document at the other end"; }
   else if (heldCandidates.length > 1) {
     sourceState = "FAMILY_IDENTITY_AMBIGUOUS";
@@ -204,7 +244,13 @@ const registry = [...records.values()].map((rec) => {
     canonicalPublisher: issuer,
     officialSourcePage: verified?.source_page ?? null,
     officialArtifactUrl: verified?.artifact_url ?? null,
-    artifactSha256: held?.measuredSha256 ?? null,
+    artifactSha256: humanReturn?.sha256 ?? held?.measuredSha256 ?? null,
+    humanReturn: humanReturn
+      ? { returnedBy: humanReturn.returnedBy, sha256: humanReturn.sha256, storedAt: humanReturn.storedAt,
+          pages: humanReturn.observedPageCount, technology: humanReturn.observedStructuralClass,
+          fieldCount: humanReturn.observedFieldCount, filenameMatchesExpectedUrl: humanReturn.filenameMatchesExpectedUrl,
+          provenanceNotSupplied: humanReturn.provenanceNotSupplied ?? [], bodyCommitted: false }
+      : null,
     heldPath: held?.sourcePath ?? null,
     // Named rather than counted: an ambiguity is only actionable if you can see
     // what it is between.
