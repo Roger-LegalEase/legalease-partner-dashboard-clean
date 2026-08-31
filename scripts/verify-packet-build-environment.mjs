@@ -119,6 +119,7 @@ const BRANCH = flag("--branch");
 const REPORT = flag("--json");
 const PROVE = argv.includes("--prove");
 const CLOUD = argv.includes("--codex-cloud");
+const REQUIRE_RASTERIZER = argv.includes("--require-rasterizer");
 const MINIMUM_CAPTAIN_SHA = flag("--minimum-captain-sha");
 const ASSIGNMENT_FILE = flag("--assignment");
 const PROMPT_FILE = flag("--prompt");
@@ -577,9 +578,22 @@ check(
 // ==============================================================================
 check(
   "page_rasterizer_available",
-  "the calibrated Chromium page rasterizer renders a page",
-  "Four lanes returned STOPPED after passing this preflight 14/14: PF09 and PF15 on 'pdftoppm ENOENT', PF11 and PF12 on 'Playwright cannot find Chromium at /opt/pw-browsers/chromium'. A preflight that passes and is then contradicted by the render step is not checking what the lane needs. Rastering is a required build step, so its toolchain is a preflight question -- and the answer must be the repository's own Chromium path, never Poppler and never a package install.",
+  "the calibrated Chromium page rasterizer renders a page (only where a lane actually renders)",
+  "Four lanes returned STOPPED after passing this preflight at 14/14: PF09 and PF15 on 'pdftoppm ENOENT', PF11 and PF12 on 'Playwright cannot find Chromium'. The first fix made this check launch a browser and render a page -- right about what to ask, wrong about where. ENV-RAS01 then established that Codex cannot obtain a browser at all, because the Playwright CDN answers HTTP 403 from inside it, so requiring one here made every lane in that environment unrunnable: DISC, SRC, ACQ and PROMO settle identity, fetch bytes and write custody records, and not one of them opens a PDF. Rendering moved to a runner that has a browser. This check is NOT APPLICABLE unless the caller says it is about to render, which only the central raster workflow does. A skipped check is never counted as a pass, so this cannot inflate a verdict.",
   (env) => {
+    /*
+     * --require-rasterizer is how the central raster workflow says a browser is
+     * about to be used. Nothing else passes it, and nothing else should: a PF
+     * or FIX lane finishes nonvisual construction and returns
+     * BUILT_RASTER_PENDING, and PASS_COMPLETE still requires a hash-bound
+     * RASTER_PASS from that workflow. The gate moved; it did not soften.
+     */
+    if (!REQUIRE_RASTERIZER) {
+      return {
+        ok: true, skipped: true,
+        detail: "not applicable: this invocation renders nothing. Rendering is central (.github/workflows/rcap-packet-raster-acceptance-batch.yml); pass --require-rasterizer where a browser is actually about to be used."
+      };
+    }
     const lib = path.join(env, "scripts/lib/pdf-page-raster.mjs");
     if (!fs.existsSync(lib)) return { ok: false, detail: "scripts/lib/pdf-page-raster.mjs is absent" };
     /*

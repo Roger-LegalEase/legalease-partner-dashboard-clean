@@ -32,6 +32,7 @@ const SKIP_RUNTIME = process.argv.includes("--skip-runtime");
 const PROBE = "scripts/codex-cloud/verify-packet-runtime.mjs";
 const SETUP = "scripts/codex-cloud/setup-packet-factory.sh";
 const PREFLIGHT = "scripts/verify-packet-build-environment.mjs";
+const RASTER_WORKFLOW = ".github/workflows/rcap-packet-raster-acceptance-batch.yml";
 const READY_WORKFLOW = ".github/workflows/rcap-source-conveyor-ready.yml";
 
 const results = [];
@@ -106,12 +107,30 @@ else if (!shell) {
 /* ---- N4 and N5. the environment file must carry both exports ------------- */
 const setupText = fs.readFileSync(path.join(ROOT, SETUP), "utf8");
 const envBlock = /write_env\(\) \{([\s\S]*?)\nENVEOF/.exec(setupText)?.[1] ?? "";
-check("N4", "the environment file the setup writes carries RCAP_CHROMIUM_PATH",
-  /export RCAP_CHROMIUM_PATH=/.test(envBlock),
-  /export RCAP_CHROMIUM_PATH=/.test(envBlock) ? "exported" : "the setup writes an environment file that never names the browser executable");
-check("N5", "the environment file the setup writes carries PLAYWRIGHT_BROWSERS_PATH",
-  /export PLAYWRIGHT_BROWSERS_PATH=/.test(envBlock),
-  /export PLAYWRIGHT_BROWSERS_PATH=/.test(envBlock) ? "exported" : "the setup writes an environment file that never names the browser registry");
+/*
+ * N4 and N5 are INVERTED, and the inversion is the fix rather than a retreat.
+ *
+ * They used to require the setup phase to export RCAP_CHROMIUM_PATH and
+ * PLAYWRIGHT_BROWSERS_PATH, which was right while that phase resolved a
+ * browser. ENV-RAS01 established it cannot: the Playwright CDN answers HTTP 403
+ * from inside Codex, so the fetch failed and took the whole setup with it,
+ * leaving every lane -- source lanes included, which render nothing -- with no
+ * corpus at all.
+ *
+ * Rendering moved to a runner that has a browser. Exporting a path this phase
+ * never verified would now be worse than exporting nothing: it would tell every
+ * lane it has a renderer and let the first render discover otherwise, which is
+ * precisely the "passes and is then contradicted" failure this whole file
+ * exists to end. So the requirement is the opposite one, and the proof that
+ * nothing was lost is L4 in verify-lane-contracts.mjs: no family is proven
+ * without a hash-bound RASTER_PASS.
+ */
+check("N4", "the setup writes no RCAP_CHROMIUM_PATH, because it resolves no browser",
+  !/export RCAP_CHROMIUM_PATH=/.test(envBlock),
+  !/export RCAP_CHROMIUM_PATH=/.test(envBlock) ? "not exported, and not resolved — rendering is central" : "the setup exports a browser executable it never verified");
+check("N5", "the setup writes no PLAYWRIGHT_BROWSERS_PATH, because it provisions no registry",
+  !/export PLAYWRIGHT_BROWSERS_PATH=/.test(envBlock),
+  !/export PLAYWRIGHT_BROWSERS_PATH=/.test(envBlock) ? "not exported, and not provisioned — rendering is central" : "the setup exports a browser registry it never provisioned");
 
 /* ---- N6. no prompt may hardcode a denominator the preflight does not print */
 /*
@@ -212,7 +231,25 @@ check("N6", "no prompt or generator states a preflight denominator the preflight
 const wf = fs.existsSync(path.join(ROOT, READY_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, READY_WORKFLOW), "utf8") : "";
 const wfProblems = [];
 if (!wf) wfProblems.push("the readiness workflow is absent");
-if (!new RegExp(PROBE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(wf)) wfProblems.push("it never runs the packet-runtime probe");
+/*
+ * The packet runtime is asked of the workflow that renders, not of the one that
+ * gates source readiness.
+ *
+ * This required the source-conveyor gate to run the packet-runtime probe, and
+ * that gate then failed -- not on Chromium, which installed fine on the runner,
+ * but on `Cannot find module 'pdf-lib'`, because the job never runs npm ci. A
+ * packet-runtime check bolted onto a dependency-free control-plane job was
+ * wrong twice: wrong about what that gate is for, and unable to run even where
+ * a browser exists. DISC, SRC, ACQ and PROMO render nothing.
+ */
+const rasterWf = fs.existsSync(path.join(ROOT, RASTER_WORKFLOW)) ? fs.readFileSync(path.join(ROOT, RASTER_WORKFLOW), "utf8") : "";
+if (!rasterWf) wfProblems.push("the central raster workflow is absent, so nothing renders anywhere");
+else {
+  if (!/rcap-raster-canary\.mjs/.test(rasterWf)) wfProblems.push("the raster workflow runs no canary");
+  if (!/--negative-controls/.test(rasterWf)) wfProblems.push("the raster workflow runs no negative controls");
+}
+if (new RegExp(PROBE.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).test(wf)) wfProblems.push("the source-conveyor gate still runs the packet-runtime probe, which is not its contract");
+if (!/verify-lane-contracts\.mjs/.test(wf)) wfProblems.push("the source-conveyor gate does not check the lane contracts");
 if (!new RegExp(`node ${PREFLIGHT.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).test(wf)) wfProblems.push("it never runs the packet-build preflight — only node --check on it, which proves the file parses");
 /*
  * Does a change to this path trigger the workflow -- not, is this exact string
@@ -238,7 +275,7 @@ for (const file of [
 ]) {
   if (!triggerPaths.some((g) => covers(g, file))) wfProblems.push(`a change to ${file} does not trigger it`);
 }
-check("N7", "the readiness workflow runs the runtime acceptance and is triggered by what can break it",
+check("N7", "each workflow is asked its own contract: the source gate checks lane contracts, the raster workflow renders",
   wfProblems.length === 0, `${wfProblems.length} problem(s): ${wfProblems.slice(0, 3).join(" | ")}`);
 
 /* ---- N8. no worker may reach for apt-get or Poppler ---------------------- */

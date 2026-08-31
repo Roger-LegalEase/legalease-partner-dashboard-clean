@@ -104,44 +104,52 @@ jobs:
           console.log(`# ${verdict}\n\n| Field | Value |\n|---|---|`);
           for(const [k,v] of Object.entries({exactSHA:process.env.GITHUB_SHA,factoryResult:process.env.JOB_STATUS,factoryMutations:process.env.JOB_STATUS,conveyorResult:process.env.JOB_STATUS,conveyorMutations:process.env.JOB_STATUS,generatorConvergence:process.env.JOB_STATUS,manifestEntryCount:q.entries.length,DISCBacklog:q.counts.obligationsNeedingDiscoveryFirst,actualPromotedReleased:m.totals.actualPromotedAndReleased,collisionCounts:JSON.stringify(c.counts),triggeredLanes:triggered.join(', ')||'none',sourceBodiesCommitted:q.bodiesCommitted,commercialRoutesOpened:ci.commercialRoutesOpened,productionTouched:ci.productionTouched,verdict})) console.log(`| ${k} | ${v} |`);
           NODE
-      # ---- the packet runtime, which the control-plane checks never touched ----
+      # ---- each lane type, asked its own contract ------------------------------
       #
-      # READY_TO_RUN ran `node --check` on the preflight and never ran it, so
-      # every step above proves that files parse and that generated records
-      # agree with each other. None of it can tell whether a lane can actually
-      # rasterize a page -- and four PF lanes returned STOPPED for exactly that
-      # reason after passing preflight. Calling the factory READY_TO_RUN when
-      # only the control plane was checked is the claim this closes.
-      - name: Provision the packet rasterizer's browser
-        run: |
-          set -euo pipefail
-          export PLAYWRIGHT_BROWSERS_PATH="$HOME/.cache/ms-playwright"
-          # The version comes from the committed package-lock, never a floating
-          # tag. Never apt-get: a distribution build is a different rendering
-          # stack and the calibration tolerances are measured against this one.
-          npx --yes playwright install --with-deps chromium
-          echo "PLAYWRIGHT_BROWSERS_PATH=$PLAYWRIGHT_BROWSERS_PATH" >> "$GITHUB_ENV"
-
-      - name: Packet runtime acceptance
-        run: node scripts/codex-cloud/verify-packet-runtime.mjs
-
-      - name: The runtime contract, and the eight ways it must refuse
-        run: node scripts/codex-cloud/verify-codex-runtime-contract.mjs
-
-      # The preflight itself, run rather than parsed. Its own worktree_clean and
-      # corpus checks cannot pass on a CI checkout with no Master Library
-      # mounted, so this asserts the two things CI CAN answer: that it runs to a
-      # verdict, and that the rasterizer check inside it passes.
-      - name: The packet-build preflight actually runs
+      # This job used to provision a browser and run the packet runtime
+      # acceptance, and it failed -- not on Chromium, which installed fine, but
+      # on `Cannot find module 'pdf-lib'`, because this job never runs npm ci.
+      # A packet-runtime check bolted onto a dependency-free control-plane job
+      # was wrong twice over: wrong about what this gate is for, and unable to
+      # run even where a browser exists.
+      #
+      # This gate is source-conveyor readiness. A source lane settles identity,
+      # fetches bytes and writes custody records; it renders nothing. So what is
+      # asked here is the source-lane contract, and the packet render contract is
+      # asked where rendering happens, in rcap-packet-raster-acceptance-batch.yml,
+      # which keeps the canary and the negative controls.
+      - name: A source-lane preflight requires no rasterizer
         run: |
           set -euo pipefail
           out="$(node scripts/verify-packet-build-environment.mjs --codex-cloud 2>&1 || true)"
           echo "$out"
+          # Not applicable, and skipped is never counted as a pass.
+          echo "$out" | grep -qE '^\s*-\s+page_rasterizer_available\s+not applicable' \
+            || { echo "REFUSED: a source-lane preflight is asking for a rasterizer no source lane uses"; exit 1; }
           echo "$out" | grep -qE 'PACKET_BUILD_ENVIRONMENT_(READY|NOT_READY):' \
-            || { echo "the preflight produced no verdict line"; exit 1; }
-          echo "$out" | grep -qE '^\s*ok\s+page_rasterizer_available' \
-            || { echo "the preflight could not render a page in this environment"; exit 1; }
+            || { echo "REFUSED: the preflight produced no verdict line"; exit 1; }
 
+      - name: Codex setup requires no browser
+        run: |
+          set -euo pipefail
+          # ENV-RAS01 proved the Playwright CDN answers 403 from inside Codex, so
+          # a setup phase that reaches for a browser cannot finish -- and a setup
+          # that cannot finish leaves every lane with no corpus at all.
+          for forbidden in 'playwright install' 'apt-get' 'pdftoppm' 'RCAP_CHROMIUM_PATH'; do
+            if grep -n "$forbidden" scripts/codex-cloud/setup-packet-factory.sh \
+                 | grep -vE '^\s*[0-9]+:\s*#' > /tmp/hit; then
+              echo "REFUSED: Codex setup reaches for $forbidden"; cat /tmp/hit; exit 1
+            fi
+          done
+          echo "Codex setup: no browser required, installed or proven."
+
+      - name: Lane contracts — each lane type asked its own
+        run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs
+
+      - name: Lane-contract mutations
+        # Including the two the split turns on: Codex setup reaching for a
+        # browser again, and a packet reaching PASS_COMPLETE with no RASTER_PASS.
+        run: node scripts/grade-a-packet-factory-24h/verify-lane-contracts.mjs --mutations
 
       - name: Update control tower issue
         if: always()

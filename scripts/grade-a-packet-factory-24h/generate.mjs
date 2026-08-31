@@ -909,7 +909,18 @@ const base = (id, lane, slug, extra) => ({
   minimumCaptainSha: MINIMUM_CAPTAIN_SHA,
   preflight: `node ${PREFLIGHT} --family <FAMILY_ID> --codex-cloud --minimum-captain-sha ${MINIMUM_CAPTAIN_SHA}`,
   preflightMustReturn: PREFLIGHT_MUST_RETURN,
-  rasterRule: RASTER_RULE,
+  /*
+   * Only a lane that produces a packet needs to know what happens to its pages.
+   *
+   * This went on every prompt, so DISC, SRC, ACQ and PROMO each carried a "How
+   * to raster" section explaining BUILT_RASTER_PENDING and the central render
+   * workflow. None of them opens a PDF: they settle source identity, fetch
+   * bytes and write custody records. Instructions a lane cannot act on are not
+   * harmless padding -- they are the reason a source worker starts wondering
+   * whether a missing browser is its problem, and the whole point of the split
+   * is that it is not.
+   */
+  rasterRule: lane === "packet-build" || lane === "rapid-repair" ? RASTER_RULE : null,
   claimRule: CLAIM_RULE(id),
   prohibitedCommands: CLOUD_PROHIBITED,
   theDiffIsTheReturn: "Commit locally. Leave the final diff for the Codex Cloud interface. There is no PUSHED line in a cloud return.",
